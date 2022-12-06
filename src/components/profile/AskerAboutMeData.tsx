@@ -11,12 +11,7 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';
 import { Text } from '../text/Text';
 import { hasAskerEmailFeatures } from './profileHelpers';
-import {
-	OverlayWrapper,
-	Overlay,
-	OverlayItem,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { apiDeleteEmail } from '../../api/apiDeleteEmail';
@@ -311,13 +306,11 @@ export const AskerAboutMeData = () => {
 				</div>
 			)}
 			{overlay && (
-				<OverlayWrapper>
-					<Overlay
-						className="editableData__overlay"
-						item={overlay}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					className="editableData__overlay"
+					item={overlay}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</div>
 	);

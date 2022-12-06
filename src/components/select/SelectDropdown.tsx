@@ -87,9 +87,9 @@ const colourStyles = (
 			},
 			'.select__inputLabel': {
 				fontSize: state.isFocused || state.hasValue ? '12px' : '16px',
-				top: state.isFocused || state.hasValue ? '4px' : '14px',
+				top: state.isFocused || state.hasValue ? '0px' : '14px',
 				transition: 'font-size .5s, top .5s',
-				color: '#8C878C',
+				color: 'rgba(0, 0, 0, 0.6)',
 				position: 'absolute',
 				marginLeft: '3px',
 				cursor: 'pointer'
@@ -305,9 +305,17 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 		<components.DropdownIndicator {...props}>
 			<span id="selectIcon" className="select__input__iconWrapper">
 				{props.selectProps.menuIsOpen ? (
-					<ArrowUpIcon />
+					<ArrowUpIcon
+						title={translate('app.close')}
+						aria-label={translate('app.close')}
+						className="tertiary"
+					/>
 				) : (
-					<ArrowDownIcon />
+					<ArrowDownIcon
+						title={translate('app.open')}
+						aria-label={translate('app.open')}
+						className="tertiary"
+					/>
 				)}
 			</span>
 		</components.DropdownIndicator>
@@ -326,7 +334,10 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 	const CustomMultiValueRemove = (props) => {
 		return (
 			<components.MultiValueRemove {...props}>
-				<CloseCircle />
+				<CloseCircle
+					title={translate('app.delete')}
+					aria-label={translate('app.delete')}
+				/>
 			</components.MultiValueRemove>
 		);
 	};

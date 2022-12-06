@@ -2,12 +2,7 @@ import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { apiSetAbsence } from '../../api';
 import { BUTTON_TYPES } from '../button/Button';
-import {
-	OverlayItem,
-	OVERLAY_FUNCTIONS,
-	OverlayWrapper,
-	Overlay
-} from '../overlay/Overlay';
+import { OverlayItem, OVERLAY_FUNCTIONS, Overlay } from '../overlay/Overlay';
 import { UserDataContext } from '../../globalState';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import './absenceFormular.styles';
@@ -136,14 +131,12 @@ export const AbsenceFormular = () => {
 					/>
 				</div>
 			</div>
-			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						item={absenceOverlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
-			) : null}
+			{overlayActive && (
+				<Overlay
+					item={absenceOverlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
+			)}
 		</div>
 	);
 };

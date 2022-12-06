@@ -118,7 +118,10 @@ export const AskerInfo = () => {
 							}`}
 							className="profile__header__backButton"
 						>
-							<BackIcon />
+							<BackIcon
+								aria-label={translate('app.back')}
+								title={translate('app.back')}
+							/>
 						</Link>
 						<h3 className="profile__header__title profile__header__title--withBackButton">
 							{translate('profile.header.title')}
@@ -133,7 +136,13 @@ export const AskerInfo = () => {
 				<div className="profile__innerWrapper">
 					<div className="profile__user">
 						<div className="profile__icon">
-							<PersonIcon className="profile__icon--user" />
+							<PersonIcon
+								className="profile__icon--user"
+								title={translate('profile.data.profileIcon')}
+								aria-label={translate(
+									'profile.data.profileIcon'
+								)}
+							/>
 						</div>
 						<h2>{activeSession.user.username}</h2>
 					</div>

@@ -292,11 +292,13 @@ $buttonMaxWidth: 400px;
 	&__item--disabled {
 		box-shadow: none;
 		background-color: rgba(0, 0, 0, 0.05);
-		color: rgba(0, 0, 0, 0.4);
+		color: $text-disabled;
 		cursor: unset;
+		border: none;
 
 		&:hover {
 			background-color: rgba(0, 0, 0, 0.05);
+			color: $text-disabled;
 		}
 	}
 

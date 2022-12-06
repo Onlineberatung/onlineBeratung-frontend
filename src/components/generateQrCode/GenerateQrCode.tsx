@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
-import { Overlay, OverlayWrapper } from '../overlay/Overlay';
+import { Overlay } from '../overlay/Overlay';
 import { ReactComponent as QRCodeIcon } from '../../resources/img/icons/qr-code.svg';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 import './generateQrCode.styles';
@@ -82,23 +82,25 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 	return (
 		<div className="generateQrCode" ref={generateQrCodeRef}>
 			<button
+				className="button-as-link"
 				onClick={() => {
 					setOverlayActive(true);
 				}}
 			>
-				<QRCodeIcon />
+				<QRCodeIcon
+					title={translate('qrCode.iconTitle')}
+					aria-label={translate('qrCode.iconTitle')}
+				/>
 				{translate('qrCode.link.text')}
 			</button>
 			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						className="generateQrCode__overlay"
-						item={overlayItem}
-						handleOverlayClose={() => {
-							setOverlayActive(false);
-						}}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					className="generateQrCode__overlay"
+					item={overlayItem}
+					handleOverlayClose={() => {
+						setOverlayActive(false);
+					}}
+				/>
 			) : null}
 		</div>
 	);

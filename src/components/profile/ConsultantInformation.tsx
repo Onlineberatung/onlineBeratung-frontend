@@ -89,7 +89,7 @@ export const ConsultantInformation = () => {
 					{isDisplayNameFeatureEnabled && !isEditEnabled && (
 						<span
 							role="button"
-							className="primary"
+							className="tertiary"
 							onClick={() => {
 								setIsEditEnabled(true);
 							}}
@@ -187,13 +187,24 @@ const PersonalRegistrationLink = ({
 					title={translate(
 						'profile.data.personal.registrationLink.title'
 					)}
+					aria-label={translate(
+						'profile.data.personal.registrationLink.title'
+					)}
 				>
 					<CopyIcon className={`copy icn--s`} />{' '}
 					{translate('profile.data.personal.registrationLink.text')}
 				</button>
 				<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
 					<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
-						<Tooltip trigger={<InfoIcon className="icn icn--xl" />}>
+						<Tooltip
+							trigger={
+								<InfoIcon
+									className="icn icn--xl"
+									title={translate('notifications.info')}
+									aria-label={translate('notifications.info')}
+								/>
+							}
+						>
 							{translate(
 								'profile.data.personal.registrationLink.tooltip'
 							)}

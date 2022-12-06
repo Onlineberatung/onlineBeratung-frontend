@@ -74,7 +74,10 @@ export const ErrorContent = () => {
 			</header>
 			<div className="errorPage__main">
 				<span className="errorPage__illustrationWrapper">
-					<Icon className="errorPage__illustration" />
+					<Icon
+						className="errorPage__illustration"
+						aria-hidden="true"
+					/>
 				</span>
 				<div className="errorPage__content">
 					<h1 className="errorPage__headline">

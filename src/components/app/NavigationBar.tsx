@@ -261,10 +261,26 @@ export const NavigationBar = ({
 								>
 									<div className="navigation__icon__background">
 										{Icon && (
-											<Icon className="navigation__icon__outline" />
+											<Icon
+												title={translate(
+													item.titleKeys.large
+												)}
+												aria-label={translate(
+													item.titleKeys.large
+												)}
+												className="navigation__icon__outline"
+											/>
 										)}
 										{IconFilled && (
-											<IconFilled className="navigation__icon__filled" />
+											<IconFilled
+												title={translate(
+													item.titleKeys.large
+												)}
+												aria-label={translate(
+													item.titleKeys.large
+												)}
+												className="navigation__icon__filled"
+											/>
 										)}
 									</div>
 
@@ -329,8 +345,16 @@ export const NavigationBar = ({
 						ref={(el) => (ref_logout.current = el)}
 						onKeyDown={(e) => handleKeyDownMenu(e, null)}
 					>
-						<LogoutIconOutline className="navigation__icon__outline" />
-						<LogoutIconFilled className="navigation__icon__filled" />
+						<LogoutIconOutline
+							className="navigation__icon__outline"
+							title={translate('app.logout')}
+							aria-label={translate('app.logout')}
+						/>
+						<LogoutIconFilled
+							className="navigation__icon__filled"
+							title={translate('app.logout')}
+							aria-label={translate('app.logout')}
+						/>
 						<span className="navigation__title">
 							{translate('app.logout')}
 						</span>

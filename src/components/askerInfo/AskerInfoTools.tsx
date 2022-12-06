@@ -47,6 +47,7 @@ export const AskerInfoTools = () => {
 				type="button"
 				className="asker-info-tools__button text--tertiary primary button-as-link"
 				onClick={openToolsLink}
+				aria-label={translate('userProfile.tools.share.info')}
 			>
 				<NewWindow />
 				{translate('userProfile.tools.share.sharedContent')}

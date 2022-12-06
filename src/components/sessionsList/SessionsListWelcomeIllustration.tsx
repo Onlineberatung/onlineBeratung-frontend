@@ -10,7 +10,7 @@ export const WelcomeIllustration = () => {
 			data-cy="session-list-welcome-illustration"
 		>
 			<div className="sessionsList__illustration__image">
-				<WelcomeIcon />
+				<WelcomeIcon aria-hidden="true" />
 			</div>
 			<p className="sessionsList__illustration__infotext">
 				{translate('sessionList.asker.welcome')}
