@@ -1762,6 +1762,40 @@ export const en = {
 		},
 		'overlay.close': 'Close'
 	},
+
+	termsAndConditionOverlay: {
+		title: {
+			termsAndCondition: 'Update to our Terms of Use',
+			privacy: 'Update of our privacy policy',
+			termsAndConditionAndPrivacy:
+				'Updated our Terms of Service and Privacy Policy'
+		},
+		labels: {
+			termsAndCondition: 'Terms of Use',
+			privacy: 'Privacy Policy',
+			here: 'here'
+		},
+		contentLine1: {
+			termsAndCondition:
+				'We have updated the Online Counseling Terms of Use. In order to be able to continue using the online consultation, we need your consent.',
+			privacy:
+				'We have updated the Online Counseling Privacy Policy. You can find the current status here.',
+			termsAndConditionAndPrivacy:
+				'We have updated the Online Counseling Terms of Use and Privacy Policy. In order to be able to continue using the online consultation, we need your consent.'
+		},
+		contentLine2: {
+			termsAndCondition:
+				'I have read the Terms of Use.\n I agree to this.',
+			termsAndConditionAndPrivacy:
+				'I have read the Terms of Use and Privacy Policy.\n I agree to this.'
+		},
+		buttons: {
+			decline: 'Decline',
+			accept: 'Agree',
+			continue: 'Continue'
+		}
+	},
+
 	session: {
 		'acceptance': {
 			'overlay.headline':

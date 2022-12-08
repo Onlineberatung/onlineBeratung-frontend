@@ -25,7 +25,8 @@ export interface UserDataInterface {
 	twoFactorAuth?: TwoFactorAuthInterface;
 	userId: string;
 	userName: string;
-	userRoles: string[];
+	termsAndConditionsConfirmation: string;
+	dataPrivacyConfirmation: string;
 }
 
 export interface ConsultantDataInterface
