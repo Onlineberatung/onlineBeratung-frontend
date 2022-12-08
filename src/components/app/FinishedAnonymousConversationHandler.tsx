@@ -1,4 +1,4 @@
-import { OVERLAY_FUNCTIONS, OverlayWrapper, Overlay } from '../overlay/Overlay';
+import { OVERLAY_FUNCTIONS, Overlay } from '../overlay/Overlay';
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import {
@@ -49,15 +49,13 @@ export const FinishedAnonymousConversationHandler = () => {
 	if (!overlayActive) return null;
 
 	return (
-		<OverlayWrapper>
-			<Overlay
-				item={
-					anonymousConversationFinished === 'DONE'
-						? finishAnonymousChatSuccessOverlayItem
-						: selfFinishedAnonymousChatSuccessOverlayItem
-				}
-				handleOverlay={handleOverlayAction}
-			/>
-		</OverlayWrapper>
+		<Overlay
+			item={
+				anonymousConversationFinished === 'DONE'
+					? finishAnonymousChatSuccessOverlayItem
+					: selfFinishedAnonymousChatSuccessOverlayItem
+			}
+			handleOverlay={handleOverlayAction}
+		/>
 	);
 };

@@ -22,6 +22,7 @@ import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import { ReactComponent as ErrorIcon } from '../../resources/img/icons/x.svg';
 import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark-white.svg';
 import { ReactComponent as CloseIcon } from '../../resources/img/icons/x.svg';
+import { useTranslation } from 'react-i18next';
 
 type NotificationProps = {
 	notification: NotificationType;
@@ -55,6 +56,8 @@ const NotificationDefault = ({
 	notification: NotificationDefaultType;
 }) => {
 	const { removeNotification } = useContext(NotificationsContext);
+
+	const { t: translate } = useTranslation();
 
 	const removeNotificationRef = useRef(removeNotification);
 	const timer = useRef(null);
@@ -91,16 +94,36 @@ const NotificationDefault = ({
 	const getIcon = () => {
 		switch (notification.notificationType) {
 			case NOTIFICATION_TYPE_SUCCESS:
-				return <CheckIcon />;
+				return (
+					<CheckIcon
+						title={translate('notification.success')}
+						aria-label={translate('notification.success')}
+					/>
+				);
 			case NOTIFICATION_TYPE_WARNING:
-				return <ExclamationIcon />;
+				return (
+					<ExclamationIcon
+						title={translate('notification.warning')}
+						aria-label={translate('notification.warning')}
+					/>
+				);
 			case NOTIFICATION_TYPE_ERROR:
-				return <ErrorIcon />;
+				return (
+					<ErrorIcon
+						title={translate('notification.error')}
+						aria-label={translate('notification.error')}
+					/>
+				);
 			case NOTIFICATION_TYPE_NONE:
 				return null;
 			case NOTIFICATION_TYPE_INFO:
 			default:
-				return <InfoIcon />;
+				return (
+					<InfoIcon
+						title={translate('notification.info')}
+						aria-label={translate('notification.info')}
+					/>
+				);
 		}
 	};
 

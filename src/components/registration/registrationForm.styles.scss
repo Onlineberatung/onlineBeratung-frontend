@@ -84,7 +84,7 @@ $registration-form-headline-margin-bottom: 24px;
 
 	&__overline {
 		display: $registration-form-overline-display;
-		color: $black-65-opacity;
+		color: $text-low-emphasis;
 		margin: 0;
 		font-size: $font-size-secondary;
 		font-weight: $font-weight-medium;
@@ -124,6 +124,7 @@ $registration-form-headline-margin-bottom: 24px;
 
 	.select__content {
 		margin-right: 32px;
+		align-self: end;
 	}
 
 	.text__registration_user {

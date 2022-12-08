@@ -60,12 +60,7 @@ import {
 	IBooleanSetting,
 	SETTING_MESSAGE_ALLOWDELETING
 } from '../../api/apiRocketChatSettingsPublic';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { BUTTON_TYPES } from '../button/Button';
 import { apiDeleteMessage } from '../../api/apiDeleteMessage';
@@ -90,7 +85,6 @@ export interface VideoCallMessageDTO {
 export interface MessageItem {
 	_id: string;
 	message: string;
-	org: string;
 	messageDate: PrettyDate;
 	messageTime: string;
 	displayName: string;
@@ -134,7 +128,6 @@ export const MessageItemComponent = ({
 	alias,
 	userId,
 	message,
-	org,
 	messageDate,
 	messageTime,
 	resortData,
@@ -167,7 +160,7 @@ export const MessageItemComponent = ({
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	useEffect((): void => {
-		if (isE2eeEnabled) {
+		if (isE2eeEnabled && message) {
 			decryptText(
 				message,
 				e2eeParams.keyID,
@@ -185,16 +178,16 @@ export const MessageItemComponent = ({
 						});
 					}
 
-					return `${org || message} *`;
+					return translate('e2ee.message.encryption.text');
 				})
 				.then(setDecryptedMessage)
 				.then(() => handleDecryptionSuccess(_id));
 		} else {
-			setDecryptedMessage(org || message);
+			setDecryptedMessage(message);
 		}
 	}, [
+		translate,
 		message,
-		org,
 		t,
 		isE2eeEnabled,
 		handleDecryptionErrors,
@@ -448,7 +441,12 @@ export const MessageItemComponent = ({
 				return (
 					<div className="messageItem__message messageItem__message--deleted flex flex--ai-c">
 						<div className="mr--1">
-							<DeletedIcon width={14} height={14} />
+							<DeletedIcon
+								width={14}
+								height={14}
+								aria-hidden="true"
+								focusable="false"
+							/>
 						</div>
 						<div>
 							{translate(
@@ -478,6 +476,10 @@ export const MessageItemComponent = ({
 								username={username}
 								isUserBanned={isUserBanned}
 								isMyMessage={isMyMessage}
+								isArchived={
+									activeSession.item.status ===
+									STATUS_ARCHIVED
+								}
 							/>
 						</div>
 
@@ -596,6 +598,7 @@ const MessageFlyoutMenu = ({
 	userId,
 	isUserBanned,
 	isMyMessage,
+	isArchived,
 	username
 }: {
 	_id: string;
@@ -603,6 +606,7 @@ const MessageFlyoutMenu = ({
 	username: string;
 	isUserBanned: boolean;
 	isMyMessage: boolean;
+	isArchived: boolean;
 }) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
@@ -630,6 +634,7 @@ const MessageFlyoutMenu = ({
 				)}
 
 			{isMyMessage &&
+				!isArchived &&
 				getSetting<IBooleanSetting>(SETTING_MESSAGE_ALLOWDELETING) && (
 					<DeleteMessage
 						messageId={_id}
@@ -700,19 +705,19 @@ const DeleteMessage = ({
 						width={24}
 						height={24}
 						style={{ display: 'block', padding: '2px 0' }}
+						aria-hidden="true"
+						focusable="false"
 					/>
 				</div>
 				<div>{translate('message.delete.delete')}</div>
 			</button>
 			{deleteOverlay && (
-				<OverlayWrapper>
-					<Overlay
-						item={deleteOverlayItem}
-						handleOverlayClose={() => {
-							setDeleteOverlay(false);
-						}}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={deleteOverlayItem}
+					handleOverlayClose={() => {
+						setDeleteOverlay(false);
+					}}
+				/>
 			)}
 		</>
 	);

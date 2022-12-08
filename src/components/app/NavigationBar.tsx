@@ -142,19 +142,35 @@ export const NavigationBar = ({
 	const handleArrowUp = (index) => {
 		if (index === 0) {
 			ref_logout.current.focus();
+			ref_logout.current.setAttribute('tabindex', '0');
+			ref_menu.current[index].setAttribute('tabindex', '-1');
 		} else if (document.activeElement === ref_logout.current) {
 			if (selectableLocales.length > 1) {
 				ref_local.current.focus();
+				ref_local.current.setAttribute('tabindex', '0');
+				ref_logout.current.setAttribute('tabindex', '-1');
 			} else {
 				ref_menu.current[ref_menu.current.length - 1].focus();
+				ref_menu.current[ref_menu.current.length - 1].setAttribute(
+					'tabindex',
+					'0'
+				);
+				ref_logout.current.setAttribute('tabindex', '-1');
 			}
 		} else if (document.activeElement === ref_local.current) {
 			ref_menu.current[ref_menu.current.length - 1].focus();
+			ref_menu.current[ref_menu.current.length - 1].setAttribute(
+				'tabindex',
+				'0'
+			);
+			ref_local.current.setAttribute('tabindex', '-1');
 		} else if (
 			document.activeElement !==
 			document.getElementById('react-select-2-input')
 		) {
 			ref_menu.current[index - 1].focus();
+			ref_menu.current[index - 1].setAttribute('tabindex', '0');
+			ref_menu.current[index].setAttribute('tabindex', '-1');
 		}
 	};
 
@@ -162,18 +178,28 @@ export const NavigationBar = ({
 		if (index === ref_menu.current.length - 1) {
 			if (selectableLocales.length > 1) {
 				ref_local.current.focus();
+				ref_local.current.setAttribute('tabindex', '0');
+				ref_menu.current[index].setAttribute('tabindex', '-1');
 			} else {
 				ref_logout.current.focus();
+				ref_logout.current.setAttribute('tabindex', '0');
+				ref_menu.current[index].setAttribute('tabindex', '-1');
 			}
 		} else if (document.activeElement === ref_local.current) {
 			ref_logout.current.focus();
+			ref_logout.current.setAttribute('tabindex', '0');
+			ref_local.current.setAttribute('tabindex', '-1');
 		} else if (document.activeElement === ref_logout.current) {
 			ref_menu.current[0].focus();
+			ref_menu.current[0].setAttribute('tabindex', '0');
+			ref_logout.current.setAttribute('tabindex', '-1');
 		} else if (
 			document.activeElement !==
 			document.getElementById('react-select-2-input')
 		) {
 			ref_menu.current[index + 1].focus();
+			ref_menu.current[index + 1].setAttribute('tabindex', '0');
+			ref_menu.current[index].setAttribute('tabindex', '-1');
 		}
 	};
 
@@ -235,10 +261,26 @@ export const NavigationBar = ({
 								>
 									<div className="navigation__icon__background">
 										{Icon && (
-											<Icon className="navigation__icon__outline" />
+											<Icon
+												title={translate(
+													item.titleKeys.large
+												)}
+												aria-label={translate(
+													item.titleKeys.large
+												)}
+												className="navigation__icon__outline"
+											/>
 										)}
 										{IconFilled && (
-											<IconFilled className="navigation__icon__filled" />
+											<IconFilled
+												title={translate(
+													item.titleKeys.large
+												)}
+												aria-label={translate(
+													item.titleKeys.large
+												)}
+												className="navigation__icon__filled"
+											/>
 										)}
 									</div>
 
@@ -303,8 +345,16 @@ export const NavigationBar = ({
 						ref={(el) => (ref_logout.current = el)}
 						onKeyDown={(e) => handleKeyDownMenu(e, null)}
 					>
-						<LogoutIconOutline className="navigation__icon__outline" />
-						<LogoutIconFilled className="navigation__icon__filled" />
+						<LogoutIconOutline
+							className="navigation__icon__outline"
+							title={translate('app.logout')}
+							aria-label={translate('app.logout')}
+						/>
+						<LogoutIconFilled
+							className="navigation__icon__filled"
+							title={translate('app.logout')}
+							aria-label={translate('app.logout')}
+						/>
 						<span className="navigation__title">
 							{translate('app.logout')}
 						</span>

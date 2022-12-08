@@ -168,20 +168,44 @@ export const SessionListItemComponent = ({
 		}
 	};
 
-	const iconVariant = () => {
-		if (session.isGroup) {
-			return LIST_ICONS.IS_GROUP_CHAT;
-		} else if (session.isLive) {
-			return LIST_ICONS.IS_LIVE_CHAT;
-		} else if (session.isEmptyEnquiry) {
-			return LIST_ICONS.IS_NEW_ENQUIRY;
-		} else if (session.item.messagesRead) {
-			return LIST_ICONS.IS_READ;
-		} else {
-			return LIST_ICONS.IS_UNREAD;
+	const handleKeyDownListItem = (e) => {
+		handleKeyDownLisItemContent(e);
+		if (e.key === 'Enter' || e.key === ' ') {
+			handleOnClick();
 		}
 	};
-	const Icon = getSessionsListItemIcon(iconVariant());
+
+	const iconVariant = () => {
+		if (session.isGroup) {
+			return {
+				variant: LIST_ICONS.IS_GROUP_CHAT,
+				title: translate('message.groupChat')
+			};
+		} else if (session.isLive) {
+			return {
+				variant: LIST_ICONS.IS_LIVE_CHAT,
+				title: translate('message.liveChat')
+			};
+		} else if (session.isEmptyEnquiry) {
+			return {
+				variant: LIST_ICONS.IS_NEW_ENQUIRY,
+				title: translate('message.newEnquiry')
+			};
+		} else if (session.item.messagesRead) {
+			return {
+				variant: LIST_ICONS.IS_READ,
+				title: translate('message.read')
+			};
+		} else {
+			return {
+				variant: LIST_ICONS.IS_UNREAD,
+				title: translate('message.unread')
+			};
+		}
+	};
+
+	const Icon = getSessionsListItemIcon(iconVariant().variant);
+	const iconTitle = iconVariant().title;
 
 	const prettyPrintDate = (
 		messageDate: number, // seconds since epoch
@@ -231,6 +255,10 @@ export const SessionListItemComponent = ({
 						'sessionsListItem__content',
 						isChatActive && 'sessionsListItem__content--active'
 					)}
+					onKeyDown={(e) => handleKeyDownListItem(e)}
+					ref={itemRef}
+					tabIndex={index === 0 ? 0 : -1}
+					role="tab"
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
@@ -253,7 +281,7 @@ export const SessionListItemComponent = ({
 					</div>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__icon">
-							<Icon />
+							<Icon title={iconTitle} aria-label={iconTitle} />
 						</div>
 						<div
 							className={clsx(
@@ -316,12 +344,6 @@ export const SessionListItemComponent = ({
 		consultingType && !tenantData?.settings?.featureTopicsEnabled;
 	const zipCodeSlash = showConsultingType ? '/ ' : '';
 
-	const handleKeyDownListItem = (e) => {
-		handleKeyDownLisItemContent(e);
-		if (e.key === 'Enter' || e.key === ' ') {
-			handleOnClick();
-		}
-	};
 	return (
 		<div
 			onClick={handleOnClick}
@@ -392,7 +414,7 @@ export const SessionListItemComponent = ({
 				</div>
 				<div className="sessionsListItem__row">
 					<div className="sessionsListItem__icon">
-						<Icon />
+						<Icon title={iconTitle} aria-label={iconTitle} />
 					</div>
 					<div
 						className={clsx(

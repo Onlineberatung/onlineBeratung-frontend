@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './e2eeActivatedMessage.styles';
-import { Overlay, OverlayWrapper } from '../overlay/Overlay';
+import { Overlay } from '../overlay/Overlay';
 import { subscriptionKeyLostOverlayItem } from '../session/subscriptionKeyLostHelper';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { ICON_INFO, SystemMessage } from './SystemMessage';
@@ -42,13 +42,11 @@ export const MasterKeyLostMessage: React.FC<MasterKeyLostMessageProps> = ({
 			}
 		>
 			{overlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={subscriptionKeyLostOverlayItem}
-						handleOverlay={() => setOverlayActive(false)}
-						handleOverlayClose={() => setOverlayActive(false)}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={subscriptionKeyLostOverlayItem}
+					handleOverlay={() => setOverlayActive(false)}
+					handleOverlayClose={() => setOverlayActive(false)}
+				/>
 			)}
 		</SystemMessage>
 	);

@@ -88,7 +88,7 @@ import {
 import { useE2EE } from '../../hooks/useE2EE';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
-import { Overlay, OverlayWrapper } from '../overlay/Overlay';
+import { Overlay } from '../overlay/Overlay';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
 import { RoomNotFound } from '../session/RoomNotFound';
@@ -97,6 +97,10 @@ import {
 	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
+import {
+	OVERLAY_E2EE,
+	OVERLAY_REQUEST
+} from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -120,14 +124,6 @@ const staticToolbarPlugin = createToolbarPlugin({
 });
 const { Toolbar } = staticToolbarPlugin;
 
-//Emoji Picker Plugin
-const emojiPlugin = createEmojiPlugin({
-	theme: emojiPickerCustomClasses,
-	useNativeArt: true,
-	selectButtonContent: <EmojiIcon />
-});
-const { EmojiSelect } = emojiPlugin;
-
 const INFO_TYPES = {
 	ABSENT: 'ABSENT',
 	ARCHIVED: 'ARCHIVED',
@@ -140,13 +136,13 @@ const INFO_TYPES = {
 
 export const getIconForAttachmentType = (attachmentType: string) => {
 	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {
-		return <FileImageIcon />;
+		return <FileImageIcon aria-hidden="true" focusable="false" />;
 	} else if (isPDFAttachment(attachmentType)) {
-		return <FilePdfIcon />;
+		return <FilePdfIcon aria-hidden="true" focusable="false" />;
 	} else if (isDOCXAttachment(attachmentType)) {
-		return <FileDocIcon />;
+		return <FileDocIcon aria-hidden="true" focusable="false" />;
 	} else if (isXLSXAttachment(attachmentType)) {
-		return <FileXlsIcon />;
+		return <FileXlsIcon aria-hidden="true" focusable="false" />;
 	}
 };
 
@@ -174,7 +170,8 @@ export const MessageSubmitInterfaceComponent = (
 	const inputWrapperRef = useRef<HTMLSpanElement>(null);
 	const attachmentInputRef = useRef<HTMLInputElement>(null);
 	const { userData } = useContext(UserDataContext);
-	const { activeSession } = useContext(ActiveSessionContext);
+	const { activeSession, reloadActiveSession } =
+		useContext(ActiveSessionContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { anonymousConversationFinished } = useContext(
 		AnonymousConversationFinishedContext
@@ -191,6 +188,19 @@ export const MessageSubmitInterfaceComponent = (
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
+
+	//Emoji Picker Plugin
+	const emojiPlugin = createEmojiPlugin({
+		theme: emojiPickerCustomClasses,
+		useNativeArt: true,
+		selectButtonContent: (
+			<EmojiIcon
+				aria-label={translate('enquiry.write.input.emojies')}
+				title={translate('enquiry.write.input.emojies')}
+			/>
+		)
+	});
+	const { EmojiSelect } = emojiPlugin;
 
 	// This loads the keys for current activeSession.rid which is already set:
 	// to groupChat.groupId on group chats
@@ -475,17 +485,21 @@ export const MessageSubmitInterfaceComponent = (
 			apiPutDearchive(activeSession.item.id)
 				.then(prepareAndSendMessage)
 				.then(() => {
+					reloadActiveSession();
 					if (
 						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 					) {
-						if (window.innerWidth >= 900) {
-							history.push(
-								`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}}`
-							);
-						} else {
-							mobileListView();
-							history.push(listPath);
-						}
+						// Short timeout to wait for RC events finished
+						setTimeout(() => {
+							if (window.innerWidth >= 900) {
+								history.push(
+									`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}}`
+								);
+							} else {
+								mobileListView();
+								history.push(listPath);
+							}
+						}, 1000);
 					}
 				})
 				.catch((error) => {
@@ -496,11 +510,10 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	};
 
-	const sendEnquiry = (encryptedMessage, unencryptedMessage, isEncrypted) => {
+	const sendEnquiry = (message, isEncrypted) => {
 		return apiSendEnquiry(
 			activeSession.item.id,
-			encryptedMessage,
-			unencryptedMessage,
+			message,
 			isEncrypted,
 			props.language
 		)
@@ -518,8 +531,7 @@ export const MessageSubmitInterfaceComponent = (
 
 	const sendMessage = async (
 		sendToFeedbackEndpoint,
-		encryptedMessage,
-		unencryptedMessage,
+		message,
 		attachment: File,
 		isEncrypted
 	) => {
@@ -601,8 +613,7 @@ export const MessageSubmitInterfaceComponent = (
 
 		if (getTypedMarkdownMessage()) {
 			await apiSendMessage(
-				encryptedMessage,
-				unencryptedMessage,
+				message,
 				sendToRoomWithId,
 				sendToFeedbackEndpoint,
 				getSendMailNotificationStatus() && !attachment,
@@ -648,17 +659,12 @@ export const MessageSubmitInterfaceComponent = (
 		const messageKey = requestFeedbackCheckboxChecked
 			? feedbackChatKey
 			: key;
-		const unencryptedMessage = getTypedMarkdownMessage().trim();
 
-		let encryptedMessage = unencryptedMessage;
+		let message = getTypedMarkdownMessage().trim();
 		let isEncrypted = isE2eeEnabled;
-		if (encryptedMessage.length > 0 && isE2eeEnabled) {
+		if (message.length > 0 && isE2eeEnabled) {
 			try {
-				encryptedMessage = await encryptText(
-					encryptedMessage,
-					messageKeyId,
-					messageKey
-				);
+				message = await encryptText(message, messageKeyId, messageKey);
 			} catch (e: any) {
 				apiPostError({
 					name: e.name,
@@ -675,18 +681,13 @@ export const MessageSubmitInterfaceComponent = (
 			type === SESSION_LIST_TYPES.ENQUIRY &&
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 		) {
-			await sendEnquiry(
-				encryptedMessage,
-				unencryptedMessage,
-				isEncrypted
-			);
+			await sendEnquiry(message, isEncrypted);
 			return;
 		}
 
 		await sendMessage(
 			requestFeedbackCheckboxChecked,
-			encryptedMessage,
-			unencryptedMessage,
+			message,
 			attachment,
 			isEncrypted
 		);
@@ -925,6 +926,12 @@ export const MessageSubmitInterfaceComponent = (
 												!isRichtextActive
 											)
 										}
+										title={translate(
+											'enquiry.write.input.format'
+										)}
+										aria-label={translate(
+											'enquiry.write.input.format'
+										)}
 									/>
 								</span>
 								<EmojiSelect />
@@ -1002,6 +1009,12 @@ export const MessageSubmitInterfaceComponent = (
 									(!attachmentSelected ? (
 										<span className="textarea__attachmentSelect">
 											<ClipIcon
+												aria-label={translate(
+													'enquiry.write.input.attachement'
+												)}
+												title={translate(
+													'enquiry.write.input.attachement'
+												)}
 												onClick={handleAttachmentSelect}
 											/>
 										</span>
@@ -1023,6 +1036,12 @@ export const MessageSubmitInterfaceComponent = (
 															onClick={
 																handleAttachmentRemoval
 															}
+															title={translate(
+																'app.remove'
+															)}
+															aria-label={translate(
+																'app.remove'
+															)}
 														/>
 													</span>
 												</span>
@@ -1072,16 +1091,11 @@ export const MessageSubmitInterfaceComponent = (
 				</form>
 			)}
 
-			{requestOverlayVisible && !e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={requestOverlay} />
-				</OverlayWrapper>
+			{requestOverlayVisible && (
+				<Overlay item={requestOverlay} name={OVERLAY_REQUEST} />
 			)}
-
 			{e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={e2eeOverlay} />
-				</OverlayWrapper>
+				<Overlay item={e2eeOverlay} name={OVERLAY_E2EE} />
 			)}
 		</div>
 	);

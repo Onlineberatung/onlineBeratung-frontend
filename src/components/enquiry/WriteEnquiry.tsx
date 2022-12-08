@@ -3,12 +3,7 @@ import { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { buildExtendedSession, STATUS_EMPTY } from '../../globalState';
@@ -193,7 +188,13 @@ export const WriteEnquiry: React.FC = () => {
 							className="enquiry__facts"
 						/>
 					</div>
-					<WelcomeIcon className="enquiry__image" />
+					<WelcomeIcon
+						className="enquiry__image"
+						title={translate('enquiry.write.infotext.iconTitle')}
+						aria-label={translate(
+							'enquiry.write.infotext.iconTitle'
+						)}
+					/>
 				</div>
 				{isUnassignedSession && (
 					<EnquiryLanguageSelection
@@ -213,12 +214,10 @@ export const WriteEnquiry: React.FC = () => {
 				/>
 			</ActiveSessionContext.Provider>
 			{overlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</div>
 	);

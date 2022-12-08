@@ -5,7 +5,6 @@ $inputHeight: 50px;
 		margin: $grid-base-four auto $grid-base-two;
 		max-width: $max-input-width;
 		width: 100%;
-		padding: 0 $grid-base-three;
 
 		@include breakpoint($fromLarge) {
 			margin: 0 auto $grid-base-two;

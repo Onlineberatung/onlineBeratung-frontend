@@ -181,7 +181,10 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 							rel="noopener noreferer"
 							className="messageItem__message__attachment__download"
 						>
-							<DownloadIcon />
+							<DownloadIcon
+								title={translate('app.download')}
+								aria-label={translate('app.download')}
+							/>
 							<p>{translate('e2ee.attachment.save')}</p>
 						</a>
 					) : (

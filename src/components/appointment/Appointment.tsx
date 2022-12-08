@@ -14,12 +14,7 @@ import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import './appointment.styles.scss';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { uiUrl } from '../../resources/scripts/config';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
@@ -303,9 +298,7 @@ export const Appointment = ({
 			</div>
 
 			{overlayItem && (
-				<OverlayWrapper>
-					<Overlay item={overlayItem} handleOverlay={handleOverlay} />
-				</OverlayWrapper>
+				<Overlay item={overlayItem} handleOverlay={handleOverlay} />
 			)}
 		</Box>
 	);
@@ -322,7 +315,7 @@ const AppointmentActions = ({ onEdit, onDelete }: AppointmentActionsProps) => {
 			<div className="mr--2">
 				<span
 					role="button"
-					className="primary"
+					className="tertiary"
 					onClick={() => onEdit()}
 				>
 					<PenIcon />
@@ -331,7 +324,7 @@ const AppointmentActions = ({ onEdit, onDelete }: AppointmentActionsProps) => {
 			<div>
 				<span
 					role="button"
-					className="primary"
+					className="tertiary"
 					onClick={() => onDelete()}
 				>
 					<TrashIcon />
@@ -380,6 +373,7 @@ const CopyAppointmentLink = ({ appointment }: CopyAppointmentLinkProps) => {
 			role="button"
 			onClick={copyRegistrationLink}
 			title={translate('appointments.copy.link.title')}
+			aria-label={translate('appointments.copy.link.title')}
 		>
 			<CopyIcon className={`copy icn--s`} />{' '}
 			{translate('appointments.copy.link.text')}

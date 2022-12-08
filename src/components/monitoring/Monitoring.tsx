@@ -200,15 +200,29 @@ export const Monitoring = () => {
 									open
 								}
 							>
-								<ArrowRightIcon className="monitoringAccordion__closedIcon" />
-								<ArrowDownIcon className="monitoringAccordion__activeIcon" />
+								<ArrowRightIcon
+									className="monitoringAccordion__closedIcon"
+									title={translate('app.open')}
+									aria-label={translate('app.open')}
+								/>
+								<ArrowDownIcon
+									className="monitoringAccordion__activeIcon"
+									title={translate('app.close')}
+									aria-label={translate('app.close')}
+								/>
 								<span>
 									{translate(
 										'monitoring.' + resort + '.' + key
 									)}
 								</span>
 								{active ? (
-									<CheckmarkIcon className="monitoringAccordion__checkIcon" />
+									<CheckmarkIcon
+										className="monitoringAccordion__checkIcon"
+										title={translate('monitoring.checked')}
+										aria-label={translate(
+											'monitoring.checked'
+										)}
+									/>
 								) : null}
 							</p>
 							<div className="monitoringAccordion__innerWrapper">

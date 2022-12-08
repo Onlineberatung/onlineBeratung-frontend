@@ -2,8 +2,7 @@ import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiSendMessage = (
-	encryptedMessageData: string,
-	unencryptedMessageData: string,
+	messageData: string,
 	rcGroupIdOrSessionId: string | number,
 	isFeedback: boolean,
 	sendMailNotification: boolean,
@@ -16,8 +15,7 @@ export const apiSendMessage = (
 		? { rcFeedbackGroupId: rcGroupIdOrSessionId }
 		: { rcGroupId: rcGroupIdOrSessionId };
 	const message = JSON.stringify({
-		message: encryptedMessageData,
-		org: unencryptedMessageData,
+		message: messageData,
 		t: isEncrypted ? 'e2e' : '',
 		sendNotification: sendMailNotification
 	});

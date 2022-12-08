@@ -163,6 +163,16 @@ export const RegistrationPassword = ({
 	const passwordCriteriaList = passwordCriteria.map((criteria, index) => {
 		return (
 			<li
+				title={
+					criteria.isValidCondition
+						? translate('registration.password.criteria.fulfilled')
+						: ''
+				}
+				aria-label={
+					criteria.isValidCondition
+						? translate('registration.password.criteria.fulfilled')
+						: ''
+				}
 				key={index}
 				className={`
 					registrationPassword__validationItem 
@@ -182,7 +192,7 @@ export const RegistrationPassword = ({
 		<div className="registrationPassword">
 			<Text
 				text={translate('registration.password.intro')}
-				type="infoMedium"
+				type="standard"
 			/>
 			<ul className="registrationPassword__validation">
 				{passwordCriteriaList}

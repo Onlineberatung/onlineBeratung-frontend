@@ -142,7 +142,7 @@ $overlay-illustration-size-large: 160px;
 		&:not(:first-of-type) {
 			&::before {
 				content: '';
-				border-top: 1px solid $form-disabled;
+				border-top: 1px solid $border-default;
 				margin: $overlay-icon-size-xs 6px $overlay-icon-size-xs;
 				width: 10px;
 
@@ -183,15 +183,15 @@ $overlay-illustration-size-large: 160px;
 
 		&--disabled {
 			.overlay__stepIcon {
-				border-color: $form-disabled;
+				border-color: $text-disabled;
 			}
 
 			.text {
-				color: $form-disabled;
+				color: $text-disabled;
 			}
 
 			svg {
-				fill: $form-disabled;
+				fill: $text-disabled;
 			}
 		}
 	}

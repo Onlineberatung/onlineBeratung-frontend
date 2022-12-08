@@ -102,6 +102,7 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 			tabIndex={0}
 			onClick={copyRegistrationLink}
 			title={translate('profile.data.agency.registrationLink.title')}
+			aria-label={translate('profile.data.agency.registrationLink.title')}
 		>
 			<CopyIcon className={`copy icn--s`} />{' '}
 			{translate('profile.data.agency.registrationLink.text')}

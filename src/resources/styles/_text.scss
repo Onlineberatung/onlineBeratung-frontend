@@ -5,7 +5,10 @@
 	&--uppercase {
 		text-transform: uppercase;
 	}
-
+	&--ellipsis {
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
 	&--nowrap {
 		white-space: nowrap;
 	}

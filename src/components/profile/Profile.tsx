@@ -71,6 +71,12 @@ export const Profile = () => {
 	const { selectableLocales } = useContext(LocaleContext);
 
 	useEffect(() => {
+		// Navigation is hidden and header shown on small screens if there is no enquiry yet. Should be as usual on profile routes
+		document
+			.querySelector('.navigation__wrapper')
+			?.classList.remove('navigation__wrapper--mobileHidden');
+		document.querySelector('.header')?.classList.remove('header--mobile');
+
 		setProfileWrapperActive();
 
 		return () => {
@@ -173,15 +179,29 @@ export const Profile = () => {
 		if (e.key === 'ArrowLeft') {
 			if (index === 0) {
 				ref_tabs.current[ref_tabs.current.length - 1].focus();
+				ref_tabs.current[ref_tabs.current.length - 1].setAttribute(
+					'tabindex',
+					'0'
+				);
+				ref_tabs.current[0].setAttribute('tabindex', '-1');
 			} else {
 				ref_tabs.current[index - 1].focus();
+				ref_tabs.current[index - 1].setAttribute('tabindex', '0');
+				ref_tabs.current[index].setAttribute('tabindex', '-1');
 			}
 		}
 		if (e.key === 'ArrowRight') {
 			if (index === ref_tabs.current.length - 1) {
 				ref_tabs.current[0].focus();
+				ref_tabs.current[0].setAttribute('tabindex', '0');
+				ref_tabs.current[ref_tabs.current.length - 1].setAttribute(
+					'tabindex',
+					'-1'
+				);
 			} else {
 				ref_tabs.current[index + 1].focus();
+				ref_tabs.current[index + 1].setAttribute('tabindex', '0');
+				ref_tabs.current[index].setAttribute('tabindex', '-1');
 			}
 		}
 	};
@@ -189,22 +209,35 @@ export const Profile = () => {
 	return (
 		<div className="profile__wrapper" ref={scrollContainer}>
 			<div className="profile__header">
-				<div
-					className={`profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row ${
-						!subpage && 'flex--wrap flex-l--nowrap'
-					}`}
-				>
-					<div className="flex flex__col--25p flex--ai-c">
+				<div className="profile__header__wrapper flex flex--jc-sb flex-l--fd-column flex-xl--fd-row">
+					<div
+						className={`profile__header__name flex flex--ai-c ${
+							(fromL || subpage) && 'flex__col--25p'
+						}`}
+					>
 						{fromL || !subpage ? (
 							<>
 								<div className="profile__icon flex__col--no-grow">
-									<PersonIcon className="profile__icon--user" />
+									<PersonIcon
+										aria-label={translate(
+											'profile.data.profileIcon'
+										)}
+										className="profile__icon--user"
+										title={translate(
+											'profile.data.profileIcon'
+										)}
+									/>
 								</div>
-								<h3 className="text--nowrap">{headline}</h3>
+								<h3 className="text--nowrap text--ellipsis">
+									{headline}
+								</h3>
 							</>
 						) : (
 							<Link to={`/profile`}>
-								<BackIcon />
+								<BackIcon
+									title={translate('app.back')}
+									aria-label={translate('app.back')}
+								/>
 							</Link>
 						)}
 					</div>
@@ -251,13 +284,20 @@ export const Profile = () => {
 									</div>
 							  )}
 					</div>
-					<div className="profile__header__actions flex__col--25p flex flex--ai-c flex--jc-fe">
+					<div
+						className={`profile__header__actions flex flex--ai-c flex--jc-fe ${
+							subpage && 'flex__col--25p'
+						}`}
+					>
 						{!fromL && !subpage && (
 							<div
 								onClick={handleLogout}
 								className="profile__header__logout flex__col--no-grow"
 							>
-								<LogoutIcon />
+								<LogoutIcon
+									title={translate('app.logout')}
+									aria-label={translate('app.logout')}
+								/>
 							</div>
 						)}
 					</div>

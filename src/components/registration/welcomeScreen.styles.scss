@@ -34,14 +34,14 @@ $welcome-screen-button-text-align: center !default;
 	}
 
 	&__buttonsWrapper {
-		border: 1px solid rgba(0, 0, 0, 0.2);
+		border: 1px solid $border-default;
 		border-radius: $input-field-border-radius;
 		padding: $grid-base-four;
 
 		.text {
 			text-align: $welcome-screen-button-text-align;
 			margin-bottom: 14px;
-			color: rgba(0, 0, 0, 0.9);
+			color: $text-high-emphasis;
 			font-weight: 600;
 		}
 
@@ -72,5 +72,6 @@ $welcome-screen-button-text-align: center !default;
 		letter-spacing: 1.5px;
 		text-transform: uppercase;
 		padding-bottom: $grid-base;
+		color: $text-low-emphasis;
 	}
 }

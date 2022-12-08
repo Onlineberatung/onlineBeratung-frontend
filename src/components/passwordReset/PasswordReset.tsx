@@ -2,13 +2,8 @@ import * as React from 'react';
 import { useState, useContext } from 'react';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { apiUpdatePassword } from '../../api';
-import {
-	OverlayWrapper,
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem
-} from '../overlay/Overlay';
-import { BUTTON_TYPES } from '../button/Button';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
+import { Button, BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
 import {
 	inputValuesFit,
@@ -312,7 +307,7 @@ export const PasswordReset = () => {
 				</div>
 
 				<div
-					className="text--tertiary tertiary pb--1"
+					className="tertiary pb--1"
 					dangerouslySetInnerHTML={{
 						__html: translate(
 							'profile.functions.password.reset.instructions'
@@ -346,23 +341,21 @@ export const PasswordReset = () => {
 				)}
 
 				<div className="button__wrapper">
-					<span
-						onClick={handleSubmit}
-						id="passwordResetButton"
-						role="button"
-						className={
-							'passwordReset__button' +
-							(!isValid ? ' passwordReset__button--disabled' : '')
-						}
-					>
-						{translate('profile.functions.security.button')}
-					</span>
+					<Button
+						item={{
+							label: translate(
+								'profile.functions.security.button'
+							),
+							type: 'LINK'
+						}}
+						buttonHandle={handleSubmit}
+						className={'passwordReset__button'}
+						disabled={!isValid}
+					/>
 				</div>
 			</div>
 			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay item={overlayItem} handleOverlay={handleSuccess} />
-				</OverlayWrapper>
+				<Overlay item={overlayItem} handleOverlay={handleSuccess} />
 			) : null}
 		</div>
 	);
