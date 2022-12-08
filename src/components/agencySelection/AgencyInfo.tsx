@@ -64,6 +64,8 @@ export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 					}
 				}}
 				tabIndex={0}
+				title={translate('notifications.info')}
+				aria-label={translate('notifications.info')}
 			/>
 			{displayAgencyInfo && displayAgencyInfo?.id === props.agency.id && (
 				<div

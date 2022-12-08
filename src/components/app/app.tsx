@@ -163,14 +163,6 @@ const RouterWrapper = ({
 									}
 								/>
 							</Route>
-							<Route path="/:consultingTypeSlug/warteraum">
-								<WaitingRoomLoader
-									handleUnmatch={() => history.push('/login')}
-									onAnonymousRegistration={() =>
-										setStartWebsocket(true)
-									}
-								/>
-							</Route>
 
 							<Route path="/login" exact>
 								<Login stageComponent={stageComponent} />
