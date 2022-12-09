@@ -1768,10 +1768,10 @@ export const en = {
 
 	termsAndConditionOverlay: {
 		title: {
-			termsAndCondition: 'Update to our Terms of Use',
-			privacy: 'Update of our privacy policy',
+			termsAndCondition: 'Updating our terms of use',
+			privacy: 'Updating our privacy policy',
 			termsAndConditionAndPrivacy:
-				'Updated our Terms of Service and Privacy Policy'
+				'Updating our terms of use and privacy policy'
 		},
 		labels: {
 			termsAndCondition: 'Terms of Use',
@@ -1780,11 +1780,11 @@ export const en = {
 		},
 		contentLine1: {
 			termsAndCondition:
-				'We have updated the Online Counseling Terms of Use. In order to be able to continue using the online consultation, we need your consent.',
+				'We have updated the terms of use of the online counseling. In order to be able to continue using the online counseling, we need your consent.',
 			privacy:
-				'We have updated the Online Counseling Privacy Policy. You can find the current status here.',
+				'We have updated the privacy policy of the online counseling. You can find the current version and get more information here.',
 			termsAndConditionAndPrivacy:
-				'We have updated the Online Counseling Terms of Use and Privacy Policy. In order to be able to continue using the online consultation, we need your consent.'
+				'We have updated the terms of use and privacy policy of the online counseling. In order to be able to continue using the online counseling, we need your consent.'
 		},
 		contentLine2: {
 			termsAndCondition:
