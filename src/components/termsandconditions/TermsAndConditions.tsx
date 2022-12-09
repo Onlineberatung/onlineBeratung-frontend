@@ -50,11 +50,11 @@ export const TermsAndConditions = () => {
 		let privacyLabel = translate('termsAndConditionOverlay.labels.privacy');
 		text = text.replace(
 			termsLabel,
-			`<a class='link' href='/nutzungsbedingungen'>${termsLabel}</a>`
+			`<a class='link' target='_blank' href='/nutzungsbedingungen'>${termsLabel}</a>`
 		);
 		return text.replace(
 			privacyLabel,
-			`<a class='link' href='/datenschutz'>${privacyLabel}</a>`
+			`<a class='link' target='_blank' href='/datenschutz'>${privacyLabel}</a>`
 		);
 	};
 
@@ -62,7 +62,7 @@ export const TermsAndConditions = () => {
 		let hereLabel = translate('termsAndConditionOverlay.labels.here');
 		return text.replace(
 			hereLabel,
-			`<a class='link' href='/datenschutz'>${hereLabel}</a>`
+			`<a class='link' target='_blank' href='/datenschutz'>${hereLabel}</a>`
 		);
 	};
 

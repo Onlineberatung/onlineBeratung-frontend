@@ -390,6 +390,7 @@ export const FormAccordion = ({
 
 	if (
 		preselectedAgencyData &&
+		!possibleAgencies?.length &&
 		consultingType?.registration.autoSelectPostcode
 	) {
 		accordionItemData.push({
@@ -407,7 +408,8 @@ export const FormAccordion = ({
 
 	if (
 		consultingType?.registration.autoSelectPostcode &&
-		!preselectedAgencyData
+		!preselectedAgencyData &&
+		!possibleAgencies?.length
 	) {
 		accordionItemData.push({
 			title: translate('registration.agency.headline'),
@@ -424,7 +426,7 @@ export const FormAccordion = ({
 					/>
 				</div>
 			),
-			isValid: VALIDITY_VALID
+			isValid: VALIDITY_INITIAL
 		});
 	}
 
