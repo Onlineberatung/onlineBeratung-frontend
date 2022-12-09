@@ -24,7 +24,7 @@ const hasChanged = (
 	if (tenantData) {
 		return (
 			userData[field] === null ||
-			new Date(userData[field]) < new Date(tenantData[field])
+			new Date(userData[field]) < new Date(tenantData.content[field])
 		);
 	}
 	return false;
