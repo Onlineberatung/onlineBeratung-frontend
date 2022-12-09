@@ -1776,6 +1776,41 @@ export const de = {
 		},
 		'overlay.close': 'Schließen'
 	},
+
+	termsAndConditionOverlay: {
+		title: {
+			termsAndCondition: 'Aktualisierung unserer Nutzungsbedingungen',
+			privacy: 'Aktualisierung unserer Datenschutzerklärung',
+			termsAndConditionAndPrivacy:
+				'Aktualisierung unserer Nutzungsbedingungen und Datenschutzerklärung'
+		},
+		labels: {
+			termsAndCondition: 'Nutzungsbedingungen',
+			privacy: 'Datenschutzerklärung',
+			here: 'hier'
+		},
+		contentLine1: {
+			termsAndCondition:
+				'Wir haben die Nutzungsbedingungen der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Ihre Zustimmung.',
+			privacy:
+				'Wir haben die Datenschutzerklärung der Online-Beratung aktualisiert. Den aktuellen Stand finden Sie hier.',
+			termsAndConditionAndPrivacy:
+				'Wir haben die Nutzungsbedingungen und Datenschutzerklärung der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Ihre Zustimmung.'
+		},
+		contentLine2: {
+			termsAndCondition:
+				'Ich habe die Nutzungsbedingungen zur Kenntniss genommen.\n Damit erkläre ich mich einverstanden.',
+			termsAndConditionAndPrivacy:
+				'Ich habe die Nutzungsbedingungen und Datenschutzerklärung\n' +
+				'zur Kenntniss genommen. Damit erkläre ich mich einverstanden.'
+		},
+		buttons: {
+			decline: 'Ablehnen',
+			accept: 'Zustimmen',
+			continue: 'Weiter'
+		}
+	},
+
 	session: {
 		'acceptance': {
 			'overlay.headline':
