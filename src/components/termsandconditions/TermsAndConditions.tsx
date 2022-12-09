@@ -16,29 +16,15 @@ import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { logout } from '../logout/logout';
 
-const termsChanged = (
+const hasChanged = (
 	tenantData: TenantDataInterface,
-	userData: UserDataInterface
+	userData: UserDataInterface,
+	field: string
 ) => {
 	if (tenantData) {
 		return (
-			userData.termsAndConditionsConfirmation === null ||
-			new Date(userData.termsAndConditionsConfirmation) <
-				new Date(tenantData.content.termsAndConditionsConfirmation)
-		);
-	}
-	return false;
-};
-
-const privacyChanged = (
-	tenantData: TenantDataInterface,
-	userData: UserDataInterface
-) => {
-	if (tenantData) {
-		return (
-			userData.dataPrivacyConfirmation === null ||
-			new Date(userData.dataPrivacyConfirmation) <
-				new Date(tenantData.content.dataPrivacyConfirmation)
+			userData[field] === null ||
+			new Date(userData[field]) < new Date(tenantData[field])
 		);
 	}
 	return false;
@@ -80,34 +66,36 @@ export const TermsAndConditions = () => {
 		);
 	};
 
-	useEffect(() => {
-		const standardButtons = (userConfirmed: boolean) => {
-			return [
-				{
-					label: translate(
-						'termsAndConditionOverlay.buttons.decline'
-					),
-					function: OVERLAY_FUNCTIONS.CLOSE,
-					type: BUTTON_TYPES.SECONDARY
-				},
-				{
-					label: translate('termsAndConditionOverlay.buttons.accept'),
-					disabled: !userConfirmed,
-					type: BUTTON_TYPES.PRIMARY
-				}
-			];
-		};
-
-		const dataPrivacyButtons = [
+	const standardButtons = (userConfirmed: boolean) => {
+		return [
 			{
-				label: translate('termsAndConditionOverlay.buttons.continue'),
+				label: translate('termsAndConditionOverlay.buttons.decline'),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.SECONDARY
+			},
+			{
+				label: translate('termsAndConditionOverlay.buttons.accept'),
+				disabled: !userConfirmed,
 				type: BUTTON_TYPES.PRIMARY
 			}
 		];
+	};
 
+	const dataPrivacyButtons = [
+		{
+			label: translate('termsAndConditionOverlay.buttons.continue'),
+			type: BUTTON_TYPES.PRIMARY
+		}
+	];
+
+	useEffect(() => {
 		if (
-			termsChanged(tenantData, userData) &&
-			privacyChanged(tenantData, userData)
+			hasChanged(
+				tenantData,
+				userData,
+				'termsAndConditionsConfirmation'
+			) &&
+			hasChanged(tenantData, userData, 'dataPrivacyConfirmation')
 		) {
 			setViewState({
 				headlineText: translate(
@@ -125,7 +113,9 @@ export const TermsAndConditions = () => {
 				userConfirmed: viewState.userConfirmed,
 				buttons: standardButtons(viewState.userConfirmed)
 			});
-		} else if (termsChanged(tenantData, userData)) {
+		} else if (
+			hasChanged(tenantData, userData, 'termsAndConditionsConfirmation')
+		) {
 			setViewState({
 				headlineText: translate(
 					'termsAndConditionOverlay.title.termsAndCondition'
@@ -142,7 +132,9 @@ export const TermsAndConditions = () => {
 				userConfirmed: viewState.userConfirmed,
 				buttons: standardButtons(viewState.userConfirmed)
 			});
-		} else if (privacyChanged(tenantData, userData)) {
+		} else if (
+			hasChanged(tenantData, userData, 'dataPrivacyConfirmation')
+		) {
 			setViewState({
 				headlineText: translate(
 					'termsAndConditionOverlay.title.privacy'
@@ -160,7 +152,7 @@ export const TermsAndConditions = () => {
 	}, [viewState.userConfirmed]);
 
 	if (!viewState.showOverlay) {
-		return <></>;
+		return null;
 	}
 
 	const checkboxItemDataProtection: CheckboxItem = {
@@ -177,8 +169,16 @@ export const TermsAndConditions = () => {
 			return;
 		}
 		apiPatchUserData({
-			termsAndConditionsConfirmation: termsChanged(tenantData, userData),
-			dataPrivacyConfirmation: privacyChanged(tenantData, userData)
+			termsAndConditionsConfirmation: hasChanged(
+				tenantData,
+				userData,
+				'termsAndConditionsConfirmation'
+			),
+			dataPrivacyConfirmation: hasChanged(
+				tenantData,
+				userData,
+				'dataPrivacyConfirmation'
+			)
 		}).then(() => {
 			setViewState({ ...viewState, showOverlay: false });
 		});
