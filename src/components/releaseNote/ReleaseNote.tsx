@@ -23,7 +23,7 @@ import useIsFirstLogin from '../../utils/useIsFirstLogin';
 
 interface ReleaseNoteProps {}
 
-const MAX_CONCURRENT_RELEASE_NOTES = 1;
+const MAX_CONCURRENT_RELEASE_NOTES = 2;
 const STORAGE_KEY_RELEASE_NOTE = 'releaseNote';
 
 type TReleases = {

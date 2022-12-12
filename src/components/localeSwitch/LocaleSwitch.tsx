@@ -7,7 +7,6 @@ import { useContext, useEffect, useState } from 'react';
 import { LocaleContext, UserDataContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
-import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 
 export interface LocaleSwitchProp {
 	updateUserData?: boolean;
@@ -64,7 +63,6 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 
 	const languageSelectDropdown: SelectDropdownItem = {
 		handleDropdownSelect: ({ value }) => {
-			setValueInCookie('lang', value);
 			setLocale(value);
 		},
 		id: 'languageSelect',

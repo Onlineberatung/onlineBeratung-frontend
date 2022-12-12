@@ -466,7 +466,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				/>
 			)}
 
-			{!activeSession.isEmptyEnquiry &&
+			{!activeSession.isEnquiry &&
 				appointmentFeatureEnabled &&
 				!activeSession.isLive && (
 					<div
