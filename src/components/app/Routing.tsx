@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, Suspense } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import {
 	RouterConfigUser,
@@ -28,6 +28,7 @@ import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useAskerHasAssignedConsultant } from '../../containers/bookings/hooks/useAskerHasAssignedConsultant';
 import { TermsAndConditions } from '../termsandconditions/TermsAndConditions';
+import { Loading } from './Loading';
 
 interface RoutingProps {
 	logout?: Function;
@@ -127,36 +128,40 @@ export const Routing = (props: RoutingProps) => {
 									</Switch>
 								</div>
 								<div className="contentWrapper__detail">
-									<Switch>
-										{routerConfig.detailRoutes.map(
-											(route: any): JSX.Element => (
-												<Route
-													exact={route.exact ?? true}
-													key={`detail-${route.path}`}
-													path={route.path}
-													render={(
-														componentProps
-													) => (
-														<SessionTypeProvider
-															type={
-																route.type ||
-																null
-															}
-														>
-															<route.component
-																{...componentProps}
-																{...props}
+									<Suspense fallback={<Loading />}>
+										<Switch>
+											{routerConfig.detailRoutes.map(
+												(route: any): JSX.Element => (
+													<Route
+														exact={
+															route.exact ?? true
+														}
+														key={`detail-${route.path}`}
+														path={route.path}
+														render={(
+															componentProps
+														) => (
+															<SessionTypeProvider
 																type={
 																	route.type ||
 																	null
 																}
-															/>
-														</SessionTypeProvider>
-													)}
-												/>
-											)
-										)}
-									</Switch>
+															>
+																<route.component
+																	{...componentProps}
+																	{...props}
+																	type={
+																		route.type ||
+																		null
+																	}
+																/>
+															</SessionTypeProvider>
+														)}
+													/>
+												)
+											)}
+										</Switch>
+									</Suspense>
 
 									{((hasUserProfileRoutes) => {
 										if (hasUserProfileRoutes) {

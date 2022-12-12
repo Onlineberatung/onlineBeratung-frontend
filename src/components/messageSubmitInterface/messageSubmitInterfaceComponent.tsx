@@ -31,12 +31,7 @@ import {
 } from './MessageSubmitInfo';
 import {
 	ATTACHMENT_MAX_SIZE_IN_MB,
-	getAttachmentSizeMBForKB,
-	isDOCXAttachment,
-	isJPEGAttachment,
-	isPDFAttachment,
-	isPNGAttachment,
-	isXLSXAttachment
+	getAttachmentSizeMBForKB
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import PluginsEditor from '@draft-js-plugins/editor';
@@ -63,10 +58,6 @@ import {
 	toolbarCustomClasses
 } from './richtextHelpers';
 import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
-import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
-import { ReactComponent as FileImageIcon } from '../../resources/img/icons/file-image.svg';
-import { ReactComponent as FilePdfIcon } from '../../resources/img/icons/file-pdf.svg';
-import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xls.svg';
 import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
 import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
 import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
@@ -101,6 +92,7 @@ import {
 	OVERLAY_E2EE,
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { getIconForAttachmentType } from '../message/messageHelpers';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -132,18 +124,6 @@ const INFO_TYPES = {
 	ATTACHMENT_QUOTA_REACHED_ERROR: 'ATTACHMENT_QUOTA_REACHED_ERROR',
 	ATTACHMENT_OTHER_ERROR: 'ATTACHMENT_OTHER_ERROR',
 	FINISHED_CONVERSATION: 'FINISHED_CONVERSATION'
-};
-
-export const getIconForAttachmentType = (attachmentType: string) => {
-	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {
-		return <FileImageIcon aria-hidden="true" focusable="false" />;
-	} else if (isPDFAttachment(attachmentType)) {
-		return <FilePdfIcon aria-hidden="true" focusable="false" />;
-	} else if (isDOCXAttachment(attachmentType)) {
-		return <FileDocIcon aria-hidden="true" focusable="false" />;
-	} else if (isXLSXAttachment(attachmentType)) {
-		return <FileXlsIcon aria-hidden="true" focusable="false" />;
-	}
 };
 
 export interface MessageSubmitInterfaceComponentProps {
@@ -873,6 +853,14 @@ export const MessageSubmitInterfaceComponent = (
 		type: BUTTON_TYPES.PRIMARY
 	};
 
+	const getAttachmentIcon = useCallback((type: string) => {
+		const Icon = getIconForAttachmentType(type);
+		if (Icon) {
+			return <Icon aria-hidden="true" focusable="false" />;
+		}
+		return null;
+	}, []);
+
 	if (subscriptionKeyLost) {
 		return <SubscriptionKeyLost />;
 	}
@@ -1023,7 +1011,7 @@ export const MessageSubmitInterfaceComponent = (
 											<span className="textarea__attachmentSelected">
 												<span className="textarea__attachmentSelected__progress"></span>
 												<span className="textarea__attachmentSelected__labelWrapper">
-													{getIconForAttachmentType(
+													{getAttachmentIcon(
 														attachmentSelected.type
 													)}
 													<p className="textarea__attachmentSelected__label">
