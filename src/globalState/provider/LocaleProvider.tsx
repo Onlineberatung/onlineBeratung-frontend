@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import i18n, { FALLBACK_LNG, init } from '../../i18n';
 import { InformalContext } from './InformalProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { setValueInCookie } from '../../components/sessionCookie/accessSessionCookie';
 
 export const STORAGE_KEY_LOCALE = 'locale';
 
@@ -26,11 +27,13 @@ export function LocaleProvider(props) {
 	useEffect(() => {
 		init(settings.i18n).then(() => {
 			setInitLocale(i18n.language);
-			if (localStorage.getItem(STORAGE_KEY_LOCALE)) {
-				setLocale(localStorage.getItem(STORAGE_KEY_LOCALE));
-			} else {
-				setLocale(i18n.language || FALLBACK_LNG);
-			}
+			const locale =
+				localStorage.getItem(STORAGE_KEY_LOCALE) ||
+				i18n.language ||
+				FALLBACK_LNG;
+
+			setValueInCookie('lang', locale);
+			setLocale(locale);
 			setInitialized(true);
 		});
 	}, [settings.i18n]);
@@ -69,6 +72,7 @@ export function LocaleProvider(props) {
 			i18n.changeLanguage(lngCode);
 			localStorage.setItem(STORAGE_KEY_LOCALE, locale);
 			document.documentElement.lang = locale;
+			setValueInCookie('lang', locale);
 		}
 	}, [locale, informal, locales, initialized]);
 
