@@ -1487,6 +1487,12 @@ export const de = {
 			'follow.up.email.label':
 				'eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
 		},
+		'liveChat': {
+			title: 'Meine Live-Chat Verfügbarkeit',
+			subtitle:
+				'Aktivieren Sie Ihre Verfügbarkeit und sehen Sie in den Erstanfragen unter „Live-Chat Anfragen“ die wartenden anoymen Ratsuchenden.',
+			toggleLabel: 'Bin verfügbar'
+		},
 		'routes': {
 			activities: {
 				absence: 'Meine Abwesenheit',

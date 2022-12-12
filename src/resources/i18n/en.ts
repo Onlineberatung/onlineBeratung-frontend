@@ -1559,6 +1559,12 @@ export const en = {
 			'follow.up.email.label':
 				'Have received a message from an accepted advice seeker.'
 		},
+		'liveChat': {
+			title: 'My live chat availability',
+			subtitle:
+				'Activate your availability and see the waiting anoymous advice seekers in the initial requests under "Live Chat Requests".',
+			toggleLabel: 'available'
+		},
 		'appLanguage': {
 			title: 'Language',
 			info: 'Set the language of the application here.'
