@@ -16,37 +16,9 @@ $error-illustration-background-neutral: $illustration-background-neutral !defaul
 $error-page-background: rgba($form-medium, 0.08) !default;
 
 .errorPage {
-	&--warning {
-		.errorPage__main {
-			background-color: $illustration-background-error;
-		}
-	}
-
-	&--error {
-		.errorPage__main {
-			background-color: $error-page-background;
-		}
-	}
-
 	&__header {
-		background-color: $white;
 		display: flex;
-		flex-direction: row;
-		justify-content: stretch;
-		padding: 0 $grid-base-three;
-
-		@media (min-width: $fromLarge) {
-			padding: $grid-base-four $grid-base-three;
-		}
-	}
-
-	&__headerMobile {
-		display: flex;
-		width: 100%;
-
-		@media (min-width: $fromLarge) {
-			width: auto;
-		}
+		justify-content: flex-end;
 	}
 
 	&__claim {
