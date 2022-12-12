@@ -143,6 +143,9 @@ describe('profile', () => {
 		});
 
 		it('activate and deactivate absence consultant with message', () => {
+			cy.get('#overlay').should('exist');
+			cy.get('#overlay .overlay__closeIcon').click();
+
 			cy.contains('Profil').should('exist').click();
 
 			cy.contains('Meine Aktivitäten').click();
@@ -193,6 +196,8 @@ describe('profile', () => {
 					}
 				]
 			});
+			cy.get('#overlay').should('exist');
+			cy.get('#overlay .overlay__closeIcon').click();
 
 			cy.contains('Profil').should('exist').click();
 			cy.contains('Einstellungen').should('exist').click();

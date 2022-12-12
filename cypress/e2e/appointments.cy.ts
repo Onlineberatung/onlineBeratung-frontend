@@ -97,6 +97,9 @@ describe('appointments', () => {
 			dMT.setHours(8);
 			dMT.setMinutes(0);
 
+			cy.get('#overlay').should('exist');
+			cy.get('#overlay .overlay__closeIcon').click();
+
 			cy.contains('Video - Termine').click();
 			cy.wait('@appointments_get');
 
@@ -160,6 +163,9 @@ describe('appointments', () => {
 					description: 'Mein Termin 3',
 					datetime: today.toISOString()
 				});
+
+				cy.get('#overlay').should('exist');
+				cy.get('#overlay .overlay__closeIcon').click();
 
 				cy.contains('Video - Termine').click();
 				cy.wait('@appointments_get');
@@ -332,6 +338,9 @@ describe('appointments', () => {
 						username: USER_VIDEO
 					});
 
+					cy.get('#overlay').should('exist');
+					cy.get('#overlay .overlay__closeIcon').click();
+
 					cy.contains('Video - Termine').click();
 					cy.wait('@appointments_get');
 				});
@@ -398,6 +407,9 @@ describe('appointments', () => {
 					cy.fastLogin({
 						username: USER_VIDEO
 					});
+
+					cy.get('#overlay').should('exist');
+					cy.get('#overlay .overlay__closeIcon').click();
 
 					cy.contains('Video - Termine').click();
 					cy.wait('@appointments_get');

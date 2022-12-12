@@ -17,33 +17,32 @@ describe('release-note', () => {
 	beforeEach(() => {
 		cy.mockApi();
 		mockWebSocket();
+		cy.fixture('releases.json').then((content) => {
+			cy.intercept('GET', 'releases.json**', content).as('releases');
+		});
+
+		cy.fixture('releaseNote.md').then((content) => {
+			cy.intercept('GET', 'releaseNote.md**', content).as(
+				'releases_markup'
+			);
+		});
+		cy.clearLocalStorage();
 	});
 
 	afterEach(() => {
 		cy.clearLocalStorage();
 	});
 
+	it('should show the release note overlay immediately', () => {
+		cy.fastLogin({
+			username: USER_CONSULTANT
+		});
+		cy.wait('@consultingTypeServiceBaseBasic');
+		cy.wait('@releases');
+		cy.wait('@releases_markup');
+	});
+
 	it('should show the release note overlay immediately but not after reload', () => {
-		cy.fixture('releases.json').then((content) => {
-			cy.willReturn('releases', {
-				body: content,
-				statusCode: 200,
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-		});
-
-		cy.fixture('releaseNote.md').then((content) => {
-			cy.willReturn('releases_markup', {
-				body: content,
-				statusCode: 200,
-				headers: {
-					'Content-Type': 'text/markdown'
-				}
-			});
-		});
-
 		cy.fastLogin({
 			username: USER_CONSULTANT
 		});
@@ -66,26 +65,6 @@ describe('release-note', () => {
 	});
 
 	it('should show the release note overlay immediately and after reload', () => {
-		cy.fixture('releases.json').then((content) => {
-			cy.willReturn('releases', {
-				body: content,
-				statusCode: 200,
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-		});
-
-		cy.fixture('releaseNote.md').then((content) => {
-			cy.willReturn('releases_markup', {
-				body: content,
-				statusCode: 200,
-				headers: {
-					'Content-Type': 'text/markdown'
-				}
-			});
-		});
-
 		cy.fastLogin({
 			username: USER_CONSULTANT
 		});
