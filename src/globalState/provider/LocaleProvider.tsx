@@ -72,6 +72,7 @@ export function LocaleProvider(props) {
 			i18n.changeLanguage(lngCode);
 			localStorage.setItem(STORAGE_KEY_LOCALE, locale);
 			document.documentElement.lang = locale;
+			setValueInCookie('lang', locale);
 		}
 	}, [locale, informal, locales, initialized]);
 
