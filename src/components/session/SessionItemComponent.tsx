@@ -49,7 +49,7 @@ import { useTranslation } from 'react-i18next';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { apiPostError, TError } from '../../api/apiPostError';
 import { useE2EE } from '../../hooks/useE2EE';
-import { Loading } from '../app/Loading';
+import { MessageSubmitInterfaceSkeleton } from '../messageSubmitInterface/messageSubmitInterfaceSkeleton';
 
 const MessageSubmitInterfaceComponent = lazy(() =>
 	import('../messageSubmitInterface/messageSubmitInterfaceComponent').then(
@@ -503,7 +503,14 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 			{canWriteMessage && (
 				<>
-					<Suspense fallback={<Loading />}>
+					<Suspense
+						fallback={
+							<MessageSubmitInterfaceSkeleton
+								placeholder={getPlaceholder()}
+								className={clsx('session__submit-interface')}
+							/>
+						}
+					>
 						<MessageSubmitInterfaceComponent
 							isTyping={props.isTyping}
 							className={clsx(

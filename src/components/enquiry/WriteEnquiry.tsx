@@ -33,6 +33,7 @@ import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { apiGetAskerSessionList } from '../../api';
 import { useTranslation } from 'react-i18next';
+import { MessageSubmitInterfaceSkeleton } from '../messageSubmitInterface/messageSubmitInterfaceSkeleton';
 
 const MessageSubmitInterfaceComponent = lazy(() =>
 	import('../messageSubmitInterface/messageSubmitInterfaceComponent').then(
@@ -217,7 +218,15 @@ export const WriteEnquiry: React.FC = () => {
 				)}
 			</div>
 			<ActiveSessionContext.Provider value={{ activeSession }}>
-				<Suspense fallback={<Loading />}>
+				<Suspense
+					fallback={
+						<MessageSubmitInterfaceSkeleton
+							placeholder={translate(
+								'enquiry.write.input.placeholder.asker'
+							)}
+						/>
+					}
+				>
 					<MessageSubmitInterfaceComponent
 						onSendButton={handleSendButton}
 						placeholder={translate(
