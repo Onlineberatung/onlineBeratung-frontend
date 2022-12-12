@@ -162,6 +162,15 @@ const VideoConference = () => {
 			// Set the externalApi to window object so we could emit from cypress
 			(window as any).externalApi = externalApi;
 
+			// @ts-ignore
+			externalApi._transport.on('event', ({ name, ...data }) => {
+				switch (name) {
+					case 'custom-e2ee-toggled':
+						externalApi.emit('custom-e2ee-toggled', data);
+						break;
+				}
+			});
+
 			if (isModerator()) {
 				// Set appointment started after jitsi has finished initialization and meeting is ready
 				externalApi.on('videoConferenceJoined', startAppointment);

@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 
@@ -16,6 +17,7 @@ export const SystemMessage: React.FC<SystemMessageProps> = ({
 	icon,
 	children
 }) => {
+	const { t: translate } = useTranslation();
 	const getIcon = useCallback(() => {
 		switch (icon) {
 			case ICON_CALL_OFF:
@@ -32,7 +34,19 @@ export const SystemMessage: React.FC<SystemMessageProps> = ({
 		<div className="systemMessage__subjectWrapper">
 			{Icon && (
 				<div>
-					<Icon className="systemMessage__icon" />
+					<Icon
+						className="systemMessage__icon"
+						title={
+							icon === 'call_off'
+								? translate('videoCall.info')
+								: translate('notifications.info')
+						}
+						aria-label={
+							icon === 'call_off'
+								? translate('videoCall.info')
+								: translate('notifications.info')
+						}
+					/>
 				</div>
 			)}
 			<div>

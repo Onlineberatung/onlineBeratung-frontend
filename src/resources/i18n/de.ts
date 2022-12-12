@@ -107,6 +107,8 @@ export const de = {
 		'title': 'Beratung & Hilfe',
 		'claim': 'Online. Anonym. Sicher.',
 		'save': 'Speichern',
+		'remove': 'Entfernen',
+		'download': 'Herunterladen',
 		'stage.title': 'Beratung & Hilfe',
 		'logout': 'Abmelden',
 		'close': 'Schließen',
@@ -1100,6 +1102,7 @@ export const de = {
 	monitoring: {
 		title: 'Monitoring',
 		empty: 'Keine Angabe',
+		checked: 'Unterpunkte ausgewählt',
 		monitoringAddiction: {
 			addictiveDrugs: 'Suchtmittel',
 			alcohol: 'Alkohol',
@@ -1302,7 +1305,7 @@ export const de = {
 		'warning': 'Warnung',
 		'error': 'Fehlgeschlagen',
 		'success': 'Erfolgreich',
-		'info': 'Info'
+		'info': 'Information'
 	},
 	overlay: {
 		'step.headline.prefix': '. Schritt | ',
@@ -1773,6 +1776,41 @@ export const de = {
 		},
 		'overlay.close': 'Schließen'
 	},
+
+	termsAndConditionOverlay: {
+		title: {
+			termsAndCondition: 'Aktualisierung unserer Nutzungsbedingungen',
+			privacy: 'Aktualisierung unserer Datenschutzerklärung',
+			termsAndConditionAndPrivacy:
+				'Aktualisierung unserer Nutzungsbedingungen und Datenschutzerklärung'
+		},
+		labels: {
+			termsAndCondition: 'Nutzungsbedingungen',
+			privacy: 'Datenschutzerklärung',
+			here: 'hier'
+		},
+		contentLine1: {
+			termsAndCondition:
+				'Wir haben die Nutzungsbedingungen der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Ihre Zustimmung.',
+			privacy:
+				'Wir haben die Datenschutzerklärung der Online-Beratung aktualisiert. Den aktuellen Stand finden Sie hier.',
+			termsAndConditionAndPrivacy:
+				'Wir haben die Nutzungsbedingungen und Datenschutzerklärung der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Ihre Zustimmung.'
+		},
+		contentLine2: {
+			termsAndCondition:
+				'Ich habe die Nutzungsbedingungen zur Kenntniss genommen.\n Damit erkläre ich mich einverstanden.',
+			termsAndConditionAndPrivacy:
+				'Ich habe die Nutzungsbedingungen und Datenschutzerklärung\n' +
+				'zur Kenntniss genommen. Damit erkläre ich mich einverstanden.'
+		},
+		buttons: {
+			decline: 'Ablehnen',
+			accept: 'Zustimmen',
+			continue: 'Weiter'
+		}
+	},
+
 	session: {
 		'acceptance': {
 			'overlay.headline':
@@ -2290,6 +2328,7 @@ export const de = {
 				hint: 'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Jedoch ist der Video-Call transportverschlüsselt. Bitte folgen Sie der Hilfe, um Ende-zu-Ende verschlüsselt zu telefonieren.'
 			}
 		},
+		info: 'Anrufinformation',
 		overlay: {
 			encryption: {
 				e2e: 'Dieser Video-Call ist mit der Ende-zu-Ende Verschlüsselung gesichert.',

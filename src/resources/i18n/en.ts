@@ -106,6 +106,8 @@ export const en = {
 		'title': 'Consulting & Help',
 		'claim': 'Online. Anonymous. Secure.',
 		'save': 'Save',
+		'remove': 'Remove',
+		'download': 'Download',
 		'stage.title': 'Consulting & Help',
 		'logout': 'Log out',
 		'close': 'close',
@@ -1097,6 +1099,7 @@ export const en = {
 	monitoring: {
 		title: 'Monitoring',
 		empty: 'Not specified',
+		checked: 'Subvalue selected',
 		monitoringAddiction: {
 			addictiveDrugs: 'Addictive drugs',
 			alcohol: 'Alcohol',
@@ -1762,6 +1765,40 @@ export const en = {
 		},
 		'overlay.close': 'Close'
 	},
+
+	termsAndConditionOverlay: {
+		title: {
+			termsAndCondition: 'Updating our terms of use',
+			privacy: 'Updating our privacy policy',
+			termsAndConditionAndPrivacy:
+				'Updating our terms of use and privacy policy'
+		},
+		labels: {
+			termsAndCondition: 'Terms of Use',
+			privacy: 'Privacy Policy',
+			here: 'here'
+		},
+		contentLine1: {
+			termsAndCondition:
+				'We have updated the terms of use of the online counseling. In order to be able to continue using the online counseling, we need your consent.',
+			privacy:
+				'We have updated the privacy policy of the online counseling. You can find the current version and get more information here.',
+			termsAndConditionAndPrivacy:
+				'We have updated the terms of use and privacy policy of the online counseling. In order to be able to continue using the online counseling, we need your consent.'
+		},
+		contentLine2: {
+			termsAndCondition:
+				'I have read the Terms of Use.\n I agree to this.',
+			termsAndConditionAndPrivacy:
+				'I have read the Terms of Use and Privacy Policy.\n I agree to this.'
+		},
+		buttons: {
+			decline: 'Decline',
+			accept: 'Agree',
+			continue: 'Continue'
+		}
+	},
+
 	session: {
 		'acceptance': {
 			'overlay.headline':
@@ -2273,6 +2310,7 @@ export const en = {
 				'teamconsultant.prefix': 'Has tried'
 			}
 		},
+		info: 'Call information',
 		overlay: {
 			unsupported: {
 				'headline': 'The video call cannot be started',

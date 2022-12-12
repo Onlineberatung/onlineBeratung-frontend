@@ -750,8 +750,12 @@ export const SessionsList = ({
 			case 'ArrowLeft':
 				if (document.activeElement === ref_tab_first.current) {
 					ref_tab_second.current.focus();
+					ref_tab_first.current.setAttribute('tabindex', '-1');
+					ref_tab_second.current.setAttribute('tabindex', '0');
 				} else if (document.activeElement === ref_tab_second.current) {
 					ref_tab_first.current.focus();
+					ref_tab_first.current.setAttribute('tabindex', '0');
+					ref_tab_second.current.setAttribute('tabindex', '-1');
 				}
 				break;
 		}
@@ -762,18 +766,38 @@ export const SessionsList = ({
 			switch (e.key) {
 				case 'ArrowUp':
 					if (index === 0) {
-						ref_list_array.current[
-							ref_list_array.current.length - 1
-						].focus();
+						break;
 					} else {
-						ref_list_array.current[index - 1].focus();
+						let indexOffset = 1;
+						while (!ref_list_array.current[index - indexOffset]) {
+							indexOffset++;
+						}
+						ref_list_array.current[index - indexOffset].focus();
+						ref_list_array.current[index].setAttribute(
+							'tabindex',
+							'-1'
+						);
+						ref_list_array.current[
+							index - indexOffset
+						].setAttribute('tabindex', '0');
 					}
 					break;
 				case 'ArrowDown':
 					if (index === ref_list_array.current.length - 1) {
-						ref_list_array.current[0].focus();
+						break;
 					} else {
-						ref_list_array.current[index + 1].focus();
+						let indexOffset = 1;
+						while (!ref_list_array.current[index + indexOffset]) {
+							indexOffset++;
+						}
+						ref_list_array.current[index + indexOffset].focus();
+						ref_list_array.current[index].setAttribute(
+							'tabindex',
+							'-1'
+						);
+						ref_list_array.current[
+							index + indexOffset
+						].setAttribute('tabindex', '0');
 					}
 					break;
 			}

@@ -27,6 +27,7 @@ import { Walkthrough } from '../walkthrough/Walkthrough';
 import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useAskerHasAssignedConsultant } from '../../containers/bookings/hooks/useAskerHasAssignedConsultant';
+import { TermsAndConditions } from '../termsandconditions/TermsAndConditions';
 
 interface RoutingProps {
 	logout?: Function;
@@ -286,6 +287,10 @@ export const Routing = (props: RoutingProps) => {
 									</Switch>
 								</div>
 							</section>
+							{hasUserAuthority(
+								AUTHORITIES.ASKER_DEFAULT,
+								userData
+							) && <TermsAndConditions />}
 							{hasUserAuthority(
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData

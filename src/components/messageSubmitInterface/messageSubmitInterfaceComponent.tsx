@@ -1038,6 +1038,12 @@ export const MessageSubmitInterfaceComponent = (
 															onClick={
 																handleAttachmentRemoval
 															}
+															title={translate(
+																'app.remove'
+															)}
+															aria-label={translate(
+																'app.remove'
+															)}
 														/>
 													</span>
 												</span>
