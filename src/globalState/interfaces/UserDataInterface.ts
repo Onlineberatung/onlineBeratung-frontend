@@ -6,6 +6,7 @@ export interface UserDataInterface {
 	absent?: boolean;
 	agencies: AgencyDataInterface[];
 	appointmentFeatureEnabled?: boolean;
+	available?: boolean;
 	consultingTypes?: { [consultingType: number]: ConsultingTypeDataInterface };
 	displayName?: string;
 	e2eEncryptionEnabled: boolean;

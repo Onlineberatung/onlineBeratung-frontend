@@ -1942,6 +1942,11 @@ export const de = {
 				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat.',
 			known: 'Momentan sind keine Anfragen vorhanden.'
 		},
+		'unavailable': {
+			description:
+				'Aktivieren Sie Ihre Verfügbarkeit und erhalten Sie hier die Live-Chat Anfragen von anoymen Ratsuchenden.',
+			buttonLabel: 'Verfügbarkeit aktivieren'
+		},
 		'filter': {
 			placeholder: 'Filter',
 			option: {

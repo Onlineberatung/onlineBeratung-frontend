@@ -1927,6 +1927,11 @@ export const en = {
 			anonymous:
 				'Currently, no anonymous advice seekers are waiting for a live chat.'
 		},
+		'unavailable': {
+			description:
+				'Activate your availability to receive initial inquiries from advice seekers.',
+			buttonLabel: 'Activate availability'
+		},
 		'preview': {
 			'headline': 'Initial inquiries',
 			'registered.tab': 'Initial inquiries',

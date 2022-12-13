@@ -37,6 +37,7 @@ import {
 	UPDATE_SESSIONS,
 	UserDataContext
 } from '../../globalState';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { SessionListItemComponent } from '../sessionsListItem/SessionListItemComponent';
 import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkeleton';
@@ -111,7 +112,7 @@ export const SessionsList = ({
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	const [isLoading, setIsLoading] = useState(true);
-	const { userData } = useContext(UserDataContext);
+	const { userData, setUserData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [totalItems, setTotalItems] = useState(0);
 	const [isReloadButtonVisible, setIsReloadButtonVisible] = useState(false);
@@ -123,8 +124,22 @@ export const SessionsList = ({
 
 	useGroupWatcher(isLoading);
 
+	const toggleAvailability = () => {
+		const updatedUserData = {
+			...userData,
+			available: !userData.available ?? true
+		};
+		apiPatchUserData(updatedUserData)
+			.then(() => {
+				setUserData(updatedUserData);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
 	// If create new group chat
-	const activeCreateChat = groupIdFromParam === 'createGroupChat';
+	const isCreateChatActive = groupIdFromParam === 'createGroupChat';
 
 	const getConsultantSessionList = useCallback(
 		(
@@ -926,7 +941,7 @@ export const SessionsList = ({
 
 				<div
 					className={`sessionsList__itemsWrapper ${
-						activeCreateChat ||
+						isCreateChatActive ||
 						isLoading ||
 						finalSessionsList.length > 0
 							? ''
@@ -936,7 +951,7 @@ export const SessionsList = ({
 					role="tablist"
 				>
 					{!isLoading &&
-						activeCreateChat &&
+						isCreateChatActive &&
 						type === SESSION_LIST_TYPES.MY_SESSION &&
 						hasUserAuthority(
 							AUTHORITIES.CREATE_NEW_CHAT,
@@ -970,9 +985,10 @@ export const SessionsList = ({
 							))}
 
 					{!isLoading &&
-						!activeCreateChat &&
+						!isCreateChatActive &&
 						!isReloadButtonVisible &&
-						finalSessionsList.length === 0 && (
+						finalSessionsList.length === 0 &&
+						!!userData.available && (
 							<Text
 								className="sessionsList--empty"
 								text={
@@ -988,6 +1004,32 @@ export const SessionsList = ({
 						)}
 
 					{isLoading && <SessionsListSkeleton />}
+
+					{!isLoading &&
+						!userData.available &&
+						type === SESSION_LIST_TYPES.ENQUIRY &&
+						sessionListTab === SESSION_LIST_TAB_ANONYMOUS && (
+							<div className="sessionsList--unavailable">
+								<Text
+									type="standard"
+									text={translate(
+										'sessionList.unavailable.description'
+									)}
+								></Text>
+								<Button
+									item={{
+										label: translate(
+											'sessionList.unavailable.buttonLabel'
+										),
+										title: translate(
+											'sessionList.reloadButton.label'
+										),
+										type: 'PRIMARY'
+									}}
+									buttonHandle={toggleAvailability}
+								/>
+							</div>
+						)}
 
 					{isReloadButtonVisible && (
 						<div className="sessionsList__reloadWrapper">

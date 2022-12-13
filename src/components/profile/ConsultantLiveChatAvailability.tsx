@@ -1,14 +1,29 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from 'react-switch';
 import { useTranslation } from 'react-i18next';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
+import { UserDataContext } from '../../globalState';
 
 export const ConsultantLiveChatAvailability = () => {
 	const { t: translate } = useTranslation();
 
-	const [isActive, setIsActive] = useState<boolean>(false);
+	const { userData, setUserData } = React.useContext(UserDataContext);
+
+	const toggleSwitch = () => {
+		const updatedUserData = {
+			...userData,
+			available: !userData.available ?? true
+		};
+		apiPatchUserData(updatedUserData)
+			.then(() => {
+				setUserData(updatedUserData);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	return (
 		<div className="liveChatAvailability__content">
@@ -26,8 +41,8 @@ export const ConsultantLiveChatAvailability = () => {
 			<div className="flex">
 				<Switch
 					className="mr--1"
-					onChange={() => setIsActive(!isActive)}
-					checked={isActive}
+					onChange={() => toggleSwitch()}
+					checked={userData.available ?? false}
 					uncheckedIcon={false}
 					checkedIcon={false}
 					width={48}

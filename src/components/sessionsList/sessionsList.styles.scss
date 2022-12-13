@@ -311,4 +311,24 @@ $tabBarHeightDesktop: 53px;
 			margin: $grid-base-four $grid-base-three 0;
 		}
 	}
+
+	&--unavailable {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 0 $grid-base-two;
+		margin-top: $grid-base-three;
+
+		@include breakpoint($fromMedium) {
+			padding: 0 $grid-base-three;
+			margin-top: $grid-base-four;
+		}
+
+		p {
+			text-align: center;
+			margin-bottom: $grid-base-two;
+		}
+	}
 }
