@@ -528,6 +528,7 @@ const LocalStorageSwitch = ({
 			return (
 				<LocalStorageSwitchSelect
 					localStorageSwitch={localStorageSwitch}
+					value={localStorageSwitchValue}
 					onChange={onChange}
 				/>
 			);
@@ -577,9 +578,11 @@ const LocalStorageSwitch = ({
 
 const LocalStorageSwitchSelect = ({
 	localStorageSwitch,
+	value,
 	onChange
 }: {
 	localStorageSwitch: TLocalStorageSwitchSelect;
+	value: string;
 	onChange: (value: string) => void;
 }) => {
 	const [choices, setChoices] = useState({});
@@ -609,6 +612,7 @@ const LocalStorageSwitchSelect = ({
 			<hr />
 			<select
 				onChange={({ target: { value } }) => onChange(value)}
+				value={value}
 				tabIndex={-1}
 			>
 				{Object.keys(choices).map((value) => (
