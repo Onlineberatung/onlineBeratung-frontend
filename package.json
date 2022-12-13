@@ -9,7 +9,7 @@
 	"main": "index.ts",
 	"bin": "cli.js",
 	"engines": {
-		"node": ">=12.20.0"
+		"node": ">=14.19.0"
 	},
 	"dependencies": {
 		"@babel/core": "^7.16.7",
