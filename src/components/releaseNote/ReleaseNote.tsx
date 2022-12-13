@@ -47,7 +47,9 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	);
 
 	useEffect(() => {
-		fetch(`${settings.urls.releases}/releases.json`)
+		fetch(
+			`${settings.urls.releases}/releases.json?cacheBuster=${Date.now()}`
+		)
 			.then((res) => res.json())
 			.then((releases: TReleases) =>
 				Object.entries(releases)
