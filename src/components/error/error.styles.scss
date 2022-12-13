@@ -19,6 +19,11 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 	&__header {
 		display: flex;
 		justify-content: flex-end;
+		padding: 0 $grid-base-three;
+
+		@media (min-width: $fromLarge) {
+			padding: $grid-base-four $grid-base-three;
+		}
 	}
 
 	&__claim {
