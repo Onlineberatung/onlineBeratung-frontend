@@ -23,7 +23,7 @@ import useIsFirstLogin from '../../utils/useIsFirstLogin';
 
 interface ReleaseNoteProps {}
 
-const MAX_CONCURRENT_RELEASE_NOTES = 1;
+const MAX_CONCURRENT_RELEASE_NOTES = 2;
 const STORAGE_KEY_RELEASE_NOTE = 'releaseNote';
 
 type TReleases = {
@@ -47,7 +47,9 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	);
 
 	useEffect(() => {
-		fetch(`${settings.urls.releases}/releases.json`)
+		fetch(
+			`${settings.urls.releases}/releases.json?cacheBuster=${Date.now()}`
+		)
 			.then((res) => res.json())
 			.then((releases: TReleases) =>
 				Object.entries(releases)

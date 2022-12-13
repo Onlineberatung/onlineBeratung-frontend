@@ -1,8 +1,14 @@
 import * as React from 'react';
-import { useState, useEffect, useContext, useCallback } from 'react';
+import {
+	useState,
+	useEffect,
+	useContext,
+	useCallback,
+	lazy,
+	Suspense
+} from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { endpoints } from '../../resources/scripts/endpoints';
@@ -27,6 +33,13 @@ import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { apiGetAskerSessionList } from '../../api';
 import { useTranslation } from 'react-i18next';
+import { MessageSubmitInterfaceSkeleton } from '../messageSubmitInterface/messageSubmitInterfaceSkeleton';
+
+const MessageSubmitInterfaceComponent = lazy(() =>
+	import('../messageSubmitInterface/messageSubmitInterfaceComponent').then(
+		(m) => ({ default: m.MessageSubmitInterfaceComponent })
+	)
+);
 
 export const WriteEnquiry: React.FC = () => {
 	const { t: translate } = useTranslation();
@@ -205,13 +218,23 @@ export const WriteEnquiry: React.FC = () => {
 				)}
 			</div>
 			<ActiveSessionContext.Provider value={{ activeSession }}>
-				<MessageSubmitInterfaceComponent
-					onSendButton={handleSendButton}
-					placeholder={translate(
-						'enquiry.write.input.placeholder.asker'
-					)}
-					language={selectedLanguage}
-				/>
+				<Suspense
+					fallback={
+						<MessageSubmitInterfaceSkeleton
+							placeholder={translate(
+								'enquiry.write.input.placeholder.asker'
+							)}
+						/>
+					}
+				>
+					<MessageSubmitInterfaceComponent
+						onSendButton={handleSendButton}
+						placeholder={translate(
+							'enquiry.write.input.placeholder.asker'
+						)}
+						language={selectedLanguage}
+					/>
+				</Suspense>
 			</ActiveSessionContext.Provider>
 			{overlayActive && (
 				<Overlay
