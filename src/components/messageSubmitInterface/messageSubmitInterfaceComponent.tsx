@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import {
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState
+} from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { SendMessageButton } from './SendMessageButton';
@@ -31,12 +38,7 @@ import {
 } from './MessageSubmitInfo';
 import {
 	ATTACHMENT_MAX_SIZE_IN_MB,
-	getAttachmentSizeMBForKB,
-	isDOCXAttachment,
-	isJPEGAttachment,
-	isPDFAttachment,
-	isPNGAttachment,
-	isXLSXAttachment
+	getAttachmentSizeMBForKB
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import PluginsEditor from '@draft-js-plugins/editor';
@@ -63,10 +65,6 @@ import {
 	toolbarCustomClasses
 } from './richtextHelpers';
 import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
-import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
-import { ReactComponent as FileImageIcon } from '../../resources/img/icons/file-image.svg';
-import { ReactComponent as FilePdfIcon } from '../../resources/img/icons/file-pdf.svg';
-import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xls.svg';
 import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
 import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
 import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
@@ -101,6 +99,7 @@ import {
 	OVERLAY_E2EE,
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { getIconForAttachmentType } from '../message/messageHelpers';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -134,18 +133,6 @@ const INFO_TYPES = {
 	FINISHED_CONVERSATION: 'FINISHED_CONVERSATION'
 };
 
-export const getIconForAttachmentType = (attachmentType: string) => {
-	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {
-		return <FileImageIcon aria-hidden="true" focusable="false" />;
-	} else if (isPDFAttachment(attachmentType)) {
-		return <FilePdfIcon aria-hidden="true" focusable="false" />;
-	} else if (isDOCXAttachment(attachmentType)) {
-		return <FileDocIcon aria-hidden="true" focusable="false" />;
-	} else if (isXLSXAttachment(attachmentType)) {
-		return <FileXlsIcon aria-hidden="true" focusable="false" />;
-	}
-};
-
 export interface MessageSubmitInterfaceComponentProps {
 	className?: string;
 	onSendButton?: Function;
@@ -158,9 +145,17 @@ export interface MessageSubmitInterfaceComponentProps {
 	handleMessageSendSuccess?: Function;
 }
 
-export const MessageSubmitInterfaceComponent = (
-	props: MessageSubmitInterfaceComponentProps
-) => {
+export const MessageSubmitInterfaceComponent = ({
+	className,
+	onSendButton,
+	isTyping,
+	placeholder,
+	showMonitoringButton,
+	typingUsers,
+	language,
+	preselectedFile,
+	handleMessageSendSuccess: onMessageSendSuccess
+}: MessageSubmitInterfaceComponentProps) => {
 	const { t: translate } = useTranslation();
 	const tenant = useTenant();
 	const history = useHistory();
@@ -169,6 +164,7 @@ export const MessageSubmitInterfaceComponent = (
 	const textareaInputRef = useRef<HTMLDivElement>(null);
 	const inputWrapperRef = useRef<HTMLSpanElement>(null);
 	const attachmentInputRef = useRef<HTMLInputElement>(null);
+
 	const { userData } = useContext(UserDataContext);
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
@@ -176,6 +172,8 @@ export const MessageSubmitInterfaceComponent = (
 	const { anonymousConversationFinished } = useContext(
 		AnonymousConversationFinishedContext
 	);
+	const { isE2eeEnabled } = useContext(E2EEContext);
+
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
 		null
@@ -186,20 +184,39 @@ export const MessageSubmitInterfaceComponent = (
 		useState<XMLHttpRequest | null>(null);
 	const [editorState, setEditorState] = useState(EditorState.createEmpty());
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
-
-	const { isE2eeEnabled } = useContext(E2EEContext);
+	const [isConsultantAbsent, setIsConsultantAbsent] = useState(
+		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			activeSession.consultant?.absent
+	);
+	const [isSessionArchived, setIsSessionArchived] = useState(
+		activeSession.item.status === STATUS_ARCHIVED
+	);
+	const [isTypingActive, setIsTypingActive] = useState(
+		activeSession.isGroup || activeSession.isLive
+	);
+	const [isLiveChatFinished, setIsLiveChatFinished] = useState(
+		activeSession.isLive && activeSession.item.status === STATUS_FINISHED
+	);
+	const [requestFeedbackCheckboxChecked, setRequestFeedbackCheckboxChecked] =
+		useState(false);
+	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
 
 	//Emoji Picker Plugin
-	const emojiPlugin = createEmojiPlugin({
-		theme: emojiPickerCustomClasses,
-		useNativeArt: true,
-		selectButtonContent: (
-			<EmojiIcon
-				aria-label={translate('enquiry.write.input.emojies')}
-				title={translate('enquiry.write.input.emojies')}
-			/>
-		)
-	});
+	const emojiPlugin = useMemo(
+		() =>
+			createEmojiPlugin({
+				theme: emojiPickerCustomClasses,
+				useNativeArt: true,
+				disableInlineEmojis: true,
+				selectButtonContent: (
+					<EmojiIcon
+						aria-label={translate('enquiry.write.input.emojies')}
+						title={translate('enquiry.write.input.emojies')}
+					/>
+				)
+			}),
+		[translate]
+	);
 	const { EmojiSelect } = emojiPlugin;
 
 	// This loads the keys for current activeSession.rid which is already set:
@@ -212,7 +229,8 @@ export const MessageSubmitInterfaceComponent = (
 		encrypted,
 		subscriptionKeyLost,
 		roomNotFound,
-		encryptRoom
+		encryptRoom,
+		ready: e2EEReady
 	} = useE2EE(activeSession.rid || null);
 
 	// This loads keys for feedback chat to have the ability to encrypt
@@ -220,7 +238,8 @@ export const MessageSubmitInterfaceComponent = (
 	const {
 		keyID: feedbackChatKeyId,
 		key: feedbackChatKey,
-		encryptRoom: feedbackEncryptRoom
+		encryptRoom: feedbackEncryptRoom,
+		ready: feedbackE2EEReady
 	} = useE2EE(activeSession.item.feedbackGroupId);
 
 	const {
@@ -240,30 +259,16 @@ export const MessageSubmitInterfaceComponent = (
 			5000
 		);
 
-	const [requestFeedbackCheckboxChecked, setRequestFeedbackCheckboxChecked] =
-		useState(false);
-
-	const checkboxItem: CheckboxItem = {
-		inputId: 'requestFeedback',
-		name: 'requestFeedback',
-		labelId: 'requestFeedbackLabel',
-		labelClass: 'requestFeedbackLabel',
-		label: translate('message.write.peer.checkbox.label'),
-		checked: requestFeedbackCheckboxChecked
-	};
-
-	const [isConsultantAbsent, setIsConsultantAbsent] = useState(
-		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-			activeSession.consultant?.absent
-	);
-	const [isSessionArchived, setIsSessionArchived] = useState(
-		activeSession.item.status === STATUS_ARCHIVED
-	);
-	const [isTypingActive, setIsTypingActive] = useState(
-		activeSession.isGroup || activeSession.isLive
-	);
-	const [isLiveChatFinished, setIsLiveChatFinished] = useState(
-		activeSession.isLive && activeSession.item.status === STATUS_FINISHED
+	const checkboxItem: CheckboxItem = useMemo(
+		() => ({
+			inputId: 'requestFeedback',
+			name: 'requestFeedback',
+			labelId: 'requestFeedbackLabel',
+			labelClass: 'requestFeedbackLabel',
+			label: translate('message.write.peer.checkbox.label'),
+			checked: requestFeedbackCheckboxChecked
+		}),
+		[requestFeedbackCheckboxChecked, translate]
 	);
 
 	useEffect(() => {
@@ -278,8 +283,6 @@ export const MessageSubmitInterfaceComponent = (
 				activeSession.item.status === STATUS_FINISHED
 		);
 	}, [activeSession, activeSession.item.status, userData]);
-
-	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
 
 	const { onChange: onDraftMessageChange, loaded: draftLoaded } =
 		useDraftMessage(
@@ -372,11 +375,28 @@ export const MessageSubmitInterfaceComponent = (
 		}
 	}, [activeSession?.isEmptyEnquiry, userData]);
 
-	const handleAttachmentUploadError = (infoType: string) => {
-		setActiveInfo(infoType);
-		cleanupAttachment();
-		setTimeout(() => setIsRequestInProgress(false), 1200);
-	};
+	const removeSelectedAttachment = useCallback(() => {
+		const attachmentInput: any = attachmentInputRef.current;
+		if (attachmentInput) {
+			attachmentInput.value = '';
+		}
+	}, []);
+
+	const cleanupAttachment = useCallback(() => {
+		setUploadProgress(0);
+		setAttachmentSelected(null);
+		setAttachmentUpload(null);
+		removeSelectedAttachment();
+	}, [removeSelectedAttachment]);
+
+	const handleAttachmentUploadError = useCallback(
+		(infoType: string) => {
+			setActiveInfo(infoType);
+			cleanupAttachment();
+			setTimeout(() => setIsRequestInProgress(false), 1200);
+		},
+		[cleanupAttachment]
+	);
 
 	const handleEditorChange = useCallback(
 		(currentEditorState) => {
@@ -384,11 +404,9 @@ export const MessageSubmitInterfaceComponent = (
 				draftLoaded &&
 				currentEditorState.getCurrentContent() !==
 					editorState.getCurrentContent() &&
-				props.isTyping
+				isTyping
 			) {
-				props.isTyping(
-					!currentEditorState.getCurrentContent().hasText()
-				);
+				isTyping(!currentEditorState.getCurrentContent().hasText());
 			}
 			setEditorState(currentEditorState);
 			onDraftMessageChange(getTypedMarkdownMessage(currentEditorState));
@@ -397,21 +415,24 @@ export const MessageSubmitInterfaceComponent = (
 			draftLoaded,
 			editorState,
 			getTypedMarkdownMessage,
-			onDraftMessageChange,
-			props
+			isTyping,
+			onDraftMessageChange
 		]
 	);
 
-	const handleEditorKeyCommand = (command) => {
-		const newState = RichUtils.handleKeyCommand(editorState, command);
-		if (newState) {
-			handleEditorChange(newState);
-			return 'handled';
-		}
-		return 'not-handled';
-	};
+	const handleEditorKeyCommand = useCallback(
+		(command) => {
+			const newState = RichUtils.handleKeyCommand(editorState, command);
+			if (newState) {
+				handleEditorChange(newState);
+				return 'handled';
+			}
+			return 'not-handled';
+		},
+		[editorState, handleEditorChange]
+	);
 
-	const resizeTextarea = () => {
+	const resizeTextarea = useCallback(() => {
 		const textInput: any = textareaInputRef.current;
 		// default values
 		let textareaMaxHeight;
@@ -466,181 +487,204 @@ export const MessageSubmitInterfaceComponent = (
 		if (scrollButton) {
 			scrollButton.style.bottom = textareaContainerHeight + 24 + 'px';
 		}
-	};
+	}, [attachmentSelected, isRichtextActive]);
 
-	const toggleAbsentMessage = () => {
+	const toggleAbsentMessage = useCallback(() => {
 		//TODO: not react way: use state and based on that set a class
 		const infoWrapper = document.querySelector('.messageSubmitInfoWrapper');
 		if (infoWrapper) {
 			infoWrapper.classList.toggle('messageSubmitInfoWrapper--hidden');
 		}
-	};
+	}, []);
 
-	const handleButtonClick = () => {
-		if (uploadProgress || isRequestInProgress) {
-			return null;
-		}
-
-		if (isSessionArchived) {
-			apiPutDearchive(activeSession.item.id)
-				.then(prepareAndSendMessage)
-				.then(() => {
-					reloadActiveSession();
-					if (
-						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
-					) {
-						// Short timeout to wait for RC events finished
-						setTimeout(() => {
-							if (window.innerWidth >= 900) {
-								history.push(
-									`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}}`
-								);
-							} else {
-								mobileListView();
-								history.push(listPath);
-							}
-						}, 1000);
-					}
-				})
-				.catch((error) => {
-					console.error(error);
-				});
-		} else {
-			prepareAndSendMessage().then();
-		}
-	};
-
-	const sendEnquiry = (message, isEncrypted) => {
-		return apiSendEnquiry(
-			activeSession.item.id,
-			message,
-			isEncrypted,
-			props.language
-		)
-			.then((response) =>
-				encryptRoom(setE2EEState, response.rcGroupId).then(() => {
-					props?.onSendButton && props.onSendButton(response);
-				})
-			)
-			.then(() => setEditorState(EditorState.createEmpty()))
-			.then(() => setIsRequestInProgress(false))
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-
-	const sendMessage = async (
-		sendToFeedbackEndpoint,
-		message,
-		attachment: File,
-		isEncrypted
-	) => {
-		const sendToRoomWithId = sendToFeedbackEndpoint
-			? activeSession.item.feedbackGroupId
-			: activeSession.rid || activeSession.item.id;
-		const getSendMailNotificationStatus = () =>
-			!activeSession.isGroup && !activeSession.isLive;
-
-		if (attachment) {
-			let res: any;
-
-			const isAttachmentEncryptionEnabledDevTools = parseInt(
-				getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION)
-			);
-			let attachmentFile = attachment;
-			let signature = null;
-			let encryptEnabled =
-				isEncrypted && !!isAttachmentEncryptionEnabledDevTools;
-
-			if (encryptEnabled) {
-				try {
-					signature = await getSignature(attachment);
-					attachmentFile = await encryptAttachment(
-						attachment,
-						keyID,
-						key
-					);
-				} catch (e: any) {
-					encryptEnabled = false;
-
-					apiPostError({
-						name: e.name,
-						message: e.message,
-						stack: e.stack,
-						level: ERROR_LEVEL_WARN
-					}).then();
-				}
-			}
-
-			res = await apiUploadAttachment(
-				attachmentFile,
-				sendToRoomWithId,
-				sendToFeedbackEndpoint,
-				getSendMailNotificationStatus(),
-				setUploadProgress,
-				setAttachmentUpload,
-				encryptEnabled,
-				signature
-			).catch((res: XMLHttpRequest) => {
-				if (res.status === 413) {
-					handleAttachmentUploadError(
-						INFO_TYPES.ATTACHMENT_SIZE_ERROR
-					);
-				} else if (res.status === 415) {
-					handleAttachmentUploadError(
-						INFO_TYPES.ATTACHMENT_FORMAT_ERROR
-					);
-				} else if (
-					res.status === 403 &&
-					res.getResponseHeader('X-Reason') === 'QUOTA_REACHED'
-				) {
-					handleAttachmentUploadError(
-						INFO_TYPES.ATTACHMENT_QUOTA_REACHED_ERROR
-					);
-				} else {
-					handleAttachmentUploadError(
-						INFO_TYPES.ATTACHMENT_OTHER_ERROR
-					);
-				}
-
-				return null;
-			});
-
-			if (!res) {
-				return;
-			}
-		}
-
-		if (getTypedMarkdownMessage()) {
-			await apiSendMessage(
+	const sendEnquiry = useCallback(
+		(message, isEncrypted) => {
+			return apiSendEnquiry(
+				activeSession.item.id,
 				message,
-				sendToRoomWithId,
-				sendToFeedbackEndpoint,
-				getSendMailNotificationStatus() && !attachment,
-				isEncrypted
+				isEncrypted,
+				language
 			)
-				.then(() => encryptRoom(setE2EEState))
-				.then(() => {
-					props?.onSendButton && props.onSendButton();
-					handleMessageSendSuccess();
-					cleanupAttachment();
-				})
+				.then((response) =>
+					encryptRoom(setE2EEState, response.rcGroupId).then(() => {
+						onSendButton && onSendButton(response);
+					})
+				)
+				.then(() => setEditorState(EditorState.createEmpty()))
+				.then(() => setIsRequestInProgress(false))
 				.catch((error) => {
-					setIsRequestInProgress(false);
 					console.log(error);
 				});
-		} else {
-			props?.onSendButton && props.onSendButton();
-			handleMessageSendSuccess();
-			cleanupAttachment();
-			setIsRequestInProgress(false);
-		}
-	};
+		},
+		[
+			activeSession.item.id,
+			encryptRoom,
+			language,
+			onSendButton,
+			setE2EEState
+		]
+	);
 
-	const prepareAndSendMessage = async () => {
+	const handleMessageSendSuccess = useCallback(() => {
+		onMessageSendSuccess?.();
+		if (showMonitoringButton) {
+			showMonitoringButton();
+		}
+		if (requestFeedbackCheckboxChecked) {
+			const feedbackButton = document.querySelector(
+				'.sessionInfo__feedbackButton'
+			);
+			feedbackButton?.classList.add(
+				'sessionInfo__feedbackButton--active'
+			);
+			setTimeout(() => {
+				feedbackButton?.classList.remove(
+					'sessionInfo__feedbackButton--active'
+				);
+			}, 700);
+		}
+		setEditorState(EditorState.createEmpty());
+		setActiveInfo('');
+		resizeTextarea();
+		setTimeout(() => setIsRequestInProgress(false), 1200);
+	}, [
+		onMessageSendSuccess,
+		requestFeedbackCheckboxChecked,
+		resizeTextarea,
+		showMonitoringButton
+	]);
+
+	const sendMessage = useCallback(
+		async (
+			sendToFeedbackEndpoint,
+			message,
+			attachment: File,
+			isEncrypted
+		) => {
+			const sendToRoomWithId = sendToFeedbackEndpoint
+				? activeSession.item.feedbackGroupId
+				: activeSession.rid || activeSession.item.id;
+			const getSendMailNotificationStatus = () =>
+				!activeSession.isGroup && !activeSession.isLive;
+
+			if (attachment) {
+				let res: any;
+
+				const isAttachmentEncryptionEnabledDevTools = parseInt(
+					getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION)
+				);
+				let attachmentFile = attachment;
+				let signature = null;
+				let encryptEnabled =
+					isEncrypted && !!isAttachmentEncryptionEnabledDevTools;
+
+				if (encryptEnabled) {
+					try {
+						signature = await getSignature(attachment);
+						attachmentFile = await encryptAttachment(
+							attachment,
+							keyID,
+							key
+						);
+					} catch (e: any) {
+						encryptEnabled = false;
+
+						apiPostError({
+							name: e.name,
+							message: e.message,
+							stack: e.stack,
+							level: ERROR_LEVEL_WARN
+						}).then();
+					}
+				}
+
+				res = await apiUploadAttachment(
+					attachmentFile,
+					sendToRoomWithId,
+					sendToFeedbackEndpoint,
+					getSendMailNotificationStatus(),
+					setUploadProgress,
+					setAttachmentUpload,
+					encryptEnabled,
+					signature
+				).catch((res: XMLHttpRequest) => {
+					if (res.status === 413) {
+						handleAttachmentUploadError(
+							INFO_TYPES.ATTACHMENT_SIZE_ERROR
+						);
+					} else if (res.status === 415) {
+						handleAttachmentUploadError(
+							INFO_TYPES.ATTACHMENT_FORMAT_ERROR
+						);
+					} else if (
+						res.status === 403 &&
+						res.getResponseHeader('X-Reason') === 'QUOTA_REACHED'
+					) {
+						handleAttachmentUploadError(
+							INFO_TYPES.ATTACHMENT_QUOTA_REACHED_ERROR
+						);
+					} else {
+						handleAttachmentUploadError(
+							INFO_TYPES.ATTACHMENT_OTHER_ERROR
+						);
+					}
+
+					return null;
+				});
+
+				if (!res) {
+					return;
+				}
+			}
+
+			if (getTypedMarkdownMessage()) {
+				await apiSendMessage(
+					message,
+					sendToRoomWithId,
+					sendToFeedbackEndpoint,
+					getSendMailNotificationStatus() && !attachment,
+					isEncrypted
+				)
+					.then(() => encryptRoom(setE2EEState))
+					.then(() => {
+						onSendButton && onSendButton();
+						handleMessageSendSuccess();
+						cleanupAttachment();
+					})
+					.catch((error) => {
+						setIsRequestInProgress(false);
+						console.log(error);
+					});
+			} else {
+				onSendButton && onSendButton();
+				handleMessageSendSuccess();
+				cleanupAttachment();
+				setIsRequestInProgress(false);
+			}
+		},
+		[
+			activeSession.isGroup,
+			activeSession.isLive,
+			activeSession.item.feedbackGroupId,
+			activeSession.item.id,
+			activeSession.rid,
+			cleanupAttachment,
+			encryptRoom,
+			getDevToolbarOption,
+			getTypedMarkdownMessage,
+			handleAttachmentUploadError,
+			handleMessageSendSuccess,
+			key,
+			keyID,
+			onSendButton,
+			setE2EEState
+		]
+	);
+
+	const prepareAndSendMessage = useCallback(async () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const selectedFile = attachmentInput && attachmentInput.files[0];
-		const attachment = props.preselectedFile || selectedFile;
+		const attachment = preselectedFile || selectedFile;
 
 		if (isE2eeEnabled && encrypted && !keyID) {
 			console.error("Can't send message without key");
@@ -653,8 +697,9 @@ export const MessageSubmitInterfaceComponent = (
 			return null;
 		}
 
-		const sendToFeedbackEndpoint = requestFeedbackCheckboxChecked || activeSession.isFeedback;
-		
+		const sendToFeedbackEndpoint =
+			requestFeedbackCheckboxChecked || activeSession.isFeedback;
+
 		const messageKeyId = requestFeedbackCheckboxChecked
 			? feedbackChatKeyId
 			: keyID;
@@ -697,33 +742,71 @@ export const MessageSubmitInterfaceComponent = (
 		if (requestFeedbackCheckboxChecked) {
 			await feedbackEncryptRoom(setE2EEState);
 		}
-	};
+	}, [
+		activeSession.isFeedback,
+		encrypted,
+		feedbackChatKey,
+		feedbackChatKeyId,
+		feedbackEncryptRoom,
+		getTypedMarkdownMessage,
+		isE2eeEnabled,
+		key,
+		keyID,
+		preselectedFile,
+		requestFeedbackCheckboxChecked,
+		sendEnquiry,
+		sendMessage,
+		setE2EEState,
+		type,
+		userData
+	]);
 
-	const handleMessageSendSuccess = () => {
-		props.handleMessageSendSuccess?.();
-		if (props.showMonitoringButton) {
-			props.showMonitoringButton();
+	const handleButtonClick = useCallback(() => {
+		if (uploadProgress || isRequestInProgress) {
+			return null;
 		}
-		if (requestFeedbackCheckboxChecked) {
-			const feedbackButton = document.querySelector(
-				'.sessionInfo__feedbackButton'
-			);
-			feedbackButton?.classList.add(
-				'sessionInfo__feedbackButton--active'
-			);
-			setTimeout(() => {
-				feedbackButton?.classList.remove(
-					'sessionInfo__feedbackButton--active'
-				);
-			}, 700);
-		}
-		setEditorState(EditorState.createEmpty());
-		setActiveInfo('');
-		resizeTextarea();
-		setTimeout(() => setIsRequestInProgress(false), 1200);
-	};
 
-	const handleRequestFeedbackCheckbox = (e) => {
+		if (isSessionArchived) {
+			apiPutDearchive(activeSession.item.id)
+				.then(prepareAndSendMessage)
+				.then(() => {
+					reloadActiveSession();
+					if (
+						!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
+					) {
+						// Short timeout to wait for RC events finished
+						setTimeout(() => {
+							if (window.innerWidth >= 900) {
+								history.push(
+									`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}}`
+								);
+							} else {
+								mobileListView();
+								history.push(listPath);
+							}
+						}, 1000);
+					}
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		} else {
+			prepareAndSendMessage().then();
+		}
+	}, [
+		activeSession.item.groupId,
+		activeSession.item.id,
+		history,
+		isRequestInProgress,
+		isSessionArchived,
+		listPath,
+		prepareAndSendMessage,
+		reloadActiveSession,
+		uploadProgress,
+		userData
+	]);
+
+	const handleRequestFeedbackCheckbox = useCallback((e) => {
 		setRequestFeedbackCheckboxChecked((requestFeedbackCheckboxChecked) => {
 			const textarea = document.querySelector('.textarea');
 			textarea?.classList.toggle(
@@ -732,69 +815,55 @@ export const MessageSubmitInterfaceComponent = (
 			);
 			return !requestFeedbackCheckboxChecked;
 		});
-	};
+	}, []);
 
-	const handleAttachmentSelect = () => {
+	const handleAttachmentSelect = useCallback(() => {
 		const attachmentInput: any = attachmentInputRef.current;
 		attachmentInput.click();
-	};
+	}, []);
 
-	const displayAttachmentToUpload = (attachment: File) => {
+	const displayAttachmentToUpload = useCallback((attachment: File) => {
 		setAttachmentSelected(attachment);
 		setActiveInfo('');
-	};
+	}, []);
 
 	const handleLargeAttachments = useCallback(() => {
 		removeSelectedAttachment();
 		setActiveInfo(INFO_TYPES.ATTACHMENT_SIZE_ERROR);
-	}, []);
+	}, [removeSelectedAttachment]);
 
-	const handleAttachmentChange = () => {
+	const handleAttachmentChange = useCallback(() => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const attachment = attachmentInput.files[0];
 		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
 		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
 			? handleLargeAttachments()
 			: displayAttachmentToUpload(attachment);
-	};
+	}, [displayAttachmentToUpload, handleLargeAttachments]);
 
 	const handlePreselectedAttachmentChange = useCallback(() => {
-		const attachment = props.preselectedFile;
+		const attachment = preselectedFile;
 		const attachmentSizeMB = getAttachmentSizeMBForKB(attachment.size);
 		attachmentSizeMB > ATTACHMENT_MAX_SIZE_IN_MB
 			? handleLargeAttachments()
 			: displayAttachmentToUpload(attachment);
-	}, [handleLargeAttachments, props.preselectedFile]);
+	}, [displayAttachmentToUpload, handleLargeAttachments, preselectedFile]);
 
 	useEffect(() => {
-		if (!props.preselectedFile) return;
+		if (!preselectedFile) return;
 		handlePreselectedAttachmentChange();
-	}, [handlePreselectedAttachmentChange, props.preselectedFile]);
+	}, [handlePreselectedAttachmentChange, preselectedFile]);
 
-	const removeSelectedAttachment = () => {
-		const attachmentInput: any = attachmentInputRef.current;
-		if (attachmentInput) {
-			attachmentInput.value = '';
-		}
-	};
-
-	const handleAttachmentRemoval = () => {
+	const handleAttachmentRemoval = useCallback(() => {
 		if (uploadProgress && attachmentUpload) {
 			attachmentUpload.abort();
 			setTimeout(() => setIsRequestInProgress(false), 1200);
 		}
 		setActiveInfo('');
 		cleanupAttachment();
-	};
+	}, [attachmentUpload, cleanupAttachment, uploadProgress]);
 
-	const cleanupAttachment = () => {
-		setUploadProgress(0);
-		setAttachmentSelected(null);
-		setAttachmentUpload(null);
-		removeSelectedAttachment();
-	};
-
-	const getMessageSubmitInfo = (): MessageSubmitInfoInterface => {
+	const getMessageSubmitInfo = useCallback((): MessageSubmitInfoInterface => {
 		let infoData;
 		if (activeInfo === INFO_TYPES.ABSENT) {
 			infoData = {
@@ -853,27 +922,43 @@ export const MessageSubmitInterfaceComponent = (
 		}
 
 		return infoData;
-	};
+	}, [activeInfo, activeSession, translate]);
 
-	const handleBookingButton = () => {
+	const handleBookingButton = useCallback(() => {
 		history.push('/booking/');
-	};
+	}, [history]);
 
 	const hasUploadFunctionality =
 		(type !== SESSION_LIST_TYPES.ENQUIRY ||
 			(type === SESSION_LIST_TYPES.ENQUIRY &&
 				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData))) &&
 		!tenant?.settings?.featureAttachmentUploadDisabled;
+
 	const hasRequestFeedbackCheckbox =
 		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
 		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
 		activeSession.item.feedbackGroupId &&
 		(activeSession.isGroup || !activeSession.isFeedback);
 
-	const bookingButton: ButtonItem = {
-		label: translate('message.submit.booking.buttonLabel'),
-		type: BUTTON_TYPES.PRIMARY
-	};
+	const bookingButton: ButtonItem = useMemo(
+		() => ({
+			label: translate('message.submit.booking.buttonLabel'),
+			type: BUTTON_TYPES.PRIMARY
+		}),
+		[translate]
+	);
+
+	const getAttachmentIcon = useCallback((type: string) => {
+		const Icon = getIconForAttachmentType(type);
+		if (Icon) {
+			return <Icon aria-hidden="true" focusable="false" />;
+		}
+		return null;
+	}, []);
+
+	if (!e2EEReady || !feedbackE2EEReady) {
+		return null;
+	}
 
 	if (subscriptionKeyLost) {
 		return <SubscriptionKeyLost />;
@@ -887,17 +972,15 @@ export const MessageSubmitInterfaceComponent = (
 	return (
 		<div
 			className={clsx(
-				props.className,
+				className,
 				'messageSubmit__wrapper',
 				isTypingActive && 'messageSubmit__wrapper--withTyping'
 			)}
 		>
 			{isTypingActive && (
 				<TypingIndicator
-					disabled={
-						!(props.typingUsers && props.typingUsers.length > 0)
-					}
-					typingUsers={props.typingUsers}
+					disabled={!(typingUsers && typingUsers.length > 0)}
+					typingUsers={typingUsers}
 				/>
 			)}
 			{activeInfo && <MessageSubmitInfo {...getMessageSubmitInfo()} />}
@@ -977,7 +1060,7 @@ export const MessageSubmitInterfaceComponent = (
 												? translate(
 														'enquiry.write.input.placeholder.feedback.peer'
 												  )
-												: props.placeholder
+												: placeholder
 										}
 										stripPastedStyles={true}
 										spellCheck={true}
@@ -1025,7 +1108,7 @@ export const MessageSubmitInterfaceComponent = (
 											<span className="textarea__attachmentSelected">
 												<span className="textarea__attachmentSelected__progress"></span>
 												<span className="textarea__attachmentSelected__labelWrapper">
-													{getIconForAttachmentType(
+													{getAttachmentIcon(
 														attachmentSelected.type
 													)}
 													<p className="textarea__attachmentSelected__label">
