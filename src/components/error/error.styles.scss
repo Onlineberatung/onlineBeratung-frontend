@@ -1,5 +1,4 @@
-$header-height: 102px;
-$main-height: calc(100vh - #{$header-height});
+$main-height: calc(100vh - 2 * #{$header-height});
 $max-height: 100vh;
 $illustrationSize: 280px;
 $icon-size: 170px;
@@ -37,7 +36,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 	}
 
 	&__main {
-		padding: 0 $grid-base-three;
+		padding: $grid-base-three;
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
@@ -46,6 +45,8 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 			flex-direction: row;
 			height: $main-height;
 			padding: $grid-base-four $grid-base-three;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 
@@ -120,29 +121,30 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 		margin-top: 0;
 
 		@media (min-width: $fromLarge) {
-			width: $content-width;
+			width: 650px;
 			text-align: left;
 			margin-top: 0;
 		}
 	}
 
 	&__content p {
+		font-size: $font-size-h4;
 		margin: 0;
 	}
 
 	&__headline {
-		font-size: $font-size-super-mobile;
+		font-size: $font-size-h1-mobile;
 		font-weight: $font-weight-medium;
-		margin-bottom: 20px;
+		margin-bottom: 12px;
 
 		@media (min-width: $fromLarge) {
-			margin-bottom: 40px;
-			font-size: $font-size-super-large;
+			margin-bottom: 12px;
+			font-size: $font-size-h1;
 		}
 	}
 
 	&__button {
-		margin-top: $grid-base-six;
+		margin-top: 25px;
 	}
 
 	h2 {
