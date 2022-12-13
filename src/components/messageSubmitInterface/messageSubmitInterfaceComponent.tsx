@@ -697,8 +697,9 @@ export const MessageSubmitInterfaceComponent = ({
 			return null;
 		}
 
-		const sendToFeedbackEndpoint = requestFeedbackCheckboxChecked || activeSession.isFeedback;
-		
+		const sendToFeedbackEndpoint =
+			requestFeedbackCheckboxChecked || activeSession.isFeedback;
+
 		const messageKeyId = requestFeedbackCheckboxChecked
 			? feedbackChatKeyId
 			: keyID;
@@ -742,6 +743,7 @@ export const MessageSubmitInterfaceComponent = ({
 			await feedbackEncryptRoom(setE2EEState);
 		}
 	}, [
+		activeSession.isFeedback,
 		encrypted,
 		feedbackChatKey,
 		feedbackChatKeyId,
