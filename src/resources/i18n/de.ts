@@ -1170,7 +1170,7 @@ export const de = {
 			'unemployed': 'arbeitslos',
 			'housingSituation': 'Wohnsituation',
 			'family': 'in Familie',
-			'partner': 'Partner*in',
+			'partner': 'Partner_in',
 			'livingCommunity': 'WG',
 			'alone': 'allein lebend',
 			'assistedLiving': 'betreute Wohnform',
@@ -2264,7 +2264,7 @@ export const de = {
 	},
 	userProfile: {
 		tools: {
-			description: 'Schalten Sie Tools für die/den Ratsuchende/n frei. ',
+			description: 'Schalten Sie Tools für die_den Ratsuchende_n frei. ',
 			openModal: 'Tool-Beschreibungen anzeigen',
 			optionsPlaceholder: 'Wähle eine Option...',
 			title: 'Tools',
@@ -2275,13 +2275,13 @@ export const de = {
 			share: {
 				sharedContent: 'Zu den geteilten Inhalten',
 				title: 'Sehen Sie hier welche Inhalte mit Ihnen geteilt wurden.',
-				info: 'Nur zugewiesene Berater:innen können die Inhalte der Ratsuchenden einsehen. Wenn Sie aus der Teamberatung auf die Inhalte zugreifen, sind die Ratsuchenden nicht vorausgewählt.'
+				info: 'Nur zugewiesene Berater_innen können die Inhalte der Ratsuchenden einsehen. Wenn Sie aus der Teamberatung auf die Inhalte zugreifen, sind die Ratsuchenden nicht vorausgewählt.'
 			},
 			modal: {
 				confirm: 'Freischalten',
 				deny: 'Abbrechen',
 				description:
-					'Wählen Sie die Tools aus, die Sie dem/der Ratsuchenden zur Verfügung stellen möchten.',
+					'Wählen Sie die Tools aus, die Sie dem_der Ratsuchenden zur Verfügung stellen möchten.',
 				title: 'Tool für die Ratsuchenden'
 			}
 		},

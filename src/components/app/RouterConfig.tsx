@@ -1,3 +1,4 @@
+import { lazy } from 'react';
 import { isDesktop } from 'react-device-detect';
 import { SessionsListWrapper } from '../sessionsList/SessionsListWrapper';
 import {
@@ -10,8 +11,7 @@ import {
 	SESSION_TYPE_SESSION,
 	SESSION_TYPE_TEAMSESSION
 } from '../session/sessionHelpers';
-import { SessionView } from '../session/SessionView';
-import { WriteEnquiry } from '../enquiry/WriteEnquiry';
+
 import { AskerInfo } from '../askerInfo/AskerInfo';
 import { Monitoring } from '../monitoring/Monitoring';
 import { Profile } from '../profile/Profile';
@@ -46,6 +46,13 @@ import { Booking } from '../../containers/bookings/components/Booking/booking';
 import { BookingCancellation } from '../../containers/bookings/components/BookingCancellation/bookingCancellation';
 import { BookingEvents } from '../../containers/bookings/components/BookingEvents/bookingEvents';
 import { BookingReschedule } from '../../containers/bookings/components/BookingReschedule/bookingReschedule';
+
+const SessionView = lazy(() =>
+	import('../session/SessionView').then((m) => ({ default: m.SessionView }))
+);
+const WriteEnquiry = lazy(() =>
+	import('../enquiry/WriteEnquiry').then((m) => ({ default: m.WriteEnquiry }))
+);
 
 const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&

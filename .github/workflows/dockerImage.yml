@@ -18,10 +18,11 @@ jobs:
             - name: set env
               run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
             - uses: actions/checkout@v1
-            - uses: actions/setup-node@v1
+            - uses: actions/setup-node@v3
               with:
-                  node-version: 14.18.3
-            - run: npm i
+                  node-version: 14
+                  cache: 'npm'
+            - run: npm ci
             - name: Run linters
               uses: wearerequired/lint-action@v1
               with:
@@ -31,11 +32,13 @@ jobs:
                   eslint_extensions: js,ts,tsx
                   prettier: true
                   prettier_dir: ./src
-            - name: test and build
+            - name: Run tests
               run: |
                   echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
                   echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
                   npm run test
+            - name: Run build
+              run: |
                   npm run build
             - uses: actions/upload-artifact@v2
               with:

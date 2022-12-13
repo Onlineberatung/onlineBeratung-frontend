@@ -77,14 +77,22 @@ export const useE2EE = (
 		RocketChatSubscriptionsContext
 	);
 	const { systemUsers } = useContext(RocketChatGetUserRolesContext);
-	const [key, setKey] = useState(null);
-	const [keyID, setKeyID] = useState(null);
+
+	const [keyData, setKeyData] = useState<{
+		key: CryptoKey;
+		keyID: string;
+		sessionKeyExportedString: string;
+	}>({
+		key: null,
+		keyID: null,
+		sessionKeyExportedString: null
+	});
+
+	const [ready, setReady] = useState(false);
+
 	const [encrypted, setEncrypted] = useState(false);
 	const [subscriptionKeyLost, setSubscriptionKeyLost] = useState(false);
 	const [roomNotFound, setRoomNotFound] = useState(false);
-	const [sessionKeyExportedString, setSessionKeyExportedString] =
-		useState(null);
-	const [ready, setReady] = useState(false);
 	const rcUid = getValueFromCookie('rc_uid');
 
 	const keyType = useRef(null);
@@ -163,8 +171,8 @@ export const useE2EE = (
 					if (user) {
 						userKey = await encryptForParticipant(
 							user.e2e.public_key,
-							keyID,
-							sessionKeyExportedString
+							keyData.keyID,
+							keyData.sessionKeyExportedString
 						);
 					} else if (generateTmpKeys) {
 						// If user has no public_key encrypt with tmpMasterKey
@@ -172,9 +180,9 @@ export const useE2EE = (
 
 						userKey =
 							'tmp.' +
-							keyID +
+							keyData.keyID +
 							CryptoJS.AES.encrypt(
-								sessionKeyExportedString,
+								keyData.sessionKeyExportedString,
 								tmpMasterKey
 							);
 					} else {
@@ -208,7 +216,13 @@ export const useE2EE = (
 
 			return [filteredMembers.length, unhandledMembers];
 		},
-		[keyID, rcUid, rid, sessionKeyExportedString, systemUsers]
+		[
+			keyData.keyID,
+			rcUid,
+			rid,
+			keyData.sessionKeyExportedString,
+			systemUsers
+		]
 	);
 
 	const encryptRoom = useCallback(
@@ -235,7 +249,7 @@ export const useE2EE = (
 
 			// Set Room Key ID at the very end because if something failed before it will still be repairable
 			// After room key is set the room is encrypted and the room key could not be set again.
-			console.log('Set Room Key ID', roomId, keyID);
+			console.log('Set Room Key ID', roomId, keyData.keyID);
 			try {
 				onStateChange &&
 					onStateChange({
@@ -243,7 +257,7 @@ export const useE2EE = (
 						count: members - unhandled,
 						total: members
 					});
-				await apiRocketChatSetRoomKeyID(roomId, keyID);
+				await apiRocketChatSetRoomKeyID(roomId, keyData.keyID);
 				onStateChange &&
 					onStateChange({
 						state: ENCRYPT_ROOM_STATE_SEND_ALIAS_MESSAGE,
@@ -273,7 +287,7 @@ export const useE2EE = (
 				console.error(e);
 			}
 		},
-		[encryptMembers, encrypted, isE2eeEnabled, keyID, rid]
+		[encryptMembers, encrypted, isE2eeEnabled, keyData.keyID, rid]
 	);
 
 	const addNewUsersToEncryptedRoom = useCallback(
@@ -313,12 +327,12 @@ export const useE2EE = (
 	);
 
 	useEffect(() => {
-		keyIdRef.current = keyID;
-	}, [keyID]);
+		keyIdRef.current = keyData.keyID;
+	}, [keyData.keyID]);
 
 	useEffect(() => {
-		sessionKeyExportedStringRef.current = sessionKeyExportedString;
-	}, [sessionKeyExportedString]);
+		sessionKeyExportedStringRef.current = keyData.sessionKeyExportedString;
+	}, [keyData.sessionKeyExportedString]);
 
 	useEffect(() => {
 		if (triggerReEncrypt) {
@@ -335,9 +349,11 @@ export const useE2EE = (
 		// Generate new keys for feature encryption
 		createGroupKey().then(({ keyID, key, sessionKeyExportedString }) => {
 			keyType.current = KEY_TYPE_GENERATED;
-			setKey(key);
-			setKeyID(keyID);
-			setSessionKeyExportedString(sessionKeyExportedString);
+			setKeyData({
+				key,
+				keyID,
+				sessionKeyExportedString
+			});
 			setReady(true);
 		});
 	}, []);
@@ -396,17 +412,18 @@ export const useE2EE = (
 
 		importGroupKey(subscription.E2EKey, e2eePrivateKey)
 			.then(({ key, keyID, sessionKeyExportedString }) => {
-				setKey(key);
 				keyType.current = KEY_TYPE_IMPORTED;
 				// Generate key with old generation logic for old chats
 				// ToDo: Could be removed if no old chats with room.e2eKeyId === 'eyJhbGciOiJB' exists anymore
 				const oldE2EKeyId = btoa(sessionKeyExportedString).slice(0, 12);
-				setKeyID(
-					currentRoom.e2eKeyId === oldE2EKeyId
-						? currentRoom.e2eKeyId
-						: keyID
-				);
-				setSessionKeyExportedString(sessionKeyExportedString);
+				setKeyData({
+					key,
+					keyID:
+						currentRoom.e2eKeyId === oldE2EKeyId
+							? currentRoom.e2eKeyId
+							: keyID,
+					sessionKeyExportedString
+				});
 				setReady(true);
 			})
 			.catch((e) => {
@@ -431,18 +448,18 @@ export const useE2EE = (
 			setEncrypted(false);
 			setSubscriptionKeyLost(false);
 			setRoomNotFound(false);
-			setKey(null);
-			setKeyID(null);
-			setSessionKeyExportedString(null);
+			setKeyData({
+				key: null,
+				keyID: null,
+				sessionKeyExportedString: null
+			});
 			setReady(false);
 		};
 	}, [rid]);
 
 	return {
-		key,
-		keyID,
+		...keyData,
 		encrypted,
-		sessionKeyExportedString,
 		addNewUsersToEncryptedRoom,
 		ready,
 		subscriptionKeyLost,
