@@ -14,6 +14,7 @@ import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { AppConfigProvider } from '../../globalState/provider/AppConfigProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { AppConfigInterface, LocaleProvider } from '../../globalState';
+import { useResponsive } from '../../hooks/useResponsive';
 
 const getStatusCode = () => {
 	const errorRoot = document.getElementById('errorRoot');
@@ -37,6 +38,7 @@ export const ErrorContent = () => {
 	useTenantTheming();
 	const settings = useAppConfig();
 	const statusCode = getStatusCode();
+	const { fromL } = useResponsive();
 
 	const buttonHandle = () => {
 		document.location.href = settings.urls.toLogin;
@@ -65,7 +67,7 @@ export const ErrorContent = () => {
 
 	return (
 		<div className={clsx('errorPage', `errorPage--${type}`)}>
-			<header className="errorPage__header">
+			<header className={`errorPage__header ${!fromL ? 'mobile' : ''}`}>
 				<LocaleSwitch />
 			</header>
 			<div className="errorPage__main">
