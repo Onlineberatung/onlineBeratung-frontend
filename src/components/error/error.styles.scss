@@ -6,7 +6,7 @@ $content-width: calc(
 	(100vw - (#{$grid-base-twelve} * 3) - #{$grid-base-six}) / 2
 );
 $content-width-medium: calc(
-	(100vw - (#{$grid-base-twelve} * 2) - #{$grid-base-six}) / 2
+	(100vw - (#{$grid-base-twelve} * 3) - #{$grid-base-six}) / 2
 );
 $content-width-small: calc((100vw) / 2);
 $illustrationWrapperMaxSize: 650px;
@@ -18,10 +18,15 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 	&__header {
 		display: flex;
 		justify-content: flex-end;
+		align-items: center;
+		flex-basis: $header-height;
+		height: $header-height;
+		width: 100%;
 		padding: 0 $grid-base-three;
 
-		@media (min-width: $fromLarge) {
-			padding: $grid-base-four $grid-base-three;
+		&.mobile {
+			justify-content: flex-start;
+			padding: 0 $grid-base-two;
 		}
 	}
 
@@ -79,7 +84,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 			max-width: $illustrationWrapperMaxSize;
 			max-height: $illustrationWrapperMaxSize;
 			border-radius: calc(#{$illustrationSize} / 2);
-			margin: $grid-base-three;
+			margin: $grid-base-three $grid-base-three $grid-base-three 0;
 
 			animation: fadeIn linear 0.5s;
 			@keyframes fadeIn {
@@ -99,14 +104,14 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 			}
 
 			@media (min-width: $fromLarge) {
-				margin: 0 $grid-base-six;
+				margin: $grid-base-six;
 				width: $content-width-medium;
 				height: $content-width-medium;
 				border-radius: calc(#{$content-width-medium} / 2);
 			}
 
 			@media (min-width: $fromXLarge) {
-				margin: 0 $grid-base-twelve;
+				margin: $grid-base-twelve;
 				width: $content-width;
 				height: $content-width;
 				border-radius: calc(#{$content-width} / 2);
@@ -115,13 +120,13 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 	}
 
 	&__content {
-		width: 100%;
 		text-align: center;
 		align-self: center;
 		margin-top: 0;
+		width: 650px;
 
 		@media (min-width: $fromLarge) {
-			width: 650px;
+			width: calc(50vw - 168px);
 			text-align: left;
 			margin-top: 0;
 		}
@@ -130,6 +135,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 	&__content p {
 		font-size: $font-size-h4;
 		margin: 0;
+		line-height: 28px;
 	}
 
 	&__headline {
