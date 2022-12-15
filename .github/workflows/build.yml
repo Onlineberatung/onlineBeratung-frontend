@@ -43,7 +43,7 @@ jobs:
                   npm run test
             - name: Run build
               run: |
-                npm run build
+                  npm run build
             - name: Bump version
               if: startsWith(env.BRANCH,'release') == true
               run: |
