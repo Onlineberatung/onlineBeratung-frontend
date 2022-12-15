@@ -71,7 +71,7 @@ const printPrettyDate = (
 	} else if (showDayOfTheWeek) {
 		const dayDate = new Date(messageDate);
 		return {
-			str: `date.day.${dayDate.getDay()}`,
+			str: `date.day.${dayDate.getDay()}.short`,
 			date
 		};
 	} else {

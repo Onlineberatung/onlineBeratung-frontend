@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Loading } from '../app/Loading';
 
-export interface MessageSubmitInterfaceComponentProps {
+interface MessageSubmitInterfaceSkeletonProps {
 	className?: string;
 	placeholder: string;
 }
@@ -15,7 +15,7 @@ export interface MessageSubmitInterfaceComponentProps {
 export const MessageSubmitInterfaceSkeleton = ({
 	className,
 	placeholder
-}: MessageSubmitInterfaceComponentProps) => {
+}: MessageSubmitInterfaceSkeletonProps) => {
 	const { t: translate } = useTranslation();
 
 	return (

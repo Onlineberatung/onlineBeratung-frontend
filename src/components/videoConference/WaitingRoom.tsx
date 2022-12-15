@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Header } from '../header/Header';
+import '../waitingRoom/waitingRoom.styles'; //ToDo: Fix for WaitingRoom lazy because css is not loaded but shared
 import './waitingRoom.styles';
 import { useEffect } from 'react';
 import { Welcome } from './WaitingRoom/Welcome';
