@@ -532,7 +532,8 @@ export const de = {
 				headline: 'Ups!'
 			},
 			401: {
-				description: 'Bitte melden Sie sich an.',
+				description:
+					'Leider sind Sie nicht berechtigt diese Seite einzusehen.',
 				headline: 'Schade!'
 			},
 			404: {

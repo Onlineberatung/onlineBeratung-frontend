@@ -62,7 +62,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import {
-	deleteCookie,
+	deleteCookieByName,
 	setValueInCookie
 } from '../sessionCookie/accessSessionCookie';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
@@ -315,7 +315,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	}, [possibleAgencies, possibleConsultingTypes]);
 
 	useEffect(() => {
-		deleteCookie('tenantId');
+		deleteCookieByName('tenantId');
 	}, []);
 
 	const postLogin = useCallback(
