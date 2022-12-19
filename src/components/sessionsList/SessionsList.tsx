@@ -72,7 +72,7 @@ import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as NewLiveChatIllustration } from '../../resources/img/illustrations/new-live-chat.svg';
+import { ReactComponent as LiveChatAvailableIllustration } from '../../resources/img/illustrations/live-chat-available.svg';
 import { ReactComponent as ChatWaitingIllustration } from '../../resources/img/illustrations/chat-waiting.svg';
 
 interface SessionsListProps {
@@ -1032,7 +1032,11 @@ export const SessionsList = ({
 					type === SESSION_LIST_TYPES.ENQUIRY &&
 					sessionListTab === SESSION_LIST_TAB_ANONYMOUS && (
 						<div className="sessionsList--info">
-							<NewLiveChatIllustration />
+							<LiveChatAvailableIllustration
+								title=""
+								aria-hidden="true"
+								focusable="false"
+							/>
 							<Text
 								type="standard"
 								text={translate(
