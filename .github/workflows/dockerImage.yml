@@ -40,10 +40,14 @@ jobs:
             - name: Run build
               run: |
                   npm run build
-            - uses: actions/upload-artifact@v2
+            - uses: actions/upload-artifact@v3
               with:
-                  name: buildfiles
-                  path: build/**/*
+                name: buildfiles
+                path: |
+                  build/
+                  .dockerignore
+                  Dockerfile
+                  nginx.conf
     push_to_registry:
         strategy:
             matrix:
@@ -52,9 +56,8 @@ jobs:
         name: Push Docker image to GitHub Packages
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
             - name: Download buildfiles artifact
-              uses: actions/download-artifact@v2
+              uses: actions/download-artifact@v3
               with:
                   name: buildfiles
             - name: Get current time
