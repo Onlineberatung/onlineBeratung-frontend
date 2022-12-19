@@ -27,6 +27,7 @@ import {
 } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import i18n from '../../i18n';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -99,7 +100,12 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [autoSelectAgency, props.consultingType.id, props?.mainTopicId]);
+	}, [
+		autoSelectAgency,
+		props.consultingType.id,
+		props?.mainTopicId,
+		i18n.language
+	]);
 
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
