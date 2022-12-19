@@ -1,0 +1,10 @@
+.stageLayout {
+	&__legalLinksItem {
+		color: $tertiary;
+		text-transform: none;
+		font-weight: normal;
+		&:hover {
+			color: var(--skin-color-primary-hover, $hover-primary);
+		}
+	}
+}

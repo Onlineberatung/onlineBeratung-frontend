@@ -1,0 +1,171 @@
+$animation-duration: 2.5s;
+$animation-duration-loader: $animation-duration / 4 * 3;
+$animation-duration-width: $animation-duration / 4;
+$animation-duration-title: $animation-duration / 7;
+
+$animation-easing-width: cubic-bezier(0, 0, 0.1, 1);
+$animation-easing-title: cubic-bezier(0, 0, 0.5, 1);
+
+.stage {
+	width: 100vw;
+	background-color: $primary-2;
+	color: $white;
+	overflow: hidden;
+	transition: width $animation-duration-width $animation-easing-width;
+	transition-delay: $animation-duration - $animation-duration-width;
+	text-align: left;
+	display: none;
+
+	@include breakpoint($fromXLarge) {
+		display: flex;
+	}
+
+	&--no-animation {
+		transition: none;
+
+		.stage__title {
+			transition: none;
+		}
+	}
+
+	&--open {
+		left: -100%;
+
+		@include breakpoint($fromXLarge) {
+			left: 0;
+			width: 40vw;
+		}
+
+		.stage__title {
+			transform: none;
+		}
+
+		.stage__loader {
+			@keyframes loader {
+				0% {
+					transform: none;
+				}
+				35% {
+					transform: scale(1.05);
+				}
+				70% {
+					transform: none;
+				}
+			}
+
+			animation: loader #{$animation-duration-loader / 3 * 2} forwards linear;
+			animation-delay: $animation-duration-loader / 3;
+
+			@include breakpoint($fromLarge) {
+				@keyframes loaderLarge {
+					0% {
+						transform: none;
+						opacity: 1;
+					}
+					40% {
+						transform: scale(1.05);
+						opacity: 1;
+					}
+					80% {
+						transform: none;
+						opacity: 1;
+					}
+					100% {
+						transform: none;
+						opacity: 0;
+					}
+				}
+				animation-name: loaderLarge;
+			}
+		}
+	}
+
+	&--animation-finished {
+		transition-delay: unset;
+	}
+
+	&__content,
+	&__loader {
+		flex-shrink: 0;
+		flex-grow: 0;
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+
+		@include breakpoint($fromLarge) {
+			width: 60vw;
+		}
+	}
+
+	&__logo-wrapper {
+		padding: $grid-base-five $grid-base-five $grid-base-ten;
+		background-color: $primary;
+
+		@include breakpoint($fromLarge) {
+			padding: $grid-base-six $grid-base-six 240px;
+		}
+	}
+
+	&__logo {
+		width: 140px;
+
+		@include breakpoint($fromLarge) {
+			width: 180px;
+		}
+	}
+
+	&__headline {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		justify-content: flex-end;
+		padding: $grid-base-five;
+		background-color: $primary-3;
+
+		@include breakpoint($fromLarge) {
+			padding: $grid-base-six $grid-base-six 120px;
+		}
+	}
+
+	&__title {
+		margin-bottom: $grid-base-four;
+
+		@include breakpoint($fromLarge) {
+			transform: scale(1.75);
+			transform-origin: bottom left;
+			transition: transform $animation-duration-title
+				$animation-easing-title;
+			transition-delay: #{$animation-duration - $animation-duration-title};
+		}
+	}
+
+	&__claim {
+		font-weight: $font-weight-regular;
+	}
+
+	&__loader {
+		position: absolute;
+		top: $grid-base-five;
+		left: 0;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: $grid-base-ten;
+
+		@include breakpoint($fromMedium) {
+			top: 240px;
+		}
+
+		@include breakpoint($fromLarge) {
+			position: static;
+			width: 40vw;
+			padding: 0;
+		}
+	}
+}
+
+@import './StageLayout.styles.scss';

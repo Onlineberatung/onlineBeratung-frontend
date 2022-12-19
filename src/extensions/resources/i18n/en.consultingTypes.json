@@ -1,0 +1,487 @@
+{
+	"consultingTypeGroup": {
+		"Teilhabe für Menschen mit Beeinträchtigung": {
+			"title": "Participation for people with disabilities"
+		},
+		"Alter": {
+			"title": "Age"
+		},
+		"Gesundheitliche Beeinträchtigung": {
+			"title": "Health impairment"
+		},
+		"Besondere Lebenssituationen und Krisen": {
+			"title": "Special life situations and crises"
+		},
+		"Hilfe in besonderen sozialen Situationen": {
+			"title": "Help in special social situations"
+		},
+		"Kinder, Jugendliche, Erwachsene und Familie": {
+			"title": "Children, young people, adults and families"
+		},
+		"Migration, Flucht, Asyl": {
+			"title": "Migration, flight, asylum"
+		},
+		"Existenzsicherung": {
+			"title": "Livelihood security"
+		},
+		"Hilfe für Kinder, Erwachsene und Familien": {
+			"title": "Help for children, adults and families"
+		}
+	},
+	"consultingType": {
+		"1": {
+			"description":
+			"You want to adopt a child or take in a foster child in your home? You are unsure whether you can take good care of your child? You are adopted yourself and would like to take a look at your file? We can advise you confidentially and free of charge here in online consulting.",
+			"groups": "[\"Children, Adolescents, Adults and Family\"]",
+			"titles": {
+				"default": "Adoption and foster child",
+				"short": "Adoption and foster child",
+				"long": "adoption and foster child consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Adoption and foster child consulting"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text":
+				"You remain anonymous and receive free advice and assistance"
+			}
+		},
+		"2": {
+			"description":
+			"You have a personal problem, are in a difficult financial situation or have difficulties with an authority? No matter what problem is plaguing you, we will advise you free of charge and confidentially here in online consulting.",
+			"groups":
+			"[\"Children, Adolescents, Adults and Family\", \"Livelihood\"]",
+			"titles": {
+				"default": "General social counseling",
+				"short": "General social counseling",
+				"long": "General social consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "General Social Counseling"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"3": {
+			"description":
+			"You have lost your job? You have questions about unemployment benefits I and II? Do you need help with your job search or are you working precariously? We can help you confidentially and free of charge here in the online consulting service.",
+			"groups": "[\"Existenzsicherung\"]",
+			"titles": {
+				"default": "Unemployed, unemployable",
+				"short": "Unemployed, unemployable",
+				"long": "Unemployment consulting/unemployed consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown":
+				"unemployment counseling/unemployment counseling"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"4": {
+			"description":
+			"You have to or want to leave Germany? You are considering whether you want to live in Germany or in your country of origin? We will advise you confidentially and free of charge here in online consulting, regardless of your residence status.",
+			"groups": "[\"Migration, Flight, Asylum\"]",
+			"titles": {
+				"default": "Departure and perspective",
+				"short": "Departure and perspective",
+				"long": "Exit and perspective consulting - return consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown":
+				"Exit and perspective consulting - return consulting"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"5": {
+			"description":
+			"You don't have a home or you are afraid to lose your home? You live in unacceptable housing conditions? You are in an emergency situation? We can help you confidentially and free of charge here in the online consulting service.",
+			"groups":
+			"[\"Livelihood security\", \"Special life situations and crises\"]",
+			"titles": {
+				"default": "Housing emergency",
+				"short": "Housing emergency",
+				"long": "housing emergency consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "consulting in housing emergencies"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text":
+				"You remain anonymous and receive free advice and assistance"
+			}
+		},
+		"6": {
+			"description":
+			"You are a sex worker:in and often experience stigmatization, discrimination and devaluation? You no longer want to work as a sex worker? We support you in asserting your rights, organize necessary assistance and help you to get out.",
+			"groups": "[\"Special life situations and crises\"]",
+			"titles": {
+				"default": "Prostitution",
+				"short": "Prostitution",
+				"long":
+				"Consulting for people in prostitution and human trafficking",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown":
+				"Consulting for people in prostitution and human trafficking"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"7": {
+			"description":
+			"You have been in custody and have questions about claims for social benefits? You need assistance in finding housing and employment? Do you have personal problems? There are situations around detention that you can't handle on your own.  We can help you confidentially and free of charge.",
+			"groups":
+			"[\"Securing livelihood\", \"Special life situations and crises\"]",
+			"titles": {
+				"default": "delinquency",
+				"short": "delinquency",
+				"long":
+				"Consulting for people who have committed crimes and their relatives",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown":
+				"Consulting for people who have committed crimes and their relatives"
+			},
+			"anonymous.title": "Anonymous and free of charge",
+			"anonymous.text":
+			"You remain anonymous and receive free advice and help"
+		},
+		"8": {
+			"description":
+			"Your family needs time off that is affordable? We'll be happy to advise you on your individual time away and funding options for low-income families. All families are welcome at the resorts. Denomination and family constellation do not matter.",
+			"groups": "[\"Children, youth, adults and family\"]",
+			"titles": {
+				"default": "Family recreation",
+				"short": "Family recovery",
+				"long": "consulting on family recovery issues",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "consulting on family recovery issues"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"9": {
+			"description":
+			"You have a grueling conflict or worries won't let you rest? You have problems in your partnership that you can't solve? We help you when fears determine your everyday life, when grief over the loss of a person or loneliness take away your joy of life.",
+			"groups": "[\"Children, adolescents, adults and family\"]",
+			"titles": {
+				"default": "Marriage, couple and life",
+				"short": "Marriage, couple and life",
+				"long": "Marriage, couple and life consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "marriage, couple and life counseling"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"10": {
+			"description":
+			"Does your child have difficulties in kindergarten or school? Do you feel overwhelmed in everyday family life? Are you facing a separation or do you need support for yourself and your children because of a separation? We can help you confidentially and free of charge here in online consulting.",
+			"groups": "[\"children, adolescents, adults and family\"]",
+			"titles": {
+				"default": "Education and family",
+				"short": "Education and family",
+				"long": "education and family consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Educational and family consulting"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"11": {
+			"description":
+			"You are a refugee and have questions about the asylum procedure? You need help with the preparation for the hearing in the asylum procedure? The asylum procedure has been completed and you need support in Germany? We advise people of all origins and regardless of denomination.",
+			"groups": "[\"Migration, flight, asylum\"]",
+			"titles": {
+				"default": "Flight and asylum",
+				"short": "Flight and Asylum",
+				"long": "Refugee & asylum process consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Refugee & asylum procedure consulting"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text":
+				"You remain anonymous and receive free advice and assistance"
+			}
+		},
+		"12": {
+			"description":
+			"You have received a positive test result and are wondering what to do next? You are a family member of a HIV-positive person and have unanswered questions? Would you like to know how you can protect yourself from HIV or other sexually transmitted infections? We will help you confidentially and free of charge.",
+			"groups": "[\"Health impairment\"]",
+			"titles": {
+				"default": "HIV and AIDS",
+				"short": "HIV and Aids",
+				"long": "HIV and Aids",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "HIV and Aids"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"13": {
+			"description":
+			"You are seriously ill, do not have long to live or are a relative:r and need support? You would like to achieve the best possible quality of life in this situation? Do you have questions about advance care planning? We will advise you confidentially and free of charge here in the online consultation.",
+			"groups":
+			"[\"Health Impairment\", \"Children, Adolescents, Adults and Family\", \"Age\"]",
+			"titles": {
+				"default": "Hospice and palliative",
+				"short": "Hospice and Palliative",
+				"long": "Hospice and palliative consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Hospice and palliative consulting"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text":
+				"You remain anonymous and receive free advice and assistance"
+			}
+		},
+		"14": {
+			"description":
+			"Have you been affected by sexual violence? Have you been hurt by physical violence by another person? Does someone threaten you, insult you, or yell at you? Do you know a person who suffers from domestic or sexualized violence? We can help you confidentially and free of charge.",
+			"groups": "[\"Children, youth, adults and family\"]",
+			"titles": {
+				"default": "violence",
+				"short": "Violence",
+				"long": "Domestic and sexual violence consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Domestic and sexual violence consulting"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"15": {
+			"description":
+			"You are between 12 and 27 years old, have a migration background and questions about school qualifications, training or language courses? We advise you on educational and leisure opportunities free of charge and confidentially here in the online consulting.",
+			"groups": "[\"Migration, flight, asylum\"]",
+			"titles": {
+				"default": "Youth migration services",
+				"short": "Youth migration services",
+				"long": "Youth Migration Services (JMD)",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Youth Migration Services (JMD)"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"16": {
+			"description":
+			"Do you just not know what to do? Do you feel not understood? Are you worried about a friend? Are you having trouble with your parents? Are you being beaten? Do you have stress at school, with friends or because of money? We advise you confidentially and free of charge.",
+			"groups": "[\"Children, youth, adults and family\"]",
+			"titles": {
+				"default": "Children and youth",
+				"short": "children and youth",
+				"long": "Children and youth consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "child and youth consulting"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"17": {
+			"description":
+			"You feel drained by your tasks due to job, family or caring for relatives? You are ill and need a break from everyday life? A cure can help you regain your strength. We advise mothers, fathers and caring relatives confidentially and free of charge here in the online consulting service.",
+			"groups":
+			"[\"Children, Adolescents, Adults and Family\", \"Health Impairment\"]",
+			"titles": {
+				"default": "Cure counseling",
+				"short": "spa counseling",
+				"long": "Cure consulting for mothers and fathers",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Cure consulting for mothers and fathers"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"18": {
+			"description":
+			"You need advice about living in old age? Do you have questions about help in the household? Do you want to diversify your leisure time or the leisure time of an elderly family member? Are you looking for information on topics such as dementia? We will advise you confidentially and free of charge here in the online consulting service.",
+			"groups": "[\"Health impairment\", \"age\"]",
+			"titles": {
+				"default": "Age and care consulting",
+				"short": "Age and care consulting",
+				"long": "Living in old age and care consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Life in old age and care consulting"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text":
+				"You remain anonymous and receive free advice and assistance"
+			}
+		},
+		"19": {
+			"description":
+			"You are over 26 years old and need help to find your way in Germany? Do you need help finding a job or a language course? We advise new immigrants, but also people who have been living in Germany for a long time, late repatriates and citizens of the EU",
+			"groups": "[\"Migration, Flight, Asylum\"]",
+			"titles": {
+				"default": "Migration consulting",
+				"short": "Migration consulting",
+				"long": "Migration counseling for adults and families",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown":
+				"Migration consulting for adults and families"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text":
+				"You remain anonymous and receive free advice and assistance"
+			}
+		},
+		"20": {
+			"description":
+			"You want to lead a self-determined life and need help? Do you have questions about financing, aids and assistance? We advise you confidentially and free of charge on your questions about self-help in the areas of work, housing, education and leisure.",
+			"groups": "[\"Health impairment\"]",
+			"titles": {
+				"default": "Mental impairment",
+				"short": "Mental impairment",
+				"long": "Mental impairment",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "mental impairment"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"21": {
+			"description":
+			"You have had traumatic experiences during your flight? You have suffered from torture, violence and racism in your country of origin? You know a refugee who is traumatized?  We can help you with psychological and socio-educational counseling.",
+			"groups": "[\"Migration, flight, asylum\"]",
+			"titles": {
+				"default": "Psychosocial counseling",
+				"short": "Psychosocial counseling",
+				"long": "Psychosocial counseling for refugees and migrants",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown":
+				"Psychosocial counseling for refugees and migrants"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"22": {
+			"description":
+			"You would like to be appointed as a legal guardian and would like to know how a guardianship is set up and what tasks await you? Would you like to make your own provisions and draw up a living will? We will advise you confidentially and free of charge here in the online consultation.",
+			"groups": "[\"Participation for people with impairments\"]",
+			"titles": {
+				"default": "Legal care",
+				"short": "Legal care",
+				"long": "Legal support",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Legal support"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"23": {
+			"description":
+			"You have debts, the apartment was canceled or the bailiff comes? We advise you confidentially and free of charge here in the online consulting.",
+			"groups": "[\"Existenzsicherung\"]",
+			"titles": {
+				"default": "Debt and insolvency",
+				"short": "Debt and insolvency",
+				"long": "Debt and insolvency consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "debtor and insolvency consulting"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"24": {
+			"description":
+			"You are pregnant and have questions? You fear for your partnership? You are afraid of financial difficulties when the child comes? You want advice on prenatal examinations?  Are you considering terminating the pregnancy? We will advise you confidentially and free of charge.",
+			"groups": "[\"Children, adolescents, adults and family\"]",
+			"titles": {
+				"default": "Pregnancy",
+				"short": "Pregnancy",
+				"long": "Pregnancy and pregnancy conflict consulting",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown":
+				"Pregnancy and pregnancy conflict consulting"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"25": {
+			"description":
+			"Do you have an addiction problem or are you worried about friends and relatives who are affected? You have questions about addiction and dependence - alcohol, drugs, medication, gambling, computer/media use? We can advise you confidentially and free of charge here in the online consulting service.",
+			"groups":
+			"[\"Children, adolescents, adults and family\", \"Special life situations and crises\", \"Health impairment\"]",
+			"titles": {
+				"default": "Addiction",
+				"short": "Addiction",
+				"long": "Addiction consulting and prevention",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Addiction counseling and prevention"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text": "You remain anonymous and receive free advice and help"
+			}
+		},
+		"26": {
+			"description":
+			"You want to lead a self-determined life and need help? Do you have questions about financing, aids and assistance? We advise you confidentially and free of charge on your questions about self-help in the areas of work, housing, education and leisure.",
+			"groups": "[\"Participation for people with impairments\"]",
+			"titles": {
+				"default": "participation",
+				"short": "participation",
+				"long": "Participation of people with impairments",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "Participation of people with impairments"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text":
+				"You remain anonymous and receive free advice and assistance"
+			}
+		},
+		"27": {
+			"description":
+			"You have questions about school, training and career? How do you imagine your future? What do you need for it? We will help you confidentially and free of charge here in the online consulting.",
+			"groups": "[\"Children, youth, adults and family\"]",
+			"titles": {
+				"default": "from school to work",
+				"short": "from school to work",
+				"long": "school-to-work transition",
+				"welcome": "Welcome to online consulting",
+				"registrationDropdown": "transition from school to work"
+			},
+			"anonymous": {
+				"title": "Anonymous and free of charge",
+				"text":
+				"You remain anonymous and receive free advice and assistance"
+			}
+		}
+	}
+}
