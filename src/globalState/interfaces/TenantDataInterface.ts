@@ -19,6 +19,7 @@ export interface TenantDataInterface {
 }
 
 export interface TenantDataSettingsInterface {
+	activeLanguages: string[];
 	featureAppointmentsEnabled: boolean;
 	featureDemographicsEnabled: boolean;
 	featureGroupChatV2Enabled: boolean;
