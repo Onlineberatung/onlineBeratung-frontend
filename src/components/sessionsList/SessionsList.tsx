@@ -72,6 +72,8 @@ import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as NewLiveChatIllustration } from '../../resources/img/illustrations/new-live-chat.svg';
+import { ReactComponent as ChatWaitingIllustration } from '../../resources/img/illustrations/chat-waiting.svg';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -984,52 +986,7 @@ export const SessionsList = ({
 								/>
 							))}
 
-					{!isLoading &&
-						!isCreateChatActive &&
-						!isReloadButtonVisible &&
-						finalSessionsList.length === 0 &&
-						!!userData.available && (
-							<Text
-								className="sessionsList--empty"
-								text={
-									sessionListTab !==
-									SESSION_LIST_TAB_ANONYMOUS
-										? translate('sessionList.empty.known')
-										: translate(
-												'sessionList.empty.anonymous'
-										  )
-								}
-								type="divider"
-							/>
-						)}
-
 					{isLoading && <SessionsListSkeleton />}
-
-					{!isLoading &&
-						!userData.available &&
-						type === SESSION_LIST_TYPES.ENQUIRY &&
-						sessionListTab === SESSION_LIST_TAB_ANONYMOUS && (
-							<div className="sessionsList--unavailable">
-								<Text
-									type="standard"
-									text={translate(
-										'sessionList.unavailable.description'
-									)}
-								></Text>
-								<Button
-									item={{
-										label: translate(
-											'sessionList.unavailable.buttonLabel'
-										),
-										title: translate(
-											'sessionList.reloadButton.label'
-										),
-										type: 'PRIMARY'
-									}}
-									buttonHandle={toggleAvailability}
-								/>
-							</div>
-						)}
 
 					{isReloadButtonVisible && (
 						<div className="sessionsList__reloadWrapper">
@@ -1047,6 +1004,55 @@ export const SessionsList = ({
 						</div>
 					)}
 				</div>
+
+				{!isLoading &&
+					!isCreateChatActive &&
+					!isReloadButtonVisible &&
+					finalSessionsList.length === 0 &&
+					(sessionListTab !== SESSION_LIST_TAB_ANONYMOUS ||
+						userData.available) && (
+						<div className="sessionsList--info">
+							<ChatWaitingIllustration />
+							<Text
+								text={
+									sessionListTab !==
+									SESSION_LIST_TAB_ANONYMOUS
+										? translate('sessionList.empty.known')
+										: translate(
+												'sessionList.empty.anonymous'
+										  )
+								}
+								type="standard"
+							/>
+						</div>
+					)}
+
+				{!isLoading &&
+					!userData.available &&
+					type === SESSION_LIST_TYPES.ENQUIRY &&
+					sessionListTab === SESSION_LIST_TAB_ANONYMOUS && (
+						<div className="sessionsList--info">
+							<NewLiveChatIllustration />
+							<Text
+								type="standard"
+								text={translate(
+									'sessionList.unavailable.description'
+								)}
+							></Text>
+							<Button
+								item={{
+									label: translate(
+										'sessionList.unavailable.buttonLabel'
+									),
+									title: translate(
+										'sessionList.reloadButton.label'
+									),
+									type: 'PRIMARY'
+								}}
+								buttonHandle={toggleAvailability}
+							/>
+						</div>
+					)}
 			</div>
 		</div>
 	);

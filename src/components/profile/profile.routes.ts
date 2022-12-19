@@ -163,8 +163,8 @@ const profileRoutes = (
 				]
 			},
 			{
-				title: 'profile.routes.activities.absence',
-				url: '/abwesenheit',
+				title: 'profile.routes.activities.availability',
+				url: '/verfuegbarkeit',
 				elements: [
 					{
 						component: ConsultantLiveChatAvailability,

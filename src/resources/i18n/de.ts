@@ -1496,7 +1496,8 @@ export const de = {
 			activities: {
 				absence: 'Meine Abwesenheit',
 				statistics: 'Meine Statistik',
-				title: 'Meine Aktivitäten'
+				title: 'Meine Aktivitäten',
+				availability: 'Meine Verfügbarkeit'
 			},
 			display: 'Anzeige',
 			general: {

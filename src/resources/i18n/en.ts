@@ -1479,7 +1479,8 @@ export const en = {
 			activities: {
 				title: 'My activities',
 				statistics: 'My statistics',
-				absence: 'My absence'
+				absence: 'My absence',
+				availability: 'My availability'
 			},
 			notifications: {
 				title: 'Notifications',
