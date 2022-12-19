@@ -355,7 +355,7 @@ export const deInformal = {
 		notifications: {
 			'subtitle': 'Wir benachrichtigen Dich, wenn Du:',
 			'follow.up.email.label':
-				'eine Nachricht von einem_r angenommenen Ratsuchenden erhalten hast.'
+				'eine Nachricht von angenommenen Ratsuchenden erhalten hast.'
 		},
 		spokenLanguages: {
 			info: 'Wähle die Sprache(n) aus, in der Du die Ratsuchenden beraten kannst. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.'

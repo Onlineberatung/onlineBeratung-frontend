@@ -20,7 +20,8 @@ import {
 	AppConfigInterface,
 	AppConfigProvider,
 	LegalLinkInterface,
-	LocaleProvider
+	LocaleProvider,
+	TenantProvider
 } from '../../globalState';
 import { LegalLinksProvider } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
@@ -81,20 +82,22 @@ export const App = ({
 	return (
 		<ErrorBoundary>
 			<AppConfigProvider config={config}>
-				<LocaleProvider>
-					<LanguagesProvider
-						fixed={fixedLanguages}
-						spoken={spokenLanguages}
-					>
-						<LegalLinksProvider legalLinks={legalLinks}>
-							<RouterWrapper
-								stageComponent={stageComponent}
-								extraRoutes={extraRoutes}
-								entryPoint={entryPoint}
-							/>
-						</LegalLinksProvider>
-					</LanguagesProvider>
-				</LocaleProvider>
+				<TenantProvider>
+					<LocaleProvider>
+						<LanguagesProvider
+							fixed={fixedLanguages}
+							spoken={spokenLanguages}
+						>
+							<LegalLinksProvider legalLinks={legalLinks}>
+								<RouterWrapper
+									stageComponent={stageComponent}
+									extraRoutes={extraRoutes}
+									entryPoint={entryPoint}
+								/>
+							</LegalLinksProvider>
+						</LanguagesProvider>
+					</LocaleProvider>
+				</TenantProvider>
 				<DevToolbarWrapper />
 			</AppConfigProvider>
 		</ErrorBoundary>

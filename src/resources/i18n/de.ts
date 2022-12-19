@@ -1485,7 +1485,7 @@ export const de = {
 			'title': 'E-Mail-Benachrichtigung',
 			'subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
 			'follow.up.email.label':
-				'eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
+				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.'
 		},
 		'routes': {
 			activities: {
