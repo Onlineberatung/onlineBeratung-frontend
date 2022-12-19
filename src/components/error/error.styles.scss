@@ -41,7 +41,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 	}
 
 	&__main {
-		padding: $grid-base-three;
+		padding: 0 $grid-base-three;
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
@@ -84,7 +84,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 			max-width: $illustrationWrapperMaxSize;
 			max-height: $illustrationWrapperMaxSize;
 			border-radius: calc(#{$illustrationSize} / 2);
-			margin: $grid-base-three $grid-base-three $grid-base-three 0;
+			margin: $grid-base-three;
 
 			animation: fadeIn linear 0.5s;
 			@keyframes fadeIn {
