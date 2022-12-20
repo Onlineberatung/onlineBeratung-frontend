@@ -39,6 +39,18 @@
 			justify-content: space-between;
 			padding: 0 $grid-base-two;
 		}
+
+		& > * {
+			padding: 0 $grid-base;
+
+			&:first-child {
+				padding-left: 0;
+			}
+
+			&:last-child {
+				padding-right: 0;
+			}
+		}
 	}
 
 	&__content {

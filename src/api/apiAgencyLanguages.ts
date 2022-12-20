@@ -17,7 +17,5 @@ export const apiAgencyLanguages = async (
 		...(useMultiTenancyWithSingleDomain && {
 			headersData: { agencyId }
 		})
-	}).then((result) => {
-		return result.json();
 	});
 };
