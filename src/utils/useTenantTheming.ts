@@ -6,6 +6,7 @@ import getLocationVariables from './getLocationVariables';
 import decodeHTML from './decodeHTML';
 import contrast from 'get-contrast';
 import { useAppConfig } from '../hooks/useAppConfig';
+import i18n from '../i18n';
 
 const RGBToHSL = (r, g, b) => {
 	// Make r, g, and b fractions of 1
@@ -268,7 +269,7 @@ const useTenantTheming = () => {
 			});
 		// False positive
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [tenantContext?.setTenant, subdomain]);
+	}, [tenantContext?.setTenant, subdomain, i18n.language]);
 
 	return isLoadingTenant;
 };
