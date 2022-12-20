@@ -41,7 +41,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 	}
 
 	&__main {
-		padding: 0 $grid-base-three;
+		padding: 0 $grid-base-three $grid-base-three;
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
