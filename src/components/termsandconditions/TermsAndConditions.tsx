@@ -7,6 +7,8 @@ import './termsandconfitions.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { OVERLAY_TERMS_AND_CONDITION } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 import {
+	AUTHORITIES,
+	hasUserAuthority,
 	UserDataContext,
 	UserDataInterface,
 	useTenant
@@ -21,7 +23,8 @@ const hasChanged = (
 	userData: UserDataInterface,
 	field: string
 ) => {
-	if (tenantData) {
+	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
+	if (tenantData && isAsker) {
 		return (
 			userData[field] === null ||
 			new Date(userData[field]) < new Date(tenantData.content[field])
