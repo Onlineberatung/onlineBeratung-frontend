@@ -87,7 +87,8 @@ function getClientEnvironment(publicUrl) {
 				WDS_SOCKET_PORT: process.env.WDS_SOCKET_PORT,
 				// Whether or not react-refresh is enabled.
 				// It is defined here so it is available in the webpackHotDevClient.
-				FAST_REFRESH: process.env.FAST_REFRESH !== 'false'
+				FAST_REFRESH: process.env.FAST_REFRESH !== 'false',
+				BRANCH_NAME: process.env.BRANCH_NAME
 			}
 		);
 	// Stringify all values so we can feed into webpack DefinePlugin
