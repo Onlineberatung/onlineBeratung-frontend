@@ -9,6 +9,9 @@ on:
             - 'dockerImage.v.*'
             - 'v*'
 
+env:
+  BRANCH_NAME: GITHUB_REF_NAME
+
 jobs:
     build:
         name: Build

@@ -38,7 +38,8 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			!userData.twoFactorAuth?.isActive &&
 			!forceHideTwoFactorNag &&
 			todaysDate >= settings.twofactor.startObligatoryHint &&
-			getDevToolbarOption(STORAGE_KEY_2FA) === '1'
+			getDevToolbarOption(STORAGE_KEY_2FA) === '1' &&
+			process.env.BRANCH_NAME !== 'staging'
 		) {
 			setIsShownTwoFactorNag(true);
 			todaysDate >= settings.twofactor.dateTwoFactorObligatory &&
