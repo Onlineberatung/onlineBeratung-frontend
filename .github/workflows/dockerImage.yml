@@ -19,9 +19,9 @@ jobs:
               run: |
                   echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
                   if [ "${{ github.ref }}" = "refs/heads/staging" ]; then
-                    echo .env.staging >> $GITHUB_ENV
+                    echo "${{ secrets.ENV_FILE }}" > .env.staging
                   else
-                    echo .env.prod >> $GITHUB_ENV
+                    echo "${{ secrets.ENV_FILE }}" > .env.prod
                   fi
             - uses: actions/checkout@v1
             - uses: actions/setup-node@v3
