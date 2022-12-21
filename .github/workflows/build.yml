@@ -34,6 +34,7 @@ jobs:
               uses: xom9ikk/dotenv@v2
               with:
                   mode: ${{ env.ENV_NAME }}
+            - run: echo $ENV_NAME
             - run: npm ci
             - name: Run linters
               uses: wearerequired/lint-action@v1
