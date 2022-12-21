@@ -9,6 +9,7 @@ import {
 	VALIDITY_INITIAL
 } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n';
 
 export interface MainTopicSelectionProps {
 	name: string;
@@ -33,7 +34,7 @@ export const MainTopicSelection = ({
 			name,
 			selectedTopic >= 0 ? VALIDITY_VALID : VALIDITY_INITIAL
 		);
-	}, [name]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [name, i18n.language]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const onChangeInput = useCallback(
 		(value) => {

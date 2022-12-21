@@ -24,5 +24,5 @@ export function TenantProvider(props) {
 }
 
 export function useTenant() {
-	return useContext(TenantContext).tenant;
+	return useContext(TenantContext)?.tenant || null;
 }

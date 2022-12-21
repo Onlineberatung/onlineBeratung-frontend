@@ -58,7 +58,7 @@ $icon-size-small: 16px;
 				background-color: $session-list-item-background-active;
 				transition: all 0.3s ease;
 			}
-			&:focus {
+			&:focus-visible {
 				outline: $focus-outline;
 				border-radius: 4px;
 				transition: all 0.6s ease;
@@ -85,7 +85,7 @@ $icon-size-small: 16px;
 			margin: 0 $grid-base-three;
 		}
 
-		&:focus {
+		&:focus-visible {
 			outline: $focus-outline;
 			border-radius: 4px;
 			transition: all 0.6s ease;

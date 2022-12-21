@@ -34,6 +34,7 @@ import { useAppConfig } from '../../hooks/useAppConfig';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
 import { isNumber } from '../../utils/isNumber';
+import i18n from '../../i18n';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -152,6 +153,7 @@ export const RegistrationForm = ({
 				})
 				.catch(() => setPreselectedAgencyData(null));
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
 		consultingType?.registration.autoSelectPostcode,
 		consultingType?.id,
@@ -159,7 +161,8 @@ export const RegistrationForm = ({
 		formAccordionData.postcode,
 		consultant,
 		agency,
-		topicsAreRequired
+		topicsAreRequired,
+		i18n.language
 	]);
 
 	const overlayItemRegistrationSuccess: OverlayItem = {
