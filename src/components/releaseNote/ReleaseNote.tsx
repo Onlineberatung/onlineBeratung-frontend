@@ -19,7 +19,6 @@ import {
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
 import { OVERLAY_RELEASE_NOTE } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
-import useIsFirstLogin from '../../utils/useIsFirstLogin';
 
 interface ReleaseNoteProps {}
 
@@ -39,7 +38,6 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 	const [checkboxChecked, setCheckboxChecked] = useState(false);
 	const [releaseNoteText, setReleaseNoteText] = useState('');
 	const [latestReleaseNote, setLatestReleaseNote] = useState('');
-	const isFirstLogin = useIsFirstLogin();
 
 	const readReleaseNote = useMemo(
 		() => localStorage.getItem(STORAGE_KEY_RELEASE_NOTE) ?? '0',
@@ -136,7 +134,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		name: 'seen'
 	};
 
-	if (!showReleaseNote || isFirstLogin) {
+	if (!showReleaseNote) {
 		return null;
 	}
 
