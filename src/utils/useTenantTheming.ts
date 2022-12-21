@@ -1,12 +1,11 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { apiGetTenantTheming } from '../api/apiGetTenantTheming';
-import { TenantContext } from '../globalState';
+import { TenantContext, useLocaleData } from '../globalState';
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import getLocationVariables from './getLocationVariables';
 import decodeHTML from './decodeHTML';
 import contrast from 'get-contrast';
 import { useAppConfig } from '../hooks/useAppConfig';
-import i18n from '../i18n';
 
 const RGBToHSL = (r, g, b) => {
 	// Make r, g, and b fractions of 1
@@ -220,6 +219,7 @@ const applyTheming = (tenant: TenantDataInterface) => {
 const useTenantTheming = () => {
 	const settings = useAppConfig();
 	const tenantContext = useContext(TenantContext);
+	const { locale } = useLocaleData();
 	const { subdomain } = getLocationVariables();
 	const [isLoadingTenant, setIsLoadingTenant] = useState(
 		settings.useTenantService
@@ -269,7 +269,7 @@ const useTenantTheming = () => {
 			});
 		// False positive
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [tenantContext?.setTenant, subdomain, i18n.language]);
+	}, [tenantContext?.setTenant, subdomain, locale]);
 
 	return isLoadingTenant;
 };
