@@ -19,9 +19,9 @@ jobs:
               run: |
                 echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
                 if [ "${{ github.ref }}" = "refs/heads/staging" ];
-                  echo TWO_FACTOR_DUTY_DISABLED=$(echo -n 'true') >> $GITHUB_ENV
+                  echo TWO_FACTOR_DUTY_DISABLED=$(echo -n "true") >> $GITHUB_ENV
                 else
-                  echo TWO_FACTOR_DUTY_DISABLED=$(echo -n 'false') >> $GITHUB_ENV
+                  echo TWO_FACTOR_DUTY_DISABLED=$(echo -n "false") >> $GITHUB_ENV
                 fi
             - uses: actions/checkout@v1
             - uses: actions/setup-node@v3
