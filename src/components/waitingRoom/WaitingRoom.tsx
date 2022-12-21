@@ -9,7 +9,9 @@ import { ReactComponent as WaitingIllustration } from '../../resources/img/illus
 import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import {
+	AnonymousConversationAvailabilityInterface,
 	AnonymousRegistrationResponse,
+	apiAnonymousConversationAvailability,
 	apiPostAnonymousRegistration,
 	FETCH_ERRORS
 } from '../../api';
@@ -60,6 +62,8 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const [isDataProtectionViewActive, setIsDataProtectionViewActive] =
 		useState<boolean>(true);
 	const [username, setUsername] = useState<string>();
+	const [isConsultantAvailable, setIsConsultantAvailable] =
+		useState<Boolean>();
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [isErrorPageActive, setIsErrorPageActive] = useState(false);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
@@ -213,7 +217,20 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					);
 
 					handleTokenRefresh().then(afterRegistrationHandler);
+					return response.sessionId;
 				})
+				.then(async (sessionId) => {
+					return await apiAnonymousConversationAvailability(
+						sessionId
+					);
+				})
+				.then(
+					(response: AnonymousConversationAvailabilityInterface) => {
+						setIsConsultantAvailable(
+							response.numAvailableConsultants > 0
+						);
+					}
+				)
 				.catch((err: Error) => {
 					console.log(err);
 				})
