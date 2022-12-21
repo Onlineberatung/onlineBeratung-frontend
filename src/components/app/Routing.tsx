@@ -292,14 +292,10 @@ export const Routing = (props: RoutingProps) => {
 									</Switch>
 								</div>
 							</section>
-							{(hasUserAuthority(
+							{hasUserAuthority(
 								AUTHORITIES.ASKER_DEFAULT,
 								userData
-							) ||
-								hasUserAuthority(
-									AUTHORITIES.CONSULTANT_DEFAULT,
-									userData
-								)) && <TermsAndConditions />}
+							) && <TermsAndConditions />}
 							{hasUserAuthority(
 								AUTHORITIES.CONSULTANT_DEFAULT,
 								userData
