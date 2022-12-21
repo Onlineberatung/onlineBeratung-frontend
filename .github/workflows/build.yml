@@ -10,9 +10,6 @@ on:
         tags-ignore:
             - 'dockerImage.v.*'
 
-env:
-  BRANCH_NAME: GITHUB_REF_NAME
-
 jobs:
     build:
         name: Build & Release
@@ -20,7 +17,13 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: set env
-              run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
+              run: |
+                echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
+                if [ "${{ github.ref }}" = "refs/heads/staging" ];
+                  echo TWO_FACTOR_DUTY_DISABLED=$(echo -n 'true') >> $GITHUB_ENV
+                else
+                  echo TWO_FACTOR_DUTY_DISABLED=$(echo -n 'false') >> $GITHUB_ENV
+                fi
             - uses: actions/checkout@v2.3.4
             - uses: actions/setup-node@v3
               with:

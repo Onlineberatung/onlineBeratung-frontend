@@ -350,7 +350,7 @@ export const TwoFactorAuth = () => {
 					},
 					(!isConsultant ||
 						getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '0' ||
-						process.env.BRANCH_NAME === 'staging') &&
+						process.env.TWO_FACTOR_DUTY_DISABLED === 'true') &&
 						userData.twoFactorAuth.isActive && {
 							label: translate(
 								'twoFactorAuth.activate.step1.disable'
