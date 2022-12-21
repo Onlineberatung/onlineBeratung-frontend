@@ -74,6 +74,8 @@ import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as LiveChatAvailableIllustration } from '../../resources/img/illustrations/live-chat-available.svg';
 import { ReactComponent as ChatWaitingIllustration } from '../../resources/img/illustrations/chat-waiting.svg';
+import { ReactComponent as NoMessagesIllustration } from '../../resources/img/illustrations/no-messages.svg';
+import { ListInfo } from '../listInfo/ListInfo';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -961,6 +963,8 @@ export const SessionsList = ({
 						) && <SessionListCreateChat />}
 
 					{(!isLoading || finalSessionsList.length > 0) &&
+						(userData.available ||
+							sessionListTab !== SESSION_LIST_TAB_ANONYMOUS) &&
 						finalSessionsList
 							.sort(sortSessions)
 							.map((item: ListItemInterface, index) => (
@@ -1011,51 +1015,34 @@ export const SessionsList = ({
 					finalSessionsList.length === 0 &&
 					(sessionListTab !== SESSION_LIST_TAB_ANONYMOUS ||
 						userData.available) && (
-						<div className="sessionsList--info">
-							<ChatWaitingIllustration />
-							<Text
-								text={
-									sessionListTab !==
-									SESSION_LIST_TAB_ANONYMOUS
-										? translate('sessionList.empty.known')
-										: translate(
-												'sessionList.empty.anonymous'
-										  )
-								}
-								type="standard"
-							/>
-						</div>
+						<ListInfo
+							headline={
+								sessionListTab !== SESSION_LIST_TAB_ANONYMOUS
+									? translate('sessionList.empty.known')
+									: translate('sessionList.empty.anonymous')
+							}
+							Illustration={
+								sessionListTab !== SESSION_LIST_TAB_ANONYMOUS
+									? NoMessagesIllustration
+									: ChatWaitingIllustration
+							}
+						></ListInfo>
 					)}
 
 				{!isLoading &&
 					!userData.available &&
 					type === SESSION_LIST_TYPES.ENQUIRY &&
 					sessionListTab === SESSION_LIST_TAB_ANONYMOUS && (
-						<div className="sessionsList--info">
-							<LiveChatAvailableIllustration
-								title=""
-								aria-hidden="true"
-								focusable="false"
-							/>
-							<Text
-								type="standard"
-								text={translate(
-									'sessionList.unavailable.description'
-								)}
-							></Text>
-							<Button
-								item={{
-									label: translate(
-										'sessionList.unavailable.buttonLabel'
-									),
-									title: translate(
-										'sessionList.reloadButton.label'
-									),
-									type: 'PRIMARY'
-								}}
-								buttonHandle={toggleAvailability}
-							/>
-						</div>
+						<ListInfo
+							headline={translate(
+								'sessionList.unavailable.description'
+							)}
+							Illustration={LiveChatAvailableIllustration}
+							buttonLabel={translate(
+								'sessionList.unavailable.buttonLabel'
+							)}
+							onButtonClick={toggleAvailability}
+						></ListInfo>
 					)}
 			</div>
 		</div>

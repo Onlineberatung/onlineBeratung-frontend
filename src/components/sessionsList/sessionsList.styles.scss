@@ -302,22 +302,4 @@ $tabBarHeightDesktop: 53px;
 			margin-left: 0;
 		}
 	}
-
-	&--info {
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 0 $grid-base-two $grid-base-three;
-
-		@include breakpoint($fromMedium) {
-			padding: 0 $grid-base-three $grid-base-three;
-		}
-
-		p {
-			text-align: center;
-			margin: $grid-base-three 0;
-		}
-	}
 }
