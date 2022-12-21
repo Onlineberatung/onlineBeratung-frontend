@@ -34,7 +34,6 @@ jobs:
               uses: xom9ikk/dotenv@v2
               with:
                   mode: ${{ env.ENV_NAME }}
-            - run: echo $REBECCA
             - run: npm ci
             - name: Run linters
               uses: wearerequired/lint-action@v1
