@@ -41,7 +41,10 @@ import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
 import useUpdateUserData from '../../utils/useUpdateUserData';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { STORAGE_KEY_2FA_DUTY, useDevToolbar } from '../devToolbar/DevToolbar';
+import {
+	STORAGE_KEY_DISABLE_2FA_DUTY,
+	useDevToolbar
+} from '../devToolbar/DevToolbar';
 
 export const OTP_LENGTH = 6;
 
@@ -349,7 +352,8 @@ export const TwoFactorAuth = () => {
 						type: BUTTON_TYPES.PRIMARY
 					},
 					(!isConsultant ||
-						getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '0') &&
+						getDevToolbarOption(STORAGE_KEY_DISABLE_2FA_DUTY) ===
+							'1') &&
 						userData.twoFactorAuth.isActive && {
 							label: translate(
 								'twoFactorAuth.activate.step1.disable'

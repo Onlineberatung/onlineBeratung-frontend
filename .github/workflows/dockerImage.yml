@@ -16,12 +16,22 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: set env
-              run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
+              run: |
+                  echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
+                  if [ "${{ github.ref }}" = "refs/heads/staging" ]; then
+                    echo ENV_NAME="staging" >> $GITHUB_ENV
+                  else
+                    echo ENV_NAME="prod" >> $GITHUB_ENV
+                  fi
             - uses: actions/checkout@v1
             - uses: actions/setup-node@v3
               with:
                   node-version: 14
                   cache: 'npm'
+            - name: Load .env file
+              uses: xom9ikk/dotenv@v2
+              with:
+                  mode: ${{ env.ENV_NAME }}
             - run: npm ci
             - name: Run linters
               uses: wearerequired/lint-action@v1
