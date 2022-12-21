@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import {
 	STORAGE_KEY_2FA,
-	STORAGE_KEY_2FA_DUTY,
+	STORAGE_KEY_DISABLE_2FA_DUTY,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
 import { OVERLAY_TWO_FACTOR_NAG } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
@@ -38,12 +38,11 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 			!userData.twoFactorAuth?.isActive &&
 			!forceHideTwoFactorNag &&
 			todaysDate >= settings.twofactor.startObligatoryHint &&
-			getDevToolbarOption(STORAGE_KEY_2FA) === '1' &&
-			process.env.TWO_FACTOR_DUTY_DISABLED !== 'true'
+			getDevToolbarOption(STORAGE_KEY_2FA) === '1'
 		) {
 			setIsShownTwoFactorNag(true);
 			todaysDate >= settings.twofactor.dateTwoFactorObligatory &&
-			getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '1'
+			getDevToolbarOption(STORAGE_KEY_DISABLE_2FA_DUTY) === '0'
 				? setMessage(settings.twofactor.messages[1])
 				: setMessage(settings.twofactor.messages[0]);
 		} else {
