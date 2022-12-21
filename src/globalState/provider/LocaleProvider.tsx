@@ -122,3 +122,7 @@ export function LocaleProvider(props) {
 		</LocaleContext.Provider>
 	);
 }
+
+export const useLocaleData = (): TLocaleContext => {
+	return useContext(LocaleContext) || ({} as TLocaleContext);
+};

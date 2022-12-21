@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import {
 	AgencyDataInterface,
 	ConsultingTypeBasicInterface,
+	useLocaleData,
 	useTenant
 } from '../../globalState';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
@@ -27,7 +28,6 @@ import {
 } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import i18n from '../../i18n';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -45,6 +45,7 @@ export interface AgencySelectionProps {
 
 export const AgencySelection = (props: AgencySelectionProps) => {
 	const { t: translate } = useTranslation(['common', 'agencies']);
+	const { locale } = useLocaleData();
 	const tenantData = useTenant();
 	const settings = useAppConfig();
 	const [isLoading, setIsLoading] = useState(false);
@@ -100,12 +101,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [
-		autoSelectAgency,
-		props.consultingType.id,
-		props?.mainTopicId,
-		i18n.language
-	]);
+	}, [autoSelectAgency, props.consultingType.id, props?.mainTopicId, locale]);
 
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
