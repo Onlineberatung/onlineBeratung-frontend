@@ -3,7 +3,6 @@ import {
 	ATTACHMENT_TRANSLATE_FOR_TYPE,
 	getAttachmentSizeMBForKB
 } from '../messageSubmitInterface/attachmentHelpers';
-import { getIconForAttachmentType } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '../../resources/scripts/endpoints';
@@ -22,6 +21,7 @@ import {
 import { LoadingSpinner } from '../loadingSpinner/LoadingSpinner';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import clsx from 'clsx';
+import { getIconForAttachmentType } from './messageHelpers';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
@@ -136,6 +136,14 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 		]
 	);
 
+	const getAttachmentIcon = useCallback((type: string) => {
+		const Icon = getIconForAttachmentType(type);
+		if (Icon) {
+			return <Icon aria-hidden="true" focusable="false" />;
+		}
+		return null;
+	}, []);
+
 	return (
 		<div
 			className={
@@ -149,7 +157,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					{attachmentStatus === IS_DECRYPTING ? (
 						<LoadingSpinner />
 					) : (
-						getIconForAttachmentType(props.file.type)
+						getAttachmentIcon(props.file.type)
 					)}
 				</span>
 				<span className="messageItem__message__attachment__title">
@@ -181,7 +189,10 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 							rel="noopener noreferer"
 							className="messageItem__message__attachment__download"
 						>
-							<DownloadIcon />
+							<DownloadIcon
+								title={translate('app.download')}
+								aria-label={translate('app.download')}
+							/>
 							<p>{translate('e2ee.attachment.save')}</p>
 						</a>
 					) : (

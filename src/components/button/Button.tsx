@@ -122,6 +122,7 @@ export const Button = (props: ButtonProps) => {
 				id={item.id}
 				disabled={props.disabled}
 				title={item.title}
+				aria-label={item.title}
 				className={`
 					button__item 
 					${getButtonClassName(item.type)} 

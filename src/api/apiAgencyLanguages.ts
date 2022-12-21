@@ -18,6 +18,6 @@ export const apiAgencyLanguages = async (
 			headersData: { agencyId }
 		})
 	}).then((result) => {
-		return result;
+		return result.json();
 	});
 };

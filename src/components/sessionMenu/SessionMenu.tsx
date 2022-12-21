@@ -23,7 +23,7 @@ import {
 	SESSION_LIST_TAB_ARCHIVE,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
-import { Overlay, OVERLAY_FUNCTIONS, OverlayWrapper } from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
 	archiveSessionSuccessOverlayItem,
 	finishAnonymousChatSecurityOverlayItem,
@@ -184,6 +184,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		apiPutDearchive(activeSession.item.id)
 			.then(() => {
 				reloadActiveSession();
+				// Short timeout to wait for RC events finished
 				setTimeout(() => {
 					if (window.innerWidth >= 900) {
 						history.push(
@@ -194,7 +195,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						history.push(listPath);
 					}
 					setFlyoutOpen(false);
-				}, 500);
+				}, 1000);
 			})
 			.catch((error) => {
 				console.error(error);
@@ -336,20 +337,35 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		type: BUTTON_TYPES.SMALL_ICON,
 		title: translate('videoCall.button.startCall'),
 		smallIconBackgroundColor: 'green',
-		icon: <CallOnIcon />
+		icon: (
+			<CallOnIcon
+				title={translate('videoCall.button.startCall')}
+				aria-label={translate('videoCall.button.startCall')}
+			/>
+		)
 	};
 
 	const buttonStartVideoCall: ButtonItem = {
 		type: BUTTON_TYPES.SMALL_ICON,
 		title: translate('videoCall.button.startVideoCall'),
 		smallIconBackgroundColor: 'green',
-		icon: <CameraOnIcon />
+		icon: (
+			<CameraOnIcon
+				title={translate('videoCall.button.startVideoCall')}
+				aria-label={translate('videoCall.button.startVideoCall')}
+			/>
+		)
 	};
 
 	const buttonFeedback: ButtonItem = {
 		type: BUTTON_TYPES.SMALL_ICON,
 		smallIconBackgroundColor: 'yellow',
-		icon: <FeedbackIcon />,
+		icon: (
+			<FeedbackIcon
+				title={translate('chatFlyout.feedback')}
+				aria-label={translate('videoCall.button.feedback')}
+			/>
+		),
 		label: translate('chatFlyout.feedback')
 	};
 
@@ -450,32 +466,40 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				/>
 			)}
 
-			{!activeSession.isEmptyEnquiry && appointmentFeatureEnabled && (
-				<div
-					className="sessionMenu__icon sessionMenu__icon--booking"
-					onClick={handleBookingButton}
-				>
-					<CalendarMonthPlusIcon />
-					<Text
-						type="standard"
-						text={translate('booking.mobile.calendar.label')}
-					/>
-				</div>
-			)}
+			{!activeSession.isEnquiry &&
+				appointmentFeatureEnabled &&
+				!activeSession.isLive && (
+					<div
+						className="sessionMenu__icon sessionMenu__icon--booking"
+						onClick={handleBookingButton}
+					>
+						<CalendarMonthPlusIcon />
+						<Text
+							type="standard"
+							text={translate('booking.mobile.calendar.label')}
+						/>
+					</div>
+				)}
 
 			<span
 				id="iconH"
 				onClick={() => setFlyoutOpen(!flyoutOpen)}
 				className="sessionMenu__icon sessionMenu__icon--desktop"
 			>
-				<MenuHorizontalIcon />
+				<MenuHorizontalIcon
+					title={translate('app.menu')}
+					aria-label={translate('app.menu')}
+				/>
 			</span>
 			<span
 				id="iconV"
 				onClick={() => setFlyoutOpen(!flyoutOpen)}
 				className="sessionMenu__icon sessionMenu__icon--mobile"
 			>
-				<MenuVerticalIcon />
+				<MenuVerticalIcon
+					title={translate('app.menu')}
+					aria-label={translate('app.menu')}
+				/>
 			</span>
 
 			<div
@@ -609,12 +633,10 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				</div>
 			</div>
 			{overlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</div>
 	);
@@ -646,7 +668,10 @@ const SessionMenuGroup = ({
 					className="sessionMenu__item--desktop sessionMenu__button"
 				>
 					<span className="sessionMenu__icon">
-						<LeaveChatIcon />
+						<LeaveChatIcon
+							title={translate('chatFlyout.leaveGroupChat')}
+							aria-label={translate('chatFlyout.leaveGroupChat')}
+						/>
 						{translate('chatFlyout.leaveGroupChat')}
 					</span>
 				</span>
@@ -670,7 +695,12 @@ const SessionMenuGroup = ({
 						className="sessionMenu__item--desktop sessionMenu__button"
 					>
 						<span className="sessionMenu__icon">
-							<StopGroupChatIcon />
+							<StopGroupChatIcon
+								title={translate('chatFlyout.stopGroupChat')}
+								aria-label={translate(
+									'chatFlyout.stopGroupChat'
+								)}
+							/>
 							{translate('chatFlyout.stopGroupChat')}
 						</span>
 					</span>
@@ -686,7 +716,12 @@ const SessionMenuGroup = ({
 						className="sessionMenu__item--desktop sessionMenu__button"
 					>
 						<span className="sessionMenu__icon">
-							<EditGroupChatIcon />
+							<EditGroupChatIcon
+								title={translate('chatFlyout.editGroupChat')}
+								aria-label={translate(
+									'chatFlyout.editGroupChat'
+								)}
+							/>
 							{translate('chatFlyout.editGroupChat')}
 						</span>
 					</Link>

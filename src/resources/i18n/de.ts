@@ -107,8 +107,21 @@ export const de = {
 		'title': 'Beratung & Hilfe',
 		'claim': 'Online. Anonym. Sicher.',
 		'save': 'Speichern',
+		'remove': 'Entfernen',
+		'download': 'Herunterladen',
 		'stage.title': 'Beratung & Hilfe',
-		'logout': 'Abmelden'
+		'logout': 'Abmelden',
+		'close': 'Schließen',
+		'open': 'Öffnen',
+		'delete': 'Eingabe löschen',
+		'scrollDown': 'Nach unten scrollen',
+		'menu': 'Weitere Funktionen',
+		'back': 'Zurück',
+		'next': 'Weiter',
+		'successful': 'Erfolgreich',
+		'faulty': 'Fehlerhaft',
+		'selectLanguage': 'Sprache wählen',
+		'wait': 'Bitte warten'
 	},
 	appointments: {
 		copy: {
@@ -161,7 +174,8 @@ export const de = {
 		},
 		showLess: 'Weniger anzeigen',
 		showMore: 'Mehr anzeigen',
-		title: 'Terminübersicht'
+		title: 'Terminübersicht',
+		newAppointment: 'Neuer Videotermin'
 	},
 	archive: {
 		overlay: {
@@ -484,7 +498,8 @@ export const de = {
 					facts: '<ul><li>Was ist passiert?</li><li>Wie ist Ihre aktuelle Situation?</li><li>Was beschäftigt Sie?</li><li>Haben Sie eine bestimmte Frage oder wissen Sie vielleicht selbst noch nicht so genau was Ihnen helfen könnte?</li></ul>',
 					title: 'Vielleicht helfen Ihnen folgende Punkte bei der Formulierung weiter:'
 				},
-				headline: 'Hier ist Platz für Ihre Anliegen.'
+				headline: 'Hier ist Platz für Ihre Anliegen.',
+				iconTitle: 'Willkommen'
 			},
 			input: {
 				'placeholder': {
@@ -496,7 +511,10 @@ export const de = {
 					},
 					groupChat: 'Nachricht schreiben'
 				},
-				'button.title': 'Nachricht senden'
+				'button.title': 'Nachricht senden',
+				'attachement': 'Anhang hinzufügen',
+				'emojies': 'Emoji einfügen',
+				'format': 'Text formatieren'
 			},
 			overlay: {
 				copy: 'Innerhalb von zwei Werktagen erhalten Sie eine Antwort von uns.',
@@ -515,7 +533,7 @@ export const de = {
 			},
 			401: {
 				description:
-					'Leider sind Sie nicht berechtigt diese Seite  einzusehen.<br>Bitte melden Sie sich an.',
+					'Leider sind Sie nicht berechtigt diese Seite einzusehen.',
 				headline: 'Schade!'
 			},
 			404: {
@@ -535,9 +553,13 @@ export const de = {
 		'consultant.info':
 			'Der_die Ratsuchende wurde folgendermaßen über die nächsten Schritte informiert.',
 		'headline': 'So geht es weiter:',
+		'arrowTitle': 'Weiter',
 		'step1.info': 'Wir haben Ihre Nachricht erhalten.',
+		'step1.iconTitle': 'Geöffneter Brief',
 		'step2.info': 'Jetzt finden wir eine_n passende_n Berater_in für Sie.',
+		'step2.iconTitle': 'Berater Brille',
 		'step3.info': 'Ihr_e Berater_in antwortet innerhalb von 2 Werktagen.',
+		'step3.iconTitle': 'Sprechblasen',
 		'emailNotification': {
 			button: 'E-Mail-Adresse angeben',
 			headline:
@@ -722,6 +744,7 @@ export const de = {
 	help: {
 		googleChrome: 'Google Chrome',
 		msEdge: 'Microsoft Edge',
+		openInNewTab: 'In neuem Tab öffnen',
 		videoCall: {
 			asker: {
 				intro: 'Um Ende-zu Ende verschlüsselt zu telefonieren, befolgen Sie folgende Schritte:',
@@ -977,6 +1000,8 @@ export const de = {
 		},
 		'password': {
 			label: 'Passwort',
+			hide: 'Passwort verbergen',
+			show: 'Passwort anzeigen',
 			reset: {
 				warn: {
 					overlay: {
@@ -1010,7 +1035,9 @@ export const de = {
 				'unauthorized': {
 					otp: 'Ihre Zugangsdaten sind nicht korrekt. Bitte versuchen Sie es erneut.',
 					text: 'Benutzername oder Passwort sind nicht korrekt. Bitte versuchen Sie es erneut.'
-				}
+				},
+				'deletedAccount':
+					'Ihr Account wurde zur Löschung vorgemerkt. Ihre Daten werden in den nächsten 24 Stunden gelöscht.'
 			}
 		}
 	},
@@ -1064,11 +1091,18 @@ export const de = {
 				confirm: 'Löschen'
 			}
 		},
-		'note.title': 'Notiz'
+		'note.title': 'Notiz',
+		'unread': 'ungelesen',
+		'read': 'gelesen',
+		'sent': 'zugestellt',
+		'groupChat': 'Gruppenchat',
+		'liveChat': 'Live Chat',
+		'newEnquiry': 'Neue Anfrage'
 	},
 	monitoring: {
 		title: 'Monitoring',
 		empty: 'Keine Angabe',
+		checked: 'Unterpunkte ausgewählt',
 		monitoringAddiction: {
 			addictiveDrugs: 'Suchtmittel',
 			alcohol: 'Alkohol',
@@ -1137,7 +1171,7 @@ export const de = {
 			'unemployed': 'arbeitslos',
 			'housingSituation': 'Wohnsituation',
 			'family': 'in Familie',
-			'partner': 'Partner*in',
+			'partner': 'Partner_in',
 			'livingCommunity': 'WG',
 			'alone': 'allein lebend',
 			'assistedLiving': 'betreute Wohnform',
@@ -1267,7 +1301,11 @@ export const de = {
 	},
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
-		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!'
+		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!',
+		'warning': 'Warnung',
+		'error': 'Fehlgeschlagen',
+		'success': 'Erfolgreich',
+		'info': 'Information'
 	},
 	overlay: {
 		'step.headline.prefix': '. Schritt | ',
@@ -1324,7 +1362,8 @@ export const de = {
 			},
 			edit: {
 				'button.cancel': 'Abbrechen',
-				'button.save': 'Speichern'
+				'button.save': 'Speichern',
+				'button.edit': 'Bearbeiten'
 			},
 			agency: {
 				label: 'Beratungsstelle',
@@ -1337,7 +1376,7 @@ export const de = {
 					}
 				}
 			},
-
+			profileIcon: 'Profilbild',
 			userName: 'Benutzername',
 			displayName: 'Anzeigename',
 			firstName: 'Vorname',
@@ -1446,7 +1485,7 @@ export const de = {
 			'title': 'E-Mail-Benachrichtigung',
 			'subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
 			'follow.up.email.label':
-				'eine Nachricht von einem_r angenommenen Ratsuchenden erhalten haben.'
+				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.'
 		},
 		'routes': {
 			activities: {
@@ -1550,7 +1589,8 @@ export const de = {
 				headline: 'Ihr persönlicher QR-Code',
 				info: 'Wenn Sie Ihren QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um mit Ihnen direkt Kontakt aufzunehmen. Alternativ können Sie den Code auch herunterladen.'
 			}
-		}
+		},
+		'iconTitle': 'QR-Code'
 	},
 	registration: {
 		'accordion': {
@@ -1653,6 +1693,7 @@ export const de = {
 		'password': {
 			'confirmation.label': 'Passwort wiederholen',
 			'criteria': {
+				fulfilled: 'Erfüllt',
 				upperLowerCase: 'Groß-/Kleinschreibung',
 				number: 'mindestens eine Zahl',
 				specialChar: 'mindestens ein Sonderzeichen',
@@ -1735,6 +1776,41 @@ export const de = {
 		},
 		'overlay.close': 'Schließen'
 	},
+
+	termsAndConditionOverlay: {
+		title: {
+			termsAndCondition: 'Aktualisierung unserer Nutzungsbedingungen',
+			privacy: 'Aktualisierung unserer Datenschutzerklärung',
+			termsAndConditionAndPrivacy:
+				'Aktualisierung unserer Nutzungsbedingungen und Datenschutzerklärung'
+		},
+		labels: {
+			termsAndCondition: 'Nutzungsbedingungen',
+			privacy: 'Datenschutzerklärung',
+			here: 'hier'
+		},
+		contentLine1: {
+			termsAndCondition:
+				'Wir haben die Nutzungsbedingungen der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Ihre Zustimmung.',
+			privacy:
+				'Wir haben die Datenschutzerklärung der Online-Beratung aktualisiert. Den aktuellen Stand finden Sie hier.',
+			termsAndConditionAndPrivacy:
+				'Wir haben die Nutzungsbedingungen und Datenschutzerklärung der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Ihre Zustimmung.'
+		},
+		contentLine2: {
+			termsAndCondition:
+				'Ich habe die Nutzungsbedingungen zur Kenntniss genommen.\n Damit erkläre ich mich einverstanden.',
+			termsAndConditionAndPrivacy:
+				'Ich habe die Nutzungsbedingungen und Datenschutzerklärung\n' +
+				'zur Kenntniss genommen. Damit erkläre ich mich einverstanden.'
+		},
+		buttons: {
+			decline: 'Ablehnen',
+			accept: 'Zustimmen',
+			continue: 'Weiter'
+		}
+	},
+
 	session: {
 		'acceptance': {
 			'overlay.headline':
@@ -2077,7 +2153,8 @@ export const de = {
 				label: 'Ihr zweiter Faktor'
 			}
 		},
-		title: 'Zwei-Faktor-Authentifizierung'
+		title: 'Zwei-Faktor-Authentifizierung',
+		edit: 'Bearbeiten'
 	},
 	typingIndicator: {
 		'multipleUsers.typing': 'Teilnehmer_innen schreiben',
@@ -2188,7 +2265,7 @@ export const de = {
 	},
 	userProfile: {
 		tools: {
-			description: 'Schalten Sie Tools für die/den Ratsuchende/n frei. ',
+			description: 'Schalten Sie Tools für die_den Ratsuchende_n frei. ',
 			openModal: 'Tool-Beschreibungen anzeigen',
 			optionsPlaceholder: 'Wähle eine Option...',
 			title: 'Tools',
@@ -2199,13 +2276,13 @@ export const de = {
 			share: {
 				sharedContent: 'Zu den geteilten Inhalten',
 				title: 'Sehen Sie hier welche Inhalte mit Ihnen geteilt wurden.',
-				info: 'Nur zugewiesene Berater:innen können die Inhalte der Ratsuchenden einsehen. Wenn Sie aus der Teamberatung auf die Inhalte zugreifen, sind die Ratsuchenden nicht vorausgewählt.'
+				info: 'Nur zugewiesene Berater_innen können die Inhalte der Ratsuchenden einsehen. Wenn Sie aus der Teamberatung auf die Inhalte zugreifen, sind die Ratsuchenden nicht vorausgewählt.'
 			},
 			modal: {
 				confirm: 'Freischalten',
 				deny: 'Abbrechen',
 				description:
-					'Wählen Sie die Tools aus, die Sie dem/der Ratsuchenden zur Verfügung stellen möchten.',
+					'Wählen Sie die Tools aus, die Sie dem_der Ratsuchenden zur Verfügung stellen möchten.',
 				title: 'Tool für die Ratsuchenden'
 			}
 		},
@@ -2251,6 +2328,7 @@ export const de = {
 				hint: 'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Jedoch ist der Video-Call transportverschlüsselt. Bitte folgen Sie der Hilfe, um Ende-zu-Ende verschlüsselt zu telefonieren.'
 			}
 		},
+		info: 'Anrufinformation',
 		overlay: {
 			encryption: {
 				e2e: 'Dieser Video-Call ist mit der Ende-zu-Ende Verschlüsselung gesichert.',
@@ -2290,7 +2368,9 @@ export const de = {
 				'subline':
 					'Bitte bestätigen Sie unsere Datenschutzbestimmungen.'
 			},
-
+			'waitingImageTitle': 'Wartende Person mit Kaffee',
+			'welcomeImageTitle': 'Willkommen',
+			'errorImageTitle': 'Fehlgeschlagen',
 			'headline': 'Bitte haben Sie etwas Geduld',
 			'subline':
 				'Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet sobald Ihr_e Berater_in den Video-Call startet.',

@@ -42,13 +42,20 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 								<img
 									src={ChromeLogo}
 									alt={translate('help.googleChrome')}
+									title={translate('help.googleChrome')}
 								/>
 								<a
 									href="https://www.google.com/chrome/"
 									target="_blank"
 									rel="noreferrer"
+									className="button-as-link"
 								>
-									<NewWindow />{' '}
+									<NewWindow
+										title={translate('help.openInNewTab')}
+										aria-label={translate(
+											'help.openInNewTab'
+										)}
+									/>{' '}
 									{translate('help.googleChrome')}
 								</a>
 							</div>
@@ -56,13 +63,20 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 								<img
 									src={EdgeLogo}
 									alt={translate('help.msEdge')}
+									title={translate('help.msEdge')}
 								/>
 								<a
 									href="https://www.microsoft.com/edge"
 									target="_blank"
 									rel="noreferrer"
 								>
-									<NewWindow /> {translate('help.msEdge')}
+									<NewWindow
+										title={translate('help.openInNewTab')}
+										aria-label={translate(
+											'help.openInNewTab'
+										)}
+									/>{' '}
+									{translate('help.msEdge')}
 								</a>
 							</div>
 						</div>

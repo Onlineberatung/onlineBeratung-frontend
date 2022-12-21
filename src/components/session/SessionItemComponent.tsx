@@ -5,7 +5,9 @@ import {
 	useEffect,
 	useMemo,
 	useRef,
-	useState
+	useState,
+	lazy,
+	Suspense
 } from 'react';
 import { Link } from 'react-router-dom';
 import { ResizeObserver } from '@juggle/resize-observer';
@@ -21,7 +23,6 @@ import {
 	MessageItem,
 	MessageItemComponent
 } from '../message/MessageItemComponent';
-import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { apiGetConsultingType } from '../../api';
@@ -48,6 +49,13 @@ import { useTranslation } from 'react-i18next';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { apiPostError, TError } from '../../api/apiPostError';
 import { useE2EE } from '../../hooks/useE2EE';
+import { MessageSubmitInterfaceSkeleton } from '../messageSubmitInterface/messageSubmitInterfaceSkeleton';
+
+const MessageSubmitInterfaceComponent = lazy(() =>
+	import('../messageSubmitInterface/messageSubmitInterfaceComponent').then(
+		(m) => ({ default: m.MessageSubmitInterfaceComponent })
+	)
+);
 
 interface SessionItemProps {
 	isTyping?: Function;
@@ -275,7 +283,8 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const scrollBottomButtonItem: ButtonItem = {
 		icon: <ArrowDoubleDownIcon />,
 		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'alternate'
+		smallIconBackgroundColor: 'alternate',
+		title: translate('app.scrollDown')
 	};
 
 	// cancels dragging automatically if user drags outside the
@@ -494,21 +503,30 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 
 			{canWriteMessage && (
 				<>
-					<MessageSubmitInterfaceComponent
-						isTyping={props.isTyping}
-						className={clsx(
-							'session__submit-interface',
-							!isScrolledToBottom &&
-								'session__submit-interface--scrolled-up'
-						)}
-						placeholder={getPlaceholder()}
-						showMonitoringButton={() => {
-							setMonitoringButtonVisible(true);
-						}}
-						typingUsers={props.typingUsers}
-						preselectedFile={draggedFile}
-						handleMessageSendSuccess={handleMessageSendSuccess}
-					/>
+					<Suspense
+						fallback={
+							<MessageSubmitInterfaceSkeleton
+								placeholder={getPlaceholder()}
+								className={clsx('session__submit-interface')}
+							/>
+						}
+					>
+						<MessageSubmitInterfaceComponent
+							isTyping={props.isTyping}
+							className={clsx(
+								'session__submit-interface',
+								!isScrolledToBottom &&
+									'session__submit-interface--scrolled-up'
+							)}
+							placeholder={getPlaceholder()}
+							showMonitoringButton={() => {
+								setMonitoringButtonVisible(true);
+							}}
+							typingUsers={props.typingUsers}
+							preselectedFile={draggedFile}
+							handleMessageSendSuccess={handleMessageSendSuccess}
+						/>
+					</Suspense>
 					{!tenantData?.settings?.featureAttachmentUploadDisabled && (
 						<DragAndDropArea
 							onFileDragged={onFileDragged}

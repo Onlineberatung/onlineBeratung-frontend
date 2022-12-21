@@ -434,6 +434,13 @@ const LocalStorageSwitch = ({
 	localStorageSwitch: TLocalStorageSwitches;
 	onChange: (value: string) => void;
 }) => {
+	const appConfig = useAppConfig();
+
+	const localStorageSwitchValue =
+		typeof localStorageSwitch.value === 'function'
+			? localStorageSwitch.value(appConfig)
+			: localStorageSwitch.value;
+
 	switch (localStorageSwitch.type) {
 		case BUTTON:
 			return (
@@ -456,7 +463,7 @@ const LocalStorageSwitch = ({
 						onClick={() =>
 							onChange(
 								localStorageSwitch.choices.find(
-									(v) => v !== localStorageSwitch.value
+									(v) => v !== localStorageSwitchValue
 								)
 							)
 						}
@@ -472,7 +479,7 @@ const LocalStorageSwitch = ({
 						onClick={() =>
 							onChange(
 								localStorageSwitch.choices.find(
-									(v) => v !== localStorageSwitch.value
+									(v) => v !== localStorageSwitchValue
 								)
 							)
 						}
@@ -502,7 +509,7 @@ const LocalStorageSwitch = ({
 								<button
 									key={`${localStorageSwitch.key}-${value}`}
 									className={
-										localStorageSwitch.value === value
+										localStorageSwitchValue === value
 											? 'active'
 											: ''
 									}
@@ -521,6 +528,7 @@ const LocalStorageSwitch = ({
 			return (
 				<LocalStorageSwitchSelect
 					localStorageSwitch={localStorageSwitch}
+					value={localStorageSwitchValue}
 					onChange={onChange}
 				/>
 			);
@@ -549,7 +557,7 @@ const LocalStorageSwitch = ({
 										name={localStorageSwitch.key}
 										value={value.toString()}
 										checked={
-											localStorageSwitch.value ===
+											localStorageSwitchValue ===
 											value.toString()
 										}
 										onChange={() =>
@@ -563,16 +571,18 @@ const LocalStorageSwitch = ({
 					</div>
 				</div>
 			);
+		default:
+			return null;
 	}
-
-	return null;
 };
 
 const LocalStorageSwitchSelect = ({
 	localStorageSwitch,
+	value,
 	onChange
 }: {
 	localStorageSwitch: TLocalStorageSwitchSelect;
+	value: string;
 	onChange: (value: string) => void;
 }) => {
 	const [choices, setChoices] = useState({});
@@ -602,6 +612,7 @@ const LocalStorageSwitchSelect = ({
 			<hr />
 			<select
 				onChange={({ target: { value } }) => onChange(value)}
+				value={value}
 				tabIndex={-1}
 			>
 				{Object.keys(choices).map((value) => (

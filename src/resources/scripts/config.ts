@@ -1,3 +1,5 @@
+import { deConsultingTypes } from '../i18n/de.consultingTypes';
+import { deAgency } from '../i18n/de.agency';
 import { AppConfigInterface } from '../../globalState/interfaces/AppConfig/AppConfigInterface';
 
 export const uiUrl = window.location.origin;
@@ -9,7 +11,7 @@ export const config: AppConfigInterface = {
 	budibaseSSO: false, // Feature flag to enable SSO on budibase
 	calcomUrl: '',
 	calendarAppUrl: '',
-	enableWalkThrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
+	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	multitenancyWithSingleDomainEnabled: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 	useTenantService: false,
@@ -275,7 +277,18 @@ export const config: AppConfigInterface = {
 		'zh',
 		'zu'
 	],
-	i18n: {}
+	i18n: {
+		resources: {
+			de: {
+				consultingTypes: {
+					...deConsultingTypes
+				},
+				agencies: {
+					...deAgency
+				}
+			}
+		}
+	}
 };
 
 export const ALIAS_LAST_MESSAGES = {

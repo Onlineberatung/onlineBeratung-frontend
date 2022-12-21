@@ -10,12 +10,7 @@ import {
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from 'react-switch';
-import {
-	Overlay,
-	OverlayItem,
-	OverlayWrapper,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import {
 	InputField,
@@ -454,7 +449,8 @@ export const TwoFactorAuth = () => {
 					/>
 					<img
 						className="twoFactorAuth__qrCodeImage"
-						alt="qr code"
+						alt={translate('qrCode.iconTitle')}
+						title={translate('qrCode.iconTitle')}
 						src={`data:image/png;base64,${userData.twoFactorAuth.qrCode}`}
 					/>
 				</div>
@@ -494,7 +490,10 @@ export const TwoFactorAuth = () => {
 	const appConfirmation = useCallback((): JSX.Element => {
 		return (
 			<div className="twoFactorAuth__appConfirmation">
-				<IlluCheck />
+				<IlluCheck
+					title={translate('app.successful')}
+					aria-label={translate('app.successful')}
+				/>
 				<Headline
 					text={translate('twoFactorAuth.activate.app.step5.title')}
 					semanticLevel="3"
@@ -870,7 +869,12 @@ export const TwoFactorAuth = () => {
 							item={{
 								type: BUTTON_TYPES.LINK_INLINE
 							}}
-							customIcon={<PenIcon />}
+							customIcon={
+								<PenIcon
+									aria-label={translate('twoFactorAuth.edit')}
+									title={translate('twoFactorAuth.edit')}
+								/>
+							}
 						/>
 					)}
 				</div>
@@ -922,17 +926,15 @@ export const TwoFactorAuth = () => {
 					</p>
 				)}
 			{overlayActive ? (
-				<OverlayWrapper>
-					<Overlay
-						className="twoFactorAuth__overlay"
-						items={overlayItems}
-						handleOverlayClose={
-							isTwoFactorBinding && !isEditMode && isConsultant
-								? null
-								: handleOverlayClose
-						}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					className="twoFactorAuth__overlay"
+					items={overlayItems}
+					handleOverlayClose={
+						isTwoFactorBinding && !isEditMode && isConsultant
+							? null
+							: handleOverlayClose
+					}
+				/>
 			) : null}
 		</div>
 	);

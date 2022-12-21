@@ -1,0 +1,72 @@
+.termsAndConditions {
+	.link {
+		color: $link-color;
+		text-decoration: underline;
+	}
+
+	.button__item {
+		min-width: auto;
+	}
+
+	.overlay__content {
+		text-align: left;
+		max-width: 596px;
+		height: 100%;
+
+		.text {
+			text-align: left;
+		}
+	}
+
+	.overlay__nestedComponent {
+		height: 100%;
+	}
+
+	.overlay__buttons {
+		width: 100%;
+		margin: 0;
+		display: flex;
+		column-gap: 10px;
+	}
+
+	.button__primary {
+		border-radius: 0px;
+		text-transform: uppercase;
+		max-width: 235px;
+		width: 100%;
+	}
+
+	.button__secondary {
+		border-radius: 0px;
+		text-transform: uppercase;
+		max-width: 235px;
+		width: 100%;
+	}
+
+	.button {
+		&__wrapper {
+			margin-top: $grid-base-two;
+			width: 100%;
+
+			@include breakpoint($fromSmall) {
+				width: 100%;
+			}
+
+			&:last-child {
+				padding-bottom: $grid-base-three;
+				text-align: end;
+				@include breakpoint($fromLarge) {
+					padding-bottom: 0;
+				}
+			}
+		}
+
+		&__item {
+			width: 100%;
+		}
+	}
+
+	.checkbox__wrapper {
+		justify-content: left;
+	}
+}

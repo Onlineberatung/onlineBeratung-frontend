@@ -25,7 +25,8 @@ export interface UserDataInterface {
 	twoFactorAuth?: TwoFactorAuthInterface;
 	userId: string;
 	userName: string;
-	userRoles: string[];
+	termsAndConditionsConfirmation: string;
+	dataPrivacyConfirmation: string;
 }
 
 export interface ConsultantDataInterface
@@ -47,6 +48,7 @@ export interface AgencyDataInterface {
 	teamAgency: boolean;
 	url?: string;
 	external?: boolean;
+	tenantId?: number;
 }
 
 export interface ConsultingTypeDataInterface {

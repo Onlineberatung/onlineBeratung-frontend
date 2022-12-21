@@ -28,9 +28,10 @@ $profile-footer-justify-content: center !default;
 			height: 100%;
 			display: inline-flex;
 			align-items: center;
-			color: $form-active;
+			color: $tertiary;
 			font-weight: $font-weight-medium;
 			border-bottom: 4px solid transparent;
+			border-radius: 0;
 
 			&.active {
 				color: var(--skin-color-primary-contrast-safe, $primary);
@@ -75,6 +76,10 @@ $profile-footer-justify-content: center !default;
 			align-items: flex-start;
 		}
 
+		&__name {
+			width: calc(100% - 40px);
+		}
+
 		&__wrapper {
 			display: flex;
 			flex-direction: row;
@@ -110,6 +115,7 @@ $profile-footer-justify-content: center !default;
 		}
 
 		&__actions {
+			margin-left: auto;
 			& > * {
 				margin-right: 10px;
 
@@ -467,7 +473,7 @@ $profile-footer-justify-content: center !default;
 			min-height: $imprintHeight;
 			position: absolute;
 			bottom: 0;
-			justify-content: flex-start;
+			justify-content: flex-end;
 			width: 100%;
 			margin-bottom: unset;
 			z-index: 100;
@@ -476,9 +482,9 @@ $profile-footer-justify-content: center !default;
 		&__item {
 			display: inline-block;
 			padding: 4px 0;
-			color: rgba($black, 0.6);
-			text-transform: uppercase;
-			font-weight: $font-weight-bold;
+			color: $text-low-emphasis;
+			font-size: 14px;
+			text-decoration: underline;
 		}
 
 		&__separator {

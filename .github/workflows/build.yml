@@ -19,11 +19,12 @@ jobs:
             - name: set env
               run: echo BRANCH=$(echo -n "${GITHUB_REF#refs/heads/}") >> $GITHUB_ENV
             - uses: actions/checkout@v2.3.4
-            - uses: actions/setup-node@v2.1.5
+            - uses: actions/setup-node@v3
               with:
-                  node-version: 14.18.3
+                  node-version: 14
                   registry-url: 'https://npm.pkg.github.com'
-            - run: npm i
+                  cache: 'npm'
+            - run: npm ci
             - name: Run linters
               uses: wearerequired/lint-action@v1
               with:
@@ -35,23 +36,20 @@ jobs:
                   stylelint_dir: ./src
                   stylelint_extensions: scss
                   prettier: true
-            - name: test and build
+            - name: Run tests
               run: |
                   echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
                   echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
                   npm run test
-                  npm run build
+            - name: Run build
+              run: |
+                npm run build
             - name: Bump version
               if: startsWith(env.BRANCH,'release') == true
               run: |
                   git config --local user.email "action@github.com"
                   git config --local user.name "GitHub Action"
                   npm run release
-            - name: Publish npm package
-              if: startsWith(env.BRANCH,'release') == true
-              run: npm publish
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             - name: Push changes
               if: startsWith(env.BRANCH,'release') == true
               uses: ad-m/github-push-action@master

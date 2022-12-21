@@ -44,6 +44,8 @@ export interface SelectDropdownItem {
 	errorMessage?: string;
 	onKeyDown?: Function;
 	styleOverrides?: defaultStyles;
+	selectRef?: any;
+	isInsideMenu?: boolean;
 }
 
 const colourStyles = (
@@ -85,9 +87,9 @@ const colourStyles = (
 			},
 			'.select__inputLabel': {
 				fontSize: state.isFocused || state.hasValue ? '12px' : '16px',
-				top: state.isFocused || state.hasValue ? '4px' : '14px',
+				top: state.isFocused || state.hasValue ? '0px' : '14px',
 				transition: 'font-size .5s, top .5s',
-				color: '#8C878C',
+				color: 'rgba(0, 0, 0, 0.6)',
 				position: 'absolute',
 				marginLeft: '3px',
 				cursor: 'pointer'
@@ -303,9 +305,17 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 		<components.DropdownIndicator {...props}>
 			<span id="selectIcon" className="select__input__iconWrapper">
 				{props.selectProps.menuIsOpen ? (
-					<ArrowUpIcon />
+					<ArrowUpIcon
+						title={translate('app.close')}
+						aria-label={translate('app.close')}
+						className="tertiary"
+					/>
 				) : (
-					<ArrowDownIcon />
+					<ArrowDownIcon
+						title={translate('app.open')}
+						aria-label={translate('app.open')}
+						className="tertiary"
+					/>
 				)}
 			</span>
 		</components.DropdownIndicator>
@@ -324,7 +334,10 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 	const CustomMultiValueRemove = (props) => {
 		return (
 			<components.MultiValueRemove {...props}>
-				<CloseCircle />
+				<CloseCircle
+					title={translate('app.delete')}
+					aria-label={translate('app.delete')}
+				/>
 			</components.MultiValueRemove>
 		);
 	};
@@ -371,6 +384,19 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					props.styleOverrides ?? {}
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
+				tabIndex={props.isInsideMenu ? -1 : 0}
+				ref={props.selectRef}
+				openMenuOnFocus={props.isInsideMenu ? true : false}
+				closeMenuOnSelect={true}
+				onMenuClose={() => {
+					if (props.isInsideMenu) {
+						setTimeout(() => {
+							document
+								.getElementById('local-switch-wrapper')
+								.focus();
+						}, 10); //we need this timeout because the menu is not closed when switching the focus
+					}
+				}}
 			/>
 			{props.hasError && (
 				<div className="select__error">

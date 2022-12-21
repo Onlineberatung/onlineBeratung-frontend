@@ -1,7 +1,7 @@
 import '../../polyfill';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { ComponentType, useState } from 'react';
+import { ComponentType, useState, lazy, Suspense } from 'react';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -9,11 +9,8 @@ import {
 	RouteProps,
 	Redirect
 } from 'react-router-dom';
-import { AuthenticatedApp } from './AuthenticatedApp';
-import { Registration } from '../registration/Registration';
 import { StageProps } from '../stage/stage';
 import '../../resources/styles/styles';
-import { WaitingRoomLoader } from '../waitingRoom/WaitingRoomLoader';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
@@ -23,15 +20,35 @@ import {
 	AppConfigInterface,
 	AppConfigProvider,
 	LegalLinkInterface,
-	LocaleProvider
+	LocaleProvider,
+	TenantProvider
 } from '../../globalState';
-import VideoConference from '../videoConference/VideoConference';
-import VideoCall from '../videoCall/VideoCall';
 import { LegalLinksProvider } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { DevToolbarWrapper } from '../devToolbar/DevToolbar';
-import { Login } from '../login/Login';
 import { PreConditions, preConditionsMet } from './PreConditions';
+import { Loading } from './Loading';
+
+const Login = lazy(() =>
+	import('../login/Login').then((m) => ({ default: m.Login }))
+);
+const AuthenticatedApp = lazy(() =>
+	import('./AuthenticatedApp').then((m) => ({ default: m.AuthenticatedApp }))
+);
+const Registration = lazy(() =>
+	import('../registration/Registration').then((m) => ({
+		default: m.Registration
+	}))
+);
+const WaitingRoomLoader = lazy(() =>
+	import('../waitingRoom/WaitingRoomLoader').then((m) => ({
+		default: m.WaitingRoomLoader
+	}))
+);
+const VideoConference = lazy(
+	() => import('../videoConference/VideoConference')
+);
+const VideoCall = lazy(() => import('../videoCall/VideoCall'));
 
 type TExtraRoute = {
 	route: RouteProps;
@@ -65,22 +82,24 @@ export const App = ({
 	return (
 		<ErrorBoundary>
 			<AppConfigProvider config={config}>
-				<LocaleProvider>
-					<LanguagesProvider
-						fixed={fixedLanguages}
-						spoken={spokenLanguages}
-					>
-						<LegalLinksProvider legalLinks={legalLinks}>
-							<RouterWrapper
-								stageComponent={stageComponent}
-								extraRoutes={extraRoutes}
-								entryPoint={entryPoint}
-							/>
-						</LegalLinksProvider>
-					</LanguagesProvider>
-				</LocaleProvider>
+				<TenantProvider>
+					<LocaleProvider>
+						<LanguagesProvider
+							fixed={fixedLanguages}
+							spoken={spokenLanguages}
+						>
+							<LegalLinksProvider legalLinks={legalLinks}>
+								<RouterWrapper
+									stageComponent={stageComponent}
+									extraRoutes={extraRoutes}
+									entryPoint={entryPoint}
+								/>
+							</LegalLinksProvider>
+						</LanguagesProvider>
+					</LocaleProvider>
+				</TenantProvider>
+				<DevToolbarWrapper />
 			</AppConfigProvider>
-			<DevToolbarWrapper />
 		</ErrorBoundary>
 	);
 };
@@ -129,63 +148,63 @@ const RouterWrapper = ({
 								disconnect={disconnectWebsocket}
 							/>
 						)}
-						<Switch>
-							{extraRoutes.map(
-								({ route, component: Component }, i) => (
-									<Route {...route} key={`route-${i}`}>
-										<Component />
-									</Route>
-								)
-							)}
+						<Suspense fallback={<Loading />}>
+							<Switch>
+								{extraRoutes.map(
+									({ route, component: Component }) => (
+										<Route {...route} key={`route-${i}`}>
+											<Component />
+										</Route>
+									)
+								)}
+								<Route
+									path={[
+										'/registration',
+										'/:consultingTypeSlug/registration'
+									]}
+								>
+									<Registration
+										handleUnmatchConsultingType={() =>
+											history.push('/login')
+										}
+										handleUnmatchConsultant={() =>
+											history.push('/login')
+										}
+										stageComponent={stageComponent}
+									/>
+								</Route>
 
-							<Route
-								path={[
-									'/registration',
-									'/:consultingTypeSlug/registration'
-								]}
-							>
-								<Registration
-									handleUnmatchConsultingType={() =>
-										history.push('/login')
-									}
-									handleUnmatchConsultant={() =>
-										history.push('/login')
-									}
-									stageComponent={stageComponent}
-								/>
-							</Route>
+								<Route path="/:consultingTypeSlug/warteraum">
+									<WaitingRoomLoader
+										handleUnmatch={() =>
+											history.push('/login')
+										}
+										onAnonymousRegistration={() =>
+											setStartWebsocket(true)
+										}
+									/>
+								</Route>
 
-							<Route path="/:consultingTypeSlug/warteraum">
-								<WaitingRoomLoader
-									handleUnmatch={() => history.push('/login')}
-									onAnonymousRegistration={() =>
-										setStartWebsocket(true)
+								<Route path="/login" exact>
+									<Login stageComponent={stageComponent} />
+								</Route>
+								<Route
+									path={settings.urls.videoConference}
+									exact
+								>
+									<VideoConference />
+								</Route>
+								<Route path={settings.urls.videoCall} exact>
+									<VideoCall />
+								</Route>
+								<AuthenticatedApp
+									onAppReady={() => setStartWebsocket(true)}
+									onLogout={() =>
+										setDisconnectWebsocket(true)
 									}
 								/>
-							</Route>
-							<Route path="/:consultingTypeSlug/warteraum">
-								<WaitingRoomLoader
-									handleUnmatch={() => history.push('/login')}
-									onAnonymousRegistration={() =>
-										setStartWebsocket(true)
-									}
-								/>
-							</Route>
-
-							<Route path="/login" exact>
-								<Login stageComponent={stageComponent} />
-							</Route>
-							<Route path={settings.urls.videoConference} exact>
-								<VideoConference />
-							</Route>
-							<Route path={settings.urls.videoCall} exact>
-								<VideoCall />
-							</Route>
-							<AuthenticatedApp
-								onAppReady={() => setStartWebsocket(true)}
-								onLogout={() => setDisconnectWebsocket(true)}
-							/>
-						</Switch>
+							</Switch>
+						</Suspense>
 					</ContextProvider>
 				</Route>
 			</Switch>

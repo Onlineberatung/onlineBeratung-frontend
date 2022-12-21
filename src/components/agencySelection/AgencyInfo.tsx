@@ -64,6 +64,8 @@ export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 					}
 				}}
 				tabIndex={0}
+				title={translate('notifications.info')}
+				aria-label={translate('notifications.info')}
 			/>
 			{displayAgencyInfo && displayAgencyInfo?.id === props.agency.id && (
 				<div
@@ -74,12 +76,12 @@ export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
 				>
 					{displayAgencyInfo.teamAgency && (
 						<div className="agencyInfo__teamAgency">
-							<InfoIcon />
+							<InfoIcon aria-hidden="true" focusable="false" />
 							<Text
 								text={translate(
 									'registration.agency.preselected.isTeam'
 								)}
-								type="infoSmall"
+								type="standard"
 							/>
 						</div>
 					)}

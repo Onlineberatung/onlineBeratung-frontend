@@ -7,10 +7,11 @@ import './waitingRoom.styles';
 import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
 import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import {
 	AnonymousRegistrationResponse,
-	apiPostAnonymousRegistration
+	apiPostAnonymousRegistration,
+	FETCH_ERRORS
 } from '../../api';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { decodeUsername } from '../../utils/encryptionHelpers';
@@ -20,12 +21,7 @@ import {
 	removeAllCookies,
 	setValueInCookie
 } from '../sessionCookie/accessSessionCookie';
-import {
-	Overlay,
-	OverlayItem,
-	OverlayWrapper,
-	OVERLAY_FUNCTIONS
-} from '../overlay/Overlay';
+import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import {
 	AnonymousConversationFinishedContext,
 	AnonymousEnquiryAcceptedContext,
@@ -49,6 +45,11 @@ export interface WaitingRoomProps {
 	consultingTypeId: number;
 	onAnonymousRegistration: Function;
 }
+
+// How many retries should run until 409 requests are failing
+const USERNAME_CONFLICT_RETRY_LIMIT = 20;
+// Slowdown request after every 5 requests to prevent 429
+const USERNAME_CONFLICT_RETRY_SLOWDOWN = 5;
 
 export const WaitingRoom = (props: WaitingRoomProps) => {
 	const { t: translate } = useTranslation();
@@ -87,9 +88,9 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const afterRegistrationHandler = () => {
 		const rc_uid = getValueFromCookie('rc_uid');
 		const pseuodPassword = getPseudoPasswordForUser(rc_uid);
-		handleE2EESetup(pseuodPassword, rc_uid);
-
-		props.onAnonymousRegistration();
+		handleE2EESetup(pseuodPassword, rc_uid, null, true).then(() =>
+			props.onAnonymousRegistration()
+		);
 	};
 
 	useEffect(() => {
@@ -100,8 +101,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		if (registeredUsername && getValueFromCookie('keycloak') && sessionId) {
 			setIsDataProtectionViewActive(false);
 			setUsername(registeredUsername);
-			handleTokenRefresh();
-			afterRegistrationHandler();
+			handleTokenRefresh().then(afterRegistrationHandler);
 		}
 
 		document.title = `${translate(
@@ -165,12 +165,35 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		type: BUTTON_TYPES.PRIMARY
 	};
 
+	const retryCount = useRef(1);
+	const registerAnonymous = useCallback(() => {
+		return apiPostAnonymousRegistration(props.consultingTypeId).catch(
+			(err: Error) => {
+				if (
+					err.message === FETCH_ERRORS.CONFLICT &&
+					retryCount.current <= USERNAME_CONFLICT_RETRY_LIMIT
+				) {
+					retryCount.current += 1;
+					return new Promise<AnonymousRegistrationResponse>(
+						(resolve) => {
+							setTimeout(() => {
+								resolve(registerAnonymous());
+							}, Math.ceil(retryCount.current / USERNAME_CONFLICT_RETRY_SLOWDOWN) * 500);
+						}
+					);
+				} else {
+					throw err;
+				}
+			}
+		);
+	}, [props.consultingTypeId]);
+
 	const handleConfirmButton = () => {
 		if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			setIsDataProtectionViewActive(false);
 			window.scrollTo(0, 0);
-			apiPostAnonymousRegistration(props.consultingTypeId)
+			registerAnonymous()
 				.then((response: AnonymousRegistrationResponse) => {
 					const decodedUsername = decodeUsername(response.userName);
 					setUsername(decodedUsername);
@@ -189,13 +212,13 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 						response.refreshExpiresIn
 					);
 
-					handleTokenRefresh();
-					afterRegistrationHandler();
+					handleTokenRefresh().then(afterRegistrationHandler);
 				})
-				.catch((err) => {
+				.catch((err: Error) => {
 					console.log(err);
 				})
 				.finally(() => {
+					retryCount.current = 1;
 					setIsRequestInProgress(false);
 				});
 		}
@@ -221,7 +244,14 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					{isMobile && <LocaleSwitch />}
 
 					<div className="waitingRoom__illustration">
-						<WelcomeIllustration />
+						<WelcomeIllustration
+							aria-label={translate(
+								'anonymous.waitingroom.welcomeImageTitle'
+							)}
+							title={translate(
+								'anonymous.waitingroom.welcomeImageTitle'
+							)}
+						/>
 					</div>
 					<div>
 						<Headline
@@ -288,7 +318,15 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 				<>
 					{isMobile && <LocaleSwitch />}
 					<div className="waitingRoom__illustration">
-						<ErrorIllustration className="waitingRoom__waitingIllustration" />
+						<ErrorIllustration
+							aria-label={translate(
+								'anonymous.waitingroom.errorImageTitle'
+							)}
+							title={translate(
+								'anonymous.waitingroom.errorImageTitle'
+							)}
+							className="waitingRoom__waitingIllustration"
+						/>
 					</div>
 					<div>
 						<Headline
@@ -315,9 +353,17 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		} else {
 			return (
 				<>
-					{isMobile && <LocaleSwitch updateUserData />}
+					{isMobile && <LocaleSwitch updateUserData={!!username} />}
 					<div className="waitingRoom__illustration">
-						<WaitingIllustration className="waitingRoom__waitingIllustration" />
+						<WaitingIllustration
+							aria-label={translate(
+								'anonymous.waitingroom.waitingImageTitle'
+							)}
+							title={translate(
+								'anonymous.waitingroom.waitingImageTitle'
+							)}
+							className="waitingRoom__waitingIllustration"
+						/>
 					</div>
 					<div>
 						<Headline
@@ -368,12 +414,10 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 				</div>
 			</div>
 			{isOverlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</>
 	);

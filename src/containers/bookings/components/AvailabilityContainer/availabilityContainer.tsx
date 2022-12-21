@@ -24,7 +24,7 @@ export const AvailabilityContainer = () => {
 				<div style={{ marginBottom: '20px' }}>
 					<Headline
 						className="pr--3"
-						text={translate('booking.availability')}
+						text={translate('booking.availability.title')}
 						semanticLevel="5"
 					/>
 				</div>

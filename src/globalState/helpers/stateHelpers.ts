@@ -150,7 +150,7 @@ export const getUnreadMyMessages: Function = (sessionsData): number => {
 export const hasUserAuthority = (
 	authority: string,
 	userData: UserDataInterface
-): boolean => userData.grantedAuthorities.includes(authority);
+): boolean => userData?.grantedAuthorities?.includes(authority);
 
 export const AUTHORITIES = {
 	ANONYMOUS_DEFAULT: 'AUTHORIZATION_ANONYMOUS_DEFAULT',

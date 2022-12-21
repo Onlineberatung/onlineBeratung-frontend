@@ -2,8 +2,7 @@ import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiForwardMessage = async (
-	encryptedMessageData: string,
-	unencryptedMessageData: string,
+	messageData: string,
 	messageDate: string,
 	displayName: string,
 	userId: string,
@@ -13,8 +12,7 @@ export const apiForwardMessage = async (
 	const url = endpoints.forwardMessage;
 	const headersData = { rcGroupId: rcGroupId };
 	const data = JSON.stringify({
-		message: encryptedMessageData,
-		org: unencryptedMessageData,
+		message: messageData,
 		timestamp: messageDate,
 		username: displayName, // TODO change to displayName if message service is adjusted
 		rcUserId: userId,

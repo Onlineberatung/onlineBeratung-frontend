@@ -9,12 +9,7 @@ import {
 } from '../../api';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { DEFAULT_POSTCODE } from './prefillPostcode';
-import {
-	OverlayWrapper,
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
 import {
 	AgencyDataInterface,
@@ -38,6 +33,8 @@ import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
+import { isNumber } from '../../utils/isNumber';
+import i18n from '../../i18n';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -137,9 +134,14 @@ export const RegistrationForm = ({
 		// we need to request the api to get the preselected agency
 		const shouldRequestAgencyWhenAutoSelectIsEnabled =
 			consultingType?.registration.autoSelectPostcode &&
-			!!topicsAreRequired;
+			!!topicsAreRequired &&
+			!consultant &&
+			!agency;
 
-		if (shouldRequestAgencyWhenAutoSelectIsEnabled) {
+		if (
+			shouldRequestAgencyWhenAutoSelectIsEnabled &&
+			isNumber(`${formAccordionData.mainTopicId}`)
+		) {
 			apiAgencySelection({
 				postcode: formAccordionData.postcode || DEFAULT_POSTCODE,
 				consultingType: consultingType.id,
@@ -151,12 +153,16 @@ export const RegistrationForm = ({
 				})
 				.catch(() => setPreselectedAgencyData(null));
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
-		consultingType,
+		consultingType?.registration.autoSelectPostcode,
+		consultingType?.id,
 		formAccordionData.mainTopicId,
 		formAccordionData.postcode,
-		tenantData,
-		topicsAreRequired
+		consultant,
+		agency,
+		topicsAreRequired,
+		i18n.language
 	]);
 
 	const overlayItemRegistrationSuccess: OverlayItem = {
@@ -282,12 +288,10 @@ export const RegistrationForm = ({
 			</form>
 
 			{overlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItemRegistrationSuccess}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={overlayItemRegistrationSuccess}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</>
 	);

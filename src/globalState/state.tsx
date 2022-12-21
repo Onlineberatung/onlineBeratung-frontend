@@ -8,11 +8,11 @@ import {
 	UpdateSessionListProvider,
 	UserDataProvider,
 	WebsocketConnectionDeactivatedProvider,
-	TenantProvider,
 	RocketChatGlobalSettingsProvider,
 	AnonymousConversationStartedProvider,
 	SessionsDataProvider,
-	InformalProvider
+	InformalProvider,
+	ModalProvider
 } from '.';
 
 function ProviderComposer({ contexts, children }) {
@@ -38,10 +38,10 @@ function ContextProvider({ children }) {
 				<UserDataProvider />,
 				<AnonymousConversationFinishedProvider />,
 				<WebsocketConnectionDeactivatedProvider />,
-				<TenantProvider />,
 				<SessionsDataProvider />,
 				<RocketChatGlobalSettingsProvider />,
-				<InformalProvider />
+				<InformalProvider />,
+				<ModalProvider />
 			]}
 		>
 			{children}

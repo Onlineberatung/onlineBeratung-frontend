@@ -8,10 +8,6 @@
 	</head>
 	<body>
 		<div class="errorPage errorPage--error" data-errortype="construction">
-			<header class="errorPage__header">
-				<h2 class="errorPage__title">Beratung & Hilfe</h2>
-				<p class="errorPage__claim">Online. Anonym. Sicher.</p>
-			</header>
 			<div class="errorPage__main">
 				<span class="errorPage__illustrationWrapper">
 					<svg
@@ -167,7 +163,6 @@
 					<p class="errorPage__infoText">
 						Wir arbeiten gerade an unserer Online-Beratung.
 						<br />
-						<br />
 						Leider können Sie währenddessen die Anwendung nicht
 						nutzen.
 						<br />
@@ -199,22 +194,6 @@
 		min-height: 100vh;
 	}
 
-	.errorPage--error {
-		background-color: rgba(255, 159, 0, 0.08);
-	}
-
-	.errorPage__header {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 24px;
-		background-color: white;
-	}
-
-	.errorPage__title {
-		margin: 0;
-	}
-
 	.errorPage__claim {
 		margin: 0;
 		display: none;
@@ -224,7 +203,8 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		padding: 0 24px;
+		align-items: center;
+		padding: 96px 24px;
 	}
 
 	.errorPage__illustrationWrapper {
@@ -252,17 +232,21 @@
 
 	.errorPage__content {
 		text-align: center;
+		width: 650px;
 	}
 
 	.errorPage__headline {
-		font-size: 40px;
+		font-size: 32px;
 		font-weight: 700;
-		margin-bottom: 20px;
+		line-height: 50px;
+		margin-bottom: 12px;
 	}
 
 	.errorPage__infoText {
-		font-size: 16px;
-		line-height: 21px;
+		font-size: 20px;
+		line-height: 28px;
+		margin: 0;
+		hyphens: auto;
 	}
 
 	.errorPage__button {
@@ -273,7 +257,6 @@
 		appearance: none;
 		border: none;
 		text-decoration: none;
-		text-transform: uppercase;
 		cursor: pointer;
 		min-width: 200px;
 		max-width: 400px;
@@ -282,9 +265,8 @@
 		border-radius: 24px;
 		color: #fff;
 		background-color: #cc1e1c;
-		box-shadow: 0 6px 0 0 rgb(0 0 0 / 10%);
 		transition: background-color 0.6s ease;
-		margin: 48px 0;
+		margin: 25px 0;
 	}
 
 	.errorPage__button:hover {
@@ -296,6 +278,9 @@
 		.errorPage__illustrationWrapper {
 			width: 40vw;
 			height: 40vw;
+		}
+		.errorPage__headline {
+			font-size: 40px;
 		}
 	}
 
@@ -310,26 +295,21 @@
 			padding: 32px 24px;
 		}
 
-		.errorPage__title {
-			font-size: 30px;
-			font-weight: 700;
-			line-height: 38px;
-		}
-
 		.errorPage__claim {
 			display: block;
 		}
 
 		.errorPage__main {
 			flex-direction: row;
-			min-height: calc(100vh - 102px);
+			min-height: calc(100vh - 2 * 96px);
 			padding: 32px 24px;
+			margin-top: 96px;
 			box-sizing: border-box;
 		}
 
 		.errorPage__illustrationWrapper {
 			align-self: center;
-			margin: 0 48px;
+			margin: 0 96px;
 			width: calc(50vw - 120px);
 			height: calc(50vw - 120px);
 			border-radius: calc(25vw - 60px);

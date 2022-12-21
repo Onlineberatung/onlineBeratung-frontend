@@ -1,5 +1,4 @@
-$header-height: 102px;
-$main-height: calc(100vh - #{$header-height});
+$main-height: calc(100vh - 2 * #{$header-height});
 $max-height: 100vh;
 $illustrationSize: 280px;
 $icon-size: 170px;
@@ -7,7 +6,7 @@ $content-width: calc(
 	(100vw - (#{$grid-base-twelve} * 3) - #{$grid-base-six}) / 2
 );
 $content-width-medium: calc(
-	(100vw - (#{$grid-base-twelve} * 2) - #{$grid-base-six}) / 2
+	(100vw - (#{$grid-base-twelve} * 3) - #{$grid-base-six}) / 2
 );
 $content-width-small: calc((100vw) / 2);
 $illustrationWrapperMaxSize: 650px;
@@ -16,36 +15,18 @@ $error-illustration-background-neutral: $illustration-background-neutral !defaul
 $error-page-background: rgba($form-medium, 0.08) !default;
 
 .errorPage {
-	&--warning {
-		.errorPage__main {
-			background-color: $illustration-background-error;
-		}
-	}
-
-	&--error {
-		.errorPage__main {
-			background-color: $error-page-background;
-		}
-	}
-
 	&__header {
-		background-color: $white;
 		display: flex;
-		flex-direction: row;
-		justify-content: stretch;
+		justify-content: flex-end;
+		align-items: center;
+		flex-basis: $header-height;
+		height: $header-height;
+		width: 100%;
 		padding: 0 $grid-base-three;
 
-		@media (min-width: $fromLarge) {
-			padding: $grid-base-four $grid-base-three;
-		}
-	}
-
-	&__headerMobile {
-		display: flex;
-		width: 100%;
-
-		@media (min-width: $fromLarge) {
-			width: auto;
+		&.mobile {
+			justify-content: flex-start;
+			padding: 0 $grid-base-two;
 		}
 	}
 
@@ -60,7 +41,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 	}
 
 	&__main {
-		padding: 0 $grid-base-three;
+		padding: $grid-base-three;
 		display: flex;
 		flex-direction: column;
 		height: 100vh;
@@ -69,6 +50,8 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 			flex-direction: row;
 			height: $main-height;
 			padding: $grid-base-four $grid-base-three;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 
@@ -101,7 +84,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 			max-width: $illustrationWrapperMaxSize;
 			max-height: $illustrationWrapperMaxSize;
 			border-radius: calc(#{$illustrationSize} / 2);
-			margin: $grid-base-three;
+			margin: $grid-base-three $grid-base-three $grid-base-three 0;
 
 			animation: fadeIn linear 0.5s;
 			@keyframes fadeIn {
@@ -121,14 +104,14 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 			}
 
 			@media (min-width: $fromLarge) {
-				margin: 0 $grid-base-six;
+				margin: $grid-base-six;
 				width: $content-width-medium;
 				height: $content-width-medium;
 				border-radius: calc(#{$content-width-medium} / 2);
 			}
 
 			@media (min-width: $fromXLarge) {
-				margin: 0 $grid-base-twelve;
+				margin: $grid-base-twelve;
 				width: $content-width;
 				height: $content-width;
 				border-radius: calc(#{$content-width} / 2);
@@ -137,35 +120,37 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 	}
 
 	&__content {
-		width: 100%;
 		text-align: center;
 		align-self: center;
 		margin-top: 0;
+		width: 650px;
 
 		@media (min-width: $fromLarge) {
-			width: $content-width;
+			width: calc(50vw - 168px);
 			text-align: left;
 			margin-top: 0;
 		}
 	}
 
 	&__content p {
+		font-size: $font-size-h4;
 		margin: 0;
+		line-height: 28px;
 	}
 
 	&__headline {
-		font-size: $font-size-super-mobile;
+		font-size: $font-size-h1-mobile;
 		font-weight: $font-weight-medium;
-		margin-bottom: 20px;
+		margin-bottom: 12px;
 
 		@media (min-width: $fromLarge) {
-			margin-bottom: 40px;
-			font-size: $font-size-super-large;
+			margin-bottom: 12px;
+			font-size: $font-size-h1;
 		}
 	}
 
 	&__button {
-		margin-top: $grid-base-six;
+		margin-top: 25px;
 	}
 
 	h2 {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useState, useContext } from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import { apiForwardMessage } from '../../api';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
@@ -10,8 +10,12 @@ import { E2EEContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
-import { Overlay, OverlayWrapper } from '../overlay/Overlay';
+import { Overlay } from '../overlay/Overlay';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
+import {
+	OVERLAY_E2EE,
+	OVERLAY_REQUEST
+} from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 interface ForwardMessageProps {
 	right: boolean;
@@ -53,10 +57,10 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 			return null;
 		}
 
-		let encryptedMessage = props.message;
+		let message = props.message;
 		let isEncrypted = isE2eeEnabled;
 		try {
-			encryptedMessage = await encryptText(encryptedMessage, keyID, key);
+			message = await encryptText(message, keyID, key);
 		} catch (e: any) {
 			apiPostError({
 				name: e.name,
@@ -69,8 +73,7 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 		}
 
 		apiForwardMessage(
-			encryptedMessage,
-			props.message,
+			message,
 			props.messageTime,
 			props.displayName,
 			props.askerRcId,
@@ -123,16 +126,11 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 				}
 			/>
 
-			{requestOverlayVisible && !e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={requestOverlay} />
-				</OverlayWrapper>
+			{requestOverlayVisible && (
+				<Overlay item={requestOverlay} name={OVERLAY_REQUEST} />
 			)}
-
 			{e2eeOverlayVisible && (
-				<OverlayWrapper>
-					<Overlay item={e2eeOverlay} />
-				</OverlayWrapper>
+				<Overlay item={e2eeOverlay} name={OVERLAY_E2EE} />
 			)}
 		</div>
 	);

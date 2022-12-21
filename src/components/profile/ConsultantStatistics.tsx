@@ -232,7 +232,7 @@ export const ConsultantStatistics = () => {
 				<div className="statistics__visuals__wrapper">
 					<div className="statistics__visualization text--center br--1 pr--4">
 						<span>
-							<PersonsIcon />
+							<PersonsIcon aria-hidden="true" focusable="false" />
 							<p>
 								{selectedStatistics?.numberOfAssignedSessions ||
 									0}
@@ -247,7 +247,10 @@ export const ConsultantStatistics = () => {
 					</div>
 					<div className="statistics__visualization pl--4">
 						<span>
-							<SpeechBubbleIcon />
+							<SpeechBubbleIcon
+								aria-hidden="true"
+								focusable="false"
+							/>
 							<p>
 								{selectedStatistics?.numberOfSentMessages || 0}
 							</p>
@@ -274,8 +277,16 @@ export const ConsultantStatistics = () => {
 						filename={`${translate(
 							'profile.statistics.complete.filename'
 						)} - ${periodDisplay}.csv`}
+						className="button-as-link"
 					>
-						<DownloadIcon />
+						<DownloadIcon
+							title={translate(
+								'profile.statistics.complete.download.label'
+							)}
+							aria-label={translate(
+								'profile.statistics.complete.download.label'
+							)}
+						/>
 						{translate(
 							'profile.statistics.complete.download.label'
 						)}

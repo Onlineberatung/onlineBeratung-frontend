@@ -19,10 +19,10 @@ import {
 	hasUserAuthority,
 	SessionTypeContext,
 	STATUS_FINISHED,
-	TenantContext,
 	TopicSessionInterface,
 	useConsultingType,
-	UserDataContext
+	UserDataContext,
+	useTenant
 } from '../../globalState';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
@@ -46,13 +46,20 @@ import { useTranslation } from 'react-i18next';
 interface SessionListItemProps {
 	session: ExtendedSessionInterface;
 	defaultLanguage: string;
+	itemRef?: any;
+	handleKeyDownLisItemContent?: Function;
+	index: number;
 }
 
 export const SessionListItemComponent = ({
 	session,
-	defaultLanguage
+	defaultLanguage,
+	itemRef,
+	handleKeyDownLisItemContent,
+	index
 }: SessionListItemProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
+	const tenantData = useTenant();
 	const { sessionId, rcGroupId: groupIdFromParam } =
 		useParams<{ rcGroupId: string; sessionId: string }>();
 	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
@@ -64,7 +71,6 @@ export const SessionListItemComponent = ({
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
-	const { tenant } = useContext(TenantContext);
 
 	// Is List Item active
 	const isChatActive =
@@ -162,20 +168,44 @@ export const SessionListItemComponent = ({
 		}
 	};
 
-	const iconVariant = () => {
-		if (session.isGroup) {
-			return LIST_ICONS.IS_GROUP_CHAT;
-		} else if (session.isLive) {
-			return LIST_ICONS.IS_LIVE_CHAT;
-		} else if (session.isEmptyEnquiry) {
-			return LIST_ICONS.IS_NEW_ENQUIRY;
-		} else if (session.item.messagesRead) {
-			return LIST_ICONS.IS_READ;
-		} else {
-			return LIST_ICONS.IS_UNREAD;
+	const handleKeyDownListItem = (e) => {
+		handleKeyDownLisItemContent(e);
+		if (e.key === 'Enter' || e.key === ' ') {
+			handleOnClick();
 		}
 	};
-	const Icon = getSessionsListItemIcon(iconVariant());
+
+	const iconVariant = () => {
+		if (session.isGroup) {
+			return {
+				variant: LIST_ICONS.IS_GROUP_CHAT,
+				title: translate('message.groupChat')
+			};
+		} else if (session.isLive) {
+			return {
+				variant: LIST_ICONS.IS_LIVE_CHAT,
+				title: translate('message.liveChat')
+			};
+		} else if (session.isEmptyEnquiry) {
+			return {
+				variant: LIST_ICONS.IS_NEW_ENQUIRY,
+				title: translate('message.newEnquiry')
+			};
+		} else if (session.item.messagesRead) {
+			return {
+				variant: LIST_ICONS.IS_READ,
+				title: translate('message.read')
+			};
+		} else {
+			return {
+				variant: LIST_ICONS.IS_UNREAD,
+				title: translate('message.unread')
+			};
+		}
+	};
+
+	const Icon = getSessionsListItemIcon(iconVariant().variant);
+	const iconTitle = iconVariant().title;
 
 	const prettyPrintDate = (
 		messageDate: number, // seconds since epoch
@@ -225,6 +255,10 @@ export const SessionListItemComponent = ({
 						'sessionsListItem__content',
 						isChatActive && 'sessionsListItem__content--active'
 					)}
+					onKeyDown={(e) => handleKeyDownListItem(e)}
+					ref={itemRef}
+					tabIndex={index === 0 ? 0 : -1}
+					role="tab"
 				>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__consultingType">
@@ -247,7 +281,7 @@ export const SessionListItemComponent = ({
 					</div>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__icon">
-							<Icon />
+							<Icon title={iconTitle} aria-label={iconTitle} />
 						</div>
 						<div
 							className={clsx(
@@ -306,7 +340,9 @@ export const SessionListItemComponent = ({
 		sessionTopic = session.user.username;
 	}
 
-	const zipCodeSlash = consultingType ? '/ ' : '';
+	const showConsultingType =
+		consultingType && !tenantData?.settings?.featureTopicsEnabled;
+	const zipCodeSlash = showConsultingType ? '/ ' : '';
 
 	return (
 		<div
@@ -319,7 +355,13 @@ export const SessionListItemComponent = ({
 			data-group-id={session.item.groupId}
 			data-cy="session-list-item"
 		>
-			<div className="sessionsListItem__content">
+			<div
+				className="sessionsListItem__content"
+				onKeyDown={(e) => handleKeyDownListItem(e)}
+				ref={itemRef}
+				tabIndex={index === 0 ? 0 : -1}
+				role="tab"
+			>
 				<div className="sessionsListItem__row">
 					{type === SESSION_LIST_TYPES.TEAMSESSION &&
 					hasUserAuthority(
@@ -334,7 +376,7 @@ export const SessionListItemComponent = ({
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
-							{consultingType
+							{showConsultingType
 								? translate(
 										[
 											`consultingType.${consultingType.id}.titles.default`,
@@ -347,7 +389,8 @@ export const SessionListItemComponent = ({
 								with the agencies we auto-fill with the agency postal code and in those cases, we don't want to show */}
 							{session.item.postcode !== 99999 &&
 							!isAsker &&
-							!session.isLive
+							!session.isLive &&
+							!consultingType.registration.autoSelectPostcode
 								? zipCodeSlash + session.item.postcode
 								: null}
 						</div>
@@ -356,7 +399,8 @@ export const SessionListItemComponent = ({
 						<div
 							className="sessionsListItem__topic"
 							style={{
-								backgroundColor: tenant?.theming?.primaryColor
+								backgroundColor:
+									tenantData?.theming?.primaryColor
 							}}
 						>
 							{topicSession?.name}
@@ -372,7 +416,7 @@ export const SessionListItemComponent = ({
 				</div>
 				<div className="sessionsListItem__row">
 					<div className="sessionsListItem__icon">
-						<Icon />
+						<Icon title={iconTitle} aria-label={iconTitle} />
 					</div>
 					<div
 						className={clsx(

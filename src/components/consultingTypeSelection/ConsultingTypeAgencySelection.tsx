@@ -212,7 +212,7 @@ export const ConsultingTypeAgencySelection = ({
 						text={translate(
 							'registration.consultingTypeAgencySelection.consultingType.infoText'
 						)}
-						type="infoMedium"
+						type="standard"
 					/>
 					<SelectDropdown
 						{...consultingTypeSelect}
@@ -228,7 +228,7 @@ export const ConsultingTypeAgencySelection = ({
 							text={translate(
 								'registration.consultingTypeAgencySelection.agency.infoText'
 							)}
-							type="infoMedium"
+							type="standard"
 						/>
 					)}
 					<AgencySelection
@@ -263,22 +263,25 @@ const AgencySelection = ({
 					key={agency.id}
 					className="agencySelection__proposedAgency"
 				>
-					<RadioButton
-						name="agencySelection"
-						handleRadioButton={() => onChange(agency)}
-						type="default"
-						value={agency.id.toString()}
-						checked={
-							selectedAgency && agency.id === selectedAgency.id
-						}
-						inputId={agency.id.toString()}
-						label={translate(
-							[`agency.${agency.id}.name`, agency.name],
-							{ ns: 'agencies' }
-						)}
-						onKeyDown={onKeyDown}
-					/>
-					<AgencyInfo agency={agency} />
+					<div className="agencySelection__proposedAgency__container">
+						<RadioButton
+							name="agencySelection"
+							handleRadioButton={() => onChange(agency)}
+							type="default"
+							value={agency.id.toString()}
+							checked={
+								selectedAgency &&
+								agency.id === selectedAgency.id
+							}
+							inputId={agency.id.toString()}
+							label={translate(
+								[`agency.${agency.id}.name`, agency.name],
+								{ ns: 'agencies' }
+							)}
+							onKeyDown={onKeyDown}
+						/>
+						<AgencyInfo agency={agency} />
+					</div>
 					<AgencyLanguages agencyId={agency.id} />
 				</div>
 			))}

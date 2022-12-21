@@ -8,7 +8,7 @@ export interface AppSettingsInterface {
 	/** App setting to get the link for appointment service */
 	calcomUrl?: string;
 	/** Feature flag to enable walkthrough (false by default here & true in the theme repo) */
-	enableWalkThrough?: boolean;
+	enableWalkthrough?: boolean;
 	/** Feature flag to enable Video-Termine page */
 	disableVideoAppointments?: boolean;
 	/** Feature flag to enable the multi tenancy with a single domain ex: lands */

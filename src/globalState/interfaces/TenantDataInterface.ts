@@ -12,11 +12,14 @@ export interface TenantDataInterface {
 		privacy: string;
 		termsAndConditions: string;
 		claim: string;
+		dataPrivacyConfirmation: string;
+		termsAndConditionsConfirmation: string;
 	};
 	settings?: TenantDataSettingsInterface;
 }
 
 export interface TenantDataSettingsInterface {
+	activeLanguages: string[];
 	featureAppointmentsEnabled: boolean;
 	featureDemographicsEnabled: boolean;
 	featureGroupChatV2Enabled: boolean;

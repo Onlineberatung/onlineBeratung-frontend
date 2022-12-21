@@ -93,7 +93,14 @@ export const AskerInfoMonitoring = () => {
 										</div>
 									)}
 									<div className="profile__data__icon">
-										<EditIcon />
+										<EditIcon
+											title={translate(
+												'profile.data.edit.button.edit'
+											)}
+											aria-label={translate(
+												'profile.data.edit.button.edit'
+											)}
+										/>
 									</div>
 								</div>
 							</div>

@@ -3,6 +3,9 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import i18n, { FALLBACK_LNG, init } from '../../i18n';
 import { InformalContext } from './InformalProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { setValueInCookie } from '../../components/sessionCookie/accessSessionCookie';
+import { useTenant } from './TenantProvider';
+import useTenantTheming from '../../utils/useTenantTheming';
 
 export const STORAGE_KEY_LOCALE = 'locale';
 
@@ -18,22 +21,42 @@ export const LocaleContext = createContext<TLocaleContext>(null);
 
 export function LocaleProvider(props) {
 	const settings = useAppConfig();
+	const isLoading = useTenantTheming();
+	const tenant = useTenant();
 	const [initialized, setInitialized] = useState(false);
 	const [initLocale, setInitLocale] = useState(null);
 	const { informal } = useContext(InformalContext);
 	const [locale, setLocale] = useState(null);
 
 	useEffect(() => {
-		init(settings.i18n).then(() => {
+		// If using the tenant service we should load first the tenant because we need the
+		// active languages from the server to apply it on loading
+		if (settings.useTenantService && isLoading) {
+			return;
+		}
+
+		init({
+			...settings.i18n,
+			...(tenant?.settings?.activeLanguages && {
+				supportedLngs: tenant?.settings?.activeLanguages || []
+			})
+		}).then(() => {
 			setInitLocale(i18n.language);
-			if (localStorage.getItem(STORAGE_KEY_LOCALE)) {
-				setLocale(localStorage.getItem(STORAGE_KEY_LOCALE));
-			} else {
-				setLocale(i18n.language || FALLBACK_LNG);
-			}
+			const locale =
+				localStorage.getItem(STORAGE_KEY_LOCALE) ||
+				i18n.language ||
+				FALLBACK_LNG;
+
+			setValueInCookie('lang', locale);
+			setLocale(locale);
 			setInitialized(true);
 		});
-	}, [settings.i18n]);
+	}, [
+		isLoading,
+		settings.i18n,
+		settings.useTenantService,
+		tenant?.settings?.activeLanguages
+	]);
 
 	const locales = useMemo(
 		() =>
@@ -41,15 +64,23 @@ export function LocaleProvider(props) {
 		[initialized]
 	);
 
-	const selectableLocales = useMemo(
-		() =>
-			initialized
-				? Object.keys(i18n.services.resourceStore.data).filter(
-						(lng) => lng.indexOf('_informal') < 0
-				  )
-				: [],
-		[initialized]
-	);
+	const selectableLocales = useMemo(() => {
+		const resourcesTranslations = initialized
+			? Object.keys(i18n.services.resourceStore.data).filter(
+					(lng) => lng.indexOf('_informal') < 0
+			  )
+			: [];
+
+		if (initialized && settings.useTenantService) {
+			return tenant?.settings?.activeLanguages || resourcesTranslations;
+		}
+
+		return resourcesTranslations;
+	}, [
+		initialized,
+		settings.useTenantService,
+		tenant?.settings?.activeLanguages
+	]);
 
 	useEffect(() => {
 		if (!initialized) {
@@ -69,6 +100,7 @@ export function LocaleProvider(props) {
 			i18n.changeLanguage(lngCode);
 			localStorage.setItem(STORAGE_KEY_LOCALE, locale);
 			document.documentElement.lang = locale;
+			setValueInCookie('lang', locale);
 		}
 	}, [locale, informal, locales, initialized]);
 

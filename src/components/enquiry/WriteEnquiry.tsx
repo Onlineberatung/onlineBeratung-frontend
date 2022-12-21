@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { useState, useEffect, useContext, useCallback } from 'react';
+import {
+	useState,
+	useEffect,
+	useContext,
+	useCallback,
+	lazy,
+	Suspense
+} from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-import { MessageSubmitInterfaceComponent } from '../messageSubmitInterface/messageSubmitInterfaceComponent';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem,
-	OverlayWrapper
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { buildExtendedSession, STATUS_EMPTY } from '../../globalState';
@@ -32,6 +33,13 @@ import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { apiGetAskerSessionList } from '../../api';
 import { useTranslation } from 'react-i18next';
+import { MessageSubmitInterfaceSkeleton } from '../messageSubmitInterface/messageSubmitInterfaceSkeleton';
+
+const MessageSubmitInterfaceComponent = lazy(() =>
+	import('../messageSubmitInterface/messageSubmitInterfaceComponent').then(
+		(m) => ({ default: m.MessageSubmitInterfaceComponent })
+	)
+);
 
 export const WriteEnquiry: React.FC = () => {
 	const { t: translate } = useTranslation();
@@ -193,7 +201,13 @@ export const WriteEnquiry: React.FC = () => {
 							className="enquiry__facts"
 						/>
 					</div>
-					<WelcomeIcon className="enquiry__image" />
+					<WelcomeIcon
+						className="enquiry__image"
+						title={translate('enquiry.write.infotext.iconTitle')}
+						aria-label={translate(
+							'enquiry.write.infotext.iconTitle'
+						)}
+					/>
 				</div>
 				{isUnassignedSession && (
 					<EnquiryLanguageSelection
@@ -204,21 +218,29 @@ export const WriteEnquiry: React.FC = () => {
 				)}
 			</div>
 			<ActiveSessionContext.Provider value={{ activeSession }}>
-				<MessageSubmitInterfaceComponent
-					onSendButton={handleSendButton}
-					placeholder={translate(
-						'enquiry.write.input.placeholder.asker'
-					)}
-					language={selectedLanguage}
-				/>
+				<Suspense
+					fallback={
+						<MessageSubmitInterfaceSkeleton
+							placeholder={translate(
+								'enquiry.write.input.placeholder.asker'
+							)}
+						/>
+					}
+				>
+					<MessageSubmitInterfaceComponent
+						onSendButton={handleSendButton}
+						placeholder={translate(
+							'enquiry.write.input.placeholder.asker'
+						)}
+						language={selectedLanguage}
+					/>
+				</Suspense>
 			</ActiveSessionContext.Provider>
 			{overlayActive && (
-				<OverlayWrapper>
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				</OverlayWrapper>
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
 			)}
 		</div>
 	);

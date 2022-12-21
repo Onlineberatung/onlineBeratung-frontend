@@ -27,6 +27,7 @@ import {
 } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import i18n from '../../i18n';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -99,7 +100,12 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [autoSelectAgency, props.consultingType.id, props?.mainTopicId]);
+	}, [
+		autoSelectAgency,
+		props.consultingType.id,
+		props?.mainTopicId,
+		i18n.language
+	]);
 
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
@@ -260,7 +266,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 											'registration.agencySelection.intro.overline'
 									  )
 							}
-							type="infoMedium"
+							type="standard"
 						/>
 						<div className="agencySelection__intro__content">
 							<Text
@@ -273,7 +279,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												'registration.agencySelection.intro.subline'
 										  )
 								}
-								type="infoMedium"
+								type="standard"
 							/>
 							<ul>
 								{introItemsTranslations.map(
@@ -283,7 +289,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 												text={translate(
 													introItemTranslation
 												)}
-												type="infoMedium"
+												type="standard"
 											/>
 										</li>
 									)
@@ -303,7 +309,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							<Text
 								className="agencySelection__note"
 								text={props.agencySelectionNote}
-								type="infoMedium"
+								type="infoLargeAlternative"
 								labelType={LABEL_TYPES.NOTICE}
 							/>
 						</div>
