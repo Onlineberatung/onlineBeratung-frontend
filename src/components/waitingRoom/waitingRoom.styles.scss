@@ -121,6 +121,10 @@ $waiting-room-subline-opacity: 1 !default;
 			flex-direction: column;
 			p {
 				text-align: center;
+
+				a {
+					text-decoration: underline;
+				}
 			}
 
 			@include breakpoint($fromLarge) {
@@ -140,6 +144,10 @@ $waiting-room-subline-opacity: 1 !default;
 
 		&-text {
 			color: $text-low-emphasis;
+
+			a {
+				text-decoration: underline;
+			}
 		}
 	}
 
