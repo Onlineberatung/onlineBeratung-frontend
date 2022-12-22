@@ -1942,7 +1942,7 @@ export const de = {
 		'empty': {
 			anonymous:
 				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat.',
-			known: 'Momentan sind keine Anfragen vorhanden.'
+			known: 'Aktuell liegen keine Erstanfragen vor.'
 		},
 		'unavailable': {
 			description:
