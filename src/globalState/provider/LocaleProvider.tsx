@@ -31,7 +31,7 @@ export function LocaleProvider(props) {
 	useEffect(() => {
 		// If using the tenant service we should load first the tenant because we need the
 		// active languages from the server to apply it on loading
-		if (settings.useTenantService && isLoading) {
+		if ((settings.useTenantService && isLoading) || initialized) {
 			return;
 		}
 
@@ -52,6 +52,7 @@ export function LocaleProvider(props) {
 			setInitialized(true);
 		});
 	}, [
+		initialized,
 		isLoading,
 		settings.i18n,
 		settings.useTenantService,
