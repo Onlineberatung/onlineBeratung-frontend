@@ -414,12 +414,17 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					}
 				>
 					<div className="waitingRoom__user">
-						<Text type="standard" text={getUsernameText()} />
+						<Text
+							className="waitingRoom__subline"
+							type="standard"
+							text={getUsernameText()}
+						/>
 						<Text
 							type="standard"
 							text={translate(
 								'anonymous.waitingroom.info.accountDeletion'
 							)}
+							className="waitingRoom__user-description"
 						/>
 					</div>
 				</WaitingRoomContent>

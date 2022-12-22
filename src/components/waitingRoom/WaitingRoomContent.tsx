@@ -27,13 +27,14 @@ export const WaitingRoomContent = ({
 					<Headline
 						className="waitingRoom__headline"
 						semanticLevel="1"
+						styleLevel="2"
 						text={headline}
 					/>
 				)}
 				{subline && (
 					<Headline
 						className="waitingRoom__subline"
-						semanticLevel="3"
+						semanticLevel="2"
 						text={subline}
 					/>
 				)}

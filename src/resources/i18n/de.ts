@@ -65,9 +65,9 @@ export const de = {
 				button: 'Ich bin einverstanden',
 				description:
 					'Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.',
-				headline: 'Herzlich Willkommen!',
+				headline: 'Herzlich Willkommen',
 				subline:
-					'Bitte bestätigen Sie unsere Datenschutzbestimmungen. Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.  '
+					'Bitte bestätigen Sie unsere Datenschutzbestimmungen. Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.'
 			},
 			'errorPage': {
 				button: 'Neu laden',
@@ -76,7 +76,7 @@ export const de = {
 				headline: 'Ups!'
 			},
 			'closed': {
-				headline: 'Momentan ist unser Live-Chat nicht besetzt',
+				headline: 'Momentan ist unser Live-Chat nicht besetzt.',
 				description: {
 					prefix: 'Auf unserer',
 					linkLabel: 'Website',
@@ -101,7 +101,7 @@ export const de = {
 			},
 			'redirect': {
 				subline:
-					'Registrieren Sie sich und hinterlassen Sie uns eine Nachricht. Wir melden uns innerhalb von 2 Werktagen bei Ihnen. Gehen Sie zur Registrierung. <br><br>Gehen Sie zur <a href="registration">Registrierung</a>',
+					'Registrieren Sie sich und hinterlassen Sie uns eine Nachricht. Wir melden uns innerhalb von 2 Werktagen bei Ihnen. <br><br>Gehen Sie zur <a href="registration">Registrierung</a>',
 				title: 'Sie benötigen nicht sofort eine Antwort? Und wollen nicht auf einen freien Chat warten?'
 			},
 			'subline':
@@ -1676,7 +1676,7 @@ export const de = {
 			label: {
 				prefix: 'Ich habe die ',
 				and: ' und ',
-				suffix: ' zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.'
+				suffix: ' zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies.'
 			}
 		},
 		'form.title': 'Registrierung abschließen',
@@ -2373,7 +2373,7 @@ export const de = {
 					'Danach dürfen unsere Berater_innen einen Video-Call mit Ihnen starten.',
 				'headline': 'Herzlich Willkommen!',
 				'label.text':
-					'Ich habe die {{legal_links}} zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies.',
+					'Ich habe die {{legal_links}} zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 				'label.and': 'und',
 				'subline':
 					'Bitte bestätigen Sie unsere Datenschutzbestimmungen.'

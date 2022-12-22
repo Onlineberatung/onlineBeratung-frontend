@@ -8,80 +8,15 @@ $waiting-room-subline-opacity: 1 !default;
 	justify-content: center;
 	min-height: 100vh;
 	overflow: hidden;
-	background-color: $waiting-room-page-background;
-
-	.header {
-		z-index: 301;
-		display: none;
-		position: absolute;
-		top: 0;
-
-		@include breakpoint($fromLarge) {
-			display: flex;
-		}
-	}
-
-	&__contentWrapper {
-		padding: $grid-base-four $grid-base-two;
-		width: 100%;
-		max-width: 1370px;
-
-		@include breakpoint($fromLarge) {
-			display: flex;
-			align-items: center;
-			padding: $grid-base-five;
-			margin-top: $grid-base-twelve;
-		}
-
-		.text,
-		.headline {
-			text-align: left;
-			margin-left: $grid-base-six;
-			margin-right: $grid-base-six;
-
-			@include breakpoint($fromLarge) {
-				margin-left: 0;
-			}
-		}
-
-		.text {
-			margin-top: $grid-base-four;
-		}
-
-		.text + .text {
-			margin-top: $grid-base-three;
-		}
-
-		a {
-			color: $link-color;
-			text-decoration: underline;
-		}
-
-		.localeSwitch {
-			margin-bottom: $grid-base-three;
-
-			.css-1vicfer-control {
-				background-color: $waiting-room-page-background;
-			}
-		}
-	}
 
 	&__headline {
-		margin: $grid-base-three 0 0;
-		font-size: 32px;
-
-		@include breakpoint($fromLarge) {
-			margin: 0;
-			font-size: $font-size-h1;
-		}
+		margin-bottom: 12px;
 	}
 
 	&__subline {
-		font-family: $font-family-sans-serif;
-		font-weight: $font-weight-regular;
 		font-size: $font-size-h4;
-		margin-top: $grid-base-two;
-		opacity: $waiting-room-subline-opacity;
+		font-weight: $font-weight-regular;
+		line-height: 28px;
 	}
 
 	&__illustration {
@@ -140,20 +75,9 @@ $waiting-room-subline-opacity: 1 !default;
 	}
 
 	&__user {
-		.text:first-child {
-			font-size: $font-size-h4;
-			margin-bottom: $grid-base-two;
-		}
-	}
-
-	&__user,
-	&__redirect {
-		.text:first-of-type {
-			font-weight: $font-weight-medium;
-		}
-
-		.text + .text {
-			margin-top: $grid-base;
+		&-description {
+			color: $text-low-emphasis;
+			margin-top: 12px;
 		}
 	}
 
@@ -222,6 +146,7 @@ $waiting-room-subline-opacity: 1 !default;
 	&__username {
 		color: $form-success;
 		margin-top: $grid-base;
+		font-weight: $font-weight-medium;
 
 		&--loading {
 			color: $tertiary;
