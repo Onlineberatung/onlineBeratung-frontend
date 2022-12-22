@@ -62,17 +62,27 @@ export const en = {
 		waitingroom: {
 			'title.start': 'Waiting room',
 			'dataProtection': {
-				headline: 'Welcome!',
-				subline: 'Please confirm our privacy policy.',
+				headline: 'Welcome',
+				subline:
+					'Please confirm our privacy policy. After that, our consultants may start a chat with you.',
 				description:
 					'After that, our consultants may start a chat with you.',
-				button: 'Confirm'
+				button: 'I agree'
 			},
 			'errorPage': {
 				headline: 'Oops!',
 				description:
 					'We are sorry something must have gone wrong.<br>Try again.',
 				button: 'Reload'
+			},
+			'closed': {
+				headline: 'Our live chat is currently unavailable',
+				description: {
+					prefix: 'On our',
+					linkLabel: 'website',
+					suffix: 'you can find the opening hours of the chat in the respective subject area.'
+				},
+				illustrationTitle: 'chat closed'
 			},
 			'headline': 'Please be patient',
 			'subline':
@@ -82,9 +92,9 @@ export const en = {
 				loading: 'Will be loaded...'
 			},
 			'info.accountDeletion':
-				'We delete your messages after 48 hours at the latest. Your anonymity is important to us.',
+				'To protect your anonymity, we delete your messages no later than 48 hours after the chat has ended.',
 			'redirect': {
-				title: 'You dont want to wait for a free chat? And do not need an answer immediately?',
+				title: 'You do not need an answer immediately? And do not want to wait for a free chat?',
 				subline:
 					'Register and leave us a message. We will get back to you within 2 business days. <br><br>Go to <a href="registration">registration</a>'
 			},
@@ -2351,7 +2361,7 @@ export const en = {
 		waitingroom: {
 			'title.start': 'Waiting room',
 			'dataProtection': {
-				'headline': 'A warm welcome!',
+				'headline': 'A warm welcome',
 				'subline': 'Please confirm our privacy policy.',
 				'description':
 					'After that, our consultants may start a video call with you.',
