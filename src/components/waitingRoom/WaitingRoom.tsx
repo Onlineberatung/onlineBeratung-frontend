@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { Header } from '../header/Header';
-import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { v4 as uuid } from 'uuid';
 import './waitingRoom.styles';
-import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
 import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
+import { ReactComponent as SecurityIllustration } from '../../resources/img/illustrations/security.svg';
+import { ReactComponent as ClosedIllustration } from '../../resources/img/illustrations/closed.svg';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import {
 	AnonymousConversationAvailabilityInterface,
@@ -38,10 +37,12 @@ import {
 import { handleTokenRefresh, setTokens } from '../auth/auth';
 import { handleE2EESetup } from '../registration/autoLogin';
 import { useTranslation } from 'react-i18next';
-import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
-import { isMobile } from 'react-device-detect';
 import { useHistory } from 'react-router-dom';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { WaitingRoomContent } from './WaitingRoomContent';
+import { Stage } from '../stage/stage';
+import { StageLayout } from '../stageLayout/StageLayout';
+import { appConfig } from '../../utils/appConfig';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
@@ -63,7 +64,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		useState<boolean>(true);
 	const [username, setUsername] = useState<string>();
 	const [isConsultantAvailable, setIsConsultantAvailable] =
-		useState<Boolean>();
+		useState<boolean>();
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [isErrorPageActive, setIsErrorPageActive] = useState(false);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
@@ -105,7 +106,20 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		if (registeredUsername && getValueFromCookie('keycloak') && sessionId) {
 			setIsDataProtectionViewActive(false);
 			setUsername(registeredUsername);
-			handleTokenRefresh().then(afterRegistrationHandler);
+			handleTokenRefresh()
+				.then(afterRegistrationHandler)
+				.then(async () => {
+					return await apiAnonymousConversationAvailability(
+						parseInt(sessionId, 10)
+					);
+				})
+				.then(
+					(response: AnonymousConversationAvailabilityInterface) => {
+						setIsConsultantAvailable(
+							response.numAvailableConsultants > 0
+						);
+					}
+				);
 		}
 
 		document.title = `${translate(
@@ -257,11 +271,16 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const getContent = () => {
 		if (isDataProtectionViewActive) {
 			return (
-				<>
-					{isMobile && <LocaleSwitch />}
-
-					<div className="waitingRoom__illustration">
-						<WelcomeIllustration
+				<WaitingRoomContent
+					showRegistrationInfo={false}
+					headline={translate(
+						'anonymous.waitingroom.dataProtection.headline'
+					)}
+					subline={translate(
+						'anonymous.waitingroom.dataProtection.subline'
+					)}
+					Illustration={
+						<SecurityIllustration
 							aria-label={translate(
 								'anonymous.waitingroom.welcomeImageTitle'
 							)}
@@ -269,90 +288,62 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 								'anonymous.waitingroom.welcomeImageTitle'
 							)}
 						/>
-					</div>
-					<div>
-						<Headline
-							className="waitingRoom__headline"
-							semanticLevel="1"
-							text={translate(
-								'anonymous.waitingroom.dataProtection.headline'
-							)}
-						/>
-						<Headline
-							className="waitingRoom__subline"
-							semanticLevel="3"
-							text={translate(
-								'anonymous.waitingroom.dataProtection.subline'
-							)}
-						/>
-						<Text
-							type="standard"
-							text={translate(
-								'anonymous.waitingroom.dataProtection.description'
-							)}
-						/>
-						<Text
-							type="standard"
-							text={[
-								translate(
-									'registration.dataProtection.label.prefix'
-								),
-								legalLinks
-									.filter(
-										(legalLink) => legalLink.registration
-									)
-									.map(
-										(legalLink, index, { length }) =>
-											(index > 0
-												? index < length - 1
-													? ', '
-													: translate(
-															'registration.dataProtection.label.and'
-													  )
-												: '') +
-											`<a target="_blank" href="${
-												legalLink.url
-											}">${translate(
-												legalLink.label
-											)}</a>`
-									)
-									.join(''),
-								translate(
-									'registration.dataProtection.label.suffix'
+					}
+				>
+					<Text
+						type="standard"
+						text={[
+							translate(
+								'registration.dataProtection.label.prefix'
+							),
+							legalLinks
+								.filter((legalLink) => legalLink.registration)
+								.map(
+									(legalLink, index, { length }) =>
+										(index > 0
+											? index < length - 1
+												? ', '
+												: translate(
+														'registration.dataProtection.label.and'
+												  )
+											: '') +
+										`<a target="_blank" href="${
+											legalLink.url
+										}">${translate(legalLink.label)}</a>`
 								)
-							].join(' ')}
-						/>
-						<Button
-							className="waitingRoom__button"
-							buttonHandle={handleConfirmButton}
-							item={confirmButton}
-						/>
-					</div>
-				</>
+								.join(''),
+							translate(
+								'registration.dataProtection.label.suffix'
+							)
+						].join(' ')}
+					/>
+					<Button
+						className="waitingRoom__button"
+						buttonHandle={handleConfirmButton}
+						item={confirmButton}
+					/>
+				</WaitingRoomContent>
 			);
 		} else if (isErrorPageActive) {
 			return (
 				<>
-					{isMobile && <LocaleSwitch />}
-					<div className="waitingRoom__illustration">
-						<ErrorIllustration
-							aria-label={translate(
-								'anonymous.waitingroom.errorImageTitle'
-							)}
-							title={translate(
-								'anonymous.waitingroom.errorImageTitle'
-							)}
-							className="waitingRoom__waitingIllustration"
-						/>
-					</div>
-					<div>
-						<Headline
-							className="waitingRoom__headline"
-							semanticLevel="1"
-							text={translate(
-								'anonymous.waitingroom.errorPage.headline'
-							)}
-						/>
+					<WaitingRoomContent
+						showRegistrationInfo={false}
+						headline={translate(
+							'anonymous.waitingroom.errorPage.headline'
+						)}
+						Illustration={
+							<ErrorIllustration
+								aria-label={translate(
+									'anonymous.waitingroom.errorImageTitle'
+								)}
+								title={translate(
+									'anonymous.waitingroom.errorImageTitle'
+								)}
+								className="waitingRoom__waitingIllustration"
+							/>
+						}
+					>
 						<Text
 							type="standard"
 							text={translate(
@@ -364,14 +355,53 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 							buttonHandle={handleReloadButton}
 							item={reloadButton}
 						/>
-					</div>
+					</WaitingRoomContent>
 				</>
 			);
-		} else {
+		} else if (!isConsultantAvailable) {
 			return (
-				<>
-					{isMobile && <LocaleSwitch updateUserData={!!username} />}
-					<div className="waitingRoom__illustration">
+				<WaitingRoomContent
+					showRegistrationInfo={true}
+					headline={translate(
+						'anonymous.waitingroom.closed.headline'
+					)}
+					Illustration={
+						<ClosedIllustration
+							aria-label={translate(
+								'anonymous.waitingroom.closed.illustrationTitle'
+							)}
+							title={translate(
+								'anonymous.waitingroom.closed.illustrationTitle'
+							)}
+						/>
+					}
+				>
+					<Text
+						type="standard"
+						text={[
+							translate(
+								'anonymous.waitingroom.closed.description.prefix'
+							),
+
+							`<a target="_blank" href="${
+								appConfig.urls.chatScheduleUrl
+							}">${translate(
+								'anonymous.waitingroom.closed.description.linkLabel'
+							)}</a>`,
+							translate(
+								'anonymous.waitingroom.closed.description.suffix'
+							)
+						].join(' ')}
+					/>
+				</WaitingRoomContent>
+			);
+		} else if (isConsultantAvailable) {
+			return (
+				<WaitingRoomContent
+					showRegistrationInfo={true}
+					headline={translate('anonymous.waitingroom.headline')}
+					subline={translate('anonymous.waitingroom.subline')}
+					Illustration={
 						<WaitingIllustration
 							aria-label={translate(
 								'anonymous.waitingroom.waitingImageTitle'
@@ -381,61 +411,37 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 							)}
 							className="waitingRoom__waitingIllustration"
 						/>
-					</div>
-					<div>
-						<Headline
-							className="waitingRoom__headline"
-							semanticLevel="1"
-							text={translate('anonymous.waitingroom.headline')}
+					}
+				>
+					<div className="waitingRoom__user">
+						<Text type="standard" text={getUsernameText()} />
+						<Text
+							type="standard"
+							text={translate(
+								'anonymous.waitingroom.info.accountDeletion'
+							)}
 						/>
-						<Headline
-							className="waitingRoom__subline"
-							semanticLevel="3"
-							text={translate('anonymous.waitingroom.subline')}
-						/>
-						<div className="waitingRoom__user">
-							<Text type="standard" text={getUsernameText()} />
-							<Text
-								type="standard"
-								text={translate(
-									'anonymous.waitingroom.info.accountDeletion'
-								)}
-							/>
-						</div>
-						<div className="waitingRoom__redirect">
-							<Text
-								type="standard"
-								text={translate(
-									'anonymous.waitingroom.redirect.title'
-								)}
-							/>
-							<Text
-								type="standard"
-								text={translate(
-									'anonymous.waitingroom.redirect.subline'
-								)}
-							/>
-						</div>
 					</div>
-				</>
+				</WaitingRoomContent>
 			);
 		}
 	};
 
 	return (
 		<>
-			<div className="waitingRoom">
-				<Header showLocaleSwitch={true} />
-				<div className="waitingRoom__contentWrapper">
-					{getContent()}
-				</div>
-			</div>
-			{isOverlayActive && (
-				<Overlay
-					item={overlayItem}
-					handleOverlay={handleOverlayAction}
-				/>
-			)}
+			<StageLayout
+				stage={<Stage hasAnimation={false} isReady={false} />}
+				showLegalLinks
+				showRegistrationLink={false}
+			>
+				{getContent()}
+				{isOverlayActive && (
+					<Overlay
+						item={overlayItem}
+						handleOverlay={handleOverlayAction}
+					/>
+				)}
+			</StageLayout>
 		</>
 	);
 };

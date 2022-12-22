@@ -62,11 +62,12 @@ export const de = {
 		},
 		waitingroom: {
 			'dataProtection': {
-				button: 'Bestätigen',
+				button: 'Ich bin einverstanden',
 				description:
 					'Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.',
 				headline: 'Herzlich Willkommen!',
-				subline: 'Bitte bestätigen Sie unsere Datenschutzbestimmungen.'
+				subline:
+					'Bitte bestätigen Sie unsere Datenschutzbestimmungen. Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.  '
 			},
 			'errorPage': {
 				button: 'Neu laden',
@@ -74,9 +75,18 @@ export const de = {
 					'Es tut uns leid da ist wohl etwas schief gelaufen.<br>Versuchen Sie es erneut.',
 				headline: 'Ups!'
 			},
+			'closed': {
+				headline: 'Momentan ist unser Live-Chat nicht besetzt',
+				description: {
+					prefix: 'Auf unserer',
+					linkLabel: 'Website',
+					suffix: 'finden Sie im jeweiligen Themenbereich die Öffnungszeiten des Chats.'
+				},
+				illustrationTitle: 'Chat geschlossen'
+			},
 			'headline': 'Bitte haben Sie etwas Geduld',
 			'info.accountDeletion':
-				'Wir löschen Ihre Nachrichten spätestens nach 48 Stunden. Ihre Anonymität ist uns wichtig.',
+				'Um Ihre Anonymität zu schützen, löschen wir Ihre Nachrichten spätestens 48 Stunden nachdem der Chat beendet wurde.',
 			'overlay': {
 				acceptance: {
 					headline: 'Herzlich Willkommen!',
@@ -91,8 +101,8 @@ export const de = {
 			},
 			'redirect': {
 				subline:
-					'Registrieren Sie sich und hinterlassen Sie uns eine Nachricht. Wir melden uns innerhalb von 2 Werktagen bei Ihnen. <br><br>Gehen Sie zur <a href="registration">Registrierung</a>',
-				title: 'Sie wollen nicht auf einen freien Chat warten? Und benötigen nicht sofort eine Antwort?'
+					'Registrieren Sie sich und hinterlassen Sie uns eine Nachricht. Wir melden uns innerhalb von 2 Werktagen bei Ihnen. Gehen Sie zur Registrierung. <br><br>Gehen Sie zur <a href="registration">Registrierung</a>',
+				title: 'Sie benötigen nicht sofort eine Antwort? Und wollen nicht auf einen freien Chat warten?'
 			},
 			'subline':
 				'Derzeit sind alle Berater_innen im Gespräch. Wir sind schnellstmöglich für Sie da.',
@@ -2363,7 +2373,7 @@ export const de = {
 					'Danach dürfen unsere Berater_innen einen Video-Call mit Ihnen starten.',
 				'headline': 'Herzlich Willkommen!',
 				'label.text':
-					'Ich habe die {{legal_links}} zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
+					'Ich habe die {{legal_links}} zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies.',
 				'label.and': 'und',
 				'subline':
 					'Bitte bestätigen Sie unsere Datenschutzbestimmungen.'
