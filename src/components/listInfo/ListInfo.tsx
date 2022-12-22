@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button } from '../button/Button';
 import './listInfo.styles';
 import { Text } from '../text/Text';
+import { Headline } from '../headline/Headline';
 
 interface ListInfoProps {
 	onButtonClick?: () => void;
@@ -35,7 +36,7 @@ export const ListInfo: React.FC<ListInfoProps> = ({
 					/>
 				</div>
 			)}
-			<h5>{headline}</h5>
+			<Headline text={headline} semanticLevel="5"></Headline>
 			{description && <Text type="standard" text={description}></Text>}
 			{onButtonClick && buttonLabel && (
 				<Button
