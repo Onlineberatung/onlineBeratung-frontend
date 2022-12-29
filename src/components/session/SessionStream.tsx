@@ -1,46 +1,47 @@
 import * as React from 'react';
 import {
+	forwardRef,
 	useCallback,
 	useContext,
 	useEffect,
 	useMemo,
+	useReducer,
 	useRef,
 	useState
 } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '../app/Loading';
-import { SessionItemComponent } from './SessionItemComponent';
 import {
 	AnonymousConversationFinishedContext,
 	AUTHORITIES,
 	ConsultantListContext,
+	ConsultingTypeInterface,
 	E2EEContext,
 	hasUserAuthority,
 	RocketChatContext,
-	RocketChatGlobalSettingsContext,
 	SessionTypeContext,
-	STATUS_FINISHED,
 	UserDataContext
 } from '../../globalState';
 import {
 	apiGetAgencyConsultantList,
-	apiGetSessionData,
-	FETCH_ERRORS
+	apiGetConsultingType,
+	apiGetMessages
 } from '../../api';
 import {
-	prepareMessages,
+	decryptMessage as decryptMessageHelper,
+	parseMessage,
+	prepareMessage,
+	scrollToEnd,
 	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from './sessionHelpers';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
-import { BUTTON_TYPES } from '../button/Button';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { logout } from '../logout/logout';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import useTyping from '../../utils/useTyping';
-import './session.styles';
-import { useE2EE } from '../../hooks/useE2EE';
 import {
 	EVENT_ROOMS_CHANGED,
 	EVENT_SUBSCRIPTIONS_CHANGED,
@@ -48,161 +49,431 @@ import {
 	SUB_STREAM_ROOM_MESSAGES
 } from '../app/RocketChat';
 import useUpdatingRef from '../../hooks/useUpdatingRef';
-import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { prepareConsultantDataForSelect } from '../sessionAssign/sessionAssignHelper';
-import {
-	IArraySetting,
-	SETTING_HIDE_SYSTEM_MESSAGES
-} from '../../api/apiRocketChatSettingsPublic';
+import { apiGetMessage } from '../../api/apiGetMessage';
+import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
+import { ISubscriptions } from '../../types/rc/Subscriptions';
+import clsx from 'clsx';
+import { MessageItem } from '../../types/MessageItem';
+import { MessageItemComponent } from '../message/MessageItemComponent';
+import { useDebouncedCallback } from 'use-debounce';
+import smoothScroll from './smoothScrollHelper';
+import useDebounceCallback from '../../hooks/useDebounceCallback';
+import { apiPostError, TError } from '../../api/apiPostError';
+import { GlobalDragAndDropContext } from '../../globalState/provider/GlobalDragAndDropProvider';
+import { Text } from '../text/Text';
+import { IRoom } from '../../types/rc/Room';
 
 interface SessionStreamProps {
-	readonly: boolean;
 	checkMutedUserForThisSession: () => void;
 	bannedUsers: string[];
+	hiddenSystemMessages: string[];
+	room: IRoom;
+	subscription: ISubscriptions | null;
+	onScrolledToTop?: (top: boolean) => void;
+	onScrolledToBottom?: (bottom: boolean) => void;
+	className?: string;
+	lastUnreadMessageTime: number | null;
+}
+
+const INITIAL_COUNT = 20;
+const COUNT = 10;
+
+const SET_MESSAGES = 'set_messages';
+type TSetMessagesAction = {
+	type: typeof SET_MESSAGES;
+	messages: MessageItem[];
+};
+const ADD_MESSAGE = 'add_message';
+type TAddMessageAction = {
+	type: typeof ADD_MESSAGE;
+	message: MessageItem;
+};
+
+const sortMessages = (a, b) => {
+	if (a.messageTime === b.messageTime) {
+		return 0;
+	}
+
+	return a.messageTime > b.messageTime ? 1 : -1;
+};
+
+function reducer(
+	state: MessageItem[],
+	action: TSetMessagesAction | TAddMessageAction
+) {
+	switch (action.type) {
+		case SET_MESSAGES:
+			return action.messages
+				.reduce(
+					(acc, message) => {
+						const i = acc.findIndex(
+							(msg) => msg._id === message._id
+						);
+						if (i >= 0) {
+							acc.splice(i, 1, message);
+						} else {
+							acc.push(message);
+						}
+						return acc;
+					},
+					[...state]
+				)
+				.sort(sortMessages);
+		case ADD_MESSAGE:
+			if (!action.message) {
+				return state;
+			}
+
+			const messages = [...state];
+			const i = state.findIndex((msg) => msg._id === action.message._id);
+			if (i >= 0) {
+				messages.splice(i, 1, action.message);
+			} else {
+				messages.push(action.message);
+			}
+			return messages.sort(sortMessages);
+		default:
+			throw new Error();
+	}
 }
 
 export const SessionStream = ({
-	readonly,
 	checkMutedUserForThisSession,
-	bannedUsers
+	bannedUsers,
+	hiddenSystemMessages,
+	room,
+	subscription,
+	onScrolledToTop,
+	onScrolledToBottom,
+	className,
+	lastUnreadMessageTime
 }: SessionStreamProps) => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
+	const { rcGroupId } = useParams<{ rcGroupId: string }>();
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
-	const { subscribe, unsubscribe } = useContext(RocketChatContext);
-	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
+	const { subscribe, unsubscribe, ready } = useContext(RocketChatContext);
+	const { isDragActive } = useContext(GlobalDragAndDropContext);
 	const { anonymousConversationFinished } = useContext(
 		AnonymousConversationFinishedContext
 	);
-	const { rcGroupId } = useParams<{ rcGroupId: string }>();
-
-	const subscribed = useRef(false);
-	const [messagesItem, setMessagesItem] = useState(null);
-	const [isOverlayActive, setIsOverlayActive] = useState(false);
-	const [loading, setLoading] = useState(true);
-	const [overlayItem, setOverlayItem] = useState(null);
-
-	const { activeSession, readActiveSession, reloadActiveSession } =
+	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
-
-	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { setConsultantList } = useContext(ConsultantListContext);
+	const {
+		key,
+		keyID,
+		encrypted,
+		subscriptionKeyLost,
+		addNewUsersToEncryptedRoom
+	} = useContext(SessionE2EEContext);
 
 	const abortController = useRef<AbortController>(null);
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
+	const scrollContainerRef = useRef<HTMLDivElement>(null);
+	const unreadDividerRef = useRef<HTMLDivElement>(null);
+	const loadingMessages = useRef(false);
+	const initialCount = useRef(
+		Math.max(subscription?.unread ?? 0, INITIAL_COUNT)
+	);
 
-	const displayName = userData.displayName || userData.userName;
+	const [messages, dispatch] = useReducer(reducer, []);
 
-	const { subscribeTyping, unsubscribeTyping, handleTyping, typingUsers } =
-		useTyping(activeSession?.rid, userData.userName, displayName);
+	const [isOverlayActive, setIsOverlayActive] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [overlayItem, setOverlayItem] = useState(null);
+	const [initialScrollCompleted, setInitialScrollCompleted] = useState(false);
+	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
+	const [offset, setOffset] = useState(
+		Math.max(0, room.msgs - initialCount.current)
+	);
+	const [loadedOffset, setLoadedOffset] = useState(Infinity);
+	const [initialized, setInitialized] = useState(false);
+	const [resortData, setResortData] = useState<ConsultingTypeInterface>();
 
-	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
-
-	const fetchSessionMessages = useCallback(() => {
-		if (abortController.current) {
-			abortController.current.abort();
-		}
-
-		abortController.current = new AbortController();
-
-		return apiGetSessionData(
-			activeSession.rid,
-			abortController.current.signal
-		).then((messagesData) => {
-			const hiddenSystemMessages = getSetting<IArraySetting>(
-				SETTING_HIDE_SYSTEM_MESSAGES
-			);
-			setMessagesItem(
-				messagesData
-					? prepareMessages(
-							messagesData.messages.filter(
-								(message) =>
-									!hiddenSystemMessages ||
-									!hiddenSystemMessages.value.includes(
-										message.t
-									)
-							)
-					  )
-					: null
-			);
-		});
-	}, [activeSession.rid, getSetting]);
-
-	const setSessionRead = useCallback(() => {
-		if (readonly) {
-			return;
-		}
-
-		const isLiveChatFinished =
-			activeSession.isLive &&
-			activeSession.item.status === STATUS_FINISHED;
+	const unreadMessageData = useMemo(() => {
+		const lastUnreadMessageIndex = (messages ?? []).findIndex(
+			(message) =>
+				parseInt(message.messageTime) >=
+				(lastUnreadMessageTime || Infinity)
+		);
 
 		if (
-			!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-			isLiveChatFinished
+			lastUnreadMessageIndex === -1 ||
+			messages[lastUnreadMessageIndex].own
 		) {
+			return null;
+		}
+
+		return {
+			count: messages.slice(lastUnreadMessageIndex).length,
+			_id: messages[lastUnreadMessageIndex]._id
+		};
+	}, [lastUnreadMessageTime, messages]);
+
+	// Track the decryption success because we have a short timing issue when
+	// message is send before the room encryption
+	const decryptionSuccess = useRef([]);
+	const handleDecryptionSuccess = useCallback((id: string) => {
+		if (decryptionSuccess.current.includes(id)) {
 			return;
 		}
 
-		readActiveSession();
-	}, [activeSession, readActiveSession, readonly, userData]);
-
-	/**
-	 * ToDo: roomMessageBounce is just a temporary fix because currently
-	 * every message gets marked but on every changed message we are loading all
-	 * messages. Maybe in future we will only update single message as it changes
-	 */
-	const handleRoomMessage = useCallback(
-		(args) => {
-			if (args.length === 0 || anonymousConversationFinished) return;
-
-			args
-				// Map collected from debounce callback
-				.map(([[message]]) => message)
-				.forEach((message) => {
-					if (message.t === 'user-muted') {
-						checkMutedUserForThisSession();
-						return;
-					}
-
-					if (message.t === 'au') {
-						// Handle this event only for groups because on session assigning its already handled
-						if (isE2eeEnabled && activeSession.isGroup) {
-							addNewUsersToEncryptedRoom().then();
+		decryptionSuccess.current.push(id);
+	}, []);
+	const lastDecryptionError = useRef(0);
+	const handleDecryptionErrors = useDebounceCallback(
+		useCallback((collectedErrors: [[string, number, TError]]) => {
+			Promise.all(
+				collectedErrors
+					// Filter already tracked error messages
+					.filter(([, ts]) => ts > lastDecryptionError.current)
+					.filter(([id]) => !decryptionSuccess.current.includes(id))
+					// Keep only last error of one type
+					.reduce((acc, [, timestamp, collectedError], i) => {
+						const trackedErrorIndex = acc.findIndex(
+							([, accError]) =>
+								accError.message === collectedError.message
+						);
+						if (
+							trackedErrorIndex >= 0 &&
+							acc[trackedErrorIndex][1].message ===
+								collectedError.message
+						) {
+							if (timestamp > acc[trackedErrorIndex][0]) {
+								acc.splice(
+									trackedErrorIndex,
+									1,
+									collectedErrors[i]
+								);
+							}
+						} else {
+							acc.push(collectedErrors[i]);
 						}
-						return;
-					}
+						return acc;
+					}, [])
+					.map(([, timestamp, collectedError]) => {
+						lastDecryptionError.current =
+							timestamp > lastDecryptionError.current
+								? timestamp
+								: lastDecryptionError.current;
 
-					if (message.u?.username !== 'rocket-chat-technical-user') {
-						fetchSessionMessages()
-							.then(() => {
-								setSessionRead();
-							})
-							.catch(() => {
-								// prevent error from leaking to console
-							});
-					}
-				});
+						return apiPostError(collectedError);
+					})
+			).then((a) => {
+				if (a.length > 0) {
+					console.log(`${a.length} error(s) reported.`);
+				}
+			});
+		}, []),
+		1000,
+		true
+	);
+
+	const decryptMessage = useCallback(
+		(message: MessageItem) => {
+			if (!isE2eeEnabled) {
+				return message;
+			}
+
+			return decryptMessageHelper(
+				message,
+				keyID,
+				key,
+				encrypted,
+				handleDecryptionErrors,
+				handleDecryptionSuccess
+			);
 		},
-
 		[
-			anonymousConversationFinished,
-			checkMutedUserForThisSession,
+			encrypted,
+			handleDecryptionErrors,
+			handleDecryptionSuccess,
 			isE2eeEnabled,
-			activeSession.isGroup,
-			addNewUsersToEncryptedRoom,
-			fetchSessionMessages,
-			setSessionRead
+			key,
+			keyID
 		]
 	);
 
-	const onDebounceMessage = useUpdatingRef(
-		useDebounceCallback(handleRoomMessage, 500, true)
+	const fetchMessage = useCallback(
+		(id) => {
+			abortController.current = new AbortController();
+
+			return apiGetMessage(id, abortController.current.signal)
+				.then((message) => {
+					if (!message || hiddenSystemMessages.includes(message.t)) {
+						return null;
+					}
+
+					return message;
+				})
+				.then(prepareMessage)
+				.then(decryptMessage)
+				.then(parseMessage);
+		},
+		[decryptMessage, hiddenSystemMessages]
+	);
+
+	/*
+	Load messages until count is reached or page 1 is reached
+	 */
+	const fetchMessages = useCallback(
+		(offset, count, loadedMessages = []) => {
+			abortController.current = new AbortController();
+
+			return apiGetMessages(
+				activeSession.rid,
+				abortController.current.signal,
+				offset,
+				count
+			)
+				.then(({ messages = [] }) =>
+					messages.filter(
+						({ t }) => !hiddenSystemMessages.includes(t)
+					)
+				)
+				.then((messages) => Promise.all(messages.map(prepareMessage)))
+				.then((messages) => Promise.all(messages.map(decryptMessage)))
+				.then((messages) => Promise.all(messages.map(parseMessage)))
+				.then((messages) => {
+					const msgs = [...messages, ...loadedMessages];
+
+					// Load messages until count is reached or offset 0 is reached
+					if (
+						msgs.length <=
+							(loadedOffset === Infinity
+								? INITIAL_COUNT
+								: COUNT) &&
+						offset > 0
+					) {
+						return fetchMessages(
+							Math.max(0, offset - COUNT),
+							COUNT + Math.min(0, offset - COUNT),
+							msgs
+						);
+					}
+
+					return [offset, msgs];
+				});
+		},
+		[activeSession.rid, decryptMessage, hiddenSystemMessages, loadedOffset]
+	);
+
+	/*
+	Get room messages if page changes
+	 */
+	useEffect(() => {
+		if (loadingMessages.current || loadedOffset <= offset) {
+			return;
+		}
+
+		loadingMessages.current = true;
+
+		let firstMessageId = null;
+		let firstMessageOffset = null;
+
+		fetchMessages(
+			offset,
+			loadedOffset === Infinity
+				? initialCount.current
+				: loadedOffset - offset
+		)
+			.then(([offset, messages]) => {
+				const firstMessage = scrollContainerRef.current
+					?.getElementsByClassName('messageItem')
+					?.item(0);
+				if (firstMessage) {
+					// Keep the offset of first message too becuase there could be a divider which changes
+					firstMessageOffset =
+						firstMessage.getBoundingClientRect().top -
+						scrollContainerRef.current.getBoundingClientRect().top;
+					firstMessageId = firstMessage.id;
+				}
+				// Get element message item scroll position to scrollcontainer
+				setOffset(offset);
+				setLoadedOffset(offset);
+				return messages;
+			})
+			.then((messages) => {
+				dispatch({
+					type: SET_MESSAGES,
+					messages
+				});
+			})
+			.finally(() => {
+				loadingMessages.current = false;
+				setInitialized(true);
+				if (firstMessageId) {
+					setTimeout(() => {
+						scrollContainerRef.current.scrollTop =
+							document.getElementById(firstMessageId).offsetTop +
+							firstMessageOffset * -1;
+					});
+				}
+			});
+	}, [fetchMessages, loadedOffset, offset]);
+
+	const handleRoomMessage = useUpdatingRef(
+		useCallback(
+			([message]) => {
+				if (anonymousConversationFinished) return;
+
+				if (message.t === 'user-muted') {
+					checkMutedUserForThisSession();
+					return;
+				}
+
+				if (message.t === 'au') {
+					// Handle this event only for groups because on session assigning its already handled
+					if (isE2eeEnabled && activeSession.isGroup) {
+						addNewUsersToEncryptedRoom().then();
+					}
+					return;
+				}
+
+				if (message.u?.username !== 'rocket-chat-technical-user') {
+					fetchMessage(message._id)
+						.then((message) => {
+							dispatch({
+								type: ADD_MESSAGE,
+								message
+							});
+							return message;
+						})
+						.then((message) => {
+							if (
+								initialScrollCompleted &&
+								(message?.own || isScrolledToBottom)
+							) {
+								setTimeout(() => {
+									scrollToEnd(
+										scrollContainerRef.current,
+										0,
+										true
+									);
+								});
+							}
+						});
+				}
+			},
+			[
+				anonymousConversationFinished,
+				checkMutedUserForThisSession,
+				isE2eeEnabled,
+				activeSession.isGroup,
+				addNewUsersToEncryptedRoom,
+				fetchMessage,
+				initialScrollCompleted,
+				isScrolledToBottom
+			]
+		)
 	);
 
 	const groupChatStoppedOverlay: OverlayItem = useMemo(
@@ -273,129 +544,113 @@ export const SessionStream = ({
 		)
 	);
 
-	useEffect(() => {
-		if (subscribed.current) {
-			setLoading(false);
-		} else {
-			subscribed.current = true;
+	const handleScrolledToTop = useCallback(
+		(top: boolean) => {
+			onScrolledToTop && onScrolledToTop(top);
 
-			if (anonymousConversationFinished) {
-				setLoading(false);
+			if (!top || loadingMessages.current) {
 				return;
 			}
 
-			// check if any user needs to be added when opening session view
-			addNewUsersToEncryptedRoom().then();
+			setOffset((offset) => {
+				if (offset <= 0) {
+					return offset;
+				}
 
-			fetchSessionMessages()
-				.then(() => {
-					setSessionRead();
+				return Math.max(0, offset - COUNT);
+			});
+		},
+		[onScrolledToTop]
+	);
 
-					subscribe(
-						{
-							name: SUB_STREAM_ROOM_MESSAGES,
-							roomId: activeSession.rid
-						},
-						onDebounceMessage
-					);
-
-					subscribe(
-						{
-							name: SUB_STREAM_NOTIFY_USER,
-							event: EVENT_SUBSCRIPTIONS_CHANGED,
-							userId: getValueFromCookie('rc_uid')
-						},
-						activeSession.isGroup || activeSession.isLive
-							? handleChatStopped
-							: handleSubscriptionChanged
-					);
-
-					if (activeSession.isGroup || activeSession.isLive) {
-						subscribeTyping();
-					}
-
-					if (activeSession.isLive) {
-						subscribe(
-							{
-								name: SUB_STREAM_NOTIFY_USER,
-								event: EVENT_ROOMS_CHANGED,
-								userId: getValueFromCookie('rc_uid')
-							},
-							handleLiveChatStopped
-						);
-					}
-
-					setLoading(false);
-				})
-				.catch((e) => {
-					if (e.message !== FETCH_ERRORS.ABORT) {
-						console.error('error fetchSessionMessages', e);
-					}
-				});
+	useEffect(() => {
+		if (!initialized || !ready) {
+			return;
 		}
 
+		if (anonymousConversationFinished) {
+			setLoading(false);
+			return;
+		}
+
+		// check if any user needs to be added when opening session view
+		addNewUsersToEncryptedRoom().then();
+
+		subscribe(
+			{
+				name: SUB_STREAM_ROOM_MESSAGES,
+				roomId: activeSession.rid
+			},
+			handleRoomMessage
+		);
+
+		subscribe(
+			{
+				name: SUB_STREAM_NOTIFY_USER,
+				event: EVENT_SUBSCRIPTIONS_CHANGED,
+				userId: getValueFromCookie('rc_uid')
+			},
+			activeSession.isGroup || activeSession.isLive
+				? handleChatStopped
+				: handleSubscriptionChanged
+		);
+
+		if (activeSession.isLive) {
+			subscribe(
+				{
+					name: SUB_STREAM_NOTIFY_USER,
+					event: EVENT_ROOMS_CHANGED,
+					userId: getValueFromCookie('rc_uid')
+				},
+				handleLiveChatStopped
+			);
+		}
+
+		setLoading(false);
+
 		return () => {
-			if (abortController.current) {
-				abortController.current.abort();
-				abortController.current = null;
-			}
+			unsubscribe(
+				{
+					name: SUB_STREAM_ROOM_MESSAGES,
+					roomId: activeSession.rid
+				},
+				handleRoomMessage
+			);
 
-			setMessagesItem(null);
+			unsubscribe(
+				{
+					name: SUB_STREAM_NOTIFY_USER,
+					event: EVENT_SUBSCRIPTIONS_CHANGED,
+					userId: getValueFromCookie('rc_uid')
+				},
+				activeSession.isGroup || activeSession.isLive
+					? handleChatStopped
+					: handleSubscriptionChanged
+			);
 
-			if (subscribed.current && activeSession) {
-				subscribed.current = false;
-
-				unsubscribe(
-					{
-						name: SUB_STREAM_ROOM_MESSAGES,
-						roomId: activeSession.rid
-					},
-					onDebounceMessage
-				);
-
-				unsubscribe(
-					{
-						name: SUB_STREAM_NOTIFY_USER,
-						event: EVENT_SUBSCRIPTIONS_CHANGED,
-						userId: getValueFromCookie('rc_uid')
-					},
-					activeSession.isGroup || activeSession.isLive
-						? handleChatStopped
-						: handleSubscriptionChanged
-				);
-
-				if (activeSession.isGroup || activeSession.isLive) {
-					unsubscribeTyping();
-				}
-
-				if (activeSession.isLive) {
-					unsubscribe(
-						{
-							name: SUB_STREAM_NOTIFY_USER,
-							event: EVENT_ROOMS_CHANGED,
-							userId: getValueFromCookie('rc_uid')
-						},
-						handleLiveChatStopped
-					);
-				}
-			}
+			unsubscribe(
+				{
+					name: SUB_STREAM_NOTIFY_USER,
+					event: EVENT_ROOMS_CHANGED,
+					userId: getValueFromCookie('rc_uid')
+				},
+				handleLiveChatStopped
+			);
 		};
 	}, [
-		activeSession,
+		activeSession.isGroup,
+		activeSession.isLive,
+		activeSession.rid,
 		addNewUsersToEncryptedRoom,
 		anonymousConversationFinished,
-		fetchSessionMessages,
 		handleChatStopped,
 		handleLiveChatStopped,
 		handleSubscriptionChanged,
-		onDebounceMessage,
-		setSessionRead,
+		initialized,
+		handleRoomMessage,
+		ready,
 		subscribe,
-		subscribeTyping,
-		type,
-		unsubscribe,
-		unsubscribeTyping,
-		userData
+		unsubscribe
 	]);
 
 	useEffect(() => {
@@ -434,27 +689,217 @@ export const SessionStream = ({
 		}
 	};
 
+	useEffect(() => {
+		if (activeSession.item.consultingType) {
+			let isCanceled = false;
+			apiGetConsultingType({
+				consultingTypeId: activeSession.item.consultingType
+			}).then((response) => {
+				if (isCanceled) return;
+				setResortData(response);
+			});
+			return () => {
+				isCanceled = true;
+			};
+		}
+	}, [activeSession.item.consultingType]);
+
+	const handleScroll = useDebouncedCallback(() => {
+		const scrollPosition = Math.round(
+			scrollContainerRef.current.scrollHeight -
+				scrollContainerRef.current.scrollTop
+		);
+		const containerHeight = scrollContainerRef.current.clientHeight;
+		const isBottom =
+			scrollPosition >= containerHeight - 1 &&
+			scrollPosition <= containerHeight + 1;
+
+		setIsScrolledToBottom(isBottom);
+		onScrolledToBottom && onScrolledToBottom(isBottom);
+
+		const isTop = scrollContainerRef.current.scrollTop < 200;
+		handleScrolledToTop(isTop);
+	}, 100);
+
+	const handleScrollToBottom = useCallback(
+		(timeout = 0) => {
+			const scrollContainer = scrollContainerRef.current;
+
+			const unreadDivider = unreadDividerRef.current;
+			const unreadItemOffset = unreadDivider?.offsetTop ?? 0;
+			if (
+				!unreadDivider ||
+				scrollContainer.scrollTop >= unreadItemOffset
+			) {
+				scrollToEnd(scrollContainer, timeout, true);
+				setTimeout(handleScroll, timeout);
+				return;
+			}
+
+			smoothScroll({
+				duration: 1000,
+				element: scrollContainer,
+				to: unreadItemOffset
+			});
+			setTimeout(handleScroll, 1000);
+		},
+		[handleScroll]
+	);
+
+	useEffect(() => {
+		if (!initialized) {
+			return;
+		}
+
+		setTimeout(() => {
+			handleScrollToBottom(500);
+			setTimeout(() => {
+				setInitialScrollCompleted(true);
+			}, 500);
+		});
+	}, [handleScrollToBottom, initialized]);
+
+	const scrollBottomButtonItem: ButtonItem = useMemo(
+		() => ({
+			icon: <ArrowDoubleDownIcon />,
+			type: BUTTON_TYPES.SMALL_ICON,
+			smallIconBackgroundColor: 'alternate',
+			title: 'app.scrollDown'
+		}),
+		[]
+	);
+
 	if (loading) {
 		return <Loading />;
 	}
 
 	return (
-		<div className="session__wrapper">
-			<SessionItemComponent
-				hasUserInitiatedStopOrLeaveRequest={
-					hasUserInitiatedStopOrLeaveRequest
-				}
-				isTyping={handleTyping}
-				typingUsers={typingUsers}
-				messages={messagesItem}
-				bannedUsers={bannedUsers}
-			/>
+		<>
+			<div
+				className={clsx(
+					className,
+					'session__content',
+					isDragActive && 'drag-in-progress'
+				)}
+				ref={scrollContainerRef}
+				onScroll={() => initialScrollCompleted && handleScroll()}
+			>
+				{messages &&
+					messages.map((message: MessageItem, index) => {
+						return (
+							<React.Fragment key={message._id}>
+								<FirstUnreadMessageDivider
+									visible={
+										unreadMessageData?._id === message._id
+									}
+									message={message}
+									ref={unreadDividerRef}
+								/>
+								<MessageDateDivider
+									prevMessage={messages?.[index - 1]}
+									message={message}
+								/>
+								<MessageItemComponent
+									askerRcId={activeSession.item.askerRcId}
+									isMyMessage={message.own}
+									resortData={resortData}
+									isUserBanned={bannedUsers.includes(
+										message.username
+									)}
+									subscriptionKeyLost={subscriptionKeyLost}
+									{...message}
+								/>
+							</React.Fragment>
+						);
+					})}
+			</div>
+			<div className="session__scrollToBottom__wrapper">
+				<div
+					className={`session__scrollToBottom ${
+						isScrolledToBottom
+							? 'session__scrollToBottom--disabled'
+							: ''
+					}`}
+				>
+					{unreadMessageData?.count > 0 && (
+						<span className="session__unreadCount">
+							{unreadMessageData.count > 99
+								? translate('session.unreadCount.maxValue')
+								: unreadMessageData.count}
+						</span>
+					)}
+					<Button
+						item={scrollBottomButtonItem}
+						isLink={false}
+						buttonHandle={handleScrollToBottom}
+					/>
+				</div>
+			</div>
+
 			{isOverlayActive && (
 				<Overlay
 					item={overlayItem}
 					handleOverlay={handleOverlayAction}
 				/>
 			)}
+		</>
+	);
+};
+
+const FirstUnreadMessageDivider = forwardRef<
+	HTMLDivElement,
+	{ visible: boolean; message: MessageItem }
+>(({ visible, message }, ref) => {
+	const { t: translate } = useTranslation();
+
+	if (!visible) {
+		return null;
+	}
+
+	return (
+		<div
+			className="messageItem__divider messageItem__divider--lastRead"
+			ref={ref}
+		>
+			{translate('session.divider.lastRead')}
+		</div>
+	);
+});
+
+const MessageDateDivider = ({
+	prevMessage,
+	message
+}: {
+	prevMessage: MessageItem;
+	message: MessageItem;
+}) => {
+	const { t: translate } = useTranslation();
+
+	const visible = useMemo(
+		() =>
+			(prevMessage?.messageDate?.str ||
+				prevMessage?.messageDate?.date) !==
+			(message.messageDate.str || message.messageDate.date),
+		[
+			message.messageDate.date,
+			message.messageDate.str,
+			prevMessage?.messageDate?.date,
+			prevMessage?.messageDate?.str
+		]
+	);
+
+	if (!visible) {
+		return null;
+	}
+
+	return (
+		<div className="messageItem__divider">
+			<Text
+				text={translate(
+					message.messageDate.str || message.messageDate.date
+				)}
+				type="divider"
+			/>
 		</div>
 	);
 };

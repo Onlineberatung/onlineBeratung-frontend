@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 
 interface MessageMetaDataProps {
 	isMyMessage: Boolean;
-	isNotRead: Boolean;
+	unread: Boolean;
 	isReadStatusDisabled: Boolean;
 	messageTime: string;
 	type: string;
@@ -41,19 +41,19 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 		return (
 			<div
 				className={
-					props.isNotRead
+					props.unread
 						? `messageItem__readStatus messageItem__readStatus--grey`
 						: `messageItem__readStatus`
 				}
 			>
 				<CheckmarkIcon
 					aria-label={
-						props.isNotRead
+						props.unread
 							? translate('message.sent')
 							: translate('message.read')
 					}
 					title={
-						props.isNotRead
+						props.unread
 							? translate('message.sent')
 							: translate('message.read')
 					}

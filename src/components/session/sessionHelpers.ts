@@ -8,13 +8,25 @@ import {
 	STATUS_ENQUIRY
 } from '../../globalState/interfaces/SessionsDataInterface';
 
-import { MessageItem } from '../message/MessageItemComponent';
-import {
-	formatToDDMMYYYY,
-	getPrettyDateFromMessageDate
-} from '../../utils/dateHelpers';
+import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import { decodeUsername } from '../../utils/encryptionHelpers';
+import {
+	decodeUsername,
+	decryptText,
+	MissingKeyError
+} from '../../utils/encryptionHelpers';
+import { MessageItem } from '../../types/MessageItem';
+import { ERROR_LEVEL_WARN, TError } from '../../api/apiPostError';
+import { markdownToDraft } from 'markdown-draft-js';
+import {
+	markdownToDraftDefaultOptions,
+	sanitizeHtmlDefaultOptions,
+	urlifyLinksInText
+} from '../messageSubmitInterface/richtextHelpers';
+import { ContentState, convertFromRaw } from 'draft-js';
+import sanitizeHtml from 'sanitize-html';
+import { stateToHTML } from 'draft-js-export-html';
+import i18n from '../../i18n';
 
 export enum SESSION_LIST_TYPES {
 	ENQUIRY = 'ENQUIRY',
@@ -142,9 +154,12 @@ export const getViewPathForType = (type: SESSION_LIST_TYPES) => {
 	}
 };
 
-export const scrollToEnd = (timeout: number, animation: boolean = false) => {
+export const scrollToEnd = (
+	container,
+	timeout: number,
+	animation: boolean = false
+) => {
 	setTimeout(() => {
-		const container = document.querySelector('#session-scroll-container');
 		const currentHeight = container ? container.scrollHeight : 0;
 		const PADDING = 200;
 		if (animation) {
@@ -175,48 +190,103 @@ export const scrollToEnd = (timeout: number, animation: boolean = false) => {
 	}, timeout);
 };
 
-export const prepareMessages = (messagesData): MessageItem[] => {
-	let lastDate = '';
+export const prepareMessage = (message): MessageItem => {
+	if (!message) {
+		return message;
+	}
 
-	return [...messagesData].map((message) => {
-		const date = new Date(message.ts).getTime();
-		const dateFormated = formatToDDMMYYYY(date);
-		let lastDateStr = { str: '', date: null };
+	const date = new Date(message.ts).getTime();
 
-		if (lastDate !== dateFormated) {
-			lastDate = dateFormated;
-			lastDateStr = getPrettyDateFromMessageDate(date / 1000);
-		}
+	return {
+		_id: message._id,
+		message: message.msg,
+		messageDate: getPrettyDateFromMessageDate(date / 1000),
+		messageTime: date.toString(),
+		username: message.u.username,
+		displayName: selectDisplayName(message.u),
+		userId: message.u._id,
+		unread: message.unread,
+		alias: message.alias,
+		attachments: message.attachments,
+		file: message.file,
+		t: message.t,
+		rid: message.rid,
+		own: message.u._id === getValueFromCookie('rc_uid')
+	};
+};
 
-		return {
-			_id: message._id,
-			message: message.msg,
-			messageDate: lastDateStr,
-			messageTime: date.toString(),
-			username: message.u.username,
-			displayName: selectDisplayName(message.u),
-			userId: message.u._id,
-			isNotRead: message.unread,
-			alias: message.alias,
-			attachments: message.attachments,
-			file: message.file,
-			t: message.t,
-			rid: message.rid
-		};
-	});
+export const decryptMessage = (
+	message: MessageItem,
+	keyID: string,
+	key: CryptoKey,
+	encrypted: boolean,
+	handleDecryptionErrors: (
+		id: string,
+		messageTime: string,
+		error: TError
+	) => void,
+	handleDecryptionSuccess: (id: string) => void
+) => {
+	if (!message || !message.message) {
+		return message;
+	}
+
+	return decryptText(
+		message.message,
+		keyID,
+		key,
+		encrypted,
+		message.t === 'e2e'
+	)
+		.catch((e) => {
+			if (!(e instanceof MissingKeyError)) {
+				handleDecryptionErrors(message._id, message.messageTime, {
+					name: e.name,
+					message: e.message,
+					stack: e.stack,
+					level: ERROR_LEVEL_WARN
+				});
+			}
+
+			return i18n.t('e2ee.message.encryption.text');
+		})
+		.then((decryptedMessage) => {
+			handleDecryptionSuccess(message._id);
+			return {
+				...message,
+				message: decryptedMessage
+			};
+		});
+};
+
+export const parseMessage = (message: MessageItem) => {
+	if (!message || !message.message) {
+		return message;
+	}
+
+	const rawMessageObject = markdownToDraft(
+		message.message,
+		markdownToDraftDefaultOptions
+	);
+	const contentStateMessage: ContentState = convertFromRaw(rawMessageObject);
+
+	return {
+		...message,
+		parsedMessage: contentStateMessage.hasText()
+			? sanitizeHtml(
+					urlifyLinksInText(stateToHTML(contentStateMessage)),
+					sanitizeHtmlDefaultOptions
+			  )
+			: ''
+	};
 };
 
 export const selectDisplayName = (userObject) => {
 	if (`${userObject.username}`.toLowerCase() === 'system')
 		return userObject.username;
 	if (userObject.name === null) return userObject.username;
-	if (userObject.name !== null) return decodeUsername(userObject.name);
-
-	return userObject.username;
+	return decodeUsername(userObject.name);
 };
-
-export const isMyMessage = (id: string): boolean =>
-	id === getValueFromCookie('rc_uid');
 
 export const isUserModerator = ({ chatItem, rcUserId }) =>
 	isGroupChat(chatItem) &&

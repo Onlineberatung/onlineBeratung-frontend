@@ -26,9 +26,9 @@ import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 
 type RocketChatSubscriptionsContextProps = {
 	subscriptionsReady: boolean;
-	subscriptions: any[];
+	subscriptions: ISubscriptions[];
 	roomsReady: boolean;
-	rooms: any[];
+	rooms: IRoom[];
 };
 
 export const RocketChatSubscriptionsContext =

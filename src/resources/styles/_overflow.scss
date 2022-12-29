@@ -1,0 +1,59 @@
+@mixin overflow-wrapper($key, $breakpoint) {
+	$bpKey: if($breakpoint == null, '', '-#{$key}');
+
+	@if not $breakpoint {
+		@include overflow($bpKey);
+	} @else {
+		@media screen and (min-width: $breakpoint) {
+			@include overflow($bpKey);
+		}
+	}
+}
+
+@mixin overflow($bpKey) {
+	.of {
+		&#{$bpKey}--h {
+			overflow: hidden;
+		}
+		&x#{$bpKey}--h {
+			overflow-x: hidden;
+		}
+		&y#{$bpKey}--h {
+			overflow-y: hidden;
+		}
+
+		&#{$bpKey}--v {
+			overflow: visible;
+		}
+		&x#{$bpKey}--v {
+			overflow-x: visible;
+		}
+		&y#{$bpKey}--v {
+			overflow-y: visible;
+		}
+
+		&#{$bpKey}--s {
+			overflow: scroll;
+		}
+		&x#{$bpKey}--s {
+			overflow-x: scroll;
+		}
+		&y#{$bpKey}--s {
+			overflow-y: scroll;
+		}
+
+		&#{$bpKey}--a {
+			overflow: auto;
+		}
+		&x#{$bpKey}--a {
+			overflow-x: auto;
+		}
+		&y#{$bpKey}--a {
+			overflow-y: auto;
+		}
+	}
+}
+
+@each $key, $breakpoint in $breakpoints {
+	@include overflow-wrapper($key, $breakpoint);
+}

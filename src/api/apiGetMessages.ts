@@ -1,11 +1,24 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { FETCH_METHODS, fetchData, FETCH_ERRORS } from './fetchData';
 
-export const apiGetSessionData = async (
+export const apiGetMessages = async (
 	rcGroupId: string,
-	signal?: AbortSignal
+	signal?: AbortSignal,
+	offset?: number,
+	count?: number,
+	since?: string
 ): Promise<any> => {
-	const url = endpoints.messages.get + `?rcGroupId=${rcGroupId}`;
+	let url = endpoints.messages.get + `?rcGroupId=${rcGroupId}`;
+
+	if (offset >= 0) {
+		url += `&offset=${offset}`;
+	}
+	if (count >= 0) {
+		url += `&count=${count}`;
+	}
+	if (since) {
+		url += `&since=${since}`;
+	}
 
 	return fetchData({
 		url: url,

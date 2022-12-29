@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-	useState,
-	useEffect,
-	useContext,
-	useCallback,
-	lazy,
-	Suspense
-} from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
@@ -22,6 +15,7 @@ import {
 } from '../app/navigationHandler';
 import { ReactComponent as EnvelopeCheckIcon } from '../../resources/img/illustrations/envelope-check.svg';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
+// ToDo: Check styles because enquiry_wrapper is defined in session.styles too but not imported in this view
 import './enquiry.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -33,14 +27,10 @@ import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { apiGetAskerSessionList } from '../../api';
 import { useTranslation } from 'react-i18next';
-import { MessageSubmitInterfaceSkeleton } from '../messageSubmitInterface/messageSubmitInterfaceSkeleton';
+import { SessionE2EEProvider } from '../../globalState/provider/SessionE2EEProvider';
+import { MessageSubmitComponent } from '../messageSubmitInterface/MessageSubmitComponent';
+import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
-
-const MessageSubmitInterfaceComponent = lazy(() =>
-	import('../messageSubmitInterface/messageSubmitInterfaceComponent').then(
-		(m) => ({ default: m.MessageSubmitInterfaceComponent })
-	)
-);
 
 export const WriteEnquiry: React.FC = () => {
 	const { t: translate } = useTranslation();
@@ -113,6 +103,7 @@ export const WriteEnquiry: React.FC = () => {
 		}
 	};
 
+	// ToDo. Do it the react way
 	const activateListView = () => {
 		document
 			.querySelector('.contentWrapper__list')
@@ -120,6 +111,7 @@ export const WriteEnquiry: React.FC = () => {
 		document
 			.querySelector('.navigation__wrapper')
 			?.classList.remove('navigation__wrapper--mobileHidden');
+		document.querySelector('.header')?.classList.remove('header--mobile');
 
 		if (window.innerWidth <= 900) {
 			const contentWrapper = document.querySelector(
@@ -178,73 +170,69 @@ export const WriteEnquiry: React.FC = () => {
 	const isUnassignedSession = activeSession && !activeSession?.consultant;
 
 	return (
-		<div className="enquiry__wrapper">
-			<div className="enquiry__contentWrapper">
-				<div className="enquiry__infoWrapper">
-					<div className="enquiry__text">
-						<Headline
-							semanticLevel="3"
-							text={translate('enquiry.write.infotext.headline')}
-							className="enquiry__infotextHeadline"
-						/>
-						<Headline
-							semanticLevel="4"
-							styleLevel="5"
-							text={translate(
-								'enquiry.write.infotext.copy.title'
-							)}
-						/>
-						<Text
-							text={translate(
-								'enquiry.write.infotext.copy.facts'
-							)}
-							type="standard"
-							className="enquiry__facts"
-						/>
-					</div>
-					<WelcomeIcon
-						className="enquiry__image"
-						title={translate('enquiry.write.infotext.iconTitle')}
-						aria-label={translate(
-							'enquiry.write.infotext.iconTitle'
-						)}
-					/>
-				</div>
-				{isUnassignedSession && (
-					<EnquiryLanguageSelection
-						className="enquiry__languageSelection"
-						onSelect={setSelectedLanguage}
-						value={selectedLanguage}
-					/>
-				)}
-			</div>
+		<DragAndDropArea className="flex flex--fd-column flex--ai-s enquiry__wrapper">
 			<ActiveSessionContext.Provider value={{ activeSession }}>
 				<RocketChatUsersOfRoomProvider>
-					<Suspense
-						fallback={
-							<MessageSubmitInterfaceSkeleton
-								placeholder={translate(
-									'enquiry.write.input.placeholder.asker'
+					<SessionE2EEProvider>
+						<div className="enquiry__contentWrapper flex__col--1 flex flex--fd-column flex--ai-c flex--jc-c">
+							<div className="enquiry__scrollContainer">
+								<div className="enquiry__infoWrapper">
+									<div className="enquiry__text">
+										<Headline
+											semanticLevel="3"
+											text={translate(
+												'enquiry.write.infotext.headline'
+											)}
+											className="enquiry__infotextHeadline"
+										/>
+										<Headline
+											semanticLevel="4"
+											styleLevel="5"
+											text={translate(
+												'enquiry.write.infotext.copy.title'
+											)}
+										/>
+										<Text
+											text={translate(
+												'enquiry.write.infotext.copy.facts'
+											)}
+											type="standard"
+											className="enquiry__facts"
+										/>
+									</div>
+									<WelcomeIcon
+										className="enquiry__image"
+										title={translate(
+											'enquiry.write.infotext.iconTitle'
+										)}
+										aria-label={translate(
+											'enquiry.write.infotext.iconTitle'
+										)}
+									/>
+								</div>
+								{isUnassignedSession && (
+									<EnquiryLanguageSelection
+										className="enquiry__languageSelection"
+										onSelect={setSelectedLanguage}
+										value={selectedLanguage}
+									/>
 								)}
-							/>
-						}
-					>
-						<MessageSubmitInterfaceComponent
+							</div>
+						</div>
+						<MessageSubmitComponent
+							className="flex__col--0"
 							onSendButton={handleSendButton}
-							placeholder={translate(
-								'enquiry.write.input.placeholder.asker'
-							)}
 							language={selectedLanguage}
 						/>
-					</Suspense>
+						{overlayActive && (
+							<Overlay
+								item={overlayItem}
+								handleOverlay={handleOverlayAction}
+							/>
+						)}
+					</SessionE2EEProvider>
 				</RocketChatUsersOfRoomProvider>
 			</ActiveSessionContext.Provider>
-			{overlayActive && (
-				<Overlay
-					item={overlayItem}
-					handleOverlay={handleOverlayAction}
-				/>
-			)}
-		</div>
+		</DragAndDropArea>
 	);
 };

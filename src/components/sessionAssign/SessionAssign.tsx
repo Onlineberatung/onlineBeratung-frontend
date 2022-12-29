@@ -18,7 +18,6 @@ import {
 import { SelectDropdown } from '../select/SelectDropdown';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { useE2EE } from '../../hooks/useE2EE';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import {
@@ -32,6 +31,7 @@ import {
 	OVERLAY_E2EE,
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
 
 export interface Consultant {
 	consultantId: string;
@@ -56,9 +56,8 @@ export const SessionAssign = (props: { value?: string }) => {
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
-	const { addNewUsersToEncryptedRoom, encryptRoom } = useE2EE(
-		activeSession.item.groupId
-	);
+	const { addNewUsersToEncryptedRoom, encryptRoom } =
+		useContext(SessionE2EEContext);
 
 	const {
 		visible: e2eeOverlayVisible,

@@ -59,7 +59,7 @@
 	}
 
 	/* stylelint-disable */
-	label:not(.requestFeedbackLabel) {
+	label:not(.requestFeedbackLabel):not(.textarea__attachmentSelect) {
 		width: calc(100% - #{$grid-base-three * 2});
 		position: absolute;
 		left: $grid-base-three;

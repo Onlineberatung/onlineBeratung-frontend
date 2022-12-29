@@ -8,7 +8,6 @@ import {
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEContext } from '../../globalState';
 import { convertFromRaw, EditorState } from 'draft-js';
 import { markdownToDraft } from 'markdown-draft-js';
@@ -17,6 +16,7 @@ import {
 	addEventListener,
 	removeEventListener
 } from '../../utils/eventHandler';
+import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
 
 const SAVE_DRAFT_TIMEOUT = 10000;
 
@@ -26,11 +26,10 @@ export const useDraftMessage = (
 ) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { keyID, key, encrypted } = useContext(SessionE2EEContext);
 
 	const draftSaveTimeout = useRef(null);
 	const willUnmount = useRef(false);
-
-	const { keyID, key, encrypted, ready } = useE2EE(activeSession.rid);
 
 	const [loaded, setLoaded] = useState(false);
 	const [messageRes, setMessageRes] = useState<IDraftMessage>(null);
@@ -65,7 +64,7 @@ export const useDraftMessage = (
 
 	// If everything is ready for decryption, decrypt the draft message
 	useEffect(() => {
-		if (!ready || !messageRes) {
+		if (!messageRes) {
 			return;
 		}
 
@@ -101,7 +100,6 @@ export const useDraftMessage = (
 		isE2eeEnabled,
 		key,
 		keyID,
-		ready,
 		setEditorWithMarkdownString
 	]);
 

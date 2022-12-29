@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import sanitizeHtml from 'sanitize-html';
-import { PrettyDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES,
 	ConsultingTypeInterface,
 	STATUS_ARCHIVED,
-	E2EEContext,
 	SessionTypeContext,
 	RocketChatGlobalSettingsContext
 } from '../../globalState';
@@ -17,43 +14,18 @@ import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
 import { CopyMessage } from './CopyMessage';
 import { MessageDisplayName } from './MessageDisplayName';
-import { markdownToDraft } from 'markdown-draft-js';
-import { stateToHTML } from 'draft-js-export-html';
-import { convertFromRaw, ContentState } from 'draft-js';
-import {
-	markdownToDraftDefaultOptions,
-	sanitizeHtmlDefaultOptions,
-	urlifyLinksInText
-} from '../messageSubmitInterface/richtextHelpers';
 import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import { isVoluntaryInfoSet } from './messageHelpers';
-import { Text } from '../text/Text';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Appointment } from './Appointment';
-import { decryptText, MissingKeyError } from '../../utils/encryptionHelpers';
-import { e2eeParams } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
-import {
-	ReassignRequestAcceptedMessage,
-	ReassignRequestDeclinedMessage,
-	ReassignRequestMessage,
-	ReassignRequestSentMessage
-} from './ReassignMessage';
-import {
-	apiSendAliasMessage,
-	ConsultantReassignment,
-	ReassignStatus
-} from '../../api/apiSendAliasMessage';
-import { apiPatchMessage } from '../../api/apiPatchMessage';
-import { apiSessionAssign } from '../../api';
-
+import { ReassignMessage } from './ReassignMessage';
 import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
-import { ERROR_LEVEL_WARN, TError } from '../../api/apiPostError';
 import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
 import { ReactComponent as DeletedIcon } from '../../resources/img/icons/deleted.svg';
 import {
@@ -67,60 +39,15 @@ import { apiDeleteMessage } from '../../api/apiDeleteMessage';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { BanUser } from '../banUser/BanUser';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-
-export interface ForwardMessageDTO {
-	message: string;
-	rcUserId: string;
-	timestamp: any;
-	username: string;
-	displayName: string;
-}
-
-export interface VideoCallMessageDTO {
-	eventType: 'IGNORED_CALL';
-	initiatorRcUserId: string;
-	initiatorUserName: string;
-}
-
-export interface MessageItem {
-	_id: string;
-	message: string;
-	messageDate: PrettyDate;
-	messageTime: string;
-	displayName: string;
-	username: string;
-	askerRcId?: string;
-	userId: string;
-	consultant?: {
-		username: string;
-	};
-	groupId?: string;
-	isNotRead: boolean;
-	alias?: {
-		forwardMessageDTO?: ForwardMessageDTO;
-		videoCallMessageDTO?: VideoCallMessageDTO;
-		content?: string;
-		messageType: ALIAS_MESSAGE_TYPES;
-	};
-	attachments?: MessageService.Schemas.AttachmentDTO[];
-	file?: MessageService.Schemas.FileDTO;
-	t: null | 'e2e' | 'rm' | 'room-removed-read-only' | 'room-set-read-only';
-	rid: string;
-}
+import { MessageItem } from '../../types/MessageItem';
+import clsx from 'clsx';
+import { VideoCallMessageDTO } from '../../types/VideoCallMessageDTO';
 
 interface MessageItemComponentProps extends MessageItem {
-	isOnlyEnquiry?: boolean;
 	isMyMessage: boolean;
-	clientName: string;
 	resortData: ConsultingTypeInterface;
 	isUserBanned: boolean;
-	handleDecryptionErrors: (
-		id: string,
-		messageTime: string,
-		error: TError
-	) => void;
-	handleDecryptionSuccess: (id: string) => void;
-	e2eeParams: e2eeParams & { subscriptionKeyLost: boolean };
+	subscriptionKeyLost: boolean;
 }
 
 export const MessageItemComponent = ({
@@ -128,7 +55,7 @@ export const MessageItemComponent = ({
 	alias,
 	userId,
 	message,
-	messageDate,
+	parsedMessage,
 	messageTime,
 	resortData,
 	isMyMessage,
@@ -137,87 +64,20 @@ export const MessageItemComponent = ({
 	askerRcId,
 	attachments,
 	file,
-	isNotRead,
+	unread,
 	isUserBanned,
 	t,
 	rid,
-	handleDecryptionErrors,
-	handleDecryptionSuccess,
-	e2eeParams
+	subscriptionKeyLost
 }: MessageItemComponentProps) => {
 	const { t: translate } = useTranslation();
-	const { activeSession, reloadActiveSession } =
-		useContext(ActiveSessionContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 
 	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
-	const [renderedMessage, setRenderedMessage] = useState<string | null>(null);
-	const [decryptedMessage, setDecryptedMessage] = useState<
-		string | null | undefined
-	>(null);
 
-	const { isE2eeEnabled } = useContext(E2EEContext);
-
-	useEffect((): void => {
-		if (isE2eeEnabled && message) {
-			decryptText(
-				message,
-				e2eeParams.keyID,
-				e2eeParams.key,
-				e2eeParams.encrypted,
-				t === 'e2e'
-			)
-				.catch((e) => {
-					if (!(e instanceof MissingKeyError)) {
-						handleDecryptionErrors(_id, messageTime, {
-							name: e.name,
-							message: e.message,
-							stack: e.stack,
-							level: ERROR_LEVEL_WARN
-						});
-					}
-
-					return translate('e2ee.message.encryption.text');
-				})
-				.then(setDecryptedMessage)
-				.then(() => handleDecryptionSuccess(_id));
-		} else {
-			setDecryptedMessage(message);
-		}
-	}, [
-		translate,
-		message,
-		t,
-		isE2eeEnabled,
-		handleDecryptionErrors,
-		e2eeParams.keyID,
-		e2eeParams.key,
-		e2eeParams.encrypted,
-		messageTime,
-		_id,
-		handleDecryptionSuccess
-	]);
-
-	useEffect((): void => {
-		const rawMessageObject = markdownToDraft(
-			decryptedMessage,
-			markdownToDraftDefaultOptions
-		);
-		const contentStateMessage: ContentState =
-			convertFromRaw(rawMessageObject);
-
-		setRenderedMessage(
-			contentStateMessage.hasText()
-				? sanitizeHtml(
-						urlifyLinksInText(stateToHTML(contentStateMessage)),
-						sanitizeHtmlDefaultOptions
-				  )
-				: ''
-		);
-	}, [decryptedMessage]);
-
-	const hasRenderedMessage = renderedMessage && renderedMessage.length > 0;
+	const hasParsedMessage = parsedMessage && parsedMessage.length > 0;
 
 	useEffect(() => {
 		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
@@ -229,22 +89,6 @@ export const MessageItemComponent = ({
 			);
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-	const getMessageDate = () => {
-		if (messageDate.str || messageDate.date) {
-			return (
-				<div className="messageItem__divider">
-					<Text
-						text={translate(
-							messageDate.str ? messageDate.str : messageDate.date
-						)}
-						type="divider"
-					/>
-				</div>
-			);
-		}
-		return null;
-	};
 
 	const getUsernameType = () => {
 		if (isMyMessage) {
@@ -260,33 +104,6 @@ export const MessageItemComponent = ({
 			return 'user';
 		}
 		return 'consultant';
-	};
-
-	const clickReassignRequestMessage = (accepted, toConsultantId) => {
-		if (accepted) {
-			apiSessionAssign(activeSession.item.id, toConsultantId)
-				.then(() => {
-					apiPatchMessage(
-						toConsultantId,
-						ReassignStatus.CONFIRMED,
-						_id
-					)
-						.then(() => {
-							// WORKAROUND for an issue with reassignment and old users breaking the lastMessage for this session
-							apiSendAliasMessage({
-								rcGroupId: activeSession.rid,
-								type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT_RESET_LAST_MESSAGE
-							});
-							reloadActiveSession();
-						})
-						.catch((error) => console.log(error));
-				})
-				.catch((error) => console.log(error));
-		} else {
-			apiPatchMessage(toConsultantId, ReassignStatus.REJECTED, _id).catch(
-				(error) => console.log(error)
-			);
-		}
 	};
 
 	const isUserMessage = () =>
@@ -323,8 +140,6 @@ export const MessageItemComponent = ({
 		return null;
 	}
 
-	const isTeamSession = activeSession?.item?.isTeamSession;
-	const isMySession = activeSession?.consultant?.id === userData?.userId;
 	const isAppointmentSet =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_SET ||
 		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED ||
@@ -338,57 +153,14 @@ export const MessageItemComponent = ({
 			case isMasterKeyLostMessage:
 				return (
 					<MasterKeyLostMessage
-						subscriptionKeyLost={e2eeParams.subscriptionKeyLost}
+						subscriptionKeyLost={subscriptionKeyLost}
 					/>
 				);
 			case isE2EEActivatedMessage:
 				return <E2EEActivatedMessage />;
 			case isReassignmentMessage:
 				if (message) {
-					const isAsker = hasUserAuthority(
-						AUTHORITIES.ASKER_DEFAULT,
-						userData
-					);
-
-					const reassignmentParams: ConsultantReassignment =
-						JSON.parse(message);
-					switch (reassignmentParams.status) {
-						case ReassignStatus.REQUESTED:
-							return isAsker ? (
-								<ReassignRequestMessage
-									{...reassignmentParams}
-									isTeamSession={isTeamSession}
-									onClick={(accepted) =>
-										clickReassignRequestMessage(
-											accepted,
-											reassignmentParams.toConsultantId
-										)
-									}
-								/>
-							) : (
-								<ReassignRequestSentMessage
-									{...reassignmentParams}
-									isTeamSession={isTeamSession}
-									isMySession={isMySession}
-								/>
-							);
-						case ReassignStatus.CONFIRMED:
-							return (
-								<ReassignRequestAcceptedMessage
-									isAsker={isAsker}
-									isMySession={isMySession}
-									{...reassignmentParams}
-								/>
-							);
-						case ReassignStatus.REJECTED:
-							return (
-								<ReassignRequestDeclinedMessage
-									isAsker={isAsker}
-									isMySession={isMySession}
-									{...reassignmentParams}
-								/>
-							);
-					}
+					return <ReassignMessage id={_id} message={message} />;
 				}
 				return;
 			case isFurtherStepsMessage:
@@ -494,7 +266,7 @@ export const MessageItemComponent = ({
 						>
 							<span
 								dangerouslySetInnerHTML={{
-									__html: renderedMessage
+									__html: parsedMessage
 								}}
 							/>
 							{attachments &&
@@ -505,16 +277,16 @@ export const MessageItemComponent = ({
 										rid={rid}
 										file={file}
 										t={t}
-										hasRenderedMessage={hasRenderedMessage}
+										hasParsedMessage={hasParsedMessage}
 									/>
 								))}
 							{activeSession.isFeedback && (
 								<CopyMessage
 									right={isMyMessage}
-									message={renderedMessage}
+									message={parsedMessage}
 								/>
 							)}
-							{hasRenderedMessage &&
+							{hasParsedMessage &&
 								hasUserAuthority(
 									AUTHORITIES.USE_FEEDBACK,
 									userData
@@ -527,12 +299,9 @@ export const MessageItemComponent = ({
 									STATUS_ARCHIVED && (
 									<ForwardMessage
 										right={isMyMessage}
-										message={decryptedMessage}
+										message={message}
 										messageTime={messageTime}
 										askerRcId={askerRcId}
-										groupId={
-											activeSession.item.feedbackGroupId
-										}
 										displayName={displayName}
 									/>
 								)}
@@ -556,14 +325,14 @@ export const MessageItemComponent = ({
 
 	return (
 		<div
-			className={`messageItem ${
-				isMyMessage ? 'messageItem--right' : ''
-			} ${
+			className={clsx(
+				'messageItem',
+				isMyMessage && 'messageItem--right',
 				alias?.messageType &&
-				`${alias?.messageType.toLowerCase()} systemMessage`
-			}`}
+					`${alias.messageType.toLowerCase()} systemMessage`
+			)}
+			id={`message-${_id}`}
 		>
-			{getMessageDate()}
 			<div
 				className={`
 					messageItem__messageWrap
@@ -580,7 +349,7 @@ export const MessageItemComponent = ({
 
 				<MessageMetaData
 					isMyMessage={isMyMessage}
-					isNotRead={isNotRead}
+					unread={unread}
 					messageTime={messageTime}
 					t={t}
 					type={getUsernameType()}

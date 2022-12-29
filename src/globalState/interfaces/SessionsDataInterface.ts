@@ -1,5 +1,5 @@
-import { VideoCallMessageDTO } from '../../components/message/MessageItemComponent';
 import { AgencyDataInterface } from './UserDataInterface';
+import { VideoCallMessageDTO } from '../../types/VideoCallMessageDTO';
 
 export const SESSION_DATA_KEY_ENQUIRIES = 'enquiries';
 export const SESSION_DATA_KEY_MY_SESSIONS = 'mySessions';

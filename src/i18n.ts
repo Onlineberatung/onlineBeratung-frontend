@@ -7,7 +7,7 @@ import flatten from 'flat';
 import { de } from './resources/i18n/de';
 import { deInformal } from './resources/i18n/de.informal';
 import { deLanguages } from './resources/i18n/de.languages';
-import { STORAGE_KEY_ENABLE_TRANSLATION_CHECK } from './components/devToolbar/DevToolbar';
+import { STORAGE_KEY_ENABLE_TRANSLATION_CHECK } from './components/devToolbar/constants';
 
 export const FALLBACK_LNG = 'de';
 

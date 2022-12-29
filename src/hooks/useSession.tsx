@@ -18,7 +18,7 @@ export const useSession = (
 ): {
 	session: ExtendedSessionInterface;
 	reload: () => void;
-	read: () => void;
+	read: () => Promise<any>;
 	ready: boolean;
 } => {
 	const [ready, setReady] = useState(false);
@@ -104,7 +104,7 @@ export const useSession = (
 			: session.item.messagesRead;
 
 		if (!isCurrentSessionRead) {
-			apiSetSessionRead(session.rid).then();
+			return apiSetSessionRead(session.rid);
 		}
 	}, [session]);
 

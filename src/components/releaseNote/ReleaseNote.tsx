@@ -14,11 +14,9 @@ import { stateToHTML } from 'draft-js-export-html';
 import './releaseNote.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import {
-	STORAGE_KEY_RELEASE_NOTES,
-	useDevToolbar
-} from '../devToolbar/DevToolbar';
+import { useDevToolbar } from '../devToolbar/DevToolbar';
 import { OVERLAY_RELEASE_NOTE } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { STORAGE_KEY_RELEASE_NOTES } from '../devToolbar/constants';
 
 interface ReleaseNoteProps {}
 

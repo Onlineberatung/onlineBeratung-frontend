@@ -109,8 +109,9 @@ export const Button = (props: ButtonProps) => {
 		}
 	};
 
+	const Wrapper = item.type === BUTTON_TYPES.LINK_INLINE ? 'span' : 'div';
 	return (
-		<div
+		<Wrapper
 			className={`button__wrapper ${
 				item.type === BUTTON_TYPES.LINK_INLINE
 					? 'button__wrapper--inline'
@@ -121,8 +122,8 @@ export const Button = (props: ButtonProps) => {
 				onClick={(event) => handleButtonClick(event)}
 				id={item.id}
 				disabled={props.disabled}
-				title={item.title}
-				aria-label={item.title}
+				title={translate(item.title)}
+				aria-label={translate(item.title)}
 				className={`
 					button__item 
 					${getButtonClassName(item.type)} 
@@ -154,6 +155,6 @@ export const Button = (props: ButtonProps) => {
 				{item.icon && item.icon}
 				{item.label && translate(item.label)}
 			</button>
-		</div>
+		</Wrapper>
 	);
 };

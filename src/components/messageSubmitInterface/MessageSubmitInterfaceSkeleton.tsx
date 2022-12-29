@@ -80,7 +80,7 @@ export const MessageSubmitInterfaceSkeleton = ({
 										color: '#787378'
 									}}
 								>
-									{placeholder}
+									{translate(placeholder)}
 								</div>
 							</div>
 						</span>

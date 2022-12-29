@@ -59,6 +59,10 @@ export const apiUploadAttachment = (
 			}
 		};
 
+		xhr.onabort = (e) => {
+			reject(e.target);
+		};
+
 		xhr.open(FETCH_METHODS.POST, url, true);
 		xhr.setRequestHeader('Authorization', `Bearer ${accessToken}`);
 		xhr.setRequestHeader('rcToken', rcAuthToken);

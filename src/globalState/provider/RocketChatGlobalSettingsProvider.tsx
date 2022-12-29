@@ -36,6 +36,7 @@ const SETTINGS_TO_FETCH = [
 type RocketChatGlobalSettingsContextProps = {
 	settings: TSetting[];
 	getSetting: <T extends TSetting>(id: T['_id']) => T | null;
+	ready: boolean;
 };
 
 export const RocketChatGlobalSettingsContext =
@@ -43,11 +44,13 @@ export const RocketChatGlobalSettingsContext =
 
 export const RocketChatGlobalSettingsProvider = (props) => {
 	const [settings, setSettings] = useState<TSetting[]>([]);
+	const [ready, setReady] = useState(false);
 
 	useEffect(() => {
-		apiRocketChatSettingsPublic(SETTINGS_TO_FETCH).then((res) =>
-			setSettings(res.settings)
-		);
+		apiRocketChatSettingsPublic(SETTINGS_TO_FETCH).then((res) => {
+			setSettings(res.settings);
+			setReady(true);
+		});
 	}, []);
 
 	const getSetting = useCallback(
@@ -151,7 +154,7 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 
 	return (
 		<RocketChatGlobalSettingsContext.Provider
-			value={{ settings, getSetting }}
+			value={{ settings, getSetting, ready }}
 		>
 			{props.children}
 		</RocketChatGlobalSettingsContext.Provider>

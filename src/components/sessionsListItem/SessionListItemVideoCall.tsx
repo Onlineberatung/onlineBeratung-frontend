@@ -5,7 +5,7 @@ import {
 	currentUserIsTeamConsultant,
 	currentUserWasVideoCallInitiator
 } from '../../utils/videoCallHelpers';
-import { VideoCallMessageDTO } from '../message/MessageItemComponent';
+import { VideoCallMessageDTO } from '../../types/VideoCallMessageDTO';
 
 interface SessionListItemVideoCallProps {
 	videoCallMessage: VideoCallMessageDTO;

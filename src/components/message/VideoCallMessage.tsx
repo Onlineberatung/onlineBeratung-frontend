@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { ICON_CALL_OFF, SystemMessage } from './SystemMessage';
-import { VideoCallMessageDTO } from './MessageItemComponent';
 import {
 	currentUserIsTeamConsultant,
 	currentUserWasVideoCallInitiator
 } from '../../utils/videoCallHelpers';
 import { useTranslation } from 'react-i18next';
+import { VideoCallMessageDTO } from '../../types/VideoCallMessageDTO';
 interface VideoCallMessageProps {
 	videoCallMessage: VideoCallMessageDTO;
 	activeSessionUsername: string;

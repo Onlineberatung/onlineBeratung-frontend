@@ -5,7 +5,6 @@ import { apiForwardMessage } from '../../api';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 import { encryptText } from '../../utils/encryptionHelpers';
-import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
@@ -16,6 +15,8 @@ import {
 	OVERLAY_E2EE,
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
 
 interface ForwardMessageProps {
 	right: boolean;
@@ -23,7 +24,6 @@ interface ForwardMessageProps {
 	messageTime: string;
 	displayName: string;
 	askerRcId: string;
-	groupId: string;
 }
 
 export const ForwardMessage = (props: ForwardMessageProps) => {
@@ -35,7 +35,9 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 		useTimeoutOverlay(isRequestInProgress);
 
 	/* E2EE */
-	const { key, keyID, encrypted, encryptRoom } = useE2EE(props.groupId);
+	const {
+		feedback: { key, keyID, encrypted, encryptRoom }
+	} = useContext(SessionE2EEContext);
 	const {
 		visible: e2eeOverlayVisible,
 		setState: setE2EEState,
@@ -43,6 +45,7 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 	} = useE2EEViewElements();
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 
 	const forwardMessage = useCallback(async () => {
 		if (isRequestInProgress) {
@@ -77,7 +80,7 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 			props.messageTime,
 			props.displayName,
 			props.askerRcId,
-			props.groupId,
+			activeSession.item.feedbackGroupId,
 			isEncrypted
 		).then(() => {
 			encryptRoom(setE2EEState).then(() => {
@@ -91,14 +94,14 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 	}, [
 		isRequestInProgress,
 		encrypted,
+		keyID,
 		props.message,
 		props.messageTime,
 		props.displayName,
 		props.askerRcId,
-		props.groupId,
 		isE2eeEnabled,
+		activeSession.item.feedbackGroupId,
 		key,
-		keyID,
 		encryptRoom,
 		setE2EEState
 	]);

@@ -26,6 +26,7 @@ import { RocketChatPublicSettingsProvider } from '../../globalState/provider/Roc
 import { RocketChatGetUserRolesProvider } from '../../globalState/provider/RocketChatSytemUsersProvider';
 import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
 import { RocketChatUserStatusProvider } from '../../globalState/provider/RocketChatUserStatusProvider';
+import { GlobalDragAndDropProvider } from '../../globalState/provider/GlobalDragAndDropProvider';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -112,24 +113,26 @@ export const AuthenticatedApp = ({
 	if (appReady) {
 		return (
 			<>
-				<RocketChatProvider>
-					<RocketChatGetUserRolesProvider>
-						<RocketChatPublicSettingsProvider>
-							<RocketChatSubscriptionsProvider>
-								<RocketChatUnreadProvider>
-									<RocketChatUserStatusProvider>
-										<Routing logout={handleLogout} />
-										{notifications && (
-											<Notifications
-												notifications={notifications}
-											/>
-										)}
-									</RocketChatUserStatusProvider>
-								</RocketChatUnreadProvider>
-							</RocketChatSubscriptionsProvider>
-						</RocketChatPublicSettingsProvider>
-					</RocketChatGetUserRolesProvider>
-				</RocketChatProvider>
+				<GlobalDragAndDropProvider>
+					<RocketChatProvider>
+						<RocketChatGetUserRolesProvider>
+							<RocketChatPublicSettingsProvider>
+								<RocketChatSubscriptionsProvider>
+									<RocketChatUnreadProvider>
+										<RocketChatUserStatusProvider>
+											<Routing logout={handleLogout} />
+											{notifications && (
+												<Notifications
+													notifications={notifications}
+												/>
+											)}
+										</RocketChatUserStatusProvider>
+									</RocketChatUnreadProvider>
+								</RocketChatSubscriptionsProvider>
+							</RocketChatPublicSettingsProvider>
+						</RocketChatGetUserRolesProvider>
+					</RocketChatProvider>
+				</GlobalDragAndDropProvider>
 			</>
 		);
 	} else if (loading) {
