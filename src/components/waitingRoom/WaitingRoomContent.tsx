@@ -6,16 +6,16 @@ import { useTranslation } from 'react-i18next';
 
 export interface WaitingRoomContentProps {
 	showRegistrationInfo?: boolean;
-	headline?: string;
-	subline?: string;
+	headlineKey?: string;
+	sublineKey?: string;
 	Illustration: any;
 	children?: React.ReactNode;
 }
 
 export const WaitingRoomContent = ({
 	showRegistrationInfo,
-	headline,
-	subline,
+	headlineKey,
+	sublineKey,
 	Illustration,
 	children
 }: WaitingRoomContentProps) => {
@@ -23,19 +23,19 @@ export const WaitingRoomContent = ({
 	return (
 		<>
 			<div>
-				{headline && (
+				{headlineKey && (
 					<Headline
 						className="waitingRoom__headline"
 						semanticLevel="1"
 						styleLevel="2"
-						text={headline}
+						text={translate(headlineKey)}
 					/>
 				)}
-				{subline && (
+				{sublineKey && (
 					<Headline
 						className="waitingRoom__subline"
 						semanticLevel="2"
-						text={subline}
+						text={translate(sublineKey)}
 					/>
 				)}
 				<div className="waitingRoom__action">

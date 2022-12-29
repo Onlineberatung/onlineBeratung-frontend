@@ -77,11 +77,8 @@ export const en = {
 			},
 			'closed': {
 				headline: 'Our live chat is currently unavailable',
-				description: {
-					prefix: 'On our',
-					linkLabel: 'website',
-					suffix: 'you can find the opening hours of the chat in the respective subject area.'
-				},
+				description:
+					'On our <a target="_blank" href="{{websiteUrl}}">Website</a> you can find the opening hours of the chat in the respective subject area.',
 				illustrationTitle: 'chat closed'
 			},
 			'headline': 'Please be patient',

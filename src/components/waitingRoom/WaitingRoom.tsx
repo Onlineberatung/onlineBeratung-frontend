@@ -108,8 +108,8 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			setUsername(registeredUsername);
 			handleTokenRefresh()
 				.then(afterRegistrationHandler)
-				.then(async () => {
-					return await apiAnonymousConversationAvailability(
+				.then(() => {
+					return apiAnonymousConversationAvailability(
 						parseInt(sessionId, 10)
 					);
 				})
@@ -233,11 +233,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					handleTokenRefresh().then(afterRegistrationHandler);
 					return response.sessionId;
 				})
-				.then(async (sessionId) => {
-					return await apiAnonymousConversationAvailability(
-						sessionId
-					);
-				})
+				.then(apiAnonymousConversationAvailability)
 				.then(
 					(response: AnonymousConversationAvailabilityInterface) => {
 						setIsConsultantAvailable(
@@ -273,12 +269,8 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			return (
 				<WaitingRoomContent
 					showRegistrationInfo={false}
-					headline={translate(
-						'anonymous.waitingroom.dataProtection.headline'
-					)}
-					subline={translate(
-						'anonymous.waitingroom.dataProtection.subline'
-					)}
+					headlineKey="anonymous.waitingroom.dataProtection.headline"
+					sublineKey="anonymous.waitingroom.dataProtection.subline"
 					Illustration={
 						<SecurityIllustration
 							aria-label={translate(
@@ -324,14 +316,39 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					/>
 				</WaitingRoomContent>
 			);
+		} else if (isConsultantAvailable === false) {
+			return (
+				<WaitingRoomContent
+					showRegistrationInfo={true}
+					headlineKey="anonymous.waitingroom.closed.headline"
+					Illustration={
+						<ClosedIllustration
+							aria-label={translate(
+								'anonymous.waitingroom.closed.illustrationTitle'
+							)}
+							title={translate(
+								'anonymous.waitingroom.closed.illustrationTitle'
+							)}
+						/>
+					}
+				>
+					<Text
+						type="standard"
+						text={translate(
+							'anonymous.waitingroom.closed.description',
+							{
+								websiteUrl: appConfig.urls.chatScheduleUrl
+							}
+						)}
+					/>
+				</WaitingRoomContent>
+			);
 		} else if (isErrorPageActive) {
 			return (
 				<>
 					<WaitingRoomContent
 						showRegistrationInfo={false}
-						headline={translate(
-							'anonymous.waitingroom.errorPage.headline'
-						)}
+						headlineKey="anonymous.waitingroom.errorPage.headline"
 						Illustration={
 							<ErrorIllustration
 								aria-label={translate(
@@ -358,49 +375,12 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					</WaitingRoomContent>
 				</>
 			);
-		} else if (!isConsultantAvailable) {
-			return (
-				<WaitingRoomContent
-					showRegistrationInfo={true}
-					headline={translate(
-						'anonymous.waitingroom.closed.headline'
-					)}
-					Illustration={
-						<ClosedIllustration
-							aria-label={translate(
-								'anonymous.waitingroom.closed.illustrationTitle'
-							)}
-							title={translate(
-								'anonymous.waitingroom.closed.illustrationTitle'
-							)}
-						/>
-					}
-				>
-					<Text
-						type="standard"
-						text={[
-							translate(
-								'anonymous.waitingroom.closed.description.prefix'
-							),
-
-							`<a target="_blank" href="${
-								appConfig.urls.chatScheduleUrl
-							}">${translate(
-								'anonymous.waitingroom.closed.description.linkLabel'
-							)}</a>`,
-							translate(
-								'anonymous.waitingroom.closed.description.suffix'
-							)
-						].join(' ')}
-					/>
-				</WaitingRoomContent>
-			);
 		} else if (isConsultantAvailable) {
 			return (
 				<WaitingRoomContent
 					showRegistrationInfo={true}
-					headline={translate('anonymous.waitingroom.headline')}
-					subline={translate('anonymous.waitingroom.subline')}
+					headlineKey="anonymous.waitingroom.headline"
+					sublineKey="anonymous.waitingroom.subline"
 					Illustration={
 						<WaitingIllustration
 							aria-label={translate(

@@ -77,11 +77,8 @@ export const de = {
 			},
 			'closed': {
 				headline: 'Momentan ist unser Live-Chat nicht besetzt.',
-				description: {
-					prefix: 'Auf unserer',
-					linkLabel: 'Website',
-					suffix: 'finden Sie im jeweiligen Themenbereich die Öffnungszeiten des Chats.'
-				},
+				description:
+					'Auf unserer <a target="_blank" href="{{websiteUrl}}">Website</a> finden Sie im jeweiligen Themenbereich die Öffnungszeiten des Chats.',
 				illustrationTitle: 'Chat geschlossen'
 			},
 			'headline': 'Bitte haben Sie etwas Geduld',

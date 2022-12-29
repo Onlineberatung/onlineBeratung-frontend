@@ -41,7 +41,7 @@ export const ConsultantLiveChatAvailability = () => {
 			<div className="flex">
 				<Switch
 					className="mr--1"
-					onChange={() => toggleSwitch()}
+					onChange={toggleSwitch}
 					checked={userData.available ?? false}
 					uncheckedIcon={false}
 					checkedIcon={false}
