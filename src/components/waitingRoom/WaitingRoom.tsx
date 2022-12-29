@@ -43,6 +43,7 @@ import { WaitingRoomContent } from './WaitingRoomContent';
 import { Stage } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
 import { appConfig } from '../../utils/appConfig';
+import { Loading } from '../app/Loading';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
@@ -316,6 +317,8 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					/>
 				</WaitingRoomContent>
 			);
+		} else if (isRequestInProgress) {
+			return <Loading></Loading>;
 		} else if (isConsultantAvailable === false) {
 			return (
 				<WaitingRoomContent
