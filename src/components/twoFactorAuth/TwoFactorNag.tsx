@@ -34,7 +34,11 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	useEffect(() => {
 		let todaysDate = new Date(Date.now());
 
-		if (!location.state?.openTwoFactor) {
+		if (
+			!location.state?.openTwoFactor &&
+			todaysDate >= settings.twofactor.startObligatoryHint &&
+			getDevToolbarOption(STORAGE_KEY_DISABLE_2FA_DUTY) === '0'
+		) {
 			setForceHideTwoFactorNag(false);
 		}
 
