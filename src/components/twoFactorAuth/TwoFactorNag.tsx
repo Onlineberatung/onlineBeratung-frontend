@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { UserDataContext } from '../../globalState';
 import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
@@ -18,6 +18,7 @@ interface TwoFactorNagProps {}
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
+	const location = useLocation<{ openTwoFactor?: boolean }>();
 
 	const settings = useAppConfig();
 	const { userData } = useContext(UserDataContext);
@@ -32,6 +33,10 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 
 	useEffect(() => {
 		let todaysDate = new Date(Date.now());
+
+		if (!location.state?.openTwoFactor) {
+			setForceHideTwoFactorNag(false);
+		}
 
 		if (
 			userData.twoFactorAuth?.isEnabled &&
@@ -54,7 +59,8 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		settings.twofactor.startObligatoryHint,
 		settings.twofactor.dateTwoFactorObligatory,
 		settings.twofactor.messages,
-		getDevToolbarOption
+		getDevToolbarOption,
+		location
 	]);
 
 	const closeTwoFactorNag = async () => {
