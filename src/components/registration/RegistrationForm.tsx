@@ -13,11 +13,11 @@ import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
 import {
 	AgencyDataInterface,
-	LocaleContext,
 	ConsultantDataInterface,
 	ConsultingTypeInterface,
 	TenantContext,
-	useTenant
+	useTenant,
+	useLocaleData
 } from '../../globalState';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
@@ -34,7 +34,6 @@ import { useAppConfig } from '../../hooks/useAppConfig';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
 import { isNumber } from '../../utils/isNumber';
-import i18n from '../../i18n';
 
 interface RegistrationFormProps {
 	consultingType?: ConsultingTypeInterface;
@@ -64,7 +63,7 @@ export const RegistrationForm = ({
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const tenantData = useTenant();
 	const legalLinks = useContext(LegalLinksContext);
-	const { locale } = useContext(LocaleContext);
+	const { locale } = useLocaleData();
 	const settings = useAppConfig();
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>({});
@@ -162,7 +161,7 @@ export const RegistrationForm = ({
 		consultant,
 		agency,
 		topicsAreRequired,
-		i18n.language
+		locale
 	]);
 
 	const overlayItemRegistrationSuccess: OverlayItem = {
