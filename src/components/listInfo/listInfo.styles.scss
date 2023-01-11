@@ -8,7 +8,7 @@
 	color: $text-low-emphasis;
 
 	@include breakpoint($fromMedium) {
-		padding: 0 $grid-base-three $grid-base-three;
+		padding: 0 $grid-base-three $grid-base-five;
 	}
 
 	&__illustration {
@@ -19,6 +19,7 @@
 	p {
 		text-align: center;
 		margin-top: 12px;
+		max-width: 335px;
 	}
 
 	button {
@@ -30,5 +31,6 @@
 		line-height: $line-height-primary;
 		font-weight: 700;
 		margin-top: $grid-base-three;
+		max-width: 335px;
 	}
 }

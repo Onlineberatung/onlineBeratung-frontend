@@ -1875,7 +1875,7 @@ export const de = {
 
 		'consultant.prefix': 'Berater_in - ',
 		'divider.lastRead': 'Zuletzt gelesen',
-		'empty': 'Bitte wählen Sie eine Nachricht aus.',
+		'empty': 'Bitte wählen Sie eine Nachricht aus',
 		'feedback.label': 'Feedback',
 		'groupChat.consultant.prefix': 'Moderator_in - ',
 		'monitoring.buttonLabel': 'Jetzt dokumentieren',
@@ -1948,8 +1948,8 @@ export const de = {
 		'createChat.buttonTitle': 'Chat anlegen',
 		'empty': {
 			anonymous:
-				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat.',
-			known: 'Aktuell liegen keine Erstanfragen vor.'
+				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat',
+			known: 'Aktuell liegen keine Erstanfragen vor'
 		},
 		'unavailable': {
 			description:
