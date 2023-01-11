@@ -246,6 +246,7 @@ export const Appointments = () => {
 						<ListInfo
 							headline={translate('appointments.noAppointments')}
 							Illustration={WaitingIllustration}
+							hasSeparator={true}
 						></ListInfo>
 					) : (
 						<div className="px--2 px-l--0">
