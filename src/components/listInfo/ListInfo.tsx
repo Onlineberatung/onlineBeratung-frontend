@@ -14,6 +14,7 @@ interface ListInfoProps {
 			title?: string;
 		}
 	>;
+	hasSeparator?: boolean;
 }
 
 export const ListInfo: React.FC<ListInfoProps> = ({
@@ -21,10 +22,11 @@ export const ListInfo: React.FC<ListInfoProps> = ({
 	buttonLabel,
 	description,
 	headline,
-	Illustration
+	Illustration,
+	hasSeparator
 }) => {
 	return (
-		<div className="listInfo">
+		<div className={`listInfo ${hasSeparator && 'bt--1'}`}>
 			{Illustration && (
 				<div className="listInfo__illustration">
 					<Illustration

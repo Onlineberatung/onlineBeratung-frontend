@@ -1861,7 +1861,7 @@ export const en = {
 		},
 		'consultant.prefix': 'Consultant - ',
 		'divider.lastRead': 'Last read',
-		'empty': 'Please select a message.',
+		'empty': 'Please select a message',
 		'feedback.label': 'Feedback',
 		'groupChat.consultant.prefix': 'Moderator - ',
 		'monitoring.buttonLabel': 'Document now',
@@ -1931,9 +1931,9 @@ export const en = {
 	sessionList: {
 		'teamsession': 'Team consulting',
 		'empty': {
-			known: 'There are no requests at the moment.',
+			known: 'There are no requests at the moment',
 			anonymous:
-				'Currently, no anonymous advice seekers are waiting for a live chat.'
+				'Currently, no anonymous advice seekers are waiting for a live chat'
 		},
 		'unavailable': {
 			description:
