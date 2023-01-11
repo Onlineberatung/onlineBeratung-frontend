@@ -14,7 +14,7 @@ export const ConsultantNotifications = () => {
 
 	const { userData, setUserData } = useContext(UserDataContext);
 
-	const toogleSwitch = (types) => {
+	const toggleSwitch = (types) => {
 		const updatedUserData = { ...userData };
 		types.forEach((type) => {
 			updatedUserData.emailToggles.forEach((toggle) => {
@@ -50,7 +50,7 @@ export const ConsultantNotifications = () => {
 					<div className="flex" key={index}>
 						<Switch
 							className="mr--1"
-							onChange={() => toogleSwitch(notification.types)}
+							onChange={() => toggleSwitch(notification.types)}
 							checked={
 								userData.emailToggles.find(
 									(toggle) =>

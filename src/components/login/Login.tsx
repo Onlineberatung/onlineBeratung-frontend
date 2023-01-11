@@ -335,6 +335,12 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 					});
 				}
 
+				if (userData.available) {
+					return apiPatchUserData({
+						available: false
+					});
+				}
+
 				if (
 					!consultant ||
 					!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)

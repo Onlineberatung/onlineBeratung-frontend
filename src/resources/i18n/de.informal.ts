@@ -272,6 +272,12 @@ export const deInformal = {
 		}
 	},
 	profile: {
+		liveChat: {
+			title: 'Meine Live-Chat Verfügbarkeit',
+			subtitle:
+				'Aktiviere deine Verfügbarkeit und sehe in den Erstanfragen unter „Live-Chat Anfragen“ die wartenden anoymen Ratsuchenden.',
+			toggleLabel: 'Bin verfügbar'
+		},
 		functions: {
 			'absence': {
 				'label': 'Hinterlege eine Abwesenheitsnachricht',

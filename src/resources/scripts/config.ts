@@ -24,6 +24,7 @@ export const config: AppConfigInterface = {
 	attachmentEncryption: true, // Feature flag for attachment end to end encryption - e2e must also be enabled in rocket.chat
 
 	urls: {
+		chatScheduleUrl: 'https://www.caritas.de/onlineberatung',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',

@@ -302,13 +302,4 @@ $tabBarHeightDesktop: 53px;
 			margin-left: 0;
 		}
 	}
-
-	&--empty {
-		margin: $grid-base-four $grid-base-two 0;
-		text-align: center;
-
-		@include breakpoint($fromMedium) {
-			margin: $grid-base-four $grid-base-three 0;
-		}
-	}
 }
