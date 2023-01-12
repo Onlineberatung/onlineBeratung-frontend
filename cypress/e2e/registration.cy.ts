@@ -133,7 +133,7 @@ describe('registration', () => {
 			cy.contains('Beratungsstelle wählen').click();
 			cy.get('[data-cy=show-preselected-agency]').should('exist');
 			cy.get('[data-cy=show-preselected-agency]').contains(
-				'JUGEND SUCHT BERATUNG Köln, SKM e.V. Köln'
+				agencies[0].name
 			);
 		});
 
@@ -145,7 +145,7 @@ describe('registration', () => {
 			cy.contains('Beratungsstelle wählen').click();
 			cy.get('[data-cy=show-preselected-agency]').should('exist');
 			cy.get('[data-cy=show-preselected-agency]').contains(
-				'JUGEND SUCHT BERATUNG Köln, SKM e.V. Köln'
+				agencies[0].name
 			);
 			cy.contains('Benutzernamen wählen').click();
 			cy.get('input[id="username"]').focus().type('u25-user');
