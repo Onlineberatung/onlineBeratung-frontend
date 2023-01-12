@@ -19,12 +19,12 @@ jobs:
             FAIL_WEBHOOK_SECRET: ${{ secrets.MS_TEAMS_FAIL_WEBHOOK_URI }}
         steps:
             - name: Checkout
-              uses: actions/checkout@v1
+              uses: actions/checkout@v2
             - name: set env
               run: |
-                  raw=$(git branch -r --contains ${{ github.ref }})
-                  branch=${raw##*/}
-                  echo BRANCH_NAME=$(echo -n "${branch}") >> $GITHUB_ENV
+                  RAW=$(git branch -r --contains ${{ github.ref }})
+                  BRANCH=${RAW##*/}
+                  echo BRANCH_NAME="$(echo -n "${BRANCH}")" >> $GITHUB_ENV
                   if [ "${{ github.ref }}" = "refs/heads/staging" ]; then
                     echo ENV_NAME="staging" >> $GITHUB_ENV
                   else
