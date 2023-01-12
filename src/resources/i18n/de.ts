@@ -1953,7 +1953,7 @@ export const de = {
 		},
 		'unavailable': {
 			description:
-				'Aktivieren Sie Ihre Verfügbarkeit und erhalten Sie hier die Live-Chat Anfragen von anoymen Ratsuchenden.',
+				'Aktivieren Sie Ihre Verfügbarkeit und erhalten Sie hier die Live-Chat Anfragen von anoymen Ratsuchenden',
 			buttonLabel: 'Verfügbarkeit aktivieren'
 		},
 		'filter': {
