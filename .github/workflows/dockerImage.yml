@@ -18,6 +18,8 @@ jobs:
         env:
             FAIL_WEBHOOK_SECRET: ${{ secrets.MS_TEAMS_FAIL_WEBHOOK_URI }}
         steps:
+            - name: Checkout
+              uses: actions/checkout@v1
             - name: set env
               run: |
                   raw=$(git branch -r --contains ${{ github.ref }})
@@ -28,7 +30,6 @@ jobs:
                   else
                     echo ENV_NAME="prod" >> $GITHUB_ENV
                   fi
-            - uses: actions/checkout@v1
             - uses: actions/setup-node@v3
               with:
                   node-version: 14
