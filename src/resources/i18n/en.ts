@@ -1937,7 +1937,7 @@ export const en = {
 		},
 		'unavailable': {
 			description:
-				'Activate your availability to receive initial inquiries from advice seekers.',
+				'Activate your availability to receive initial inquiries from advice seekers',
 			buttonLabel: 'Activate availability'
 		},
 		'preview': {

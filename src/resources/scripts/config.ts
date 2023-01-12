@@ -1,6 +1,10 @@
 import { deConsultingTypes } from '../i18n/de.consultingTypes';
 import { deAgency } from '../i18n/de.agency';
 import { AppConfigInterface } from '../../globalState/interfaces/AppConfig/AppConfigInterface';
+import {
+	OVERLAY_RELEASE_NOTE,
+	OVERLAY_TWO_FACTOR_NAG
+} from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 export const uiUrl = window.location.origin;
 
@@ -75,6 +79,9 @@ export const config: AppConfigInterface = {
 				]
 			}
 		]
+	},
+	overlays: {
+		priority: [OVERLAY_RELEASE_NOTE, OVERLAY_TWO_FACTOR_NAG]
 	},
 	twofactor: {
 		startObligatoryHint: new Date('2022-07-31'),
