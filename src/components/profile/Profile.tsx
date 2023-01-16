@@ -3,9 +3,9 @@ import { useState, useRef, useContext, useEffect, Fragment } from 'react';
 import { logout } from '../logout/logout';
 import {
 	AUTHORITIES,
+	ConsultingTypesContext,
 	hasUserAuthority,
 	LocaleContext,
-	useConsultingTypes,
 	UserDataContext
 } from '../../globalState';
 import {
@@ -55,11 +55,11 @@ export const Profile = () => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const location = useLocation();
-	const consultingTypes = useConsultingTypes();
 	const { fromL } = useResponsive();
 
 	const legalLinks = useContext(LegalLinksContext);
 	const { userData } = useContext(UserDataContext);
+	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const [mobileMenu, setMobileMenu] = useState<
 		(LinkMenuGroupType | LinkMenuItemType | LinkMenuComponentType)[]
@@ -92,7 +92,7 @@ export const Profile = () => {
 		setMobileMenu(
 			profileRoutes(settings, selectableLocales)
 				.filter((tab) =>
-					solveTabConditions(tab, userData, consultingTypes)
+					solveTabConditions(tab, userData, consultingTypes ?? [])
 				)
 				.map(
 					(tab): LinkMenuGroupType => ({
@@ -103,12 +103,12 @@ export const Profile = () => {
 									? solveGroupConditions(
 											element,
 											userData,
-											consultingTypes
+											consultingTypes ?? []
 									  )
 									: solveCondition(
 											element.condition,
 											userData,
-											consultingTypes
+											consultingTypes ?? []
 									  )
 							)
 							.map((element) =>
@@ -251,7 +251,7 @@ export const Profile = () => {
 										solveTabConditions(
 											tab,
 											userData,
-											consultingTypes
+											consultingTypes ?? []
 										)
 									)
 									.map((tab, index) => (
@@ -313,7 +313,7 @@ export const Profile = () => {
 									solveTabConditions(
 										tab,
 										userData,
-										consultingTypes
+										consultingTypes ?? []
 									)
 								)
 								.map((tab) => (
@@ -339,7 +339,7 @@ export const Profile = () => {
 													solveCondition(
 														element.condition,
 														userData,
-														consultingTypes
+														consultingTypes ?? []
 													)
 												)
 												.sort(
@@ -365,7 +365,7 @@ export const Profile = () => {
 										solveTabConditions(
 											tab,
 											userData,
-											consultingTypes
+											consultingTypes ?? []
 										)
 									)
 									.map((tab) => `/profile${tab.url}`)}
@@ -384,7 +384,7 @@ export const Profile = () => {
 									solveTabConditions(
 										tab,
 										userData,
-										consultingTypes
+										consultingTypes ?? []
 									)
 								)
 								.map((tab) => {
@@ -393,7 +393,7 @@ export const Profile = () => {
 											solveGroupConditions(
 												element,
 												userData,
-												consultingTypes
+												consultingTypes ?? []
 											)
 										)
 										.map((element) =>
@@ -486,13 +486,17 @@ const ProfileItem = ({
 
 const ProfileGroup = ({ group }: { group: TabGroups }) => {
 	const { userData } = useContext(UserDataContext);
-	const consultingTypes = useConsultingTypes();
+	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	return (
 		<>
 			{group.elements
 				.filter((element) =>
-					solveCondition(element.condition, userData, consultingTypes)
+					solveCondition(
+						element.condition,
+						userData,
+						consultingTypes ?? []
+					)
 				)
 				.sort((a, b) => (a?.order || 99) - (b?.order || 99))
 				.map((element, i) => (

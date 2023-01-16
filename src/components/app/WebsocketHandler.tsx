@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
@@ -13,7 +13,11 @@ import {
 	AnonymousConversationFinishedContext,
 	AnonymousConversationStartedContext,
 	AnonymousEnquiryAcceptedContext,
+	AUTHORITIES,
+	ConsultingTypesContext,
+	hasUserAuthority,
 	NotificationsContext,
+	UserDataContext,
 	WebsocketConnectionDeactivatedContext
 } from '../../globalState';
 import { SESSION_LIST_TAB_ANONYMOUS } from '../session/sessionHelpers';
@@ -27,6 +31,8 @@ interface WebsocketHandlerProps {
 export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
+	const { userData } = useContext(UserDataContext);
+	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const [newStompDirectMessage, setNewStompDirectMessage] =
 		useState<boolean>(false);
@@ -47,6 +53,23 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const { setAnonymousConversationStarted } = useContext(
 		AnonymousConversationStartedContext
 	);
+
+	const hasLiveChatAndEnabled = useMemo(
+		() =>
+			consultingTypes &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+			userData.hasAnonymousConversations &&
+			userData.agencies.some(
+				(agency) =>
+					(consultingTypes ?? []).find(
+						(consultingType) =>
+							consultingType.id === agency.consultingType
+					)?.isAnonymousConversationAllowed
+			) &&
+			userData.available,
+		[userData, consultingTypes]
+	);
+
 	const stompClient = Stomp.over(function () {
 		return new SockJS(endpoints.liveservice);
 	});
@@ -109,6 +132,10 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		if (newStompAnonymousEnquiry) {
 			setNewStompAnonymousEnquiry(false);
 
+			if (!hasLiveChatAndEnabled) {
+				return;
+			}
+
 			setAnonymousConversationStarted(true);
 			sendNotification(translate('notifications.enquiry.new'), {
 				showAlways: true,
@@ -119,7 +146,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 				}
 			});
 		}
-	}, [newStompAnonymousEnquiry]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [newStompAnonymousEnquiry, hasLiveChatAndEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {

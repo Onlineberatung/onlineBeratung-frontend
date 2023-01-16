@@ -168,7 +168,21 @@ const profileRoutes = (
 				elements: [
 					{
 						component: ConsultantLiveChatAvailability,
-						column: COLUMN_RIGHT
+						column: COLUMN_RIGHT,
+						condition: (userData, consultingTypes) =>
+							hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							) &&
+							userData.hasAnonymousConversations &&
+							userData.agencies.some(
+								(agency) =>
+									(consultingTypes ?? []).find(
+										(consultingType) =>
+											consultingType.id ===
+											agency.consultingType
+									)?.isAnonymousConversationAllowed
+							)
 					}
 				]
 			},
