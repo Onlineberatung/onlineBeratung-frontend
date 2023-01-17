@@ -9,19 +9,20 @@ import {
 	RocketChatUserStatusContext,
 	STATUS_ONLINE
 } from '../../globalState/provider/RocketChatUserStatusProvider';
+import { UserDataContext } from '../../globalState';
 
 export const ConsultantLiveChatAvailability = () => {
 	const { t: translate } = useTranslation();
 
 	const { status } = useContext(RocketChatUserStatusContext);
+	const { reloadUserData } = useContext(UserDataContext);
 
 	const toggleSwitch = () => {
-		const updatedUserData = {
+		apiPatchUserData({
 			available: status !== STATUS_ONLINE
-		};
-		apiPatchUserData(updatedUserData).catch((error) => {
-			console.log(error);
-		});
+		})
+			.then(reloadUserData)
+			.catch(console.log);
 	};
 
 	return (

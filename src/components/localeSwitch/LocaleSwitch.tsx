@@ -47,13 +47,12 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 			setRequestInProgress(true);
 			apiPatchUserData({
 				preferredLanguage: locale
-			}).then(() => {
-				userDataContext.setUserData({
-					...userDataContext.userData,
-					preferredLanguage: locale
+			})
+				.then(userDataContext.reloadUserData)
+				.catch(console.log)
+				.finally(() => {
+					setRequestInProgress(false);
 				});
-				setRequestInProgress(false);
-			});
 		}
 	}, [locale, requestInProgress, updateUserData, userDataContext]);
 

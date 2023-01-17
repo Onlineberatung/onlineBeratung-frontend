@@ -40,7 +40,8 @@ export const AbsenceHandler = () => {
 		]
 	};
 
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
+
 	const [overlayItem, setOverlayItem] = useState(absenceReminderOverlayItem);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [reminderSend, setReminderSend] = useState(false);
@@ -72,17 +73,11 @@ export const AbsenceHandler = () => {
 		}
 		if (buttonFunction === OVERLAY_FUNCTIONS.DEACTIVATE_ABSENCE) {
 			apiSetAbsence(false, userData.absenceMessage)
+				.then(reloadUserData)
 				.then(() => {
 					setOverlayItem(absenceChangedOverlayItem);
-					setUserData({
-						...userData,
-						absent: false,
-						absenceMessage: userData.absenceMessage
-					});
 				})
-				.catch((error) => {
-					console.log(error);
-				});
+				.catch(console.log);
 		}
 	};
 

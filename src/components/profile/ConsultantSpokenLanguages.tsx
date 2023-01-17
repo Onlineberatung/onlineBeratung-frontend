@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 
 export const ConsultantSpokenLanguages: React.FC = () => {
 	const { t: translate } = useTranslation();
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { fixed: fixedLanguages, spoken: spokenLanguages } =
 		useContext(LanguagesContext);
 
@@ -57,13 +57,8 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 			lastname: userData.lastName.trim(),
 			languages: selectedLanguages.filter(isUniqueLanguage)
 		})
+			.then(reloadUserData)
 			.then(() => {
-				const updatedUserData = {
-					...userData,
-					languages: selectedLanguages.filter(isUniqueLanguage)
-				};
-
-				setUserData(updatedUserData);
 				setHasError(false);
 			})
 			.catch(() => {

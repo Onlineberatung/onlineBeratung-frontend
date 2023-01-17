@@ -3,7 +3,6 @@ import { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
 	UserDataContext,
-	UserDataInterface,
 	useConsultingTypes,
 	useConsultingType
 } from '../../globalState';
@@ -23,7 +22,6 @@ import {
 } from '../app/navigationHandler';
 import { AgencySelection } from '../agencySelection/AgencySelection';
 import './profile.styles';
-import { apiGetUserData } from '../../api';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import { AskerRegistrationExternalAgencyOverlay } from './AskerRegistrationExternalAgencyOverlay';
@@ -35,7 +33,7 @@ export const AskerRegistration: React.FC = () => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const history = useHistory();
 
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 	const [selectedConsultingTypeId, setSelectedConsultingTypeId] =
 		useState<number>(null);
@@ -186,13 +184,8 @@ export const AskerRegistration: React.FC = () => {
 	};
 
 	const handleSuccessOverlayAction = (buttonFunction: string) => {
-		apiGetUserData()
-			.then((userProfileData: UserDataInterface) => {
-				setUserData(userProfileData);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		reloadUserData().catch(console.log);
+
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			setProfileWrapperInactive();
 			mobileListView();

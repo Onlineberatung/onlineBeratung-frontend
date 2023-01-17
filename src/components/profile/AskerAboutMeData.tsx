@@ -16,13 +16,14 @@ import { ReactComponent as CheckIllustration } from '../../resources/img/illustr
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { apiDeleteEmail } from '../../api/apiDeleteEmail';
 import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
-import useUpdateUserData from '../../utils/useUpdateUserData';
 import { Headline } from '../headline/Headline';
 import { useTranslation } from 'react-i18next';
 
 export const AskerAboutMeData = () => {
 	const { t: translate } = useTranslation();
-	const { userData, setUserData } = useContext(UserDataContext);
+
+	const { userData, reloadUserData } = useContext(UserDataContext);
+
 	const [isEmailDisabled, setIsEmailDisabled] = useState<boolean>(true);
 	const [overlay, setOverlay] = useState<OverlayItem>(null);
 	const [email, setEmail] = useState<string>();
@@ -35,7 +36,6 @@ export const AskerAboutMeData = () => {
 		useState<boolean>(false);
 	const consultingTypes = useConsultingTypes();
 	const showEmail = hasAskerEmailFeatures(userData, consultingTypes);
-	const updateUserData = useUpdateUserData();
 
 	const cancelEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.cancel'),
@@ -182,11 +182,9 @@ export const AskerAboutMeData = () => {
 		} else if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			apiPutEmail(email)
-				.then((response) => {
+				.then(reloadUserData)
+				.then(() => {
 					setIsRequestInProgress(false);
-					let updatedUserData = userData;
-					updatedUserData.email = email;
-					setUserData(updatedUserData);
 					setIsEmailDisabled(true);
 					setEmailLabel(translate('profile.data.email'));
 				})
@@ -216,7 +214,7 @@ export const AskerAboutMeData = () => {
 			apiDeleteEmail()
 				.then((response) => {
 					setIsRequestInProgress(false);
-					updateUserData();
+					reloadUserData().catch(console.log);
 					setEmail(null);
 					setOverlay(overlaySuccess);
 				})
@@ -224,7 +222,7 @@ export const AskerAboutMeData = () => {
 					setOverlay(overlayError);
 				});
 		}
-	}, [overlaySuccess, overlayError, isRequestInProgress, updateUserData]);
+	}, [overlaySuccess, overlayError, isRequestInProgress, reloadUserData]);
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		switch (buttonFunction) {
@@ -236,7 +234,7 @@ export const AskerAboutMeData = () => {
 				if (isEmail2faActive) {
 					apiDeleteTwoFactorAuth().then(() => {
 						handleConfirm();
-						updateUserData();
+						reloadUserData().catch(console.log);
 					});
 				} else {
 					handleConfirm();
