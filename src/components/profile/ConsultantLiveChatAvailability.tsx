@@ -4,25 +4,24 @@ import { Text } from '../text/Text';
 import Switch from 'react-switch';
 import { useTranslation } from 'react-i18next';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
-import { UserDataContext } from '../../globalState';
+import { useContext } from 'react';
+import {
+	RocketChatUserStatusContext,
+	STATUS_ONLINE
+} from '../../globalState/provider/RocketChatUserStatusProvider';
 
 export const ConsultantLiveChatAvailability = () => {
 	const { t: translate } = useTranslation();
 
-	const { userData, setUserData } = React.useContext(UserDataContext);
+	const { status } = useContext(RocketChatUserStatusContext);
 
 	const toggleSwitch = () => {
 		const updatedUserData = {
-			...userData,
-			available: !userData.available ?? true
+			available: status !== STATUS_ONLINE
 		};
-		apiPatchUserData(updatedUserData)
-			.then(() => {
-				setUserData(updatedUserData);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		apiPatchUserData(updatedUserData).catch((error) => {
+			console.log(error);
+		});
 	};
 
 	return (
@@ -42,7 +41,7 @@ export const ConsultantLiveChatAvailability = () => {
 				<Switch
 					className="mr--1"
 					onChange={toggleSwitch}
-					checked={userData.available ?? false}
+					checked={status === STATUS_ONLINE}
 					uncheckedIcon={false}
 					checkedIcon={false}
 					width={48}

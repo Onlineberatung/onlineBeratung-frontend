@@ -76,6 +76,10 @@ import { ReactComponent as LiveChatAvailableIllustration } from '../../resources
 import { ReactComponent as ChatWaitingIllustration } from '../../resources/img/illustrations/chat-waiting.svg';
 import { ReactComponent as NoMessagesIllustration } from '../../resources/img/illustrations/no-messages.svg';
 import { ListInfo } from '../listInfo/ListInfo';
+import {
+	RocketChatUserStatusContext,
+	STATUS_ONLINE
+} from '../../globalState/provider/RocketChatUserStatusProvider';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -115,8 +119,10 @@ export const SessionsList = ({
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
+	const { userData } = useContext(UserDataContext);
+	const { status } = useContext(RocketChatUserStatusContext);
+
 	const [isLoading, setIsLoading] = useState(true);
-	const { userData, setUserData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [totalItems, setTotalItems] = useState(0);
 	const [isReloadButtonVisible, setIsReloadButtonVisible] = useState(false);
@@ -130,16 +136,11 @@ export const SessionsList = ({
 
 	const toggleAvailability = () => {
 		const updatedUserData = {
-			...userData,
-			available: !userData.available ?? true
+			available: status !== STATUS_ONLINE
 		};
-		apiPatchUserData(updatedUserData)
-			.then(() => {
-				setUserData(updatedUserData);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		apiPatchUserData(updatedUserData).catch((error) => {
+			console.log(error);
+		});
 	};
 
 	// If create new group chat
@@ -963,7 +964,7 @@ export const SessionsList = ({
 						) && <SessionListCreateChat />}
 
 					{(!isLoading || finalSessionsList.length > 0) &&
-						(userData.available ||
+						(status === STATUS_ONLINE ||
 							sessionListTab !== SESSION_LIST_TAB_ANONYMOUS) &&
 						finalSessionsList
 							.sort(sortSessions)
@@ -1014,7 +1015,7 @@ export const SessionsList = ({
 					!isReloadButtonVisible &&
 					finalSessionsList.length === 0 &&
 					(sessionListTab !== SESSION_LIST_TAB_ANONYMOUS ||
-						userData.available) && (
+						status === STATUS_ONLINE) && (
 						<ListInfo
 							headline={
 								sessionListTab !== SESSION_LIST_TAB_ANONYMOUS
@@ -1030,7 +1031,7 @@ export const SessionsList = ({
 					)}
 
 				{!isLoading &&
-					!userData.available &&
+					status !== STATUS_ONLINE &&
 					type === SESSION_LIST_TYPES.ENQUIRY &&
 					sessionListTab === SESSION_LIST_TAB_ANONYMOUS && (
 						<ListInfo

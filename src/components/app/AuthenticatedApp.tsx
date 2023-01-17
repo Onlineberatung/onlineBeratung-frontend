@@ -25,6 +25,7 @@ import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatU
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
 import { RocketChatGetUserRolesProvider } from '../../globalState/provider/RocketChatSytemUsersProvider';
 import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
+import { RocketChatUserStatusProvider } from '../../globalState/provider/RocketChatUserStatusProvider';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -117,12 +118,14 @@ export const AuthenticatedApp = ({
 						<RocketChatPublicSettingsProvider>
 							<RocketChatSubscriptionsProvider>
 								<RocketChatUnreadProvider>
-									<Routing logout={handleLogout} />
-									{notifications && (
-										<Notifications
-											notifications={notifications}
-										/>
-									)}
+									<RocketChatUserStatusProvider>
+										<Routing logout={handleLogout} />
+										{notifications && (
+											<Notifications
+												notifications={notifications}
+											/>
+										)}
+									</RocketChatUserStatusProvider>
 								</RocketChatUnreadProvider>
 							</RocketChatSubscriptionsProvider>
 						</RocketChatPublicSettingsProvider>

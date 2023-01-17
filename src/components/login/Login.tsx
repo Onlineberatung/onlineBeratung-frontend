@@ -320,32 +320,27 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 
 	const postLogin = useCallback(
 		(data) => {
-			if (!consultant) {
-				return redirectToApp(gcid);
-			}
-
 			return apiGetUserData().then((userData: UserDataInterface) => {
 				// If user has changed language from default but the profile has different language in profile override it
+				let patchedUserData = {};
 				if (
 					userData.preferredLanguage !== locale &&
 					locale !== initLocale
 				) {
-					return apiPatchUserData({
-						preferredLanguage: locale
-					});
+					patchedUserData['preferredLanguage'] = locale;
 				}
 
-				if (userData.available) {
-					return apiPatchUserData({
-						available: false
-					});
+				patchedUserData['available'] = false;
+
+				if (Object.keys(patchedUserData).length > 0) {
+					return apiPatchUserData(patchedUserData);
 				}
 
 				if (
 					!consultant ||
 					!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 				) {
-					return redirectToApp();
+					return redirectToApp(gcid);
 				}
 
 				if (
@@ -369,23 +364,27 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 		]
 	);
 
-	const tryLoginWithoutOtp = () => {
+	const tryLogin = (otp?: string) => {
 		setIsRequestInProgress(true);
 		autoLogin({
 			username: username,
 			password: password,
-			redirect: !consultant,
-			gcid,
-			tenantData: tenant
+			tenantData: tenant,
+			...(otp ? { otp } : {})
 		})
 			.then(postLogin)
+			.then(() => redirectToApp(gcid))
 			.catch((error) => {
 				if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
 					setShowLoginError(
-						translate('login.warning.failed.unauthorized.text')
+						translate(
+							otp
+								? 'login.warning.failed.unauthorized.otp'
+								: 'login.warning.failed.unauthorized.text'
+						)
 					);
 					setLabelState(VALIDITY_INVALID);
-				} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+				} else if (!otp && error.message === FETCH_ERRORS.BAD_REQUEST) {
 					if (
 						error.options?.data?.error_description?.match(
 							regexAccountDeletedError
@@ -400,44 +399,21 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 						setIsOtpRequired(true);
 					}
 				}
-			})
-			.finally(() => {
+
 				setIsRequestInProgress(false);
 			});
 	};
 
 	const handleLogin = () => {
-		if (!isRequestInProgress && !isOtpRequired && username && password) {
-			tryLoginWithoutOtp();
-		} else if (
-			!isRequestInProgress &&
-			isOtpRequired &&
-			username &&
-			password &&
-			otp
+		if (
+			isRequestInProgress ||
+			!username ||
+			!password ||
+			(isOtpRequired && !otp)
 		) {
-			setIsRequestInProgress(true);
-			autoLogin({
-				username,
-				password,
-				redirect: !consultant,
-				otp,
-				gcid,
-				tenantData: tenant
-			})
-				.then(postLogin)
-				.catch((error) => {
-					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
-						setShowLoginError(
-							translate('login.warning.failed.unauthorized.otp')
-						);
-						setLabelState(VALIDITY_INVALID);
-					}
-				})
-				.finally(() => {
-					setIsRequestInProgress(false);
-				});
+			return;
 		}
+		tryLogin(otp);
 	};
 
 	const handleKeyUp = (e) => {
@@ -528,7 +504,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 							{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
 								<TwoFactorAuthResendMail
 									resendHandler={(callback) => {
-										tryLoginWithoutOtp();
+										tryLogin();
 										callback();
 									}}
 								/>

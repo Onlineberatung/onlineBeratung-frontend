@@ -207,9 +207,7 @@ export const RegistrationForm = ({
 			settings.multitenancyWithSingleDomainEnabled,
 			tenant
 		)
-			.then((res) => {
-				return setOverlayActive(true);
-			})
+			.then(() => setOverlayActive(true))
 			.catch((errorRes) => {
 				if (
 					errorRes.status === 409 &&
