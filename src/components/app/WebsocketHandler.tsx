@@ -23,6 +23,10 @@ import {
 import { SESSION_LIST_TAB_ANONYMOUS } from '../session/sessionHelpers';
 import { sendNotification } from '../../utils/notificationHelpers';
 import { useTranslation } from 'react-i18next';
+import {
+	RocketChatUserStatusContext,
+	STATUS_ONLINE
+} from '../../globalState/provider/RocketChatUserStatusProvider';
 
 interface WebsocketHandlerProps {
 	disconnect: boolean;
@@ -33,6 +37,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const history = useHistory();
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
+	const { status } = useContext(RocketChatUserStatusContext);
 
 	const [newStompDirectMessage, setNewStompDirectMessage] =
 		useState<boolean>(false);
@@ -66,8 +71,8 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 							consultingType.id === agency.consultingType
 					)?.isAnonymousConversationAllowed
 			) &&
-			userData.available,
-		[userData, consultingTypes]
+			status === STATUS_ONLINE,
+		[consultingTypes, userData, status]
 	);
 
 	const stompClient = Stomp.over(function () {
