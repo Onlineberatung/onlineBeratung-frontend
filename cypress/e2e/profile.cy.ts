@@ -127,7 +127,11 @@ describe('profile', () => {
 			cy.contains('Meine Aktivitäten').click();
 			cy.contains('Hinterlegen Sie eine Abwesenheitsnachricht');
 
+			cy.willReturn('userData', {
+				absent: true
+			});
 			cy.get('#absenceForm .mr--1').click();
+			cy.get('.button__autoClose').click();
 			cy.contains(
 				'Deaktivieren Sie Ihre Abwesenheit, um eine Nachricht zu hinterlegen oder sie zu bearbeiten.'
 			);
@@ -135,7 +139,12 @@ describe('profile', () => {
 				'be.disabled'
 			);
 
+			cy.willReturn('userData', {
+				absent: false
+			});
+
 			cy.get('#absenceForm .mr--1').click();
+			cy.get('.button__autoClose').click();
 			cy.contains('Hinterlegen Sie eine Abwesenheitsnachricht');
 			cy.get('#absenceForm .generalInformation textarea').should(
 				'not.be.disabled'
@@ -154,6 +163,7 @@ describe('profile', () => {
 				)
 				.get('#absenceForm .mr--1')
 				.click();
+			cy.get('.button__autoClose').click();
 			cy.contains(
 				'Deaktivieren Sie Ihre Abwesenheit, um eine Nachricht zu hinterlegen oder sie zu bearbeiten.'
 			);
@@ -162,6 +172,7 @@ describe('profile', () => {
 			);
 
 			cy.get('#absenceForm .mr--1').click();
+			cy.get('.button__autoClose').click();
 			cy.contains('Hinterlegen Sie eine Abwesenheitsnachricht');
 			cy.get('#absenceForm .generalInformation textarea').should(
 				'not.be.disabled'
@@ -177,22 +188,8 @@ describe('profile', () => {
 		});
 
 		it('deactivate and activate email notification consultant', () => {
-			cy.intercept(endpoints.userData, {
-				emailToggles: [
-					{
-						name: 'DAILY_ENQUIRY',
-						state: true
-					},
-					{
-						name: 'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
-						state: false
-					},
-					{
-						name: 'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER',
-						state: false
-					}
-				]
-			});
+			cy.wait('@consultingTypeServiceBaseBasic');
+			cy.wait('@usersData');
 
 			cy.contains('Profil').should('exist').click();
 			cy.contains('Einstellungen').should('exist').click();

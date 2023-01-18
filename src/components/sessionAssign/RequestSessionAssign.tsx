@@ -7,7 +7,6 @@ import { BUTTON_TYPES } from '../button/Button';
 import {
 	apiDeleteUserFromRoom,
 	apiGetAgencyConsultantList,
-	apiGetUserData,
 	apiSessionAssign,
 	FETCH_ERRORS
 } from '../../api';
