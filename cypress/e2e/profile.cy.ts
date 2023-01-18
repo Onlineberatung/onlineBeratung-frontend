@@ -189,7 +189,6 @@ describe('profile', () => {
 
 		it('deactivate and activate email notification consultant', () => {
 			cy.wait('@consultingTypeServiceBaseBasic');
-			cy.wait('@usersData');
 
 			cy.contains('Profil').should('exist').click();
 			cy.contains('Einstellungen').should('exist').click();
