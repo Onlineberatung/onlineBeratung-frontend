@@ -416,20 +416,18 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	};
 
 	return (
-		<>
-			<StageLayout
-				stage={<Stage hasAnimation={false} isReady={false} />}
-				showLegalLinks
-				showRegistrationLink={false}
-			>
-				{getContent()}
-				{isOverlayActive && (
-					<Overlay
-						item={overlayItem}
-						handleOverlay={handleOverlayAction}
-					/>
-				)}
-			</StageLayout>
-		</>
+		<StageLayout
+			stage={<Stage hasAnimation={false} isReady={false} />}
+			showLegalLinks
+			showRegistrationLink={false}
+		>
+			{getContent()}
+			{isOverlayActive && (
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleOverlayAction}
+				/>
+			)}
+		</StageLayout>
 	);
 };
