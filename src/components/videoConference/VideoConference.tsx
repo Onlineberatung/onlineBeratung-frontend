@@ -220,33 +220,24 @@ const VideoConference = () => {
 		if (!appointment) {
 			return {
 				error: {
-					title: translate(
-						'videoConference.waitingroom.errorPage.headline'
-					),
+					title: 'videoConference.waitingroom.errorPage.headline',
 					description: isModerator()
-						? translate(
-								'videoConference.waitingroom.errorPage.consultant.description'
-						  )
-						: translate(
-								'videoConference.waitingroom.errorPage.description'
-						  )
+						? 'videoConference.waitingroom.errorPage.consultant.description'
+						: 'videoConference.waitingroom.errorPage.description'
 				}
 			};
 		} else if (rejected) {
 			return {
 				error: {
-					title: translate(
-						'videoConference.waitingroom.errorPage.rejected.headline'
-					),
-					description: translate(
+					title: 'videoConference.waitingroom.errorPage.rejected.headline',
+					description:
 						'videoConference.waitingroom.errorPage.rejected.description'
-					)
 				}
 			};
 		}
 
 		return {};
-	}, [appointment, isModerator, rejected, translate]);
+	}, [appointment, isModerator, rejected]);
 
 	if (!ready) {
 		return <Loading />;
@@ -262,15 +253,12 @@ const VideoConference = () => {
 		// DataProtection not confirmed
 		// Waiting for appointment to get started
 		return (
-			<div className="videoConference">
-				<WaitingRoom
-					otherClass={'videoConferenceWaitingRoom'}
-					confirmed={confirmed}
-					setConfirmed={setConfirmed}
-					status={appointment?.status}
-					{...getError()}
-				/>
-			</div>
+			<WaitingRoom
+				confirmed={confirmed}
+				setConfirmed={setConfirmed}
+				status={appointment?.status}
+				{...getError()}
+			/>
 		);
 	}
 

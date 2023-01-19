@@ -1,5 +1,10 @@
 import { endpoints } from '../resources/scripts/endpoints';
-import { fetchData, FETCH_ERRORS, FETCH_METHODS, FETCH_SUCCESS } from './fetchData';
+import {
+	fetchData,
+	FETCH_ERRORS,
+	FETCH_METHODS,
+	FETCH_SUCCESS
+} from './fetchData';
 
 export const apiPostDraftMessage = async (
 	rcGroupIdOrSessionId: string | number,

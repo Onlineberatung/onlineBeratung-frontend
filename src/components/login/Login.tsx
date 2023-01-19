@@ -1,13 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import {
-	ComponentType,
-	useCallback,
-	useContext,
-	useEffect,
-	useMemo,
-	useState
-} from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
 import {
 	InputField,
@@ -21,13 +14,8 @@ import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { ReactComponent as VerifiedIcon } from '../../resources/img/icons/verified.svg';
-import { StageProps } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
-import {
-	apiGetUserData,
-	apiRegistrationNewConsultingTypes,
-	FETCH_ERRORS
-} from '../../api';
+import { apiRegistrationNewConsultingTypes, FETCH_ERRORS } from '../../api';
 import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import clsx from 'clsx';
 import {
@@ -36,6 +24,7 @@ import {
 	LocaleContext,
 	RocketChatGlobalSettingsContext,
 	TenantContext,
+	UserDataContext,
 	UserDataInterface
 } from '../../globalState';
 import '../../resources/styles/styles';
@@ -69,20 +58,20 @@ import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
-
-interface LoginProps {
-	stageComponent: ComponentType<StageProps>;
-}
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 
 const regexAccountDeletedError = /account disabled/i;
 
-export const Login = ({ stageComponent: Stage }: LoginProps) => {
+export const Login = () => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
+
 	const { locale, initLocale } = useContext(LocaleContext);
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
+	const { reloadUserData } = useContext(UserDataContext);
+	const { Stage } = useContext(GlobalComponentContext);
 
 	const loginButton: ButtonItem = {
 		label: translate('login.button.label'),
@@ -319,8 +308,8 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	}, []);
 
 	const postLogin = useCallback(
-		(data) => {
-			return apiGetUserData().then((userData: UserDataInterface) => {
+		() =>
+			reloadUserData().then(async (userData: UserDataInterface) => {
 				// If user has changed language from default but the profile has different language in profile override it
 				let patchedUserData = {};
 				if (
@@ -330,10 +319,15 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 					patchedUserData['preferredLanguage'] = locale;
 				}
 
-				patchedUserData['available'] = false;
+				if (
+					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+				) {
+					patchedUserData['available'] = false;
+				}
 
 				if (Object.keys(patchedUserData).length > 0) {
-					return apiPatchUserData(patchedUserData);
+					await apiPatchUserData(patchedUserData);
+					await reloadUserData().catch(console.log);
 				}
 
 				if (
@@ -351,14 +345,14 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				} else {
 					setRegisterOverlayActive(true);
 				}
-			});
-		},
+			}),
 		[
 			locale,
 			initLocale,
 			consultant,
 			possibleAgencies,
 			possibleConsultingTypes.length,
+			reloadUserData,
 			handleRegistration,
 			gcid
 		]
@@ -373,7 +367,6 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 			...(otp ? { otp } : {})
 		})
 			.then(postLogin)
-			.then(() => redirectToApp(gcid))
 			.catch((error) => {
 				if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
 					setShowLoginError(

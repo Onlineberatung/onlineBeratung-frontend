@@ -38,7 +38,6 @@ import { LockIcon, PenIcon } from '../../resources/img/icons';
 import { RadioButton } from '../radioButton/RadioButton';
 import { Tooltip } from '../tooltip/Tooltip';
 import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
-import useUpdateUserData from '../../utils/useUpdateUserData';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import {
@@ -59,7 +58,8 @@ export const TwoFactorAuth = () => {
 	const location =
 		useLocation<{ openTwoFactor?: boolean; isEditMode?: boolean }>();
 
-	const { userData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
+
 	const [isSwitchChecked, setIsSwitchChecked] = useState<boolean>(
 		userData.twoFactorAuth.isActive
 	);
@@ -80,8 +80,6 @@ export const TwoFactorAuth = () => {
 	);
 	const [emailLabelState, setEmailLabelState] =
 		useState<InputFieldLabelState>();
-
-	const updateUserData = useUpdateUserData();
 
 	const [twoFactorType, setTwoFactorType] = useState<string>(
 		TWO_FACTOR_TYPES.APP
@@ -123,14 +121,12 @@ export const TwoFactorAuth = () => {
 		(buttonFunction: string) => {
 			if (buttonFunction === 'DISABLE_2FA') {
 				apiDeleteTwoFactorAuth()
-					.then((response) => {
-						updateUserData();
-						setOverlayActive(false);
-					})
-					.catch((error) => {});
+					.then(reloadUserData)
+					.then(() => setOverlayActive(false))
+					.catch(console.log);
 			}
 		},
-		[updateUserData]
+		[reloadUserData]
 	);
 
 	const handleSwitchChange = () => {
@@ -140,12 +136,8 @@ export const TwoFactorAuth = () => {
 		} else {
 			setIsSwitchChecked(false);
 			apiDeleteTwoFactorAuth()
-				.then((response) => {
-					updateUserData();
-				})
-				.catch((error) => {
-					setIsSwitchChecked(true);
-				});
+				.then(reloadUserData)
+				.catch(() => setIsSwitchChecked(true));
 		}
 	};
 	const handleOverlayCloseSuccess = useCallback(() => {
@@ -249,13 +241,12 @@ export const TwoFactorAuth = () => {
 				setIsRequestInProgress(true);
 				setOtpInputInfo('');
 				apiCall(apiData)
+					.then(() => apiPatchTwoFactorAuthEncourage(false))
 					.then(() => {
-						apiPatchTwoFactorAuthEncourage(false);
 						if (triggerNextStep) triggerNextStep();
-
 						setIsRequestInProgress(false);
-						updateUserData();
 					})
+					.then(reloadUserData)
 					.catch((error) => {
 						if (error.message === FETCH_ERRORS.BAD_REQUEST) {
 							setOtpLabel(defaultOtpLabel);
@@ -276,7 +267,7 @@ export const TwoFactorAuth = () => {
 			isRequestInProgress,
 			otp,
 			twoFactorType,
-			updateUserData,
+			reloadUserData,
 			userData.twoFactorAuth.secret,
 			translate
 		]

@@ -64,16 +64,16 @@ jobs:
               if: ${{ (env.FAIL_WEBHOOK_SECRET != null) && (env.FAIL_WEBHOOK_SECRET != '') && (failure() || cancelled()) }}
               uses: toko-bifrost/ms-teams-deploy-card@3.1.2
               with:
-                github-token: ${{ github.token }}
-                webhook-uri: ${{ secrets.MS_TEAMS_FAIL_WEBHOOK_URI }}
-                show-on-start: false
-                show-on-exit: true
-                show-on-failure: true
-                card-layout-exit: complete
-                environment: ${{ env.BRANCH_NAME }}
-                custom-actions: |
-                  - text: View CI
-                    url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  github-token: ${{ github.token }}
+                  webhook-uri: ${{ secrets.MS_TEAMS_FAIL_WEBHOOK_URI }}
+                  show-on-start: false
+                  show-on-exit: true
+                  show-on-failure: true
+                  card-layout-exit: complete
+                  environment: ${{ env.BRANCH_NAME }}
+                  custom-actions: |
+                      - text: View CI
+                        url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
     push_to_registry:
         strategy:
             matrix:

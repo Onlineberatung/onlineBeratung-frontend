@@ -8,6 +8,7 @@ export interface WaitingRoomContentProps {
 	showRegistrationInfo?: boolean;
 	headlineKey?: string;
 	sublineKey?: string;
+	textKey?: string;
 	Illustration: any;
 	children?: React.ReactNode;
 }
@@ -16,6 +17,7 @@ export const WaitingRoomContent = ({
 	showRegistrationInfo,
 	headlineKey,
 	sublineKey,
+	textKey,
 	Illustration,
 	children
 }: WaitingRoomContentProps) => {
@@ -36,6 +38,13 @@ export const WaitingRoomContent = ({
 						className="waitingRoom__subline"
 						semanticLevel="2"
 						text={translate(sublineKey)}
+					/>
+				)}
+				{textKey && (
+					<Text
+						className="waitingRoom__text"
+						type="standard"
+						text={translate(textKey)}
 					/>
 				)}
 				<div className="waitingRoom__action">

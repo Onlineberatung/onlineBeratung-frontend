@@ -17,7 +17,7 @@ export const Walkthrough = () => {
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const ref = useRef<any>();
 	const settings = useAppConfig();
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const history = useHistory();
 
 	const onChangeStep = useCallback(() => {
@@ -54,15 +54,8 @@ export const Walkthrough = () => {
 				apiPatchConsultantData({
 					walkThroughEnabled: !userData.isWalkThroughEnabled
 				})
-					.then(() => {
-						setUserData({
-							...userData,
-							isWalkThroughEnabled: !userData.isWalkThroughEnabled
-						});
-					})
-					.catch(() => {
-						// don't know what to do then :O)
-					});
+					.then(reloadUserData)
+					.catch(console.log);
 			}}
 			steps={stepsData.map((step) => ({
 				...step,

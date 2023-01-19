@@ -119,7 +119,7 @@ export const SessionsList = ({
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
-	const { userData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { status } = useContext(RocketChatUserStatusContext);
 
 	const [isLoading, setIsLoading] = useState(true);
@@ -135,12 +135,11 @@ export const SessionsList = ({
 	useGroupWatcher(isLoading);
 
 	const toggleAvailability = () => {
-		const updatedUserData = {
+		apiPatchUserData({
 			available: status !== STATUS_ONLINE
-		};
-		apiPatchUserData(updatedUserData).catch((error) => {
-			console.log(error);
-		});
+		})
+			.then(reloadUserData)
+			.catch(console.log);
 	};
 
 	// If create new group chat

@@ -32,7 +32,22 @@ const defaultReturns = {
 	attachmentUpload: {
 		statusCode: 201
 	},
-	userData: {},
+	userData: {
+		emailToggles: [
+			{
+				name: 'DAILY_ENQUIRY',
+				state: true
+			},
+			{
+				name: 'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
+				state: false
+			},
+			{
+				name: 'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER',
+				state: false
+			}
+		]
+	},
 	consultingTypes: [],
 	releases: {
 		statusCode: 404
@@ -256,8 +271,21 @@ Cypress.Commands.add('mockApi', () => {
 	}).as('authToken');
 
 	cy.intercept('PATCH', endpoints.userData, (req) => {
+		overrides['userData'] = {
+			...overrides['userData'],
+			...req.body
+		};
 		req.reply({});
 	}).as('patchUsersData');
+
+	cy.intercept('PUT', endpoints.setAbsence, (req) => {
+		overrides['userData'] = {
+			...overrides['userData'],
+			absenceMessage: req.body.message,
+			absent: req.body.absent
+		};
+		req.reply({});
+	}).as('putSetAbsence');
 
 	cy.intercept('GET', endpoints.userData, (req) => {
 		req.reply({
@@ -328,8 +356,6 @@ Cypress.Commands.add('mockApi', () => {
 
 	apiAppointments(cy);
 	apiVideocalls(cy);
-
-	cy.intercept('PUT', endpoints.setAbsence, {});
 
 	cy.intercept('GET', endpoints.rc.e2ee.fetchMyKeys, (req) => {
 		// keys from dev user pregnancy
