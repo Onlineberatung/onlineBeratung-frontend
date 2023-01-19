@@ -10,12 +10,12 @@ import {
 	STATUS_STARTED
 } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { useTranslation } from 'react-i18next';
-import { Stage } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
 import { WaitingRoomContent } from '../waitingRoom/WaitingRoomContent';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { Text } from '../text/Text';
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 
 export interface WaitingRoomProps {
 	confirmed: boolean;
@@ -39,6 +39,7 @@ export const WaitingRoom = ({
 	const { t: translate } = useTranslation();
 
 	const legalLinks = useContext(LegalLinksContext);
+	const { Stage } = useContext(GlobalComponentContext);
 
 	const reloadButton: ButtonItem = {
 		label: translate('videoConference.waitingroom.errorPage.button'),

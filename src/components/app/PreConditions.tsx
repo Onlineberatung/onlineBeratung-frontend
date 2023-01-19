@@ -6,15 +6,14 @@
  */
 import '../../polyfill';
 import * as React from 'react';
-import { ComponentType, useEffect, useState } from 'react';
-import { StageProps } from '../stage/stage';
+import { useContext, useEffect, useState } from 'react';
 import { StageLayout } from '../stageLayout/StageLayout';
 import '../../resources/styles/styles';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { useTranslation } from 'react-i18next';
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 
 interface PreConditionsProps {
-	stageComponent: ComponentType<StageProps>;
 	onPreConditionsMet: Function;
 }
 
@@ -36,10 +35,9 @@ export const preConditionsMet = (): TPreConditionCookies => {
 	return null;
 };
 
-export const PreConditions = ({
-	stageComponent: Stage,
-	onPreConditionsMet
-}: PreConditionsProps) => {
+export const PreConditions = ({ onPreConditionsMet }: PreConditionsProps) => {
+	const { Stage } = useContext(GlobalComponentContext);
+
 	const [failedPreCondition, setFailedPreCondition] =
 		useState<TPreConditionCookies>(null);
 

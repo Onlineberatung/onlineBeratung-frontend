@@ -1,13 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import {
-	ComponentType,
-	useCallback,
-	useContext,
-	useEffect,
-	useMemo,
-	useState
-} from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
 import {
 	InputField,
@@ -21,7 +14,6 @@ import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { ReactComponent as VerifiedIcon } from '../../resources/img/icons/verified.svg';
-import { StageProps } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
 import { apiRegistrationNewConsultingTypes, FETCH_ERRORS } from '../../api';
 import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
@@ -66,14 +58,11 @@ import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
-
-interface LoginProps {
-	stageComponent: ComponentType<StageProps>;
-}
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 
 const regexAccountDeletedError = /account disabled/i;
 
-export const Login = ({ stageComponent: Stage }: LoginProps) => {
+export const Login = () => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
@@ -82,6 +71,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
 	const { reloadUserData } = useContext(UserDataContext);
+	const { Stage } = useContext(GlobalComponentContext);
 
 	const loginButton: ButtonItem = {
 		label: translate('login.button.label'),

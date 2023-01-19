@@ -40,10 +40,10 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { WaitingRoomContent } from './WaitingRoomContent';
-import { Stage } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
 import { appConfig } from '../../utils/appConfig';
 import { Loading } from '../app/Loading';
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
@@ -60,6 +60,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const history = useHistory();
 
 	const legalLinks = useContext(LegalLinksContext);
+	const { Stage } = useContext(GlobalComponentContext);
 
 	const [isDataProtectionViewActive, setIsDataProtectionViewActive] =
 		useState<boolean>(true);
