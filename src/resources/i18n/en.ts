@@ -62,17 +62,24 @@ export const en = {
 		waitingroom: {
 			'title.start': 'Waiting room',
 			'dataProtection': {
-				headline: 'Welcome!',
-				subline: 'Please confirm our privacy policy.',
+				headline: 'Welcome',
+				subline:
+					'Please confirm our privacy policy. After that, our consultants may start a chat with you.',
 				description:
 					'After that, our consultants may start a chat with you.',
-				button: 'Confirm'
+				button: 'I agree'
 			},
 			'errorPage': {
 				headline: 'Oops!',
 				description:
 					'We are sorry something must have gone wrong.<br>Try again.',
 				button: 'Reload'
+			},
+			'closed': {
+				headline: 'Our live chat is currently unavailable',
+				description:
+					'On our <a target="_blank" href="{{websiteUrl}}">Website</a> you can find the opening hours of the chat in the respective subject area.',
+				illustrationTitle: 'chat closed'
 			},
 			'headline': 'Please be patient',
 			'subline':
@@ -82,9 +89,9 @@ export const en = {
 				loading: 'Will be loaded...'
 			},
 			'info.accountDeletion':
-				'We delete your messages after 48 hours at the latest. Your anonymity is important to us.',
+				'To protect your anonymity, we delete your messages no later than 48 hours after the chat has ended.',
 			'redirect': {
-				title: 'You dont want to wait for a free chat? And do not need an answer immediately?',
+				title: 'You do not need an answer immediately? And do not want to wait for a free chat?',
 				subline:
 					'Register and leave us a message. We will get back to you within 2 business days. <br><br>Go to <a href="registration">registration</a>'
 			},
@@ -1479,7 +1486,8 @@ export const en = {
 			activities: {
 				title: 'My activities',
 				statistics: 'My statistics',
-				absence: 'My absence'
+				absence: 'My absence',
+				availability: 'My availability'
 			},
 			notifications: {
 				title: 'Notifications',
@@ -1557,6 +1565,12 @@ export const en = {
 			'subtitle': 'We will notify you when you:',
 			'follow.up.email.label':
 				'Have received a message from an accepted advice seeker.'
+		},
+		'liveChat': {
+			title: 'My live chat availability',
+			subtitle:
+				'Activate your availability and see the waiting anoymous advice seekers in the initial requests under "Live Chat Requests".',
+			toggleLabel: 'available'
 		},
 		'appLanguage': {
 			title: 'Language',
@@ -1847,7 +1861,7 @@ export const en = {
 		},
 		'consultant.prefix': 'Consultant - ',
 		'divider.lastRead': 'Last read',
-		'empty': 'Please select a message.',
+		'empty': 'Please select a message',
 		'feedback.label': 'Feedback',
 		'groupChat.consultant.prefix': 'Moderator - ',
 		'monitoring.buttonLabel': 'Document now',
@@ -1917,9 +1931,14 @@ export const en = {
 	sessionList: {
 		'teamsession': 'Team consulting',
 		'empty': {
-			known: 'There are no requests at the moment.',
+			known: 'There are no requests at the moment',
 			anonymous:
-				'Currently, no anonymous advice seekers are waiting for a live chat.'
+				'Currently, no anonymous advice seekers are waiting for a live chat'
+		},
+		'unavailable': {
+			description:
+				'Activate your availability to receive initial inquiries from advice seekers',
+			buttonLabel: 'Activate availability'
 		},
 		'preview': {
 			'headline': 'Initial inquiries',
@@ -2339,7 +2358,7 @@ export const en = {
 		waitingroom: {
 			'title.start': 'Waiting room',
 			'dataProtection': {
-				'headline': 'A warm welcome!',
+				'headline': 'A warm welcome',
 				'subline': 'Please confirm our privacy policy.',
 				'description':
 					'After that, our consultants may start a video call with you.',

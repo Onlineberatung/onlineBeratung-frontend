@@ -12,6 +12,7 @@ import { ReactComponent as SuccessIllustration } from '../../resources/img/illus
 import { apiPutSessionData } from '../../api';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useTranslation } from 'react-i18next';
+import { UserDataContext } from '../../globalState';
 
 interface VoluntaryInfoOverlayProps {
 	voluntaryComponents: any[];
@@ -22,12 +23,11 @@ interface VoluntaryInfoOverlayProps {
 export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { activeSession } = useContext(ActiveSessionContext);
+	const { reloadUserData } = useContext(UserDataContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [valuesOfGeneratedInputs, setValuesOfGeneratedInputs] =
 		useState<GeneratedInputs | null>(null);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
-	const [generatedRegistrationData, setGeneratedRegistrationData] =
-		useState<any>();
 
 	const renderInputComponent = (component, index) => {
 		if (component.componentType === 'SelectDropdown') {
@@ -242,10 +242,8 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 				activeSession.item.id,
 				generatedRegistrationDataSet
 			)
-				.then(() => {
-					setIsSuccessOverlay(true);
-					setGeneratedRegistrationData(generatedRegistrationDataSet);
-				})
+				.then(reloadUserData)
+				.then(() => setIsSuccessOverlay(true))
 				.catch((error) => {
 					console.error(
 						'Could not submit voluntary information ',
@@ -264,7 +262,7 @@ export const VoluntaryInfoOverlay = (props: VoluntaryInfoOverlayProps) => {
 			setIsOverlayActive(false);
 			setIsSuccessOverlay(false);
 			setValuesOfGeneratedInputs(null);
-			props.handleSuccess(generatedRegistrationData);
+			props.handleSuccess();
 		} else {
 			handleVoluntaryInfoSubmit();
 		}

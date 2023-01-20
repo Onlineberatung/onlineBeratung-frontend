@@ -98,6 +98,7 @@ export const endpoints = {
 			getOne: apiUrl + '/api/v1/subscriptions.getOne'
 		},
 		users: {
+			getStatus: apiUrl + '/api/v1/users.getStatus',
 			info: apiUrl + '/api/v1/users.info',
 			resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey'
 		}

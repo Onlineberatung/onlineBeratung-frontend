@@ -27,7 +27,6 @@ import {
 } from '../../globalState';
 import { VoluntaryInfoOverlay } from './VoluntaryInfoOverlay';
 import { isVoluntaryInfoSet } from './messageHelpers';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useTranslation } from 'react-i18next';
 
 interface FurtherStepsProps {
@@ -41,10 +40,9 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
 
-	const { activeSession } = useContext(ActiveSessionContext);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
 	const [isSuccessOverlay, setIsSuccessOverlay] = useState<boolean>(false);
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
 	const [email, setEmail] = useState<string>('');
@@ -159,12 +157,10 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 		} else if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			apiPutEmail(email)
-				.then((response) => {
+				.then(reloadUserData)
+				.then(() => {
 					setIsRequestInProgress(false);
 					setIsSuccessOverlay(true);
-					let updatedUserData = userData;
-					updatedUserData.email = email;
-					setUserData(updatedUserData);
 				})
 				.catch((error: Response) => {
 					const reason = error.headers?.get(FETCH_ERRORS.X_REASON);
@@ -181,12 +177,7 @@ export const FurtherSteps = (props: FurtherStepsProps) => {
 		}
 	};
 
-	const handleVoluntarySuccess = (generatedRegistrationData) => {
-		let updatedUserData = userData;
-		updatedUserData.consultingTypes[
-			activeSession.agency.consultingType
-		].sessionData = generatedRegistrationData;
-		setUserData(updatedUserData);
+	const handleVoluntarySuccess = () => {
 		setShowAddVoluntaryInfo(false);
 		if (props.handleVoluntaryInfoSet) {
 			props.handleVoluntaryInfoSet();

@@ -37,6 +37,7 @@ import {
 	UPDATE_SESSIONS,
 	UserDataContext
 } from '../../globalState';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
 import { SessionListItemComponent } from '../sessionsListItem/SessionListItemComponent';
 import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkeleton';
@@ -71,6 +72,14 @@ import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as LiveChatAvailableIllustration } from '../../resources/img/illustrations/live-chat-available.svg';
+import { ReactComponent as ChatWaitingIllustration } from '../../resources/img/illustrations/chat-waiting.svg';
+import { ReactComponent as NoMessagesIllustration } from '../../resources/img/illustrations/no-messages.svg';
+import { ListInfo } from '../listInfo/ListInfo';
+import {
+	RocketChatUserStatusContext,
+	STATUS_ONLINE
+} from '../../globalState/provider/RocketChatUserStatusProvider';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -110,8 +119,10 @@ export const SessionsList = ({
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
+	const { userData, reloadUserData } = useContext(UserDataContext);
+	const { status } = useContext(RocketChatUserStatusContext);
+
 	const [isLoading, setIsLoading] = useState(true);
-	const { userData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [totalItems, setTotalItems] = useState(0);
 	const [isReloadButtonVisible, setIsReloadButtonVisible] = useState(false);
@@ -123,8 +134,16 @@ export const SessionsList = ({
 
 	useGroupWatcher(isLoading);
 
+	const toggleAvailability = () => {
+		apiPatchUserData({
+			available: status !== STATUS_ONLINE
+		})
+			.then(reloadUserData)
+			.catch(console.log);
+	};
+
 	// If create new group chat
-	const activeCreateChat = groupIdFromParam === 'createGroupChat';
+	const isCreateChatActive = groupIdFromParam === 'createGroupChat';
 
 	const getConsultantSessionList = useCallback(
 		(
@@ -926,7 +945,7 @@ export const SessionsList = ({
 
 				<div
 					className={`sessionsList__itemsWrapper ${
-						activeCreateChat ||
+						isCreateChatActive ||
 						isLoading ||
 						finalSessionsList.length > 0
 							? ''
@@ -936,7 +955,7 @@ export const SessionsList = ({
 					role="tablist"
 				>
 					{!isLoading &&
-						activeCreateChat &&
+						isCreateChatActive &&
 						type === SESSION_LIST_TYPES.MY_SESSION &&
 						hasUserAuthority(
 							AUTHORITIES.CREATE_NEW_CHAT,
@@ -944,6 +963,8 @@ export const SessionsList = ({
 						) && <SessionListCreateChat />}
 
 					{(!isLoading || finalSessionsList.length > 0) &&
+						(status === STATUS_ONLINE ||
+							sessionListTab !== SESSION_LIST_TAB_ANONYMOUS) &&
 						finalSessionsList
 							.sort(sortSessions)
 							.map((item: ListItemInterface, index) => (
@@ -969,24 +990,6 @@ export const SessionsList = ({
 								/>
 							))}
 
-					{!isLoading &&
-						!activeCreateChat &&
-						!isReloadButtonVisible &&
-						finalSessionsList.length === 0 && (
-							<Text
-								className="sessionsList--empty"
-								text={
-									sessionListTab !==
-									SESSION_LIST_TAB_ANONYMOUS
-										? translate('sessionList.empty.known')
-										: translate(
-												'sessionList.empty.anonymous'
-										  )
-								}
-								type="divider"
-							/>
-						)}
-
 					{isLoading && <SessionsListSkeleton />}
 
 					{isReloadButtonVisible && (
@@ -1005,6 +1008,42 @@ export const SessionsList = ({
 						</div>
 					)}
 				</div>
+
+				{!isLoading &&
+					!isCreateChatActive &&
+					!isReloadButtonVisible &&
+					finalSessionsList.length === 0 &&
+					(sessionListTab !== SESSION_LIST_TAB_ANONYMOUS ||
+						status === STATUS_ONLINE) && (
+						<ListInfo
+							headline={
+								sessionListTab !== SESSION_LIST_TAB_ANONYMOUS
+									? translate('sessionList.empty.known')
+									: translate('sessionList.empty.anonymous')
+							}
+							Illustration={
+								sessionListTab !== SESSION_LIST_TAB_ANONYMOUS
+									? NoMessagesIllustration
+									: ChatWaitingIllustration
+							}
+						></ListInfo>
+					)}
+
+				{!isLoading &&
+					status !== STATUS_ONLINE &&
+					type === SESSION_LIST_TYPES.ENQUIRY &&
+					sessionListTab === SESSION_LIST_TAB_ANONYMOUS && (
+						<ListInfo
+							headline={translate(
+								'sessionList.unavailable.description'
+							)}
+							Illustration={LiveChatAvailableIllustration}
+							buttonLabel={translate(
+								'sessionList.unavailable.buttonLabel'
+							)}
+							onButtonClick={toggleAvailability}
+						></ListInfo>
+					)}
 			</div>
 		</div>
 	);

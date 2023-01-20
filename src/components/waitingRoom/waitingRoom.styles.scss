@@ -8,80 +8,15 @@ $waiting-room-subline-opacity: 1 !default;
 	justify-content: center;
 	min-height: 100vh;
 	overflow: hidden;
-	background-color: $waiting-room-page-background;
-
-	.header {
-		z-index: 301;
-		display: none;
-		position: absolute;
-		top: 0;
-
-		@include breakpoint($fromLarge) {
-			display: flex;
-		}
-	}
-
-	&__contentWrapper {
-		padding: $grid-base-four $grid-base-two;
-		width: 100%;
-		max-width: 1370px;
-
-		@include breakpoint($fromLarge) {
-			display: flex;
-			align-items: center;
-			padding: $grid-base-five;
-			margin-top: $grid-base-twelve;
-		}
-
-		.text,
-		.headline {
-			text-align: left;
-			margin-left: $grid-base-six;
-			margin-right: $grid-base-six;
-
-			@include breakpoint($fromLarge) {
-				margin-left: 0;
-			}
-		}
-
-		.text {
-			margin-top: $grid-base-four;
-		}
-
-		.text + .text {
-			margin-top: $grid-base-three;
-		}
-
-		a {
-			color: $link-color;
-			text-decoration: underline;
-		}
-
-		.localeSwitch {
-			margin-bottom: $grid-base-three;
-
-			.css-1vicfer-control {
-				background-color: $waiting-room-page-background;
-			}
-		}
-	}
 
 	&__headline {
-		margin: $grid-base-three 0 0;
-		font-size: 32px;
-
-		@include breakpoint($fromLarge) {
-			margin: 0;
-			font-size: $font-size-h1;
-		}
+		margin-bottom: 12px;
 	}
 
 	&__subline {
-		font-family: $font-family-sans-serif;
-		font-weight: $font-weight-regular;
 		font-size: $font-size-h4;
-		margin-top: $grid-base-two;
-		opacity: $waiting-room-subline-opacity;
+		font-weight: $font-weight-regular;
+		line-height: 28px;
 	}
 
 	&__illustration {
@@ -137,58 +72,89 @@ $waiting-room-subline-opacity: 1 !default;
 	&__button {
 		text-align: left;
 		margin-top: $grid-base-four;
-		margin-left: $grid-base-six;
-
-		@include breakpoint($fromLarge) {
-			margin-left: 0;
-		}
 	}
 
 	&__user {
-		margin-top: $grid-base-five;
-
-		.text:first-child {
-			font-size: $font-size-h4;
-			margin-bottom: $grid-base-two;
+		&-description {
+			color: $text-low-emphasis;
+			margin-top: 12px;
 		}
 	}
 
-	&__user,
-	&__redirect {
-		.text:first-of-type {
-			font-weight: $font-weight-medium;
-		}
+	&__illustration-wrapper {
+		height: 200px;
+		width: 200px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-		.text + .text {
-			margin-top: $grid-base;
-		}
-	}
-
-	&__redirect {
-		border: $notice-border;
-		border-radius: 4px;
-		padding: $grid-base-two;
-		margin-top: $grid-base-six;
-		margin-left: $grid-base-six;
-		margin-right: $grid-base-six;
-
-		.text {
-			margin: 0;
-			font-size: $font-size-primary;
-		}
-
-		& .text:last-child {
-			color: rgba(0, 0, 0, 0.6);
+		svg {
+			fill: none;
+			height: 100%;
 		}
 
 		@include breakpoint($fromLarge) {
-			margin-left: 0;
+			margin-left: $grid-base-five;
+		}
+	}
+
+	&__action {
+		border: $notice-border;
+		border-radius: 4px;
+		padding: $grid-base-two $grid-base-five;
+		margin-top: $grid-base-five;
+		display: flex;
+		flex-wrap: wrap-reverse;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+
+		@include breakpoint($fromLarge) {
+			flex-wrap: nowrap;
+			justify-content: space-between;
+		}
+
+		&-content {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			p {
+				text-align: center;
+
+				a {
+					text-decoration: underline;
+				}
+			}
+
+			@include breakpoint($fromLarge) {
+				display: block;
+				p {
+					text-align: left;
+				}
+			}
+		}
+	}
+
+	&__redirect {
+		&-title {
+			margin: $grid-base-five 0 14px;
+			color: $text-high-emphasis;
+		}
+
+		&-text {
+			color: $text-low-emphasis;
+
+			a {
+				text-decoration: underline;
+			}
 		}
 	}
 
 	&__username {
 		color: $form-success;
 		margin-top: $grid-base;
+		font-weight: $font-weight-medium;
 
 		&--loading {
 			color: $tertiary;

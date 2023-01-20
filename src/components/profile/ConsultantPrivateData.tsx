@@ -21,7 +21,7 @@ import { useHistory } from 'react-router-dom';
 export const ConsultantPrivateData = () => {
 	const history = useHistory();
 	const { t: translate } = useTranslation();
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const [isEditDisabled, setIsEditDisabled] = useState<boolean>(true);
 	const [isSaveDisabled, setIsSaveDisabled] = useState<boolean>(true);
 	const [isRequestInProgress, setIsRequestInProgress] =
@@ -83,13 +83,9 @@ export const ConsultantPrivateData = () => {
 				lastname: lastName.trim(),
 				languages: userData.languages
 			})
-				.then((response) => {
+				.then(reloadUserData)
+				.then(() => {
 					setIsRequestInProgress(false);
-					const updatedUserData = { ...userData };
-					updatedUserData.email = email;
-					updatedUserData.firstName = firstName;
-					updatedUserData.lastName = lastName;
-					setUserData(updatedUserData);
 					setIsEditDisabled(true);
 					setEmailLabel(translate('profile.data.email'));
 				})

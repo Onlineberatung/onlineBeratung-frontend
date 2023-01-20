@@ -47,11 +47,9 @@ export interface LoginData {
 interface AutoLoginProps {
 	username: string;
 	password: string;
-	redirect: boolean;
 	otp?: string;
 	useOldUser?: boolean;
 	tenantData?: TenantDataInterface;
-	gcid?: string;
 }
 
 export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
@@ -108,21 +106,15 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 							autoLoginProps
 						);
 
-						const redirect = () =>
-							autoLoginProps.redirect &&
-							redirectToApp(autoLoginProps.gcid);
-
 						if (tenantSettings?.featureToolsEnabled) {
 							getBudibaseAccessToken(
 								username,
 								autoLoginProps.password,
 								tenantSettings
 							).then(() => {
-								redirect();
 								resolve(undefined);
 							});
 						} else {
-							redirect();
 							resolve(undefined);
 						}
 					})
@@ -138,7 +130,6 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					autoLogin({
 						username: autoLoginProps.username,
 						password: autoLoginProps.password,
-						redirect: autoLoginProps.redirect,
 						otp: autoLoginProps.otp,
 						useOldUser: true,
 						tenantData: autoLoginProps.tenantData

@@ -62,11 +62,12 @@ export const de = {
 		},
 		waitingroom: {
 			'dataProtection': {
-				button: 'Bestätigen',
+				button: 'Ich bin einverstanden',
 				description:
 					'Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.',
-				headline: 'Herzlich Willkommen!',
-				subline: 'Bitte bestätigen Sie unsere Datenschutzbestimmungen.'
+				headline: 'Herzlich Willkommen',
+				subline:
+					'Bitte bestätigen Sie unsere Datenschutzbestimmungen. Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.'
 			},
 			'errorPage': {
 				button: 'Neu laden',
@@ -74,9 +75,15 @@ export const de = {
 					'Es tut uns leid da ist wohl etwas schief gelaufen.<br>Versuchen Sie es erneut.',
 				headline: 'Ups!'
 			},
+			'closed': {
+				headline: 'Momentan ist unser Live-Chat nicht besetzt.',
+				description:
+					'Auf unserer <a target="_blank" href="{{websiteUrl}}">Website</a> finden Sie im jeweiligen Themenbereich die Öffnungszeiten des Chats.',
+				illustrationTitle: 'Chat geschlossen'
+			},
 			'headline': 'Bitte haben Sie etwas Geduld',
 			'info.accountDeletion':
-				'Wir löschen Ihre Nachrichten spätestens nach 48 Stunden. Ihre Anonymität ist uns wichtig.',
+				'Um Ihre Anonymität zu schützen, löschen wir Ihre Nachrichten spätestens 48 Stunden nachdem der Chat beendet wurde.',
 			'overlay': {
 				acceptance: {
 					headline: 'Herzlich Willkommen!',
@@ -92,7 +99,7 @@ export const de = {
 			'redirect': {
 				subline:
 					'Registrieren Sie sich und hinterlassen Sie uns eine Nachricht. Wir melden uns innerhalb von 2 Werktagen bei Ihnen. <br><br>Gehen Sie zur <a href="registration">Registrierung</a>',
-				title: 'Sie wollen nicht auf einen freien Chat warten? Und benötigen nicht sofort eine Antwort?'
+				title: 'Sie benötigen nicht sofort eine Antwort? Und wollen nicht auf einen freien Chat warten?'
 			},
 			'subline':
 				'Derzeit sind alle Berater_innen im Gespräch. Wir sind schnellstmöglich für Sie da.',
@@ -1487,11 +1494,18 @@ export const de = {
 			'follow.up.email.label':
 				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.'
 		},
+		'liveChat': {
+			title: 'Meine Live-Chat Verfügbarkeit',
+			subtitle:
+				'Aktivieren Sie Ihre Verfügbarkeit und sehen Sie in den Erstanfragen unter „Live-Chat Anfragen“ die wartenden anoymen Ratsuchenden.',
+			toggleLabel: 'Bin verfügbar'
+		},
 		'routes': {
 			activities: {
 				absence: 'Meine Abwesenheit',
 				statistics: 'Meine Statistik',
-				title: 'Meine Aktivitäten'
+				title: 'Meine Aktivitäten',
+				availability: 'Meine Verfügbarkeit'
 			},
 			display: 'Anzeige',
 			general: {
@@ -1666,7 +1680,7 @@ export const de = {
 			label: {
 				prefix: 'Ich habe die ',
 				and: ' und ',
-				suffix: ' zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.'
+				suffix: ' zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies.'
 			}
 		},
 		'form.title': 'Registrierung abschließen',
@@ -1861,7 +1875,7 @@ export const de = {
 
 		'consultant.prefix': 'Berater_in - ',
 		'divider.lastRead': 'Zuletzt gelesen',
-		'empty': 'Bitte wählen Sie eine Nachricht aus.',
+		'empty': 'Bitte wählen Sie eine Nachricht aus',
 		'feedback.label': 'Feedback',
 		'groupChat.consultant.prefix': 'Moderator_in - ',
 		'monitoring.buttonLabel': 'Jetzt dokumentieren',
@@ -1934,8 +1948,13 @@ export const de = {
 		'createChat.buttonTitle': 'Chat anlegen',
 		'empty': {
 			anonymous:
-				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat.',
-			known: 'Momentan sind keine Anfragen vorhanden.'
+				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat',
+			known: 'Aktuell liegen keine Erstanfragen vor'
+		},
+		'unavailable': {
+			description:
+				'Aktivieren Sie Ihre Verfügbarkeit und erhalten Sie hier die Live-Chat Anfragen von anoymen Ratsuchenden',
+			buttonLabel: 'Verfügbarkeit aktivieren'
 		},
 		'filter': {
 			placeholder: 'Filter',

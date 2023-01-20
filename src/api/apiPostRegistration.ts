@@ -25,7 +25,6 @@ export const apiPostRegistration = (
 		autoLogin({
 			username: data['username'],
 			password: decodeURIComponent(data['password']),
-			redirect: false,
 			tenantData: tenant
 		})
 	);

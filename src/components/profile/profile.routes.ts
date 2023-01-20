@@ -20,6 +20,7 @@ import { OverviewBookings } from './OverviewMobile/Bookings';
 import { OverviewSessions } from './OverviewMobile/Sessions';
 import { profileRoutesSettings } from './profileSettings.routes';
 import { profileRoutesHelp } from './profileHelp.routes';
+import { ConsultantLiveChatAvailability } from './ConsultantLiveChatAvailability';
 
 const shouldShowOverview = (useOverviewPage: boolean) =>
 	useOverviewPage && !isDesktop;
@@ -158,6 +159,30 @@ const profileRoutes = (
 					{
 						component: ConsultantStatistics,
 						column: COLUMN_LEFT
+					}
+				]
+			},
+			{
+				title: 'profile.routes.activities.availability',
+				url: '/verfuegbarkeit',
+				elements: [
+					{
+						component: ConsultantLiveChatAvailability,
+						column: COLUMN_RIGHT,
+						condition: (userData, consultingTypes) =>
+							hasUserAuthority(
+								AUTHORITIES.CONSULTANT_DEFAULT,
+								userData
+							) &&
+							userData.hasAnonymousConversations &&
+							userData.agencies.some(
+								(agency) =>
+									(consultingTypes ?? []).find(
+										(consultingType) =>
+											consultingType.id ===
+											agency.consultingType
+									)?.isAnonymousConversationAllowed
+							)
 					}
 				]
 			},

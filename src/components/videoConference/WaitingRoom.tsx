@@ -1,21 +1,24 @@
 import * as React from 'react';
-import { Header } from '../header/Header';
-import './waitingRoom.styles';
-import { useEffect } from 'react';
-import { Welcome } from './WaitingRoom/Welcome';
-import { Waiting } from './WaitingRoom/Waiting';
+import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
+import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
+import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
+import './../waitingRoom/waitingRoom.styles';
+import { useContext, useEffect } from 'react';
 import {
 	STATUS_CREATED,
 	STATUS_PAUSED,
 	STATUS_STARTED
 } from '../../globalState/interfaces/AppointmentsDataInterface';
-import { PausedOrFinished } from './WaitingRoom/PausedOrFinished';
-import { Error } from './WaitingRoom/Error';
 import { useTranslation } from 'react-i18next';
+import { StageLayout } from '../stageLayout/StageLayout';
+import { WaitingRoomContent } from '../waitingRoom/WaitingRoomContent';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { Text } from '../text/Text';
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 
 export interface WaitingRoomProps {
 	confirmed: boolean;
-	otherClass?: string;
 	setConfirmed: Function;
 	error?: {
 		title: string;
@@ -28,13 +31,30 @@ export interface WaitingRoomProps {
 }
 
 export const WaitingRoom = ({
-	otherClass,
 	confirmed,
 	setConfirmed,
 	status,
 	error
 }: WaitingRoomProps) => {
 	const { t: translate } = useTranslation();
+
+	const legalLinks = useContext(LegalLinksContext);
+	const { Stage } = useContext(GlobalComponentContext);
+
+	const reloadButton: ButtonItem = {
+		label: translate('videoConference.waitingroom.errorPage.button'),
+		type: BUTTON_TYPES.PRIMARY
+	};
+
+	const confirmButton: ButtonItem = {
+		label: translate('anonymous.waitingroom.dataProtection.button'),
+		type: BUTTON_TYPES.PRIMARY
+	};
+
+	const handleReloadButton = () => {
+		window.location.reload();
+	};
+
 	useEffect(() => {
 		document.title = `${translate(
 			'videoConference.waitingroom.title.start'
@@ -48,24 +68,109 @@ export const WaitingRoom = ({
 
 	const getContent = () => {
 		if (error) {
-			return <Error error={error} />;
+			return (
+				<WaitingRoomContent
+					headlineKey={error.title}
+					Illustration={
+						<ErrorIllustration className="waitingRoom__waitingIllustration" />
+					}
+				>
+					{error.description && (
+						<Text
+							type="standard"
+							text={translate(error.description)}
+						/>
+					)}
+					<Button
+						className="waitingRoom__button"
+						buttonHandle={handleReloadButton}
+						item={reloadButton}
+					/>
+				</WaitingRoomContent>
+			);
 		} else if (!confirmed) {
-			return <Welcome onClick={handleConfirmButton} />;
+			return (
+				<WaitingRoomContent
+					headlineKey="videoConference.waitingroom.dataProtection.headline"
+					sublineKey="videoConference.waitingroom.dataProtection.subline"
+					textKey="videoConference.waitingroom.dataProtection.description"
+					Illustration={<WelcomeIllustration />}
+				>
+					<Text
+						type="standard"
+						text={translate(
+							'videoConference.waitingroom.dataProtection.label.text',
+							{
+								legal_links: legalLinks
+									.filter(
+										(legalLink) => legalLink.registration
+									)
+									.map(
+										(legalLink, index, { length }) =>
+											(index > 0
+												? index < length - 1
+													? ', '
+													: translate(
+															'registration.dataProtection.label.and'
+													  )
+												: '') +
+											`<a target="_blank" href="${
+												legalLink.url
+											}">${translate(
+												legalLink.label
+											)}</a>`
+									)
+									.join('')
+							}
+						)}
+					/>
+					<Button
+						className="waitingRoom__button"
+						buttonHandle={handleConfirmButton}
+						item={confirmButton}
+					/>
+				</WaitingRoomContent>
+			);
 		} else if (status === STATUS_PAUSED) {
-			return <PausedOrFinished />;
+			return (
+				<WaitingRoomContent
+					headlineKey="videoConference.waitingroom.paused.headline"
+					Illustration={
+						<WaitingIllustration className="waitingRoom__waitingIllustration" />
+					}
+				>
+					<Text
+						type="standard"
+						text={translate(
+							'videoConference.waitingroom.paused.subline'
+						)}
+					/>
+				</WaitingRoomContent>
+			);
 		} else {
-			return <Waiting />;
+			return (
+				<WaitingRoomContent
+					headlineKey="videoConference.waitingroom.headline"
+					Illustration={
+						<WaitingIllustration className="waitingRoom__waitingIllustration" />
+					}
+				>
+					<Text
+						type="standard"
+						text={translate('videoConference.waitingroom.subline')}
+					/>
+				</WaitingRoomContent>
+			);
 		}
 	};
 
 	return (
-		<>
-			<div className={otherClass ? otherClass : 'waitingRoom'}>
-				<Header showLocaleSwitch={true} />
-				<div className="waitingRoom__contentWrapper">
-					{getContent()}
-				</div>
-			</div>
-		</>
+		<StageLayout
+			stage={<Stage hasAnimation={false} isReady={false} />}
+			showLegalLinks
+			showRegistrationLink={false}
+		>
+			{getContent()}
+		</StageLayout>
 	);
 };

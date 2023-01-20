@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import { LocaleContext, UserDataContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 
 export interface LocaleSwitchProp {
 	updateUserData?: boolean;
@@ -47,13 +48,12 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 			setRequestInProgress(true);
 			apiPatchUserData({
 				preferredLanguage: locale
-			}).then(() => {
-				userDataContext.setUserData({
-					...userDataContext.userData,
-					preferredLanguage: locale
+			})
+				.then(userDataContext.reloadUserData)
+				.catch(console.log)
+				.finally(() => {
+					setRequestInProgress(false);
 				});
-				setRequestInProgress(false);
-			});
 		}
 	}, [locale, requestInProgress, updateUserData, userDataContext]);
 
@@ -63,6 +63,10 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 
 	const languageSelectDropdown: SelectDropdownItem = {
 		handleDropdownSelect: ({ value }) => {
+			// If we wait to be set in LocaleSwitch sometimes we've an problem of reloading the requests
+			// because we're always looking by "locale" from the context but the locale is changed before
+			// we save the cookie so to fix this we set the cookie before the locale switch
+			setValueInCookie('lang', locale);
 			setLocale(value);
 		},
 		id: 'languageSelect',

@@ -1,13 +1,6 @@
 import '../../polyfill';
 import * as React from 'react';
-import {
-	ComponentType,
-	useCallback,
-	useContext,
-	useEffect,
-	useMemo,
-	useState
-} from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
 import {
 	InputField,
@@ -21,13 +14,8 @@ import { Text } from '../text/Text';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { ReactComponent as VerifiedIcon } from '../../resources/img/icons/verified.svg';
-import { StageProps } from '../stage/stage';
 import { StageLayout } from '../stageLayout/StageLayout';
-import {
-	apiGetUserData,
-	apiRegistrationNewConsultingTypes,
-	FETCH_ERRORS
-} from '../../api';
+import { apiRegistrationNewConsultingTypes, FETCH_ERRORS } from '../../api';
 import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import clsx from 'clsx';
 import {
@@ -36,6 +24,7 @@ import {
 	LocaleContext,
 	RocketChatGlobalSettingsContext,
 	TenantContext,
+	UserDataContext,
 	UserDataInterface
 } from '../../globalState';
 import '../../resources/styles/styles';
@@ -69,20 +58,20 @@ import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
-
-interface LoginProps {
-	stageComponent: ComponentType<StageProps>;
-}
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 
 const regexAccountDeletedError = /account disabled/i;
 
-export const Login = ({ stageComponent: Stage }: LoginProps) => {
+export const Login = () => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
+
 	const { locale, initLocale } = useContext(LocaleContext);
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
+	const { reloadUserData } = useContext(UserDataContext);
+	const { Stage } = useContext(GlobalComponentContext);
 
 	const loginButton: ButtonItem = {
 		label: translate('login.button.label'),
@@ -319,27 +308,33 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 	}, []);
 
 	const postLogin = useCallback(
-		(data) => {
-			if (!consultant) {
-				return redirectToApp(gcid);
-			}
-
-			return apiGetUserData().then((userData: UserDataInterface) => {
+		() =>
+			reloadUserData().then(async (userData: UserDataInterface) => {
 				// If user has changed language from default but the profile has different language in profile override it
+				let patchedUserData = {};
 				if (
 					userData.preferredLanguage !== locale &&
 					locale !== initLocale
 				) {
-					return apiPatchUserData({
-						preferredLanguage: locale
-					});
+					patchedUserData['preferredLanguage'] = locale;
+				}
+
+				if (
+					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+				) {
+					patchedUserData['available'] = false;
+				}
+
+				if (Object.keys(patchedUserData).length > 0) {
+					await apiPatchUserData(patchedUserData);
+					await reloadUserData().catch(console.log);
 				}
 
 				if (
 					!consultant ||
 					!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)
 				) {
-					return redirectToApp();
+					return redirectToApp(gcid);
 				}
 
 				if (
@@ -350,36 +345,39 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 				} else {
 					setRegisterOverlayActive(true);
 				}
-			});
-		},
+			}),
 		[
 			locale,
 			initLocale,
 			consultant,
 			possibleAgencies,
 			possibleConsultingTypes.length,
+			reloadUserData,
 			handleRegistration,
 			gcid
 		]
 	);
 
-	const tryLoginWithoutOtp = () => {
+	const tryLogin = (otp?: string) => {
 		setIsRequestInProgress(true);
 		autoLogin({
 			username: username,
 			password: password,
-			redirect: !consultant,
-			gcid,
-			tenantData: tenant
+			tenantData: tenant,
+			...(otp ? { otp } : {})
 		})
 			.then(postLogin)
 			.catch((error) => {
 				if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
 					setShowLoginError(
-						translate('login.warning.failed.unauthorized.text')
+						translate(
+							otp
+								? 'login.warning.failed.unauthorized.otp'
+								: 'login.warning.failed.unauthorized.text'
+						)
 					);
 					setLabelState(VALIDITY_INVALID);
-				} else if (error.message === FETCH_ERRORS.BAD_REQUEST) {
+				} else if (!otp && error.message === FETCH_ERRORS.BAD_REQUEST) {
 					if (
 						error.options?.data?.error_description?.match(
 							regexAccountDeletedError
@@ -394,44 +392,21 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 						setIsOtpRequired(true);
 					}
 				}
-			})
-			.finally(() => {
+
 				setIsRequestInProgress(false);
 			});
 	};
 
 	const handleLogin = () => {
-		if (!isRequestInProgress && !isOtpRequired && username && password) {
-			tryLoginWithoutOtp();
-		} else if (
-			!isRequestInProgress &&
-			isOtpRequired &&
-			username &&
-			password &&
-			otp
+		if (
+			isRequestInProgress ||
+			!username ||
+			!password ||
+			(isOtpRequired && !otp)
 		) {
-			setIsRequestInProgress(true);
-			autoLogin({
-				username,
-				password,
-				redirect: !consultant,
-				otp,
-				gcid,
-				tenantData: tenant
-			})
-				.then(postLogin)
-				.catch((error) => {
-					if (error.message === FETCH_ERRORS.UNAUTHORIZED) {
-						setShowLoginError(
-							translate('login.warning.failed.unauthorized.otp')
-						);
-						setLabelState(VALIDITY_INVALID);
-					}
-				})
-				.finally(() => {
-					setIsRequestInProgress(false);
-				});
+			return;
 		}
+		tryLogin(otp);
 	};
 
 	const handleKeyUp = (e) => {
@@ -522,7 +497,7 @@ export const Login = ({ stageComponent: Stage }: LoginProps) => {
 							{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
 								<TwoFactorAuthResendMail
 									resendHandler={(callback) => {
-										tryLoginWithoutOtp();
+										tryLogin();
 										callback();
 									}}
 								/>

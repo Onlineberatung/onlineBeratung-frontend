@@ -17,15 +17,13 @@ import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import { PenIcon } from '../../resources/img/icons';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';
-import useUpdateUserData from '../../utils/useUpdateUserData';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const ConsultantInformation = () => {
 	const { t: translate } = useTranslation();
-	const { userData } = useContext(UserDataContext);
-	const updateUserData = useUpdateUserData();
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const [isEditEnabled, setIsEditEnabled] = useState(false);
 	const [isSaveDisabled, setIsSaveDisabled] = useState(false);
 	const [editedDisplayName, setEditedDisplayName] = useState('');
@@ -53,7 +51,7 @@ export const ConsultantInformation = () => {
 	const handleSaveEditButton = () => {
 		apiPatchUserData({ displayName: editedDisplayName })
 			.then(() => {
-				updateUserData();
+				reloadUserData().catch(console.log);
 				setInitialDisplayName(editedDisplayName);
 				setIsEditEnabled(false);
 			})
