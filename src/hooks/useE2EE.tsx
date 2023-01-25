@@ -1,7 +1,6 @@
 import CryptoJS from 'crypto-js';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { apiRocketChatGetUsersOfRoomWithoutKey } from '../api/apiRocketChatGetUsersOfRoomWithoutKey';
-import { apiRocketChatGroupMembers } from '../api/apiRocketChatGroupMembers';
 import { apiRocketChatUpdateGroupKey } from '../api/apiRocketChatUpdateGroupKey';
 import { E2EEContext } from '../globalState';
 import {
@@ -18,6 +17,7 @@ import {
 	apiSendAliasMessage
 } from '../api/apiSendAliasMessage';
 import { RocketChatGetUserRolesContext } from '../globalState/provider/RocketChatSytemUsersProvider';
+import { RocketChatUsersOfRoomContext } from '../globalState/provider/RocketChatUsersOfRoomProvider';
 
 export const ENCRYPT_ROOM_STATE_GET_MEMBERS = 'get_members';
 export const ENCRYPT_ROOM_STATE_GET_USERS_WITHOUT_KEY = 'get_users_without_key';
@@ -77,6 +77,7 @@ export const useE2EE = (
 		RocketChatSubscriptionsContext
 	);
 	const { systemUsers } = useContext(RocketChatGetUserRolesContext);
+	const { users: usersOfRoom } = useContext(RocketChatUsersOfRoomContext);
 
 	const [keyData, setKeyData] = useState<{
 		key: CryptoKey;
@@ -113,9 +114,8 @@ export const useE2EE = (
 					total: 0
 				});
 
-			const { members } = await apiRocketChatGroupMembers(roomId);
 			// Filter system user and users with unencrypted username (Maybe more system users)
-			const filteredMembers = members.filter(
+			const filteredMembers = usersOfRoom.filter(
 				(member) =>
 					member.username !== 'System' &&
 					member.username.indexOf('enc.') === 0 &&
@@ -217,11 +217,12 @@ export const useE2EE = (
 			return [filteredMembers.length, unhandledMembers];
 		},
 		[
-			keyData.keyID,
-			rcUid,
 			rid,
-			keyData.sessionKeyExportedString,
-			systemUsers
+			usersOfRoom,
+			systemUsers,
+			rcUid,
+			keyData.keyID,
+			keyData.sessionKeyExportedString
 		]
 	);
 

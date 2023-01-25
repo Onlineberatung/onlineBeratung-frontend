@@ -36,6 +36,7 @@ export const METHOD_GET_ROOM_ROLES = 'getRoomRoles';
 export const METHOD_ROOMS_GET = 'rooms/get';
 export const METHOD_SUBSCRIPTIONS_GET = 'subscriptions/get';
 export const METHOD_GET_USER_ROLES = 'getUserRoles';
+export const METHOD_GET_USERS_OF_ROOM = 'getUsersOfRoom';
 export const METHOD_HIDE_ROOM = 'hideRoom';
 export const METHOD_JOIN_ROOM = 'joinRoom';
 export const METHOD_LEAVE_ROOM = 'leaveRoom';
@@ -77,6 +78,7 @@ export type METHODS =
 	| typeof METHOD_ROOMS_GET
 	| typeof METHOD_SUBSCRIPTIONS_GET
 	| typeof METHOD_GET_USER_ROLES
+	| typeof METHOD_GET_USERS_OF_ROOM
 	| typeof METHOD_HIDE_ROOM
 	| typeof METHOD_JOIN_ROOM
 	| typeof METHOD_LEAVE_ROOM

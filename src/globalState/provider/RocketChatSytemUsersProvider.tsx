@@ -15,13 +15,13 @@ interface IUser {
 	username: string;
 }
 
-type RocketChatSubscriptionsContextProps = {
+type RocketChatGetUserRolesContextProps = {
 	systemUsersReady: boolean;
 	systemUsers: IUser[];
 };
 
 export const RocketChatGetUserRolesContext =
-	createContext<RocketChatSubscriptionsContextProps>(null);
+	createContext<RocketChatGetUserRolesContextProps>(null);
 
 type RocketChatGetUserRolesProviderProps = {
 	children: ReactNode;
