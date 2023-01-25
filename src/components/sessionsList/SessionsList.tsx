@@ -24,6 +24,7 @@ import {
 	AUTHORITIES,
 	buildExtendedSession,
 	ConsultingTypesContext,
+	ExtendedSessionInterface,
 	getExtendedSession,
 	hasUserAuthority,
 	isAnonymousSession,
@@ -80,6 +81,8 @@ import {
 	RocketChatUserStatusContext,
 	STATUS_ONLINE
 } from '../../globalState/provider/RocketChatUserStatusProvider';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -694,11 +697,12 @@ export const SessionsList = ({
 			type === SESSION_LIST_TYPES.TEAMSESSION);
 
 	const sortSessions = useCallback(
-		(a, b) => {
+		(
+			sessionA: ExtendedSessionInterface,
+			sessionB: ExtendedSessionInterface
+		) => {
 			switch (type) {
 				case SESSION_LIST_TYPES.ENQUIRY:
-					const sessionA = buildExtendedSession(a);
-					const sessionB = buildExtendedSession(b);
 					if (sessionA.isGroup || sessionB.isGroup) {
 						// There could be no group chats inside enquiry
 						return 0;
@@ -711,8 +715,8 @@ export const SessionsList = ({
 						: 1;
 				case SESSION_LIST_TYPES.MY_SESSION:
 				case SESSION_LIST_TYPES.TEAMSESSION:
-					const latestMessageA = new Date(a.latestMessage);
-					const latestMessageB = new Date(b.latestMessage);
+					const latestMessageA = new Date(sessionA.latestMessage);
+					const latestMessageB = new Date(sessionB.latestMessage);
 					if (latestMessageA === latestMessageB) {
 						return 0;
 					}
@@ -966,29 +970,43 @@ export const SessionsList = ({
 						(status === STATUS_ONLINE ||
 							sessionListTab !== SESSION_LIST_TAB_ANONYMOUS) &&
 						finalSessionsList
+							.map((session) =>
+								buildExtendedSession(session, groupIdFromParam)
+							)
 							.sort(sortSessions)
-							.map((item: ListItemInterface, index) => (
-								<SessionListItemComponent
-									key={
-										buildExtendedSession(
-											item,
-											groupIdFromParam
-										).item.id
-									}
-									session={buildExtendedSession(
-										item,
-										groupIdFromParam
-									)}
-									defaultLanguage={defaultLanguage}
-									itemRef={(el) =>
-										(ref_list_array.current[index] = el)
-									}
-									handleKeyDownLisItemContent={(e) =>
-										handleKeyDownLisItemContent(e, index)
-									}
-									index={index}
-								/>
-							))}
+							.map(
+								(
+									activeSession: ExtendedSessionInterface,
+									index
+								) => (
+									<ActiveSessionContext.Provider
+										key={activeSession.item.id}
+										value={{ activeSession }}
+									>
+										<RocketChatUsersOfRoomProvider>
+											<SessionListItemComponent
+												defaultLanguage={
+													defaultLanguage
+												}
+												itemRef={(el) =>
+													(ref_list_array.current[
+														index
+													] = el)
+												}
+												handleKeyDownLisItemContent={(
+													e
+												) =>
+													handleKeyDownLisItemContent(
+														e,
+														index
+													)
+												}
+												index={index}
+											/>
+										</RocketChatUsersOfRoomProvider>
+									</ActiveSessionContext.Provider>
+								)
+							)}
 
 					{isLoading && <SessionsListSkeleton />}
 
