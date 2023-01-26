@@ -273,8 +273,11 @@ export const SessionsList = ({
 							userData
 						)
 					) {
+						const extendedSession = buildExtendedSession(
+							sessions[0]
+						);
 						history.push(
-							`/sessions/user/view/${sessions[0]?.chat?.groupId}/${sessions[0]?.chat?.id}`
+							`/sessions/user/view/${extendedSession?.rid}/${extendedSession?.item?.id}`
 						);
 					}
 				})
