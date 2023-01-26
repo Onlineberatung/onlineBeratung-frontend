@@ -274,7 +274,7 @@ export const SessionsList = ({
 						)
 					) {
 						history.push(
-							`/sessions/user/view/${sessions[0]?.chat?.groupId}/${sessions[0]?.chat?.id}`
+							`/sessions/user/view/${sessions[0]?.session?.groupId}/${sessions[0]?.session?.id}`
 						);
 					}
 				})
