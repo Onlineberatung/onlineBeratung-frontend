@@ -61,12 +61,14 @@ export const RocketChatUsersOfRoomProvider = ({
 			load().then(() => {
 				setReady(true);
 			});
+		} else if (!activeSession?.rid && activeSession.isEmptyEnquiry) {
+			setReady(true);
 		}
 
 		return () => {
 			setReady(false);
 		};
-	}, [activeSession?.rid, socketReady, load]);
+	}, [activeSession?.rid, socketReady, load, activeSession.isEmptyEnquiry]);
 
 	if (!ready) {
 		return null;
