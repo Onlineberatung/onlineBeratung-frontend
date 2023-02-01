@@ -23,10 +23,8 @@ import {
 import { SESSION_LIST_TAB_ANONYMOUS } from '../session/sessionHelpers';
 import { sendNotification } from '../../utils/notificationHelpers';
 import { useTranslation } from 'react-i18next';
-import {
-	RocketChatUserStatusContext,
-	STATUS_ONLINE
-} from '../../globalState/provider/RocketChatUserStatusProvider';
+import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
+import { STATUS_ONLINE } from './RocketChat';
 
 interface WebsocketHandlerProps {
 	disconnect: boolean;

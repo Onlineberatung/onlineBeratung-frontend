@@ -2,24 +2,23 @@ import * as React from 'react';
 import {
 	createContext,
 	ReactNode,
+	useCallback,
 	useContext,
 	useEffect,
 	useState
 } from 'react';
 import { RocketChatContext } from './RocketChatProvider';
-import { METHOD_GET_USERS_OF_ROOM } from '../../components/app/RocketChat';
+import {
+	METHOD_GET_USERS_OF_ROOM,
+	UserResponse
+} from '../../components/app/RocketChat';
 import { ActiveSessionContext } from './ActiveSessionProvider';
-
-interface IUser {
-	_id: string;
-	roles: string[];
-	username: string;
-}
 
 type RocketChatUsersOfRoomContextProps = {
 	ready: boolean;
-	users: IUser[];
+	users: UserResponse[];
 	total: number;
+	reload: () => Promise<UserResponse[]>;
 };
 
 export const RocketChatUsersOfRoomContext =
@@ -37,41 +36,46 @@ export const RocketChatUsersOfRoomProvider = ({
 
 	const [ready, setReady] = useState(false);
 	const [total, setTotal] = useState(0);
-	const [users, setUsers] = useState<IUser[]>([]);
+	const [users, setUsers] = useState<UserResponse[]>([]);
+
+	const load = useCallback(async () => {
+		const res = await sendMethod(METHOD_GET_USERS_OF_ROOM, [
+			activeSession.rid,
+			true,
+			{ limit: 0, skip: 0 }
+		]);
+
+		if (res) {
+			setUsers(res.records);
+			setTotal(res.total);
+			return res.records;
+		}
+		console.error('No users found for room: ', activeSession.rid);
+		setUsers([]);
+		setTotal(0);
+		return [];
+	}, [activeSession.rid, sendMethod]);
 
 	useEffect(() => {
 		if (socketReady && activeSession?.rid) {
-			sendMethod(
-				METHOD_GET_USERS_OF_ROOM,
-				[activeSession.rid, true, { limit: 0, skip: 0 }],
-				(res) => {
-					if (res) {
-						setUsers(res.records);
-						setTotal(res.total);
-					} else {
-						console.error(
-							'No users found for room: ',
-							activeSession.rid
-						);
-						setUsers([]);
-						setTotal(0);
-					}
-					setReady(true);
-				}
-			);
+			load().then(() => {
+				setReady(true);
+			});
 		}
 
 		return () => {
 			setReady(false);
 		};
-	}, [activeSession.rid, socketReady, sendMethod, setUsers]);
+	}, [activeSession?.rid, socketReady, load]);
 
 	if (!ready) {
 		return null;
 	}
 
 	return (
-		<RocketChatUsersOfRoomContext.Provider value={{ ready, users, total }}>
+		<RocketChatUsersOfRoomContext.Provider
+			value={{ ready, users, total, reload: load }}
+		>
 			{children}
 		</RocketChatUsersOfRoomContext.Provider>
 	);

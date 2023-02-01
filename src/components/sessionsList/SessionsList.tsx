@@ -65,6 +65,7 @@ import useDebounceCallback from '../../hooks/useDebounceCallback';
 import {
 	EVENT_ROOMS_CHANGED,
 	EVENT_SUBSCRIPTIONS_CHANGED,
+	STATUS_ONLINE,
 	SUB_STREAM_NOTIFY_USER
 } from '../app/RocketChat';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -77,10 +78,7 @@ import { ReactComponent as LiveChatAvailableIllustration } from '../../resources
 import { ReactComponent as ChatWaitingIllustration } from '../../resources/img/illustrations/chat-waiting.svg';
 import { ReactComponent as NoMessagesIllustration } from '../../resources/img/illustrations/no-messages.svg';
 import { ListInfo } from '../listInfo/ListInfo';
-import {
-	RocketChatUserStatusContext,
-	STATUS_ONLINE
-} from '../../globalState/provider/RocketChatUserStatusProvider';
+import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 
