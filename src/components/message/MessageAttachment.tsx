@@ -8,7 +8,14 @@ import { useTranslation } from 'react-i18next';
 import { apiUrl } from '../../resources/scripts/endpoints';
 import { useCallback } from 'react';
 import { FETCH_METHODS, fetchData } from '../../api';
-import { decryptAttachment } from '../../utils/encryptionHelpers';
+import {
+	decryptAttachment,
+	ENCRYPTION_VERSION_ACTIVE,
+	KEY_ID_LENGTH,
+	MAX_PREFIX_LENGTH,
+	VECTOR_LENGTH,
+	VERSION_SEPERATOR
+} from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import {
 	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
@@ -170,10 +177,17 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 							? `| ${
 									(
 										getAttachmentSizeMBForKB(
-											encrypted
+											props.t === 'e2e'
 												? Math.floor(
-														props.attachment
-															.image_size / 2
+														(props.attachment
+															.image_size -
+															KEY_ID_LENGTH -
+															MAX_PREFIX_LENGTH -
+															VERSION_SEPERATOR.length -
+															ENCRYPTION_VERSION_ACTIVE.length -
+															100) /
+															2 -
+															VECTOR_LENGTH * 2
 												  ) * 1000
 												: props.attachment.image_size *
 														1000
