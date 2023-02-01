@@ -170,7 +170,13 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 							? `| ${
 									(
 										getAttachmentSizeMBForKB(
-											props.attachment.image_size * 1000
+											encrypted
+												? Math.floor(
+														props.attachment
+															.image_size / 2
+												  ) * 1000
+												: props.attachment.image_size *
+														1000
 										) / 1000
 									).toFixed(2) +
 									translate('attachments.type.label.mb')
