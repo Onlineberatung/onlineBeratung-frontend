@@ -52,7 +52,6 @@ const VideoConference = () => {
 	const { t: translate } = useTranslation();
 	const { locale } = useContext(LocaleContext);
 	const [e2eEnabled, setE2EEnabled] = useState(false);
-	const [isFirstModerator, setIsFirstModerator] = useState(false);
 
 	const isModerator = useCallback(
 		() =>
@@ -74,7 +73,6 @@ const VideoConference = () => {
 
 	const startAppointment = useCallback(() => {
 		if (isModerator() && appointment.status !== STATUS_STARTED) {
-			setIsFirstModerator(true);
 			appointmentService
 				.putAppointment(appointmentId, {
 					...appointment,
@@ -86,7 +84,7 @@ const VideoConference = () => {
 	}, [appointment, appointmentId, isModerator]);
 
 	const pauseAppointment = useCallback(() => {
-		if (isModerator() && isFirstModerator) {
+		if (isModerator()) {
 			appointmentService
 				.putAppointment(appointmentId, {
 					...appointment,
@@ -98,7 +96,7 @@ const VideoConference = () => {
 					setQuitted(true);
 				});
 		}
-	}, [appointment, appointmentId, isFirstModerator, isModerator]);
+	}, [appointment, appointmentId, isModerator]);
 
 	const handleJitsiError = useCallback((e) => {
 		if (e.error.name === 'conference.connectionError.accessDenied') {
@@ -173,7 +171,7 @@ const VideoConference = () => {
 				}
 			});
 
-			if (isModerator() && appointment.status !== STATUS_STARTED) {
+			if (isModerator()) {
 				// Set appointment started after jitsi has finished initialization and meeting is ready
 				externalApi.on('videoConferenceJoined', startAppointment);
 				externalApi.on('readyToClose', pauseAppointment);
@@ -187,7 +185,7 @@ const VideoConference = () => {
 		}
 		return () => {
 			if (externalApi) {
-				if (isModerator() && isFirstModerator) {
+				if (isModerator()) {
 					externalApi.off('videoConferenceJoined', startAppointment);
 					externalApi.off('readyToClose', pauseAppointment);
 				} else {
@@ -215,8 +213,7 @@ const VideoConference = () => {
 		handleJitsiError,
 		handleCustomE2EEToggled,
 		handleConferenceLeft,
-		handleConferenceJoined,
-		isFirstModerator
+		handleConferenceJoined
 	]);
 
 	const getError = useCallback(() => {
