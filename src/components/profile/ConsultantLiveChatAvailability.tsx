@@ -5,11 +5,9 @@ import Switch from 'react-switch';
 import { useTranslation } from 'react-i18next';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useContext } from 'react';
-import {
-	RocketChatUserStatusContext,
-	STATUS_ONLINE
-} from '../../globalState/provider/RocketChatUserStatusProvider';
+import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
 import { UserDataContext } from '../../globalState';
+import { STATUS_ONLINE } from '../app/RocketChat';
 
 export const ConsultantLiveChatAvailability = () => {
 	const { t: translate } = useTranslation();

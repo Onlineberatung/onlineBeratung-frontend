@@ -77,7 +77,9 @@ export const useE2EE = (
 		RocketChatSubscriptionsContext
 	);
 	const { systemUsers } = useContext(RocketChatGetUserRolesContext);
-	const { users: usersOfRoom } = useContext(RocketChatUsersOfRoomContext);
+	const { reload: reloadUsersOfRoom } = useContext(
+		RocketChatUsersOfRoomContext
+	);
 
 	const [keyData, setKeyData] = useState<{
 		key: CryptoKey;
@@ -113,6 +115,8 @@ export const useE2EE = (
 					count: 0,
 					total: 0
 				});
+
+			const usersOfRoom = await reloadUsersOfRoom();
 
 			// Filter system user and users with unencrypted username (Maybe more system users)
 			const filteredMembers = usersOfRoom.filter(
@@ -218,7 +222,7 @@ export const useE2EE = (
 		},
 		[
 			rid,
-			usersOfRoom,
+			reloadUsersOfRoom,
 			systemUsers,
 			rcUid,
 			keyData.keyID,

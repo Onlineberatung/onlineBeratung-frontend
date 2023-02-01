@@ -12,25 +12,19 @@ import { apiRocketChatUsersGetStatus } from '../../api/apiRocketChatUsersGetStat
 import { getValueFromCookie } from '../../components/sessionCookie/accessSessionCookie';
 import {
 	EVENT_USER_STATUS,
+	Status,
+	STATUS_AWAY,
+	STATUS_BUSY,
+	STATUS_OFFLINE,
+	STATUS_ONLINE,
 	SUB_STREAM_NOTIFY_LOGGED
 } from '../../components/app/RocketChat';
 import useUpdatingRef from '../../hooks/useUpdatingRef';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 
-export const STATUS_OFFLINE = 'offline';
-export const STATUS_ONLINE = 'online';
-export const STATUS_AWAY = 'away';
-export const STATUS_BUSY = 'busy';
-
 type UserId = string;
 type EncUserName = string;
 type IntStatus = 0 | 1 | 2 | 3;
-
-type Status =
-	| typeof STATUS_OFFLINE
-	| typeof STATUS_ONLINE
-	| typeof STATUS_AWAY
-	| typeof STATUS_BUSY;
 
 const STATUS: Status[] = [
 	STATUS_OFFLINE,

@@ -1,3 +1,7 @@
+import { TSetting } from '../../api/apiRocketChatSettingsPublic';
+import { IRoom } from '../../types/rc/Room';
+import { ISubscriptions } from '../../types/rc/Subscriptions';
+
 export const MSG_CONNECT = 'connect';
 export const MSG_METHOD = 'method';
 export const MSG_PONG = 'pong';
@@ -14,91 +18,451 @@ export type MSGS =
 	| typeof MSG_UNSUB;
 
 /*
-METHODS
+Status
  */
+export const STATUS_OFFLINE = 'offline';
+export const STATUS_ONLINE = 'online';
+export const STATUS_AWAY = 'away';
+export const STATUS_BUSY = 'busy';
+
+export type Status =
+	| typeof STATUS_OFFLINE
+	| typeof STATUS_ONLINE
+	| typeof STATUS_AWAY
+	| typeof STATUS_BUSY;
+
+type roomId = string;
+type showAll = boolean;
+type pagination = {
+	limit: number;
+	skip: number;
+};
+type filter = {
+	[key: string]: any;
+};
+
+export type UserResponse = {
+	name: string | null;
+	status: Status;
+	username: string;
+	_id: string;
+	_updatedAt: {
+		$date: number;
+	};
+};
+
+export type MethodGetUsersOfRoomRes = {
+	total: number;
+	records: UserResponse[];
+};
+
+export type MethodGetUserRolesRes = {
+	_id: string;
+	roles: string[];
+	username: string;
+}[];
+
+/*
+METHODS
+ToDo: Explicitly define the return types of the methods
+ */
+
 export const METHOD_ARCHIVE_ROOM = 'archiveRoom';
+export type MethodArchiveRoom = ((
+	method: typeof METHOD_ARCHIVE_ROOM,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_ARCHIVE_ROOM, params: any[]) => Promise<void>);
+
 export const METHOD_CREATE_CHANNEL = 'createChannel';
+export type MethodCreateChannel = ((
+	method: typeof METHOD_CREATE_CHANNEL,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_CREATE_CHANNEL, params: any[]) => Promise<void>);
+
 export const METHOD_CREATE_DIRECT_MESSAGE = 'createDirectMessage';
+export type MethodCreateDirectMessage = ((
+	method: typeof METHOD_CREATE_DIRECT_MESSAGE,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((
+		method: typeof METHOD_CREATE_DIRECT_MESSAGE,
+		params: any[]
+	) => Promise<void>);
+
 export const METHOD_CREATE_PRIVATE_GROUP = 'createPrivateGroup';
+export type MethodCreatePrivateGroup = ((
+	method: typeof METHOD_CREATE_PRIVATE_GROUP,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((
+		method: typeof METHOD_CREATE_PRIVATE_GROUP,
+		params: any[]
+	) => Promise<void>);
+
 export const METHOD_DELETE_MESSAGE = 'deleteMessage';
+export type MethodDeleteMessage = ((
+	method: typeof METHOD_DELETE_MESSAGE,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_DELETE_MESSAGE, params: any[]) => Promise<void>);
+
 export const METHOD_ERASE_ROOM = 'eraseRoom';
+export type MethodEraseRoom = ((
+	method: typeof METHOD_ERASE_ROOM,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_ERASE_ROOM, params: any[]) => Promise<void>);
+
 export const METHOD_E2EE_FETCH_MY_KEYS = 'e2e.fetchMyKeys';
+export type MethodE2eeFetchMyKeys = ((
+	method: typeof METHOD_E2EE_FETCH_MY_KEYS,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((
+		method: typeof METHOD_E2EE_FETCH_MY_KEYS,
+		params: any[]
+	) => Promise<void>);
+
 export const METHOD_E2EE_GET_USERS_OF_ROOM_WITHOUT_KEY =
 	'e2e.getUsersOfRoomWithoutKey';
+export type MethodE2eeGetUsersOfRoomWithoutKey = ((
+	method: typeof METHOD_E2EE_GET_USERS_OF_ROOM_WITHOUT_KEY,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((
+		method: typeof METHOD_E2EE_GET_USERS_OF_ROOM_WITHOUT_KEY,
+		params: any[]
+	) => Promise<void>);
+
 export const METHOD_E2EE_SET_ROOM_KEY = 'e2e.setRoomKeyID';
+export type MethodE2eeSetRoomKey = ((
+	method: typeof METHOD_E2EE_SET_ROOM_KEY,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_E2EE_SET_ROOM_KEY, params: any[]) => Promise<void>);
+
 export const METHOD_E2EE_SET_USER_PUBLIC_AND_PRIVATE_KEYS =
 	'e2e.setUserPublicAndPivateKeys';
+export type MethodE2eeSetUserPublicAndPrivateKeys = ((
+	method: typeof METHOD_E2EE_SET_USER_PUBLIC_AND_PRIVATE_KEYS,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((
+		method: typeof METHOD_E2EE_SET_USER_PUBLIC_AND_PRIVATE_KEYS,
+		params: any[]
+	) => Promise<void>);
+
 export const METHOD_E2EE_UPDATE_GROUP_KEY = 'e2e.updateGroupKey';
+export type MethodE2eeUpdateGroupKey = ((
+	method: typeof METHOD_E2EE_UPDATE_GROUP_KEY,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((
+		method: typeof METHOD_E2EE_UPDATE_GROUP_KEY,
+		params: any[]
+	) => Promise<void>);
+
 export const METHOD_TOGGLE_FAVORITE = 'toggleFavorite';
+export type MethodToggleFavorite = ((
+	method: typeof METHOD_TOGGLE_FAVORITE,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_TOGGLE_FAVORITE, params: any[]) => Promise<void>);
+
 export const METHOD_PERMISSIONS_GET = 'permissions/get';
+export type MethodPermissionsGet = ((
+	method: typeof METHOD_PERMISSIONS_GET,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_PERMISSIONS_GET, params: any[]) => Promise<void>);
+
 export const METHOD_PUBLIC_SETTINGS_GET = 'public-settings/get';
+export type MethodPublicSettingsGet = ((
+	method: typeof METHOD_PUBLIC_SETTINGS_GET,
+	params: null,
+	resultListener: (res: TSetting[]) => void
+) => void) &
+	((
+		method: typeof METHOD_PUBLIC_SETTINGS_GET,
+		params: null
+	) => Promise<TSetting[]>);
+
 export const METHOD_GET_ROOM_ROLES = 'getRoomRoles';
+export type MethodGetRoomRoles = ((
+	method: typeof METHOD_GET_ROOM_ROLES,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_GET_ROOM_ROLES, params: any[]) => Promise<void>);
+
 export const METHOD_ROOMS_GET = 'rooms/get';
+export type MethodRoomsGet = ((
+	method: typeof METHOD_ROOMS_GET,
+	params: any[],
+	resultListener: (res: IRoom[]) => void
+) => void) &
+	((method: typeof METHOD_ROOMS_GET, params: any[]) => Promise<IRoom[]>);
+
 export const METHOD_SUBSCRIPTIONS_GET = 'subscriptions/get';
+export type MethodSubscriptionsGet = ((
+	method: typeof METHOD_SUBSCRIPTIONS_GET,
+	params: any[],
+	resultListener: (res: ISubscriptions[]) => void
+) => void) &
+	((
+		method: typeof METHOD_SUBSCRIPTIONS_GET,
+		params: any[]
+	) => Promise<ISubscriptions[]>);
+
 export const METHOD_GET_USER_ROLES = 'getUserRoles';
+export type MethodGetUserRoles = ((
+	method: typeof METHOD_GET_USER_ROLES,
+	params: null,
+	resultListener: (res: MethodGetUserRolesRes) => void
+) => void) &
+	((
+		method: typeof METHOD_GET_USER_ROLES,
+		params: null
+	) => Promise<MethodGetUserRolesRes>);
+
 export const METHOD_GET_USERS_OF_ROOM = 'getUsersOfRoom';
+export type MethodGetUsersOfRoom = ((
+	method: typeof METHOD_GET_USERS_OF_ROOM,
+	params: [roomId, showAll, pagination?, filter?],
+	resultListener: (res: MethodGetUsersOfRoomRes) => void
+) => void) &
+	((
+		method: typeof METHOD_GET_USERS_OF_ROOM,
+		params: [roomId, showAll, pagination?, filter?]
+	) => Promise<MethodGetUsersOfRoomRes>);
+
 export const METHOD_HIDE_ROOM = 'hideRoom';
+export type MethodHideRoom = ((
+	method: typeof METHOD_HIDE_ROOM,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_HIDE_ROOM, params: any[]) => Promise<void>);
+
 export const METHOD_JOIN_ROOM = 'joinRoom';
+export type MethodJoinRoom = ((
+	method: typeof METHOD_JOIN_ROOM,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_JOIN_ROOM, params: any[]) => Promise<void>);
+
 export const METHOD_LEAVE_ROOM = 'leaveRoom';
+export type MethodLeaveRoom = ((
+	method: typeof METHOD_LEAVE_ROOM,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_LEAVE_ROOM, params: any[]) => Promise<void>);
+
 export const METHOD_LIST_EMOJI_CUSTOM = 'listEmojiCustom';
+export type MethodListEmojiCustom = ((
+	method: typeof METHOD_LIST_EMOJI_CUSTOM,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_LIST_EMOJI_CUSTOM, params: any[]) => Promise<void>);
+
 export const METHOD_LOAD_HISTORY = 'loadHistory';
+export type MethodLoadHistory = ((
+	method: typeof METHOD_LOAD_HISTORY,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_LOAD_HISTORY, params: any[]) => Promise<void>);
+
 export const METHOD_LOGIN = 'login';
+export type MethodLogin = ((
+	method: typeof METHOD_LOGIN,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_LOGIN, params: any[]) => Promise<void>);
+
 export const METHOD_STREAM_NOTIFY_ROOM = 'stream-notify-room';
+export type MethodStreamNotifyRoom = ((
+	method: typeof METHOD_STREAM_NOTIFY_ROOM,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((
+		method: typeof METHOD_STREAM_NOTIFY_ROOM,
+		params: any[]
+	) => Promise<void>);
+
 export const METHOD_OPEN_ROOM = 'openRoom';
+export type MethodOpenRoom = ((
+	method: typeof METHOD_OPEN_ROOM,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_OPEN_ROOM, params: any[]) => Promise<void>);
+
 export const METHOD_PIN_MESSAGE = 'pinMessage';
+export type MethodPinMessage = ((
+	method: typeof METHOD_PIN_MESSAGE,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_PIN_MESSAGE, params: any[]) => Promise<void>);
+
 export const METHOD_REGISTER_USER = 'registerUser';
+export type MethodRegisterUser = ((
+	method: typeof METHOD_REGISTER_USER,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_REGISTER_USER, params: any[]) => Promise<void>);
+
 export const METHOD_SAVE_ROOM_SETTINGS = 'saveRoomSettings';
+export type MethodSaveRoomSettings = ((
+	method: typeof METHOD_SAVE_ROOM_SETTINGS,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((
+		method: typeof METHOD_SAVE_ROOM_SETTINGS,
+		params: any[]
+	) => Promise<void>);
+
 export const METHOD_SEND_MESSAGE = 'sendMessage';
+export type MethodSendMessage = ((
+	method: typeof METHOD_SEND_MESSAGE,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_SEND_MESSAGE, params: any[]) => Promise<void>);
+
 export const METHOD_SET_REACTION = 'setReaction';
+export type MethodSetReaction = ((
+	method: typeof METHOD_SET_REACTION,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_SET_REACTION, params: any[]) => Promise<void>);
+
 export const METHOD_SPOTLIGHT = 'spotlight';
+export type MethodSpotlight = ((
+	method: typeof METHOD_SPOTLIGHT,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_SPOTLIGHT, params: any[]) => Promise<void>);
+
 export const METHOD_STAR_MESSAGE = 'starMessage';
+export type MethodStarMessage = ((
+	method: typeof METHOD_STAR_MESSAGE,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_STAR_MESSAGE, params: any[]) => Promise<void>);
+
 export const METHOD_UNARCHIVE_ROOM = 'unarchiveRoom';
+export type MethodUnarchiveRoom = ((
+	method: typeof METHOD_UNARCHIVE_ROOM,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_UNARCHIVE_ROOM, params: any[]) => Promise<void>);
+
 export const METHOD_UNPIN_MESSAGE = 'unpinMessage';
+export type MethodUnpinMessage = ((
+	method: typeof METHOD_UNPIN_MESSAGE,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_UNPIN_MESSAGE, params: any[]) => Promise<void>);
+
 export const METHOD_UPDATE_MESSAGE = 'updateMessage';
+export type MethodUpdateMessage = ((
+	method: typeof METHOD_UPDATE_MESSAGE,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((method: typeof METHOD_UPDATE_MESSAGE, params: any[]) => Promise<void>);
+
 export const METHOD_USER_PRESENCE_SET_DEFAULT_STATUS =
 	'UserPresence:setDefaultStatus';
-export const METHOD_USER_PRESENCE_AWAY = 'UserPresence:away';
+export type MethodUserPresenceSetDefaultStatus = ((
+	method: typeof METHOD_USER_PRESENCE_SET_DEFAULT_STATUS,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((
+		method: typeof METHOD_USER_PRESENCE_SET_DEFAULT_STATUS,
+		params: any[]
+	) => Promise<void>);
 
-export type METHODS =
-	| typeof METHOD_ARCHIVE_ROOM
-	| typeof METHOD_CREATE_CHANNEL
-	| typeof METHOD_CREATE_DIRECT_MESSAGE
-	| typeof METHOD_CREATE_PRIVATE_GROUP
-	| typeof METHOD_DELETE_MESSAGE
-	| typeof METHOD_ERASE_ROOM
-	| typeof METHOD_E2EE_FETCH_MY_KEYS
-	| typeof METHOD_E2EE_GET_USERS_OF_ROOM_WITHOUT_KEY
-	| typeof METHOD_E2EE_SET_ROOM_KEY
-	| typeof METHOD_E2EE_SET_USER_PUBLIC_AND_PRIVATE_KEYS
-	| typeof METHOD_E2EE_UPDATE_GROUP_KEY
-	| typeof METHOD_TOGGLE_FAVORITE
-	| typeof METHOD_PERMISSIONS_GET
-	| typeof METHOD_PUBLIC_SETTINGS_GET
-	| typeof METHOD_GET_ROOM_ROLES
-	| typeof METHOD_ROOMS_GET
-	| typeof METHOD_SUBSCRIPTIONS_GET
-	| typeof METHOD_GET_USER_ROLES
-	| typeof METHOD_GET_USERS_OF_ROOM
-	| typeof METHOD_HIDE_ROOM
-	| typeof METHOD_JOIN_ROOM
-	| typeof METHOD_LEAVE_ROOM
-	| typeof METHOD_LIST_EMOJI_CUSTOM
-	| typeof METHOD_LOAD_HISTORY
-	| typeof METHOD_LOGIN
-	| typeof METHOD_STREAM_NOTIFY_ROOM
-	| typeof METHOD_OPEN_ROOM
-	| typeof METHOD_PIN_MESSAGE
-	| typeof METHOD_REGISTER_USER
-	| typeof METHOD_SAVE_ROOM_SETTINGS
-	| typeof METHOD_SEND_MESSAGE
-	| typeof METHOD_SET_REACTION
-	| typeof METHOD_SPOTLIGHT
-	| typeof METHOD_STAR_MESSAGE
-	| typeof METHOD_UNARCHIVE_ROOM
-	| typeof METHOD_UNPIN_MESSAGE
-	| typeof METHOD_UPDATE_MESSAGE
-	| typeof METHOD_USER_PRESENCE_SET_DEFAULT_STATUS
-	| typeof METHOD_USER_PRESENCE_AWAY;
+export const METHOD_USER_PRESENCE_AWAY = 'UserPresence:away';
+export type MethodUserPresenceAway = ((
+	method: typeof METHOD_USER_PRESENCE_AWAY,
+	params: any[],
+	resultListener: (res: void) => void
+) => void) &
+	((
+		method: typeof METHOD_USER_PRESENCE_AWAY,
+		params: any[]
+	) => Promise<void>);
+
+export type Methods = MethodArchiveRoom &
+	MethodCreateChannel &
+	MethodCreateDirectMessage &
+	MethodCreatePrivateGroup &
+	MethodDeleteMessage &
+	MethodEraseRoom &
+	MethodE2eeFetchMyKeys &
+	MethodE2eeGetUsersOfRoomWithoutKey &
+	MethodE2eeSetRoomKey &
+	MethodE2eeSetUserPublicAndPrivateKeys &
+	MethodE2eeUpdateGroupKey &
+	MethodToggleFavorite &
+	MethodPermissionsGet &
+	MethodPublicSettingsGet &
+	MethodGetRoomRoles &
+	MethodRoomsGet &
+	MethodSubscriptionsGet &
+	MethodGetUserRoles &
+	MethodGetUsersOfRoom &
+	MethodHideRoom &
+	MethodJoinRoom &
+	MethodLeaveRoom &
+	MethodListEmojiCustom &
+	MethodLoadHistory &
+	MethodLogin &
+	MethodStreamNotifyRoom &
+	MethodOpenRoom &
+	MethodPinMessage &
+	MethodRegisterUser &
+	MethodSaveRoomSettings &
+	MethodSendMessage &
+	MethodSetReaction &
+	MethodSpotlight &
+	MethodStarMessage &
+	MethodUnarchiveRoom &
+	MethodUnpinMessage &
+	MethodUpdateMessage &
+	MethodUserPresenceSetDefaultStatus &
+	MethodUserPresenceAway;
 
 /*
 LISTENERS
