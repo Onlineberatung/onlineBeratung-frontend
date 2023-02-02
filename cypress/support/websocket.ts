@@ -66,16 +66,53 @@ export const startWebSocketServer = () => {
 				}
 
 				const parsedMessage = JSON.parse(message);
-				if (
-					parsedMessage.msg === 'method' &&
-					parsedMessage.method === 'login'
-				) {
+				if (parsedMessage.msg === 'connect') {
 					socket.send(
 						JSON.stringify({
-							id: parsedMessage.id,
-							msg: 'result'
+							msg: 'connected',
+							session: '123'
 						})
 					);
+				} else if (parsedMessage.msg === 'method') {
+					switch (parsedMessage.method) {
+						case 'login':
+							socket.send(
+								JSON.stringify({
+									id: parsedMessage.id,
+									msg: 'result'
+								})
+							);
+							break;
+						case 'getUsersOfRoom':
+							socket.send(
+								JSON.stringify({
+									id: parsedMessage.id,
+									msg: 'result',
+									result: {
+										records: [
+											{
+												_id: 'userId123',
+												username: 'enc.usera....',
+												status: 'busy',
+												_updatedAt: {
+													$date: 1674640540785
+												}
+											},
+											{
+												_id: 'userId123456',
+												username: 'enc.userb....',
+												status: 'busy',
+												_updatedAt: {
+													$date: 1674640540785
+												}
+											}
+										],
+										total: 2
+									}
+								})
+							);
+							break;
+					}
 				} else if (
 					parsedMessage.msg === 'sub' &&
 					parsedMessage.name === 'stream-room-messages'

@@ -25,12 +25,13 @@ export interface ListItemInterface {
 	chat?: GroupChatItemInterface;
 	user?: SessionUserInterface;
 	language?: string;
+	latestMessage?: Date;
 }
 
 export interface SessionConsultantInterface {
 	consultantId: string;
 	absent: boolean;
-	absenceMessage: boolean;
+	absenceMessage: string;
 	displayName?: string;
 	username: string;
 	firstName?: string;

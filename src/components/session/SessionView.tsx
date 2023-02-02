@@ -24,6 +24,7 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { useSession } from '../../hooks/useSession';
 import { SessionStream } from './SessionStream';
 import { AcceptLiveChatView } from './AcceptLiveChatView';
+import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 
 export const SessionView = () => {
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
@@ -157,10 +158,12 @@ export const SessionView = () => {
 			<ActiveSessionContext.Provider
 				value={{ activeSession, reloadActiveSession }}
 			>
-				<JoinGroupChatView
-					forceBannedOverlay={forceBannedOverlay}
-					bannedUsers={bannedUsers}
-				/>
+				<RocketChatUsersOfRoomProvider>
+					<JoinGroupChatView
+						forceBannedOverlay={forceBannedOverlay}
+						bannedUsers={bannedUsers}
+					/>
+				</RocketChatUsersOfRoomProvider>
 			</ActiveSessionContext.Provider>
 		);
 	}
@@ -174,7 +177,9 @@ export const SessionView = () => {
 			<ActiveSessionContext.Provider
 				value={{ activeSession, reloadActiveSession }}
 			>
-				<AcceptLiveChatView bannedUsers={bannedUsers} />
+				<RocketChatUsersOfRoomProvider>
+					<AcceptLiveChatView bannedUsers={bannedUsers} />
+				</RocketChatUsersOfRoomProvider>
 			</ActiveSessionContext.Provider>
 		);
 	}
@@ -183,11 +188,13 @@ export const SessionView = () => {
 		<ActiveSessionContext.Provider
 			value={{ activeSession, reloadActiveSession, readActiveSession }}
 		>
-			<SessionStream
-				readonly={readonly}
-				checkMutedUserForThisSession={checkMutedUserForThisSession}
-				bannedUsers={bannedUsers}
-			/>
+			<RocketChatUsersOfRoomProvider>
+				<SessionStream
+					readonly={readonly}
+					checkMutedUserForThisSession={checkMutedUserForThisSession}
+					bannedUsers={bannedUsers}
+				/>
+			</RocketChatUsersOfRoomProvider>
 		</ActiveSessionContext.Provider>
 	);
 };

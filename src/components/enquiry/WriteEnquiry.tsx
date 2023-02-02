@@ -34,6 +34,7 @@ import { useSession } from '../../hooks/useSession';
 import { apiGetAskerSessionList } from '../../api';
 import { useTranslation } from 'react-i18next';
 import { MessageSubmitInterfaceSkeleton } from '../messageSubmitInterface/messageSubmitInterfaceSkeleton';
+import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 
 const MessageSubmitInterfaceComponent = lazy(() =>
 	import('../messageSubmitInterface/messageSubmitInterfaceComponent').then(
@@ -218,23 +219,25 @@ export const WriteEnquiry: React.FC = () => {
 				)}
 			</div>
 			<ActiveSessionContext.Provider value={{ activeSession }}>
-				<Suspense
-					fallback={
-						<MessageSubmitInterfaceSkeleton
+				<RocketChatUsersOfRoomProvider>
+					<Suspense
+						fallback={
+							<MessageSubmitInterfaceSkeleton
+								placeholder={translate(
+									'enquiry.write.input.placeholder.asker'
+								)}
+							/>
+						}
+					>
+						<MessageSubmitInterfaceComponent
+							onSendButton={handleSendButton}
 							placeholder={translate(
 								'enquiry.write.input.placeholder.asker'
 							)}
+							language={selectedLanguage}
 						/>
-					}
-				>
-					<MessageSubmitInterfaceComponent
-						onSendButton={handleSendButton}
-						placeholder={translate(
-							'enquiry.write.input.placeholder.asker'
-						)}
-						language={selectedLanguage}
-					/>
-				</Suspense>
+					</Suspense>
+				</RocketChatUsersOfRoomProvider>
 			</ActiveSessionContext.Provider>
 			{overlayActive && (
 				<Overlay
