@@ -296,6 +296,10 @@ export const config: AppConfigInterface = {
 				}
 			}
 		}
+	},
+	routePaths: {
+		login: '/login',
+		registration: '/registration'
 	}
 };
 

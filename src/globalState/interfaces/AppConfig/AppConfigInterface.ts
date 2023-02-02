@@ -17,4 +17,7 @@ export interface AppConfigInterface extends AppSettingsInterface {
 	twofactor: AppConfigTwoFactorInterface;
 	i18n: InitOptions;
 	overlays?: OverlaysConfigInterface;
+	routePaths?: {
+		[key: string]: string;
+	};
 }

@@ -51,7 +51,7 @@ const VideoConference = lazy(
 );
 const VideoCall = lazy(() => import('../videoCall/VideoCall'));
 
-type TExtraRoute = {
+type RouteDefinition = {
 	route: RouteProps;
 	component: ComponentType;
 };
@@ -60,7 +60,7 @@ interface AppProps {
 	stageComponent: ComponentType<StageProps>;
 	legalLinks?: Array<LegalLinkInterface>;
 	entryPoint: string;
-	extraRoutes?: TExtraRoute[];
+	additionalRoutes?: RouteDefinition[];
 	spokenLanguages?: string[];
 	fixedLanguages?: string[];
 	config: AppConfigInterface;
@@ -70,7 +70,7 @@ export const App = ({
 	stageComponent,
 	legalLinks,
 	entryPoint,
-	extraRoutes = [],
+	additionalRoutes = [],
 	spokenLanguages = null,
 	fixedLanguages = ['de'],
 	config
@@ -94,7 +94,7 @@ export const App = ({
 									value={{ Stage: stageComponent }}
 								>
 									<RouterWrapper
-										extraRoutes={extraRoutes}
+										extraRoutes={additionalRoutes}
 										entryPoint={entryPoint}
 									/>
 								</GlobalComponentContext.Provider>
@@ -110,12 +110,16 @@ export const App = ({
 
 interface RouterWrapperProps {
 	entryPoint: string;
-	extraRoutes?: TExtraRoute[];
+	additionalRoutes?: RouteDefinition[];
 }
 
-const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
+const RouterWrapper = ({
+	additionalRoutes,
+	entryPoint
+}: RouterWrapperProps) => {
 	const history = useHistory();
-	const settings = useAppConfig();
+	const redirectTo = history.push;
+	const appConfig = useAppConfig();
 
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
@@ -144,26 +148,41 @@ const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 						)}
 						<Suspense fallback={<Loading />}>
 							<Switch>
-								{extraRoutes.map(
+								{/* all by configuration defined routes first to allow override of anything */}
+								{additionalRoutes.map(
 									({ route, component: Component }) => (
 										<Route {...route}>
 											<Component />
 										</Route>
 									)
 								)}
-
+								{/* protected routes next to allow override of unprotected routes */}
+								<AuthenticatedApp
+									onAppReady={() => setStartWebsocket(true)}
+									onLogout={() =>
+										setDisconnectWebsocket(true)
+									}
+								/>
+								{/* last but not least: unprotected routes */}
 								<Route
 									path={[
-										'/registration',
+										appConfig.routePaths?.registration ||
+											'/registration',
 										'/:consultingTypeSlug/registration'
 									]}
 								>
 									<Registration
 										handleUnmatchConsultingType={() =>
-											history.push('/login')
+											redirectTo(
+												appConfig.routePaths?.login ||
+													'/login'
+											)
 										}
 										handleUnmatchConsultant={() =>
-											history.push('/login')
+											redirectTo(
+												appConfig.routePaths?.login ||
+													'/login'
+											)
 										}
 									/>
 								</Route>
@@ -171,7 +190,10 @@ const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 								<Route path="/:consultingTypeSlug/warteraum">
 									<WaitingRoomLoader
 										handleUnmatch={() =>
-											history.push('/login')
+											redirectTo(
+												appConfig.routePaths?.login ||
+													'/login'
+											)
 										}
 										onAnonymousRegistration={() =>
 											setStartWebsocket(true)
@@ -179,24 +201,24 @@ const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 									/>
 								</Route>
 
-								<Route path="/login" exact>
+								<Route
+									path={
+										appConfig.routePaths?.login || '/login'
+									}
+									exact
+								>
 									<Login />
 								</Route>
+
 								<Route
-									path={settings.urls.videoConference}
+									path={appConfig.urls.videoConference}
 									exact
 								>
 									<VideoConference />
 								</Route>
-								<Route path={settings.urls.videoCall} exact>
+								<Route path={appConfig.urls.videoCall} exact>
 									<VideoCall />
 								</Route>
-								<AuthenticatedApp
-									onAppReady={() => setStartWebsocket(true)}
-									onLogout={() =>
-										setDisconnectWebsocket(true)
-									}
-								/>
 							</Switch>
 						</Suspense>
 					</ContextProvider>
