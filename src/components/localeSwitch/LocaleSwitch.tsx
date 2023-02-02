@@ -66,7 +66,7 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 			// If we wait to be set in LocaleSwitch sometimes we've an problem of reloading the requests
 			// because we're always looking by "locale" from the context but the locale is changed before
 			// we save the cookie so to fix this we set the cookie before the locale switch
-			setValueInCookie('lang', locale);
+			setValueInCookie('lang', value);
 			setLocale(value);
 		},
 		id: 'languageSelect',
