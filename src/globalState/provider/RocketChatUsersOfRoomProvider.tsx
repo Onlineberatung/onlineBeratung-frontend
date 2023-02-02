@@ -61,7 +61,7 @@ export const RocketChatUsersOfRoomProvider = ({
 
 	useEffect(() => {
 		if (socketReady && activeSession?.rid) {
-			load(activeSession?.rid).then(() => {
+			load(activeSession.rid).then(() => {
 				setReady(true);
 			});
 		} else if (!activeSession?.rid && activeSession.isEmptyEnquiry) {
