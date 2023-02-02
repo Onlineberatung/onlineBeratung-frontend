@@ -56,11 +56,11 @@ type RouteDefinition = {
 	component: ComponentType;
 };
 
-interface AppProps {
+interface AppPropsWhichAreUsedByEveryInstanceSoBeCarefull {
 	stageComponent: ComponentType<StageProps>;
 	legalLinks?: Array<LegalLinkInterface>;
 	entryPoint: string;
-	additionalRoutes?: RouteDefinition[];
+	extraRoutes?: RouteDefinition[];
 	spokenLanguages?: string[];
 	fixedLanguages?: string[];
 	config: AppConfigInterface;
@@ -70,11 +70,11 @@ export const App = ({
 	stageComponent,
 	legalLinks,
 	entryPoint,
-	additionalRoutes = [],
+	extraRoutes: additionalRoutes = [],
 	spokenLanguages = null,
 	fixedLanguages = ['de'],
 	config
-}: AppProps) => {
+}: AppPropsWhichAreUsedByEveryInstanceSoBeCarefull) => {
 	// The login is possible both at the root URL as well as with an
 	// optional resort name. Since resort names are dynamic, we have
 	// to find out if the provided path is a resort name. If not, we
