@@ -56,10 +56,15 @@ export const WaitingRoom = ({
 	};
 
 	useEffect(() => {
+		const previousTitle = document.title;
 		document.title = `${translate(
 			'videoConference.waitingroom.title.start'
 		)}`;
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+		return () => {
+			document.title = previousTitle;
+		};
+	}, [translate]);
 
 	const handleConfirmButton = () => {
 		setConfirmed(true);
