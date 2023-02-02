@@ -94,7 +94,7 @@ export const App = ({
 									value={{ Stage: stageComponent }}
 								>
 									<RouterWrapper
-										extraRoutes={additionalRoutes}
+										additionalRoutes={additionalRoutes}
 										entryPoint={entryPoint}
 									/>
 								</GlobalComponentContext.Provider>
