@@ -153,7 +153,7 @@ export const handleE2EESetup = (
 	autoLoginProps?: AutoLoginProps,
 	skipUpdateSubscriptions?: boolean
 ): Promise<any> => {
-	return new Promise(async (resolve) => {
+	return new Promise(async (resolve, reject) => {
 		let masterKey = await deriveMasterKeyFromPassword(rcUserId, password);
 
 		let privateKey;
@@ -188,7 +188,9 @@ export const handleE2EESetup = (
 						console.error('could not re-login after e2e key reset');
 					} else {
 						await writeMasterKeyToLocalStorage(masterKey, rcUserId);
-						await autoLogin(autoLoginProps);
+						await autoLogin(autoLoginProps)
+							.then(resolve)
+							.catch(reject);
 						return;
 					}
 				} else {
