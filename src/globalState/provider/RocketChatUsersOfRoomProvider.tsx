@@ -18,7 +18,7 @@ type RocketChatUsersOfRoomContextProps = {
 	ready: boolean;
 	users: UserResponse[];
 	total: number;
-	reload: () => Promise<UserResponse[]>;
+	reload: (roomId: string) => Promise<UserResponse[]>;
 };
 
 export const RocketChatUsersOfRoomContext =
@@ -38,27 +38,30 @@ export const RocketChatUsersOfRoomProvider = ({
 	const [total, setTotal] = useState(0);
 	const [users, setUsers] = useState<UserResponse[]>([]);
 
-	const load = useCallback(async () => {
-		const res = await sendMethod(METHOD_GET_USERS_OF_ROOM, [
-			activeSession.rid,
-			true,
-			{ limit: 0, skip: 0 }
-		]);
+	const load = useCallback(
+		async (rid: string) => {
+			const res = await sendMethod(METHOD_GET_USERS_OF_ROOM, [
+				rid,
+				true,
+				{ limit: 0, skip: 0 }
+			]);
 
-		if (res) {
-			setUsers(res.records);
-			setTotal(res.total);
-			return res.records;
-		}
-		console.error('No users found for room: ', activeSession.rid);
-		setUsers([]);
-		setTotal(0);
-		return [];
-	}, [activeSession.rid, sendMethod]);
+			if (res) {
+				setUsers(res.records);
+				setTotal(res.total);
+				return res.records;
+			}
+			console.error('No users found for room: ', rid);
+			setUsers([]);
+			setTotal(0);
+			return [];
+		},
+		[sendMethod]
+	);
 
 	useEffect(() => {
 		if (socketReady && activeSession?.rid) {
-			load().then(() => {
+			load(activeSession.rid).then(() => {
 				setReady(true);
 			});
 		} else if (!activeSession?.rid && activeSession.isEmptyEnquiry) {

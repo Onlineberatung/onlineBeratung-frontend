@@ -116,7 +116,7 @@ export const useE2EE = (
 					total: 0
 				});
 
-			const usersOfRoom = await reloadUsersOfRoom();
+			const usersOfRoom = await reloadUsersOfRoom(roomId);
 
 			// Filter system user and users with unencrypted username (Maybe more system users)
 			const filteredMembers = usersOfRoom.filter(
