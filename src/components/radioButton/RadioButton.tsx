@@ -3,7 +3,8 @@ import classNames from 'classnames';
 import './radioButton.styles';
 
 export interface RadioButtonItem {
-	checked: boolean;
+	checked?: boolean;
+	checkedValue?: boolean;
 	handleRadioButton: Function;
 	inputId: string;
 	label: string;
@@ -24,12 +25,13 @@ export const RadioButton = (props: RadioButtonItem) => {
 		>
 			<div className="radioButton__contentWrapper">
 				<input
-					onClick={(e) => props.handleRadioButton(e)}
+					onChange={(e) => props.handleRadioButton(e)}
 					id={props.inputId}
 					className="radioButton__input"
 					type="radio"
 					name={props.name}
 					value={props.value}
+					checked={props.checkedValue}
 					defaultChecked={props.checked}
 					onKeyDown={(e) =>
 						props.onKeyDown ? props.onKeyDown(e) : null

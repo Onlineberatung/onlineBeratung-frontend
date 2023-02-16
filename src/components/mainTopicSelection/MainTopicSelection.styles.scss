@@ -2,6 +2,7 @@
 	position: relative;
 	animation: fadeIn linear 0.2s;
 	margin: 0 44px $grid-base-four;
+	width: 100%;
 
 	&__info {
 		font-weight: 500;
@@ -16,8 +17,7 @@
 		position: relative;
 		padding: 12px 0;
 	}
-
-	&__radioButton {
+	&__topic &__radioButton {
 		min-height: 25px;
 
 		.radioButton__contentWrapper {
