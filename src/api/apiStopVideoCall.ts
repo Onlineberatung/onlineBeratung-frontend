@@ -5,7 +5,7 @@ export const apiStopVideoCall = async (
 	roomId: string
 ): Promise<{ moderatorVideoCallUrl: string }> => {
 	const url = endpoints.stopVideoCall + '/' + roomId;
-	console.log(url);
+
 	return fetchData({
 		url: url,
 		method: FETCH_METHODS.POST,
