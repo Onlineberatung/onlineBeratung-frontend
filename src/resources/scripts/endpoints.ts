@@ -118,6 +118,7 @@ export const endpoints = {
 	sessionRooms: apiUrl + '/service/users/sessions/room',
 	setAbsence: apiUrl + '/service/users/consultants/absences',
 	startVideoCall: apiUrl + '/service/videocalls/new',
+	stopVideoCall: apiUrl + '/service/videocalls/stop',
 	teamSessionsBase:
 		apiUrl + '/service/conversations/consultants/teamsessions/',
 	tenantServiceBase: apiUrl + '/service/tenant',

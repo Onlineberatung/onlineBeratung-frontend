@@ -11,6 +11,8 @@ import Logo from '../videoConference/Logo';
 import E2EEBanner from '../videoConference/E2EEBanner';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useTranslation } from 'react-i18next';
+import { apiStopVideoCall } from '../../api/apiStopVideoCall';
+import { useUnload } from '../../hooks/useUnload';
 
 type TJistiJWTPayload = {
 	moderator: boolean;
@@ -91,7 +93,10 @@ const VideoCall = () => {
 
 	const handleClose = useCallback(() => {
 		setClosed(true);
-	}, []);
+		if (videoCallJwtData.room) {
+			apiStopVideoCall(videoCallJwtData.room);
+		}
+	}, [videoCallJwtData?.room]);
 
 	const handleCustomE2EEToggled = useCallback((e) => {
 		setE2EEnabled(e.enabled);
@@ -139,6 +144,8 @@ const VideoCall = () => {
 		handleJitsiError,
 		videoCallJwtData
 	]);
+
+	useUnload(handleClose, true);
 
 	if (rejected || closed) {
 		return <StatusPage closed={closed} />;
