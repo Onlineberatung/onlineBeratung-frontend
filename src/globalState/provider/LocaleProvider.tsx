@@ -38,7 +38,10 @@ export function LocaleProvider(props) {
 		init({
 			...settings.i18n,
 			...(tenant?.settings?.activeLanguages && {
-				supportedLngs: tenant?.settings?.activeLanguages || []
+				supportedLngs: [
+					...(tenant?.settings?.activeLanguages || []),
+					'de_informal'
+				]
 			})
 		}).then(() => {
 			setInitLocale(i18n.language);
