@@ -6,7 +6,8 @@ import {
 	ConsultingTypesContext,
 	hasUserAuthority,
 	LocaleContext,
-	UserDataContext
+	UserDataContext,
+	useTenant
 } from '../../globalState';
 import {
 	setProfileWrapperActive,
@@ -53,6 +54,7 @@ import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const Profile = () => {
 	const settings = useAppConfig();
+	const tenant = useTenant();
 	const { t: translate } = useTranslation();
 	const location = useLocation();
 	const { fromL } = useResponsive();
@@ -90,7 +92,7 @@ export const Profile = () => {
 
 	useEffect(() => {
 		setMobileMenu(
-			profileRoutes(settings, selectableLocales)
+			profileRoutes(settings, tenant, selectableLocales)
 				.filter((tab) =>
 					solveTabConditions(tab, userData, consultingTypes ?? [])
 				)
@@ -124,7 +126,14 @@ export const Profile = () => {
 					})
 				)
 		);
-	}, [consultingTypes, translate, settings, userData, selectableLocales]);
+	}, [
+		consultingTypes,
+		translate,
+		settings,
+		userData,
+		selectableLocales,
+		tenant
+	]);
 
 	const [subpage, setSubpage] = useState(undefined);
 	useEffect(() => {
@@ -246,7 +255,7 @@ export const Profile = () => {
 						role="tablist"
 					>
 						{fromL
-							? profileRoutes(settings, selectableLocales)
+							? profileRoutes(settings, tenant, selectableLocales)
 									.filter((tab) =>
 										solveTabConditions(
 											tab,
@@ -308,7 +317,7 @@ export const Profile = () => {
 					<Switch>
 						{fromL ? (
 							// Render tabs for desktop
-							profileRoutes(settings, selectableLocales)
+							profileRoutes(settings, tenant, selectableLocales)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -360,7 +369,11 @@ export const Profile = () => {
 						) : (
 							// Render submenu for mobile
 							<Route
-								path={profileRoutes(settings, selectableLocales)
+								path={profileRoutes(
+									settings,
+									tenant,
+									selectableLocales
+								)
 									.filter((tab) =>
 										solveTabConditions(
 											tab,
@@ -379,7 +392,7 @@ export const Profile = () => {
 
 						{!fromL &&
 							// Render groups as routes for mobile
-							profileRoutes(settings, selectableLocales)
+							profileRoutes(settings, tenant, selectableLocales)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
@@ -422,8 +435,11 @@ export const Profile = () => {
 
 						<Redirect
 							to={`/profile${
-								profileRoutes(settings, selectableLocales)[0]
-									.url
+								profileRoutes(
+									settings,
+									tenant,
+									selectableLocales
+								)[0].url
 							}`}
 						/>
 					</Switch>
