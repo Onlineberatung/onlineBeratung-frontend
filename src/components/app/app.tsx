@@ -19,6 +19,7 @@ import { TenantThemingLoader } from './TenantThemingLoader';
 import {
 	AppConfigInterface,
 	AppConfigProvider,
+	InformalProvider,
 	LegalLinkInterface,
 	LocaleProvider,
 	TenantProvider
@@ -84,23 +85,25 @@ export const App = ({
 		<ErrorBoundary>
 			<AppConfigProvider config={config}>
 				<TenantProvider>
-					<LocaleProvider>
-						<LanguagesProvider
-							fixed={fixedLanguages}
-							spoken={spokenLanguages}
-						>
-							<LegalLinksProvider legalLinks={legalLinks}>
-								<GlobalComponentContext.Provider
-									value={{ Stage: stageComponent }}
-								>
-									<RouterWrapper
-										extraRoutes={extraRoutes}
-										entryPoint={entryPoint}
-									/>
-								</GlobalComponentContext.Provider>
-							</LegalLinksProvider>
-						</LanguagesProvider>
-					</LocaleProvider>
+					<InformalProvider>
+						<LocaleProvider>
+							<LanguagesProvider
+								fixed={fixedLanguages}
+								spoken={spokenLanguages}
+							>
+								<LegalLinksProvider legalLinks={legalLinks}>
+									<GlobalComponentContext.Provider
+										value={{ Stage: stageComponent }}
+									>
+										<RouterWrapper
+											extraRoutes={extraRoutes}
+											entryPoint={entryPoint}
+										/>
+									</GlobalComponentContext.Provider>
+								</LegalLinksProvider>
+							</LanguagesProvider>
+						</LocaleProvider>
+					</InformalProvider>
 				</TenantProvider>
 				<DevToolbarWrapper />
 			</AppConfigProvider>
