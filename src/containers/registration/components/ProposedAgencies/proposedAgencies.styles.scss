@@ -4,6 +4,10 @@
 	flex-direction: column;
 	flex-grow: 1;
 	width: 100%;
+
+	&.loading-agencies {
+		align-items: center;
+	}
 }
 
 $maxFormElementWidth: 320px;

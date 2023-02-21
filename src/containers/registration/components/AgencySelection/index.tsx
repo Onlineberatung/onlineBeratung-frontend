@@ -25,10 +25,7 @@ export const AgencySelection = ({
 			<div className="agencySelection__proposedAgency__container">
 				<RadioButton
 					name="agencySelection"
-					handleRadioButton={() => {
-						console.log('here', agency);
-						onChange(agencyId);
-					}}
+					handleRadioButton={() => onChange(agencyId)}
 					type="smaller"
 					value={agencyId}
 					checkedValue={agencyId === checkedValue}

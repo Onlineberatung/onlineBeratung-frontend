@@ -24,7 +24,7 @@ export const useAgenciesForRegistration = ({
 	postcode,
 	mainTopicId
 }: AgenciesForRegistrationArgs) => {
-	const { settings } = useTenant();
+	const tenantData = useTenant();
 	const [isLoading, setIsLoading] = useState(false);
 	const [preSelectedAgency, setPreselectedAgency] =
 		useState<AgencyDataInterface>(propPreSelectedAgency);
@@ -67,8 +67,9 @@ export const useAgenciesForRegistration = ({
 		// if we already have information from consulting types we can ignore the request
 		if (
 			consultant ||
-			(settings?.featureTopicsEnabled &&
-				settings?.topicsInRegistrationEnabled &&
+			propPreSelectedAgency ||
+			(tenantData?.settings?.featureTopicsEnabled &&
+				tenantData?.settings?.topicsInRegistrationEnabled &&
 				!mainTopicId)
 		) {
 			return;
@@ -85,18 +86,20 @@ export const useAgenciesForRegistration = ({
 				setAgencies(data || []);
 			})
 			.catch(() => {
-				setPreselectedAgency(null);
 				setAgencies([]);
 			})
-			.finally(() => setIsLoading(false));
+			.finally(() => {
+				setIsLoading(false);
+				setPreselectedAgency(null);
+			});
 	}, [
 		autoSelectPostcode,
 		consultant,
 		consultingType.id,
 		mainTopicId,
 		postcode,
-		settings?.featureTopicsEnabled,
-		settings.topicsInRegistrationEnabled
+		propPreSelectedAgency,
+		tenantData?.settings
 	]);
 
 	useEffect(() => {

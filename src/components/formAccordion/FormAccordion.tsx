@@ -271,22 +271,6 @@ export const FormAccordion = ({
 		possibleConsultingTypes.length
 	]);
 
-	accordionItemData.push({
-		title: translate(agencySelectionTitle),
-		nestedComponent: (
-			<ProposedAgencies
-				consultingType={consultingType}
-				mainTopicId={mainTopicId}
-				consultant={consultant}
-				preSelectedAgency={preselectedAgencyData}
-				agencySelectionNote={registrationNotes?.agencySelection}
-				onValidityChange={onChangeAgencyValidity}
-				onChange={setAgency}
-			/>
-		),
-		isValid: validity.agency
-	});
-
 	if (additionalStepsData?.age?.isEnabled) {
 		accordionItemData.push({
 			title: translate('registration.age.headline'),
@@ -346,6 +330,22 @@ export const FormAccordion = ({
 			isValid: validity.state
 		});
 	}
+
+	accordionItemData.push({
+		title: translate(agencySelectionTitle),
+		nestedComponent: (
+			<ProposedAgencies
+				consultingType={consultingType}
+				mainTopicId={mainTopicId}
+				consultant={consultant}
+				preSelectedAgency={preselectedAgencyData}
+				agencySelectionNote={registrationNotes?.agencySelection}
+				onValidityChange={onChangeAgencyValidity}
+				onChange={setAgency}
+			/>
+		),
+		isValid: validity.agency
+	});
 
 	accordionItemData.push({
 		title: translate('registration.form.title'),

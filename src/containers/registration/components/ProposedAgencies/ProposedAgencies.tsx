@@ -6,7 +6,7 @@ import { ConsultingTypeSelection } from '../ConsultingTypeSelection';
 import { PostCodeSelection } from '../PostCodeSelection';
 import { ProposedAgenciesTitle } from './ProposedAgenciesTitle';
 import { VALID_POSTCODE_LENGTH } from '../../../../components/agencySelection/agencySelectionHelpers';
-import { Loading } from '../../../../components/app/Loading';
+import { LoadingIndicator } from '../../../../components/loadingIndicator/LoadingIndicator';
 import {
 	AccordionItemValidity,
 	VALIDITY_VALID,
@@ -81,11 +81,12 @@ export const ProposedAgencies = ({
 
 	// Set the the form item status and set the agency to the form accordion
 	useEffect(() => {
-		onChange(
-			agencies.find(
-				(tmpAgency) => tmpAgency.id.toString() === agencySelected
-			)
+		const agencyFound = agencies.find(
+			(tmpAgency) => tmpAgency.id.toString() === agencySelected
 		);
+
+		onChange(agencyFound);
+
 		if (
 			isTouched &&
 			(!agencySelected || (!autoSelectPostcode && !validPostcode()))
@@ -93,7 +94,9 @@ export const ProposedAgencies = ({
 			onValidityChange?.(VALIDITY_INVALID);
 		} else {
 			onValidityChange?.(
-				agencySelected ? VALIDITY_VALID : VALIDITY_INITIAL
+				agencySelected && agencyFound
+					? VALIDITY_VALID
+					: VALIDITY_INITIAL
 			);
 		}
 	}, [
@@ -108,7 +111,11 @@ export const ProposedAgencies = ({
 	]);
 
 	return (
-		<div className="agencySelectionWrapper">
+		<div
+			className={`agencySelectionWrapper ${
+				isLoading ? 'loading-agencies' : ''
+			}`.trim()}
+		>
 			{!autoSelectPostcode && (
 				<PostCodeSelection
 					value={postCodeValue}
@@ -150,7 +157,7 @@ export const ProposedAgencies = ({
 					/>
 				)}
 
-			{isLoading && <Loading />}
+			{isLoading && <LoadingIndicator />}
 
 			{agencies?.length > 0 && (
 				<div className="agencySelectionContainer">

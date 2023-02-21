@@ -131,9 +131,10 @@ describe('registration', () => {
 			cy.wait('@agencies');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.contains('Beratungsstelle wählen').click();
-			cy.get('[data-cy=show-preselected-agency]').should('exist');
-			cy.get('[data-cy=show-preselected-agency]').contains(
-				agencies[0].name
+			cy.get('input[name="agencySelection"]').should('have.length', 1);
+			cy.get('input[name="agencySelection"]').should(
+				'have.value',
+				agencies[0].id
 			);
 		});
 
@@ -143,9 +144,10 @@ describe('registration', () => {
 			cy.wait('@agencies');
 			cy.get('[data-cy=close-welcome-screen]').click();
 			cy.contains('Beratungsstelle wählen').click();
-			cy.get('[data-cy=show-preselected-agency]').should('exist');
-			cy.get('[data-cy=show-preselected-agency]').contains(
-				agencies[0].name
+			cy.get('input[name="agencySelection"]').should('have.length', 1);
+			cy.get('input[name="agencySelection"]').should(
+				'have.value',
+				agencies[0].id
 			);
 			cy.contains('Benutzernamen wählen').click();
 			cy.get('input[id="username"]').focus().type('u25-user');
