@@ -440,7 +440,7 @@ export const Login = () => {
 	);
 
 	const onPasswordResetClick = (e) => {
-		if (getSetting<IBooleanSetting>(SETTING_E2E_ENABLE)?.value) {
+		if (getSetting<IBooleanSetting>(SETTING_E2E_ENABLE, false)?.value) {
 			e.preventDefault();
 			setPwResetOverlayActive(true);
 			return;

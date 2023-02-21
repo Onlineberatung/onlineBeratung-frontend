@@ -1,16 +1,13 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import React, { createContext, FC, useEffect, useState } from 'react';
 import { apiServerSettings } from '../../api/apiServerSettings';
 import { AppConfigInterface } from '../interfaces/AppConfig';
 import { setAppConfig as setAppConfigGlobal } from '../../utils/appConfig';
 
 export const AppConfigContext = createContext<AppConfigInterface>(null);
 
-export const AppConfigProvider = ({
+export const AppConfigProvider: FC<{ config: AppConfigInterface }> = ({
 	children,
 	config
-}: {
-	children: ReactNode;
-	config: AppConfigInterface;
 }) => {
 	const [appConfig, setAppConfig] = useState<AppConfigInterface>(config);
 	const [loading, setLoading] = useState(config.useApiClusterSettings);

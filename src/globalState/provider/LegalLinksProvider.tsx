@@ -1,4 +1,4 @@
-import { createContext, ReactNode } from 'react';
+import { createContext, FC } from 'react';
 import { LegalLinkInterface } from '../interfaces/LegalLinkInterface';
 import * as React from 'react';
 import { useAppConfig } from '../../hooks/useAppConfig';
@@ -7,13 +7,12 @@ export const LegalLinksContext = createContext<LegalLinkInterface[]>([]);
 
 type TLegalLinksProvider = {
 	legalLinks?: LegalLinkInterface[];
-	children: ReactNode;
 };
 
-export function LegalLinksProvider({
+export const LegalLinksProvider: FC<TLegalLinksProvider> = ({
 	legalLinks,
 	children
-}: TLegalLinksProvider) {
+}) => {
 	const settings = useAppConfig();
 
 	return (
@@ -23,4 +22,4 @@ export function LegalLinksProvider({
 			{children}
 		</LegalLinksContext.Provider>
 	);
-}
+};

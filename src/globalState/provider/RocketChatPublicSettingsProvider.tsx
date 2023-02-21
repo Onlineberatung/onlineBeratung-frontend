@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
 	createContext,
+	FC,
 	ReactNode,
 	useCallback,
 	useContext,
@@ -26,13 +27,7 @@ type RocketChatSubscriptionsContextProps = {
 export const RocketChatPublicSettingsContext =
 	createContext<RocketChatSubscriptionsContextProps>(null);
 
-type RocketChatPublicSettingsProviderProps = {
-	children: ReactNode;
-};
-
-export const RocketChatPublicSettingsProvider = ({
-	children
-}: RocketChatPublicSettingsProviderProps) => {
+export const RocketChatPublicSettingsProvider: FC = ({ children }) => {
 	const { subscribe, unsubscribe, sendMethod, ready } =
 		useContext(RocketChatContext);
 

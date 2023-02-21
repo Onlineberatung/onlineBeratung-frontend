@@ -26,7 +26,7 @@ import {
 	OVERLAY_E2EE,
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
-import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 interface AcceptAssignProps {
 	assignable: boolean;
@@ -56,7 +56,9 @@ export const AcceptAssign = ({
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	/* E2EE */
-	const { encryptRoom } = useContext(SessionE2EEContext);
+	const {
+		e2eeParams: { encryptRoom }
+	} = useContext(RoomContext);
 	const {
 		visible: e2eeOverlayVisible,
 		setState: setE2EEState,

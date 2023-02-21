@@ -27,10 +27,9 @@ import { Loading } from '../app/Loading';
 import { useSession } from '../../hooks/useSession';
 import { apiGetAskerSessionList } from '../../api';
 import { useTranslation } from 'react-i18next';
-import { SessionE2EEProvider } from '../../globalState/provider/SessionE2EEProvider';
 import { MessageSubmitComponent } from '../messageSubmitInterface/MessageSubmitComponent';
 import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
-import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import { RoomProvider } from '../../globalState/provider/RoomProvider';
 
 export const WriteEnquiry: React.FC = () => {
 	const { t: translate } = useTranslation();
@@ -172,66 +171,64 @@ export const WriteEnquiry: React.FC = () => {
 	return (
 		<DragAndDropArea className="flex flex--fd-column flex--ai-s enquiry__wrapper">
 			<ActiveSessionContext.Provider value={{ activeSession }}>
-				<RocketChatUsersOfRoomProvider>
-					<SessionE2EEProvider>
-						<div className="enquiry__contentWrapper flex__col--1 flex flex--fd-column flex--ai-c flex--jc-c">
-							<div className="enquiry__scrollContainer">
-								<div className="enquiry__infoWrapper">
-									<div className="enquiry__text">
-										<Headline
-											semanticLevel="3"
-											text={translate(
-												'enquiry.write.infotext.headline'
-											)}
-											className="enquiry__infotextHeadline"
-										/>
-										<Headline
-											semanticLevel="4"
-											styleLevel="5"
-											text={translate(
-												'enquiry.write.infotext.copy.title'
-											)}
-										/>
-										<Text
-											text={translate(
-												'enquiry.write.infotext.copy.facts'
-											)}
-											type="standard"
-											className="enquiry__facts"
-										/>
-									</div>
-									<WelcomeIcon
-										className="enquiry__image"
-										title={translate(
-											'enquiry.write.infotext.iconTitle'
+				<RoomProvider>
+					<div className="enquiry__contentWrapper flex__col--1 flex flex--fd-column flex--ai-c flex--jc-c">
+						<div className="enquiry__scrollContainer">
+							<div className="enquiry__infoWrapper">
+								<div className="enquiry__text">
+									<Headline
+										semanticLevel="3"
+										text={translate(
+											'enquiry.write.infotext.headline'
 										)}
-										aria-label={translate(
-											'enquiry.write.infotext.iconTitle'
+										className="enquiry__infotextHeadline"
+									/>
+									<Headline
+										semanticLevel="4"
+										styleLevel="5"
+										text={translate(
+											'enquiry.write.infotext.copy.title'
 										)}
+									/>
+									<Text
+										text={translate(
+											'enquiry.write.infotext.copy.facts'
+										)}
+										type="standard"
+										className="enquiry__facts"
 									/>
 								</div>
-								{isUnassignedSession && (
-									<EnquiryLanguageSelection
-										className="enquiry__languageSelection"
-										onSelect={setSelectedLanguage}
-										value={selectedLanguage}
-									/>
-								)}
+								<WelcomeIcon
+									className="enquiry__image"
+									title={translate(
+										'enquiry.write.infotext.iconTitle'
+									)}
+									aria-label={translate(
+										'enquiry.write.infotext.iconTitle'
+									)}
+								/>
 							</div>
+							{isUnassignedSession && (
+								<EnquiryLanguageSelection
+									className="enquiry__languageSelection"
+									onSelect={setSelectedLanguage}
+									value={selectedLanguage}
+								/>
+							)}
 						</div>
-						<MessageSubmitComponent
-							className="flex__col--0"
-							onSendButton={handleSendButton}
-							language={selectedLanguage}
+					</div>
+					<MessageSubmitComponent
+						className="flex__col--0"
+						onSendButton={handleSendButton}
+						language={selectedLanguage}
+					/>
+					{overlayActive && (
+						<Overlay
+							item={overlayItem}
+							handleOverlay={handleOverlayAction}
 						/>
-						{overlayActive && (
-							<Overlay
-								item={overlayItem}
-								handleOverlay={handleOverlayAction}
-							/>
-						)}
-					</SessionE2EEProvider>
-				</RocketChatUsersOfRoomProvider>
+					)}
+				</RoomProvider>
 			</ActiveSessionContext.Provider>
 		</DragAndDropArea>
 	);

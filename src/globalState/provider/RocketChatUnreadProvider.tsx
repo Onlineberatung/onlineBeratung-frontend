@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
 	createContext,
+	FC,
 	ReactNode,
 	useCallback,
 	useContext,
@@ -51,13 +52,7 @@ const UNREAD_DAYS = 30;
 export const RocketChatUnreadContext =
 	createContext<UnreadStatusContextProps>(initialData);
 
-type RocketChatUnreadProviderProps = {
-	children: ReactNode;
-};
-
-export function RocketChatUnreadProvider({
-	children
-}: RocketChatUnreadProviderProps) {
+export const RocketChatUnreadProvider: FC = ({ children }) => {
 	const { subscriptions } = useContext(RocketChatSubscriptionsContext);
 	const { anonymousConversationFinished } = useContext(
 		AnonymousConversationFinishedContext
@@ -208,4 +203,4 @@ export function RocketChatUnreadProvider({
 			{children}
 		</RocketChatUnreadContext.Provider>
 	);
-}
+};

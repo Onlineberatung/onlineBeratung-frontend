@@ -84,11 +84,11 @@ import {
 	OVERLAY_E2EE,
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
-import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
 import useTyping from '../../utils/useTyping';
 import { DragAndDropAreaContext } from '../dragAndDropArea/DragAndDropArea';
 import { AttachmentUpload } from './AttachmentUpload';
 import { STORAGE_KEY_ATTACHMENT_ENCRYPTION } from '../devToolbar/constants';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -274,20 +274,22 @@ export const MessageSubmitInterfaceComponent = ({
 	// to session.groupId on session chats
 	// to session.feebackGroupId on feedback chats
 	const {
-		keyID,
-		key,
-		encrypted,
-		subscriptionKeyLost,
-		roomNotFound,
-		encryptRoom,
+		e2eeParams: {
+			keyID,
+			key,
+			encrypted,
+			subscriptionKeyLost,
+			roomNotFound,
+			encryptRoom
+		},
 		// This loads keys for feedback chat to have the ability to encrypt
 		// the feedback chat when checkbox "Request feedback" is checked
-		feedback: {
+		feedbackE2eeParams: {
 			keyID: feedbackChatKeyId,
 			key: feedbackChatKey,
 			encryptRoom: feedbackEncryptRoom
 		}
-	} = useContext(SessionE2EEContext);
+	} = useContext(RoomContext);
 
 	const {
 		visible: e2eeOverlayVisible,

@@ -16,7 +16,7 @@ import {
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 interface ForwardMessageProps {
 	right: boolean;
@@ -36,8 +36,8 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 
 	/* E2EE */
 	const {
-		feedback: { key, keyID, encrypted, encryptRoom }
-	} = useContext(SessionE2EEContext);
+		feedbackE2eeParams: { key, keyID, encrypted, encryptRoom }
+	} = useContext(RoomContext);
 	const {
 		visible: e2eeOverlayVisible,
 		setState: setE2EEState,

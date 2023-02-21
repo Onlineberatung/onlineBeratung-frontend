@@ -31,7 +31,7 @@ import {
 	OVERLAY_E2EE,
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
-import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 export interface Consultant {
 	consultantId: string;
@@ -56,8 +56,9 @@ export const SessionAssign = (props: { value?: string }) => {
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
-	const { addNewUsersToEncryptedRoom, encryptRoom } =
-		useContext(SessionE2EEContext);
+	const {
+		e2eeParams: { encryptRoom, addNewUsersToEncryptedRoom }
+	} = useContext(RoomContext);
 
 	const {
 		visible: e2eeOverlayVisible,

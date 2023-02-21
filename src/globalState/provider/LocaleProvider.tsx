@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import {
+	createContext,
+	FC,
+	useContext,
+	useEffect,
+	useMemo,
+	useState
+} from 'react';
 import i18n, { FALLBACK_LNG, init } from '../../i18n';
 import { InformalContext } from './InformalProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
@@ -19,7 +26,7 @@ type TLocaleContext = {
 
 export const LocaleContext = createContext<TLocaleContext>(null);
 
-export function LocaleProvider(props) {
+export const LocaleProvider: FC = ({ children }) => {
 	const settings = useAppConfig();
 	const isLoading = useTenantTheming();
 	const tenant = useTenant();
@@ -122,10 +129,10 @@ export function LocaleProvider(props) {
 				selectableLocales
 			}}
 		>
-			{props.children}
+			{children}
 		</LocaleContext.Provider>
 	);
-}
+};
 
 export const useLocaleData = (): TLocaleContext => {
 	return useContext(LocaleContext) || ({} as TLocaleContext);

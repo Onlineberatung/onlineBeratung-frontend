@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, FC } from 'react';
 import { ConsultingTypeBasicInterface } from '../interfaces/ConsultingTypeInterface';
 
 export const ConsultingTypesContext = createContext<{
@@ -9,17 +9,17 @@ export const ConsultingTypesContext = createContext<{
 	) => void;
 }>(null);
 
-export function ConsultingTypesProvider(props) {
+export const ConsultingTypesProvider: FC = ({ children }) => {
 	const [consultingTypes, setConsultingTypes] = useState(null);
 
 	return (
 		<ConsultingTypesContext.Provider
 			value={{ consultingTypes, setConsultingTypes }}
 		>
-			{props.children}
+			{children}
 		</ConsultingTypesContext.Provider>
 	);
-}
+};
 
 export function getConsultingType(
 	consultingTypes: Array<ConsultingTypeBasicInterface>,

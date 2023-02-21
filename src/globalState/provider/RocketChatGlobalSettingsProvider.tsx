@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createContext, useCallback, useEffect, useState } from 'react';
+import { createContext, FC, useCallback, useEffect, useState } from 'react';
 import {
 	apiRocketChatSettingsPublic,
 	IBooleanSetting,
@@ -35,14 +35,17 @@ const SETTINGS_TO_FETCH = [
 
 type RocketChatGlobalSettingsContextProps = {
 	settings: TSetting[];
-	getSetting: <T extends TSetting>(id: T['_id']) => T | null;
+	getSetting: <T extends TSetting>(
+		id: T['_id'],
+		fallback?: T['value']
+	) => T | undefined;
 	ready: boolean;
 };
 
 export const RocketChatGlobalSettingsContext =
 	createContext<RocketChatGlobalSettingsContextProps>(null);
 
-export const RocketChatGlobalSettingsProvider = (props) => {
+export const RocketChatGlobalSettingsProvider: FC = ({ children }) => {
 	const [settings, setSettings] = useState<TSetting[]>([]);
 	const [ready, setReady] = useState(false);
 
@@ -54,25 +57,39 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 	}, []);
 
 	const getSetting = useCallback(
-		<T extends TSetting>(id: T['_id']): T | null => {
-			return (settings.find((s) => s._id === id) as T) ?? null;
+		<T extends TSetting>(
+			id: T['_id'],
+			fallback: T['value'] = null
+		): T | undefined => {
+			return ready
+				? (settings.find((s) => s._id === id) as T) ??
+						({
+							_id: id,
+							enterprise: false,
+							value: fallback
+						} as T)
+				: undefined;
 		},
-		[settings]
+		[ready, settings]
 	);
 
 	// Check rc configured message length
 	useEffect(() => {
-		if (settings.length <= 0) {
+		if (!ready || settings.length <= 0) {
 			return;
 		}
-		const isE2eeEnabled =
-			getSetting<IBooleanSetting>(SETTING_E2E_ENABLE)?.value ?? false;
-		const configuredInputMaxLength =
-			getSetting<INumberSetting>(SETTING_MESSAGE_MAXALLOWEDSIZE)?.value ??
-			0;
-		const configuredAttachmentMaxFilesize =
-			getSetting<INumberSetting>(SETTING_FILEUPLOAD_MAXFILESIZE)?.value ??
-			0;
+		const isE2eeEnabled = getSetting<IBooleanSetting>(
+			SETTING_E2E_ENABLE,
+			false
+		)?.value;
+		const configuredInputMaxLength = getSetting<INumberSetting>(
+			SETTING_MESSAGE_MAXALLOWEDSIZE,
+			0
+		)?.value;
+		const configuredAttachmentMaxFilesize = getSetting<INumberSetting>(
+			SETTING_FILEUPLOAD_MAXFILESIZE,
+			0
+		)?.value;
 
 		let requiredInputMaxLength = INPUT_MAX_LENGTH;
 
@@ -114,8 +131,7 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 
 		if (
 			configuredAttachmentMaxFilesize === 0 ||
-			configuredAttachmentMaxFilesize / 1024 / 1024 <
-				requiredAttachmentMaxSize
+			configuredAttachmentMaxFilesize < requiredAttachmentMaxSize
 		) {
 			console.error(
 				'Max allowed upload filesize is configured too small in RC!'
@@ -135,12 +151,14 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 			}).then();
 		}
 
-		const isMessageAllowDeleting =
-			getSetting<IBooleanSetting>(SETTING_MESSAGE_ALLOWDELETING)?.value ??
-			false;
-		const isMessageShowDeletedStatus =
-			getSetting<IBooleanSetting>(SETTING_MESSAGE_SHOWDELETEDSTATUS)
-				?.value ?? false;
+		const isMessageAllowDeleting = getSetting<IBooleanSetting>(
+			SETTING_MESSAGE_ALLOWDELETING,
+			false
+		)?.value;
+		const isMessageShowDeletedStatus = getSetting<IBooleanSetting>(
+			SETTING_MESSAGE_SHOWDELETEDSTATUS,
+			false
+		)?.value;
 
 		if (isMessageAllowDeleting && !isMessageShowDeletedStatus) {
 			console.error('Message show deleted status is disabled in RC!');
@@ -150,13 +168,13 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 				level: ERROR_LEVEL_WARN
 			}).then();
 		}
-	}, [getSetting, settings.length]);
+	}, [getSetting, ready, settings.length]);
 
 	return (
 		<RocketChatGlobalSettingsContext.Provider
 			value={{ settings, getSetting, ready }}
 		>
-			{props.children}
+			{children}
 		</RocketChatGlobalSettingsContext.Provider>
 	);
 };

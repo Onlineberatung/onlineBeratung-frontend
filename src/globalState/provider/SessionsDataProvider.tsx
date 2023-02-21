@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createContext, Dispatch, useReducer } from 'react';
+import { createContext, Dispatch, FC, useReducer } from 'react';
 import { ListItemInterface } from '../interfaces/SessionsDataInterface';
 import { getChatItemForSession } from '../../components/session/sessionHelpers';
 
@@ -111,7 +111,7 @@ function reducer(
 	}
 }
 
-export function SessionsDataProvider(props) {
+export const SessionsDataProvider: FC = ({ children }) => {
 	const [sessionsState, dispatch] = useReducer(reducer, initialState);
 
 	return (
@@ -122,7 +122,7 @@ export function SessionsDataProvider(props) {
 				dispatch
 			}}
 		>
-			{props.children}
+			{children}
 		</SessionsDataContext.Provider>
 	);
-}
+};

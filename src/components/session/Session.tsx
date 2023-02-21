@@ -12,31 +12,24 @@ import {
 } from '../../globalState';
 import { MessageSubmitComponent } from '../messageSubmitInterface/MessageSubmitComponent';
 import * as React from 'react';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useRef, useState } from 'react';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { ISubscriptions } from '../../types/rc/Subscriptions';
-import { IRoom } from '../../types/rc/Room';
 import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import clsx from 'clsx';
-import { apiRocketChatGroupMessages } from '../../api/apiRocketChatGroupMessages';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 export const Session = ({
 	bannedUsers,
-	checkMutedUserForThisSession,
-	subscription,
-	room,
-	hiddenSystemMessages = []
+	checkMutedUserForThisSession
 }: {
 	bannedUsers: string[];
 	checkMutedUserForThisSession: () => void;
-	subscription: ISubscriptions | null;
-	room: IRoom;
-	hiddenSystemMessages: string[];
 }) => {
 	const { type } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
 	const { activeSession, readActiveSession } =
 		useContext(ActiveSessionContext);
+	const { subscription } = useContext(RoomContext);
 
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);
 
@@ -75,39 +68,13 @@ export const Session = ({
 		(bottom) => {
 			setIsScrolledToBottom(bottom);
 
-			if (!bottom || !subscription || subscription.unread <= 0) {
+			if (!bottom || !subscription?.unread) {
 				return;
 			}
 			setSessionRead().then();
 		},
 		[setSessionRead, subscription]
 	);
-
-	// Because we are removing some messages on the backend side the subscription.unread count can not used to detect
-	// the last unread message. Thats why we load the last unread message time from rc
-	// ToDo: This could maybe optimized by subscription.ls time becuase ls means last seen which schould be last read
-	const lastUnreadMessageTime = useRef<number | null>(null);
-	useEffect(() => {
-		if (!subscription || subscription.unread <= 0) {
-			lastUnreadMessageTime.current = null;
-		}
-
-		// Prevent reload on every change
-		if (lastUnreadMessageTime.current) {
-			return;
-		}
-
-		apiRocketChatGroupMessages(subscription.rid, {
-			offset: room.msgs - subscription.unread,
-			count: 1,
-			sort: { ts: 1 },
-			fields: { ts: 1, _id: 1 }
-		})
-			.then(({ messages: [{ ts }] }) => {
-				lastUnreadMessageTime.current = new Date(ts).getTime();
-			})
-			.catch(() => (lastUnreadMessageTime.current = null));
-	}, [room.msgs, subscription]);
 
 	return (
 		<div
@@ -128,11 +95,7 @@ export const Session = ({
 				<SessionStream
 					checkMutedUserForThisSession={checkMutedUserForThisSession}
 					bannedUsers={bannedUsers}
-					hiddenSystemMessages={hiddenSystemMessages}
-					room={room}
-					subscription={subscription}
 					onScrolledToBottom={handleScrolledToBottom}
-					lastUnreadMessageTime={lastUnreadMessageTime.current}
 					className="flex__col--1"
 				/>
 

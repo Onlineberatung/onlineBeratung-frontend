@@ -404,7 +404,10 @@ const MessageFlyoutMenu = ({
 
 			{isMyMessage &&
 				!isArchived &&
-				getSetting<IBooleanSetting>(SETTING_MESSAGE_ALLOWDELETING) && (
+				getSetting<IBooleanSetting>(
+					SETTING_MESSAGE_ALLOWDELETING,
+					false
+				)?.value && (
 					<DeleteMessage
 						messageId={_id}
 						className="flyoutMenu__item--delete"

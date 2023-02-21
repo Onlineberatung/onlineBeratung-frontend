@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
 	createContext,
 	Dispatch,
+	FC,
 	SetStateAction,
 	useCallback,
 	useEffect,
@@ -37,7 +38,7 @@ export const ModalContext = createContext<{
 	removeOverlay: (unique: string) => void;
 }>(null);
 
-export function ModalProvider(props) {
+export const ModalProvider: FC = ({ children }) => {
 	const settings = useAppConfig();
 	const [priorities, setPriorities] = useState(DEFAULT_PRIORITY);
 	const [overlays, setOverlays] = useState<TOverlay[]>([]);
@@ -103,7 +104,7 @@ export function ModalProvider(props) {
 				removeOverlay
 			}}
 		>
-			{props.children}
+			{children}
 		</ModalContext.Provider>
 	);
-}
+};

@@ -17,7 +17,7 @@ import {
 	apiSendAliasMessage
 } from '../api/apiSendAliasMessage';
 import { RocketChatGetUserRolesContext } from '../globalState/provider/RocketChatSytemUsersProvider';
-import { RocketChatUsersOfRoomContext } from '../globalState/provider/RocketChatUsersOfRoomProvider';
+import { RoomContext } from '../globalState/provider/RoomProvider';
 
 export const ENCRYPT_ROOM_STATE_GET_MEMBERS = 'get_members';
 export const ENCRYPT_ROOM_STATE_GET_USERS_WITHOUT_KEY = 'get_users_without_key';
@@ -77,9 +77,7 @@ export const useE2EE = (
 		RocketChatSubscriptionsContext
 	);
 	const { systemUsers } = useContext(RocketChatGetUserRolesContext);
-	const { reload: reloadUsersOfRoom } = useContext(
-		RocketChatUsersOfRoomContext
-	);
+	const { usersOfRoom } = useContext(RoomContext);
 
 	const [keyData, setKeyData] = useState<{
 		key: CryptoKey;
@@ -116,10 +114,10 @@ export const useE2EE = (
 					total: 0
 				});
 
-			const usersOfRoom = await reloadUsersOfRoom(roomId);
+			const { records } = await usersOfRoom.reload(roomId);
 
 			// Filter system user and users with unencrypted username (Maybe more system users)
-			const filteredMembers = usersOfRoom.filter(
+			const filteredMembers = records.filter(
 				(member) =>
 					member.username !== 'System' &&
 					member.username.indexOf('enc.') === 0 &&
@@ -222,7 +220,7 @@ export const useE2EE = (
 		},
 		[
 			rid,
-			reloadUsersOfRoom,
+			usersOfRoom,
 			systemUsers,
 			rcUid,
 			keyData.keyID,

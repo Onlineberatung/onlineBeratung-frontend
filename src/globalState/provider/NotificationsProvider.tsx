@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
 	createContext,
 	Dispatch,
+	FC,
 	ReactNode,
 	useCallback,
 	useState
@@ -67,7 +68,7 @@ type NotificationsContextProps = {
 export const NotificationsContext =
 	createContext<NotificationsContextProps | null>(null);
 
-export function NotificationsProvider(props) {
+export const NotificationsProvider: FC = ({ children }) => {
 	const [notifications, setNotifications] = useState([]);
 
 	const hasNotification = useCallback(
@@ -131,7 +132,7 @@ export function NotificationsProvider(props) {
 				removeNotification
 			}}
 		>
-			{props.children}
+			{children}
 		</NotificationsContext.Provider>
 	);
-}
+};

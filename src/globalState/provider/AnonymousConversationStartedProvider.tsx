@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { createContext, useState } from 'react';
+import { createContext, FC, useState } from 'react';
 
 export const AnonymousConversationStartedContext = createContext<any>(null);
 
-export function AnonymousConversationStartedProvider(props) {
+export const AnonymousConversationStartedProvider: FC = ({ children }) => {
 	const [anonymousConversationStarted, setAnonymousConversationStarted] =
 		useState(null);
 
@@ -14,7 +14,7 @@ export function AnonymousConversationStartedProvider(props) {
 				setAnonymousConversationStarted
 			}}
 		>
-			{props.children}
+			{children}
 		</AnonymousConversationStartedContext.Provider>
 	);
-}
+};

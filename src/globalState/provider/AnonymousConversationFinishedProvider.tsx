@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { createContext, useCallback, useContext, useState } from 'react';
+import { createContext, FC, useCallback, useContext, useState } from 'react';
 import { UserDataContext } from './UserDataProvider';
 import { AUTHORITIES, hasUserAuthority } from '../helpers/stateHelpers';
 import useUpdatingRef from '../../hooks/useUpdatingRef';
 
 export const AnonymousConversationFinishedContext = createContext<any>(null);
 
-export function AnonymousConversationFinishedProvider(props) {
+export const AnonymousConversationFinishedProvider: FC = ({ children }) => {
 	const { userData } = useContext(UserDataContext);
 	const userDataRef = useUpdatingRef(userData);
 	const [anonymousConversationFinished, setAnonymousConversationFinished] =
@@ -35,7 +35,7 @@ export function AnonymousConversationFinishedProvider(props) {
 					handleAnonymousConversationFinished
 			}}
 		>
-			{props.children}
+			{children}
 		</AnonymousConversationFinishedContext.Provider>
 	);
-}
+};

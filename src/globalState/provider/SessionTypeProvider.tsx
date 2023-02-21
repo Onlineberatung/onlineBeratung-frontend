@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-	createContext,
-	ReactNode,
-	useContext,
-	useEffect,
-	useState
-} from 'react';
+import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { SESSION_LIST_TYPES } from '../../components/session/sessionHelpers';
 import { UserDataContext } from './UserDataProvider';
 import { AUTHORITIES, hasUserAuthority } from '../helpers/stateHelpers';
@@ -13,16 +7,13 @@ import { AUTHORITIES, hasUserAuthority } from '../helpers/stateHelpers';
 type SessionTypeProviderProps = {
 	type: SESSION_LIST_TYPES;
 	path: string;
-	children: ReactNode;
 };
 
-export const SessionTypeContext =
-	createContext<Omit<SessionTypeProviderProps, 'children'>>(null);
+export const SessionTypeContext = createContext<SessionTypeProviderProps>(null);
 
-export function SessionTypeProvider({
-	type,
-	children
-}: Omit<SessionTypeProviderProps, 'path'>) {
+export const SessionTypeProvider: FC<
+	Omit<SessionTypeProviderProps, 'path'>
+> = ({ type, children }) => {
 	const { userData } = useContext(UserDataContext);
 
 	const [path, setPath] = useState(null);
@@ -48,4 +39,4 @@ export function SessionTypeProvider({
 			{children}
 		</SessionTypeContext.Provider>
 	);
-}
+};

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { v4 as uuid } from 'uuid';
 import {
 	createContext,
+	FC,
 	MutableRefObject,
 	useCallback,
 	useEffect,
@@ -60,7 +61,7 @@ type RocketChatContextProps = {
 
 export const RocketChatContext = createContext<RocketChatContextProps>(null);
 
-export function RocketChatProvider(props) {
+export const RocketChatProvider: FC = ({ children }) => {
 	const rcUid = useRef(getValueFromCookie('rc_uid'));
 	const rcAuthToken = useRef(getValueFromCookie('rc_token'));
 	const rcWebsocket = useRef<WebSocket | null>(null);
@@ -411,7 +412,7 @@ export function RocketChatProvider(props) {
 				rcWebsocket: rcWebsocket.current
 			}}
 		>
-			{props.children}
+			{children}
 		</RocketChatContext.Provider>
 	);
-}
+};

@@ -32,8 +32,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { AskerInfoTools } from './AskerInfoTools';
 import { Box } from '../box/Box';
-import { SessionE2EEProvider } from '../../globalState/provider/SessionE2EEProvider';
-import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import { RoomProvider } from '../../globalState/provider/RoomProvider';
 
 export const AskerInfo = () => {
 	const { t: translate } = useTranslation();
@@ -107,80 +106,78 @@ export const AskerInfo = () => {
 
 	return (
 		<ActiveSessionContext.Provider value={{ activeSession }}>
-			<RocketChatUsersOfRoomProvider>
-				<SessionE2EEProvider>
-					<div className="profile__wrapper">
-						<div className="profile__header">
-							<div className="profile__header__wrapper">
-								<Link
-									to={`${listPath}/${
-										activeSession.item.groupId
-									}/${activeSession.item.id}${
-										sessionListTab
-											? `?sessionListTab=${sessionListTab}`
-											: ''
-									}`}
-									className="profile__header__backButton"
-								>
-									<BackIcon
-										aria-label={translate('app.back')}
-										title={translate('app.back')}
-									/>
-								</Link>
-								<h3 className="profile__header__title profile__header__title--withBackButton">
-									{translate('profile.header.title')}
-								</h3>
-							</div>
-							<div className="profile__header__metaInfo">
-								<p className="profile__header__username profile__header__username--withBackButton">
-									{activeSession.user.username}
-								</p>
-							</div>
+			<RoomProvider>
+				<div className="profile__wrapper">
+					<div className="profile__header">
+						<div className="profile__header__wrapper">
+							<Link
+								to={`${listPath}/${
+									activeSession.item.groupId
+								}/${activeSession.item.id}${
+									sessionListTab
+										? `?sessionListTab=${sessionListTab}`
+										: ''
+								}`}
+								className="profile__header__backButton"
+							>
+								<BackIcon
+									aria-label={translate('app.back')}
+									title={translate('app.back')}
+								/>
+							</Link>
+							<h3 className="profile__header__title profile__header__title--withBackButton">
+								{translate('profile.header.title')}
+							</h3>
 						</div>
-						<div className="profile__innerWrapper">
-							<div className="profile__user">
-								<div className="profile__icon">
-									<PersonIcon
-										className="profile__icon--user"
-										title={translate(
-											'profile.data.profileIcon'
-										)}
-										aria-label={translate(
-											'profile.data.profileIcon'
-										)}
-									/>
-								</div>
-								<h2>{activeSession.user.username}</h2>
-							</div>
-							<div className="profile__content askerInfo__content">
-								<Box>
-									<AskerInfoData />
-								</Box>
-								{tenant?.settings?.featureToolsEnabled && (
-									<Box>
-										<AskerInfoTools />
-									</Box>
-								)}
-								{activeSession.item.monitoring &&
-									(type === SESSION_LIST_TYPES.MY_SESSION ||
-										type ===
-											SESSION_LIST_TYPES.TEAMSESSION) && (
-										<Box>
-											<AskerInfoMonitoring />
-										</Box>
-									)}
-								{isSessionAssignAvailable() && (
-									<Box>
-										<div className="askerInfo__assign">
-											<AskerInfoAssign />
-										</div>
-									</Box>
-								)}
-							</div>
+						<div className="profile__header__metaInfo">
+							<p className="profile__header__username profile__header__username--withBackButton">
+								{activeSession.user.username}
+							</p>
 						</div>
 					</div>
-				</SessionE2EEProvider>
-			</RocketChatUsersOfRoomProvider>
+					<div className="profile__innerWrapper">
+						<div className="profile__user">
+							<div className="profile__icon">
+								<PersonIcon
+									className="profile__icon--user"
+									title={translate(
+										'profile.data.profileIcon'
+									)}
+									aria-label={translate(
+										'profile.data.profileIcon'
+									)}
+								/>
+							</div>
+							<h2>{activeSession.user.username}</h2>
+						</div>
+						<div className="profile__content askerInfo__content">
+							<Box>
+								<AskerInfoData />
+							</Box>
+							{tenant?.settings?.featureToolsEnabled && (
+								<Box>
+									<AskerInfoTools />
+								</Box>
+							)}
+							{activeSession.item.monitoring &&
+								(type === SESSION_LIST_TYPES.MY_SESSION ||
+									type ===
+										SESSION_LIST_TYPES.TEAMSESSION) && (
+									<Box>
+										<AskerInfoMonitoring />
+									</Box>
+								)}
+							{isSessionAssignAvailable() && (
+								<Box>
+									<div className="askerInfo__assign">
+										<AskerInfoAssign />
+									</div>
+								</Box>
+							)}
+						</div>
+					</div>
+				</div>
+			</RoomProvider>
 		</ActiveSessionContext.Provider>
 	);
 };

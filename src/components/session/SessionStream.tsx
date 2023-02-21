@@ -53,8 +53,6 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { prepareConsultantDataForSelect } from '../sessionAssign/sessionAssignHelper';
 import { apiGetMessage } from '../../api/apiGetMessage';
-import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
-import { ISubscriptions } from '../../types/rc/Subscriptions';
 import clsx from 'clsx';
 import { MessageItem } from '../../types/MessageItem';
 import { MessageItemComponent } from '../message/MessageItemComponent';
@@ -64,18 +62,14 @@ import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { apiPostError, TError } from '../../api/apiPostError';
 import { GlobalDragAndDropContext } from '../../globalState/provider/GlobalDragAndDropProvider';
 import { Text } from '../text/Text';
-import { IRoom } from '../../types/rc/Room';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 interface SessionStreamProps {
 	checkMutedUserForThisSession: () => void;
 	bannedUsers: string[];
-	hiddenSystemMessages: string[];
-	room: IRoom;
-	subscription: ISubscriptions | null;
 	onScrolledToTop?: (top: boolean) => void;
 	onScrolledToBottom?: (bottom: boolean) => void;
 	className?: string;
-	lastUnreadMessageTime: number | null;
 }
 
 const INITIAL_COUNT = 20;
@@ -143,13 +137,9 @@ function reducer(
 export const SessionStream = ({
 	checkMutedUserForThisSession,
 	bannedUsers,
-	hiddenSystemMessages,
-	room,
-	subscription,
 	onScrolledToTop,
 	onScrolledToBottom,
-	className,
-	lastUnreadMessageTime
+	className
 }: SessionStreamProps) => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
@@ -166,14 +156,18 @@ export const SessionStream = ({
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { lastUnreadMessageTime, subscription, room, hiddenSystemMessages } =
+		useContext(RoomContext);
 	const { setConsultantList } = useContext(ConsultantListContext);
 	const {
-		key,
-		keyID,
-		encrypted,
-		subscriptionKeyLost,
-		addNewUsersToEncryptedRoom
-	} = useContext(SessionE2EEContext);
+		e2eeParams: {
+			key,
+			keyID,
+			encrypted,
+			subscriptionKeyLost,
+			addNewUsersToEncryptedRoom
+		}
+	} = useContext(RoomContext);
 
 	const abortController = useRef<AbortController>(null);
 	const hasUserInitiatedStopOrLeaveRequest = useRef<boolean>(false);

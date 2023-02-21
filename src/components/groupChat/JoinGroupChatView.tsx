@@ -40,7 +40,7 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { OVERLAY_REQUEST } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
-import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 interface JoinGroupChatViewProps {
 	forceBannedOverlay?: boolean;
@@ -70,8 +70,9 @@ export const JoinGroupChatView = ({
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { path: listPath } = useContext(SessionTypeContext);
-	const { keyID, sessionKeyExportedString, encrypted } =
-		useContext(SessionE2EEContext);
+	const {
+		e2eeParams: { keyID, sessionKeyExportedString, encrypted }
+	} = useContext(RoomContext);
 
 	const { visible: requestOverlayVisible, overlay: requestOverlay } =
 		useTimeoutOverlay(

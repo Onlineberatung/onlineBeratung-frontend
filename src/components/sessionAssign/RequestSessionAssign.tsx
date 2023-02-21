@@ -29,7 +29,7 @@ import {
 	prepareConsultantDataForSelect,
 	prepareSelectDropdown
 } from './sessionAssignHelper';
-import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 export const RequestSessionAssign = (props: { value?: string }) => {
 	const { t: translate } = useTranslation();
@@ -49,7 +49,9 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
-	const { addNewUsersToEncryptedRoom } = useContext(SessionE2EEContext);
+	const {
+		e2eeParams: { addNewUsersToEncryptedRoom }
+	} = useContext(RoomContext);
 
 	useEffect(() => {
 		const agencyId = activeSession.item.agencyId.toString();

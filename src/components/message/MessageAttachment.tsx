@@ -26,7 +26,7 @@ import { LoadingSpinner } from '../loadingSpinner/LoadingSpinner';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import clsx from 'clsx';
 import { getIconForAttachmentType } from './messageHelpers';
-import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
@@ -44,7 +44,9 @@ const DECRYPTION_FINISHED = 'decryption_finished';
 
 export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { t: translate } = useTranslation();
-	const { key, keyID, encrypted } = useContext(SessionE2EEContext);
+	const {
+		e2eeParams: { key, keyID, encrypted }
+	} = useContext(RoomContext);
 	const { getDevToolbarOption } = useDevToolbar();
 	const { addNotification } = React.useContext(NotificationsContext);
 

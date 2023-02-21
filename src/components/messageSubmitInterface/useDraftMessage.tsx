@@ -16,7 +16,7 @@ import {
 	addEventListener,
 	removeEventListener
 } from '../../utils/eventHandler';
-import { SessionE2EEContext } from '../../globalState/provider/SessionE2EEProvider';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 const SAVE_DRAFT_TIMEOUT = 10000;
 
@@ -26,7 +26,9 @@ export const useDraftMessage = (
 ) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
-	const { keyID, key, encrypted } = useContext(SessionE2EEContext);
+	const {
+		e2eeParams: { key, keyID, encrypted }
+	} = useContext(RoomContext);
 
 	const draftSaveTimeout = useRef(null);
 	const willUnmount = useRef(false);

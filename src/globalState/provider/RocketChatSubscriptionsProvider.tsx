@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
 	createContext,
+	FC,
 	ReactNode,
 	useCallback,
 	useContext,
@@ -34,13 +35,7 @@ type RocketChatSubscriptionsContextProps = {
 export const RocketChatSubscriptionsContext =
 	createContext<RocketChatSubscriptionsContextProps>(null);
 
-type RocketChatSubscriptionsProviderProps = {
-	children: ReactNode;
-};
-
-export const RocketChatSubscriptionsProvider = ({
-	children
-}: RocketChatSubscriptionsProviderProps) => {
+export const RocketChatSubscriptionsProvider: FC = ({ children }) => {
 	const rcUid = useRef(getValueFromCookie('rc_uid'));
 
 	const { subscribe, unsubscribe, sendMethod, ready } =

@@ -2,11 +2,7 @@ import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { Loading } from '../app/Loading';
-import {
-	RocketChatGlobalSettingsContext,
-	SessionTypeContext,
-	UserDataContext
-} from '../../globalState';
+import { SessionTypeContext, UserDataContext } from '../../globalState';
 import {
 	desktopView,
 	mobileDetailView,
@@ -24,17 +20,8 @@ import useUpdatingRef from '../../hooks/useUpdatingRef';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useSession } from '../../hooks/useSession';
 import { AcceptLiveChatView } from './AcceptLiveChatView';
-import { RocketChatSubscriptionsContext } from '../../globalState/provider/RocketChatSubscriptionsProvider';
-import { SessionE2EEProvider } from '../../globalState/provider/SessionE2EEProvider';
 import { Session } from './Session';
-import {
-	IArraySetting,
-	SETTING_HIDE_SYSTEM_MESSAGES
-} from '../../api/apiRocketChatSettingsPublic';
-import { usePropsMemo } from '../../hooks/usePropsMemo';
-import { IRoom } from '../../types/rc/Room';
-import { ISubscriptions } from '../../types/rc/Subscriptions';
-import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import { RoomProvider } from '../../globalState/provider/RoomProvider';
 
 export const SessionView = () => {
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
@@ -46,12 +33,6 @@ export const SessionView = () => {
 
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { userData } = useContext(UserDataContext);
-	const { getSetting, ready: settingsReady } = useContext(
-		RocketChatGlobalSettingsContext
-	);
-	const { rooms, roomsReady, subscriptions, subscriptionsReady } = useContext(
-		RocketChatSubscriptionsContext
-	);
 
 	const [loading, setLoading] = useState(true);
 	const [forceBannedOverlay, setForceBannedOverlay] = useState(false);
@@ -65,25 +46,6 @@ export const SessionView = () => {
 	} = useSession(groupIdFromParam);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
-
-	const room = usePropsMemo<IRoom>(
-		(prev) =>
-			roomsReady &&
-			(rooms?.find((room) => room._id === activeSession?.rid) || prev),
-		[activeSession?.rid, rooms, roomsReady],
-		['_updatedAt.$date']
-	);
-
-	const subscription = usePropsMemo<ISubscriptions>(
-		(prev) =>
-			subscriptionsReady &&
-			(subscriptions?.find(
-				(subscription) => subscription.rid === activeSession?.rid
-			) ||
-				prev),
-		[activeSession?.rid, subscriptions, subscriptionsReady],
-		['_updatedAt.$date']
-	);
 
 	const { fromL } = useResponsive();
 	useEffect(() => {
@@ -195,13 +157,7 @@ export const SessionView = () => {
 		]
 	);
 
-	if (
-		loading ||
-		!activeSession ||
-		(!isUnjoinedGroup &&
-			!isUnacceptedLiveChat &&
-			(!settingsReady || !room || !subscription))
-	) {
+	if (loading || !activeSession) {
 		return <Loading />;
 	}
 
@@ -210,14 +166,12 @@ export const SessionView = () => {
 			<ActiveSessionContext.Provider
 				value={{ activeSession, reloadActiveSession }}
 			>
-				<RocketChatUsersOfRoomProvider>
-					<SessionE2EEProvider>
-						<JoinGroupChatView
-							forceBannedOverlay={forceBannedOverlay}
-							bannedUsers={bannedUsers}
-						/>
-					</SessionE2EEProvider>
-				</RocketChatUsersOfRoomProvider>
+				<RoomProvider>
+					<JoinGroupChatView
+						forceBannedOverlay={forceBannedOverlay}
+						bannedUsers={bannedUsers}
+					/>
+				</RoomProvider>
 			</ActiveSessionContext.Provider>
 		);
 	}
@@ -227,11 +181,9 @@ export const SessionView = () => {
 			<ActiveSessionContext.Provider
 				value={{ activeSession, reloadActiveSession }}
 			>
-				<RocketChatUsersOfRoomProvider>
-					<SessionE2EEProvider>
-						<AcceptLiveChatView bannedUsers={bannedUsers} />
-					</SessionE2EEProvider>
-				</RocketChatUsersOfRoomProvider>
+				<RoomProvider>
+					<AcceptLiveChatView bannedUsers={bannedUsers} />
+				</RoomProvider>
 			</ActiveSessionContext.Provider>
 		);
 	}
@@ -240,25 +192,16 @@ export const SessionView = () => {
 		<ActiveSessionContext.Provider
 			value={{ activeSession, reloadActiveSession, readActiveSession }}
 		>
-			<RocketChatUsersOfRoomProvider>
-				<SessionE2EEProvider>
-					<div className="session__wrapper">
-						<Session
-							bannedUsers={bannedUsers}
-							checkMutedUserForThisSession={
-								checkMutedUserForThisSession
-							}
-							room={room}
-							subscription={subscription}
-							hiddenSystemMessages={
-								getSetting<IArraySetting>(
-									SETTING_HIDE_SYSTEM_MESSAGES
-								)?.value ?? []
-							}
-						/>
-					</div>
-				</SessionE2EEProvider>
-			</RocketChatUsersOfRoomProvider>
+			<RoomProvider loadLastUnreadMessageTime={true}>
+				<div className="session__wrapper">
+					<Session
+						bannedUsers={bannedUsers}
+						checkMutedUserForThisSession={
+							checkMutedUserForThisSession
+						}
+					/>
+				</div>
+			</RoomProvider>
 		</ActiveSessionContext.Provider>
 	);
 };

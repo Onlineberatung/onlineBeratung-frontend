@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
 	createContext,
+	FC,
 	ReactNode,
 	useCallback,
 	useContext,
@@ -50,13 +51,7 @@ const initialStatus: RocketChatUserStatus = {
 export const RocketChatUserStatusContext =
 	createContext<RocketChatUserStatus>(initialStatus);
 
-type RocketChatUserStatusProviderProps = {
-	children: ReactNode;
-};
-
-export function RocketChatUserStatusProvider({
-	children
-}: RocketChatUserStatusProviderProps) {
+export const RocketChatUserStatusProvider: FC = ({ children }) => {
 	const { ready, subscribe, unsubscribe } = useContext(RocketChatContext);
 	const rcUid = getValueFromCookie('rc_uid');
 
@@ -130,4 +125,4 @@ export function RocketChatUserStatusProvider({
 			{children}
 		</RocketChatUserStatusContext.Provider>
 	);
-}
+};
