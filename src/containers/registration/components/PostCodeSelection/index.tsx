@@ -77,7 +77,7 @@ export const PostCodeSelection = ({
 					<ul>
 						{introItemsTranslations.map(
 							(introItemTranslation, i) => (
-								<li key={i}>
+								<li key={introItemTranslation}>
 									<Text
 										text={translate(introItemTranslation)}
 										type="standard"
