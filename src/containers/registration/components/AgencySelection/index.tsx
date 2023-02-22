@@ -28,7 +28,7 @@ export const AgencySelection = ({
 					handleRadioButton={() => onChange(agencyId)}
 					type="smaller"
 					value={agencyId}
-					checkedValue={agencyId === checkedValue}
+					checked={agencyId === checkedValue}
 					inputId={inputId}
 					label={t([`agency.${agency.id}.name`, agency.name], {
 						ns: 'agencies'

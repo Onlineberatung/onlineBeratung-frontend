@@ -4,7 +4,6 @@ import './radioButton.styles';
 
 export interface RadioButtonItem {
 	checked?: boolean;
-	checkedValue?: boolean;
 	handleRadioButton: Function;
 	inputId: string;
 	label: string;
@@ -31,8 +30,7 @@ export const RadioButton = (props: RadioButtonItem) => {
 					type="radio"
 					name={props.name}
 					value={props.value}
-					checked={props.checkedValue}
-					defaultChecked={props.checked}
+					checked={props.checked}
 					onKeyDown={(e) =>
 						props.onKeyDown ? props.onKeyDown(e) : null
 					}
