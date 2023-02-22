@@ -87,10 +87,10 @@ export const useAgenciesForRegistration = ({
 			})
 			.catch(() => {
 				setAgencies([]);
+				setPreselectedAgency(null);
 			})
 			.finally(() => {
 				setIsLoading(false);
-				setPreselectedAgency(null);
 			});
 	}, [
 		autoSelectPostcode,
@@ -104,9 +104,10 @@ export const useAgenciesForRegistration = ({
 
 	useEffect(() => {
 		if (
-			autoSelectAgency &&
-			!propPreSelectedAgency &&
-			allAgencies.length > 0
+			(autoSelectAgency &&
+				!propPreSelectedAgency &&
+				allAgencies.length > 0) ||
+			allAgencies.length === 1
 		) {
 			setPreselectedAgency(allAgencies[0]);
 		}

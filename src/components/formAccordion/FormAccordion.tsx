@@ -255,8 +255,8 @@ export const FormAccordion = ({
 			} else {
 				return 'registration.consultingTypeAgencySelection.agency.headline';
 			}
-		} else if (!consultingType.registration.autoSelectPostcode) {
-			if (consultingType.registration.autoSelectAgency) {
+		} else if (!consultingType?.registration?.autoSelectPostcode) {
+			if (consultingType?.registration?.autoSelectAgency) {
 				return 'registration.agencyPreselected.headline';
 			} else {
 				return 'registration.agencySelection.headline';
@@ -266,8 +266,8 @@ export const FormAccordion = ({
 		}
 	}, [
 		consultant,
-		consultingType.registration.autoSelectAgency,
-		consultingType.registration.autoSelectPostcode,
+		consultingType?.registration?.autoSelectAgency,
+		consultingType?.registration?.autoSelectPostcode,
 		possibleConsultingTypes.length
 	]);
 

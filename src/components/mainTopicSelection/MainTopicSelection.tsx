@@ -65,7 +65,7 @@ export const MainTopicSelection = ({
 								onChangeInput(id.toString())
 							}
 							value={id.toString()}
-							checked={selectedTopic === id}
+							checked={selectedTopic === id.toString()}
 							inputId={name.toLowerCase().replace(' ', '-')}
 							label={name}
 						/>
