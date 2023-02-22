@@ -265,6 +265,8 @@ export const AskerInfoToolsOptions = (
 				}
 				id="tools-select"
 				menuPlacement="bottom"
+				menuPosition="fixed"
+				menuShouldBlockScroll
 				selectedOptions={availableTools}
 				isSearchable={false}
 				isMulti

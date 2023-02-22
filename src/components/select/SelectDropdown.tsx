@@ -46,6 +46,7 @@ export interface SelectDropdownItem {
 	styleOverrides?: defaultStyles;
 	selectRef?: any;
 	isInsideMenu?: boolean;
+	menuShouldBlockScroll?: boolean;
 }
 
 const colourStyles = (
@@ -369,6 +370,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				options={props.selectedOptions}
 				noOptionsMessage={() => null}
 				menuPosition={props.menuPosition}
+				menuShouldBlockScroll={props.menuShouldBlockScroll}
 				menuPlacement={
 					props.menuPlacement === 'right'
 						? 'top'
