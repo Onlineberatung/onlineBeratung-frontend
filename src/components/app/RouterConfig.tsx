@@ -361,6 +361,10 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 		],
 		profileRoutes: [
 			{
+				path: '/overview',
+				component: OverviewPage
+			},
+			{
 				path: '/profile',
 				exact: false,
 				component: Profile
