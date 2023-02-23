@@ -8,17 +8,19 @@ interface ProposedAgenciesTitleArgs {
 	hasConsultingTypes: boolean;
 	hasAutoSelectPostCodeEnabled: boolean;
 	postCodeValue: string;
+	agenciesCount: number;
 }
 
 export const ProposedAgenciesTitle = ({
 	hasPreselectedAgency,
 	hasConsultingTypes,
 	hasAutoSelectPostCodeEnabled,
-	postCodeValue
+	postCodeValue,
+	agenciesCount
 }: ProposedAgenciesTitleArgs) => {
 	const { t } = useTranslation(['common', 'consultingTypes']);
 
-	if (hasPreselectedAgency) {
+	if (hasPreselectedAgency || (!hasConsultingTypes && agenciesCount === 1)) {
 		return (
 			<Headline
 				semanticLevel="4"

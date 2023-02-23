@@ -261,11 +261,6 @@ export const FormAccordion = ({
 			} else {
 				return 'registration.agencySelection.headline';
 			}
-		} else if (
-			!consultingType ||
-			consultingType?.registration?.autoSelectAgency
-		) {
-			return 'registration.agency.preselected.prefix';
 		} else {
 			return 'registration.agency.headline';
 		}

@@ -168,6 +168,7 @@ export const ProposedAgencies = ({
 						hasConsultingTypes={consultingTypes.length > 1}
 						hasAutoSelectPostCodeEnabled={autoSelectPostcode}
 						postCodeValue={postCodeValue}
+						agenciesCount={agencies.length}
 					/>
 					<div className="agencySelection">
 						{agencies.map((agency) => (
