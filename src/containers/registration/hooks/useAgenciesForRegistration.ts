@@ -36,7 +36,7 @@ export const useAgenciesForRegistration = ({
 		);
 	const [agencies, setAgencies] = useState<AgencyDataInterface[]>([]);
 	const { autoSelectPostcode, autoSelectAgency } =
-		consultingType?.registration;
+		consultingType?.registration || {};
 	const allAgencies = useMemo(() => {
 		let uniqueAgencies = uniqueBy(
 			[
@@ -78,7 +78,7 @@ export const useAgenciesForRegistration = ({
 		setIsLoading(true);
 		apiAgencySelection({
 			postcode: autoSelectPostcode ? DEFAULT_POSTCODE : postcode,
-			consultingType: consultingType.id,
+			consultingType: consultingType?.id,
 			topicId: mainTopicId
 		})
 			.then((data) => {
@@ -95,7 +95,7 @@ export const useAgenciesForRegistration = ({
 	}, [
 		autoSelectPostcode,
 		consultant,
-		consultingType.id,
+		consultingType?.id,
 		mainTopicId,
 		postcode,
 		propPreSelectedAgency,

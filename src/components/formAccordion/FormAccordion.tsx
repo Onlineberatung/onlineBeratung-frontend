@@ -261,15 +261,15 @@ export const FormAccordion = ({
 			} else {
 				return 'registration.agencySelection.headline';
 			}
+		} else if (
+			!consultingType ||
+			consultingType?.registration?.autoSelectAgency
+		) {
+			return 'registration.agency.preselected.prefix';
 		} else {
 			return 'registration.agency.headline';
 		}
-	}, [
-		consultant,
-		consultingType?.registration?.autoSelectAgency,
-		consultingType?.registration?.autoSelectPostcode,
-		possibleConsultingTypes.length
-	]);
+	}, [consultant, consultingType, possibleConsultingTypes.length]);
 
 	if (additionalStepsData?.age?.isEnabled) {
 		accordionItemData.push({

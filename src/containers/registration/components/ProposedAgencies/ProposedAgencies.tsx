@@ -44,7 +44,9 @@ export const ProposedAgencies = ({
 	onChange
 }: ProposedAgenciesProps) => {
 	const initialPostcode = getUrlParameter('postcode');
-	const { autoSelectPostcode } = consultingType.registration;
+	const { autoSelectPostcode } = consultingType?.registration || {
+		autoSelectPostcode: true
+	};
 
 	// Set the default selected agency
 	const [isTouched, setIsTouched] = useState<boolean>(false);

@@ -17,7 +17,7 @@ export const NoAgencyFound = ({
 }: NoAgencyFoundArgs) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 
-	if (consultingType.urls.registrationPostcodeFallbackUrl) {
+	if (consultingType?.urls.registrationPostcodeFallbackUrl) {
 		return (
 			<FallbackInformation
 				consultingType={consultingType}
