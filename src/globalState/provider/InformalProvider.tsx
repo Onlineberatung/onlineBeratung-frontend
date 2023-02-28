@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
 	createContext,
 	Dispatch,
+	FC,
 	SetStateAction,
 	useEffect,
 	useState
@@ -20,7 +21,7 @@ type TInformalContext = {
 
 export const InformalContext = createContext<TInformalContext>({});
 
-export function InformalProvider(props) {
+export const InformalProvider: FC = ({ children }) => {
 	const [informal, setInformal] = useState(false);
 
 	useEffect(() => {
@@ -38,7 +39,7 @@ export function InformalProvider(props) {
 				setInformal
 			}}
 		>
-			{props.children}
+			{children}
 		</InformalContext.Provider>
 	);
-}
+};

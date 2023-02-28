@@ -1,11 +1,11 @@
 import { v4 as uuid } from 'uuid';
-import { config } from '../../src/resources/scripts/config';
 import { USER_CONSULTANT, USER_VIDEO } from '../support/commands/login';
 import {
 	closeWebSocketServer,
 	mockWebSocket,
 	startWebSocketServer
 } from '../support/websocket';
+import { config } from '../../src/resources/scripts/config';
 import { AppointmentsDataInterface } from '../../src/globalState/interfaces/AppointmentsDataInterface';
 
 class FakeJitsiMeetExternalAPI {

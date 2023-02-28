@@ -7,7 +7,7 @@ import {
 import { redirectToErrorPage } from '../error/errorHandling';
 import { Loading } from './Loading';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
-import { STORAGE_KEY_ERROR_BOUNDARY } from '../devToolbar/DevToolbar';
+import { STORAGE_KEY_ERROR_BOUNDARY } from '../devToolbar/constants';
 
 type ErrorBoundaryProps = {
 	children: ReactNode;

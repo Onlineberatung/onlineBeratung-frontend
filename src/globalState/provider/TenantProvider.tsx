@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createContext, useState, useContext, useCallback } from 'react';
+import { createContext, useState, useContext, useCallback, FC } from 'react';
 import { setTenantSettings } from '../../utils/tenantSettingsHelper';
 import { TenantDataInterface } from '../interfaces/TenantDataInterface';
 
@@ -8,7 +8,7 @@ export const TenantContext = createContext<{
 	setTenant(tenant: TenantDataInterface): void;
 }>(null);
 
-export function TenantProvider(props) {
+export const TenantProvider: FC = ({ children }) => {
 	const [tenant, setTenant] = useState<TenantDataInterface>();
 
 	const setSettings = useCallback((tenant) => {
@@ -18,10 +18,10 @@ export function TenantProvider(props) {
 
 	return (
 		<TenantContext.Provider value={{ tenant, setTenant: setSettings }}>
-			{props.children}
+			{children}
 		</TenantContext.Provider>
 	);
-}
+};
 
 export function useTenant() {
 	return useContext(TenantContext)?.tenant || null;

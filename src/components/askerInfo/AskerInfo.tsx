@@ -32,7 +32,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { AskerInfoTools } from './AskerInfoTools';
 import { Box } from '../box/Box';
-import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import { RoomProvider } from '../../globalState/provider/RoomProvider';
 
 export const AskerInfo = () => {
 	const { t: translate } = useTranslation();
@@ -106,7 +106,7 @@ export const AskerInfo = () => {
 
 	return (
 		<ActiveSessionContext.Provider value={{ activeSession }}>
-			<RocketChatUsersOfRoomProvider>
+			<RoomProvider>
 				<div className="profile__wrapper">
 					<div className="profile__header">
 						<div className="profile__header__wrapper">
@@ -177,7 +177,7 @@ export const AskerInfo = () => {
 						</div>
 					</div>
 				</div>
-			</RocketChatUsersOfRoomProvider>
+			</RoomProvider>
 		</ActiveSessionContext.Provider>
 	);
 };

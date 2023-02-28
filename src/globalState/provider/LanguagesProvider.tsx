@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createContext, ReactNode } from 'react';
+import { createContext, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
@@ -11,14 +11,13 @@ export const LanguagesContext = createContext<{
 type LanguagesProviderProps = {
 	fixed: string[];
 	spoken: string[];
-	children?: ReactNode;
 };
 
-export function LanguagesProvider({
+export const LanguagesProvider: FC<LanguagesProviderProps> = ({
 	fixed,
 	spoken,
 	children
-}: LanguagesProviderProps) {
+}) => {
 	const { t: translate } = useTranslation();
 	const settings = useAppConfig();
 
@@ -43,4 +42,4 @@ export function LanguagesProvider({
 			{children}
 		</LanguagesContext.Provider>
 	);
-}
+};

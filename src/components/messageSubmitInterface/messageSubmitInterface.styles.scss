@@ -4,8 +4,6 @@ $message-submit-interface-textarea-shadow-color: rgba(0, 0, 0, 0.1) !default;
 $message-submit-interface-textarea-box-shadow: inset 0 2px 0 0
 	$message-submit-interface-textarea-shadow-color !default;
 $navWidth: $grid-base-twelve;
-$contentWidthSmall: 100vw;
-$contentWidth: calc((100vw - #{$navWidth}) / 12 * 8);
 $inputBorder: 1px solid $form-input-border;
 $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color;
 
@@ -15,14 +13,9 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 		z-index: 100;
 		background-color: $message-submit-interface-textarea-background-color;
 		padding: 12px $grid-base-two;
-		width: $contentWidthSmall;
 
 		@include breakpoint($fromMedium) {
 			padding: 12px $grid-base-three;
-		}
-
-		@include breakpoint($fromLarge) {
-			width: $contentWidth;
 		}
 
 		.checkbox {
@@ -98,33 +91,26 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			}
 		}
 
-		&__inputWrapper {
-			flex: 1;
-			position: relative;
-			display: flex;
-			max-height: 118px;
-			min-height: 88px;
-
-			@include breakpoint($fromLarge) {
-				max-height: 218px;
-				min-height: 106px;
-			}
-		}
-
 		&__input {
 			line-height: 20px;
 			width: 100%;
-			border: $inputBorder;
-			border-radius: 0 $enquiry-input-border-radius
-				$enquiry-input-border-radius 0;
-			background-color: $white;
 			box-sizing: border-box;
-			box-shadow: $message-submit-interface-textarea-box-shadow;
 
 			&::placeholder,
 			&:-ms-input-placeholder {
 				color: $form-disabled;
 				opacity: 1;
+			}
+
+			& > * {
+				flex: 0;
+
+				&.DraftEditor-root {
+					flex: 1;
+
+					.public-DraftEditor-content {
+					}
+				}
 			}
 		}
 
@@ -217,6 +203,21 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			}
 		}
 
+		&__inputWrapper {
+			flex: 1;
+			position: relative;
+			display: flex;
+			border-radius: 0 $enquiry-input-border-radius
+				$enquiry-input-border-radius 0;
+			max-height: 118px;
+			min-height: 88px;
+
+			@include breakpoint($fromLarge) {
+				max-height: 218px;
+				min-height: 106px;
+			}
+		}
+
 		&__featureWrapper {
 			display: flex;
 			flex-direction: column;
@@ -226,10 +227,14 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			padding-left: 7px;
 			border-radius: $enquiry-input-border-radius 0 0
 				$enquiry-input-border-radius;
-			background: $white;
-			border: $inputBorder;
-			box-shadow: $message-submit-interface-textarea-box-shadow;
 			position: relative;
+		}
+
+		&__featureWrapper,
+		&__inputWrapper {
+			box-shadow: $message-submit-interface-textarea-box-shadow;
+			border: $inputBorder;
+			background: $white;
 		}
 
 		&__richtextToggle {
@@ -269,31 +274,12 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 		&__toolbar {
 			width: calc(100% - 1px);
 			background-color: white;
-			display: none;
-			position: absolute;
-			top: 0;
+			display: flex;
 			border-radius: 0 24px 0 0;
-			border-top: $inputBorder;
-			border-right: $inputBorder;
 			box-shadow: inset 0 2px 0 0
 				$message-submit-interface-textarea-shadow-color;
-			padding: $grid-base;
-			z-index: 10;
-
-			&::after {
-				content: '';
-				display: block;
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				width: 100%;
-				height: 2px;
-				background-color: $form-input-border;
-			}
-
-			&--active {
-				display: flex;
-			}
+			padding: $grid-base $grid-base 6px;
+			border-bottom: 2px solid $form-input-border;
 
 			&__buttonWrapper {
 				display: flex;
@@ -353,25 +339,20 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 		}
 
 		&__attachmentWrapper {
-			position: absolute;
 			border-radius: 0 0 24px 0;
 			border-bottom: $inputBorder;
 			border-right: $inputBorder;
-			left: 1px;
-			bottom: 0;
 			height: 48px;
-			width: calc(100% - #{1px});
 			background-color: white;
-			z-index: 2;
+			padding: 4px $grid-base;
+			display: flex;
 		}
 
 		&__attachmentSelected {
-			position: absolute;
+			position: relative;
 			background: $dark-grey;
 			border-radius: $grid-base-two;
 			padding: $grid-base $grid-base-two;
-			top: 4px;
-			left: $grid-base;
 
 			svg {
 				width: $attachmentIconSize;
@@ -456,6 +437,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 
 	.DraftEditor-root {
 		height: 100%;
+		overflow: hidden;
 
 		.DraftEditor-editorContainer,
 		.public-DraftEditor-content {
@@ -477,6 +459,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 		.public-DraftEditor-content,
 		.public-DraftEditorPlaceholder-root {
 			padding: 14px $grid-base-five 14px $grid-base;
+			overflow-y: auto;
 		}
 	}
 }

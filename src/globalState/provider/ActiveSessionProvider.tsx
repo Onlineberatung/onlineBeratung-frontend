@@ -4,5 +4,5 @@ import { ExtendedSessionInterface } from '..';
 export const ActiveSessionContext = createContext<{
 	activeSession: ExtendedSessionInterface | null;
 	reloadActiveSession?: () => void;
-	readActiveSession?: () => void;
+	readActiveSession?: () => Promise<void>;
 }>(null);

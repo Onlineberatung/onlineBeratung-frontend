@@ -11,8 +11,6 @@ $session-scroll-to-bottom-radius: $button-border-radius !default;
 	position: relative;
 	width: 100vw;
 	height: 100%;
-	display: flex;
-	flex-direction: column;
 	background-color: $session-background-color;
 	overflow: hidden;
 
@@ -30,6 +28,7 @@ $session-scroll-to-bottom-radius: $button-border-radius !default;
 
 	.messageSubmit__wrapper {
 		z-index: 2;
+
 		&--withTyping {
 			position: relative;
 		}
@@ -90,10 +89,6 @@ $session-scroll-to-bottom-radius: $button-border-radius !default;
 			padding: $grid-base-three $grid-base-three $grid-base-two;
 		}
 
-		@include breakpoint($fromLarge) {
-			height: calc(100% - #{$sessionHeaderHeight} - #{$textareaHeight});
-		}
-
 		&--anonymousEnquiry {
 			display: flex;
 			justify-content: center;
@@ -114,14 +109,19 @@ $session-scroll-to-bottom-radius: $button-border-radius !default;
 	}
 
 	&__scrollToBottom {
-		position: fixed;
+		position: absolute;
 		right: $grid-base-three;
-		bottom: calc(#{$grid-base} * 19);
+		bottom: $grid-base;
 		z-index: 3;
 		animation: appear-animation 0.3s;
 
 		@include breakpoint($fromLarge) {
 			right: 33px;
+			bottom: $grid-base-two;
+		}
+
+		&__wrapper {
+			position: relative;
 		}
 
 		&--disabled {

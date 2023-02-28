@@ -37,6 +37,7 @@ export const Walkthrough = () => {
 	);
 	const stepsData = steps({
 		hasTeamAgency,
+		// ToDo: WRONG! First consulting type in not the right one to check!
 		anonymousConversationAllowed:
 			consultingTypes?.[0]?.isAnonymousConversationAllowed
 	});

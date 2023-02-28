@@ -6,7 +6,7 @@ import {
 import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '../../resources/scripts/endpoints';
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import { FETCH_METHODS, fetchData } from '../../api';
 import {
 	decryptAttachment,
@@ -16,11 +16,8 @@ import {
 	VECTOR_LENGTH,
 	VERSION_SEPERATOR
 } from '../../utils/encryptionHelpers';
-import { useE2EE } from '../../hooks/useE2EE';
-import {
-	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
-	useDevToolbar
-} from '../devToolbar/DevToolbar';
+import { useDevToolbar } from '../devToolbar/DevToolbar';
+import { STORAGE_KEY_ATTACHMENT_ENCRYPTION } from '../devToolbar/constants';
 import {
 	NotificationsContext,
 	NOTIFICATION_TYPE_ERROR
@@ -29,11 +26,12 @@ import { LoadingSpinner } from '../loadingSpinner/LoadingSpinner';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import clsx from 'clsx';
 import { getIconForAttachmentType } from './messageHelpers';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
 	file: MessageService.Schemas.FileDTO;
-	hasRenderedMessage: boolean;
+	hasParsedMessage: boolean;
 	rid: string;
 	t?: string;
 }
@@ -46,7 +44,9 @@ const DECRYPTION_FINISHED = 'decryption_finished';
 
 export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { t: translate } = useTranslation();
-	const { key, keyID, encrypted } = useE2EE(props.rid);
+	const {
+		e2eeParams: { key, keyID, encrypted }
+	} = useContext(RoomContext);
 	const { getDevToolbarOption } = useDevToolbar();
 	const { addNotification } = React.useContext(NotificationsContext);
 
@@ -154,7 +154,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 	return (
 		<div
 			className={
-				props.hasRenderedMessage
+				props.hasParsedMessage
 					? 'messageItem__message--withAttachment'
 					: ''
 			}

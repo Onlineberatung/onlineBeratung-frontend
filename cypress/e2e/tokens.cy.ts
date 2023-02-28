@@ -1,10 +1,11 @@
-import { RENEW_BEFORE_EXPIRY_IN_MS } from '../../src/components/auth/auth';
-import { getTokenExpiryFromLocalStorage } from '../../src/components/sessionCookie/accessSessionLocalStorage';
 import {
 	closeWebSocketServer,
 	mockWebSocket,
 	startWebSocketServer
 } from '../support/websocket';
+
+import { RENEW_BEFORE_EXPIRY_IN_MS } from '../../src/components/auth/auth';
+import { getTokenExpiryFromLocalStorage } from '../../src/components/sessionCookie/accessSessionLocalStorage';
 
 const waitForTokenProcessing = () => {
 	// TODO: don't arbitrarily wait for token to be processed, find some

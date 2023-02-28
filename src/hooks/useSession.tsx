@@ -18,7 +18,7 @@ export const useSession = (
 ): {
 	session: ExtendedSessionInterface;
 	reload: () => void;
-	read: () => void;
+	read: () => Promise<any>;
 	ready: boolean;
 } => {
 	const [ready, setReady] = useState(false);
@@ -35,7 +35,7 @@ export const useSession = (
 			: null;
 	}, [session]);
 
-	const loadSession = useCallback(() => {
+	const loadSession = useCallback(async () => {
 		if (abortController.current) {
 			abortController.current.abort();
 		}
@@ -69,7 +69,7 @@ export const useSession = (
 			);
 		}
 
-		return promise
+		return await promise
 			.then(({ sessions: [activeSession] }) => {
 				if (activeSession) {
 					setSession(buildExtendedSession(activeSession, rid));
@@ -98,18 +98,11 @@ export const useSession = (
 		if (!session) {
 			return;
 		}
-
-		const isCurrentSessionRead = session.isFeedback
-			? session.item.feedbackRead
-			: session.item.messagesRead;
-
-		if (!isCurrentSessionRead) {
-			apiSetSessionRead(session.rid).then();
-		}
+		return apiSetSessionRead(session.rid);
 	}, [session]);
 
 	useEffect(() => {
-		loadSession();
+		loadSession().then();
 
 		return () => {
 			setReady(false);

@@ -4,7 +4,8 @@ import {
 	useState,
 	useEffect,
 	useCallback,
-	useContext
+	useContext,
+	FC
 } from 'react';
 import { importRSAKey } from '../../utils/encryptionHelpers';
 import { RocketChatPublicSettingsContext } from './RocketChatPublicSettingsProvider';
@@ -20,7 +21,7 @@ interface E2EEContextProps {
 export const E2EEContext = createContext<E2EEContextProps>(null);
 export const STORAGE_KEY_E2EE_DISABLED = 'e2ee_disabled';
 
-export function E2EEProvider(props) {
+export const E2EEProvider: FC = ({ children }) => {
 	const [key, setKey] = useState(null);
 	const [isE2eeEnabled, setIsE2eeEnabled] = useState(false);
 
@@ -61,7 +62,7 @@ export function E2EEProvider(props) {
 		<E2EEContext.Provider
 			value={{ key, reloadPrivateKey, isE2eeEnabled, e2EEReady }}
 		>
-			{props.children}
+			{children}
 		</E2EEContext.Provider>
 	);
-}
+};

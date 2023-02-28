@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
 	createContext,
+	FC,
 	ReactNode,
 	useContext,
 	useEffect,
@@ -20,13 +21,7 @@ type RocketChatGetUserRolesContextProps = {
 export const RocketChatGetUserRolesContext =
 	createContext<RocketChatGetUserRolesContextProps>(null);
 
-type RocketChatGetUserRolesProviderProps = {
-	children: ReactNode;
-};
-
-export const RocketChatGetUserRolesProvider = ({
-	children
-}: RocketChatGetUserRolesProviderProps) => {
+export const RocketChatGetUserRolesProvider: FC = ({ children }) => {
 	const { sendMethod, ready } = useContext(RocketChatContext);
 
 	const [systemUsersReady, setSystemUsersReady] = useState(false);

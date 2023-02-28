@@ -27,7 +27,6 @@ import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
-import { useE2EE } from '../../hooks/useE2EE';
 import { encryptForParticipant } from '../../utils/encryptionHelpers';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { apiRocketChatSetRoomKeyID } from '../../api/apiRocketChatSetRoomKeyID';
@@ -41,6 +40,7 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { OVERLAY_REQUEST } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 interface JoinGroupChatViewProps {
 	forceBannedOverlay?: boolean;
@@ -63,7 +63,6 @@ export const JoinGroupChatView = ({
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
-	const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
@@ -71,9 +70,9 @@ export const JoinGroupChatView = ({
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { path: listPath } = useContext(SessionTypeContext);
-	const { keyID, sessionKeyExportedString, encrypted, ready } = useE2EE(
-		activeSession.rid
-	);
+	const {
+		e2eeParams: { keyID, sessionKeyExportedString, encrypted }
+	} = useContext(RoomContext);
 
 	const { visible: requestOverlayVisible, overlay: requestOverlay } =
 		useTimeoutOverlay(
@@ -85,23 +84,25 @@ export const JoinGroupChatView = ({
 			2500
 		);
 
-	const joinButtonItem: ButtonItem = useMemo(
+	const buttonItem: ButtonItem = useMemo(
 		() => ({
-			label: translate('groupChat.join.button.label.join'),
+			label: translate(
+				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+					!activeSession.item.active
+					? 'groupChat.join.button.label.start'
+					: 'groupChat.join.button.label.join'
+			),
 			type: BUTTON_TYPES.PRIMARY
 		}),
-		[translate]
+		[activeSession.item.active, translate, userData]
 	);
-
-	const startButtonItem: ButtonItem = useMemo(
-		() => ({
-			label: translate('groupChat.join.button.label.start'),
-			type: BUTTON_TYPES.PRIMARY
-		}),
-		[translate]
+	const isButtonDisabled = useMemo(
+		() =>
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+			(!activeSession.item.active ||
+				bannedUsers.includes(userData.userName)),
+		[activeSession.item.active, bannedUsers, userData]
 	);
-
-	const [buttonItem, setButtonItem] = useState(joinButtonItem);
 
 	const startJoinGroupChatErrorOverlay: OverlayItem = {
 		svg: XIcon,
@@ -230,31 +231,6 @@ export const JoinGroupChatView = ({
 		stopWatcher
 	]);
 
-	useEffect(() => {
-		if (
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-			!activeSession.item.active
-		) {
-			setButtonItem(startButtonItem);
-		} else {
-			setButtonItem(joinButtonItem);
-		}
-	}, [activeSession.item.active, userData, startButtonItem, joinButtonItem]);
-
-	useEffect(() => {
-		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
-			setIsButtonDisabled(
-				!activeSession.item.active ||
-					bannedUsers.includes(userData.userName) ||
-					!ready
-			);
-		}
-	}, [activeSession.item.active, bannedUsers, ready, userData]);
-
-	const handleOverlayClose = () => {
-		setOverlayActive(false);
-	};
-
 	const handleButtonClick = () => {
 		if (bannedUsers.includes(userData.userName)) {
 			setOverlayItem(bannedUserOverlay);
@@ -337,46 +313,58 @@ export const JoinGroupChatView = ({
 	}
 
 	return (
-		<div className="session joinChat">
-			<SessionHeaderComponent
-				isJoinGroupChatView={true}
-				bannedUsers={bannedUsers}
-			/>
-			<div className="joinChat__content session__content">
-				<Headline
-					text={translate('groupChat.join.content.headline')}
-					semanticLevel="4"
+		<div className="session__wrapper">
+			<div className="session joinChat flex flex--fd-column">
+				<SessionHeaderComponent
+					className="flex__col--0"
+					isJoinGroupChatView={true}
+					bannedUsers={bannedUsers}
 				/>
-				{groupChatRules.map((groupChatRuleText, i) => (
-					<Text text={groupChatRuleText} type="standard" key={i} />
-				))}
-			</div>
-			<div className="joinChat__button-container">
-				{!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-					!activeSession.item.active && (
-						<p className="joinChat__warning-message">
-							<WarningIcon />
-							{translate('groupChat.join.warning.message')}
-						</p>
-					)}
-				<Button
-					item={buttonItem}
-					buttonHandle={handleButtonClick}
-					disabled={isButtonDisabled}
-				/>
-			</div>
+				<div className="joinChat__content session__content flex__col--1 ofy--s">
+					<div className="flex flex--fd-column flex--ai-c flex-l--jc-c">
+						<Headline
+							text={translate('groupChat.join.content.headline')}
+							semanticLevel="4"
+						/>
+						{groupChatRules.map((groupChatRuleText, i) => (
+							<Text
+								text={groupChatRuleText}
+								type="standard"
+								key={i}
+							/>
+						))}
+					</div>
+				</div>
+				<div className="joinChat__button-container flex__col--0">
+					{!hasUserAuthority(
+						AUTHORITIES.CONSULTANT_DEFAULT,
+						userData
+					) &&
+						!activeSession.item.active && (
+							<p className="joinChat__warning-message">
+								<WarningIcon />
+								{translate('groupChat.join.warning.message')}
+							</p>
+						)}
+					<Button
+						item={buttonItem}
+						buttonHandle={handleButtonClick}
+						disabled={isButtonDisabled}
+					/>
+				</div>
 
-			{requestOverlayVisible && (
-				<Overlay item={requestOverlay} name={OVERLAY_REQUEST} />
-			)}
+				{requestOverlayVisible && (
+					<Overlay item={requestOverlay} name={OVERLAY_REQUEST} />
+				)}
 
-			{overlayActive && (
-				<Overlay
-					item={overlayItem}
-					handleOverlay={handleOverlayAction}
-					handleOverlayClose={handleOverlayClose}
-				/>
-			)}
+				{overlayActive && (
+					<Overlay
+						item={overlayItem}
+						handleOverlay={handleOverlayAction}
+						handleOverlayClose={() => setOverlayActive(false)}
+					/>
+				)}
+			</div>
 		</div>
 	);
 };

@@ -7,13 +7,11 @@ import {
 	useRef,
 	useState
 } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import './session.styles';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from './sessionHelpers';
-import { useE2EE } from '../../hooks/useE2EE';
 import { apiEnquiryAcceptance, FETCH_ERRORS } from '../../api';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { useWatcher } from '../../hooks/useWatcher';
@@ -28,22 +26,24 @@ import {
 	OVERLAY_E2EE,
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 interface AcceptAssignProps {
 	assignable: boolean;
 	assigned?: boolean;
 	isAnonymous: boolean;
 	btnLabel: string;
+	className?: string;
 }
 
 export const AcceptAssign = ({
 	assignable,
 	assigned,
 	btnLabel,
-	isAnonymous
+	isAnonymous,
+	className
 }: AcceptAssignProps) => {
 	const { t: translate } = useTranslation();
-	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 	const history = useHistory();
 
 	const { activeSession } = useContext(ActiveSessionContext);
@@ -56,7 +56,9 @@ export const AcceptAssign = ({
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	/* E2EE */
-	const { encryptRoom } = useE2EE(groupIdFromParam);
+	const {
+		e2eeParams: { encryptRoom }
+	} = useContext(RoomContext);
 	const {
 		visible: e2eeOverlayVisible,
 		setState: setE2EEState,
@@ -204,7 +206,7 @@ export const AcceptAssign = ({
 
 	return (
 		<>
-			<div className="session__acceptance messageItem">
+			<div className={`session__acceptance messageItem ${className}`}>
 				{assignable ? (
 					<SessionAssign />
 				) : (

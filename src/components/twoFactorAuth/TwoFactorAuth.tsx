@@ -40,10 +40,8 @@ import { Tooltip } from '../tooltip/Tooltip';
 import { TwoFactorAuthResendMail } from './TwoFactorAuthResendMail';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import {
-	STORAGE_KEY_DISABLE_2FA_DUTY,
-	useDevToolbar
-} from '../devToolbar/DevToolbar';
+import { useDevToolbar } from '../devToolbar/DevToolbar';
+import { STORAGE_KEY_DISABLE_2FA_DUTY } from '../devToolbar/constants';
 
 export const OTP_LENGTH = 6;
 

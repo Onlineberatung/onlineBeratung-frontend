@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
 	createContext,
+	FC,
 	ReactNode,
 	useCallback,
 	useContext,
@@ -26,21 +27,15 @@ import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 
 type RocketChatSubscriptionsContextProps = {
 	subscriptionsReady: boolean;
-	subscriptions: any[];
+	subscriptions: ISubscriptions[];
 	roomsReady: boolean;
-	rooms: any[];
+	rooms: IRoom[];
 };
 
 export const RocketChatSubscriptionsContext =
 	createContext<RocketChatSubscriptionsContextProps>(null);
 
-type RocketChatSubscriptionsProviderProps = {
-	children: ReactNode;
-};
-
-export const RocketChatSubscriptionsProvider = ({
-	children
-}: RocketChatSubscriptionsProviderProps) => {
+export const RocketChatSubscriptionsProvider: FC = ({ children }) => {
 	const rcUid = useRef(getValueFromCookie('rc_uid'));
 
 	const { subscribe, unsubscribe, sendMethod, ready } =

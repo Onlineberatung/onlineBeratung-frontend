@@ -2,6 +2,36 @@ import { TSetting } from '../../api/apiRocketChatSettingsPublic';
 import { IRoom } from '../../types/rc/Room';
 import { ISubscriptions } from '../../types/rc/Subscriptions';
 
+/*
+Rest API
+ */
+export type QueryFieldsParams = {
+	query?: {
+		[key: string]: any;
+	};
+	fields?: {
+		[key: string]: 0 | 1;
+	};
+};
+
+export type PaginationParams = {
+	count?: number;
+	offset?: number;
+	sort?: {
+		[key: string]: number;
+	};
+};
+
+export const parseParams = (params?: QueryFieldsParams & PaginationParams) => {
+	return Object.keys(params ?? {}).reduce((acc, key) => {
+		acc.push(`${key}=${JSON.stringify(params[key])}`);
+		return acc;
+	}, []);
+};
+
+/*
+Realtime API
+ */
 export const MSG_CONNECT = 'connect';
 export const MSG_METHOD = 'method';
 export const MSG_PONG = 'pong';

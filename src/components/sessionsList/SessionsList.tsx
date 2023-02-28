@@ -80,7 +80,7 @@ import { ReactComponent as NoMessagesIllustration } from '../../resources/img/il
 import { ListInfo } from '../listInfo/ListInfo';
 import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import { RoomProvider } from '../../globalState/provider/RoomProvider';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -984,7 +984,7 @@ export const SessionsList = ({
 										key={activeSession.item.id}
 										value={{ activeSession }}
 									>
-										<RocketChatUsersOfRoomProvider>
+										<RoomProvider>
 											<SessionListItemComponent
 												defaultLanguage={
 													defaultLanguage
@@ -1004,7 +1004,7 @@ export const SessionsList = ({
 												}
 												index={index}
 											/>
-										</RocketChatUsersOfRoomProvider>
+										</RoomProvider>
 									</ActiveSessionContext.Provider>
 								)
 							)}

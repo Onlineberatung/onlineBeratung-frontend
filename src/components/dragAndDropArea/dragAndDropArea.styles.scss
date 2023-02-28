@@ -10,6 +10,10 @@
 	transition: opacity 0.3s ease;
 	pointer-events: none;
 
+	&__wrapper {
+		position: relative;
+	}
+
 	&.enabled {
 		opacity: 1;
 		pointer-events: auto;

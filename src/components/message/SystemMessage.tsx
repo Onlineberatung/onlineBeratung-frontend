@@ -50,7 +50,7 @@ export const SystemMessage: React.FC<SystemMessageProps> = ({
 				</div>
 			)}
 			<div>
-				<p className="systemMessage__subject">{subject}</p>
+				<div className="systemMessage__subject">{subject}</div>
 				{children}
 			</div>
 		</div>

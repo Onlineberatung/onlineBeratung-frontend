@@ -19,7 +19,6 @@ export * from './provider/LocaleProvider';
 export * from './provider/NotificationsProvider';
 export * from './provider/SessionsDataProvider';
 export * from './provider/SessionTypeProvider';
-export * from './provider/UpdateSessionListProvider';
 export * from './provider/UserDataProvider';
 export * from './provider/WebsocketConnectionDeactivatedProvider';
 export * from './provider/TenantProvider';

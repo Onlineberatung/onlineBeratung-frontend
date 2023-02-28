@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { createContext, useState } from 'react';
+import { createContext, FC, useState } from 'react';
 
 export const AnonymousEnquiryAcceptedContext = createContext<any>(null);
 
-export function AnonymousEnquiryAcceptedProvider(props) {
+export const AnonymousEnquiryAcceptedProvider: FC = ({ children }) => {
 	const [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted] =
 		useState(null);
 
@@ -11,7 +11,7 @@ export function AnonymousEnquiryAcceptedProvider(props) {
 		<AnonymousEnquiryAcceptedContext.Provider
 			value={{ anonymousEnquiryAccepted, setAnonymousEnquiryAccepted }}
 		>
-			{props.children}
+			{children}
 		</AnonymousEnquiryAcceptedContext.Provider>
 	);
-}
+};

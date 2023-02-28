@@ -64,9 +64,12 @@ export const endpoints = {
 	loginResetPasswordLink:
 		'/auth/realms/online-beratung/login-actions/reset-credentials?client_id=account',
 	messageRead: apiUrl + '/api/v1/subscriptions.read',
+	message: {
+		get: apiUrl + '/service/messages/:id',
+		delete: apiUrl + '/service/messages/:id'
+	},
 	messages: {
-		get: apiUrl + '/service/messages',
-		delete: apiUrl + '/service/messages/:messageId'
+		get: apiUrl + '/service/messages'
 	},
 	myMessagesBase: apiUrl + '/service/conversations/consultants/mymessages/',
 	passwordReset: apiUrl + '/service/users/password/change',
@@ -82,7 +85,8 @@ export const endpoints = {
 			updateGroupKey: apiUrl + '/api/v1/e2e.updateGroupKey'
 		},
 		groups: {
-			members: apiUrl + '/api/v1/groups.members'
+			members: apiUrl + '/api/v1/groups.members',
+			messages: apiUrl + '/api/v1/groups.messages'
 		},
 		logout: apiUrl + '/api/v1/logout',
 		rooms: {

@@ -2,9 +2,99 @@ import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import './reassignRequestMessage.styles';
-import { ConsultantListContext } from '../../globalState';
+import {
+	AUTHORITIES,
+	ConsultantListContext,
+	hasUserAuthority,
+	UserDataContext
+} from '../../globalState';
+import {
+	ALIAS_MESSAGE_TYPES,
+	apiSendAliasMessage,
+	ConsultantReassignment,
+	ReassignStatus
+} from '../../api/apiSendAliasMessage';
+import { apiSessionAssign } from '../../api';
+import { apiPatchMessage } from '../../api/apiPatchMessage';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
-export const ReassignRequestMessage: React.FC<{
+export const ReassignMessage = ({ id, message }) => {
+	const { activeSession, reloadActiveSession } =
+		useContext(ActiveSessionContext);
+	const { userData } = useContext(UserDataContext);
+
+	const clickReassignRequestMessage = (accepted, toConsultantId) => {
+		if (accepted) {
+			apiSessionAssign(activeSession.item.id, toConsultantId)
+				.then(() => {
+					apiPatchMessage(
+						toConsultantId,
+						ReassignStatus.CONFIRMED,
+						id
+					)
+						.then(() => {
+							// WORKAROUND for an issue with reassignment and old users breaking the lastMessage for this session
+							apiSendAliasMessage({
+								rcGroupId: activeSession.rid,
+								type: ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT_RESET_LAST_MESSAGE
+							});
+							reloadActiveSession();
+						})
+						.catch((error) => console.log(error));
+				})
+				.catch((error) => console.log(error));
+		} else {
+			apiPatchMessage(toConsultantId, ReassignStatus.REJECTED, id).catch(
+				(error) => console.log(error)
+			);
+		}
+	};
+
+	const isTeamSession = activeSession?.item?.isTeamSession;
+	const isMySession = activeSession?.consultant?.id === userData?.userId;
+	const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
+
+	const reassignmentParams: ConsultantReassignment = JSON.parse(message);
+	switch (reassignmentParams.status) {
+		case ReassignStatus.REQUESTED:
+			return isAsker ? (
+				<ReassignRequestMessage
+					{...reassignmentParams}
+					isTeamSession={isTeamSession}
+					onClick={(accepted) =>
+						clickReassignRequestMessage(
+							accepted,
+							reassignmentParams.toConsultantId
+						)
+					}
+				/>
+			) : (
+				<ReassignRequestSentMessage
+					{...reassignmentParams}
+					isTeamSession={isTeamSession}
+					isMySession={isMySession}
+				/>
+			);
+		case ReassignStatus.CONFIRMED:
+			return (
+				<ReassignRequestAcceptedMessage
+					isAsker={isAsker}
+					isMySession={isMySession}
+					{...reassignmentParams}
+				/>
+			);
+		case ReassignStatus.REJECTED:
+			return (
+				<ReassignRequestDeclinedMessage
+					isAsker={isAsker}
+					isMySession={isMySession}
+					{...reassignmentParams}
+				/>
+			);
+	}
+};
+
+const ReassignRequestMessage: React.FC<{
 	fromConsultantName: string;
 	toConsultantName: string;
 	isTeamSession: boolean;
@@ -66,7 +156,7 @@ export const ReassignRequestMessage: React.FC<{
 	);
 };
 
-export const ReassignRequestSentMessage: React.FC<{
+const ReassignRequestSentMessage: React.FC<{
 	toAskerName: string;
 	fromConsultantId: string;
 	toConsultantId: string;
@@ -118,7 +208,7 @@ export const ReassignRequestSentMessage: React.FC<{
 	);
 };
 
-export const ReassignRequestAcceptedMessage: React.FC<{
+const ReassignRequestAcceptedMessage: React.FC<{
 	toAskerName: string;
 	toConsultantName: string;
 	toConsultantId: string;
@@ -215,7 +305,7 @@ export const ReassignRequestAcceptedMessage: React.FC<{
 	);
 };
 
-export const ReassignRequestDeclinedMessage: React.FC<{
+const ReassignRequestDeclinedMessage: React.FC<{
 	isAsker: boolean;
 	isMySession: boolean;
 	toAskerName: string;

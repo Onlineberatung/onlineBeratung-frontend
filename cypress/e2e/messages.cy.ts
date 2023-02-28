@@ -3,10 +3,7 @@ import {
 	startWebSocketServer,
 	mockWebSocket
 } from '../support/websocket';
-import attachmentsI18n from '../../src/resources/scripts/i18n/de/attachments';
-import attachmentsInformalI18n from '../../src/resources/scripts/i18n/de/attachmentsInformal';
 import { SUB_STREAM_ROOM_MESSAGES } from '../../src/components/app/RocketChat';
-import { SOCKET_COLLECTION } from '../../src/api/rocketChatSocket';
 
 describe('Messages', () => {
 	before(() => {

@@ -6,12 +6,12 @@ import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import './twoFactorNag.styles';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { useDevToolbar } from '../devToolbar/DevToolbar';
+import { OVERLAY_TWO_FACTOR_NAG } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 import {
 	STORAGE_KEY_2FA,
-	STORAGE_KEY_DISABLE_2FA_DUTY,
-	useDevToolbar
-} from '../devToolbar/DevToolbar';
-import { OVERLAY_TWO_FACTOR_NAG } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+	STORAGE_KEY_DISABLE_2FA_DUTY
+} from '../devToolbar/constants';
 
 interface TwoFactorNagProps {}
 

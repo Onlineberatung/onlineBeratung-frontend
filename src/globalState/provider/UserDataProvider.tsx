@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createContext, useCallback, useState } from 'react';
+import { createContext, FC, useCallback, useState } from 'react';
 import { UserDataInterface } from '../interfaces/UserDataInterface';
 import { apiGetUserData } from '../../api';
 
@@ -11,7 +11,7 @@ type TUserDataContext = {
 
 export const UserDataContext = createContext<TUserDataContext>(null);
 
-export function UserDataProvider(props) {
+export const UserDataProvider: FC = ({ children }) => {
 	const [userData, setUserData] = useState(null);
 
 	const reloadUserData = useCallback(() => {
@@ -25,7 +25,7 @@ export function UserDataProvider(props) {
 		<UserDataContext.Provider
 			value={{ userData, setUserData, reloadUserData }}
 		>
-			{props.children}
+			{children}
 		</UserDataContext.Provider>
 	);
-}
+};

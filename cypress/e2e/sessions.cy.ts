@@ -7,11 +7,12 @@ import {
 	generateMultipleAskerSessions,
 	generateMultipleConsultantSessions
 } from '../support/sessions';
+import { USER_CONSULTANT } from '../support/commands/login';
+
 import {
 	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
 	SCROLL_PAGINATE_THRESHOLD
 } from '../../src/components/sessionsList/sessionsListConfig';
-import { USER_CONSULTANT } from '../support/commands/login';
 
 describe('Sessions', () => {
 	before(() => {

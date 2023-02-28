@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { getContact } from '../../globalState';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import './session.styles';
 import { FETCH_ERRORS } from '../../api';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Headline } from '../headline/Headline';
@@ -67,12 +66,12 @@ export const AcceptLiveChatView = ({
 
 	return (
 		<div className="session__wrapper">
-			<div className="session">
+			<div className="session flex flex--fd-column">
 				<div>
 					<SessionHeaderComponent bannedUsers={bannedUsers} />
 				</div>
 
-				<div className="session__content session__content--anonymousEnquiry">
+				<div className="session__content session__content--anonymousEnquiry flex__col--1 ofy--s">
 					<Headline
 						semanticLevel="3"
 						text={`${translate(
@@ -87,6 +86,7 @@ export const AcceptLiveChatView = ({
 				</div>
 
 				<AcceptAssign
+					className="flex__col--0"
 					assignable={false}
 					assigned={assigned}
 					isAnonymous={true}

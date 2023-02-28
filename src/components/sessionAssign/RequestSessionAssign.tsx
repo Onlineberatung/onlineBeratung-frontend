@@ -19,7 +19,6 @@ import {
 } from '../../globalState';
 import { SelectDropdown } from '../select/SelectDropdown';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
-import { useE2EE } from '../../hooks/useE2EE';
 import {
 	ALIAS_MESSAGE_TYPES,
 	apiSendAliasMessage,
@@ -30,8 +29,7 @@ import {
 	prepareConsultantDataForSelect,
 	prepareSelectDropdown
 } from './sessionAssignHelper';
-
-export const ACCEPTED_GROUP_CLOSE = 'CLOSE';
+import { RoomContext } from '../../globalState/provider/RoomProvider';
 
 export const RequestSessionAssign = (props: { value?: string }) => {
 	const { t: translate } = useTranslation();
@@ -51,7 +49,9 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
-	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession.item.groupId);
+	const {
+		e2eeParams: { addNewUsersToEncryptedRoom }
+	} = useContext(RoomContext);
 
 	useEffect(() => {
 		const agencyId = activeSession.item.agencyId.toString();

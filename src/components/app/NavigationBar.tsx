@@ -76,6 +76,16 @@ export const NavigationBar = ({
 
 	useEffect(() => {
 		if (!isConsultant) {
+			// ToDo: Refactor becuase loading the sessions inside NavigationBar is not the best solution
+			// and move the logout logic to pre logout event logic e.g.
+			/*
+			useEffect(() => {
+				addEventListener(EVENT_PRE_LOGOUT, onLogout);
+				return () => {
+					removeEventListener(EVENT_PRE_LOGOUT, onLogout);
+				};
+			}, [onLogout]);
+			 */
 			apiGetAskerSessionList().then((sessionsData) => {
 				dispatch({
 					type: SET_SESSIONS,

@@ -1,31 +1,31 @@
 const { defineConfig } = require('cypress');
 
-// @ts-ignore
 const wp = require('@cypress/webpack-preprocessor');
-
-const options = {
-	webpackOptions: {
-		resolve: {
-			extensions: ['.ts', '.tsx', '.js']
-		},
-		module: {
-			rules: [
-				{
-					test: /\.tsx?$/,
-					loader: 'ts-loader',
-					options: { transpileOnly: true }
-				}
-			]
-		}
-	}
-};
 
 module.exports = defineConfig({
 	e2e: {
 		baseUrl: 'http://localhost:9001',
 		supportFile: 'cypress/support/e2e.{js,jsx,ts,tsx}',
 		setupNodeEvents(on, config) {
-			on('file:preprocessor', wp(options));
+			on(
+				'file:preprocessor',
+				wp({
+					webpackOptions: {
+						resolve: {
+							extensions: ['.ts', '.tsx', '.js']
+						},
+						module: {
+							rules: [
+								{
+									test: /\.tsx?$/,
+									loader: 'ts-loader',
+									options: { transpileOnly: true }
+								}
+							]
+						}
+					}
+				})
+			);
 		}
 	},
 	env: {

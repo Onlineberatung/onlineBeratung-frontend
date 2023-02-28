@@ -18,7 +18,7 @@ export * from './apiGetAppointmentsServiceBookingEventsByUserId';
 export * from './apiGetGroupChatInfo';
 export * from './apiGetGroupMembers';
 export * from './apiGetMonitoring';
-export * from './apiGetSessionData';
+export * from './apiGetMessages';
 export * from './apiGetUserData';
 export * from './apiGroupChatSettings';
 export * from './apiLogoutKeycloak';
