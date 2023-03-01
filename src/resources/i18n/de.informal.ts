@@ -91,7 +91,7 @@ export const deInformal = {
 	deleteSession: {
 		confirmOverlay: {
 			copy: 'Möchtest du den Chat wirklich löschen?',
-			headline: 'Du hast den Chat erfolgreich gelöscht.'
+			headline: 'Chat löschen'
 		},
 		errorOverlay: {
 			headline:
