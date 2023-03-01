@@ -92,7 +92,7 @@ const profileRoutes = (
 								userData
 							) && settings.enableWalkthrough,
 						component: EnableWalkthrough,
-						column: COLUMN_LEFT
+						column: COLUMN_RIGHT
 					},
 					{
 						condition: (userData) =>
@@ -132,7 +132,9 @@ const profileRoutes = (
 								userData
 							),
 						component: ConsultantPrivateData,
-						column: COLUMN_RIGHT
+						column: settings.enableWalkthrough
+							? COLUMN_LEFT
+							: COLUMN_RIGHT
 					},
 					{
 						condition: (userData) =>
