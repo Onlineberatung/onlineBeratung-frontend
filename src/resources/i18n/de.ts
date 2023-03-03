@@ -294,7 +294,21 @@ export const de = {
 				expired: 'Vergangen',
 				settings: 'Einstellungen'
 			},
-			'your.counselor': 'Ihr Berater'
+			'your.counselor': 'Ihr Berater',
+			'linkVideo': 'Link zum Video-Call',
+			'appointmentType': 'Gewünschte Terminart',
+			'location': {
+				IN_PERSON: 'In der Beratungsstelle',
+				PHONE_CALL: 'Telefon-Beratung',
+				VIDEO_CALL: 'Videoberatung',
+				CHAT: 'Text-Chat'
+			},
+			'tooltip': {
+				consultant:
+					'Falls Sie den Termin nicht in dem vom Rastsuchenden gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.',
+				adviceSeeker:
+					'Falls Ihr:e Berater:in den Termin nicht in dem von Ihnen gewählten Modus wahrnehmen kann, generieren wir für Sie immer einen Link zum Video-Call als Alternative.'
+			}
 		},
 		'info.video': 'Videoberatung',
 		'video.button.label': 'Video-Call starten',
