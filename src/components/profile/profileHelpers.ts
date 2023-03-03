@@ -76,24 +76,6 @@ export const consultingTypeSelectOptionsSet = (
 	});
 };
 
-export const hasAskerEmailFeatures = (
-	userData: UserDataInterface,
-	consultingTypes: Array<ConsultingTypeBasicInterface>
-): boolean => {
-	const registeredConsultingTypes = getConsultingTypesForRegistrationStatus(
-		userData,
-		consultingTypes,
-		REGISTRATION_STATUS_KEYS.REGISTERED
-	);
-
-	return registeredConsultingTypes.some(
-		(element) =>
-			consultingTypes.find(
-				(cur) => cur.id === parseInt(element.consultingType)
-			)?.isSetEmailAllowed
-	);
-};
-
 export const isUniqueLanguage = (value, index, self) => {
 	return self.indexOf(value) === index;
 };

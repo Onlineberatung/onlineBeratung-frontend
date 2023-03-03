@@ -1412,6 +1412,8 @@ export const en = {
 			firstName: 'First name',
 			lastName: 'Last name',
 			email: 'E-mail address',
+			emailInfo:
+				'Adding your Email address is optional, and only used to notify you when your counsellor answers in the chat. Your Email address is not visible to counsellors.',
 			agency: {
 				label: 'Beratungsstelle',
 				registrationLink: {

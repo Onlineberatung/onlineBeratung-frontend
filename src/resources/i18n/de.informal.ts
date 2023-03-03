@@ -337,7 +337,9 @@ export const deInformal = {
 			},
 			info: {
 				public: 'Mit dem Anzeigenamen erscheinst Du bei den Ratsuchenden.'
-			}
+			},
+			emailInfo:
+				'Die Angabe deiner E-Mail ist freiwillig und wird ausschließlich verwendet, um dich über neue Antworten deine_r Berater_in zu informieren. Deine E-mail-Adresse ist für Berater_innen nicht sichtbar.'
 		},
 		externalRegistration: {
 			headline:

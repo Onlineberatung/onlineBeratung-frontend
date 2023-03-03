@@ -1389,7 +1389,8 @@ export const de = {
 			firstName: 'Vorname',
 			lastName: 'Nachname',
 			email: 'E-Mail-Adresse',
-
+			emailInfo:
+				'Die Angabe Ihrer E-Mail ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer_r Berater_in zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
 			personal: {
 				registrationLink: {
 					notification: {

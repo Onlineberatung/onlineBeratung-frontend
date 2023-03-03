@@ -6,11 +6,10 @@ import {
 	FETCH_ERRORS,
 	X_REASON
 } from '../../api';
-import { useConsultingTypes, UserDataContext } from '../../globalState';
+import { UserDataContext } from '../../globalState';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';
 import { Text } from '../text/Text';
-import { hasAskerEmailFeatures } from './profileHelpers';
 import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
@@ -34,8 +33,6 @@ export const AskerAboutMeData = () => {
 		useState<boolean>(false);
 	const [isEmailNotAvailable, setIsEmailNotAvailable] =
 		useState<boolean>(false);
-	const consultingTypes = useConsultingTypes();
-	const showEmail = hasAskerEmailFeatures(userData, consultingTypes);
 
 	const cancelEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.cancel'),
@@ -264,6 +261,11 @@ export const AskerAboutMeData = () => {
 					text={translate('profile.data.title.asker')}
 					semanticLevel="5"
 				/>
+				<Text
+					text={translate('profile.data.emailInfo')}
+					type="standard"
+					className="tertiary"
+				/>
 			</div>
 			<EditableData
 				label={translate('profile.data.userName')}
@@ -271,26 +273,24 @@ export const AskerAboutMeData = () => {
 				type="text"
 				isDisabled
 			/>
-			{showEmail && (
-				<EditableData
-					label={emailLabel}
-					type="email"
-					initialValue={userData.email}
-					isDisabled={isEmailDisabled}
-					isSingleEdit
-					onSingleEditActive={() => {
-						if (isEmail2faActive) {
-							setOverlay(overlay2faEmailEdit);
-						} else {
-							setIsEmailDisabled(false);
-						}
-					}}
-					isSingleClearable={true}
-					onSingleClear={handleSingleClear}
-					onValueIsValid={handleEmailChange}
-					isEmailAlreadyInUse={isEmailNotAvailable}
-				/>
-			)}
+			<EditableData
+				label={emailLabel}
+				type="email"
+				initialValue={userData.email}
+				isDisabled={isEmailDisabled}
+				isSingleEdit
+				onSingleEditActive={() => {
+					if (isEmail2faActive) {
+						setOverlay(overlay2faEmailEdit);
+					} else {
+						setIsEmailDisabled(false);
+					}
+				}}
+				isSingleClearable={true}
+				onSingleClear={handleSingleClear}
+				onValueIsValid={handleEmailChange}
+				isEmailAlreadyInUse={isEmailNotAvailable}
+			/>
 			{!isEmailDisabled && (
 				<div className="editableData__buttonSet editableData__buttonSet--edit">
 					<Button

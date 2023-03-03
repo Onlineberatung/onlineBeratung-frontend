@@ -32,7 +32,6 @@ export interface ConsultingTypeBasicInterface {
 		welcome: string;
 		registrationDropdown: string;
 	};
-	isSetEmailAllowed: boolean;
 	isAnonymousConversationAllowed: boolean;
 	isVideoCallAllowed: boolean;
 	isSubsequentRegistrationAllowed: boolean;
