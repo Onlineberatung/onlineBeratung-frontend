@@ -67,7 +67,10 @@ export const Booking = () => {
 						'email': getUserEmail(userData),
 						'theme': 'light',
 						'metadata[user]': userData.userId,
-						'metadata[isInitialAppointment]': !session.consultant,
+						'metadata[isInitialAppointment]':
+							!session.consultant ||
+							new Date(session.latestMessage).getTime() <
+								new Date(session.session.createDate).getTime(),
 						'metadata[sessionId]': session.session.id,
 						'metadata[rcToken]': getValueFromCookie('rc_token'),
 						'metadata[rcUserId]': getValueFromCookie('rc_uid'),
