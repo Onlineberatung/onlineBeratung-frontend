@@ -34,6 +34,7 @@ export function LocaleProvider(props) {
 		if ((settings.useTenantService && isLoading) || initialized) {
 			return;
 		}
+
 		init({
 			...settings.i18n,
 			...(tenant?.settings?.activeLanguages && {
