@@ -34,13 +34,17 @@ export function LocaleProvider(props) {
 		if ((settings.useTenantService && isLoading) || initialized) {
 			return;
 		}
-
 		init({
 			...settings.i18n,
 			...(tenant?.settings?.activeLanguages && {
 				supportedLngs: [
 					...(tenant?.settings?.activeLanguages || []),
-					'de_informal'
+					// If tenant service has 'de' active add default supported languages 'de' and 'de_informal'
+					// If 'de' is deactivated 'de_informal' should not be available too
+					...(settings.i18n.supportedLngs &&
+					(tenant?.settings?.activeLanguages ?? []).includes('de')
+						? settings.i18n.supportedLngs
+						: [])
 				]
 			})
 		}).then(() => {
