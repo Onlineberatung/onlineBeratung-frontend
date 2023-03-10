@@ -198,10 +198,15 @@ export const SessionsList = ({
 					setCurrentOffset(offset);
 					setTotalItems(total);
 					setIsRequestInProgress(false);
+					dispatch({
+						type: UPDATE_SESSIONS,
+						ready: true,
+						sessions
+					});
 					return { sessions, total };
 				});
 		},
-		[filter, sessionListTab, type]
+		[filter, sessionListTab, type, dispatch]
 	);
 
 	useLiveChatWatcher(
