@@ -1504,10 +1504,57 @@ export const de = {
 		'header.title': 'Profil',
 		'noContent': 'Keine Angabe',
 		'notifications': {
-			'title': 'E-Mail-Benachrichtigung',
-			'subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
+			'title': 'E-mail-Benachrichtigungen',
+			'subtitle':
+				'Wir informieren Sie per E-Mail, wenn Sie eine neue Nachricht erhalten haben.',
 			'follow.up.email.label':
-				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.'
+				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.',
+			'mainEmail': {
+				title: 'E-Mail-Benachrichtigungen zulassen'
+			},
+			'initialEnquiry': {
+				title: 'Eine neue Erstanfrage ist eingegangen'
+			},
+			'newMessage': {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+			},
+			'reassignmentConsultant': {
+				title: 'Neuzuweisung eines Ratsuchenden',
+				description:
+					'Kollege_in hat ihnen eine_n Ratsuchende_n zugewiesen.'
+			},
+			'reassignmentAdviceSeeker': {
+				title: 'Beraterwechsel',
+				description:
+					'Ihr_e Berater_in hat um Erlaubnis gebeten, Sie einem neuen Berater zuzuweisen.'
+			},
+			'error': {
+				title: 'Etwas ist schief gelaufen.',
+				description:
+					'Leider können wir Ihre Einstellungen momentan nicht aktualisieren. Bitte versuchen Sie es später noch einmal.'
+			},
+			'noEmail': {
+				info: 'Sie haben noch keine E-mail Adresse hinzugefügt.',
+				button: 'E-mail Adresse hinzufügen',
+				modal: {
+					title: 'E-Mail-Adresse hinzufügen',
+					description:
+						'Die Angabe Ihrer E-Mail ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer_r Berater_in zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
+					confirm: 'Hinzufügen',
+					emailInput: {
+						label: 'E-Mail',
+						valid: 'Ihre E-Mail-Adresse ist gültig.',
+						invalid: 'Ihre E-Mail-Adresse ist nicht gültig.',
+						unavailable:
+							'Diese E-Mail-Adresse ist bereits registriert.'
+					},
+					errorTitle: 'Etwas ist schief gelaufen.',
+					errorMessage:
+						'Leider können wir Ihre Benachrichtigungen zur Zeit nicht aktivieren. Bitte versuchen Sie es später noch einmal.'
+				}
+			}
 		},
 		'liveChat': {
 			title: 'Meine Live-Chat Verfügbarkeit',

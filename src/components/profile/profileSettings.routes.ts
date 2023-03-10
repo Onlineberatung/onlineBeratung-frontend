@@ -1,4 +1,8 @@
-import { hasUserAuthority, AUTHORITIES } from '../../globalState';
+import {
+	hasUserAuthority,
+	AUTHORITIES,
+	AppConfigInterface
+} from '../../globalState';
 import {
 	COLUMN_LEFT,
 	COLUMN_RIGHT,
@@ -12,7 +16,8 @@ import { DeleteAccount } from './DeleteAccount';
 import { Locale } from './Locale';
 
 export const profileRoutesSettings = (
-	selectableLocales: string[]
+	selectableLocales: string[],
+	settings: AppConfigInterface
 ): (TabGroups | SingleComponentType)[] => [
 	{
 		title: 'profile.routes.settings.security.title',
@@ -30,7 +35,7 @@ export const profileRoutesSettings = (
 			}
 		]
 	},
-	{
+	!settings?.releaseToggles?.enableNewNotifications && {
 		title: 'profile.routes.notifications.title',
 		url: '/email',
 		elements: [
