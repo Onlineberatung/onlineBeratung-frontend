@@ -26,7 +26,10 @@ export const AppConfigProvider = ({
 					return Object.keys(serverSettings ?? {}).reduce(
 						(current, key) => ({
 							...current,
-							[key]: serverSettings[key].value
+							[key]:
+								typeof serverSettings[key].value !== 'undefined'
+									? serverSettings[key].value
+									: serverSettings[key]
 						}),
 						appConfig
 					);

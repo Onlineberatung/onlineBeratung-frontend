@@ -23,6 +23,7 @@ import { profileRoutesHelp } from './profileHelp.routes';
 import { ConsultantLiveChatAvailability } from './ConsultantLiveChatAvailability';
 import { TenantDataInterface } from '../../globalState/interfaces/TenantDataInterface';
 import { EmailNotification } from './EmailNotifications';
+import { BrowserNotification } from './BrowserNotifications';
 
 const shouldShowOverview = (useOverviewPage: boolean) =>
 	useOverviewPage && !isDesktop;
@@ -209,9 +210,10 @@ const profileRoutes = (
 				}
 			]
 		},
-		!settings?.releaseToggles?.enableNewNotifications && {
+		{
 			title: 'profile.routes.notifications.title',
 			url: '/notifications',
+			condition: () => settings?.releaseToggles?.enableNewNotifications,
 			elements: [
 				{
 					title: 'profile.routes.notifications.title',
@@ -220,6 +222,16 @@ const profileRoutes = (
 						{
 							component: EmailNotification,
 							column: COLUMN_LEFT
+						}
+					]
+				},
+				{
+					title: 'profile.browserNotifications.title',
+					url: '/browser',
+					elements: [
+						{
+							component: BrowserNotification,
+							column: COLUMN_RIGHT
 						}
 					]
 				}
@@ -235,6 +247,6 @@ const profileRoutes = (
 			url: '/hilfe',
 			elements: profileRoutesHelp()
 		}
-	].filter(Boolean) as TabsType;
+	] as TabsType;
 
 export default profileRoutes;

@@ -1556,6 +1556,24 @@ export const de = {
 				}
 			}
 		},
+		'browserNotifications': {
+			title: 'Browser-Benachrichtigungen',
+			description:
+				'Wenn Sie online sind, informieren wir Sie in diesem Browser, wenn Sie eine neue Nachricht erhalten haben.',
+			toggle: 'Benachrichtigungen in diesem Browser erhalten',
+			initialEnquiry: {
+				title: 'Eine neue Erstanfrage ist eingegangen'
+			},
+			newMessage: {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Eine_r der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+			},
+			denied: {
+				message:
+					'Sie haben den Empfang von Benachrichtigungen für diesen Browser abgelehnt. Um Push-Benachrichtigungen zu aktivieren, müssen Sie diese zuerst in Ihren Browsereinstellungen zulassen.'
+			}
+		},
 		'liveChat': {
 			title: 'Meine Live-Chat Verfügbarkeit',
 			subtitle:
