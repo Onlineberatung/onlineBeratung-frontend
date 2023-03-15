@@ -4,6 +4,7 @@ export type ServerAppConfigInterface = {
 
 interface ServerAppConfigCustomInterface {
 	mainTenantSubdomainForSingleDomainMultitenancy?: ServerAppConfigValueInterface<string>;
+	releaseToggles: Record<string, string>;
 }
 
 interface ServerAppConfigValueInterface<T = boolean> {

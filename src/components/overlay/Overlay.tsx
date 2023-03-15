@@ -11,6 +11,8 @@ import './overlay.styles';
 import { useTranslation } from 'react-i18next';
 import { ModalContext } from '../../globalState';
 import { OVERLAY_TYPES } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { LoadingIndicator } from '../loadingIndicator/LoadingIndicator';
+
 const FocusTrap = require('focus-trap-react');
 
 export const OVERLAY_FUNCTIONS = {
@@ -67,6 +69,7 @@ type OverlayProps = {
 	showHeadlinePrefix?: boolean;
 	name?: OVERLAY_TYPES;
 	forceActiveFocusTrap?: boolean;
+	loading?: boolean;
 };
 
 export const Overlay: VFC<OverlayProps> = ({ name, ...overlayProps }) => {
@@ -190,109 +193,127 @@ const OverlayContent: VFC<Omit<OverlayProps, 'name'>> = (props) => {
 				)}
 			>
 				<div className="overlay__background"></div>
-				<div className="overlay__wrapper">
-					<div className="overlay__content">
-						{props.handleOverlayClose && (
-							<XIcon
-								className="overlay__closeIcon"
-								onClick={(e) => props.handleOverlayClose(e)}
-								onKeyPress={(e) => props.handleOverlayClose(e)}
-								tabIndex={0}
-								title={translate('app.close')}
-								aria-label={translate('app.close')}
-							/>
-						)}
-						{props.items?.some((item) => item.step) && (
-							<div className="overlay__steps">
-								{props.items.map((item, i) => {
-									if (item.step) {
-										const StepIcon = item.step?.icon;
-										return (
-											<div
-												className={clsx(
-													'overlay__step',
-													{
-														'overlay__step--active':
-															i === activeStep,
-														'overlay__step--disabled':
-															i > activeStep
-													}
-												)}
-												key={i}
-											>
-												<div className="overlay__stepContent">
-													<div className="overlay__stepIcon">
-														<StepIcon
-															title={
+				<div
+					className={`overlay__wrapper ${
+						props.loading ? 'overlay__loading' : ''
+					}`.trim()}
+				>
+					{props.loading && <LoadingIndicator />}
+					{!props.loading && (
+						<div className="overlay__content">
+							{props.handleOverlayClose && (
+								<XIcon
+									className="overlay__closeIcon"
+									onClick={(e) => props.handleOverlayClose(e)}
+									onKeyPress={(e) =>
+										props.handleOverlayClose(e)
+									}
+									tabIndex={0}
+									title={translate('app.close')}
+									aria-label={translate('app.close')}
+								/>
+							)}
+							{props.items?.some((item) => item.step) && (
+								<div className="overlay__steps">
+									{props.items.map((item, i) => {
+										if (item.step) {
+											const StepIcon = item.step?.icon;
+											return (
+												<div
+													className={clsx(
+														'overlay__step',
+														{
+															'overlay__step--active':
+																i ===
+																activeStep,
+															'overlay__step--disabled':
+																i > activeStep
+														}
+													)}
+													key={i}
+												>
+													<div className="overlay__stepContent">
+														<div className="overlay__stepIcon">
+															<StepIcon
+																title={
+																	item.step
+																		.label
+																}
+																aria-label={
+																	item.step
+																		.label
+																}
+															/>
+														</div>
+														<Text
+															text={translate(
 																item.step.label
-															}
-															aria-label={
-																item.step.label
-															}
+															)}
+															type="divider"
 														/>
 													</div>
-													<Text
-														text={translate(
-															item.step.label
-														)}
-														type="divider"
-													/>
 												</div>
-											</div>
-										);
-									} else return null;
-								})}
-							</div>
-						)}
-						{activeOverlay.svg && (
-							<div className="overlay__illustrationWrapper">
-								<span
-									className={`overlay__illustration ${
-										activeOverlay.illustrationBackground
-											? `overlay__illustration--${activeOverlay.illustrationBackground}`
-											: ''
-									}`}
-								>
-									<Illustration
-										aria-hidden="true"
-										focusable="false"
-										title=""
-									/>
-								</span>
-							</div>
-						)}
-						{activeOverlay.headline && (
-							<Headline
-								semanticLevel="3"
-								text={getOverlayHeadline()}
-								styleLevel={activeOverlay.headlineStyleLevel}
-							/>
-						)}
-						{activeOverlay.copy && (
-							<Text
-								text={translate(activeOverlay.copy)}
-								type="standard"
-							/>
-						)}
-						{activeOverlay.nestedComponent && (
-							<div className="overlay__nestedComponent">
-								{activeOverlay.nestedComponent}
-							</div>
-						)}
-						{activeOverlay.buttonSet &&
-							activeOverlay.buttonSet.length > 0 && (
-								<div className="overlay__buttons">
-									{activeOverlay.buttonSet?.map((item, i) => (
-										<Button
-											disabled={item.disabled}
-											item={item}
-											key={`${i}-${item.type}`}
-											buttonHandle={handleButtonClick}
-										/>
-									))}
+											);
+										} else return null;
+									})}
 								</div>
 							)}
-					</div>
+							{activeOverlay.svg && (
+								<div className="overlay__illustrationWrapper">
+									<span
+										className={`overlay__illustration ${
+											activeOverlay.illustrationBackground
+												? `overlay__illustration--${activeOverlay.illustrationBackground}`
+												: ''
+										}`}
+									>
+										<Illustration
+											aria-hidden="true"
+											focusable="false"
+											title=""
+										/>
+									</span>
+								</div>
+							)}
+							{activeOverlay.headline && (
+								<Headline
+									semanticLevel="3"
+									text={getOverlayHeadline()}
+									styleLevel={
+										activeOverlay.headlineStyleLevel
+									}
+								/>
+							)}
+							{activeOverlay.copy && (
+								<Text
+									text={translate(activeOverlay.copy)}
+									type="standard"
+								/>
+							)}
+							{activeOverlay.nestedComponent && (
+								<div className="overlay__nestedComponent">
+									{activeOverlay.nestedComponent}
+								</div>
+							)}
+							{activeOverlay.buttonSet &&
+								activeOverlay.buttonSet.length > 0 && (
+									<div className="overlay__buttons">
+										{activeOverlay.buttonSet?.map(
+											(item, i) => (
+												<Button
+													disabled={item.disabled}
+													item={item}
+													key={`${i}-${item.type}`}
+													buttonHandle={
+														handleButtonClick
+													}
+												/>
+											)
+										)}
+									</div>
+								)}
+						</div>
+					)}
 				</div>
 			</div>
 		</FocusTrap>
