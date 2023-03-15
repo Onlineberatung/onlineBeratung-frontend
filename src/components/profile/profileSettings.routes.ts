@@ -35,9 +35,10 @@ export const profileRoutesSettings = (
 			}
 		]
 	},
-	!settings?.releaseToggles?.enableNewNotifications && {
+	{
 		title: 'profile.routes.notifications.title',
 		url: '/email',
+		condition: () => !settings?.releaseToggles?.enableNewNotifications,
 		elements: [
 			{
 				condition: (userData) =>
