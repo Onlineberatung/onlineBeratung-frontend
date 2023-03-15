@@ -76,3 +76,25 @@ export const sendNotification = (
 		options.onclose && options.onclose(notification);
 	};
 };
+
+export const saveBrowserNotificationsSettings = (settings: {
+	enabled?: boolean;
+	initialEnquiry?: boolean;
+	newMessage?: boolean;
+}) => {
+	const currentSettings = browserNotificationsSettings();
+	localStorage.setItem(
+		'BROWSER_NOTIFICATIONS',
+		JSON.stringify({ ...currentSettings, ...settings })
+	);
+};
+
+export const browserNotificationsSettings = (): {
+	enabled: boolean;
+	initialEnquiry: boolean;
+	newMessage: boolean;
+} => {
+	return JSON.parse(
+		localStorage.getItem('BROWSER_NOTIFICATIONS') || '{ "enabled": false }'
+	);
+};

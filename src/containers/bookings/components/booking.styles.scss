@@ -175,7 +175,6 @@ $headerHeight: 80px;
 
 		@include breakpoint($fromLarge) {
 			grid-template-columns: 2fr 1fr;
-			max-height: 100px;
 		}
 
 		.bookingEvents__ics {
@@ -244,7 +243,7 @@ $headerHeight: 80px;
 	&__counselorName {
 		margin-top: 0.25rem;
 		grid-area: counselorName;
-		margin-bottom: 2.75rem;
+		margin-bottom: 0.75rem;
 		text-overflow: ellipsis;
 		overflow: hidden;
 		white-space: nowrap;
@@ -252,7 +251,7 @@ $headerHeight: 80px;
 
 	&__counselor {
 		grid-area: counselor;
-		margin-top: 1rem;
+		// margin-top: 1rem;
 
 		@include breakpoint($fromLarge) {
 			margin-top: 0;
@@ -278,6 +277,7 @@ $headerHeight: 80px;
 		&-label {
 			display: flex;
 			align-items: center;
+			margin-top: 0.25rem;
 			margin-bottom: 0.5rem;
 
 			p {
@@ -360,6 +360,10 @@ $headerHeight: 80px;
 			display: -webkit-box;
 		}
 
+		&-link {
+			margin-right: 0.75rem;
+		}
+
 		@include breakpoint($fromLarge) {
 			display: none;
 		}
@@ -406,6 +410,12 @@ $headerHeight: 80px;
 				}
 			}
 		}
+	}
+
+	&__locationTypeTitle {
+		display: flex;
+		gap: 0.75rem;
+		align-items: center;
 	}
 }
 

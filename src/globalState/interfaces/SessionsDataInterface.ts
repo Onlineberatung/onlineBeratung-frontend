@@ -25,7 +25,7 @@ export interface ListItemInterface {
 	chat?: GroupChatItemInterface;
 	user?: SessionUserInterface;
 	language?: string;
-	latestMessage?: Date;
+	latestMessage?: string;
 }
 
 export interface SessionConsultantInterface {

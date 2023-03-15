@@ -85,6 +85,7 @@ $profile-footer-justify-content: center !default;
 			flex-direction: row;
 			position: relative;
 			width: 100%;
+			flex-wrap: wrap;
 		}
 
 		&__title {
