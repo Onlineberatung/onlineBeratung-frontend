@@ -41,7 +41,7 @@ export const init = (config: InitOptions) => {
 					 * inside LocaleProvider.tsx to detect if language has been
 					 * changed by the user
 					 */
-					supportedLngs: ['de'],
+					supportedLngs: ['de', 'de_informal'],
 					detection: {
 						order: ['navigator'],
 						caches: []
