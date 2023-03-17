@@ -24,6 +24,7 @@ import { ConsultantLiveChatAvailability } from './ConsultantLiveChatAvailability
 import { TenantDataInterface } from '../../globalState/interfaces/TenantDataInterface';
 import { EmailNotification } from './EmailNotifications';
 import { BrowserNotification } from './BrowserNotifications';
+import { browserNotificationsSettings } from '../../utils/notificationHelpers';
 
 const shouldShowOverview = (useOverviewPage: boolean) =>
 	useOverviewPage && !isDesktop;
@@ -31,7 +32,8 @@ const shouldShowOverview = (useOverviewPage: boolean) =>
 const profileRoutes = (
 	settings: AppConfigInterface,
 	tenant: TenantDataInterface,
-	selectableLocales: string[]
+	selectableLocales: string[],
+	isFirstVisit: boolean
 ): TabsType =>
 	[
 		{
@@ -214,6 +216,8 @@ const profileRoutes = (
 			title: 'profile.routes.notifications.title',
 			url: '/notifications',
 			condition: () => settings?.releaseToggles?.enableNewNotifications,
+			notificationBubble:
+				isFirstVisit && !browserNotificationsSettings().visited,
 			elements: [
 				{
 					title: 'profile.routes.notifications.title',
@@ -227,7 +231,14 @@ const profileRoutes = (
 				},
 				{
 					title: 'profile.browserNotifications.title',
+					notificationBubble:
+						isFirstVisit && !browserNotificationsSettings().visited,
 					url: '/browser',
+					condition: (userData) =>
+						hasUserAuthority(
+							AUTHORITIES.CONSULTANT_DEFAULT,
+							userData
+						),
 					elements: [
 						{
 							component: BrowserNotification,

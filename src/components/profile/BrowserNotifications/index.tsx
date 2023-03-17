@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { UserDataContext } from '../../../globalState';
 import {
 	browserNotificationsSettings,
 	saveBrowserNotificationsSettings
@@ -8,20 +9,28 @@ import { Headline } from '../../headline/Headline';
 import { Switch } from '../../Switch';
 import { Text } from '../../text/Text';
 import { NotificationDenied } from './NotificationDenied';
+import styles from './styles.module.scss';
 
 export const BrowserNotification = () => {
-	const [browserNotificationSettings, setNotificationsSettings] = useState(
+	const { isFirstVisit } = useContext(UserDataContext);
+	const [localBrowserSettings, setNotificationsSettings] = useState(
 		browserNotificationsSettings()
 	);
 	const isEnabled =
-		browserNotificationSettings.enabled &&
-		Notification.permission === 'granted';
+		localBrowserSettings.enabled && Notification.permission === 'granted';
 	const { t } = useTranslation();
 	const [checked, setChecked] = useState(isEnabled);
+
+	useEffect(() => {
+		setTimeout(() => {
+			saveBrowserNotificationsSettings({ visited: true });
+		}, 5000);
+	}, []);
 
 	const onChange = useCallback((value) => {
 		if (Notification.permission === 'granted') {
 			saveBrowserNotificationsSettings({ enabled: value });
+			setNotificationsSettings(browserNotificationsSettings());
 			setChecked(value);
 		} else if (Notification.permission !== 'denied') {
 			Notification.requestPermission().then((permission) => {
@@ -39,10 +48,16 @@ export const BrowserNotification = () => {
 	return (
 		<div className="notifications__content">
 			<div className="profile__content__title">
-				<Headline
-					text={t('profile.browserNotifications.title')}
-					semanticLevel="5"
-				/>
+				<div className={styles.badgeTitleContainer}>
+					<Headline
+						text={t('profile.browserNotifications.title')}
+						semanticLevel="5"
+					/>
+					{isFirstVisit &&
+						!browserNotificationsSettings().visited && (
+							<span className={styles.badge} />
+						)}
+				</div>
 				<Text
 					text={t('profile.browserNotifications.description')}
 					type="infoMedium"
@@ -55,7 +70,7 @@ export const BrowserNotification = () => {
 			) : (
 				<Switch
 					titleKey="profile.browserNotifications.toggle"
-					checked={checked}
+					checked={!!checked}
 					onChange={onChange}
 				/>
 			)}
@@ -65,7 +80,7 @@ export const BrowserNotification = () => {
 					<hr />
 					<Switch
 						titleKey="profile.browserNotifications.initialEnquiry.title"
-						checked={browserNotificationSettings.initialEnquiry}
+						checked={!!localBrowserSettings.initialEnquiry}
 						onChange={(checked) =>
 							onChangeSetting('initialEnquiry', checked)
 						}
@@ -73,7 +88,7 @@ export const BrowserNotification = () => {
 					<Switch
 						titleKey="profile.browserNotifications.newMessage.title"
 						descriptionKey="profile.browserNotifications.newMessage.description"
-						checked={browserNotificationSettings.newMessage}
+						checked={!!localBrowserSettings.newMessage}
 						onChange={(checked) =>
 							onChangeSetting('newMessage', checked)
 						}

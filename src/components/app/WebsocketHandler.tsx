@@ -21,10 +21,14 @@ import {
 	WebsocketConnectionDeactivatedContext
 } from '../../globalState';
 import { SESSION_LIST_TAB_ANONYMOUS } from '../session/sessionHelpers';
-import { sendNotification } from '../../utils/notificationHelpers';
+import {
+	isBrowserNotificationTypeEnabled,
+	sendNotification
+} from '../../utils/notificationHelpers';
 import { useTranslation } from 'react-i18next';
 import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
 import { STATUS_ONLINE } from './RocketChat';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface WebsocketHandlerProps {
 	disconnect: boolean;
@@ -33,6 +37,7 @@ interface WebsocketHandlerProps {
 export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
+	const { releaseToggles } = useAppConfig();
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { status } = useContext(RocketChatUserStatusContext);
@@ -120,14 +125,18 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		if (newStompDirectMessage) {
 			setNewStompDirectMessage(false);
 
-			// ToDo: Move to new implementation
-			sendNotification(translate('notifications.message.new'), {
-				onclick: () => {
-					history.push(
-						`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`
-					);
-				}
-			});
+			if (
+				!releaseToggles.enableNewNotifications ||
+				isBrowserNotificationTypeEnabled('newMessage')
+			) {
+				sendNotification(translate('notifications.message.new'), {
+					onclick: () => {
+						history.push(
+							`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`
+						);
+					}
+				});
+			}
 		}
 	}, [newStompDirectMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -140,14 +149,19 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 			}
 
 			setAnonymousConversationStarted(true);
-			sendNotification(translate('notifications.enquiry.new'), {
-				showAlways: true,
-				onclick: () => {
-					history.push(
-						`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`
-					);
-				}
-			});
+			if (
+				!releaseToggles.enableNewNotifications ||
+				isBrowserNotificationTypeEnabled('initialEnquiry')
+			) {
+				sendNotification(translate('notifications.enquiry.new'), {
+					showAlways: true,
+					onclick: () => {
+						history.push(
+							`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`
+						);
+					}
+				});
+			}
 		}
 	}, [newStompAnonymousEnquiry, hasLiveChatAndEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 

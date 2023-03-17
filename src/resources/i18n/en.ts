@@ -1613,6 +1613,12 @@ export const en = {
 				}
 			}
 		},
+		'browserNotification': {
+			title: 'Browser Notifications',
+			description:
+				"If you're online, we'll notify you in this browser when you've got a new message.",
+			toggle: 'Receive notifications in this browser'
+		},
 		'liveChat': {
 			title: 'My live chat availability',
 			subtitle:
