@@ -12,6 +12,7 @@ export type LinkMenuComponentType = {
 export type LinkMenuItemType = {
 	title: string;
 	url: string;
+	showBadge?: boolean;
 };
 
 export type LinkMenuGroupType = {
@@ -78,7 +79,12 @@ const LinkMenuItem = ({ item }: { item: LinkMenuItemType }) => {
 	return (
 		<div className="link_menu__item">
 			<Link to={generatePath(item.url)}>
-				{item.title}
+				<div className="link_menu__item__container">
+					{item.title}
+					{item?.showBadge && (
+						<span className="link_menu__item__badge" />
+					)}
+				</div>
 				<ForwardIcon
 					title={translate('app.next')}
 					aria-label={translate('app.next')}
