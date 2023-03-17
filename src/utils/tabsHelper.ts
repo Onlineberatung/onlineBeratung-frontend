@@ -1,8 +1,9 @@
-interface TabType {
+export interface TabType {
 	title: string;
 	url: string;
 	condition?: (userData, consultingTypes) => boolean;
 	elements: (TabGroups | SingleComponentType | null)[];
+	notificationBubble?: boolean;
 }
 
 export interface TabGroups {
