@@ -113,6 +113,18 @@ export function LocaleProvider(props) {
 		}
 	}, [locale, informal, locales, initialized]);
 
+	const handleOnSetLocale = React.useCallback(
+		(lng) => {
+			if (
+				!settings?.i18n?.supportedLngs ||
+				(settings.i18n.supportedLngs as string[])?.includes?.(lng)
+			) {
+				setLocale(lng);
+			}
+		},
+		[settings.i18n.supportedLngs]
+	);
+
 	if (!initialized) {
 		return null;
 	}
@@ -122,7 +134,7 @@ export function LocaleProvider(props) {
 			value={{
 				locale,
 				initLocale,
-				setLocale,
+				setLocale: handleOnSetLocale,
 				locales,
 				selectableLocales
 			}}
