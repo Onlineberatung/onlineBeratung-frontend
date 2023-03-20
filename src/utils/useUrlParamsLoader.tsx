@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { getUrlParameter } from './getUrlParameter';
 import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
-	ConsultingTypeInterface
+	ConsultingTypeInterface,
+	LocaleContext
 } from '../globalState';
 import { apiGetAgencyById, apiGetConsultingType } from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
@@ -16,6 +17,7 @@ import { isString } from 'lodash';
 import { apiGetTopicsData } from '../api/apiGetTopicsData';
 
 export default function useUrlParamsLoader() {
+	const { setLocale } = useContext(LocaleContext);
 	const { consultingTypeSlug } = useParams<{
 		consultingTypeSlug: string;
 	}>();
@@ -23,6 +25,7 @@ export default function useUrlParamsLoader() {
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
 	const topicIdOrName = getUrlParameter('tid');
+	const language = getUrlParameter('lang');
 
 	const [consultingType, setConsultingType] =
 		useState<ConsultingTypeInterface | null>(null);
@@ -103,6 +106,12 @@ export default function useUrlParamsLoader() {
 		settings.multitenancyWithSingleDomainEnabled,
 		settings.urls.toRegistration
 	]);
+
+	useEffect(() => {
+		if (language) {
+			setLocale(language);
+		}
+	}, [language, setLocale]);
 
 	return { agency, consultant, consultingType, loaded, topic };
 }

@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { UserDataContext, UserDataInterface } from '../../../../globalState';
+import {
+	ListItemInterface,
+	UserDataContext,
+	UserDataInterface
+} from '../../../../globalState';
 import {
 	apiGetAskerSessionList,
 	getCounselorAppointmentLink,
@@ -12,6 +16,7 @@ import {
 	setBookingWrapperActive,
 	setBookingWrapperInactive
 } from '../../../../components/app/navigationHandler';
+import { getValueFromCookie } from '../../../../components/sessionCookie/accessSessionCookie';
 
 export const getUserEmail = (userData: UserDataInterface) => {
 	return userData.email
@@ -21,6 +26,7 @@ export const getUserEmail = (userData: UserDataInterface) => {
 
 export const Booking = () => {
 	const { userData } = useContext(UserDataContext);
+	const [session, setSession] = useState<ListItemInterface>();
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
 	const settings = useAppConfig();
 
@@ -34,6 +40,7 @@ export const Booking = () => {
 
 	useEffect(() => {
 		apiGetAskerSessionList().then(({ sessions }) => {
+			setSession(sessions[0]);
 			const consultant = sessions[0]?.consultant;
 			const agencyId = sessions[0]?.agency?.id;
 			if (consultant) {
@@ -59,7 +66,15 @@ export const Booking = () => {
 						'name': userData.userName,
 						'email': getUserEmail(userData),
 						'theme': 'light',
-						'metadata[user]': userData.userId
+						'metadata[user]': userData.userId,
+						'metadata[isInitialAppointment]':
+							!session.consultant ||
+							new Date(session.latestMessage).getTime() <
+								new Date(session.session.createDate).getTime(),
+						'metadata[sessionId]': session.session.id,
+						'metadata[rcToken]': getValueFromCookie('rc_token'),
+						'metadata[rcUserId]': getValueFromCookie('rc_uid'),
+						'metadata[userToken]': getValueFromCookie('keycloak')
 					}}
 					embedJsUrl={`${settings.calcomUrl}/embed/embed.js`}
 				/>

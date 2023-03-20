@@ -1412,6 +1412,8 @@ export const en = {
 			firstName: 'First name',
 			lastName: 'Last name',
 			email: 'E-mail address',
+			emailInfo:
+				'Adding your Email address is optional, and only used to notify you when your counsellor answers in the chat. Your Email address is not visible to counsellors.',
 			agency: {
 				label: 'Beratungsstelle',
 				registrationLink: {
@@ -1564,7 +1566,58 @@ export const en = {
 			'title': 'E-mail notification',
 			'subtitle': 'We will notify you when you:',
 			'follow.up.email.label':
-				'Have received a message from an accepted advice seeker.'
+				'Have received a message from an accepted advice seeker.',
+			'mainEmail': {
+				title: 'Allow email notifications'
+			},
+			'initialEnquiry': {
+				title: 'Receive a new initial enquiry'
+			},
+			'newMessage': {
+				title: 'New chat message',
+				description:
+					'One of your assigned advice seekers has replied to you'
+			},
+			'reassignmentConsultant': {
+				title: 'Re-assignment of an advice seeker',
+				description:
+					'A colleague has reassigned an advise seeker to you'
+			},
+			'reassignmentAdviceSeeker': {
+				title: 'Change of counsellor',
+				description:
+					'Your counsellor has asked for permission to reassign you to a new counsellor'
+			},
+			'error': {
+				title: 'Something went wrong.',
+				description:
+					'Unfortunately, we cannot update your settings at the moment. Please try again later.'
+			},
+			'noEmail': {
+				info: 'You have not yet added an email address.',
+				button: 'Add email address',
+				modal: {
+					title: 'Add email address',
+					description:
+						'Your e-mail address is voluntary and will only be used to inform you about new chat messages from your counsellor. Your email address is not visible to your advisor.',
+					confirm: 'Add',
+					emailInput: {
+						label: 'EMail',
+						valid: 'Your email address is valid.',
+						invalid: 'Your email address is not valid.',
+						unavailable: 'This email address is already in use.'
+					},
+					errorTitle: 'Something went wrong.',
+					errorMessage:
+						'Unfortunately, we cannot activate your notifications now. Please try again later.'
+				}
+			}
+		},
+		'browserNotification': {
+			title: 'Browser Notifications',
+			description:
+				"If you're online, we'll notify you in this browser when you've got a new message.",
+			toggle: 'Receive notifications in this browser'
 		},
 		'liveChat': {
 			title: 'My live chat availability',

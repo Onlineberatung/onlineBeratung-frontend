@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
-import { generatePath, useHistory } from 'react-router-dom';
+import { generatePath, Link, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import '../booking.styles';
 import { Box } from '../../../../components/box/Box';
@@ -14,7 +14,6 @@ import { Text } from '../../../../components/text/Text';
 import { BookingEventUiInterface } from '../../../../globalState/interfaces/BookingsInterface';
 import { BookingsStatus } from '../../../../utils/consultant';
 import { BookingEventTableColumnAttendee } from '../BookingEventTableColumnAttendee/bookingEventTableColumnAttendee';
-import { ReactComponent as VideoCalIcon } from '../../../../resources/img/icons/video-call.svg';
 import { DownloadICSFile } from '../../../../components/downloadICSFile/downloadICSFile';
 import { CopyIcon } from '../../../../resources/img/icons';
 import { uiUrl, config } from '../../../../resources/scripts/config';
@@ -29,6 +28,7 @@ import {
 import { copyTextToClipboard } from '../../../../utils/clipboardHelpers';
 import { ReactComponent as CalendarRescheduleIcon } from '../../../../resources/img/icons/calendar-reschedule.svg';
 import { ReactComponent as CalendarCancelIcon } from '../../../../resources/img/icons/calendar-cancel.svg';
+import { LocationType } from './LocationType';
 
 interface EventProps {
 	event: BookingEventUiInterface;
@@ -130,41 +130,7 @@ export const Event: React.FC<EventProps> = ({ event, bookingStatus }) => {
 					</div>
 					<div className="bookingEvents__group bookingEvents__counselorWrap">
 						<BookingEventTableColumnAttendee event={event} />
-						<div className="bookingEvents__video">
-							<div className="bookingEvents__video-label">
-								<VideoCalIcon />
-								<Text
-									type="infoLargeAlternative"
-									text={'Videoberatung'}
-								/>
-							</div>
-							{event.videoAppointmentId && (
-								<div className="bookingEvents__video-link-wrapper--mobile">
-									<Text
-										className="bookingEvents__video-link-wrapper--mobile--text"
-										type="infoLargeStandard"
-										text={`${uiUrl}${config.urls.consultantVideoConference
-											.replace(':type', 'app')
-											.replace(
-												':appointmentId',
-												event.videoAppointmentId
-											)}`}
-									/>
-									<div>
-										<CopyIcon
-											className={
-												'bookingEvents__copy icn--s'
-											}
-											onClick={() =>
-												copyRegistrationLink(
-													event.videoAppointmentId
-												)
-											}
-										/>
-									</div>
-								</div>
-							)}
-						</div>
+						<LocationType event={event} />
 					</div>
 				</div>
 				<BookingDescription description={event.description} />
@@ -235,14 +201,17 @@ export const Event: React.FC<EventProps> = ({ event, bookingStatus }) => {
 						/>
 					</div>
 				)}
+
 				{event.videoAppointmentId && (
 					<>
 						<div className="bookingEvents__video-link-grid-wrapper">
-							<Text
+							<Link
 								className="bookingEvents__video-link-grid-wrapper--text"
-								type="infoLargeStandard"
-								text={getLink(event.videoAppointmentId)}
-							/>
+								target="_blank"
+								to={getLink(event.videoAppointmentId)}
+							>
+								{translate('booking.event.linkVideo')}
+							</Link>
 							<div>
 								<CopyIcon
 									className={'bookingEvents__copy icn--s'}

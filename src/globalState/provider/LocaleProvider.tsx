@@ -40,7 +40,12 @@ export function LocaleProvider(props) {
 			...(tenant?.settings?.activeLanguages && {
 				supportedLngs: [
 					...(tenant?.settings?.activeLanguages || []),
-					'de_informal'
+					// If tenant service has 'de' active add default supported languages 'de' and 'de_informal'
+					// If 'de' is deactivated 'de_informal' should not be available too
+					...(settings.i18n.supportedLngs &&
+					(tenant?.settings?.activeLanguages ?? []).includes('de')
+						? settings.i18n.supportedLngs
+						: [])
 				]
 			})
 		}).then(() => {
@@ -108,6 +113,18 @@ export function LocaleProvider(props) {
 		}
 	}, [locale, informal, locales, initialized]);
 
+	const handleOnSetLocale = React.useCallback(
+		(lng) => {
+			if (
+				!settings?.i18n?.supportedLngs ||
+				(settings.i18n.supportedLngs as string[])?.includes?.(lng)
+			) {
+				setLocale(lng);
+			}
+		},
+		[settings.i18n.supportedLngs]
+	);
+
 	if (!initialized) {
 		return null;
 	}
@@ -117,7 +134,7 @@ export function LocaleProvider(props) {
 			value={{
 				locale,
 				initLocale,
-				setLocale,
+				setLocale: handleOnSetLocale,
 				locales,
 				selectableLocales
 			}}
