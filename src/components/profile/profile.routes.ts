@@ -256,7 +256,7 @@ const profileRoutes = (
 		{
 			title: 'profile.routes.help.title',
 			url: '/hilfe',
-			elements: profileRoutesHelp()
+			elements: profileRoutesHelp(settings)
 		}
 	] as TabsType;
 

@@ -21,6 +21,8 @@ export interface AppSettingsInterface {
 	mainTenantSubdomainForSingleDomainMultitenancy?: string;
 	/** when enabled shows the overview page  */
 	useOverviewPage?: boolean;
+	/** feature flag for the documentation  */
+	documentationEnabled?: boolean;
 	/** when enabled and e2ee is active (see rocket.chat) attachments will be e2e encrypted */
 	attachmentEncryption?: boolean;
 }

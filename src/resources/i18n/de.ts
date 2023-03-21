@@ -1574,6 +1574,12 @@ export const de = {
 					'Sie haben den Empfang von Benachrichtigungen für diesen Browser abgelehnt. Um Push-Benachrichtigungen zu aktivieren, müssen Sie diese zuerst in Ihren Browsereinstellungen zulassen.'
 			}
 		},
+		'documentation': {
+			title: 'Handbuch zur Beratungsplattform',
+			description:
+				'Haben Sie Fragen? Im Handbuch finden Sie detaillierte Informationen zu den wichtigsten Funktionen der Online-Beratungsplattform.',
+			link: 'Zum Handbuch'
+		},
 		'liveChat': {
 			title: 'Meine Live-Chat Verfügbarkeit',
 			subtitle:
