@@ -38,11 +38,13 @@ export const profileRoutesSettings = (
 	{
 		title: 'profile.routes.notifications.title',
 		url: '/email',
-		condition: () => !settings?.releaseToggles?.enableNewNotifications,
 		elements: [
 			{
 				condition: (userData) =>
-					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
+					hasUserAuthority(
+						AUTHORITIES.CONSULTANT_DEFAULT,
+						userData
+					) && !settings?.releaseToggles?.enableNewNotifications,
 				component: ConsultantNotifications,
 				column: COLUMN_RIGHT,
 				order: 1

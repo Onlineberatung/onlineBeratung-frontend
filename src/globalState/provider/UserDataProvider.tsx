@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createContext, useCallback, useState } from 'react';
 import { UserDataInterface } from '../interfaces/UserDataInterface';
 import { apiGetUserData } from '../../api';
+import { useLocation } from 'react-router-dom';
 
 type TUserDataContext = {
 	isFirstVisit: boolean;
@@ -14,6 +15,7 @@ export const UserDataContext = createContext<TUserDataContext>(null);
 const isFirstVisitToBrowser = localStorage.getItem('visited') !== 'true';
 
 export function UserDataProvider(props) {
+	const location = useLocation();
 	const [userData, setUserData] = useState(null);
 
 	const reloadUserData = useCallback(() => {
@@ -24,10 +26,10 @@ export function UserDataProvider(props) {
 	}, [setUserData]);
 
 	React.useEffect(() => {
-		if (userData) {
+		if (userData && location.pathname !== '/login') {
 			localStorage.setItem('visited', 'true');
 		}
-	}, [userData]);
+	}, [location.pathname, userData]);
 
 	return (
 		<UserDataContext.Provider
