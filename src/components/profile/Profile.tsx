@@ -118,10 +118,14 @@ export const Profile = () => {
 								isTabGroup(element)
 									? {
 											title: translate(element.title),
-											url: `/profile${tab.url}${element.url}`,
+											url: (element as unknown as TabType)
+												.externalLink
+												? element.url
+												: `/profile${tab.url}${element.url}`,
 											showBadge: (
 												element as unknown as TabType
-											)?.notificationBubble
+											)?.notificationBubble,
+											externalLink: element.externalLink
 									  }
 									: {
 											component: <element.component />

@@ -1617,7 +1617,25 @@ export const en = {
 			title: 'Browser Notifications',
 			description:
 				"If you're online, we'll notify you in this browser when you've got a new message.",
-			toggle: 'Receive notifications in this browser'
+			toggle: 'Receive notifications in this browser',
+			initialEnquiry: {
+				title: 'A new initial request has been received'
+			},
+			newMessage: {
+				title: 'New chat message',
+				description:
+					'One of the counselees assigned to you has answered you'
+			},
+			denied: {
+				message:
+					'You have opted out of receiving notifications for this browser. To enable push notifications, you must first allow them in your browser settings.'
+			}
+		},
+		'documentation': {
+			title: 'User Manual',
+			description:
+				'Do you have any questions? The user manual will provide you with detailed information on the main functionalities of the online counselling platform.',
+			link: 'Go to user manual'
 		},
 		'liveChat': {
 			title: 'My live chat availability',
