@@ -1305,6 +1305,7 @@ export const en = {
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
 		'enquiry.new': 'You have a new live chat request!',
+		'initialRequest.new': 'You have a new initial request!',
 		'warning': 'warning',
 		'error': 'failed',
 		'success': 'successful',

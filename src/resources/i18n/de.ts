@@ -1323,6 +1323,7 @@ export const de = {
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
 		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!',
+		'initialRequest.new': 'Sie haben eine neue Erstanfragen!',
 		'warning': 'Warnung',
 		'error': 'Fehlgeschlagen',
 		'success': 'Erfolgreich',

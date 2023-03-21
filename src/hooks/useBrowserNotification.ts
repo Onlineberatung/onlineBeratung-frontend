@@ -26,7 +26,7 @@ export const useBrowserNotification = () => {
 				enquirySessions.length > 0 &&
 				isBrowserNotificationTypeEnabled('initialEnquiry')
 			) {
-				sendNotification(t('notifications.enquiry.new'), {
+				sendNotification(t('notifications.initialRequest.new'), {
 					showAlways: true,
 					onclick: () => {
 						history.push(`/sessions/consultant/sessionPreview`);
