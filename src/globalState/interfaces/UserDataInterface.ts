@@ -28,6 +28,7 @@ export interface UserDataInterface {
 	userName: string;
 	termsAndConditionsConfirmation: string;
 	dataPrivacyConfirmation: string;
+	emailNotifications?: EmailNotificationsInterface;
 }
 
 export interface ConsultantDataInterface
@@ -69,4 +70,16 @@ export interface TwoFactorAuthInterface {
 
 export interface AgencyLanguagesInterface {
 	languages: string[];
+}
+
+export interface EmailNotificationsInterface {
+	emailNotificationsEnabled?: boolean;
+	settings?: EmailNotificationsSettingsInterface;
+}
+
+export interface EmailNotificationsSettingsInterface {
+	initialEnquiryNotificationEnabled?: boolean;
+	newChatMessageNotificationEnabled?: boolean;
+	reassignmentNotificationEnabled?: boolean;
+	appointmentNotificationEnabled?: boolean;
 }

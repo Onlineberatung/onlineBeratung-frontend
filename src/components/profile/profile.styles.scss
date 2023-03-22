@@ -85,6 +85,7 @@ $profile-footer-justify-content: center !default;
 			flex-direction: row;
 			position: relative;
 			width: 100%;
+			flex-wrap: wrap;
 		}
 
 		&__title {
@@ -146,6 +147,20 @@ $profile-footer-justify-content: center !default;
 			.tooltip {
 				margin-left: 10px;
 			}
+		}
+	}
+
+	&__nav {
+		&__item__badge {
+			margin-left: 4px;
+			background-color: $primary;
+			color: $white;
+			border-radius: 50%;
+			width: 8px;
+			height: 8px;
+			font-size: 12px;
+			line-height: 8px;
+			text-align: center;
 		}
 	}
 
