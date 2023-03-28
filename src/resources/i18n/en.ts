@@ -1566,6 +1566,8 @@ export const en = {
 		'notifications': {
 			'title': 'E-mail notification',
 			'subtitle': 'We will notify you when you:',
+			'description':
+				'We will inform you by e-mail when you have received a new message.',
 			'follow.up.email.label':
 				'Have received a message from an accepted advice seeker.',
 			'mainEmail': {
@@ -1614,7 +1616,7 @@ export const en = {
 				}
 			}
 		},
-		'browserNotification': {
+		'browserNotifications': {
 			title: 'Browser Notifications',
 			description:
 				"If you're online, we'll notify you in this browser when you've got a new message.",
