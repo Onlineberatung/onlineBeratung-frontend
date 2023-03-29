@@ -1506,7 +1506,8 @@ export const de = {
 		'noContent': 'Keine Angabe',
 		'notifications': {
 			'title': 'E-Mail-Benachrichtigungen',
-			'subtitle':
+			'subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
+			'description':
 				'Wir informieren Sie per E-Mail, wenn Sie eine neue Nachricht erhalten haben.',
 			'follow.up.email.label':
 				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.',

@@ -30,7 +30,7 @@ export const EmailNotification = () => {
 					semanticLevel="5"
 				/>
 				<Text
-					text={t('profile.notifications.subtitle')}
+					text={t('profile.notifications.description')}
 					type="infoMedium"
 					className="tertiary"
 				/>
