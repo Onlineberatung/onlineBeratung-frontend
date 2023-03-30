@@ -1,7 +1,6 @@
 import { AppSettingsInterface } from '../../globalState';
 import {
 	COLUMN_LEFT,
-	COLUMN_RIGHT,
 	SingleComponentType,
 	TabGroups
 } from '../../utils/tabsHelper';
@@ -17,7 +16,8 @@ export const profileRoutesHelp = (
 		elements: [
 			{
 				component: Help,
-				column: COLUMN_LEFT
+				column: COLUMN_LEFT,
+				condition: () => !settings?.documentationEnabled
 			}
 		]
 	},
@@ -28,7 +28,7 @@ export const profileRoutesHelp = (
 		elements: [
 			{
 				component: Documentation,
-				column: COLUMN_RIGHT,
+				column: COLUMN_LEFT,
 				condition: () => !!settings?.documentationEnabled
 			}
 		]
