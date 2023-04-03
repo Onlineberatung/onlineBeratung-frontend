@@ -75,12 +75,11 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as LiveChatAvailableIllustration } from '../../resources/img/illustrations/live-chat-available.svg';
-import { ReactComponent as ChatWaitingIllustration } from '../../resources/img/illustrations/chat-waiting.svg';
-import { ReactComponent as NoMessagesIllustration } from '../../resources/img/illustrations/no-messages.svg';
 import { ListInfo } from '../listInfo/ListInfo';
 import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import { EmptyListItem } from './EmptyListItem';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -1034,18 +1033,10 @@ export const SessionsList = ({
 					finalSessionsList.length === 0 &&
 					(sessionListTab !== SESSION_LIST_TAB_ANONYMOUS ||
 						status === STATUS_ONLINE) && (
-						<ListInfo
-							headline={
-								sessionListTab !== SESSION_LIST_TAB_ANONYMOUS
-									? translate('sessionList.empty.known')
-									: translate('sessionList.empty.anonymous')
-							}
-							Illustration={
-								sessionListTab !== SESSION_LIST_TAB_ANONYMOUS
-									? NoMessagesIllustration
-									: ChatWaitingIllustration
-							}
-						></ListInfo>
+						<EmptyListItem
+							sessionListTab={sessionListTab}
+							type={type}
+						/>
 					)}
 
 				{!isLoading &&
