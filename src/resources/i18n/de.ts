@@ -2037,7 +2037,11 @@ export const de = {
 		'empty': {
 			anonymous:
 				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat',
-			known: 'Aktuell liegen keine Erstanfragen vor'
+			known: 'Aktuell liegen keine Erstanfragen vor',
+			mySessions: 'Sie haben zur Zeit keine aktiven Beratungen',
+			teamSessions: 'Ihr Team hat keine aktiven Beratungen',
+			peersessions: 'Sie haben zur Zeit keine aktiven Peer-Beratungen',
+			archived: 'Es sind noch keine Beratungen archiviert'
 		},
 		'unavailable': {
 			description:
