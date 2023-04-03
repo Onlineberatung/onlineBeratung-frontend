@@ -66,7 +66,9 @@ export const MainTopicSelection = ({
 							}
 							value={id.toString()}
 							checked={selectedTopic === id}
-							inputId={name.toLowerCase().replace(' ', '-')}
+							inputId={`${name
+								.toLowerCase()
+								.replace(' ', '-')}-${id}`}
 							label={name}
 						/>
 						<AgencyInfo agency={topic} />
