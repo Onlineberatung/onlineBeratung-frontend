@@ -28,7 +28,7 @@ describe('Sessions', () => {
 	});
 
 	describe('Consultant', () => {
-		it.skip('should show confirmation forwarding the session', () => {
+		it('should show confirmation forwarding the session', () => {
 			generateMultipleConsultantSessions(5);
 
 			cy.fastLogin({
@@ -41,7 +41,6 @@ describe('Sessions', () => {
 			cy.wait('@consultantSessions');
 
 			cy.get('[data-cy=session-list-item]').first().click();
-			cy.wait('@consultingTypeServiceBaseFull');
 			cy.wait('@messages');
 
 			cy.get('#iconH').click();
@@ -72,8 +71,6 @@ describe('Sessions', () => {
 			cy.fastLogin({
 				username: USER_CONSULTANT
 			});
-			cy.wait('@consultingTypeServiceBaseBasic');
-
 			cy.get('a[href="/sessions/consultant/sessionView"]').click();
 			cy.get('.sessionsListItem').should('exist');
 			cy.wait('@consultantSessions');
@@ -85,17 +82,14 @@ describe('Sessions', () => {
 					const scrollPosition =
 						Math.ceil(scrollContainer.scrollTop) +
 						scrollContainer.offsetHeight;
-
 					const scrollable =
 						scrollContainer.scrollHeight - scrollPosition;
-
 					cy.get('.sessionsList__scrollContainer').scrollTo(
 						0,
 						scrollable - SCROLL_PAGINATE_THRESHOLD
 					);
 				}
 			);
-
 			cy.wait('@consultantSessions');
 		});
 
