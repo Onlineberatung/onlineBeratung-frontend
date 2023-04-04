@@ -558,6 +558,13 @@ export const deInformal = {
 			}
 		}
 	},
+	sessionList: {
+		empty: {
+			mySessions: 'Du hast zur Zeit keine aktiven Beratungen',
+			teamSessions: 'Dein Team hat keine aktiven Beratungen',
+			perSessions: 'Du hast zur Zeit keine aktiven Peer-Beratungen'
+		}
+	},
 	statusOverlay: {
 		success: {
 			headline: 'Deine Nachricht wurde versendet',

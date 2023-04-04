@@ -2019,7 +2019,11 @@ export const en = {
 		'empty': {
 			known: 'There are no requests at the moment',
 			anonymous:
-				'Currently, no anonymous advice seekers are waiting for a live chat'
+				'Currently, no anonymous advice seekers are waiting for a live chat',
+			mySessions: 'You currently have no active consultations',
+			teamSessions: 'Your team has no active consultations',
+			peersessions: 'You currently have no active peer counselling',
+			archived: 'There are no consultations in the archive yet'
 		},
 		'unavailable': {
 			description:
