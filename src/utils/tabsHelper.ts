@@ -1,8 +1,10 @@
-interface TabType {
+export interface TabType {
 	title: string;
 	url: string;
 	condition?: (userData, consultingTypes) => boolean;
 	elements: (TabGroups | SingleComponentType | null)[];
+	notificationBubble?: boolean;
+	externalLink?: boolean;
 }
 
 export interface TabGroups {
@@ -10,6 +12,7 @@ export interface TabGroups {
 	url: string;
 	condition?: (userData, consultingTypes) => boolean;
 	elements?: SingleComponentType[];
+	externalLink?: boolean;
 }
 
 export const COLUMN_LEFT = 0;

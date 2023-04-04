@@ -1323,6 +1323,7 @@ export const de = {
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
 		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!',
+		'initialRequest.new': 'Sie haben eine neue Erstanfrage!',
 		'warning': 'Warnung',
 		'error': 'Fehlgeschlagen',
 		'success': 'Erfolgreich',
@@ -1504,10 +1505,82 @@ export const de = {
 		'header.title': 'Profil',
 		'noContent': 'Keine Angabe',
 		'notifications': {
-			'title': 'E-Mail-Benachrichtigung',
+			'title': 'E-Mail-Benachrichtigungen',
 			'subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
+			'description':
+				'Wir informieren Sie per E-Mail, wenn Sie eine neue Nachricht erhalten haben.',
 			'follow.up.email.label':
-				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.'
+				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.',
+			'mainEmail': {
+				title: 'E-Mail-Benachrichtigungen zulassen'
+			},
+			'initialEnquiry': {
+				title: 'Eine neue Erstanfrage ist eingegangen'
+			},
+			'newMessage': {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+			},
+			'reassignmentConsultant': {
+				title: 'Neuzuweisung eines Ratsuchenden',
+				description:
+					'Kollege_in hat ihnen eine_n Ratsuchende_n zugewiesen.'
+			},
+			'reassignmentAdviceSeeker': {
+				title: 'Beraterwechsel',
+				description:
+					'Ihr_e Berater_in hat um Erlaubnis gebeten, Sie einem neuen Berater zuzuweisen.'
+			},
+			'error': {
+				title: 'Etwas ist schief gelaufen.',
+				description:
+					'Leider können wir Ihre Einstellungen momentan nicht aktualisieren. Bitte versuchen Sie es später noch einmal.'
+			},
+			'noEmail': {
+				info: 'Sie haben noch keine E-Mail-Adresse hinzugefügt.',
+				button: 'E-Mail-Adresse hinzufügen',
+				modal: {
+					title: 'E-Mail-Adresse hinzufügen',
+					description:
+						'Die Angabe Ihrer E-Mail ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer_r Berater_in zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
+					confirm: 'Hinzufügen',
+					emailInput: {
+						label: 'E-Mail',
+						valid: 'Ihre E-Mail-Adresse ist gültig.',
+						invalid: 'Ihre E-Mail-Adresse ist nicht gültig.',
+						unavailable:
+							'Diese E-Mail-Adresse ist bereits registriert.'
+					},
+					errorTitle: 'Etwas ist schief gelaufen.',
+					errorMessage:
+						'Leider können wir Ihre Benachrichtigungen zur Zeit nicht aktivieren. Bitte versuchen Sie es später noch einmal.'
+				}
+			}
+		},
+		'browserNotifications': {
+			title: 'Browser-Benachrichtigungen',
+			description:
+				'Wenn Sie online sind, informieren wir Sie in diesem Browser, wenn Sie eine neue Nachricht erhalten haben.',
+			toggle: 'Benachrichtigungen in diesem Browser erhalten',
+			initialEnquiry: {
+				title: 'Eine neue Erstanfrage ist eingegangen'
+			},
+			newMessage: {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Eine_r der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+			},
+			denied: {
+				message:
+					'Sie haben den Empfang von Benachrichtigungen für diesen Browser abgelehnt. Um Push-Benachrichtigungen zu aktivieren, müssen Sie diese zuerst in Ihren Browsereinstellungen zulassen.'
+			}
+		},
+		'documentation': {
+			title: 'Handbuch zur Beratungsplattform',
+			description:
+				'Haben Sie Fragen? Im Handbuch finden Sie detaillierte Informationen zu den wichtigsten Funktionen der Online-Beratungsplattform.',
+			link: 'Zum Handbuch'
 		},
 		'liveChat': {
 			title: 'Meine Live-Chat Verfügbarkeit',
@@ -1964,7 +2037,11 @@ export const de = {
 		'empty': {
 			anonymous:
 				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat',
-			known: 'Aktuell liegen keine Erstanfragen vor'
+			known: 'Aktuell liegen keine Erstanfragen vor',
+			mySessions: 'Sie haben zur Zeit keine aktiven Beratungen',
+			teamSessions: 'Ihr Team hat keine aktiven Beratungen',
+			peersessions: 'Sie haben zur Zeit keine aktiven Peer-Beratungen',
+			archived: 'Es sind noch keine Beratungen archiviert'
 		},
 		'unavailable': {
 			description:

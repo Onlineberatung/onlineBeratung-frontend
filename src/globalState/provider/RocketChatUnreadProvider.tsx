@@ -23,6 +23,7 @@ import {
 } from '../../components/session/sessionHelpers';
 import { UserDataContext } from './UserDataProvider';
 import { AnonymousConversationFinishedContext } from './AnonymousConversationFinishedProvider';
+import { useBrowserNotification } from '../../hooks/useBrowserNotification';
 
 type UnreadStatusContextProps = {
 	sessions: string[];
@@ -58,6 +59,7 @@ type RocketChatUnreadProviderProps = {
 export function RocketChatUnreadProvider({
 	children
 }: RocketChatUnreadProviderProps) {
+	const { maybeSendNewEnquiryNotification } = useBrowserNotification();
 	const { subscriptions } = useContext(RocketChatSubscriptionsContext);
 	const { anonymousConversationFinished } = useContext(
 		AnonymousConversationFinishedContext
@@ -80,7 +82,6 @@ export function RocketChatUnreadProvider({
 			if (subscriptions.length === 0) {
 				return;
 			}
-
 			setUnreadStatus((unreadStatus) => {
 				let newUnreadStatus = { ...unreadStatus };
 				subscriptions.forEach((subscription) => {
@@ -191,6 +192,8 @@ export function RocketChatUnreadProvider({
 					.filter((s) => s.unread > 0)
 					.map((s) => s.rid)
 			).then(({ sessions }) => {
+				// It will send a browser notification if there is a new enquiry
+				maybeSendNewEnquiryNotification(sessions);
 				handleSessions(sessions, relevantSubscriptions);
 			});
 		} else {
@@ -200,7 +203,8 @@ export function RocketChatUnreadProvider({
 		subscriptions,
 		handleSessions,
 		unreadStatus,
-		anonymousConversationFinished
+		anonymousConversationFinished,
+		maybeSendNewEnquiryNotification
 	]);
 
 	return (
