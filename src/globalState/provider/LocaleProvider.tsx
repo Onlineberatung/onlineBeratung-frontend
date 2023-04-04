@@ -39,6 +39,7 @@ export function LocaleProvider(props) {
 			...settings.i18n,
 			...(tenant?.settings?.activeLanguages && {
 				supportedLngs: [
+					'de_informal',
 					...(tenant?.settings?.activeLanguages || []),
 					// If tenant service has 'de' active add default supported languages 'de' and 'de_informal'
 					// If 'de' is deactivated 'de_informal' should not be available too
