@@ -9,12 +9,14 @@ import SafariLogo from '../../resources/img/images/safari.png';
 import { UserDataContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 
-interface HelpVideoCallAskerProps {
+interface HelpVideoCallProps {
 	copyLoginLink: Function;
+	consultant: boolean;
 }
 
-export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
-	copyLoginLink
+export const HelpVideoCall: React.FC<HelpVideoCallProps> = ({
+	copyLoginLink,
+	consultant
 }) => {
 	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
@@ -38,13 +40,25 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 		<>
 			<div className="help__top">
 				<Headline
-					text={translate('help.videoCall.asker.headline')}
+					text={
+						userData.e2eEncryptionEnabled
+							? translate(
+									`help.videoCall.${
+										consultant ? 'consultant' : 'asker'
+									}.headline`
+							  )
+							: translate('help.videoCall.asker.steps.headline.1')
+					}
 					semanticLevel="5"
 				/>
 				<Text
 					text={
 						userData.e2eEncryptionEnabled
-							? translate('help.videoCall.asker.intro')
+							? translate(
+									`help.videoCall.${
+										consultant ? 'consultant' : 'asker'
+									}.intro`
+							  )
 							: ''
 					}
 					type="standard"
@@ -112,12 +126,20 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 			</div>
 			<div className="help__mid">
 				<Headline
-					text={translate('help.videoCall.asker.steps.headline.1')}
+					text={translate(
+						`help.videoCall.${
+							consultant ? 'consultant' : 'asker'
+						}.steps.headline.1`
+					)}
 					semanticLevel="5"
 				/>
 				<ol className="tertiary">
 					<li>
-						{translate('help.videoCall.asker.steps.1.1')}
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.1.1`
+						)}
 						<a
 							href="https://www.google.com/chrome/"
 							target="_blank"
@@ -126,7 +148,11 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 						>
 							{translate('help.googleChrome')}
 						</a>
-						{translate('help.videoCall.asker.steps.1.2')}
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.1.2`
+						)}
 						<a
 							href="https://www.microsoft.com/edge"
 							target="_blank"
@@ -135,7 +161,11 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 						>
 							{translate('help.msEdge')}
 						</a>
-						{translate('help.videoCall.asker.steps.1.2')}
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.1.2`
+						)}
 						<a
 							href="https://www.apple.com/de/safari/"
 							target="_blank"
@@ -144,30 +174,83 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 						>
 							{translate('help.safari')}
 						</a>
-						{translate('help.videoCall.asker.steps.1.3')}.
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.1.3`
+						)}
+						.
 					</li>
-					<li>{translate('help.videoCall.asker.steps.2')}</li>
-					<li>{translate('help.videoCall.asker.steps.3')}</li>
 					<li>
-						{translate('help.videoCall.asker.steps.4.1')}
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.2`
+						)}
+					</li>
+					<li>
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.3`
+						)}
+					</li>
+					<li>
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.4.1`
+						)}
 						{copyLink}
 					</li>
-					<li>{translate('help.videoCall.asker.steps.5')}</li>
-					<li>{translate('help.videoCall.asker.steps.6')}</li>
+					<li>
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.5`
+						)}
+					</li>
+					<li>
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.6`
+						)}
+					</li>
 				</ol>
 			</div>
 			<div className="help__bottom">
 				<Headline
-					text={translate('help.videoCall.asker.steps.headline.2')}
+					text={translate(
+						`help.videoCall.${
+							consultant ? 'consultant' : 'asker'
+						}.steps.headline.2`
+					)}
 					semanticLevel="5"
 				/>
 				<ol className="tertiary">
 					<li>
-						{translate('help.videoCall.asker.steps.4.2')}
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.4.2`
+						)}
 						{copyLink}
 					</li>
-					<li>{translate('help.videoCall.asker.steps.5')}</li>
-					<li>{translate('help.videoCall.asker.steps.6')}</li>
+					<li>
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.5`
+						)}
+					</li>
+					<li>
+						{translate(
+							`help.videoCall.${
+								consultant ? 'consultant' : 'asker'
+							}.steps.6`
+						)}
+					</li>
 				</ol>
 			</div>
 		</>
