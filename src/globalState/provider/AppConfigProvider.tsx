@@ -12,7 +12,8 @@ const transformReleaseToggles = (
 		releaseToggles: Object.entries(releaseToggles).reduce(
 			(current, [toggleKey, value]) => ({
 				...current,
-				[toggleKey]: value === 'true'
+				[toggleKey]:
+					typeof value === 'string' ? value === 'true' : value
 			}),
 			{}
 		)

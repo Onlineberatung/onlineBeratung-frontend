@@ -1532,6 +1532,11 @@ export const de = {
 				description:
 					'Ihr_e Berater_in hat um Erlaubnis gebeten, Sie einem neuen Berater zuzuweisen.'
 			},
+			'appointmentNotificationEnabled': {
+				title: 'Termine',
+				description:
+					'Ein Termin wurde angesetzt, verschoben oder abgesagt'
+			},
 			'error': {
 				title: 'Etwas ist schief gelaufen.',
 				description:
