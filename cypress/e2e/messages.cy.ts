@@ -57,7 +57,7 @@ describe('Messages', () => {
 			});
 		});
 
-		xdescribe('informal', () => {
+		describe('informal', () => {
 			it('should show inline error when quota is reached', () => {
 				cy.willReturn('userData', {
 					formalLanguage: false
