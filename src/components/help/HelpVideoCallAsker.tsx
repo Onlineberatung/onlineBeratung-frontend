@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { Headline } from '../headline/Headline';
+import { Text } from '../text/Text';
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
-import { useTranslation } from 'react-i18next';
-import { Text } from '../text/Text';
+import SafariLogo from '../../resources/img/images/safari.png';
 import { UserDataContext } from '../../globalState';
+import { useTranslation } from 'react-i18next';
 
 interface HelpVideoCallAskerProps {
 	copyLoginLink: Function;
@@ -18,11 +19,26 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 
+	const copyLink = (
+		<button
+			className="help__copyLink button-as-link"
+			type="button"
+			tabIndex={0}
+			onClick={() => {
+				copyLoginLink();
+			}}
+			title={translate('help.videoCall.loginLink.title')}
+		>
+			<CopyIcon className={`copy icn--s`} />{' '}
+			{translate('help.videoCall.loginLink.text')}
+		</button>
+	);
+
 	return (
 		<>
 			<div className="help__top">
 				<Headline
-					text={translate('help.videoCall.asker.steps.headline.1')}
+					text={translate('help.videoCall.asker.headline')}
 					semanticLevel="5"
 				/>
 				<Text
@@ -34,68 +50,107 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 					type="standard"
 					className="tertiary"
 				/>
+			</div>
+			<div className="help__browser">
+				<div>
+					<img
+						src={ChromeLogo}
+						alt={translate('help.googleChrome')}
+						title={translate('help.googleChrome')}
+					/>
+					<a
+						href="https://www.google.com/chrome/"
+						target="_blank"
+						rel="noreferrer"
+						className="button-as-link"
+					>
+						<NewWindow
+							title={translate('help.openInNewTab')}
+							aria-label={translate('help.openInNewTab')}
+						/>{' '}
+						{translate('help.googleChrome')}
+					</a>
+				</div>
+				<div>
+					<img
+						src={EdgeLogo}
+						alt={translate('help.msEdge')}
+						title={translate('help.msEdge')}
+					/>
+					<a
+						href="https://www.microsoft.com/edge"
+						target="_blank"
+						rel="noreferrer"
+						className="button-as-link"
+					>
+						<NewWindow
+							title={translate('help.openInNewTab')}
+							aria-label={translate('help.openInNewTab')}
+						/>{' '}
+						{translate('help.msEdge')}
+					</a>
+				</div>
+				<div>
+					<img
+						src={SafariLogo}
+						alt={translate('help.safari')}
+						title={translate('help.safari')}
+					/>
+					<a
+						href="https://www.apple.com/de/safari/"
+						target="_blank"
+						rel="noreferrer"
+						className="button-as-link"
+					>
+						<NewWindow
+							title={translate('help.openInNewTab')}
+							aria-label={translate('help.openInNewTab')}
+						/>{' '}
+						{translate('help.safari')}
+					</a>
+				</div>
+			</div>
+			<div className="help__mid">
+				<Headline
+					text={translate('help.videoCall.asker.steps.headline.1')}
+					semanticLevel="5"
+				/>
 				<ol className="tertiary">
 					<li>
-						{translate('help.videoCall.asker.steps.1')}
-						<div className="help__browser help__browser--asker">
-							<div>
-								<img
-									src={ChromeLogo}
-									alt={translate('help.googleChrome')}
-									title={translate('help.googleChrome')}
-								/>
-								<a
-									href="https://www.google.com/chrome/"
-									target="_blank"
-									rel="noreferrer"
-									className="button-as-link"
-								>
-									<NewWindow
-										title={translate('help.openInNewTab')}
-										aria-label={translate(
-											'help.openInNewTab'
-										)}
-									/>{' '}
-									{translate('help.googleChrome')}
-								</a>
-							</div>
-							<div>
-								<img
-									src={EdgeLogo}
-									alt={translate('help.msEdge')}
-									title={translate('help.msEdge')}
-								/>
-								<a
-									href="https://www.microsoft.com/edge"
-									target="_blank"
-									rel="noreferrer"
-								>
-									<NewWindow
-										title={translate('help.openInNewTab')}
-										aria-label={translate(
-											'help.openInNewTab'
-										)}
-									/>{' '}
-									{translate('help.msEdge')}
-								</a>
-							</div>
-						</div>
+						{translate('help.videoCall.asker.steps.1.1')}
+						<a
+							href="https://www.google.com/chrome/"
+							target="_blank"
+							rel="noreferrer"
+							className="button-as-link"
+						>
+							{translate('help.googleChrome')}
+						</a>
+						{translate('help.videoCall.asker.steps.1.2')}
+						<a
+							href="https://www.microsoft.com/edge"
+							target="_blank"
+							rel="noreferrer"
+							className="button-as-link"
+						>
+							{translate('help.msEdge')}
+						</a>
+						{translate('help.videoCall.asker.steps.1.2')}
+						<a
+							href="https://www.apple.com/de/safari/"
+							target="_blank"
+							rel="noreferrer"
+							className="button-as-link"
+						>
+							{translate('help.safari')}
+						</a>
+						{translate('help.videoCall.asker.steps.1.3')}.
 					</li>
 					<li>{translate('help.videoCall.asker.steps.2')}</li>
 					<li>{translate('help.videoCall.asker.steps.3')}</li>
 					<li>
-						{translate('help.videoCall.asker.steps.4')}
-						<span
-							className="help__copyLink"
-							role="button"
-							onClick={() => {
-								copyLoginLink();
-							}}
-							title={translate('help.videoCall.loginLink.title')}
-						>
-							<CopyIcon className={`copy icn--s`} />{' '}
-							{translate('help.videoCall.loginLink.text')}
-						</span>
+						{translate('help.videoCall.asker.steps.4.1')}
+						{copyLink}
 					</li>
 					<li>{translate('help.videoCall.asker.steps.5')}</li>
 					<li>{translate('help.videoCall.asker.steps.6')}</li>
@@ -108,18 +163,8 @@ export const HelpVideoCallAsker: React.FC<HelpVideoCallAskerProps> = ({
 				/>
 				<ol className="tertiary">
 					<li>
-						{translate('help.videoCall.asker.steps.4')}
-						<span
-							className="help__copyLink"
-							role="button"
-							onClick={() => {
-								copyLoginLink();
-							}}
-							title={translate('help.videoCall.loginLink.title')}
-						>
-							<CopyIcon className={`copy icn--s`} />{' '}
-							{translate('help.videoCall.loginLink.text')}
-						</span>
+						{translate('help.videoCall.asker.steps.4.2')}
+						{copyLink}
 					</li>
 					<li>{translate('help.videoCall.asker.steps.5')}</li>
 					<li>{translate('help.videoCall.asker.steps.6')}</li>

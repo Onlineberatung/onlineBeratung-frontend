@@ -5,6 +5,7 @@ import { ReactComponent as NewWindow } from '../../resources/img/icons/new-windo
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
+import SafariLogo from '../../resources/img/images/safari.png';
 import { UserDataContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 
@@ -56,45 +57,64 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 						type="standard"
 						className="tertiary"
 					/>
-					<div className="help__browser">
-						<div>
-							<img
-								src={ChromeLogo}
-								alt={translate('help.googleChrome')}
-								title={translate('help.googleChrome')}
-							/>
-							<a
-								href="https://www.google.com/chrome/"
-								target="_blank"
-								rel="noreferrer"
-								className="button-as-link"
-							>
-								<NewWindow
-									title={translate('help.openInNewTab')}
-									aria-label={translate('help.openInNewTab')}
-								/>{' '}
-								{translate('help.googleChrome')}
-							</a>
-						</div>
-						<div>
-							<img
-								src={EdgeLogo}
-								alt={translate('help.msEdge')}
-								title={translate('help.msEdge')}
-							/>
-							<a
-								href="https://www.microsoft.com/edge"
-								target="_blank"
-								rel="noreferrer"
-								className="button-as-link"
-							>
-								<NewWindow
-									title={translate('help.openInNewTab')}
-									aria-label={translate('help.openInNewTab')}
-								/>{' '}
-								{translate('help.msEdge')}
-							</a>
-						</div>
+				</div>
+				<div className="help__browser">
+					<div>
+						<img
+							src={ChromeLogo}
+							alt={translate('help.googleChrome')}
+							title={translate('help.googleChrome')}
+						/>
+						<a
+							href="https://www.google.com/chrome/"
+							target="_blank"
+							rel="noreferrer"
+							className="button-as-link"
+						>
+							<NewWindow
+								title={translate('help.openInNewTab')}
+								aria-label={translate('help.openInNewTab')}
+							/>{' '}
+							{translate('help.googleChrome')}
+						</a>
+					</div>
+					<div>
+						<img
+							src={EdgeLogo}
+							alt={translate('help.msEdge')}
+							title={translate('help.msEdge')}
+						/>
+						<a
+							href="https://www.microsoft.com/edge"
+							target="_blank"
+							rel="noreferrer"
+							className="button-as-link"
+						>
+							<NewWindow
+								title={translate('help.openInNewTab')}
+								aria-label={translate('help.openInNewTab')}
+							/>{' '}
+							{translate('help.msEdge')}
+						</a>
+					</div>
+					<div>
+						<img
+							src={SafariLogo}
+							alt={translate('help.safari')}
+							title={translate('help.safari')}
+						/>
+						<a
+							href="https://www.apple.com/de/safari/"
+							target="_blank"
+							rel="noreferrer"
+							className="button-as-link"
+						>
+							<NewWindow
+								title={translate('help.openInNewTab')}
+								aria-label={translate('help.openInNewTab')}
+							/>{' '}
+							{translate('help.safari')}
+						</a>
 					</div>
 				</div>
 				<div className="help__mid">
@@ -124,7 +144,16 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 							>
 								{translate('help.msEdge')}
 							</a>
-							.
+							{translate('help.videoCall.consultant.steps.1.2')}
+							<a
+								href="https://www.apple.com/de/safari/"
+								target="_blank"
+								rel="noreferrer"
+								className="button-as-link"
+							>
+								{translate('help.safari')}
+							</a>
+							{translate('help.videoCall.consultant.steps.1.3')}.
 						</li>
 						<li>
 							{translate('help.videoCall.consultant.steps.2')}
@@ -133,7 +162,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 							{translate('help.videoCall.consultant.steps.3')}
 						</li>
 						<li>
-							{translate('help.videoCall.consultant.steps.4')}
+							{translate('help.videoCall.consultant.steps.4.1')}
 							{copyLink}
 						</li>
 						<li>
@@ -153,7 +182,7 @@ export const HelpVideoCallConsultant: React.FC<HelpVideoCallConsultantProps> =
 					/>
 					<ol className="tertiary">
 						<li>
-							{translate('help.videoCall.consultant.steps.4')}
+							{translate('help.videoCall.consultant.steps.4.2')}
 							{copyLink}
 						</li>
 						<li>
