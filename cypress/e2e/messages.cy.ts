@@ -73,8 +73,7 @@ describe('Messages', () => {
 				cy.fastLogin();
 				cy.wait('@consultingTypeServiceBaseBasic');
 
-				cy.get('[data-cy=sessions-list-items-wrapper]').click();
-				cy.wait('@consultingTypeServiceBaseFull');
+				cy.get('[data-cy=session-list-item]').click();
 				cy.wait('@messages');
 
 				cy.get('.textarea__attachmentInput').attachFile('empty.pdf');
@@ -82,7 +81,7 @@ describe('Messages', () => {
 
 				cy.wait('@attachmentUpload');
 
-				cy.contains('Sie haben das Limit zum Hochladen erreicht.');
+				cy.contains('Du hast das Limit zum Hochladen erreicht.');
 			});
 		});
 	});
