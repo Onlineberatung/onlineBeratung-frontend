@@ -1,4 +1,8 @@
-import { hasUserAuthority, AUTHORITIES } from '../../globalState';
+import {
+	hasUserAuthority,
+	AUTHORITIES,
+	AppConfigInterface
+} from '../../globalState';
 import {
 	COLUMN_LEFT,
 	COLUMN_RIGHT,
@@ -12,7 +16,8 @@ import { DeleteAccount } from './DeleteAccount';
 import { Locale } from './Locale';
 
 export const profileRoutesSettings = (
-	selectableLocales: string[]
+	selectableLocales: string[],
+	settings: AppConfigInterface
 ): (TabGroups | SingleComponentType)[] => [
 	{
 		title: 'profile.routes.settings.security.title',
@@ -36,7 +41,10 @@ export const profileRoutesSettings = (
 		elements: [
 			{
 				condition: (userData) =>
-					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData),
+					hasUserAuthority(
+						AUTHORITIES.CONSULTANT_DEFAULT,
+						userData
+					) && !settings?.releaseToggles?.enableNewNotifications,
 				component: ConsultantNotifications,
 				column: COLUMN_RIGHT,
 				order: 1

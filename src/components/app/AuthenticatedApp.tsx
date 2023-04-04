@@ -26,6 +26,7 @@ import { RocketChatPublicSettingsProvider } from '../../globalState/provider/Roc
 import { RocketChatGetUserRolesProvider } from '../../globalState/provider/RocketChatSytemUsersProvider';
 import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
 import { RocketChatUserStatusProvider } from '../../globalState/provider/RocketChatUserStatusProvider';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -36,6 +37,7 @@ export const AuthenticatedApp = ({
 	onLogout,
 	onAppReady
 }: AuthenticatedAppProps) => {
+	const { releaseToggles } = useAppConfig();
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
 	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { locale, setLocale } = useContext(LocaleContext);
@@ -55,12 +57,13 @@ export const AuthenticatedApp = ({
 
 	useEffect(() => {
 		if (
+			!releaseToggles?.enableNewNotifications &&
 			userData &&
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 		) {
 			requestPermissions();
 		}
-	}, [userData]);
+	}, [releaseToggles?.enableNewNotifications, userData]);
 
 	useEffect(() => {
 		if (!userDataRequested) {

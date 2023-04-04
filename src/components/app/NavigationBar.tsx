@@ -23,6 +23,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { userHasBudibaseTools } from '../../api/apiGetTools';
+import { browserNotificationsSettings } from '../../utils/notificationHelpers';
 
 export interface NavigationBarProps {
 	onLogout: any;
@@ -35,7 +36,7 @@ export const NavigationBar = ({
 	routerConfig
 }: NavigationBarProps) => {
 	const { t: translate } = useTranslation();
-	const { userData } = useContext(UserDataContext);
+	const { userData, isFirstVisit } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions, dispatch } = useContext(SessionsDataContext);
 	const { selectableLocales } = useContext(LocaleContext);
@@ -121,7 +122,8 @@ export const NavigationBar = ({
 			unreadSessions.length + unreadGroup.length,
 		'/sessions/user/view':
 			unreadSessions.length + unreadGroup.length + notificationConsultant,
-		'/sessions/consultant/teamSessionView': unreadTeamSessions.length
+		'/sessions/consultant/teamSessionView': unreadTeamSessions.length,
+		'/profile': isFirstVisit && !browserNotificationsSettings().visited
 	};
 
 	const pathToClassNameInWalkThrough = React.useCallback((to: string) => {

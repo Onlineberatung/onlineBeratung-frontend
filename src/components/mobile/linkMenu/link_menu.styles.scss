@@ -35,7 +35,27 @@
 
 			svg {
 				padding: 3px 0;
+				width: 24px;
+				height: 24px;
 			}
+		}
+
+		&__badge {
+			margin-left: 4px;
+			background-color: $primary;
+			color: $white;
+			border-radius: 50%;
+			width: 8px;
+			height: 8px;
+			font-size: 12px;
+			line-height: 8px;
+			text-align: center;
+			display: block;
+		}
+
+		&__container {
+			display: flex;
+			align-items: center;
 		}
 	}
 }

@@ -1,0 +1,21 @@
+.container {
+	display: flex;
+	min-height: 96px;
+	padding: 16px;
+	flex-direction: column;
+	background: rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(10px);
+	border-radius: 4px;
+}
+
+.button {
+	align-self: flex-end;
+	margin-top: 16px;
+
+	:global(.button__item) {
+		gap: 13px;
+		display: flex;
+		align-items: center;
+	}
+}
