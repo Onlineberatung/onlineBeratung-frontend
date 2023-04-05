@@ -13,7 +13,6 @@ import {
 } from '../session/sessionHelpers';
 
 import { AskerInfo } from '../askerInfo/AskerInfo';
-import { Monitoring } from '../monitoring/Monitoring';
 import { Profile } from '../profile/Profile';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
@@ -349,11 +348,6 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
-				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring,
-				type: SESSION_LIST_TYPES.MY_SESSION
-			},
-			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
 				component: GroupChatInfo,
 				type: SESSION_LIST_TYPES.MY_SESSION
@@ -547,11 +541,6 @@ export const RouterConfigTeamConsultant = (
 				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
-				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring,
-				type: SESSION_LIST_TYPES.MY_SESSION
-			},
-			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
 				component: GroupChatInfo,
 				type: SESSION_LIST_TYPES.MY_SESSION
@@ -559,11 +548,6 @@ export const RouterConfigTeamConsultant = (
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile',
 				component: AskerInfo,
-				type: SESSION_LIST_TYPES.TEAMSESSION
-			},
-			{
-				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring,
 				type: SESSION_LIST_TYPES.TEAMSESSION
 			},
 			{

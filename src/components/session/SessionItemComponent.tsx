@@ -75,8 +75,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 
-	const [monitoringButtonVisible, setMonitoringButtonVisible] =
-		useState(false);
 	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [initialScrollCompleted, setInitialScrollCompleted] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
@@ -88,9 +86,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const [newMessages, setNewMessages] = useState(0);
 	const [canWriteMessage, setCanWriteMessage] = useState(false);
 	const [headerRef, headerBounds] = useMeasure({ polyfill: ResizeObserver });
-	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
-	const getSessionListTab = () =>
-		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { ready, key, keyID, encrypted, subscriptionKeyLost } = useE2EE(
 		activeSession.rid
 	);
@@ -273,12 +268,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	};
 
 	const isOnlyEnquiry = type === SESSION_LIST_TYPES.ENQUIRY;
-
-	const monitoringButtonItem: ButtonItem = {
-		label: translate('session.monitoring.buttonLabel'),
-		type: 'PRIMARY',
-		function: ''
-	};
 
 	const scrollBottomButtonItem: ButtonItem = {
 		icon: <ArrowDoubleDownIcon />,
@@ -468,25 +457,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 				</div>
 			</div>
 
-			{activeSession.item.monitoring &&
-				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				(activeSession.isGroup || !activeSession.isFeedback) &&
-				type !== SESSION_LIST_TYPES.ENQUIRY &&
-				monitoringButtonVisible &&
-				!activeSession.isLive && (
-					<Link
-						to={`/sessions/consultant/${getViewPathForType(type)}/${
-							activeSession.item.groupId
-						}/${
-							activeSession.item.id
-						}/userProfile/monitoring${getSessionListTab()}`}
-					>
-						<div className="monitoringButton">
-							<Button item={monitoringButtonItem} isLink={true} />
-						</div>
-					</Link>
-				)}
-
 			{type === SESSION_LIST_TYPES.ENQUIRY && (
 				<AcceptAssign
 					assignable={
@@ -519,9 +489,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 									'session__submit-interface--scrolled-up'
 							)}
 							placeholder={getPlaceholder()}
-							showMonitoringButton={() => {
-								setMonitoringButtonVisible(true);
-							}}
 							typingUsers={props.typingUsers}
 							preselectedFile={draggedFile}
 							handleMessageSendSuccess={handleMessageSendSuccess}
