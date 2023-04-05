@@ -9,16 +9,9 @@ import {
 	lazy,
 	Suspense
 } from 'react';
-import { Link } from 'react-router-dom';
 import { ResizeObserver } from '@juggle/resize-observer';
 import clsx from 'clsx';
-import {
-	getViewPathForType,
-	scrollToEnd,
-	isMyMessage,
-	SESSION_LIST_TYPES,
-	SESSION_LIST_TAB
-} from './sessionHelpers';
+import { scrollToEnd, isMyMessage, SESSION_LIST_TYPES } from './sessionHelpers';
 import {
 	MessageItem,
 	MessageItemComponent
