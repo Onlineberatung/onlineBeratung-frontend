@@ -1419,6 +1419,11 @@ export const en = {
 				description:
 					'Your counsellor has asked for permission to reassign you to a new counsellor'
 			},
+			'appointmentNotificationEnabled': {
+				title: 'Appointments',
+				description:
+					'An appointment was scheduled, postponed or cancelled'
+			},
 			'error': {
 				title: 'Something went wrong.',
 				description:
