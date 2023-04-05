@@ -36,7 +36,6 @@ import smoothScroll from './smoothScrollHelper';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
-import { useSearchParam } from '../../hooks/useSearchParams';
 import { AcceptAssign } from './AcceptAssign';
 import { useTranslation } from 'react-i18next';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
