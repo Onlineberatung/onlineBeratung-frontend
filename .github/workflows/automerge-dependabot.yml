@@ -6,6 +6,12 @@ permissions:
     pull-requests: write
 
 jobs:
+    log:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Log github actor
+              run: echo ${{ github.actor }}
+
     dependabot:
         runs-on: ubuntu-latest
         if: ${{ github.actor == 'dependabot[bot]' }}
