@@ -36,12 +36,12 @@ export const useConsultingTypeAgencySelection = (
 		const consultingTypes = consultant.agencies
 			// Remove consultingType duplicates
 			.reduce((acc: ConsultingTypeInterface[], { consultingTypeRel }) => {
-				if (
-					!acc.find(
-						(consultingType) =>
-							consultingType.id === consultingTypeRel.id
-					)
-				) {
+				const alreadyExistsConsultingType = !acc.some(
+					(consultingType) =>
+						consultingType.id === consultingTypeRel.id
+				);
+
+				if (alreadyExistsConsultingType) {
 					acc.push(consultingTypeRel);
 				}
 				return acc;

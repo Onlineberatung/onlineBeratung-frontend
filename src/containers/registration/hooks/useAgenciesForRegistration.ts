@@ -38,7 +38,7 @@ export const useAgenciesForRegistration = ({
 	const { autoSelectPostcode, autoSelectAgency } =
 		consultingType?.registration || {};
 	const allAgencies = useMemo(() => {
-		let uniqueAgencies = uniqueBy(
+		const uniqueAgencies = uniqueBy(
 			[
 				propPreSelectedAgency,
 				...agencies,
@@ -49,9 +49,7 @@ export const useAgenciesForRegistration = ({
 
 		if (consultingType && !autoSelectPostcode) {
 			// Hide external agencies in this case
-			uniqueAgencies = uniqueAgencies.filter(
-				(agency) => !agency.external
-			);
+			return uniqueAgencies.filter((agency) => !agency.external);
 		}
 		return uniqueAgencies;
 	}, [
