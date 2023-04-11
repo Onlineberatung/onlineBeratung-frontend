@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { AgencyDataInterface } from '../../globalState';
-import { Headline } from '../headline/Headline';
-import { RadioButton } from '../radioButton/RadioButton';
-import { AgencyInfo } from './AgencyInfo';
-import { AgencyLanguages } from './AgencyLanguages';
+import { AgencyDataInterface } from '../../../../globalState';
+import { Headline } from '../../../../components/headline/Headline';
+import { RadioButton } from '../../../../components/radioButton/RadioButton';
+import { AgencyInfo } from '../../../../components/agencySelection/AgencyInfo';
+import { AgencyLanguages } from '../../../../components/agencySelection/AgencyLanguages';
 import './preselectedAgency.styles';
 
 export interface PreselectedAgencyProps {

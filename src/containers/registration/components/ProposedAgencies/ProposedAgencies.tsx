@@ -21,6 +21,8 @@ import {
 import { getUrlParameter } from '../../../../utils/getUrlParameter';
 import { LABEL_TYPES, Text } from '../../../../components/text/Text';
 import './proposedAgencies.styles.scss';
+import { useTranslation } from 'react-i18next';
+import { PreselectedAgency } from '../PreSelectedAgency/PreselectedAgency';
 
 interface ProposedAgenciesProps {
 	consultant: ConsultantDataInterface;
@@ -43,10 +45,12 @@ export const ProposedAgencies = ({
 	onValidityChange,
 	onChange
 }: ProposedAgenciesProps) => {
+	const { t } = useTranslation();
 	const initialPostcode = getUrlParameter('postcode');
-	const { autoSelectPostcode } = consultingType?.registration || {
-		autoSelectPostcode: true
-	};
+	const { autoSelectPostcode, autoSelectAgency } =
+		consultingType?.registration || {
+			autoSelectPostcode: true
+		};
 
 	// Set the default selected agency
 	const [isTouched, setIsTouched] = useState<boolean>(false);
@@ -161,7 +165,15 @@ export const ProposedAgencies = ({
 
 			{isLoading && <LoadingIndicator />}
 
-			{agencies?.length > 0 && (
+			{autoSelectAgency && preSelectedAgency && (
+				<PreselectedAgency
+					prefix={t('registration.agency.preselected.prefix')}
+					agencyData={preSelectedAgency}
+					onKeyDown={handleKeyDown}
+				/>
+			)}
+
+			{agencies?.length > 0 && (!autoSelectAgency || !preSelectedAgency) && (
 				<div className="agencySelectionContainer">
 					<ProposedAgenciesTitle
 						hasPreselectedAgency={!!propPreselectedAgency}
