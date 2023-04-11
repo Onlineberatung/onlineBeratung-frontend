@@ -16,7 +16,7 @@ import { RadioButton } from '../radioButton/RadioButton';
 import { Loading } from '../app/Loading';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { AgencyInfo } from './AgencyInfo';
-import { PreselectedAgency } from './PreselectedAgency';
+import { PreselectedAgency } from '../../containers/registration/components/PreSelectedAgency/PreselectedAgency';
 import { Headline } from '../headline/Headline';
 import { parsePlaceholderString } from '../../utils/parsePlaceholderString';
 import { Notice } from '../notice/Notice';

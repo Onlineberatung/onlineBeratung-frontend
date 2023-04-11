@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import './formAccordion.styles';
 import {
 	RequiredComponentsInterface,
@@ -11,8 +11,6 @@ import {
 	LegalLinkInterface
 } from '../../globalState';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
-import { AgencySelection } from '../agencySelection/AgencySelection';
-import { ReactComponent as PinIcon } from '../../resources/img/icons/pin.svg';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
 import { RegistrationAge } from '../registration/RegistrationAge';
 import { RegistrationState } from '../registration/RegistrationState';
@@ -23,18 +21,14 @@ import {
 	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
-import {
-	ConsultingTypeAgencySelection,
-	useConsultingTypeAgencySelection
-} from '../consultingTypeSelection/ConsultingTypeAgencySelection';
 import { MainTopicSelection } from '../mainTopicSelection/MainTopicSelection';
 import { useTranslation } from 'react-i18next';
-import { PreselectedAgency } from '../agencySelection/PreselectedAgency';
-import { Text } from '../text/Text';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { FormAccordionRegistrationText } from './FormAccordionRegistrationText';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
+import { ProposedAgencies } from '../../containers/registration/components/ProposedAgencies/ProposedAgencies';
+import { useConsultingTypeAgencySelection } from '../../containers/registration/hooks/useConsultingTypeAgencySelection';
 
 interface FormAccordionProps {
 	consultingType?: ConsultingTypeInterface;
@@ -45,7 +39,6 @@ interface FormAccordionProps {
 	onValidation: Function;
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
-	initialPostcode?: string;
 	mainTopicId?: number;
 	preselectedTopic?: number;
 	legalLinks: Array<LegalLinkInterface>;
@@ -65,7 +58,6 @@ export const FormAccordion = ({
 	onValidation,
 	additionalStepsData,
 	registrationNotes,
-	initialPostcode,
 	mainTopicId,
 	legalLinks,
 	handleSubmitButtonClick,
@@ -99,16 +91,6 @@ export const FormAccordion = ({
 		agency: VALIDITY_INITIAL,
 		dataProtection: VALIDITY_INITIAL
 	});
-
-	useEffect(() => {
-		if (
-			consultingType?.registration.autoSelectPostcode &&
-			preselectedAgencyData
-		) {
-			handleValidity('agency', VALIDITY_VALID);
-			setAgency(preselectedAgencyData);
-		}
-	}, [preselectedAgencyData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		onChange({
@@ -152,6 +134,21 @@ export const FormAccordion = ({
 			isDataProtectionSelected ? VALIDITY_VALID : VALIDITY_INITIAL
 		);
 	}, [isDataProtectionSelected]); // eslint-disable-line react-hooks/exhaustive-deps
+
+	const onChangeAgencyValidity = useCallback(
+		(validity) => {
+			if (
+				topicsAreRequired &&
+				!mainTopicId &&
+				preselectedTopic < 0 &&
+				validity !== VALIDITY_INITIAL
+			) {
+				handleValidity('mainTopic', VALIDITY_INVALID);
+			}
+			handleValidity('agency', validity);
+		},
+		[handleValidity, mainTopicId, preselectedTopic, topicsAreRequired]
+	);
 
 	const handleKeyDown = (e, isLastInput = true, isFirstInput = true) => {
 		if (
@@ -244,89 +241,30 @@ export const FormAccordion = ({
 		});
 	}
 
-	const {
-		agencies: possibleAgencies,
-		consultingTypes: possibleConsultingTypes
-	} = useConsultingTypeAgencySelection(
-		consultant,
-		consultingType,
-		preselectedAgencyData
-	);
+	const { consultingTypes: possibleConsultingTypes } =
+		useConsultingTypeAgencySelection(
+			consultant,
+			consultingType,
+			preselectedAgencyData
+		);
 
-	useEffect(() => {
-		// If only one agency and one consultingType possible then choose it because selection is not shown
-		if (
-			consultant &&
-			possibleAgencies.length === 1 &&
-			possibleConsultingTypes.length === 1
-		) {
-			setAgency(possibleAgencies[0]);
-			handleValidity('agency', VALIDITY_VALID);
+	const agencySelectionTitle = useMemo(() => {
+		if (consultant) {
+			if (possibleConsultingTypes.length > 1) {
+				return 'registration.consultingTypeAgencySelection.consultingType.headline';
+			} else {
+				return 'registration.consultingTypeAgencySelection.agency.headline';
+			}
+		} else if (!consultingType?.registration?.autoSelectPostcode) {
+			if (consultingType?.registration?.autoSelectAgency) {
+				return 'registration.agencyPreselected.headline';
+			} else {
+				return 'registration.agencySelection.headline';
+			}
+		} else {
+			return 'registration.agency.headline';
 		}
-	}, [consultant, possibleAgencies, possibleConsultingTypes]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	if (consultant) {
-		if (possibleAgencies.length > 1 || possibleConsultingTypes.length > 1) {
-			accordionItemData.push({
-				title:
-					possibleConsultingTypes.length > 1
-						? translate(
-								'registration.consultingTypeAgencySelection.consultingType.headline'
-						  )
-						: translate(
-								'registration.consultingTypeAgencySelection.agency.headline'
-						  ),
-				nestedComponent: (
-					<ConsultingTypeAgencySelection
-						consultant={consultant}
-						agency={agency}
-						preselectedConsultingType={consultingType}
-						preselectedAgency={preselectedAgencyData}
-						onChange={setAgency}
-						onValidityChange={(validity) =>
-							handleValidity('agency', validity)
-						}
-						onKeyDown={handleKeyDown}
-					/>
-				),
-				isValid: validity.agency
-			});
-		}
-	} else if (
-		consultingType &&
-		!consultingType.registration.autoSelectPostcode
-	) {
-		accordionItemData.push({
-			title: preselectedAgencyData
-				? translate('registration.agencyPreselected.headline')
-				: translate('registration.agencySelection.headline'),
-			nestedComponent: (
-				<AgencySelection
-					consultingType={consultingType}
-					icon={<PinIcon />}
-					initialPostcode={initialPostcode}
-					preselectedAgency={preselectedAgencyData}
-					onAgencyChange={(agency) => setAgency(agency)}
-					hideExternalAgencies
-					onValidityChange={(validity) => {
-						if (
-							topicsAreRequired &&
-							!mainTopicId &&
-							preselectedTopic < 0 &&
-							validity !== VALIDITY_INITIAL
-						) {
-							handleValidity('mainTopic', VALIDITY_INVALID);
-						}
-						handleValidity('agency', validity);
-					}}
-					agencySelectionNote={registrationNotes?.agencySelection}
-					mainTopicId={mainTopicId}
-					onKeyDown={handleKeyDown}
-				/>
-			),
-			isValid: validity.agency
-		});
-	}
+	}, [consultant, consultingType, possibleConsultingTypes.length]);
 
 	if (additionalStepsData?.age?.isEnabled) {
 		accordionItemData.push({
@@ -388,47 +326,21 @@ export const FormAccordion = ({
 		});
 	}
 
-	if (
-		preselectedAgencyData &&
-		!possibleAgencies?.length &&
-		consultingType?.registration.autoSelectPostcode
-	) {
-		accordionItemData.push({
-			title: translate('registration.agency.headline'),
-			nestedComponent: (
-				<PreselectedAgency
-					prefix={translate('registration.agency.preselected.prefix')}
-					agencyData={preselectedAgencyData}
-					onKeyDown={handleKeyDown}
-				/>
-			),
-			isValid: validity.agency
-		});
-	}
-
-	if (
-		consultingType?.registration.autoSelectPostcode &&
-		!preselectedAgencyData &&
-		!possibleAgencies?.length
-	) {
-		accordionItemData.push({
-			title: translate('registration.agency.headline'),
-			nestedComponent: (
-				<div
-					className="registrationForm__no-agency-found"
-					onKeyDown={handleKeyDown}
-				>
-					<Text
-						text={translate(
-							'registration.agencySelection.noAgencies'
-						)}
-						type="infoMedium"
-					/>
-				</div>
-			),
-			isValid: VALIDITY_INITIAL
-		});
-	}
+	accordionItemData.push({
+		title: translate(agencySelectionTitle),
+		nestedComponent: (
+			<ProposedAgencies
+				consultingType={consultingType}
+				mainTopicId={mainTopicId}
+				consultant={consultant}
+				preSelectedAgency={preselectedAgencyData}
+				agencySelectionNote={registrationNotes?.agencySelection}
+				onValidityChange={onChangeAgencyValidity}
+				onChange={setAgency}
+			/>
+		),
+		isValid: validity.agency
+	});
 
 	accordionItemData.push({
 		title: translate('registration.form.title'),
