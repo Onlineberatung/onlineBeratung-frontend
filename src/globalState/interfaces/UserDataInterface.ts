@@ -6,6 +6,7 @@ export interface UserDataInterface {
 	absent?: boolean;
 	agencies: AgencyDataInterface[];
 	appointmentFeatureEnabled?: boolean;
+	available?: boolean;
 	consultingTypes?: { [consultingType: number]: ConsultingTypeDataInterface };
 	displayName?: string;
 	e2eEncryptionEnabled: boolean;
@@ -27,6 +28,7 @@ export interface UserDataInterface {
 	userName: string;
 	termsAndConditionsConfirmation: string;
 	dataPrivacyConfirmation: string;
+	emailNotifications?: EmailNotificationsInterface;
 }
 
 export interface ConsultantDataInterface
@@ -68,4 +70,16 @@ export interface TwoFactorAuthInterface {
 
 export interface AgencyLanguagesInterface {
 	languages: string[];
+}
+
+export interface EmailNotificationsInterface {
+	emailNotificationsEnabled?: boolean;
+	settings?: EmailNotificationsSettingsInterface;
+}
+
+export interface EmailNotificationsSettingsInterface {
+	initialEnquiryNotificationEnabled?: boolean;
+	newChatMessageNotificationEnabled?: boolean;
+	reassignmentNotificationEnabled?: boolean;
+	appointmentNotificationEnabled?: boolean;
 }

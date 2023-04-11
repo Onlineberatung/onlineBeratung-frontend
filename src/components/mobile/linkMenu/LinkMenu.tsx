@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, generatePath } from 'react-router-dom';
 import { ReactComponent as ForwardIcon } from '../../../resources/img/icons/arrow-right.svg';
+import { ReactComponent as NewWindowIcon } from '../../../resources/img/icons/new-window.svg';
 import './link_menu.styles';
 
 export type LinkMenuComponentType = {
@@ -12,6 +13,8 @@ export type LinkMenuComponentType = {
 export type LinkMenuItemType = {
 	title: string;
 	url: string;
+	showBadge?: boolean;
+	externalLink?: boolean;
 };
 
 export type LinkMenuGroupType = {
@@ -77,12 +80,25 @@ const LinkMenuItem = ({ item }: { item: LinkMenuItemType }) => {
 	const { t: translate } = useTranslation();
 	return (
 		<div className="link_menu__item">
-			<Link to={generatePath(item.url)}>
-				{item.title}
-				<ForwardIcon
-					title={translate('app.next')}
-					aria-label={translate('app.next')}
-				/>
+			<Link
+				to={generatePath(item.url)}
+				target={item.externalLink ? '_blank' : '_self'}
+			>
+				<div className="link_menu__item__container">
+					{item.title}
+					{item?.showBadge && (
+						<span className="link_menu__item__badge" />
+					)}
+				</div>
+				{item.externalLink && (
+					<NewWindowIcon title={item.title} aria-label={item.title} />
+				)}
+				{!item.externalLink && (
+					<ForwardIcon
+						title={translate('app.next')}
+						aria-label={translate('app.next')}
+					/>
+				)}
 			</Link>
 		</div>
 	);

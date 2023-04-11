@@ -7,7 +7,6 @@ import { BUTTON_TYPES } from '../button/Button';
 import {
 	apiDeleteUserFromRoom,
 	apiGetAgencyConsultantList,
-	apiGetUserData,
 	apiSessionAssign,
 	FETCH_ERRORS
 } from '../../api';
@@ -40,7 +39,7 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { path: listPath } = useContext(SessionTypeContext);
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { consultantList, setConsultantList } = useContext(
 		ConsultantListContext
 	);
@@ -84,8 +83,8 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 			toConsultantId: selected.value,
 			toConsultantName: selected.consultantDisplayName,
 			toAskerName,
-			fromConsultantId: selectedConsultant.value,
-			fromConsultantName: selectedConsultant.consultantDisplayName,
+			fromConsultantId: selectedConsultant?.value,
+			fromConsultantName: selectedConsultant?.consultantDisplayName,
 			status: ReassignStatus.REQUESTED
 		});
 
@@ -173,16 +172,15 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 								userData.userId
 							);
 						} else {
-							apiGetUserData()
+							reloadUserData()
 								.then((profileData: UserDataInterface) => {
 									handleE2EEAssign(
 										activeSession.item.id,
 										profileData.userId
 									);
-									setUserData(profileData);
 									initOverlays(selectedOption, profileData);
 								})
-								.catch((error) => console.log(error));
+								.catch(console.log);
 						}
 					})
 					.catch((error) => {

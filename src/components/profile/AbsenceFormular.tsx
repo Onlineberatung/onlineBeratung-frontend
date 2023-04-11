@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { apiSetAbsence } from '../../api';
 import { BUTTON_TYPES } from '../button/Button';
 import { OverlayItem, OVERLAY_FUNCTIONS, Overlay } from '../overlay/Overlay';
@@ -15,12 +15,13 @@ import { useTranslation } from 'react-i18next';
 
 export const AbsenceFormular = () => {
 	const { t: translate } = useTranslation();
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 
-	const [isAbsent, setIsAbsent] = useState(userData.absent);
 	const [absentMessage, setAbsentMessage] = useState(userData.absenceMessage);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+
+	const isAbsent = useMemo(() => userData.absent, [userData.absent]);
 
 	const absenceOverlayItem: OverlayItem = {
 		svg: CheckIcon,
@@ -36,13 +37,13 @@ export const AbsenceFormular = () => {
 
 	const saveAbsence = useCallback(
 		(isAbsent) => {
-			setIsAbsent(isAbsent);
 			if (isRequestInProgress) {
 				return null;
 			}
 			setIsRequestInProgress(true);
 
 			apiSetAbsence(isAbsent, absentMessage)
+				.then(reloadUserData)
 				.then(() => {
 					setOverlayActive(true);
 					setIsRequestInProgress(false);
@@ -52,30 +53,15 @@ export const AbsenceFormular = () => {
 					setIsRequestInProgress(false);
 				});
 		},
-		[absentMessage, isRequestInProgress]
-	);
-
-	useEffect(
-		() => {
-			if (!isAbsent && isAbsent !== userData.absent) {
-				saveAbsence(isAbsent);
-			}
-		},
-		[isAbsent, userData.absent] // eslint-disable-line react-hooks/exhaustive-deps
+		[absentMessage, isRequestInProgress, reloadUserData]
 	);
 
 	useEffect(() => {
-		setIsAbsent(userData.absent);
 		setAbsentMessage(userData.absenceMessage);
 	}, [userData]);
 
 	const handleOverlayAction = () => {
 		setOverlayActive(false);
-		setUserData({
-			...userData,
-			absent: isAbsent,
-			absenceMessage: absentMessage
-		});
 	};
 
 	return (

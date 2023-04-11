@@ -34,3 +34,7 @@ declare global {
 		}
 	}
 }
+
+let sessions = [];
+
+export const getSessions = () => sessions;

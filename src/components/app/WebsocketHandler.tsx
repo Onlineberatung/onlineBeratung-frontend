@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
@@ -13,12 +13,22 @@ import {
 	AnonymousConversationFinishedContext,
 	AnonymousConversationStartedContext,
 	AnonymousEnquiryAcceptedContext,
+	AUTHORITIES,
+	ConsultingTypesContext,
+	hasUserAuthority,
 	NotificationsContext,
+	UserDataContext,
 	WebsocketConnectionDeactivatedContext
 } from '../../globalState';
 import { SESSION_LIST_TAB_ANONYMOUS } from '../session/sessionHelpers';
-import { sendNotification } from '../../utils/notificationHelpers';
+import {
+	isBrowserNotificationTypeEnabled,
+	sendNotification
+} from '../../utils/notificationHelpers';
 import { useTranslation } from 'react-i18next';
+import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
+import { STATUS_ONLINE } from './RocketChat';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface WebsocketHandlerProps {
 	disconnect: boolean;
@@ -27,6 +37,10 @@ interface WebsocketHandlerProps {
 export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
+	const { releaseToggles } = useAppConfig();
+	const { userData } = useContext(UserDataContext);
+	const { consultingTypes } = useContext(ConsultingTypesContext);
+	const { status } = useContext(RocketChatUserStatusContext);
 
 	const [newStompDirectMessage, setNewStompDirectMessage] =
 		useState<boolean>(false);
@@ -47,6 +61,23 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 	const { setAnonymousConversationStarted } = useContext(
 		AnonymousConversationStartedContext
 	);
+
+	const hasLiveChatAndEnabled = useMemo(
+		() =>
+			consultingTypes &&
+			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+			userData.hasAnonymousConversations &&
+			userData.agencies.some(
+				(agency) =>
+					(consultingTypes ?? []).find(
+						(consultingType) =>
+							consultingType.id === agency.consultingType
+					)?.isAnonymousConversationAllowed
+			) &&
+			status === STATUS_ONLINE,
+		[consultingTypes, userData, status]
+	);
+
 	const stompClient = Stomp.over(function () {
 		return new SockJS(endpoints.liveservice);
 	});
@@ -94,14 +125,18 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		if (newStompDirectMessage) {
 			setNewStompDirectMessage(false);
 
-			// ToDo: Move to new implementation
-			sendNotification(translate('notifications.message.new'), {
-				onclick: () => {
-					history.push(
-						`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`
-					);
-				}
-			});
+			if (
+				!releaseToggles.enableNewNotifications ||
+				isBrowserNotificationTypeEnabled('newMessage')
+			) {
+				sendNotification(translate('notifications.message.new'), {
+					onclick: () => {
+						history.push(
+							`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`
+						);
+					}
+				});
+			}
 		}
 	}, [newStompDirectMessage]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -109,17 +144,26 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		if (newStompAnonymousEnquiry) {
 			setNewStompAnonymousEnquiry(false);
 
+			if (!hasLiveChatAndEnabled) {
+				return;
+			}
+
 			setAnonymousConversationStarted(true);
-			sendNotification(translate('notifications.enquiry.new'), {
-				showAlways: true,
-				onclick: () => {
-					history.push(
-						`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`
-					);
-				}
-			});
+			if (
+				!releaseToggles.enableNewNotifications ||
+				isBrowserNotificationTypeEnabled('initialEnquiry')
+			) {
+				sendNotification(translate('notifications.enquiry.new'), {
+					showAlways: true,
+					onclick: () => {
+						history.push(
+							`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`
+						);
+					}
+				});
+			}
 		}
-	}, [newStompAnonymousEnquiry]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [newStompAnonymousEnquiry, hasLiveChatAndEnabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		if (newStompVideoCallRequest) {

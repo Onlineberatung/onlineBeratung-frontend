@@ -62,17 +62,24 @@ export const en = {
 		waitingroom: {
 			'title.start': 'Waiting room',
 			'dataProtection': {
-				headline: 'Welcome!',
-				subline: 'Please confirm our privacy policy.',
+				headline: 'Welcome',
+				subline:
+					'Please confirm our privacy policy. After that, our consultants may start a chat with you.',
 				description:
 					'After that, our consultants may start a chat with you.',
-				button: 'Confirm'
+				button: 'I agree'
 			},
 			'errorPage': {
 				headline: 'Oops!',
 				description:
 					'We are sorry something must have gone wrong.<br>Try again.',
 				button: 'Reload'
+			},
+			'closed': {
+				headline: 'Our live chat is currently unavailable',
+				description:
+					'On our <a target="_blank" href="{{websiteUrl}}">Website</a> you can find the opening hours of the chat in the respective subject area.',
+				illustrationTitle: 'chat closed'
 			},
 			'headline': 'Please be patient',
 			'subline':
@@ -82,9 +89,9 @@ export const en = {
 				loading: 'Will be loaded...'
 			},
 			'info.accountDeletion':
-				'We delete your messages after 48 hours at the latest. Your anonymity is important to us.',
+				'To protect your anonymity, we delete your messages no later than 48 hours after the chat has ended.',
 			'redirect': {
-				title: 'You dont want to wait for a free chat? And do not need an answer immediately?',
+				title: 'You do not need an answer immediately? And do not want to wait for a free chat?',
 				subline:
 					'Register and leave us a message. We will get back to you within 2 business days. <br><br>Go to <a href="registration">registration</a>'
 			},
@@ -1298,6 +1305,7 @@ export const en = {
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
 		'enquiry.new': 'You have a new live chat request!',
+		'initialRequest.new': 'You have a new initial request!',
 		'warning': 'warning',
 		'error': 'failed',
 		'success': 'successful',
@@ -1405,6 +1413,8 @@ export const en = {
 			firstName: 'First name',
 			lastName: 'Last name',
 			email: 'E-mail address',
+			emailInfo:
+				'Adding your Email address is optional, and only used to notify you when your counsellor answers in the chat. Your Email address is not visible to counsellors.',
 			agency: {
 				label: 'Beratungsstelle',
 				registrationLink: {
@@ -1479,7 +1489,8 @@ export const en = {
 			activities: {
 				title: 'My activities',
 				statistics: 'My statistics',
-				absence: 'My absence'
+				absence: 'My absence',
+				availability: 'My availability'
 			},
 			notifications: {
 				title: 'Notifications',
@@ -1555,8 +1566,90 @@ export const en = {
 		'notifications': {
 			'title': 'E-mail notification',
 			'subtitle': 'We will notify you when you:',
+			'description':
+				'We will inform you by e-mail when you have received a new message.',
 			'follow.up.email.label':
-				'Have received a message from an accepted advice seeker.'
+				'Have received a message from an accepted advice seeker.',
+			'mainEmail': {
+				title: 'Allow email notifications'
+			},
+			'initialEnquiry': {
+				title: 'Receive a new initial enquiry'
+			},
+			'newMessage': {
+				title: 'New chat message',
+				description:
+					'One of your assigned advice seekers has replied to you'
+			},
+			'reassignmentConsultant': {
+				title: 'Re-assignment of an advice seeker',
+				description:
+					'A colleague has reassigned an advise seeker to you'
+			},
+			'reassignmentAdviceSeeker': {
+				title: 'Change of counsellor',
+				description:
+					'Your counsellor has asked for permission to reassign you to a new counsellor'
+			},
+			'appointmentNotificationEnabled': {
+				title: 'Appointments',
+				description:
+					'An appointment was scheduled, postponed or cancelled'
+			},
+			'error': {
+				title: 'Something went wrong.',
+				description:
+					'Unfortunately, we cannot update your settings at the moment. Please try again later.'
+			},
+			'noEmail': {
+				info: 'You have not yet added an email address.',
+				button: 'Add email address',
+				modal: {
+					title: 'Add email address',
+					description:
+						'Your e-mail address is voluntary and will only be used to inform you about new chat messages from your counsellor. Your email address is not visible to your advisor.',
+					confirm: 'Add',
+					emailInput: {
+						label: 'EMail',
+						valid: 'Your email address is valid.',
+						invalid: 'Your email address is not valid.',
+						unavailable: 'This email address is already in use.'
+					},
+					errorTitle: 'Something went wrong.',
+					errorMessage:
+						'Unfortunately, we cannot activate your notifications now. Please try again later.'
+				}
+			}
+		},
+		'browserNotifications': {
+			title: 'Browser Notifications',
+			description:
+				"If you're online, we'll notify you in this browser when you've got a new message.",
+			toggle: 'Receive notifications in this browser',
+			initialEnquiry: {
+				title: 'A new initial request has been received'
+			},
+			newMessage: {
+				title: 'New chat message',
+				description:
+					'One of the counselees assigned to you has answered you'
+			},
+			denied: {
+				message:
+					'You have opted out of receiving notifications for this browser. To enable push notifications, you must first allow them in your browser settings.'
+			}
+		},
+		'documentation': {
+			title: 'User Manual',
+			description:
+				'Do you have any questions? The user manual will provide you with detailed information on the main functionalities of the online counselling platform.',
+			link: 'Go to user manual'
+		},
+		'liveChat': {
+			title: 'My live chat availability',
+			subtitle:
+				'Activate your availability and see the waiting anoymous advice seekers in the initial requests under "Live Chat Requests".',
+			toggleLabel: 'available'
 		},
 		'appLanguage': {
 			title: 'Language',
@@ -1847,7 +1940,7 @@ export const en = {
 		},
 		'consultant.prefix': 'Consultant - ',
 		'divider.lastRead': 'Last read',
-		'empty': 'Please select a message.',
+		'empty': 'Please select a message',
 		'feedback.label': 'Feedback',
 		'groupChat.consultant.prefix': 'Moderator - ',
 		'monitoring.buttonLabel': 'Document now',
@@ -1917,9 +2010,18 @@ export const en = {
 	sessionList: {
 		'teamsession': 'Team consulting',
 		'empty': {
-			known: 'There are no requests at the moment.',
+			known: 'There are no requests at the moment',
 			anonymous:
-				'Currently, no anonymous advice seekers are waiting for a live chat.'
+				'Currently, no anonymous advice seekers are waiting for a live chat',
+			mySessions: 'You currently have no active consultations',
+			teamSessions: 'Your team has no active consultations',
+			peersessions: 'You currently have no active peer counselling',
+			archived: 'There are no consultations in the archive yet'
+		},
+		'unavailable': {
+			description:
+				'Activate your availability to receive initial inquiries from advice seekers',
+			buttonLabel: 'Activate availability'
 		},
 		'preview': {
 			'headline': 'Initial inquiries',
@@ -2339,7 +2441,7 @@ export const en = {
 		waitingroom: {
 			'title.start': 'Waiting room',
 			'dataProtection': {
-				'headline': 'A warm welcome!',
+				'headline': 'A warm welcome',
 				'subline': 'Please confirm our privacy policy.',
 				'description':
 					'After that, our consultants may start a video call with you.',

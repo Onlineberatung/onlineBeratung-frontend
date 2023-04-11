@@ -12,24 +12,23 @@ export const ConsultantNotifications = () => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 
-	const toogleSwitch = (types) => {
-		const updatedUserData = { ...userData };
-		types.forEach((type) => {
-			updatedUserData.emailToggles.forEach((toggle) => {
-				if (toggle.name === type) {
-					toggle.state = !toggle.state;
-				}
-			});
-		});
-		apiPatchUserData(updatedUserData)
-			.then(() => {
-				setUserData(updatedUserData);
+	const toggleSwitch = (types) => {
+		const emailToggles = [...(userData?.emailToggles ?? [])].map(
+			(toggle) => ({
+				...toggle,
+				state: types.includes(toggle.name)
+					? !toggle.state
+					: toggle.state
 			})
-			.catch((error) => {
-				console.log(error);
-			});
+		);
+
+		apiPatchUserData({
+			emailToggles
+		})
+			.then(reloadUserData)
+			.catch(console.log);
 	};
 
 	return (
@@ -45,35 +44,33 @@ export const ConsultantNotifications = () => {
 					className="tertiary"
 				/>
 			</div>
-			{settings.emails.notifications.map((notification, index) => {
-				return (
-					<div className="flex" key={index}>
-						<Switch
-							className="mr--1"
-							onChange={() => toogleSwitch(notification.types)}
-							checked={
-								userData.emailToggles.find(
-									(toggle) =>
-										toggle.name === notification.types[0]
-								)?.state ?? false
-							}
-							uncheckedIcon={false}
-							checkedIcon={false}
-							width={48}
-							height={26}
-							onColor="#0A882F"
-							offColor="#8C878C"
-							boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-							handleDiameter={27}
-							activeBoxShadow="none"
-						/>
-						<Text
-							text={translate(notification.label)}
-							type="standard"
-						/>
-					</div>
-				);
-			})}
+			{settings.emails.notifications.map((notification, index) => (
+				<div className="flex" key={index}>
+					<Switch
+						className="mr--1"
+						onChange={() => toggleSwitch(notification.types)}
+						checked={
+							userData.emailToggles.find(
+								(toggle) =>
+									toggle.name === notification.types[0]
+							)?.state ?? false
+						}
+						uncheckedIcon={false}
+						checkedIcon={false}
+						width={48}
+						height={26}
+						onColor="#0A882F"
+						offColor="#8C878C"
+						boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+						handleDiameter={27}
+						activeBoxShadow="none"
+					/>
+					<Text
+						text={translate(notification.label)}
+						type="standard"
+					/>
+				</div>
+			))}
 		</div>
 	);
 };

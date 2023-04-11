@@ -1,8 +1,7 @@
 import '../../polyfill';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { StageProps } from '../stage/stage';
-import { ComponentType, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
 import { InformalContext } from '../../globalState';
@@ -12,17 +11,16 @@ import { StageLayout } from '../stageLayout/StageLayout';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
 import { useTranslation } from 'react-i18next';
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 
 interface RegistrationProps {
 	handleUnmatchConsultingType: Function;
 	handleUnmatchConsultant: Function;
-	stageComponent: ComponentType<StageProps>;
 }
 
 export const Registration = ({
 	handleUnmatchConsultingType,
-	handleUnmatchConsultant,
-	stageComponent: Stage
+	handleUnmatchConsultant
 }: RegistrationProps) => {
 	const { t: translate } = useTranslation([
 		'common',
@@ -37,6 +35,7 @@ export const Registration = ({
 	const postcodeParameter = getUrlParameter('postcode');
 
 	const { setInformal } = useContext(InformalContext);
+	const { Stage } = useContext(GlobalComponentContext);
 
 	const loginParams = Object.entries({
 		cid: consultantId,

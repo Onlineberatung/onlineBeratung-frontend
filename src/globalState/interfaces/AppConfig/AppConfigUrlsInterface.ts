@@ -1,4 +1,5 @@
 export interface AppConfigUrlsInterface {
+	chatScheduleUrl: string;
 	consultantVideoConference: string;
 	error401: string;
 	error404: string;

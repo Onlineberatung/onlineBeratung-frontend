@@ -43,7 +43,11 @@ export const sendNotification = (
 	opts?: NotificationOptions & ExtraNotificationOptions
 ): void => {
 	// If permissions not granted just ignore the notification because we only asking consultants
-	if (!isSupported() || !hasPermissions(PERMISSION_GRANTED)) {
+	if (
+		!isSupported() ||
+		!hasPermissions(PERMISSION_GRANTED) ||
+		!browserNotificationsSettings().enabled
+	) {
 		return;
 	}
 
@@ -75,4 +79,42 @@ export const sendNotification = (
 	notification.onclose = () => {
 		options.onclose && options.onclose(notification);
 	};
+};
+
+export const saveBrowserNotificationsSettings = (settings: {
+	enabled?: boolean;
+	initialEnquiry?: boolean;
+	newMessage?: boolean;
+	visited?: boolean;
+}) => {
+	const currentSettings = browserNotificationsSettings();
+	// If is first time setting up the settings, set the default values to true
+	if (Object.keys(currentSettings).length === 1) {
+		currentSettings.newMessage = true;
+		currentSettings.initialEnquiry = true;
+	}
+	localStorage.setItem(
+		'BROWSER_NOTIFICATIONS',
+		JSON.stringify({ ...currentSettings, ...settings })
+	);
+};
+
+export const browserNotificationsSettings = (): {
+	enabled: boolean;
+	initialEnquiry: boolean;
+	newMessage: boolean;
+	visited: boolean;
+} => {
+	return JSON.parse(
+		localStorage.getItem('BROWSER_NOTIFICATIONS') || '{ "enabled": false }'
+	);
+};
+
+export const isBrowserNotificationTypeEnabled = (
+	type: 'initialEnquiry' | 'newMessage'
+) => {
+	return (
+		browserNotificationsSettings().enabled &&
+		browserNotificationsSettings()[type]
+	);
 };

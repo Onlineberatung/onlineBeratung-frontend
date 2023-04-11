@@ -24,7 +24,9 @@ a {
 	height: 100vh;
 
 	&--blur {
-		filter: blur(5px);
+		> *:not(.notifications) {
+			filter: blur(5px);
+		}
 	}
 }
 

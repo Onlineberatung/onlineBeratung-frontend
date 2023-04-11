@@ -3,6 +3,7 @@ export interface BookingEventsInterface {
 	eventTypeId: number;
 	id: number;
 	startTime: string;
+	location: 'CHAT' | 'PHONE_CALL' | 'VIDEO_CALL' | 'IN_PERSON';
 	description: string;
 	uid: string;
 	userId: number;
@@ -20,6 +21,7 @@ export interface BookingEventUiInterface {
 	uid: string;
 	date: string;
 	duration: string;
+	location: 'CHAT' | 'PHONE_CALL' | 'VIDEO_CALL' | 'IN_PERSON';
 	counselor: string;
 	askerId: string;
 	askerName: string;

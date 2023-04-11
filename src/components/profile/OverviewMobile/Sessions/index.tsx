@@ -20,20 +20,20 @@ export const OverviewSessions = () => {
 
 	const items = [
 		{
-			title: `${getCount(totalMySessions)} ${translate(
-				'overview.myMessagesTitle'
-			)}`,
+			title: translate('overview.myMessagesTitle', {
+				countStr: getCount(totalMySessions)
+			}),
 			url: '/sessions/consultant/sessionPreview'
 		},
 		{
-			title: `${getCount(totalEnquiry)} ${translate(
-				'overview.initialInquiriesTitle'
-			)}`,
+			title: translate('overview.initialInquiriesTitle', {
+				countStr: getCount(totalEnquiry)
+			}),
 			url: '/sessions/consultant/sessionView'
 		},
 		{
 			title: `${translate('overview.upcomingAppointments', {
-				count: getCount(bookings.length)
+				countStr: getCount(bookings.length)
 			})}`,
 			url: '/booking/events/gebuchte'
 		}

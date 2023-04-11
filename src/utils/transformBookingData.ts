@@ -34,6 +34,7 @@ export const transformBookingData = (bookings: BookingEventsInterface[]) => {
 			date,
 			title: event.title,
 			duration,
+			location: event.location,
 			askerId: event.askerId,
 			askerName: event.askerName,
 			counselor: event.consultantName,

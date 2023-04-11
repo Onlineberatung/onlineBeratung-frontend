@@ -19,6 +19,7 @@ import { TenantThemingLoader } from './TenantThemingLoader';
 import {
 	AppConfigInterface,
 	AppConfigProvider,
+	InformalProvider,
 	LegalLinkInterface,
 	LocaleProvider,
 	TenantProvider
@@ -28,6 +29,7 @@ import { useAppConfig } from '../../hooks/useAppConfig';
 import { DevToolbarWrapper } from '../devToolbar/DevToolbar';
 import { PreConditions, preConditionsMet } from './PreConditions';
 import { Loading } from './Loading';
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 
 const Login = lazy(() =>
 	import('../login/Login').then((m) => ({ default: m.Login }))
@@ -83,20 +85,25 @@ export const App = ({
 		<ErrorBoundary>
 			<AppConfigProvider config={config}>
 				<TenantProvider>
-					<LocaleProvider>
-						<LanguagesProvider
-							fixed={fixedLanguages}
-							spoken={spokenLanguages}
-						>
-							<LegalLinksProvider legalLinks={legalLinks}>
-								<RouterWrapper
-									stageComponent={stageComponent}
-									extraRoutes={extraRoutes}
-									entryPoint={entryPoint}
-								/>
-							</LegalLinksProvider>
-						</LanguagesProvider>
-					</LocaleProvider>
+					<InformalProvider>
+						<LocaleProvider>
+							<LanguagesProvider
+								fixed={fixedLanguages}
+								spoken={spokenLanguages}
+							>
+								<LegalLinksProvider legalLinks={legalLinks}>
+									<GlobalComponentContext.Provider
+										value={{ Stage: stageComponent }}
+									>
+										<RouterWrapper
+											extraRoutes={extraRoutes}
+											entryPoint={entryPoint}
+										/>
+									</GlobalComponentContext.Provider>
+								</LegalLinksProvider>
+							</LanguagesProvider>
+						</LocaleProvider>
+					</InformalProvider>
 				</TenantProvider>
 				<DevToolbarWrapper />
 			</AppConfigProvider>
@@ -105,16 +112,11 @@ export const App = ({
 };
 
 interface RouterWrapperProps {
-	stageComponent: ComponentType<StageProps>;
 	entryPoint: string;
 	extraRoutes?: TExtraRoute[];
 }
 
-const RouterWrapper = ({
-	extraRoutes,
-	stageComponent,
-	entryPoint
-}: RouterWrapperProps) => {
+const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 	const history = useHistory();
 	const settings = useAppConfig();
 
@@ -126,12 +128,7 @@ const RouterWrapper = ({
 	);
 
 	if (failedPreCondition) {
-		return (
-			<PreConditions
-				stageComponent={stageComponent}
-				onPreConditionsMet={setFailedPreCondition}
-			/>
-		);
+		return <PreConditions onPreConditionsMet={setFailedPreCondition} />;
 	}
 
 	return (
@@ -171,7 +168,6 @@ const RouterWrapper = ({
 										handleUnmatchConsultant={() =>
 											history.push('/login')
 										}
-										stageComponent={stageComponent}
 									/>
 								</Route>
 
@@ -187,7 +183,7 @@ const RouterWrapper = ({
 								</Route>
 
 								<Route path="/login" exact>
-									<Login stageComponent={stageComponent} />
+									<Login />
 								</Route>
 								<Route
 									path={settings.urls.videoConference}

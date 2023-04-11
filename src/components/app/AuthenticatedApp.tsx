@@ -12,7 +12,7 @@ import {
 	InformalContext,
 	LocaleContext
 } from '../../globalState';
-import { apiGetConsultingTypes, apiGetUserData } from '../../api';
+import { apiGetConsultingTypes } from '../../api';
 import { Loading } from './Loading';
 import { handleTokenRefresh } from '../auth/auth';
 import { logout } from '../logout/logout';
@@ -25,6 +25,8 @@ import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatU
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
 import { RocketChatGetUserRolesProvider } from '../../globalState/provider/RocketChatSytemUsersProvider';
 import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
+import { RocketChatUserStatusProvider } from '../../globalState/provider/RocketChatUserStatusProvider';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -35,8 +37,9 @@ export const AuthenticatedApp = ({
 	onLogout,
 	onAppReady
 }: AuthenticatedAppProps) => {
+	const { releaseToggles } = useAppConfig();
 	const { setConsultingTypes } = useContext(ConsultingTypesContext);
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { locale, setLocale } = useContext(LocaleContext);
 	const { setInformal } = useContext(InformalContext);
 	const { joinGroupChat } = useJoinGroupChat();
@@ -54,12 +57,13 @@ export const AuthenticatedApp = ({
 
 	useEffect(() => {
 		if (
+			!releaseToggles?.enableNewNotifications &&
 			userData &&
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
 		) {
 			requestPermissions();
 		}
-	}, [userData]);
+	}, [releaseToggles?.enableNewNotifications, userData]);
 
 	useEffect(() => {
 		if (!userDataRequested) {
@@ -67,11 +71,10 @@ export const AuthenticatedApp = ({
 
 			handleTokenRefresh(false)
 				.then(() => {
-					Promise.all([apiGetUserData(), apiGetConsultingTypes()])
+					Promise.all([reloadUserData(), apiGetConsultingTypes()])
 						.then(([userProfileData, consultingTypes]) => {
 							// set informal / formal cookie depending on the given userdata
 							setInformal(!userProfileData.formalLanguage);
-							setUserData(userProfileData);
 							setConsultingTypes(consultingTypes);
 
 							if (userProfileData.preferredLanguage) {
@@ -96,7 +99,7 @@ export const AuthenticatedApp = ({
 		setConsultingTypes,
 		setInformal,
 		setLocale,
-		setUserData,
+		reloadUserData,
 		userDataRequested
 	]);
 
@@ -117,12 +120,14 @@ export const AuthenticatedApp = ({
 						<RocketChatPublicSettingsProvider>
 							<RocketChatSubscriptionsProvider>
 								<RocketChatUnreadProvider>
-									<Routing logout={handleLogout} />
-									{notifications && (
-										<Notifications
-											notifications={notifications}
-										/>
-									)}
+									<RocketChatUserStatusProvider>
+										<Routing logout={handleLogout} />
+										{notifications && (
+											<Notifications
+												notifications={notifications}
+											/>
+										)}
+									</RocketChatUserStatusProvider>
 								</RocketChatUnreadProvider>
 							</RocketChatSubscriptionsProvider>
 						</RocketChatPublicSettingsProvider>

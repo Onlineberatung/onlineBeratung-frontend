@@ -38,6 +38,12 @@ $overlay-illustration-size-large: 160px;
 		}
 	}
 
+	&__loading {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+
 	&__wrapper {
 		width: 100vw;
 		height: 100vh;

@@ -18,7 +18,7 @@ import {
 	LISTENER_RESULT,
 	LISTENERS,
 	METHOD_LOGIN,
-	METHODS,
+	Methods,
 	MSG_CONNECT,
 	MSG_METHOD,
 	MSG_PONG,
@@ -53,11 +53,7 @@ type RocketChatContextProps = {
 		subscription: SUBSCRIPTIONS,
 		subscriber: MutableRefObject<any>
 	) => void;
-	sendMethod: (
-		method: METHODS,
-		params: any,
-		resultListener?: (res) => void
-	) => void;
+	sendMethod: Methods;
 	close: (reconnect?: boolean) => void;
 	rcWebsocket: WebSocket | null;
 };
@@ -247,21 +243,31 @@ export function RocketChatProvider(props) {
 		[addSubscription, getSubscriptionId, send]
 	);
 
-	const sendMethod = useCallback(
-		(
-			method: METHODS,
-			params: any[] = null,
-			resultListener?: (res) => void
-		) => {
-			send(
-				{
-					msg: MSG_METHOD,
-					method: method,
-					id: uuid(),
-					...(params ? { params } : {})
-				},
-				resultListener
-			);
+	const sendMethod: any = useCallback(
+		(method, params = null, resultListener) => {
+			if (resultListener) {
+				return send(
+					{
+						msg: MSG_METHOD,
+						method: method,
+						id: uuid(),
+						...(params ? { params } : {})
+					},
+					resultListener
+				);
+			}
+
+			return new Promise((resolve) => {
+				send(
+					{
+						msg: MSG_METHOD,
+						method: method,
+						id: uuid(),
+						...(params ? { params } : {})
+					},
+					resolve
+				);
+			});
 		},
 		[send]
 	);

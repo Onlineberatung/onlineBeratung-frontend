@@ -6,23 +6,23 @@ import {
 	FETCH_ERRORS,
 	X_REASON
 } from '../../api';
-import { useConsultingTypes, UserDataContext } from '../../globalState';
+import { UserDataContext } from '../../globalState';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { EditableData } from '../editableData/EditableData';
 import { Text } from '../text/Text';
-import { hasAskerEmailFeatures } from './profileHelpers';
 import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { apiDeleteEmail } from '../../api/apiDeleteEmail';
 import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
-import useUpdateUserData from '../../utils/useUpdateUserData';
 import { Headline } from '../headline/Headline';
 import { useTranslation } from 'react-i18next';
 
 export const AskerAboutMeData = () => {
 	const { t: translate } = useTranslation();
-	const { userData, setUserData } = useContext(UserDataContext);
+
+	const { userData, reloadUserData } = useContext(UserDataContext);
+
 	const [isEmailDisabled, setIsEmailDisabled] = useState<boolean>(true);
 	const [overlay, setOverlay] = useState<OverlayItem>(null);
 	const [email, setEmail] = useState<string>();
@@ -33,9 +33,6 @@ export const AskerAboutMeData = () => {
 		useState<boolean>(false);
 	const [isEmailNotAvailable, setIsEmailNotAvailable] =
 		useState<boolean>(false);
-	const consultingTypes = useConsultingTypes();
-	const showEmail = hasAskerEmailFeatures(userData, consultingTypes);
-	const updateUserData = useUpdateUserData();
 
 	const cancelEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.cancel'),
@@ -182,11 +179,9 @@ export const AskerAboutMeData = () => {
 		} else if (!isRequestInProgress) {
 			setIsRequestInProgress(true);
 			apiPutEmail(email)
-				.then((response) => {
+				.then(reloadUserData)
+				.then(() => {
 					setIsRequestInProgress(false);
-					let updatedUserData = userData;
-					updatedUserData.email = email;
-					setUserData(updatedUserData);
 					setIsEmailDisabled(true);
 					setEmailLabel(translate('profile.data.email'));
 				})
@@ -216,7 +211,7 @@ export const AskerAboutMeData = () => {
 			apiDeleteEmail()
 				.then((response) => {
 					setIsRequestInProgress(false);
-					updateUserData();
+					reloadUserData().catch(console.log);
 					setEmail(null);
 					setOverlay(overlaySuccess);
 				})
@@ -224,7 +219,7 @@ export const AskerAboutMeData = () => {
 					setOverlay(overlayError);
 				});
 		}
-	}, [overlaySuccess, overlayError, isRequestInProgress, updateUserData]);
+	}, [overlaySuccess, overlayError, isRequestInProgress, reloadUserData]);
 
 	const handleOverlayAction = (buttonFunction: string) => {
 		switch (buttonFunction) {
@@ -236,7 +231,7 @@ export const AskerAboutMeData = () => {
 				if (isEmail2faActive) {
 					apiDeleteTwoFactorAuth().then(() => {
 						handleConfirm();
-						updateUserData();
+						reloadUserData().catch(console.log);
 					});
 				} else {
 					handleConfirm();
@@ -266,6 +261,11 @@ export const AskerAboutMeData = () => {
 					text={translate('profile.data.title.asker')}
 					semanticLevel="5"
 				/>
+				<Text
+					text={translate('profile.data.emailInfo')}
+					type="standard"
+					className="tertiary"
+				/>
 			</div>
 			<EditableData
 				label={translate('profile.data.userName')}
@@ -273,26 +273,24 @@ export const AskerAboutMeData = () => {
 				type="text"
 				isDisabled
 			/>
-			{showEmail && (
-				<EditableData
-					label={emailLabel}
-					type="email"
-					initialValue={userData.email}
-					isDisabled={isEmailDisabled}
-					isSingleEdit
-					onSingleEditActive={() => {
-						if (isEmail2faActive) {
-							setOverlay(overlay2faEmailEdit);
-						} else {
-							setIsEmailDisabled(false);
-						}
-					}}
-					isSingleClearable={true}
-					onSingleClear={handleSingleClear}
-					onValueIsValid={handleEmailChange}
-					isEmailAlreadyInUse={isEmailNotAvailable}
-				/>
-			)}
+			<EditableData
+				label={emailLabel}
+				type="email"
+				initialValue={userData.email}
+				isDisabled={isEmailDisabled}
+				isSingleEdit
+				onSingleEditActive={() => {
+					if (isEmail2faActive) {
+						setOverlay(overlay2faEmailEdit);
+					} else {
+						setIsEmailDisabled(false);
+					}
+				}}
+				isSingleClearable={true}
+				onSingleClear={handleSingleClear}
+				onValueIsValid={handleEmailChange}
+				isEmailAlreadyInUse={isEmailNotAvailable}
+			/>
 			{!isEmailDisabled && (
 				<div className="editableData__buttonSet editableData__buttonSet--edit">
 					<Button

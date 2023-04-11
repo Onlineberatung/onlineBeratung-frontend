@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { Header } from '../header/Header';
-import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { v4 as uuid } from 'uuid';
 import './waitingRoom.styles';
-import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
 import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
 import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
+import { ReactComponent as SecurityIllustration } from '../../resources/img/illustrations/security.svg';
+import { ReactComponent as ClosedIllustration } from '../../resources/img/illustrations/closed.svg';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import {
+	AnonymousConversationAvailabilityInterface,
 	AnonymousRegistrationResponse,
+	apiAnonymousConversationAvailability,
 	apiPostAnonymousRegistration,
 	FETCH_ERRORS
 } from '../../api';
@@ -36,10 +37,13 @@ import {
 import { handleTokenRefresh, setTokens } from '../auth/auth';
 import { handleE2EESetup } from '../registration/autoLogin';
 import { useTranslation } from 'react-i18next';
-import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
-import { isMobile } from 'react-device-detect';
 import { useHistory } from 'react-router-dom';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { WaitingRoomContent } from './WaitingRoomContent';
+import { StageLayout } from '../stageLayout/StageLayout';
+import { appConfig } from '../../utils/appConfig';
+import { Loading } from '../app/Loading';
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
@@ -56,10 +60,13 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const history = useHistory();
 
 	const legalLinks = useContext(LegalLinksContext);
+	const { Stage } = useContext(GlobalComponentContext);
 
 	const [isDataProtectionViewActive, setIsDataProtectionViewActive] =
 		useState<boolean>(true);
 	const [username, setUsername] = useState<string>();
+	const [isConsultantAvailable, setIsConsultantAvailable] =
+		useState<boolean>();
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [isErrorPageActive, setIsErrorPageActive] = useState(false);
 	const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false);
@@ -101,7 +108,20 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 		if (registeredUsername && getValueFromCookie('keycloak') && sessionId) {
 			setIsDataProtectionViewActive(false);
 			setUsername(registeredUsername);
-			handleTokenRefresh().then(afterRegistrationHandler);
+			handleTokenRefresh()
+				.then(afterRegistrationHandler)
+				.then(() => {
+					return apiAnonymousConversationAvailability(
+						parseInt(sessionId, 10)
+					);
+				})
+				.then(
+					(response: AnonymousConversationAvailabilityInterface) => {
+						setIsConsultantAvailable(
+							response.numAvailableConsultants > 0
+						);
+					}
+				);
 		}
 
 		document.title = `${translate(
@@ -213,7 +233,16 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					);
 
 					handleTokenRefresh().then(afterRegistrationHandler);
+					return response.sessionId;
 				})
+				.then(apiAnonymousConversationAvailability)
+				.then(
+					(response: AnonymousConversationAvailabilityInterface) => {
+						setIsConsultantAvailable(
+							response.numAvailableConsultants > 0
+						);
+					}
+				)
 				.catch((err: Error) => {
 					console.log(err);
 				})
@@ -240,11 +269,12 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	const getContent = () => {
 		if (isDataProtectionViewActive) {
 			return (
-				<>
-					{isMobile && <LocaleSwitch />}
-
-					<div className="waitingRoom__illustration">
-						<WelcomeIllustration
+				<WaitingRoomContent
+					showRegistrationInfo={false}
+					headlineKey="anonymous.waitingroom.dataProtection.headline"
+					sublineKey="anonymous.waitingroom.dataProtection.subline"
+					Illustration={
+						<SecurityIllustration
 							aria-label={translate(
 								'anonymous.waitingroom.welcomeImageTitle'
 							)}
@@ -252,90 +282,89 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 								'anonymous.waitingroom.welcomeImageTitle'
 							)}
 						/>
-					</div>
-					<div>
-						<Headline
-							className="waitingRoom__headline"
-							semanticLevel="1"
-							text={translate(
-								'anonymous.waitingroom.dataProtection.headline'
-							)}
-						/>
-						<Headline
-							className="waitingRoom__subline"
-							semanticLevel="3"
-							text={translate(
-								'anonymous.waitingroom.dataProtection.subline'
-							)}
-						/>
-						<Text
-							type="standard"
-							text={translate(
-								'anonymous.waitingroom.dataProtection.description'
-							)}
-						/>
-						<Text
-							type="standard"
-							text={[
-								translate(
-									'registration.dataProtection.label.prefix'
-								),
-								legalLinks
-									.filter(
-										(legalLink) => legalLink.registration
-									)
-									.map(
-										(legalLink, index, { length }) =>
-											(index > 0
-												? index < length - 1
-													? ', '
-													: translate(
-															'registration.dataProtection.label.and'
-													  )
-												: '') +
-											`<a target="_blank" href="${
-												legalLink.url
-											}">${translate(
-												legalLink.label
-											)}</a>`
-									)
-									.join(''),
-								translate(
-									'registration.dataProtection.label.suffix'
+					}
+				>
+					<Text
+						type="standard"
+						text={[
+							translate(
+								'registration.dataProtection.label.prefix'
+							),
+							legalLinks
+								.filter((legalLink) => legalLink.registration)
+								.map(
+									(legalLink, index, { length }) =>
+										(index > 0
+											? index < length - 1
+												? ', '
+												: translate(
+														'registration.dataProtection.label.and'
+												  )
+											: '') +
+										`<a target="_blank" href="${
+											legalLink.url
+										}">${translate(legalLink.label)}</a>`
 								)
-							].join(' ')}
+								.join(''),
+							translate(
+								'registration.dataProtection.label.suffix'
+							)
+						].join(' ')}
+					/>
+					<Button
+						className="waitingRoom__button"
+						buttonHandle={handleConfirmButton}
+						item={confirmButton}
+					/>
+				</WaitingRoomContent>
+			);
+		} else if (isRequestInProgress) {
+			return <Loading></Loading>;
+		} else if (isConsultantAvailable === false) {
+			return (
+				<WaitingRoomContent
+					showRegistrationInfo={true}
+					headlineKey="anonymous.waitingroom.closed.headline"
+					Illustration={
+						<ClosedIllustration
+							aria-label={translate(
+								'anonymous.waitingroom.closed.illustrationTitle'
+							)}
+							title={translate(
+								'anonymous.waitingroom.closed.illustrationTitle'
+							)}
 						/>
-						<Button
-							className="waitingRoom__button"
-							buttonHandle={handleConfirmButton}
-							item={confirmButton}
-						/>
-					</div>
-				</>
+					}
+				>
+					<Text
+						type="standard"
+						text={translate(
+							'anonymous.waitingroom.closed.description',
+							{
+								websiteUrl: appConfig.urls.chatScheduleUrl
+							}
+						)}
+					/>
+				</WaitingRoomContent>
 			);
 		} else if (isErrorPageActive) {
 			return (
 				<>
-					{isMobile && <LocaleSwitch />}
-					<div className="waitingRoom__illustration">
-						<ErrorIllustration
-							aria-label={translate(
-								'anonymous.waitingroom.errorImageTitle'
-							)}
-							title={translate(
-								'anonymous.waitingroom.errorImageTitle'
-							)}
-							className="waitingRoom__waitingIllustration"
-						/>
-					</div>
-					<div>
-						<Headline
-							className="waitingRoom__headline"
-							semanticLevel="1"
-							text={translate(
-								'anonymous.waitingroom.errorPage.headline'
-							)}
-						/>
+					<WaitingRoomContent
+						showRegistrationInfo={false}
+						headlineKey="anonymous.waitingroom.errorPage.headline"
+						Illustration={
+							<ErrorIllustration
+								aria-label={translate(
+									'anonymous.waitingroom.errorImageTitle'
+								)}
+								title={translate(
+									'anonymous.waitingroom.errorImageTitle'
+								)}
+								className="waitingRoom__waitingIllustration"
+							/>
+						}
+					>
 						<Text
 							type="standard"
 							text={translate(
@@ -347,14 +376,16 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 							buttonHandle={handleReloadButton}
 							item={reloadButton}
 						/>
-					</div>
+					</WaitingRoomContent>
 				</>
 			);
-		} else {
+		} else if (isConsultantAvailable) {
 			return (
-				<>
-					{isMobile && <LocaleSwitch updateUserData={!!username} />}
-					<div className="waitingRoom__illustration">
+				<WaitingRoomContent
+					showRegistrationInfo={true}
+					headlineKey="anonymous.waitingroom.headline"
+					sublineKey="anonymous.waitingroom.subline"
+					Illustration={
 						<WaitingIllustration
 							aria-label={translate(
 								'anonymous.waitingroom.waitingImageTitle'
@@ -364,61 +395,40 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 							)}
 							className="waitingRoom__waitingIllustration"
 						/>
-					</div>
-					<div>
-						<Headline
-							className="waitingRoom__headline"
-							semanticLevel="1"
-							text={translate('anonymous.waitingroom.headline')}
-						/>
-						<Headline
+					}
+				>
+					<div className="waitingRoom__user">
+						<Text
 							className="waitingRoom__subline"
-							semanticLevel="3"
-							text={translate('anonymous.waitingroom.subline')}
+							type="standard"
+							text={getUsernameText()}
 						/>
-						<div className="waitingRoom__user">
-							<Text type="standard" text={getUsernameText()} />
-							<Text
-								type="standard"
-								text={translate(
-									'anonymous.waitingroom.info.accountDeletion'
-								)}
-							/>
-						</div>
-						<div className="waitingRoom__redirect">
-							<Text
-								type="standard"
-								text={translate(
-									'anonymous.waitingroom.redirect.title'
-								)}
-							/>
-							<Text
-								type="standard"
-								text={translate(
-									'anonymous.waitingroom.redirect.subline'
-								)}
-							/>
-						</div>
+						<Text
+							type="standard"
+							text={translate(
+								'anonymous.waitingroom.info.accountDeletion'
+							)}
+							className="waitingRoom__user-description"
+						/>
 					</div>
-				</>
+				</WaitingRoomContent>
 			);
 		}
 	};
 
 	return (
-		<>
-			<div className="waitingRoom">
-				<Header showLocaleSwitch={true} />
-				<div className="waitingRoom__contentWrapper">
-					{getContent()}
-				</div>
-			</div>
+		<StageLayout
+			stage={<Stage hasAnimation={false} isReady={false} />}
+			showLegalLinks
+			showRegistrationLink={false}
+		>
+			{getContent()}
 			{isOverlayActive && (
 				<Overlay
 					item={overlayItem}
 					handleOverlay={handleOverlayAction}
 				/>
 			)}
-		</>
+		</StageLayout>
 	);
 };

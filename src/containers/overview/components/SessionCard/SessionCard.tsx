@@ -10,6 +10,8 @@ import { EmptyType } from '../EmptyState';
 import { OverviewCard } from '../OverviewCard/OverviewCard';
 import './sessionCard.styles.scss';
 import { LanguagesContext } from '../../../../globalState/provider/LanguagesProvider';
+import { ActiveSessionContext } from '../../../../globalState/provider/ActiveSessionProvider';
+import { RocketChatUsersOfRoomProvider } from '../../../../globalState/provider/RocketChatUsersOfRoomProvider';
 
 interface SessionCardProps {
 	type: SESSION_LIST_TYPES;
@@ -40,14 +42,22 @@ export const SessionCard = ({
 			title={title}
 		>
 			<SessionTypeProvider type={type}>
-				{sessions?.slice(0, 9).map((session, index) => (
-					<SessionListItemComponent
-						key={session.session.id}
-						session={buildExtendedSession(session, '')}
-						defaultLanguage={fixedLanguages[0]}
-						index={index}
-					/>
-				))}
+				{sessions
+					?.slice(0, 9)
+					.map((session) => buildExtendedSession(session, ''))
+					.map((activeSession, index) => (
+						<ActiveSessionContext.Provider
+							key={activeSession.item.id}
+							value={{ activeSession }}
+						>
+							<RocketChatUsersOfRoomProvider>
+								<SessionListItemComponent
+									defaultLanguage={fixedLanguages[0]}
+									index={index}
+								/>
+							</RocketChatUsersOfRoomProvider>
+						</ActiveSessionContext.Provider>
+					))}
 			</SessionTypeProvider>
 		</OverviewCard>
 	);

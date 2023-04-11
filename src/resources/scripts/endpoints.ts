@@ -35,7 +35,7 @@ export const endpoints = {
 		apiUrl +
 		`/service/appointservice/consultants/${userId}/bookings?status=${status}`,
 	askerSessions: apiUrl + '/service/users/sessions/askers',
-	attachmentUpload: apiUrl + '/service/uploads/new/',
+	attachmentUpload: apiUrl + '/service/uploads/new/*',
 	attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
 	banUser: (rcUserId, chatId) =>
 		apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
@@ -98,6 +98,7 @@ export const endpoints = {
 			getOne: apiUrl + '/api/v1/subscriptions.getOne'
 		},
 		users: {
+			getStatus: apiUrl + '/api/v1/users.getStatus',
 			info: apiUrl + '/api/v1/users.info',
 			resetE2EKey: apiUrl + '/api/v1/users.resetE2EKey'
 		}

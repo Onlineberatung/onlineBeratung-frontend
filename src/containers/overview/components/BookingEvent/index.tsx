@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { generatePath } from 'react-router-dom';
 import { BookingEventsInterface } from '../../../../globalState/interfaces/BookingsInterface';
 import {
+	convertUTCDateToLocalDate,
 	formatToHHMM,
 	getPrettyDateFromMessageDate,
 	prettyPrintTimeDifference
@@ -32,8 +33,13 @@ export const BookingEvent = ({ booking }: BookingEventProps) => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
-	const startTime = new Date(booking.startTime);
-	const endTime = new Date(booking.endTime);
+
+	const startTime = new Date(
+		convertUTCDateToLocalDate(new Date(booking.startTime))
+	);
+	const endTime = new Date(
+		convertUTCDateToLocalDate(new Date(booking.endTime))
+	);
 	const showCountDown = startTime.getTime() - Date.now() < COUNTDOWN_START;
 	const [countdown, setCountdown] = useState(showCountDown && Date.now());
 
