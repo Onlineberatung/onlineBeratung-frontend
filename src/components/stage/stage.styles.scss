@@ -132,7 +132,6 @@ $gridSpacing: $grid-base-four;
 	}
 
 	&__spinner {
-		animation-delay: 2s;
 		animation: hideSpinner 4s ease forwards;
 
 		@include breakpoint($fromXLarge) {
