@@ -234,15 +234,15 @@ const profileRoutes = (
 					notificationBubble:
 						isFirstVisit && !browserNotificationsSettings().visited,
 					url: '/browser',
-					condition: (userData) =>
-						hasUserAuthority(
-							AUTHORITIES.CONSULTANT_DEFAULT,
-							userData
-						),
 					elements: [
 						{
 							component: BrowserNotification,
-							column: COLUMN_RIGHT
+							column: COLUMN_RIGHT,
+							condition: (userData) =>
+								hasUserAuthority(
+									AUTHORITIES.CONSULTANT_DEFAULT,
+									userData
+								)
 						}
 					]
 				}
@@ -256,7 +256,7 @@ const profileRoutes = (
 		{
 			title: 'profile.routes.help.title',
 			url: '/hilfe',
-			elements: profileRoutesHelp()
+			elements: profileRoutesHelp(settings)
 		}
 	] as TabsType;
 

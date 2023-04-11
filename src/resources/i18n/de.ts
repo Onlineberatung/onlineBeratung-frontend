@@ -1323,6 +1323,7 @@ export const de = {
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
 		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!',
+		'initialRequest.new': 'Sie haben eine neue Erstanfrage!',
 		'warning': 'Warnung',
 		'error': 'Fehlgeschlagen',
 		'success': 'Erfolgreich',
@@ -1504,8 +1505,9 @@ export const de = {
 		'header.title': 'Profil',
 		'noContent': 'Keine Angabe',
 		'notifications': {
-			'title': 'E-mail-Benachrichtigungen',
-			'subtitle':
+			'title': 'E-Mail-Benachrichtigungen',
+			'subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
+			'description':
 				'Wir informieren Sie per E-Mail, wenn Sie eine neue Nachricht erhalten haben.',
 			'follow.up.email.label':
 				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.',
@@ -1530,14 +1532,19 @@ export const de = {
 				description:
 					'Ihr_e Berater_in hat um Erlaubnis gebeten, Sie einem neuen Berater zuzuweisen.'
 			},
+			'appointmentNotificationEnabled': {
+				title: 'Termine',
+				description:
+					'Ein Termin wurde angesetzt, verschoben oder abgesagt'
+			},
 			'error': {
 				title: 'Etwas ist schief gelaufen.',
 				description:
 					'Leider können wir Ihre Einstellungen momentan nicht aktualisieren. Bitte versuchen Sie es später noch einmal.'
 			},
 			'noEmail': {
-				info: 'Sie haben noch keine E-mail Adresse hinzugefügt.',
-				button: 'E-mail Adresse hinzufügen',
+				info: 'Sie haben noch keine E-Mail-Adresse hinzugefügt.',
+				button: 'E-Mail-Adresse hinzufügen',
 				modal: {
 					title: 'E-Mail-Adresse hinzufügen',
 					description:
@@ -1573,6 +1580,12 @@ export const de = {
 				message:
 					'Sie haben den Empfang von Benachrichtigungen für diesen Browser abgelehnt. Um Push-Benachrichtigungen zu aktivieren, müssen Sie diese zuerst in Ihren Browsereinstellungen zulassen.'
 			}
+		},
+		'documentation': {
+			title: 'Handbuch zur Beratungsplattform',
+			description:
+				'Haben Sie Fragen? Im Handbuch finden Sie detaillierte Informationen zu den wichtigsten Funktionen der Online-Beratungsplattform.',
+			link: 'Zum Handbuch'
 		},
 		'liveChat': {
 			title: 'Meine Live-Chat Verfügbarkeit',
@@ -2029,7 +2042,11 @@ export const de = {
 		'empty': {
 			anonymous:
 				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat',
-			known: 'Aktuell liegen keine Erstanfragen vor'
+			known: 'Aktuell liegen keine Erstanfragen vor',
+			mySessions: 'Sie haben zur Zeit keine aktiven Beratungen',
+			teamSessions: 'Ihr Team hat keine aktiven Beratungen',
+			peersessions: 'Sie haben zur Zeit keine aktiven Peer-Beratungen',
+			archived: 'Es sind noch keine Beratungen archiviert'
 		},
 		'unavailable': {
 			description:

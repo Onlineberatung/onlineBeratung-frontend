@@ -192,7 +192,7 @@ describe('profile', () => {
 
 			cy.contains('Profil').should('exist').click();
 			cy.contains('Einstellungen').should('exist').click();
-			cy.contains('E-mail-Benachrichtigungen');
+			cy.contains('E-Mail-Benachrichtigungen');
 			cy.get('.notifications__content .mr--1 input').should(
 				'have.attr',
 				'aria-checked',

@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	UserDataContext
+	UserDataContext,
+	useTenant
 } from '../../../globalState';
 import { Headline } from '../../headline/Headline';
 import { Text } from '../../text/Text';
@@ -11,6 +12,7 @@ import { EmailToggle } from './EmailToggle';
 import { NoEmailSet } from './NoEmailSet';
 
 export const EmailNotification = () => {
+	const { settings } = useTenant();
 	const { userData } = React.useContext(UserDataContext);
 	const { t } = useTranslation();
 	const isConsultant = hasUserAuthority(
@@ -30,7 +32,7 @@ export const EmailNotification = () => {
 					semanticLevel="5"
 				/>
 				<Text
-					text={t('profile.notifications.subtitle')}
+					text={t('profile.notifications.description')}
 					type="infoMedium"
 					className="tertiary"
 				/>
@@ -62,6 +64,13 @@ export const EmailNotification = () => {
 								titleKey={`profile.notifications.${reassignmentKey}.title`}
 								descriptionKey={`profile.notifications.${reassignmentKey}.description`}
 							/>
+							{settings.featureAppointmentsEnabled && (
+								<EmailToggle
+									name="settings.appointmentNotificationEnabled"
+									titleKey={`profile.notifications.appointmentNotificationEnabled.title`}
+									descriptionKey={`profile.notifications.appointmentNotificationEnabled.description`}
+								/>
+							)}
 						</>
 					)}
 				</>

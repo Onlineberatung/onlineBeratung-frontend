@@ -65,8 +65,10 @@ export const MainTopicSelection = ({
 								onChangeInput(id.toString())
 							}
 							value={id.toString()}
-							checked={selectedTopic === id.toString()}
-							inputId={name.toLowerCase().replace(' ', '-')}
+							checked={selectedTopic === id}
+							inputId={`${name
+								.toLowerCase()
+								.replace(' ', '-')}-${id}`}
 							label={name}
 						/>
 						<AgencyInfo agency={topic} />
