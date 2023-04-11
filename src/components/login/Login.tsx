@@ -32,10 +32,7 @@ import './login.styles';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
-import {
-	ConsultingTypeAgencySelection,
-	useConsultingTypeAgencySelection
-} from '../consultingTypeSelection/ConsultingTypeAgencySelection';
+import { ConsultingTypeAgencySelection } from '../consultingTypeSelection/ConsultingTypeAgencySelection';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import {
@@ -59,6 +56,7 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
+import { useConsultingTypeAgencySelection } from '../../containers/registration/hooks/useConsultingTypeAgencySelection';
 
 const regexAccountDeletedError = /account disabled/i;
 
