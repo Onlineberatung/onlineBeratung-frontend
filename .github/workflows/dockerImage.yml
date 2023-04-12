@@ -87,7 +87,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Download buildfiles artifact
-              uses: actions/download-artifact@v2
+              uses: actions/download-artifact@v3
               with:
                   name: buildfiles
             - name: Get current time
