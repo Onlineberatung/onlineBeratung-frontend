@@ -753,7 +753,7 @@ export const en = {
 		videoCall: {
 			asker: {
 				headline: 'Video Call',
-				intro: 'To participate in video calls properly, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
+				intro: 'To participate in video calls, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
 				steps: {
 					'1.1': 'Follow the link to ',
 					'1.2': ' or ',
@@ -774,7 +774,7 @@ export const en = {
 			},
 			consultant: {
 				headline: 'Video Call',
-				intro: 'To perform a video call properly, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
+				intro: 'To perform a video call, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
 				steps: {
 					'1.1': 'Follow the link to ',
 					'1.2': ' or ',

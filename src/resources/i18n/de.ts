@@ -770,7 +770,7 @@ export const de = {
 		videoCall: {
 			asker: {
 				headline: 'Video-Call',
-				intro: 'Damit Sie an Video-Calls einwandfrei teilnehmen können, müssen Sie sich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
+				intro: 'Damit Sie an Video-Calls teilnehmen können, müssen Sie sich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
 					'1.1': 'Folgen Sie dem Link zu ',
 					'1.2': ' oder ',
@@ -791,7 +791,7 @@ export const de = {
 			},
 			consultant: {
 				headline: 'Video-Call',
-				intro: 'Um einen Video-Call einwandfrei durchführen zu können, müssen Sie sich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
+				intro: 'Um einen Video-Call durchführen zu können, müssen Sie sich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
 					'1.1': 'Folgen Sie dem Link zu ',
 					'1.2': ' oder ',

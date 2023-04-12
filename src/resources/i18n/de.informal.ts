@@ -210,7 +210,7 @@ export const deInformal = {
 		videoCall: {
 			asker: {
 				headline: 'Video-Call',
-				intro: 'Damit Du an Video-Calls einwandfrei teilnehmen kannst, musst Du Dich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
+				intro: 'Damit Du an Video-Calls teilnehmen kannst, musst Du Dich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
 					'1.1': 'Folge dem Link zu ',
 					'1.2': ' oder ',
@@ -230,7 +230,7 @@ export const deInformal = {
 			},
 			consultant: {
 				headline: 'Video-Call',
-				intro: 'Um einen Video-Call einwandfrei durchführen zu können, musst Du Dich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
+				intro: 'Um einen Video-Call durchführen zu können, musst Du Dich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
 					'1.1': 'Folge dem Link zu ',
 					'1.2': ' oder ',
