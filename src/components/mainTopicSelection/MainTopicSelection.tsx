@@ -13,7 +13,7 @@ import { useLocaleData } from '../../globalState';
 
 export interface MainTopicSelectionProps {
 	name: string;
-	preselectedTopic: any;
+	preselectedTopic: number;
 	onChange: (value: string) => void;
 	onValidityChange: (key: string, value: string) => void;
 }
@@ -61,10 +61,8 @@ export const MainTopicSelection = ({
 							className="mainTopicSelection__radioButton"
 							name="topicSelection"
 							type="smaller"
-							handleRadioButton={() =>
-								onChangeInput(id.toString())
-							}
-							value={id.toString()}
+							handleRadioButton={() => onChangeInput(id)}
+							value={id}
 							checked={selectedTopic === id}
 							inputId={`${name
 								.toLowerCase()

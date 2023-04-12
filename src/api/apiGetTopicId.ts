@@ -2,9 +2,9 @@ import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterfa
 import { apiGetTopicsData } from './apiGetTopicsData';
 
 export const apiGetTopicById = async (
-	topicId: string
+	topicId: string | number
 ): Promise<TopicsDataInterface> => {
 	return apiGetTopicsData().then((response) =>
-		response.find((topic) => topic.id.toString() === topicId)
+		response.find((topic) => `${topic.id}` === `${topicId}`)
 	);
 };
