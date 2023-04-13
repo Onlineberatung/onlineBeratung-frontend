@@ -591,20 +591,6 @@ export const en = {
 			},
 			'success.overlay.headline':
 				'Your e-mail address was successfully saved.'
-		},
-		'voluntaryInfo': {
-			headline: 'We want to advise you in the best possible way',
-			infoText:
-				'It helps us if you provide additional voluntary information about yourself and your request.',
-			button: 'Add details',
-			overlay: {
-				'button1.label': 'Save',
-				'button2.label': 'Close',
-				'headline': 'Voluntary information',
-				'copy': 'For the consultation, the following information would help us a lot.',
-				'success.headline':
-					'Thank you very much. Your voluntary data has been successfully saved.'
-			}
 		}
 	},
 	groupChat: {

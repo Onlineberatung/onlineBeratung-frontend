@@ -28,7 +28,6 @@ import {
 import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
-import { isVoluntaryInfoSet } from './messageHelpers';
 import { Text } from '../text/Text';
 import './message.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
@@ -151,7 +150,6 @@ export const MessageItemComponent = ({
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 
-	const [showAddVoluntaryInfo, setShowAddVoluntaryInfo] = useState<boolean>();
 	const [renderedMessage, setRenderedMessage] = useState<string | null>(null);
 	const [decryptedMessage, setDecryptedMessage] = useState<
 		string | null | undefined
@@ -218,17 +216,6 @@ export const MessageItemComponent = ({
 	}, [decryptedMessage]);
 
 	const hasRenderedMessage = renderedMessage && renderedMessage.length > 0;
-
-	useEffect(() => {
-		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
-			const sessionData =
-				userData.consultingTypes[activeSession.item.consultingType]
-					?.sessionData;
-			setShowAddVoluntaryInfo(
-				!isVoluntaryInfoSet(sessionData, resortData)
-			);
-		}
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const getMessageDate = () => {
 		if (messageDate.str || messageDate.date) {
@@ -392,23 +379,9 @@ export const MessageItemComponent = ({
 				}
 				return;
 			case isFurtherStepsMessage:
-				return (
-					<FurtherSteps
-						consultingType={activeSession.item.consultingType}
-						resortData={resortData}
-					/>
-				);
+				return <FurtherSteps />;
 			case isUpdateSessionDataMessage:
-				return (
-					<FurtherSteps
-						onlyShowVoluntaryInfo={true}
-						handleVoluntaryInfoSet={() =>
-							setShowAddVoluntaryInfo(false)
-						}
-						consultingType={activeSession.item.consultingType}
-						resortData={resortData}
-					/>
-				);
+				return <FurtherSteps />;
 			case isAppointmentSet:
 				return (
 					<Appointment
@@ -550,7 +523,7 @@ export const MessageItemComponent = ({
 	)
 		return null;
 
-	if (isUpdateSessionDataMessage && !showAddVoluntaryInfo) {
+	if (isUpdateSessionDataMessage) {
 		return null;
 	}
 

@@ -59,6 +59,5 @@ export interface ConsultingTypeInterface extends ConsultingTypeBasicInterface {
 	};
 	requiredComponents?: RequiredComponentsInterface;
 	languageFormal: boolean;
-	voluntaryComponents?: any[];
 	welcomeScreen: RegistrationWelcomeScreenInterface;
 }

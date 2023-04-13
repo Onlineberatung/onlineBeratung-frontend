@@ -167,15 +167,6 @@ export const deInformal = {
 			headline: 'Der Schutz Deiner Daten ist uns wichtig',
 			infoText:
 				'Sichere Dein Konto vor einem möglichen unbefugten Zugriff. Nutze einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.'
-		},
-		'voluntaryInfo': {
-			headline: 'Wir wollen Dich bestmöglichst beraten',
-			infoText:
-				'Dabei hilft es uns, wenn Du weitere freiwillige Angaben zu Dir und Deinem Anliegen machst.',
-			overlay: {
-				'success.headline':
-					'Vielen Dank. Deine freiwilligen Angaben wurden erfolgreich gespeichert.'
-			}
 		}
 	},
 	groupChat: {

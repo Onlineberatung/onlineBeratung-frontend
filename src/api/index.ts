@@ -31,7 +31,6 @@ export * from './apiPutGroupChat';
 export * from './apiPatchConsultantData';
 export * from './apiPutConsultantData';
 export * from './apiPutEmail';
-export * from './apiPutSessionData';
 export * from './apiRegistrationNewConsultingTypes';
 export * from './apiRejectVideoCall';
 export * from './apiSendEnquiry';

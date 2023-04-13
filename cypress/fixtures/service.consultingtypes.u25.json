@@ -69,30 +69,6 @@
 		}
 	},
 	"showAskerProfile": true,
-	"voluntaryComponents": [
-		{
-			"componentType": "RadioButton",
-			"headline": "Geschlecht",
-			"name": "gender",
-			"radioButtons": [
-				{
-					"inputId": "female",
-					"label": "Weiblich",
-					"checked": false
-				},
-				{
-					"inputId": "male",
-					"label": "Männlich",
-					"checked": false
-				},
-				{
-					"inputId": "diverseGender",
-					"label": "Divers",
-					"checked": false
-				}
-			]
-		}
-	],
 	"requiredComponents": {
 		"age": {
 			"isEnabled": true,
