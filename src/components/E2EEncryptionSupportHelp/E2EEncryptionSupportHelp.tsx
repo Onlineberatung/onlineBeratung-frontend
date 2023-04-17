@@ -7,14 +7,11 @@ import { Text } from '../text/Text';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CopyIcon } from '../../resources/img/icons';
-import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
-import ChromeLogo from '../../resources/img/images/google_chrome.png';
-import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
-import SafariLogo from '../../resources/img/images/safari.png';
 import { ReactComponent as ErrorBubbleIllustration } from '../../resources/img/illustrations/error-bubble.svg';
 
 import { Notification } from '../notifications/Notification';
 import Divider from '@mui/material/Divider';
+import { BrowserList } from '../help/HelpVideoCall';
 
 export const E2EEncryptionSupportHelp = () => {
 	const { t: translate } = useTranslation();
@@ -81,65 +78,7 @@ export const E2EEncryptionSupportHelp = () => {
 				type="standard"
 				text={translate('help.videoCall.waitingRoom.text1')}
 			/>
-			<div className="encryption-support__browsers">
-				<div>
-					<img
-						src={ChromeLogo}
-						alt={translate('help.googleChrome')}
-						title={translate('help.googleChrome')}
-					/>
-					<a
-						href="https://www.google.com/chrome/"
-						target="_blank"
-						rel="noreferrer"
-						className="button-as-link"
-					>
-						<NewWindow
-							title={translate('help.openInNewTab')}
-							aria-label={translate('help.openInNewTab')}
-						/>{' '}
-						{translate('help.googleChrome')}
-					</a>
-				</div>
-				<div>
-					<img
-						src={EdgeLogo}
-						alt={translate('help.msEdge')}
-						title={translate('help.msEdge')}
-					/>
-					<a
-						href="https://www.microsoft.com/edge"
-						target="_blank"
-						rel="noreferrer"
-						className="button-as-link"
-					>
-						<NewWindow
-							title={translate('help.openInNewTab')}
-							aria-label={translate('help.openInNewTab')}
-						/>{' '}
-						{translate('help.msEdge')}
-					</a>
-				</div>
-				<div>
-					<img
-						src={SafariLogo}
-						alt={translate('help.safari')}
-						title={translate('help.safari')}
-					/>
-					<a
-						href="https://www.apple.com/de/safari/"
-						target="_blank"
-						rel="noreferrer"
-						className="button-as-link"
-					>
-						<NewWindow
-							title={translate('help.openInNewTab')}
-							aria-label={translate('help.openInNewTab')}
-						/>{' '}
-						{translate('help.safari')}
-					</a>
-				</div>
-			</div>
+			<BrowserList></BrowserList>
 			<Divider sx={{ my: '32px' }}>
 				<Text
 					className="encryption-support__divider"

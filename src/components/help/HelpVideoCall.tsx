@@ -13,6 +13,71 @@ interface HelpVideoCallProps {
 	consultant: boolean;
 }
 
+export const BrowserList: React.FC = () => {
+	const { t: translate } = useTranslation();
+	return (
+		<div className="browser-list">
+			<div>
+				<img
+					src={ChromeLogo}
+					alt={translate('help.googleChrome')}
+					title={translate('help.googleChrome')}
+				/>
+				<a
+					href="https://www.google.com/chrome/"
+					target="_blank"
+					rel="noreferrer"
+					className="button-as-link"
+				>
+					<NewWindow
+						title={translate('help.openInNewTab')}
+						aria-label={translate('help.openInNewTab')}
+					/>{' '}
+					{translate('help.googleChrome')}
+				</a>
+			</div>
+			<div>
+				<img
+					src={EdgeLogo}
+					alt={translate('help.msEdge')}
+					title={translate('help.msEdge')}
+				/>
+				<a
+					href="https://www.microsoft.com/edge"
+					target="_blank"
+					rel="noreferrer"
+					className="button-as-link"
+				>
+					<NewWindow
+						title={translate('help.openInNewTab')}
+						aria-label={translate('help.openInNewTab')}
+					/>{' '}
+					{translate('help.msEdge')}
+				</a>
+			</div>
+			<div>
+				<img
+					src={SafariLogo}
+					alt={translate('help.safari')}
+					title={translate('help.safari')}
+				/>
+				<a
+					href="https://www.apple.com/de/safari/"
+					target="_blank"
+					rel="noreferrer"
+					className="button-as-link"
+				>
+					<NewWindow
+						title={translate('help.openInNewTab')}
+						aria-label={translate('help.openInNewTab')}
+					/>{' '}
+					{translate('help.safari')}
+				</a>
+			</div>
+		</div>
+	);
+};
+
 export const HelpVideoCall: React.FC<HelpVideoCallProps> = ({
 	copyLoginLink,
 	consultant
@@ -50,65 +115,7 @@ export const HelpVideoCall: React.FC<HelpVideoCallProps> = ({
 					className="tertiary"
 				/>
 			</div>
-			<div className="help__browser">
-				<div>
-					<img
-						src={ChromeLogo}
-						alt={translate('help.googleChrome')}
-						title={translate('help.googleChrome')}
-					/>
-					<a
-						href="https://www.google.com/chrome/"
-						target="_blank"
-						rel="noreferrer"
-						className="button-as-link"
-					>
-						<NewWindow
-							title={translate('help.openInNewTab')}
-							aria-label={translate('help.openInNewTab')}
-						/>{' '}
-						{translate('help.googleChrome')}
-					</a>
-				</div>
-				<div>
-					<img
-						src={EdgeLogo}
-						alt={translate('help.msEdge')}
-						title={translate('help.msEdge')}
-					/>
-					<a
-						href="https://www.microsoft.com/edge"
-						target="_blank"
-						rel="noreferrer"
-						className="button-as-link"
-					>
-						<NewWindow
-							title={translate('help.openInNewTab')}
-							aria-label={translate('help.openInNewTab')}
-						/>{' '}
-						{translate('help.msEdge')}
-					</a>
-				</div>
-				<div>
-					<img
-						src={SafariLogo}
-						alt={translate('help.safari')}
-						title={translate('help.safari')}
-					/>
-					<a
-						href="https://www.apple.com/de/safari/"
-						target="_blank"
-						rel="noreferrer"
-						className="button-as-link"
-					>
-						<NewWindow
-							title={translate('help.openInNewTab')}
-							aria-label={translate('help.openInNewTab')}
-						/>{' '}
-						{translate('help.safari')}
-					</a>
-				</div>
-			</div>
+			<BrowserList></BrowserList>
 			<div className="help__mid">
 				<Headline
 					text={translate(`${translationPrefix}.steps.headline.1`)}

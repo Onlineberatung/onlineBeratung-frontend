@@ -250,21 +250,6 @@ $overlay-illustration-size-large: 160px;
 			left: 50%;
 			transform: translateX(-50%);
 		}
-		&--large {
-			height: 250px;
-			background-color: #faf6f3;
-			margin: -$grid-base-six;
-			margin-top: -$grid-base-nine;
-			margin-bottom: $grid-base-four;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-
-			@include breakpoint($fromLarge) {
-				margin: -$grid-base-six;
-				margin-bottom: $grid-base-four;
-			}
-		}
 	}
 
 	&__illustration {
@@ -331,6 +316,20 @@ $overlay-illustration-size-large: 160px;
 	}
 
 	&__illustrationWrapper--large {
+		height: 250px;
+		background-color: #faf6f3;
+		margin: -$grid-base-six;
+		margin-top: -$grid-base-nine;
+		margin-bottom: $grid-base-four;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		@include breakpoint($fromLarge) {
+			margin: -$grid-base-six;
+			margin-bottom: $grid-base-four;
+		}
+
 		.overlay__illustration {
 			background-color: transparent;
 			margin-top: $grid-base-six;
