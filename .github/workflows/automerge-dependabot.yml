@@ -6,12 +6,6 @@ permissions:
     pull-requests: write
 
 jobs:
-    log:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Log github actor
-              run: echo ${{ github.actor }}
-
     dependabot:
         runs-on: ubuntu-latest
         if: ${{ github.actor == 'dependabot[bot]' }}
@@ -21,8 +15,10 @@ jobs:
               uses: dependabot/fetch-metadata@v1.1.1
               with:
                   github-token: '${{ secrets.GITHUB_TOKEN }}'
+            - name: Log update type
+              run: echo ${{ steps.metadata.outputs.update-type }}
             - name: Enable auto-merge for Dependabot PRs
-              if: ${{steps.metadata.outputs.update-type == 'version-update:semver-patch'}}
+              if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
               run: gh pr merge --auto --merge "$PR_URL"
               env:
                   PR_URL: ${{github.event.pull_request.html_url}}
