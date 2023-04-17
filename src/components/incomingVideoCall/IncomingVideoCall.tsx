@@ -172,14 +172,15 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 				)}
 			</p>
 
-			{!supportsE2EEncryptionVideoCall() && (
+			{!supportsE2EEncryptionVideoCall() ? (
 				<div className="incomingVideoCall__hint">
 					{translate(`videoCall.incomingCall.unsupported.hint`)}
 					<div className="mt--2">
 						<button
-							onClick={() =>
-								history.push('/profile/hilfe/videoCall')
-							}
+							onClick={() => {
+								handleRejectVideoCall();
+								history.push('/profile/hilfe/videoCall');
+							}}
 							className="px--2 text--bold"
 							type="button"
 						>
@@ -189,24 +190,24 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 						</button>
 					</div>
 				</div>
+			) : (
+				<div className="incomingVideoCall__buttons mt--2 py--3">
+					<Button
+						buttonHandle={() => handleAnswerVideoCall(true)}
+						item={buttonAnswerVideoCall}
+						testingAttribute="answer-incoming-video-call"
+					/>
+					<Button
+						buttonHandle={() => handleAnswerVideoCall()}
+						item={buttonAnswerCall}
+					/>
+					<Button
+						buttonHandle={() => handleRejectVideoCall()}
+						item={buttonRejectVideoCall}
+						testingAttribute="reject-incoming-video-call"
+					/>
+				</div>
 			)}
-
-			<div className="incomingVideoCall__buttons mt--2 py--3">
-				<Button
-					buttonHandle={() => handleAnswerVideoCall(true)}
-					item={buttonAnswerVideoCall}
-					testingAttribute="answer-incoming-video-call"
-				/>
-				<Button
-					buttonHandle={() => handleAnswerVideoCall()}
-					item={buttonAnswerCall}
-				/>
-				<Button
-					buttonHandle={() => handleRejectVideoCall()}
-					item={buttonRejectVideoCall}
-					testingAttribute="reject-incoming-video-call"
-				/>
-			</div>
 		</div>
 	);
 };

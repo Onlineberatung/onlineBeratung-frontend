@@ -46,12 +46,14 @@ export interface OverlayItem {
 	headline?: string;
 	headlineStyleLevel?: HeadlineLevel;
 	illustrationBackground?: 'error' | 'neutral' | 'info' | 'large';
+	illustrationStyle?: 'small' | 'large';
 	nestedComponent?: React.ReactNode;
 	svg?: React.FunctionComponent<
 		React.SVGProps<SVGSVGElement> & { title?: string }
 	>;
 	handleNextStep?: (callback: Function) => void;
 	handleOverlay?: Function;
+	showCloseButton?: boolean;
 	step?: {
 		icon: React.FunctionComponent<
 			React.SVGProps<SVGSVGElement> & { title?: string }
@@ -213,6 +215,25 @@ const OverlayContent: VFC<Omit<OverlayProps, 'name'>> = (props) => {
 									aria-label={translate('app.close')}
 								/>
 							)}
+							{activeOverlay.showCloseButton &&
+								!props.handleOverlayClose && (
+									<XIcon
+										className="overlay__closeIcon"
+										onClick={() =>
+											handleButtonClick(
+												OVERLAY_FUNCTIONS.CLOSE
+											)
+										}
+										onKeyPress={() =>
+											handleButtonClick(
+												OVERLAY_FUNCTIONS.CLOSE
+											)
+										}
+										tabIndex={0}
+										title={translate('app.close')}
+										aria-label={translate('app.close')}
+									/>
+								)}
 							{props.items?.some((item) => item.step) && (
 								<div className="overlay__steps">
 									{props.items.map((item, i) => {
@@ -259,7 +280,14 @@ const OverlayContent: VFC<Omit<OverlayProps, 'name'>> = (props) => {
 								</div>
 							)}
 							{activeOverlay.svg && (
-								<div className="overlay__illustrationWrapper">
+								<div
+									className={`${
+										activeOverlay.illustrationStyle ===
+										'large'
+											? 'overlay__illustrationWrapper--large'
+											: 'overlay__illustrationWrapper'
+									}`}
+								>
 									<span
 										className={`overlay__illustration ${
 											activeOverlay.illustrationBackground

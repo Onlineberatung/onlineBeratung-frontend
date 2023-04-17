@@ -5,6 +5,7 @@ import incomingCallRingtone from '../../resources/audio/incomingCall.mp3';
 
 import { NotificationType } from '../../globalState';
 import { Notification } from './Notification';
+import { E2EEncryptionSupportHelp } from '../E2EEncryptionSupportHelp/E2EEncryptionSupportHelp';
 
 type NotificationsProps = {
 	notifications: NotificationType[];
@@ -25,7 +26,7 @@ export const Notifications = (props: NotificationsProps) => {
 					/>
 				)
 			)}
-			{hasIncomingVideoCall && (
+			{hasIncomingVideoCall && !E2EEncryptionSupportHelp() && (
 				<audio loop autoPlay data-cy="incoming-video-call-audio">
 					<source
 						src={
