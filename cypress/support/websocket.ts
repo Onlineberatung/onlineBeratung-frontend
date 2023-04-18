@@ -1,4 +1,10 @@
 import { WebSocket, Server, Client } from 'mock-socket';
+import { getSessions } from './commands';
+import {
+	SETTING_E2E_ENABLE,
+	SETTING_FILEUPLOAD_MAXFILESIZE,
+	SETTING_MESSAGE_MAXALLOWEDSIZE
+} from '../../src/api/apiRocketChatSettingsPublic';
 
 declare global {
 	interface Window {
@@ -109,6 +115,147 @@ export const startWebSocketServer = () => {
 										],
 										total: 2
 									}
+								})
+							);
+							break;
+						case 'subscriptions/get':
+							socket.send(
+								JSON.stringify({
+									id: parsedMessage.id,
+									msg: 'result',
+									result: getSessions().map((session) => ({
+										_id: 'bwB9ZKmsiqKSiFYfP',
+										open: true,
+										alert: false,
+										unread: 0,
+										userMentions: 0,
+										groupMentions: 0,
+										ts: {
+											$date: 1567766283329
+										},
+										rid: session.rid,
+										name: 'sub1',
+										fname: 'sub1',
+										customFields: {},
+										t: 'p',
+										u: {
+											_id: 'consultant1',
+											username: 'enc.usera....',
+											name: 'consultant1'
+										},
+										_updatedAt: {
+											$date: 1650376745838
+										},
+										ls: {
+											$date: 1657781298497
+										}
+									}))
+								})
+							);
+							break;
+						case 'rooms/get':
+							socket.send(
+								JSON.stringify({
+									id: parsedMessage.id,
+									msg: 'result',
+									result: getSessions().map((session) => ({
+										_id: session.rid,
+										ts: {
+											$date: 1567766364033
+										},
+										name: 'room1',
+										fname: 'room2',
+										t: 'p',
+										msgs: 34,
+										usersCount: 8,
+										u: {
+											_id: 'consultant1',
+											username: 'enc.usera....',
+											name: 'consultant1'
+										},
+										_updatedAt: {
+											$date: 1661238537021
+										},
+										lm: {
+											$date: 1607589845901
+										},
+										lastMessage: {
+											_id: 'fPHXFBQpEc2c8WKW3',
+											rid: session.rid,
+											msg: 'test',
+											ts: {
+												$date: 1647529088997
+											},
+											u: {
+												_id: 'consultant1',
+												username: 'enc.usera....'
+											},
+											unread: true,
+											parseUrls: false,
+											groupable: false,
+											_updatedAt: {
+												$date: 1647529089013
+											}
+										},
+										customFields: {},
+										ro: false
+									}))
+								})
+							);
+							break;
+						case 'getUserRoles':
+							socket.send(
+								JSON.stringify({
+									id: parsedMessage.id,
+									msg: 'result',
+									result: {
+										total: 2,
+										records: [
+											{
+												_id: 'asker1',
+												username: 'asker1',
+												status: 'busy',
+												_updatedAt: {
+													$date: 1677018431963
+												},
+												name: null
+											},
+											{
+												_id: 'consultant1',
+												username: 'consultant1',
+												status: 'offline',
+												name: 'consultant1',
+												_updatedAt: {
+													$date: 1677016800740
+												}
+											}
+										]
+									}
+								})
+							);
+							break;
+						case 'public-settings/get':
+							socket.send(
+								JSON.stringify({
+									id: parsedMessage.id,
+									msg: 'result',
+									result: [
+										{
+											_id: SETTING_E2E_ENABLE,
+											value: true,
+											enterprise: false
+										},
+										{
+											_id: SETTING_MESSAGE_MAXALLOWEDSIZE,
+											value: 99999999,
+											enterprise: false
+										},
+										{
+											_id: SETTING_FILEUPLOAD_MAXFILESIZE,
+											value: 99999999,
+											enterprise: false
+										}
+									]
 								})
 							);
 							break;

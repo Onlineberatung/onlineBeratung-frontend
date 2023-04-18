@@ -73,11 +73,11 @@ export default function useUrlParamsLoader() {
 					agency = null;
 				}
 
-				if (isNumber(topicIdOrName)) {
+				if (isNumber(topicIdOrName) && topicIdOrName !== '') {
 					await apiGetTopicById(topicIdOrName)
 						.then(setTopic)
 						.catch(() => null);
-				} else if (isString(topicIdOrName)) {
+				} else if (isString(topicIdOrName) && topicIdOrName !== '') {
 					await apiGetTopicsData()
 						.then((allTopics) => {
 							const topic = allTopics.find(

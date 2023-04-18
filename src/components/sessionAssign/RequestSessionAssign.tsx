@@ -83,8 +83,8 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 			toConsultantId: selected.value,
 			toConsultantName: selected.consultantDisplayName,
 			toAskerName,
-			fromConsultantId: selectedConsultant.value,
-			fromConsultantName: selectedConsultant.consultantDisplayName,
+			fromConsultantId: selectedConsultant?.value,
+			fromConsultantName: selectedConsultant?.consultantDisplayName,
 			status: ReassignStatus.REQUESTED
 		});
 

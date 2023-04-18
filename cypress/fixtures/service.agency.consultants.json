@@ -3,18 +3,21 @@
 		"agencies": null,
 		"consultantId": "8a81117b-d875-4ba4-8696-d62c3a2dae91",
 		"firstName": "Berater",
-		"lastName": "No2"
+		"lastName": "No2",
+		"username": "Custom1"
 	},
 	{
 		"agencies": null,
 		"consultantId": "a5dc222c-94c0-4c1b-9654-0a5c34008de6",
 		"firstName": "Berater",
-		"lastName": "No3"
+		"lastName": "No3",
+		"username": "Custom2"
 	},
 	{
 		"agencies": null,
 		"consultantId": "330fc01c-bac3-4c7c-ba91-d0e974f1abd0",
 		"firstName": "consultant4",
-		"lastName": "consultant4"
+		"lastName": "consultant4",
+		"username": "Custom3"
 	}
 ]

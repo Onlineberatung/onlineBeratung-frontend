@@ -23,6 +23,7 @@ import apiAppointments from './api/appointments';
 import apiVideocalls from './api/videocalls';
 import {
 	SETTING_E2E_ENABLE,
+	SETTING_FILEUPLOAD_MAXFILESIZE,
 	SETTING_MESSAGE_MAXALLOWEDSIZE
 } from '../../../src/api/apiRocketChatSettingsPublic';
 
@@ -169,7 +170,7 @@ Cypress.Commands.add('mockApi', () => {
 		});
 	}).as('askerSessions');
 
-	cy.intercept('GET', endpoints.messages.get, (req) => {
+	cy.intercept('GET', `${endpoints.messages.get}*`, (req) => {
 		if (overrides['messages']) {
 			return req.reply(overrides['messages']);
 		}
@@ -220,6 +221,11 @@ Cypress.Commands.add('mockApi', () => {
 				{
 					_id: SETTING_MESSAGE_MAXALLOWEDSIZE,
 					value: 999999,
+					enterprise: false
+				},
+				{
+					_id: SETTING_FILEUPLOAD_MAXFILESIZE,
+					value: 99999999,
 					enterprise: false
 				}
 			],
@@ -301,7 +307,7 @@ Cypress.Commands.add('mockApi', () => {
 		]);
 	}).as('agencyConsultants');
 
-	cy.intercept('GET', endpoints.agencyConsultants, (req) => {
+	cy.intercept('GET', `${endpoints.agencyConsultants}*`, (req) => {
 		req.reply(
 			...defaultReturns['agencyConsultants'],
 			...(overrides['agencyConsultants'] || [])
@@ -394,13 +400,13 @@ Cypress.Commands.add('mockApi', () => {
 		let foundSession = null;
 		getAskerSessions().forEach((session, index) => {
 			if (session.session.groupId === rcGroupId) {
-				foundSession = session;
+				foundSession = session.session;
 			}
 		});
 
 		getConsultantSessions().forEach((session, index) => {
 			if (session.session.groupId === rcGroupId) {
-				foundSession = session;
+				foundSession = session.session;
 			}
 		});
 
