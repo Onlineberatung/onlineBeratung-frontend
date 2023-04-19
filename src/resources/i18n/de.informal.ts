@@ -363,7 +363,46 @@ export const deInformal = {
 		notifications: {
 			'subtitle': 'Wir benachrichtigen Dich, wenn Du:',
 			'follow.up.email.label':
-				'eine Nachricht von angenommenen Ratsuchenden erhalten hast.'
+				'eine Nachricht von angenommenen Ratsuchenden erhalten hast.',
+			'description':
+				'Wir informieren dich per E-Mail, wenn du eine neue Nachricht erhalten hast.',
+			'reassignmentAdviceSeeker': {
+				description:
+					'Dein_e Berater_in hat um Erlaubnis gebeten, dich einem neuen Berater zuzuweisen.'
+			},
+			'newMessage': {
+				description:
+					'Einer der dir zugewiesenen Ratsuchenden hat dir geantwortet'
+			},
+			'reassignmentConsultant': {
+				description:
+					'Kollege_in hat dir eine_n Ratsuchende_n zugewiesen.'
+			},
+			'toggleError': {
+				description:
+					'Leider können wir deine Benachrichtigungen zur Zeit nicht aktivieren. Bitte versuche es später noch einmal.'
+			},
+			'noEmail': {
+				info: 'Du hast noch keine E-mail-Adresse hinzugefügt.',
+				modal: {
+					description:
+						'Die Angabe deiner E-Mail-Adresse ist freiwillig und wird ausschließlich verwendet, um dich über neue Antworten deines_r Berater_in zu informieren. Deine E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
+					errorMessage:
+						'Leider können wir Ihre E-mail-Adresse momentan nicht speichern. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support.'
+				}
+			}
+		},
+		browserNotifications: {
+			description:
+				'Wenn du online bist, informieren wir dich in diesem Browser, wenn du eine neue Nachricht erhalten hast.',
+			newMessage: {
+				description:
+					'Einer der dir zugewiesenen Ratsuchenden hat dir geantwortet'
+			},
+			denied: {
+				message:
+					'Du hast den Empfang von Benachrichtigungen für diesen Browser abgelehnt. Um Push-Benachrichtigungen zu aktivieren, musst du diese zuerst in deinen Browsereinstellungen zulassen.'
+			}
 		},
 		spokenLanguages: {
 			info: 'Wähle die Sprache(n) aus, in der Du die Ratsuchenden beraten kannst. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.'

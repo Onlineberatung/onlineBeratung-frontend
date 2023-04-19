@@ -1601,6 +1601,11 @@ export const en = {
 				description:
 					'Unfortunately, we cannot update your settings at the moment. Please try again later.'
 			},
+			'toggleError': {
+				title: 'Something went wrong.',
+				description:
+					'Unfortunately, we cannot activate your notifications at this time. Please try again later.'
+			},
 			'noEmail': {
 				info: 'You have not yet added an email address.',
 				button: 'Add email address',
@@ -1617,7 +1622,7 @@ export const en = {
 					},
 					errorTitle: 'Something went wrong.',
 					errorMessage:
-						'Unfortunately, we cannot activate your notifications now. Please try again later.'
+						'Unfortunately, we cannot save your e-mail address at the moment. Please try again later or contact our support.'
 				}
 			}
 		},
