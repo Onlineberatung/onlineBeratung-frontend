@@ -748,37 +748,49 @@ export const en = {
 	help: {
 		googleChrome: 'Google Chrome',
 		msEdge: 'Microsoft Edge',
+		safari: 'Safari',
 		openInNewTab: 'Open in new tab',
 		videoCall: {
 			asker: {
-				intro: 'To make end-to-end encrypted calls, follow these steps:',
+				headline: 'Video Call',
+				intro: 'To participate in video calls, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
 				steps: {
-					'headline': {
-						'1': 'Video-Call',
-						'2': 'Already have Google Chrome or Microsoft Edge?'
+					'1.1': 'Follow the link to ',
+					'1.2': ' or ',
+					'1.3': ' (only for macOS and iOS available).',
+					'2': 'Download one of the supported browsers',
+					'3': 'Install it on your PC/laptop/tablet/smartphone.',
+					'4': {
+						'1': 'Now open the online consultation with this browser.',
+						'2': 'Open the online consultation with one of these browsers.'
 					},
-					'1': 'Follow the link to Google Chrome or Microsoft Edge.',
-					'2': 'Download Chrome or Edge.',
-					'3': 'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',
-					'4': 'Now open the online consultation via Chrome or Edge.',
 					'5': 'Sign up for online counseling.',
-					'6': 'Ask your advisor to call you again.'
+					'6': 'Ask your advisor to call you again.',
+					'headline': {
+						'1': 'Step by step guide',
+						'2': 'Already have Google Chrome, Microsoft Edge or Safari?'
+					}
 				}
 			},
 			consultant: {
-				headline: 'Video-Call',
-				intro: 'To be able to start a video call, you must log in to the online consultation via Google Chrome or Microsoft Edge. Thus, the video call can be encrypted end-to-end and you can start.',
+				headline: 'Video Call',
+				intro: 'To perform a video call, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
 				steps: {
-					'headline.1': 'Step by step guide',
-					'headline.2':
-						'Already have Google Chrome or Microsoft Edge?',
 					'1.1': 'Follow the link to ',
 					'1.2': ' or ',
-					'2': 'Download Chrome or Edge. You may need the support of your IT for this.',
-					'3': 'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',
-					'4': 'Now open the online consultation via Chrome or Edge.',
+					'1.3': ' (only for macOS and iOS available).',
+					'2': 'Download one of the supported browsers. You may need the support of your IT for this.',
+					'3': 'Install it on your PC/laptop/tablet/smartphone.',
+					'4': {
+						'1': 'Now open the online consultation with this browser.',
+						'2': 'Open the online consultation with one of these browsers.'
+					},
 					'5': 'Sign up for online counseling.',
-					'6': 'Start the video call.'
+					'6': 'Start the video call.',
+					'headline': {
+						'1': 'Step by step guide',
+						'2': 'Already have Google Chrome, Microsoft Edge or Safari?'
+					}
 				}
 			},
 			loginLink: {
