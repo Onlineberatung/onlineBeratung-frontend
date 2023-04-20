@@ -1,24 +1,27 @@
 .help {
-	& > * {
-		max-width: 500px;
-	}
-
 	.headline {
 		margin-bottom: $grid-base;
 	}
 
 	&__browser {
+		max-width: unset;
+		width: 100%;
 		margin-top: $grid-base-two;
-		display: flex;
-		flex-wrap: wrap;
+
+		@include breakpoint($fromMedium) {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
 
 		& > div {
-			display: inline-flex;
-			align-items: center;
-			margin-top: $grid-base;
+			display: block;
+			margin-top: $grid-base-two;
 
-			&:first-child {
-				margin-right: $grid-base-four;
+			@include breakpoint($fromMedium) {
+				display: inline-flex;
+				align-items: center;
+				margin: $grid-base $grid-base-two 0;
 			}
 
 			img {

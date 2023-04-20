@@ -47,10 +47,6 @@
 		"relation": true,
 		"state": false
 	},
-	"monitoring": {
-		"initializeMonitoring": true,
-		"monitoringTemplateFile": "addiction.json"
-	},
 	"initializeFeedbackChat": false,
 	"roles": {
 		"consultant": {

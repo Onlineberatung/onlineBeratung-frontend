@@ -85,7 +85,6 @@ export interface SessionItemInterface {
 	createDate: string;
 	messagesRead: boolean;
 	messageTime?: number;
-	monitoring: boolean;
 	postcode: number;
 	registrationType: registrationTypeAnonymous | registrationTypeRegistered;
 	status:

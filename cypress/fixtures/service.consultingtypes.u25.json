@@ -50,10 +50,6 @@
 		"relation": false,
 		"state": true
 	},
-	"monitoring": {
-		"initializeMonitoring": true,
-		"monitoringTemplateFile": "u25.json"
-	},
 	"initializeFeedbackChat": true,
 	"roles": {
 		"consultant": {
