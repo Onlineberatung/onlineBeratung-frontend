@@ -10,43 +10,7 @@ export const deConsultingTypes = {
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
 			'welcomeScreen.anonymous.text':
-				'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe',
-			'voluntaryComponents': {
-				relation: {
-					headline: 'Hintergrund',
-					affected: 'Betroffen',
-					relative: 'Angehörig',
-					otherType: 'Anderes'
-				},
-				addictiveDrugs: {
-					headline: 'Suchtmittel',
-					alcohol: 'Alkohol',
-					drugs: 'Drogen',
-					legalHighs: 'Legal Highs',
-					tabacco: 'Tabak',
-					medication: 'Medikamente',
-					gambling: 'Glücksspiel',
-					internetUse: 'Internet/Computer',
-					eatingDisorder: 'Essstörungen',
-					otherDrug: 'Andere'
-				},
-				age: {
-					'headline': 'Alter',
-					'selectInputLabel': 'Alter auswählen',
-					'0': '0-17',
-					'1': '18-20',
-					'2': '21-30',
-					'3': '31-40',
-					'4': '41-59',
-					'5': '60+'
-				},
-				gender: {
-					headline: 'Geschlecht',
-					female: 'Weiblich',
-					male: 'Männlich',
-					diverseGender: 'Divers'
-				}
-			}
+				'Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe'
 		},
 		1: {
 			titles: {
@@ -60,14 +24,6 @@ export const deConsultingTypes = {
 			anonymous: {
 				text: 'Du bleibst anonym und erhältst kostenfreie Beratung und Hilfe',
 				title: 'Anonym und kostenfrei'
-			},
-			voluntaryComponents: {
-				gender: {
-					diverseGender: 'Divers',
-					female: 'Weiblich',
-					headline: 'Geschlecht',
-					male: 'Männlich'
-				}
 			},
 			requiredComponents: {
 				age: {
@@ -350,23 +306,7 @@ export const deConsultingTypes = {
 			},
 			'anonymous.title': 'Anonym und kostenfrei',
 			'welcomeScreen.anonymous.text':
-				'Du bleibst anonym und erhältst kostenfreie Beratung und Hilfe',
-			'voluntaryComponents': {
-				'gender': {
-					female: 'Weiblich',
-					male: 'Männlich'
-				},
-				'voluntaryComponents.gender.diverseGender': 'Divers',
-				'age': {
-					'50': '20',
-					'51': '21',
-					'52': '22',
-					'53': '23',
-					'54': '24',
-					'55': '25',
-					'56': '26'
-				}
-			}
+				'Du bleibst anonym und erhältst kostenfreie Beratung und Hilfe'
 		}
 	}
 };

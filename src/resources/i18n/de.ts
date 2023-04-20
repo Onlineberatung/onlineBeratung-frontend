@@ -606,20 +606,6 @@ export const de = {
 			},
 			'success.overlay.headline':
 				'Ihre E-Mail-Adresse wurde erfolgreich gespeichert.'
-		},
-		'voluntaryInfo': {
-			headline: 'Wir wollen Sie bestmöglichst beraten',
-			infoText:
-				'Dabei hilft es uns, wenn Sie weitere freiwillige Angaben zu sich und Ihrem Anliegen machen.',
-			button: 'Angaben hinzufügen',
-			overlay: {
-				'button1.label': 'Speichern',
-				'button2.label': 'Schließen',
-				'copy': 'Für die Beratung würden uns folgende Angaben sehr helfen.',
-				'headline': 'Freiwillige Angaben',
-				'success.headline':
-					'Vielen Dank. Ihre freiwilligen Angaben wurden erfolgreich gespeichert.'
-			}
 		}
 	},
 	groupChat: {
