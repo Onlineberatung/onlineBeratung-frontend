@@ -764,37 +764,48 @@ export const de = {
 	help: {
 		googleChrome: 'Google Chrome',
 		msEdge: 'Microsoft Edge',
+		safari: 'Safari',
 		openInNewTab: 'In neuem Tab öffnen',
 		videoCall: {
 			asker: {
-				intro: 'Um Ende-zu Ende verschlüsselt zu telefonieren, befolgen Sie folgende Schritte:',
+				headline: 'Video-Call',
+				intro: 'Damit Sie an Video-Calls teilnehmen können, müssen Sie sich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
-					'1': 'Öffnen Sie den Link zu Google Chrome oder Microsoft Edge.',
-					'2': 'Laden Sie sich Chrome oder Edge herunter.',
-					'3': 'Installieren Sie Chrome oder Edge auf Ihrem PC/Laptop/Tablet/Smartphone.',
-					'4': 'Öffnen Sie nun über Chrome oder Edge die Online-Beratung.',
+					'1.1': 'Folgen Sie dem Link zu ',
+					'1.2': ' oder ',
+					'1.3': ' (nur für macOS und iOS verfügbar).',
+					'2': 'Laden Sie einen der unterstützten Browser herunter.',
+					'3': 'Installieren Sie diesen auf Ihrem PC/Laptop/Tablet/Smartphone.',
+					'4': {
+						'1': 'Öffnen Sie nun mit diesem Browser die Online-Beratung.',
+						'2': 'Öffnen Sie die Online-Beratung mit einem dieser Browser.'
+					},
 					'5': 'Melden Sie sich bei der Online-Beratung an.',
 					'6': 'Bitten Sie Ihre_n Berater_in Sie nochmals anzurufen.',
 					'headline': {
-						'1': 'Video-Call',
-						'2': 'Sie haben bereits Google Chrome oder Microsoft Edge?'
+						'1': 'Schritt für Schritt Anleitung',
+						'2': 'Sie haben bereits Google Chrome, Microsoft Edge oder Safari?'
 					}
 				}
 			},
 			consultant: {
 				headline: 'Video-Call',
-				intro: 'Um einen Video-Call starten zu können, müssen Sie sich über Google Chrome oder Microsoft Edge bei der Online-Beratung anmelden. Somit kann der Video-Call Ende-zu-Ende verschlüsselt werden und Sie können starten.',
+				intro: 'Um einen Video-Call durchführen zu können, müssen Sie sich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
 					'1.1': 'Folgen Sie dem Link zu ',
 					'1.2': ' oder ',
-					'2': 'Laden Sie sich Chrome oder Edge herunter. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
-					'3': 'Installieren Sie Chrome oder Edge auf Ihrem PC/Laptop/Tablet/Smartphone.',
-					'4': 'Öffnen Sie nun über Chrome oder Edge die Online-Beratung.',
+					'1.3': ' (nur für macOS und iOS verfügbar).',
+					'2': 'Laden Sie einen der unterstützten Browser herunter. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
+					'3': 'Installieren Sie diesen auf Ihrem PC/Laptop/Tablet/Smartphone.',
+					'4': {
+						'1': 'Öffnen Sie nun mit diesem Browser die Online-Beratung.',
+						'2': 'Öffnen Sie die Online-Beratung mit einem dieser Browser.'
+					},
 					'5': 'Melden Sie sich bei der Online-Beratung an.',
 					'6': 'Starten Sie den Video-Call.',
 					'headline': {
 						'1': 'Schritt für Schritt Anleitung',
-						'2': 'Sie haben bereits Google Chrome oder Microsoft Edge?'
+						'2': 'Sie haben bereits Google Chrome, Microsoft Edge oder Safari?'
 					}
 				}
 			},
