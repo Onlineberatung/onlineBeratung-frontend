@@ -11,7 +11,6 @@ import {
 	RocketChatGlobalSettingsProvider,
 	AnonymousConversationStartedProvider,
 	SessionsDataProvider,
-	InformalProvider,
 	ModalProvider
 } from '.';
 
@@ -40,7 +39,6 @@ function ContextProvider({ children }) {
 				<WebsocketConnectionDeactivatedProvider />,
 				<SessionsDataProvider />,
 				<RocketChatGlobalSettingsProvider />,
-				<InformalProvider />,
 				<ModalProvider />
 			]}
 		>

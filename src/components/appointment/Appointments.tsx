@@ -22,6 +22,7 @@ import {
 import { OnlineMeetingForm } from './OnlineMeetingForm';
 import { Appointment } from './Appointment';
 import { ReactComponent as CameraPlusIcon } from '../../resources/img/icons/camera-plus.svg';
+import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/chat-waiting.svg';
 import { Loading } from '../app/Loading';
 import { useResponsive } from '../../hooks/useResponsive';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
@@ -29,6 +30,7 @@ import * as appointmentService from '../../api/appointments';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { ListInfo } from '../listInfo/ListInfo';
 
 export const Appointments = () => {
 	const { t: translate } = useTranslation();
@@ -241,9 +243,11 @@ export const Appointments = () => {
 					{loading ? (
 						<Loading />
 					) : appointments.length <= 0 ? (
-						<div className="text--center">
-							{translate('appointments.noAppointments')}
-						</div>
+						<ListInfo
+							headline={translate('appointments.noAppointments')}
+							Illustration={WaitingIllustration}
+							hasSeparator={true}
+						></ListInfo>
 					) : (
 						<div className="px--2 px-l--0">
 							{appointments

@@ -31,14 +31,23 @@ export function LocaleProvider(props) {
 	useEffect(() => {
 		// If using the tenant service we should load first the tenant because we need the
 		// active languages from the server to apply it on loading
-		if (settings.useTenantService && isLoading) {
+		if ((settings.useTenantService && isLoading) || initialized) {
 			return;
 		}
 
 		init({
 			...settings.i18n,
 			...(tenant?.settings?.activeLanguages && {
-				supportedLngs: tenant?.settings?.activeLanguages || []
+				supportedLngs: [
+					'de_informal',
+					...(tenant?.settings?.activeLanguages || []),
+					// If tenant service has 'de' active add default supported languages 'de' and 'de_informal'
+					// If 'de' is deactivated 'de_informal' should not be available too
+					...(settings.i18n.supportedLngs &&
+					(tenant?.settings?.activeLanguages ?? []).includes('de')
+						? settings.i18n.supportedLngs
+						: [])
+				]
 			})
 		}).then(() => {
 			setInitLocale(i18n.language);
@@ -52,6 +61,7 @@ export function LocaleProvider(props) {
 			setInitialized(true);
 		});
 	}, [
+		initialized,
 		isLoading,
 		settings.i18n,
 		settings.useTenantService,
@@ -104,6 +114,18 @@ export function LocaleProvider(props) {
 		}
 	}, [locale, informal, locales, initialized]);
 
+	const handleOnSetLocale = React.useCallback(
+		(lng) => {
+			if (
+				!settings?.i18n?.supportedLngs ||
+				(settings.i18n.supportedLngs as string[])?.includes?.(lng)
+			) {
+				setLocale(lng);
+			}
+		},
+		[settings.i18n.supportedLngs]
+	);
+
 	if (!initialized) {
 		return null;
 	}
@@ -113,7 +135,7 @@ export function LocaleProvider(props) {
 			value={{
 				locale,
 				initLocale,
-				setLocale,
+				setLocale: handleOnSetLocale,
 				locales,
 				selectableLocales
 			}}
@@ -122,3 +144,7 @@ export function LocaleProvider(props) {
 		</LocaleContext.Provider>
 	);
 }
+
+export const useLocaleData = (): TLocaleContext => {
+	return useContext(LocaleContext) || ({} as TLocaleContext);
+};

@@ -17,4 +17,9 @@ export interface AppConfigInterface extends AppSettingsInterface {
 	twofactor: AppConfigTwoFactorInterface;
 	i18n: InitOptions;
 	overlays?: OverlaysConfigInterface;
+	releaseToggles?: ReleaseToggles;
+}
+
+interface ReleaseToggles {
+	enableNewNotifications?: boolean;
 }

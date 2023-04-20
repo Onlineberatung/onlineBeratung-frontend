@@ -9,11 +9,11 @@ import {
 	VALIDITY_INITIAL
 } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';
-import i18n from '../../i18n';
+import { useLocaleData } from '../../globalState';
 
 export interface MainTopicSelectionProps {
 	name: string;
-	preselectedTopic: any;
+	preselectedTopic: number;
 	onChange: (value: string) => void;
 	onValidityChange: (key: string, value: string) => void;
 }
@@ -24,6 +24,7 @@ export const MainTopicSelection = ({
 	onChange,
 	onValidityChange
 }: MainTopicSelectionProps) => {
+	const { locale } = useLocaleData();
 	const { t: translate } = useTranslation();
 	const [topics, setTopics] = useState([]);
 	const [selectedTopic, setSelectedTopic] = useState(preselectedTopic);
@@ -34,7 +35,7 @@ export const MainTopicSelection = ({
 			name,
 			selectedTopic >= 0 ? VALIDITY_VALID : VALIDITY_INITIAL
 		);
-	}, [name, i18n.language]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [name, locale]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const onChangeInput = useCallback(
 		(value) => {
@@ -60,12 +61,12 @@ export const MainTopicSelection = ({
 							className="mainTopicSelection__radioButton"
 							name="topicSelection"
 							type="smaller"
-							handleRadioButton={() =>
-								onChangeInput(id.toString())
-							}
-							value={id.toString()}
+							handleRadioButton={() => onChangeInput(id)}
+							value={id}
 							checked={selectedTopic === id}
-							inputId={name.toLowerCase().replace(' ', '-')}
+							inputId={`${name
+								.toLowerCase()
+								.replace(' ', '-')}-${id}`}
 							label={name}
 						/>
 						<AgencyInfo agency={topic} />

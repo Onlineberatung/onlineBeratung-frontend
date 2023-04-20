@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useCallback, useRef, useState, MouseEvent } from 'react';
 import clsx from 'clsx';
 import { Spinner } from '../spinner/Spinner';
-import { useContext } from 'react';
-import { TenantContext } from '../../globalState';
+import { useTenant } from '../../globalState';
 import { ReactComponent as SkfLogo } from '../../resources/img/logos/01_skf.svg';
 import { ReactComponent as CaritasLogo } from '../../resources/img/logos/02_caritas.svg';
 import { ReactComponent as SkmLogo } from '../../resources/img/logos/03_skm.svg';
@@ -27,9 +26,8 @@ export const Stage = ({
 	isReady = true
 }: StageProps) => {
 	const { t: translate } = useTranslation();
-
+	const tenant = useTenant();
 	const rootNodeRef = useRef();
-	const { tenant } = useContext(TenantContext) || {};
 	const [isAnimationDone, setIsAnimationDone] = useState(false);
 
 	function onAnimationEnd(event) {

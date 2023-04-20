@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { UserDataContext } from '../../globalState';
 import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import {
 	STORAGE_KEY_2FA,
-	STORAGE_KEY_2FA_DUTY,
+	STORAGE_KEY_DISABLE_2FA_DUTY,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
 import { OVERLAY_TWO_FACTOR_NAG } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
@@ -18,6 +18,7 @@ interface TwoFactorNagProps {}
 export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
+	const location = useLocation<{ openTwoFactor?: boolean }>();
 
 	const settings = useAppConfig();
 	const { userData } = useContext(UserDataContext);
@@ -36,13 +37,14 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		if (
 			userData.twoFactorAuth?.isEnabled &&
 			!userData.twoFactorAuth?.isActive &&
+			!location.state?.openTwoFactor &&
 			!forceHideTwoFactorNag &&
 			todaysDate >= settings.twofactor.startObligatoryHint &&
 			getDevToolbarOption(STORAGE_KEY_2FA) === '1'
 		) {
 			setIsShownTwoFactorNag(true);
 			todaysDate >= settings.twofactor.dateTwoFactorObligatory &&
-			getDevToolbarOption(STORAGE_KEY_2FA_DUTY) === '1'
+			getDevToolbarOption(STORAGE_KEY_DISABLE_2FA_DUTY) === '0'
 				? setMessage(settings.twofactor.messages[1])
 				: setMessage(settings.twofactor.messages[0]);
 		} else {
@@ -54,11 +56,28 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 		settings.twofactor.startObligatoryHint,
 		settings.twofactor.dateTwoFactorObligatory,
 		settings.twofactor.messages,
-		getDevToolbarOption
+		getDevToolbarOption,
+		location
 	]);
 
+	// Prevent hiding 2fa nag if it has a duty
+	const handleTwoFactorNag = useCallback(
+		(val) => {
+			let todaysDate = new Date(Date.now());
+			if (
+				todaysDate >= settings.twofactor.dateTwoFactorObligatory &&
+				getDevToolbarOption(STORAGE_KEY_DISABLE_2FA_DUTY) === '0'
+			) {
+				setForceHideTwoFactorNag(false);
+				return;
+			}
+			setForceHideTwoFactorNag(val);
+		},
+		[getDevToolbarOption, settings.twofactor.dateTwoFactorObligatory]
+	);
+
 	const closeTwoFactorNag = async () => {
-		setForceHideTwoFactorNag(true);
+		handleTwoFactorNag(true);
 		setIsShownTwoFactorNag(false);
 	};
 
@@ -70,11 +89,11 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 					openTwoFactor: true
 				}
 			});
-			setForceHideTwoFactorNag(true);
+			handleTwoFactorNag(true);
 			setIsShownTwoFactorNag(false);
 		}
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			setForceHideTwoFactorNag(true);
+			handleTwoFactorNag(true);
 			setIsShownTwoFactorNag(false);
 		}
 	};

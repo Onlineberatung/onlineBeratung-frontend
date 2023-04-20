@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { apiGetTenantTheming } from '../api/apiGetTenantTheming';
-import { TenantContext } from '../globalState';
+import { TenantContext, useLocaleData } from '../globalState';
 import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
 import getLocationVariables from './getLocationVariables';
 import decodeHTML from './decodeHTML';
@@ -219,6 +219,7 @@ const applyTheming = (tenant: TenantDataInterface) => {
 const useTenantTheming = () => {
 	const settings = useAppConfig();
 	const tenantContext = useContext(TenantContext);
+	const { locale } = useLocaleData();
 	const { subdomain } = getLocationVariables();
 	const [isLoadingTenant, setIsLoadingTenant] = useState(
 		settings.useTenantService
@@ -252,13 +253,7 @@ const useTenantTheming = () => {
 			return;
 		}
 
-		apiGetTenantTheming({
-			subdomain,
-			useMultiTenancyWithSingleDomain:
-				settings?.multitenancyWithSingleDomainEnabled,
-			mainTenantSubdomainForSingleDomain:
-				settings.mainTenantSubdomainForSingleDomainMultitenancy
-		})
+		apiGetTenantTheming()
 			.then(onTenantServiceResponse)
 			.catch((error) => {
 				console.log('Theme could not be loaded', error);
@@ -268,7 +263,7 @@ const useTenantTheming = () => {
 			});
 		// False positive
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [tenantContext?.setTenant, subdomain]);
+	}, [tenantContext?.setTenant, subdomain, locale]);
 
 	return isLoadingTenant;
 };

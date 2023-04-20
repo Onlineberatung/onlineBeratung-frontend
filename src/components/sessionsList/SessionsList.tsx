@@ -8,7 +8,7 @@ import {
 	useRef,
 	useState
 } from 'react';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import {
 	getSessionType,
 	SESSION_LIST_TAB,
@@ -24,6 +24,7 @@ import {
 	AUTHORITIES,
 	buildExtendedSession,
 	ConsultingTypesContext,
+	ExtendedSessionInterface,
 	getExtendedSession,
 	hasUserAuthority,
 	isAnonymousSession,
@@ -37,7 +38,8 @@ import {
 	UPDATE_SESSIONS,
 	UserDataContext
 } from '../../globalState';
-import { SelectDropdownItem, SelectDropdown } from '../select/SelectDropdown';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
+import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import { SessionListItemComponent } from '../sessionsListItem/SessionListItemComponent';
 import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkeleton';
 import {
@@ -63,6 +65,7 @@ import useDebounceCallback from '../../hooks/useDebounceCallback';
 import {
 	EVENT_ROOMS_CHANGED,
 	EVENT_SUBSCRIPTIONS_CHANGED,
+	STATUS_ONLINE,
 	SUB_STREAM_NOTIFY_USER
 } from '../app/RocketChat';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -71,6 +74,12 @@ import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as LiveChatAvailableIllustration } from '../../resources/img/illustrations/live-chat-available.svg';
+import { ListInfo } from '../listInfo/ListInfo';
+import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import { EmptyListItem } from './EmptyListItem';
 
 interface SessionsListProps {
 	defaultLanguage: string;
@@ -110,8 +119,10 @@ export const SessionsList = ({
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
+	const { userData, reloadUserData } = useContext(UserDataContext);
+	const { status } = useContext(RocketChatUserStatusContext);
+
 	const [isLoading, setIsLoading] = useState(true);
-	const { userData } = useContext(UserDataContext);
 	const [currentOffset, setCurrentOffset] = useState(0);
 	const [totalItems, setTotalItems] = useState(0);
 	const [isReloadButtonVisible, setIsReloadButtonVisible] = useState(false);
@@ -123,8 +134,16 @@ export const SessionsList = ({
 
 	useGroupWatcher(isLoading);
 
+	const toggleAvailability = () => {
+		apiPatchUserData({
+			available: status !== STATUS_ONLINE
+		})
+			.then(reloadUserData)
+			.catch(console.log);
+	};
+
 	// If create new group chat
-	const activeCreateChat = groupIdFromParam === 'createGroupChat';
+	const isCreateChatActive = groupIdFromParam === 'createGroupChat';
 
 	const getConsultantSessionList = useCallback(
 		(
@@ -251,8 +270,11 @@ export const SessionsList = ({
 							userData
 						)
 					) {
+						const extendedSession = buildExtendedSession(
+							sessions[0]
+						);
 						history.push(
-							`/sessions/user/view/${sessions[0]?.chat?.groupId}/${sessions[0]?.chat?.id}`
+							`/sessions/user/view/${extendedSession?.rid}/${extendedSession?.item?.id}`
 						);
 					}
 				})
@@ -675,11 +697,12 @@ export const SessionsList = ({
 			type === SESSION_LIST_TYPES.TEAMSESSION);
 
 	const sortSessions = useCallback(
-		(a, b) => {
+		(
+			sessionA: ExtendedSessionInterface,
+			sessionB: ExtendedSessionInterface
+		) => {
 			switch (type) {
 				case SESSION_LIST_TYPES.ENQUIRY:
-					const sessionA = buildExtendedSession(a);
-					const sessionB = buildExtendedSession(b);
 					if (sessionA.isGroup || sessionB.isGroup) {
 						// There could be no group chats inside enquiry
 						return 0;
@@ -692,8 +715,8 @@ export const SessionsList = ({
 						: 1;
 				case SESSION_LIST_TYPES.MY_SESSION:
 				case SESSION_LIST_TYPES.TEAMSESSION:
-					const latestMessageA = new Date(a.latestMessage);
-					const latestMessageB = new Date(b.latestMessage);
+					const latestMessageA = new Date(sessionA.latestMessage);
+					const latestMessageB = new Date(sessionB.latestMessage);
 					if (latestMessageA === latestMessageB) {
 						return 0;
 					}
@@ -926,7 +949,7 @@ export const SessionsList = ({
 
 				<div
 					className={`sessionsList__itemsWrapper ${
-						activeCreateChat ||
+						isCreateChatActive ||
 						isLoading ||
 						finalSessionsList.length > 0
 							? ''
@@ -936,7 +959,7 @@ export const SessionsList = ({
 					role="tablist"
 				>
 					{!isLoading &&
-						activeCreateChat &&
+						isCreateChatActive &&
 						type === SESSION_LIST_TYPES.MY_SESSION &&
 						hasUserAuthority(
 							AUTHORITIES.CREATE_NEW_CHAT,
@@ -944,48 +967,46 @@ export const SessionsList = ({
 						) && <SessionListCreateChat />}
 
 					{(!isLoading || finalSessionsList.length > 0) &&
+						(status === STATUS_ONLINE ||
+							sessionListTab !== SESSION_LIST_TAB_ANONYMOUS) &&
 						finalSessionsList
+							.map((session) =>
+								buildExtendedSession(session, groupIdFromParam)
+							)
 							.sort(sortSessions)
-							.map((item: ListItemInterface, index) => (
-								<SessionListItemComponent
-									key={
-										buildExtendedSession(
-											item,
-											groupIdFromParam
-										).item.id
-									}
-									session={buildExtendedSession(
-										item,
-										groupIdFromParam
-									)}
-									defaultLanguage={defaultLanguage}
-									itemRef={(el) =>
-										(ref_list_array.current[index] = el)
-									}
-									handleKeyDownLisItemContent={(e) =>
-										handleKeyDownLisItemContent(e, index)
-									}
-									index={index}
-								/>
-							))}
-
-					{!isLoading &&
-						!activeCreateChat &&
-						!isReloadButtonVisible &&
-						finalSessionsList.length === 0 && (
-							<Text
-								className="sessionsList--empty"
-								text={
-									sessionListTab !==
-									SESSION_LIST_TAB_ANONYMOUS
-										? translate('sessionList.empty.known')
-										: translate(
-												'sessionList.empty.anonymous'
-										  )
-								}
-								type="divider"
-							/>
-						)}
+							.map(
+								(
+									activeSession: ExtendedSessionInterface,
+									index
+								) => (
+									<ActiveSessionContext.Provider
+										key={activeSession.item.id}
+										value={{ activeSession }}
+									>
+										<RocketChatUsersOfRoomProvider>
+											<SessionListItemComponent
+												defaultLanguage={
+													defaultLanguage
+												}
+												itemRef={(el) =>
+													(ref_list_array.current[
+														index
+													] = el)
+												}
+												handleKeyDownLisItemContent={(
+													e
+												) =>
+													handleKeyDownLisItemContent(
+														e,
+														index
+													)
+												}
+												index={index}
+											/>
+										</RocketChatUsersOfRoomProvider>
+									</ActiveSessionContext.Provider>
+								)
+							)}
 
 					{isLoading && <SessionsListSkeleton />}
 
@@ -1005,6 +1026,34 @@ export const SessionsList = ({
 						</div>
 					)}
 				</div>
+
+				{!isLoading &&
+					!isCreateChatActive &&
+					!isReloadButtonVisible &&
+					finalSessionsList.length === 0 &&
+					(sessionListTab !== SESSION_LIST_TAB_ANONYMOUS ||
+						status === STATUS_ONLINE) && (
+						<EmptyListItem
+							sessionListTab={sessionListTab}
+							type={type}
+						/>
+					)}
+
+				{!isLoading &&
+					status !== STATUS_ONLINE &&
+					type === SESSION_LIST_TYPES.ENQUIRY &&
+					sessionListTab === SESSION_LIST_TAB_ANONYMOUS && (
+						<ListInfo
+							headline={translate(
+								'sessionList.unavailable.description'
+							)}
+							Illustration={LiveChatAvailableIllustration}
+							buttonLabel={translate(
+								'sessionList.unavailable.buttonLabel'
+							)}
+							onButtonClick={toggleAvailability}
+						></ListInfo>
+					)}
 			</div>
 		</div>
 	);
@@ -1027,21 +1076,34 @@ const useLiveChatWatcher = (
 	const refreshLoader = useCallback((): Promise<any> => {
 		return loader(0, null, offset + SESSION_COUNT)
 			.then(({ sessions: newSessions }) => {
-				const removedSessionGroupIds = sessions
-					.filter(
-						(session) =>
-							!newSessions.find(
-								(newSession) =>
-									newSession.session.groupId ===
-									session.session.groupId
-							)
-					)
-					.map((session) => session.session.groupId);
+				const addedSessions = newSessions.filter(
+					(newSession) =>
+						!sessions.find(
+							(session) =>
+								newSession.session.groupId ===
+								session.session.groupId
+						)
+				);
+				dispatch({
+					type: UPDATE_SESSIONS,
+					sessions: addedSessions
+				});
 
-				if (removedSessionGroupIds.length > 0) {
+				const removedSessions = sessions.filter(
+					(session) =>
+						!newSessions.find(
+							(newSession) =>
+								newSession.session.groupId ===
+								session.session.groupId
+						)
+				);
+
+				if (removedSessions.length > 0) {
 					dispatch({
 						type: REMOVE_SESSIONS,
-						ids: removedSessionGroupIds
+						ids: removedSessions.map(
+							(session) => session.session.groupId
+						)
 					});
 				}
 			})

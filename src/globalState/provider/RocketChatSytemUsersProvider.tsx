@@ -7,21 +7,18 @@ import {
 	useState
 } from 'react';
 import { RocketChatContext } from './RocketChatProvider';
-import { METHOD_GET_USER_ROLES } from '../../components/app/RocketChat';
+import {
+	METHOD_GET_USER_ROLES,
+	MethodGetUserRolesRes
+} from '../../components/app/RocketChat';
 
-interface IUser {
-	_id: string;
-	roles: string[];
-	username: string;
-}
-
-type RocketChatSubscriptionsContextProps = {
+type RocketChatGetUserRolesContextProps = {
 	systemUsersReady: boolean;
-	systemUsers: IUser[];
+	systemUsers: MethodGetUserRolesRes;
 };
 
 export const RocketChatGetUserRolesContext =
-	createContext<RocketChatSubscriptionsContextProps>(null);
+	createContext<RocketChatGetUserRolesContextProps>(null);
 
 type RocketChatGetUserRolesProviderProps = {
 	children: ReactNode;
@@ -33,7 +30,7 @@ export const RocketChatGetUserRolesProvider = ({
 	const { sendMethod, ready } = useContext(RocketChatContext);
 
 	const [systemUsersReady, setSystemUsersReady] = useState(false);
-	const [systemUsers, setSystemUsers] = useState<IUser[]>([]);
+	const [systemUsers, setSystemUsers] = useState<MethodGetUserRolesRes>([]);
 
 	useEffect(() => {
 		if (ready) {

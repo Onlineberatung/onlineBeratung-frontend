@@ -5,6 +5,21 @@ import { setAppConfig as setAppConfigGlobal } from '../../utils/appConfig';
 
 export const AppConfigContext = createContext<AppConfigInterface>(null);
 
+const transformReleaseToggles = (
+	releaseToggles: Record<string, string>
+): Record<string, Record<string, boolean>> => {
+	return {
+		releaseToggles: Object.entries(releaseToggles).reduce(
+			(current, [toggleKey, value]) => ({
+				...current,
+				[toggleKey]:
+					typeof value === 'string' ? value === 'true' : value
+			}),
+			{}
+		)
+	};
+};
+
 export const AppConfigProvider = ({
 	children,
 	config
@@ -24,10 +39,21 @@ export const AppConfigProvider = ({
 			apiServerSettings().then((serverSettings) => {
 				setAppConfig((appConfig) => {
 					return Object.keys(serverSettings ?? {}).reduce(
-						(current, key) => ({
-							...current,
-							[key]: serverSettings[key].value
-						}),
+						(current, key) => {
+							if (key === 'releaseToggles') {
+								return {
+									...current,
+									...transformReleaseToggles(
+										serverSettings[key]
+									)
+								};
+							}
+
+							return {
+								...current,
+								[key]: serverSettings[key]?.value
+							};
+						},
 						appConfig
 					);
 				});

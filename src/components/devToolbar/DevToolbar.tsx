@@ -22,7 +22,7 @@ export const STORAGE_KEY_POSITION = 'positionDevTools';
 export const STORAGE_KEY_HIDDEN = 'hiddenDevTools';
 
 export const STORAGE_KEY_2FA = '2fa';
-export const STORAGE_KEY_2FA_DUTY = '2fa_duty';
+export const STORAGE_KEY_DISABLE_2FA_DUTY = 'disable 2fa_duty';
 export const STORAGE_KEY_RELEASE_NOTES = 'release_notes';
 export const STORAGE_KEY_ERROR_BOUNDARY = 'error_boundary';
 export const STORAGE_KEY_E2EE_DISABLED = 'e2ee_disabled';
@@ -124,10 +124,14 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 	},
 	{
 		label: '2FA Duty',
-		key: STORAGE_KEY_2FA_DUTY,
+		key: STORAGE_KEY_DISABLE_2FA_DUTY,
 		type: TOGGLE,
-		choices: { '0': 'Disabled', '1': 'Enabled' },
-		value: '1',
+		choices: { '1': 'Disabled', '0': 'Enabled' },
+		value:
+			process.env.REACT_APP_DISABLE_2FA_DUTY &&
+			parseInt(process.env.REACT_APP_DISABLE_2FA_DUTY) === 1
+				? '1'
+				: '0',
 		description:
 			'Disable the duty to add a 2fa and show only the defautl 2fa dialog if enabled'
 	},

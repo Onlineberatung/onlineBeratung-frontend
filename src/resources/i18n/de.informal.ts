@@ -91,7 +91,7 @@ export const deInformal = {
 	deleteSession: {
 		confirmOverlay: {
 			copy: 'Möchtest du den Chat wirklich löschen?',
-			headline: 'Du hast den Chat erfolgreich gelöscht.'
+			headline: 'Chat löschen'
 		},
 		errorOverlay: {
 			headline:
@@ -167,15 +167,6 @@ export const deInformal = {
 			headline: 'Der Schutz Deiner Daten ist uns wichtig',
 			infoText:
 				'Sichere Dein Konto vor einem möglichen unbefugten Zugriff. Nutze einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.'
-		},
-		'voluntaryInfo': {
-			headline: 'Wir wollen Dich bestmöglichst beraten',
-			infoText:
-				'Dabei hilft es uns, wenn Du weitere freiwillige Angaben zu Dir und Deinem Anliegen machst.',
-			overlay: {
-				'success.headline':
-					'Vielen Dank. Deine freiwilligen Angaben wurden erfolgreich gespeichert.'
-			}
 		}
 	},
 	groupChat: {
@@ -209,32 +200,43 @@ export const deInformal = {
 	help: {
 		videoCall: {
 			asker: {
-				intro: 'Um Ende-zu Ende verschlüsselt zu telefonieren, befolge die folgenden Schritte:',
+				headline: 'Video-Call',
+				intro: 'Damit Du an Video-Calls teilnehmen kannst, musst Du Dich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
-					'headline': {
-						'2': 'Hast Du bereits Google Chrome oder Microsoft Edge?'
+					'1.1': 'Folge dem Link zu ',
+					'1.2': ' oder ',
+					'1.3': ' (nur für macOS und iOS verfügbar).',
+					'2': 'Lade einen der unterstützten Browser herunter.',
+					'3': 'Installiere diesen auf Deinem PC/Laptop/Tablet/Smartphone.',
+					'4': {
+						'1': 'Öffne nun mit diesem Browser die Online-Beratung.',
+						'2': 'Öffne die Online-Beratung mit einem dieser Browser.'
 					},
-					'1': 'Öffne den Link zu Google Chrome oder Microsoft Edge.',
-					'2': 'Lade Dir sich Chrome oder Edge herunter.',
-					'3': 'Installiere Chrome oder Edge auf Deinem PC/Laptop/Tablet/Smartphone.',
-					'4': 'Öffne nun über Chrome oder Edge die Online-Beratung.',
-					'5': 'Melde dich bei der Online-Beratung an.',
-					'6': 'Bitte Deine_n Berater_in dich nochmals anzurufen.'
+					'5': 'Melde Dich bei der Online-Beratung an.',
+					'6': 'Bitte Deine_n Berater_in dich nochmals anzurufen.',
+					'headline': {
+						'2': 'Du hast bereits Google Chrome, Microsoft Edge oder Safari?'
+					}
 				}
 			},
 			consultant: {
-				intro: 'Um einen Video-Call starten zu können, musst Du Dich über Google Chrome oder Microsoft Edge bei der Online-Beratung anmelden. Somit kann der Video-Call Ende-zu-Ende verschlüsselt werden und Du kannst starten.',
+				headline: 'Video-Call',
+				intro: 'Um einen Video-Call durchführen zu können, musst Du Dich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
-					'headline': {
-						'1': 'So geht&#39;s',
-						'2': 'Hast Du bereits Google Chrome oder Microsoft Edge?'
-					},
 					'1.1': 'Folge dem Link zu ',
-					'2': 'Lade Chrome oder Edge herunter. Dafür brauchst Du möglicherweise die Unterstützung Deiner EDV.',
-					'3': 'Installiere Chrome oder Edge auf Deinem PC/Laptop/Tablet/Smartphone.',
-					'4': 'Öffne nun über Chrome oder Edge die Online-Beratung.',
+					'1.2': ' oder ',
+					'1.3': ' (nur für macOS und iOS verfügbar).',
+					'2': 'Lade einen der unterstützten Browser herunter. Dafür brauchst Du möglicherweise die Unterstützung Deiner EDV.',
+					'3': 'Installiere diesen auf Deinem PC/Laptop/Tablet/Smartphone.',
+					'4': {
+						'1': 'Öffne nun mit diesem Browser die Online-Beratung.',
+						'2': 'Öffne die Online-Beratung mit einem dieser Browser.'
+					},
 					'5': 'Melde Dich bei der Online-Beratung an.',
-					'6': 'Starte den Video-Call.'
+					'6': 'Starte den Video-Call.',
+					'headline': {
+						'2': 'Du hast bereits Google Chrome, Microsoft Edge oder Safari?'
+					}
 				}
 			}
 		}
@@ -272,6 +274,12 @@ export const deInformal = {
 		}
 	},
 	profile: {
+		liveChat: {
+			title: 'Meine Live-Chat Verfügbarkeit',
+			subtitle:
+				'Aktiviere deine Verfügbarkeit und sehe in den Erstanfragen unter „Live-Chat Anfragen“ die wartenden anoymen Ratsuchenden.',
+			toggleLabel: 'Bin verfügbar'
+		},
 		functions: {
 			'absence': {
 				'label': 'Hinterlege eine Abwesenheitsnachricht',
@@ -331,7 +339,9 @@ export const deInformal = {
 			},
 			info: {
 				public: 'Mit dem Anzeigenamen erscheinst Du bei den Ratsuchenden.'
-			}
+			},
+			emailInfo:
+				'Die Angabe deiner E-Mail ist freiwillig und wird ausschließlich verwendet, um dich über neue Antworten deine_r Berater_in zu informieren. Deine E-mail-Adresse ist für Berater_innen nicht sichtbar.'
 		},
 		externalRegistration: {
 			headline:
@@ -537,6 +547,13 @@ export const deInformal = {
 					}
 				}
 			}
+		}
+	},
+	sessionList: {
+		empty: {
+			mySessions: 'Du hast zur Zeit keine aktiven Beratungen',
+			teamSessions: 'Dein Team hat keine aktiven Beratungen',
+			perSessions: 'Du hast zur Zeit keine aktiven Peer-Beratungen'
 		}
 	},
 	statusOverlay: {

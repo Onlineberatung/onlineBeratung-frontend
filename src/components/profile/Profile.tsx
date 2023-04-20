@@ -3,10 +3,11 @@ import { useState, useRef, useContext, useEffect, Fragment } from 'react';
 import { logout } from '../logout/logout';
 import {
 	AUTHORITIES,
+	ConsultingTypesContext,
 	hasUserAuthority,
 	LocaleContext,
-	useConsultingTypes,
-	UserDataContext
+	UserDataContext,
+	useTenant
 } from '../../globalState';
 import {
 	setProfileWrapperActive,
@@ -45,7 +46,8 @@ import {
 	solveGroupConditions,
 	COLUMN_LEFT,
 	SingleComponentType,
-	TabGroups
+	TabGroups,
+	TabType
 } from '../../utils/tabsHelper';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
@@ -53,13 +55,14 @@ import { useAppConfig } from '../../hooks/useAppConfig';
 
 export const Profile = () => {
 	const settings = useAppConfig();
+	const tenant = useTenant();
 	const { t: translate } = useTranslation();
 	const location = useLocation();
-	const consultingTypes = useConsultingTypes();
 	const { fromL } = useResponsive();
 
 	const legalLinks = useContext(LegalLinksContext);
-	const { userData } = useContext(UserDataContext);
+	const { userData, isFirstVisit } = useContext(UserDataContext);
+	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const [mobileMenu, setMobileMenu] = useState<
 		(LinkMenuGroupType | LinkMenuItemType | LinkMenuComponentType)[]
@@ -90,9 +93,9 @@ export const Profile = () => {
 
 	useEffect(() => {
 		setMobileMenu(
-			profileRoutes(settings, selectableLocales)
+			profileRoutes(settings, tenant, selectableLocales, isFirstVisit)
 				.filter((tab) =>
-					solveTabConditions(tab, userData, consultingTypes)
+					solveTabConditions(tab, userData, consultingTypes ?? [])
 				)
 				.map(
 					(tab): LinkMenuGroupType => ({
@@ -103,19 +106,26 @@ export const Profile = () => {
 									? solveGroupConditions(
 											element,
 											userData,
-											consultingTypes
+											consultingTypes ?? []
 									  )
 									: solveCondition(
 											element.condition,
 											userData,
-											consultingTypes
+											consultingTypes ?? []
 									  )
 							)
 							.map((element) =>
 								isTabGroup(element)
 									? {
 											title: translate(element.title),
-											url: `/profile${tab.url}${element.url}`
+											url: (element as unknown as TabType)
+												.externalLink
+												? element.url
+												: `/profile${tab.url}${element.url}`,
+											showBadge: (
+												element as unknown as TabType
+											)?.notificationBubble,
+											externalLink: element.externalLink
 									  }
 									: {
 											component: <element.component />
@@ -124,7 +134,15 @@ export const Profile = () => {
 					})
 				)
 		);
-	}, [consultingTypes, translate, settings, userData, selectableLocales]);
+	}, [
+		consultingTypes,
+		translate,
+		settings,
+		userData,
+		selectableLocales,
+		tenant,
+		isFirstVisit
+	]);
 
 	const [subpage, setSubpage] = useState(undefined);
 	useEffect(() => {
@@ -246,18 +264,23 @@ export const Profile = () => {
 						role="tablist"
 					>
 						{fromL
-							? profileRoutes(settings, selectableLocales)
+							? profileRoutes(
+									settings,
+									tenant,
+									selectableLocales,
+									isFirstVisit
+							  )
 									.filter((tab) =>
 										solveTabConditions(
 											tab,
 											userData,
-											consultingTypes
+											consultingTypes ?? []
 										)
 									)
 									.map((tab, index) => (
 										<div
 											key={tab.url}
-											className="text--nowrap flex__col--no-grow"
+											className="text--nowrap flex__col--no-grow profile__nav__item"
 										>
 											<NavLink
 												to={generatePath(
@@ -275,6 +298,9 @@ export const Profile = () => {
 												}
 											>
 												{translate(tab.title)}
+												{tab.notificationBubble && (
+													<span className="profile__nav__item__badge" />
+												)}
 											</NavLink>
 										</div>
 									))
@@ -308,12 +334,17 @@ export const Profile = () => {
 					<Switch>
 						{fromL ? (
 							// Render tabs for desktop
-							profileRoutes(settings, selectableLocales)
+							profileRoutes(
+								settings,
+								tenant,
+								selectableLocales,
+								isFirstVisit
+							)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
 										userData,
-										consultingTypes
+										consultingTypes ?? []
 									)
 								)
 								.map((tab) => (
@@ -339,7 +370,7 @@ export const Profile = () => {
 													solveCondition(
 														element.condition,
 														userData,
-														consultingTypes
+														consultingTypes ?? []
 													)
 												)
 												.sort(
@@ -360,12 +391,17 @@ export const Profile = () => {
 						) : (
 							// Render submenu for mobile
 							<Route
-								path={profileRoutes(settings, selectableLocales)
+								path={profileRoutes(
+									settings,
+									tenant,
+									selectableLocales,
+									isFirstVisit
+								)
 									.filter((tab) =>
 										solveTabConditions(
 											tab,
 											userData,
-											consultingTypes
+											consultingTypes ?? []
 										)
 									)
 									.map((tab) => `/profile${tab.url}`)}
@@ -379,12 +415,17 @@ export const Profile = () => {
 
 						{!fromL &&
 							// Render groups as routes for mobile
-							profileRoutes(settings, selectableLocales)
+							profileRoutes(
+								settings,
+								tenant,
+								selectableLocales,
+								isFirstVisit
+							)
 								.filter((tab) =>
 									solveTabConditions(
 										tab,
 										userData,
-										consultingTypes
+										consultingTypes ?? []
 									)
 								)
 								.map((tab) => {
@@ -393,7 +434,7 @@ export const Profile = () => {
 											solveGroupConditions(
 												element,
 												userData,
-												consultingTypes
+												consultingTypes ?? []
 											)
 										)
 										.map((element) =>
@@ -422,8 +463,12 @@ export const Profile = () => {
 
 						<Redirect
 							to={`/profile${
-								profileRoutes(settings, selectableLocales)[0]
-									.url
+								profileRoutes(
+									settings,
+									tenant,
+									selectableLocales,
+									isFirstVisit
+								)[0].url
 							}`}
 						/>
 					</Switch>
@@ -486,13 +531,17 @@ const ProfileItem = ({
 
 const ProfileGroup = ({ group }: { group: TabGroups }) => {
 	const { userData } = useContext(UserDataContext);
-	const consultingTypes = useConsultingTypes();
+	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	return (
 		<>
 			{group.elements
 				.filter((element) =>
-					solveCondition(element.condition, userData, consultingTypes)
+					solveCondition(
+						element.condition,
+						userData,
+						consultingTypes ?? []
+					)
 				)
 				.sort((a, b) => (a?.order || 99) - (b?.order || 99))
 				.map((element, i) => (

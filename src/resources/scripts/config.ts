@@ -1,6 +1,10 @@
 import { deConsultingTypes } from '../i18n/de.consultingTypes';
 import { deAgency } from '../i18n/de.agency';
 import { AppConfigInterface } from '../../globalState/interfaces/AppConfig/AppConfigInterface';
+import {
+	OVERLAY_RELEASE_NOTE,
+	OVERLAY_TWO_FACTOR_NAG
+} from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 
 export const uiUrl = window.location.origin;
 
@@ -20,6 +24,7 @@ export const config: AppConfigInterface = {
 	attachmentEncryption: true, // Feature flag for attachment end to end encryption - e2e must also be enabled in rocket.chat
 
 	urls: {
+		chatScheduleUrl: 'https://www.caritas.de/onlineberatung',
 		consultantVideoConference:
 			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',
@@ -45,7 +50,7 @@ export const config: AppConfigInterface = {
 		 * This must be enabled in jitsi too. (Config value is named equal)
 		 * https://github.com/jitsi/lib-jitsi-meet/blob/afc006e99a42439c305c20faab50a1f786254676/modules/browser/BrowserCapabilities.js#L259
 		 */
-		enableEncodedTransformSupport: false,
+		enableEncodedTransformSupport: true,
 		/**
 		 * Enable the e2ee banner outside the jitsi iframe. Set this to true when video-backend is on the latest develop
 		 * where the e2ee banner is removed inside jitsi and need to be rendered inside the frontend
@@ -74,6 +79,9 @@ export const config: AppConfigInterface = {
 				]
 			}
 		]
+	},
+	overlays: {
+		priority: [OVERLAY_RELEASE_NOTE, OVERLAY_TWO_FACTOR_NAG]
 	},
 	twofactor: {
 		startObligatoryHint: new Date('2022-07-31'),

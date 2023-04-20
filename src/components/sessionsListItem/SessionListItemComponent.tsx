@@ -15,7 +15,6 @@ import {
 import {
 	AUTHORITIES,
 	E2EEContext,
-	ExtendedSessionInterface,
 	hasUserAuthority,
 	SessionTypeContext,
 	STATUS_FINISHED,
@@ -42,9 +41,9 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { SessionListItemLastMessage } from './SessionListItemLastMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
+import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 interface SessionListItemProps {
-	session: ExtendedSessionInterface;
 	defaultLanguage: string;
 	itemRef?: any;
 	handleKeyDownLisItemContent?: Function;
@@ -52,7 +51,6 @@ interface SessionListItemProps {
 }
 
 export const SessionListItemComponent = ({
-	session,
 	defaultLanguage,
 	itemRef,
 	handleKeyDownLisItemContent,
@@ -71,21 +69,23 @@ export const SessionListItemComponent = ({
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { activeSession } = useContext(ActiveSessionContext);
 
 	// Is List Item active
 	const isChatActive =
-		session.rid === groupIdFromParam ||
-		session.item.id === sessionIdFromParam;
+		activeSession.rid === groupIdFromParam ||
+		activeSession.item.id === sessionIdFromParam;
 
-	const language = session.item.language || defaultLanguage;
-	const consultingType = useConsultingType(session.item.consultingType);
+	const language = activeSession.item.language || defaultLanguage;
+	const consultingType = useConsultingType(activeSession.item.consultingType);
 
 	const { key, keyID, encrypted, ready } = useE2EE(
-		session.item.groupId,
-		session.item.lastMessageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
+		activeSession.item.groupId,
+		activeSession.item.lastMessageType ===
+			ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST
 	);
 	const [plainTextLastMessage, setPlainTextLastMessage] = useState(null);
-	const topicSession = session.item?.topic as TopicSessionInterface;
+	const topicSession = activeSession.item?.topic as TopicSessionInterface;
 
 	useEffect(() => {
 		if (!ready) {
@@ -93,13 +93,13 @@ export const SessionListItemComponent = ({
 		}
 
 		if (isE2eeEnabled) {
-			if (!session.item.e2eLastMessage) return;
+			if (!activeSession.item.e2eLastMessage) return;
 			decryptText(
-				session.item.e2eLastMessage.msg,
+				activeSession.item.e2eLastMessage.msg,
 				keyID,
 				key,
 				encrypted,
-				session.item.e2eLastMessage.t === 'e2e'
+				activeSession.item.e2eLastMessage.t === 'e2e'
 			)
 				.catch((e): string =>
 					translate(
@@ -117,15 +117,15 @@ export const SessionListItemComponent = ({
 				});
 		} else {
 			if (
-				session.item.e2eLastMessage &&
-				session.item.e2eLastMessage.t === 'e2e'
+				activeSession.item.e2eLastMessage &&
+				activeSession.item.e2eLastMessage.t === 'e2e'
 			) {
 				setPlainTextLastMessage(
 					translate('e2ee.message.encryption.text')
 				);
 			} else {
 				const rawMessageObject = markdownToDraft(
-					session.item.lastMessage
+					activeSession.item.lastMessage
 				);
 				const contentStateMessage = convertFromRaw(rawMessageObject);
 				setPlainTextLastMessage(contentStateMessage.getPlainText());
@@ -136,9 +136,9 @@ export const SessionListItemComponent = ({
 		key,
 		keyID,
 		encrypted,
-		session.item.groupId,
-		session.item.e2eLastMessage,
-		session.item.lastMessage,
+		activeSession.item.groupId,
+		activeSession.item.e2eLastMessage,
+		activeSession.item.lastMessage,
 		translate,
 		ready
 	]);
@@ -149,22 +149,22 @@ export const SessionListItemComponent = ({
 		userData
 	);
 
-	if (!session) {
+	if (!activeSession) {
 		return null;
 	}
 
 	const handleOnClick = () => {
-		if (session.item.groupId && session.item.id) {
+		if (activeSession.item.groupId && activeSession.item.id) {
 			history.push(
-				`${listPath}/${session.item.groupId}/${
-					session.item.id
+				`${listPath}/${activeSession.item.groupId}/${
+					activeSession.item.id
 				}${getSessionListTab()}`
 			);
 		} else if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-			session.isEmptyEnquiry
+			activeSession.isEmptyEnquiry
 		) {
-			history.push(`/sessions/user/view/write/${session.item.id}`);
+			history.push(`/sessions/user/view/write/${activeSession.item.id}`);
 		}
 	};
 
@@ -176,22 +176,22 @@ export const SessionListItemComponent = ({
 	};
 
 	const iconVariant = () => {
-		if (session.isGroup) {
+		if (activeSession.isGroup) {
 			return {
 				variant: LIST_ICONS.IS_GROUP_CHAT,
 				title: translate('message.groupChat')
 			};
-		} else if (session.isLive) {
+		} else if (activeSession.isLive) {
 			return {
 				variant: LIST_ICONS.IS_LIVE_CHAT,
 				title: translate('message.liveChat')
 			};
-		} else if (session.isEmptyEnquiry) {
+		} else if (activeSession.isEmptyEnquiry) {
 			return {
 				variant: LIST_ICONS.IS_NEW_ENQUIRY,
 				title: translate('message.newEnquiry')
 			};
-		} else if (session.item.messagesRead) {
+		} else if (activeSession.item.messagesRead) {
 			return {
 				variant: LIST_ICONS.IS_READ,
 				title: translate('message.read')
@@ -230,13 +230,14 @@ export const SessionListItemComponent = ({
 
 	// Hide sessions if consultingType has been switched to group chat.
 	// ToDo: What is with vice versa?
-	if (session.isSession && consultingType?.groupChat.isGroupChat) {
+	if (activeSession.isSession && consultingType?.groupChat.isGroupChat) {
 		return null;
 	}
 
-	if (session.isGroup) {
+	if (activeSession.isGroup) {
 		const isMyChat = () =>
-			session.consultant && userData.userId === session.consultant.id;
+			activeSession.consultant &&
+			userData.userId === activeSession.consultant.id;
 		const defaultSubjectText = isMyChat()
 			? translate('groupChat.listItem.subjectEmpty.self')
 			: translate('groupChat.listItem.subjectEmpty.other');
@@ -247,7 +248,7 @@ export const SessionListItemComponent = ({
 					'sessionsListItem',
 					isChatActive && 'sessionsListItem--active'
 				)}
-				data-group-id={session.rid ? session.rid : ''}
+				data-group-id={activeSession.rid ? activeSession.rid : ''}
 				data-cy="session-list-item"
 			>
 				<div
@@ -274,7 +275,7 @@ export const SessionListItemComponent = ({
 						</div>
 						<div className="sessionsListItem__date">
 							{getGroupChatDate(
-								session.item,
+								activeSession.item,
 								translate('sessionList.time.label.postfix')
 							)}
 						</div>
@@ -286,11 +287,11 @@ export const SessionListItemComponent = ({
 						<div
 							className={clsx(
 								'sessionsListItem__username',
-								session.item.messagesRead &&
+								activeSession.item.messagesRead &&
 									'sessionsListItem__username--readLabel'
 							)}
 						>
-							{session.item.topic}
+							{activeSession.item.topic}
 						</div>
 					</div>
 					<div className="sessionsListItem__row">
@@ -301,12 +302,12 @@ export const SessionListItemComponent = ({
 									: defaultSubjectText
 							}
 						/>
-						{session.item.attachment && (
+						{activeSession.item.attachment && (
 							<SessionListItemAttachment
-								attachment={session.item.attachment}
+								attachment={activeSession.item.attachment}
 							/>
 						)}
-						{session.item.active && (
+						{activeSession.item.active && (
 							<Tag
 								text={translate(
 									'groupChat.listItem.activeLabel'
@@ -320,24 +321,25 @@ export const SessionListItemComponent = ({
 		);
 	}
 
-	const feedbackPath = `${listPath}/${session.item.feedbackGroupId}/${
-		session.item.id
+	const feedbackPath = `${listPath}/${activeSession.item.feedbackGroupId}/${
+		activeSession.item.id
 	}${getSessionListTab()}`;
 
-	const hasConsultantData = !!session.consultant;
+	const hasConsultantData = !!activeSession.consultant;
 	let sessionTopic = '';
 
 	if (isAsker || isAnonymous) {
 		if (hasConsultantData) {
 			sessionTopic =
-				session.consultant.displayName || session.consultant.username;
-		} else if (session.isEmptyEnquiry) {
+				activeSession.consultant.displayName ||
+				activeSession.consultant.username;
+		} else if (activeSession.isEmptyEnquiry) {
 			sessionTopic = translate('sessionList.user.writeEnquiry');
 		} else {
 			sessionTopic = translate('sessionList.user.consultantUnknown');
 		}
 	} else {
-		sessionTopic = session.user.username;
+		sessionTopic = activeSession.user.username;
 	}
 
 	const showConsultingType =
@@ -350,9 +352,9 @@ export const SessionListItemComponent = ({
 			className={clsx(
 				`sessionsListItem`,
 				isChatActive && `sessionsListItem--active`,
-				session.isFeedback && 'sessionsListItem--yellowTheme'
+				activeSession.isFeedback && 'sessionsListItem--yellowTheme'
 			)}
-			data-group-id={session.item.groupId}
+			data-group-id={activeSession.item.groupId}
 			data-cy="session-list-item"
 		>
 			<div
@@ -368,11 +370,11 @@ export const SessionListItemComponent = ({
 						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
 						userData
 					) &&
-					session.consultant ? (
+					activeSession.consultant ? (
 						<div className="sessionsListItem__consultingType">
 							{translate('sessionList.user.peer')}:{' '}
-							{session.consultant.firstName}{' '}
-							{session.consultant.lastName}
+							{activeSession.consultant.firstName}{' '}
+							{activeSession.consultant.lastName}
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
@@ -385,11 +387,11 @@ export const SessionListItemComponent = ({
 										{ ns: 'consultingTypes' }
 								  ) + ' '
 								: ''}
-							{session.item.consultingType !== 1 &&
+							{activeSession.item.consultingType !== 1 &&
 							!isAsker &&
-							!session.isLive &&
+							!activeSession.isLive &&
 							!consultingType.registration.autoSelectPostcode
-								? zipCodeSlash + session.item.postcode
+								? zipCodeSlash + activeSession.item.postcode
 								: null}
 						</div>
 					)}
@@ -406,9 +408,9 @@ export const SessionListItemComponent = ({
 					)}
 					<div className="sessionsListItem__date">
 						{prettyPrintDate(
-							session.item.messageDate,
-							session.item.createDate,
-							session.isLive
+							activeSession.item.messageDate,
+							activeSession.item.createDate,
+							activeSession.isLive
 						)}
 					</div>
 				</div>
@@ -419,7 +421,7 @@ export const SessionListItemComponent = ({
 					<div
 						className={clsx(
 							'sessionsListItem__username',
-							session.item.messagesRead &&
+							activeSession.item.messagesRead &&
 								'sessionsListItem__username--readLabel'
 						)}
 					>
@@ -429,43 +431,47 @@ export const SessionListItemComponent = ({
 				<div className="sessionsListItem__row">
 					<SessionListItemLastMessage
 						lastMessage={plainTextLastMessage}
-						lastMessageType={session.item.lastMessageType}
+						lastMessageType={activeSession.item.lastMessageType}
 						language={language}
 						showLanguage={
 							language &&
-							session.isEnquiry &&
-							!session.isEmptyEnquiry
+							activeSession.isEnquiry &&
+							!activeSession.isEmptyEnquiry
 						}
-						showSpan={session.isEmptyEnquiry || session.isLive}
+						showSpan={
+							activeSession.isEmptyEnquiry || activeSession.isLive
+						}
 					/>
-					{session.item.attachment && (
+					{activeSession.item.attachment && (
 						<SessionListItemAttachment
-							attachment={session.item.attachment}
+							attachment={activeSession.item.attachment}
 						/>
 					)}
-					{session.item.videoCallMessageDTO && (
+					{activeSession.item.videoCallMessageDTO && (
 						<SessionListItemVideoCall
-							videoCallMessage={session.item.videoCallMessageDTO}
-							listItemUsername={
-								session.user?.username ||
-								session.consultant?.username
+							videoCallMessage={
+								activeSession.item.videoCallMessageDTO
 							}
-							listItemAskerRcId={session.item.askerRcId}
+							listItemUsername={
+								activeSession.user?.username ||
+								activeSession.consultant?.username
+							}
+							listItemAskerRcId={activeSession.item.askerRcId}
 						/>
 					)}
 					{!isAsker &&
 						type !== SESSION_LIST_TYPES.ENQUIRY &&
-						!session.isLive &&
-						!session.item.feedbackRead &&
-						!session.isFeedback && (
+						!activeSession.isLive &&
+						!activeSession.item.feedbackRead &&
+						!activeSession.isFeedback && (
 							<Tag
 								color="yellow"
 								text={translate('chatFlyout.feedback')}
 								link={feedbackPath}
 							/>
 						)}
-					{session.isLive &&
-						session.item.status !== STATUS_FINISHED &&
+					{activeSession.isLive &&
+						activeSession.item.status !== STATUS_FINISHED &&
 						type !== SESSION_LIST_TYPES.ENQUIRY && (
 							<Tag
 								text={translate(

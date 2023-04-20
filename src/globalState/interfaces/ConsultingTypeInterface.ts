@@ -32,7 +32,6 @@ export interface ConsultingTypeBasicInterface {
 		welcome: string;
 		registrationDropdown: string;
 	};
-	isSetEmailAllowed: boolean;
 	isAnonymousConversationAllowed: boolean;
 	isVideoCallAllowed: boolean;
 	isSubsequentRegistrationAllowed: boolean;
@@ -60,6 +59,5 @@ export interface ConsultingTypeInterface extends ConsultingTypeBasicInterface {
 	};
 	requiredComponents?: RequiredComponentsInterface;
 	languageFormal: boolean;
-	voluntaryComponents?: any[];
 	welcomeScreen: RegistrationWelcomeScreenInterface;
 }

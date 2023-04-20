@@ -1,0 +1,36 @@
+.listInfo {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0 $grid-base-two $grid-base-three;
+	color: $text-low-emphasis;
+
+	@include breakpoint($fromMedium) {
+		padding: 0 $grid-base-three $grid-base-five;
+	}
+
+	&__illustration {
+		max-height: 200px;
+		max-width: 200px;
+	}
+
+	p {
+		text-align: center;
+		margin-top: 12px;
+		max-width: 335px;
+	}
+
+	button {
+		margin-top: $grid-base-four;
+	}
+
+	h5 {
+		text-align: center;
+		line-height: $line-height-primary;
+		font-weight: 700;
+		margin-top: $grid-base-three;
+		max-width: 335px;
+	}
+}

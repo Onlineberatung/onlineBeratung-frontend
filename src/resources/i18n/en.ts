@@ -62,17 +62,24 @@ export const en = {
 		waitingroom: {
 			'title.start': 'Waiting room',
 			'dataProtection': {
-				headline: 'Welcome!',
-				subline: 'Please confirm our privacy policy.',
+				headline: 'Welcome',
+				subline:
+					'Please confirm our privacy policy. After that, our consultants may start a chat with you.',
 				description:
 					'After that, our consultants may start a chat with you.',
-				button: 'Confirm'
+				button: 'I agree'
 			},
 			'errorPage': {
 				headline: 'Oops!',
 				description:
 					'We are sorry something must have gone wrong.<br>Try again.',
 				button: 'Reload'
+			},
+			'closed': {
+				headline: 'Our live chat is currently unavailable',
+				description:
+					'On our <a target="_blank" href="{{websiteUrl}}">Website</a> you can find the opening hours of the chat in the respective subject area.',
+				illustrationTitle: 'chat closed'
 			},
 			'headline': 'Please be patient',
 			'subline':
@@ -82,9 +89,9 @@ export const en = {
 				loading: 'Will be loaded...'
 			},
 			'info.accountDeletion':
-				'We delete your messages after 48 hours at the latest. Your anonymity is important to us.',
+				'To protect your anonymity, we delete your messages no later than 48 hours after the chat has ended.',
 			'redirect': {
-				title: 'You dont want to wait for a free chat? And do not need an answer immediately?',
+				title: 'You do not need an answer immediately? And do not want to wait for a free chat?',
 				subline:
 					'Register and leave us a message. We will get back to you within 2 business days. <br><br>Go to <a href="registration">registration</a>'
 			},
@@ -305,7 +312,6 @@ export const en = {
 	chatFlyout: {
 		askerProfil: 'Advice seeker profile',
 		dataProtection: 'Data protection',
-		documentation: 'Documentation',
 		feedback: 'Feedback',
 		groupChatInfo: 'Chat info',
 		imprint: 'Imprint',
@@ -584,20 +590,6 @@ export const en = {
 			},
 			'success.overlay.headline':
 				'Your e-mail address was successfully saved.'
-		},
-		'voluntaryInfo': {
-			headline: 'We want to advise you in the best possible way',
-			infoText:
-				'It helps us if you provide additional voluntary information about yourself and your request.',
-			button: 'Add details',
-			overlay: {
-				'button1.label': 'Save',
-				'button2.label': 'Close',
-				'headline': 'Voluntary information',
-				'copy': 'For the consultation, the following information would help us a lot.',
-				'success.headline':
-					'Thank you very much. Your voluntary data has been successfully saved.'
-			}
 		}
 	},
 	groupChat: {
@@ -741,37 +733,49 @@ export const en = {
 	help: {
 		googleChrome: 'Google Chrome',
 		msEdge: 'Microsoft Edge',
+		safari: 'Safari',
 		openInNewTab: 'Open in new tab',
 		videoCall: {
 			asker: {
-				intro: 'To make end-to-end encrypted calls, follow these steps:',
+				headline: 'Video Call',
+				intro: 'To participate in video calls, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
 				steps: {
-					'headline': {
-						'1': 'Video-Call',
-						'2': 'Already have Google Chrome or Microsoft Edge?'
+					'1.1': 'Follow the link to ',
+					'1.2': ' or ',
+					'1.3': ' (only for macOS and iOS available).',
+					'2': 'Download one of the supported browsers',
+					'3': 'Install it on your PC/laptop/tablet/smartphone.',
+					'4': {
+						'1': 'Now open the online consultation with this browser.',
+						'2': 'Open the online consultation with one of these browsers.'
 					},
-					'1': 'Follow the link to Google Chrome or Microsoft Edge.',
-					'2': 'Download Chrome or Edge.',
-					'3': 'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',
-					'4': 'Now open the online consultation via Chrome or Edge.',
 					'5': 'Sign up for online counseling.',
-					'6': 'Ask your advisor to call you again.'
+					'6': 'Ask your advisor to call you again.',
+					'headline': {
+						'1': 'Step by step guide',
+						'2': 'Already have Google Chrome, Microsoft Edge or Safari?'
+					}
 				}
 			},
 			consultant: {
-				headline: 'Video-Call',
-				intro: 'To be able to start a video call, you must log in to the online consultation via Google Chrome or Microsoft Edge. Thus, the video call can be encrypted end-to-end and you can start.',
+				headline: 'Video Call',
+				intro: 'To perform a video call, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
 				steps: {
-					'headline.1': 'Step by step guide',
-					'headline.2':
-						'Already have Google Chrome or Microsoft Edge?',
 					'1.1': 'Follow the link to ',
 					'1.2': ' or ',
-					'2': 'Download Chrome or Edge. You may need the support of your IT for this.',
-					'3': 'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',
-					'4': 'Now open the online consultation via Chrome or Edge.',
+					'1.3': ' (only for macOS and iOS available).',
+					'2': 'Download one of the supported browsers. You may need the support of your IT for this.',
+					'3': 'Install it on your PC/laptop/tablet/smartphone.',
+					'4': {
+						'1': 'Now open the online consultation with this browser.',
+						'2': 'Open the online consultation with one of these browsers.'
+					},
 					'5': 'Sign up for online counseling.',
-					'6': 'Start the video call.'
+					'6': 'Start the video call.',
+					'headline': {
+						'1': 'Step by step guide',
+						'2': 'Already have Google Chrome, Microsoft Edge or Safari?'
+					}
 				}
 			},
 			loginLink: {
@@ -1095,177 +1099,6 @@ export const en = {
 		'liveChat': 'Live chat',
 		'newEnquiry': 'New enquiry'
 	},
-	monitoring: {
-		title: 'Monitoring',
-		empty: 'Not specified',
-		checked: 'Subvalue selected',
-		monitoringAddiction: {
-			addictiveDrugs: 'Addictive drugs',
-			alcohol: 'Alcohol',
-			drugs: 'Drugs',
-			cannabis: 'Cannabis',
-			hallucinogens: 'Hallucinogens',
-			amphetamines: 'Amphetamines',
-			cocaineCrack: 'Cocaine/Crack',
-			opioids: 'Opioids',
-			others: 'Other',
-			legalHighs: 'Legal highs/new psychoactive substances',
-			tobacco: 'Tobacco',
-			medication: 'Medication',
-			gambling: 'Gambling',
-			offline: 'Offline',
-			online: 'Online',
-			internetComputer: 'Internet/Computer',
-			chatting: 'Chatting',
-			gaming: 'Gaming',
-			shopping: 'Shopping',
-			pornography: 'Pornography/Sex addiction',
-			surfing: 'Surfing',
-			eatingDisorder: 'Eating disorder',
-			intervention: 'Intervention',
-			information: 'Information',
-			conveyance: 'Conveyance',
-			consulting: 'Consulting',
-			doctorClinic: 'Doctor / Clinic',
-			debtConsulting: 'Debt counseling',
-			pregnancyConsulting: 'Pregnancy counseling',
-			psychologicalSupport: 'Psychological support',
-			childYouthAid: 'Child and youth welfare',
-			addictionHelpFacility: 'Addiction Help Facility',
-			delinquentHelp: 'Offender Assistance',
-			selfHelp: 'Self Help',
-			generalConsulting: 'General social counseling'
-		},
-		monitoringU25: {
-			'generalData': 'General data',
-			'location': 'Location',
-			'freiburg': 'Freiburg',
-			'badenWuerttemberg': 'Baden Württemberg',
-			'bavaria': 'Bavaria',
-			'berlin': 'Berlin',
-			'brandenburg': 'Brandenburg',
-			'bremen': 'Bremen',
-			'hamburg': 'Hamburg',
-			'hessia': 'Hessia',
-			'mecklenburgWesternPomerania': 'Mecklenburg-Western Pomerania',
-			'lowerSaxony': 'Lower Saxony',
-			'northRhineWestphalia': 'North Rhine-Westphalia',
-			'rhinelandPalatinate': 'Rhineland-Palatinate',
-			'saarland': 'Saarland',
-			'saxony': 'Saxony',
-			'saxonyAnhalt': 'Saxony-Anhalt',
-			'schleswigHolstein': 'Schleswig-Holstein',
-			'thuringia': 'Thuringia',
-			'abroadAustria': 'Abroad (Austria)',
-			'abroadSwitzerland': 'Abroad (Switzerland)',
-			'abroadOthers': 'Abroad (other)',
-			'occupation': 'Employment/work situation',
-			'school': 'School',
-			'studies': 'Study',
-			'apprenticeship': 'Apprenticeship',
-			'employed': 'employed',
-			'unemployed': 'unemployed',
-			'housingSituation': 'Housing situation',
-			'family': 'in family',
-			'partner': 'Partner',
-			'livingCommunity': 'Living Community',
-			'alone': 'Living alone',
-			'assistedLiving': 'assisted living',
-			'homeless': 'Homeless',
-			'consultingData': 'Consultation data',
-			'suicidality': 'Suicidality at contact',
-			'crisis': 'Crisis without suicidality',
-			'thoughtsOfSuicide': 'Suicidal thoughts',
-			'acuteThoughtsOfSuicide': 'acute suicidal thoughts',
-			'afterSuicideAttempt': 'After suicide act',
-			'stressfulFactors': 'Stressful factors',
-			'mentalOverload': 'Feeling of being overwhelmed',
-			'anxieties': 'Anxieties',
-			'futility': 'Futility',
-			'isolation': 'Isolation/loneliness',
-			'svv': 'SVV',
-			'bullying': 'Bullying',
-			'sexualAbuse': 'sex. Abuse / Rape',
-			'mentalIllness': 'mental illness',
-			'substanceAbuse': 'Substance Abuse',
-			'mediaConsumption': 'Heavy media consumption',
-			'physicalIllness': 'physical complaints / chronic disease',
-			'physicalHandicap': 'Physical disability',
-			'conflictsPartnership': 'Conflicts in the partnership',
-			'divorce': 'Divorce',
-			'deceaseLovedOne': 'Death of a loved one',
-			'mourning.alt': 'Mourning',
-			'concernLovedOne': 'Concern for loved one',
-			'relationshipRelative': 'Relationship situation with relatives',
-			'relationshipSocialEnvironment':
-				'Relationship situation in the social environment',
-			'workSchool': 'Work / School / Profession',
-			'housingSituation.alt': 'Housing situation',
-			'financialSituation': 'Financial situation',
-			'debt': 'Debt',
-			'experienceOfViolence': 'Experience of violence',
-			'stressfulChildhood': 'stressful childhood',
-			'crime': 'Crime/conflict of laws',
-			'migrationProblems': 'Problems related to migration',
-			'sexualOrientation': 'Sexual orientation',
-			'genderIdentity': 'Gender identity',
-			'others': 'Other',
-			'supportDuration':
-				'Duration of accompaniment (enter after completion)',
-			'onetime': 'one time',
-			'oneMonth': 'Until 1 month',
-			'threeMonths': 'Until 3 months',
-			'sixMonths': 'Until 6 months',
-			'oneYear': 'Until 1 year',
-			'oneAndAHalfYear': 'Until 1.5 years',
-			'longer': 'longer',
-			'inConsultation': 'in consultation',
-			'diagnosis': 'Diagnosis',
-			'depression': 'Depression',
-			'eatingDisorder': 'Eating disorder',
-			'adhs': 'ADHS',
-			'borderline': 'Borderline',
-			'autism': 'Autism',
-			'personalityDisorder': 'Personality Disorder',
-			'traumaRelatedDisorder': 'Trauma Consequence Disorder',
-			'anxietyDisorder': 'Anxiety disorder',
-			'addiction': 'Addiction',
-			'obsessiveCompulsiveDisorder': 'Obsessive Compulsive Disorder',
-			'schizophrenia': 'Schizophrenia',
-			'furtherConnection': 'Further connection',
-			'outpatientTherapy': 'Outpatient therapy',
-			'inpationsTherapy': 'Inpatient therapy/day clinic',
-			'consultation': 'Consulting',
-			'supportGroups': 'Support group',
-			'medicalTherapy': 'Medicinal therapy',
-			'endOfContact': 'End of contact (multiple answers possible)',
-			'mutually': 'Terminated by mutual agreement',
-			'noAnswer': 'Client has not contacted us again',
-			'suicideAnnouncement': 'Suicide Announcement',
-			'suicide': 'Suicide',
-			'others.alt': 'Other',
-			'schoolStudies': 'School/Studies',
-			'partnerLivingCommunity': 'with partner in shared apartment',
-			'concern': 'Concern for suicidal person',
-			'mourning': 'Mourning after suicide',
-			'addictionDrugs': 'Addiction (drugs/medication)',
-			'addictionAlcohol': 'Addiction (alcohol)',
-			'addictionInternetComputer': 'Addiction (Internet/Computer)',
-			'addictionOthers': 'Addiction (other)',
-			'noFirstAnswer': 'Client has not responded to initial email',
-			'helpfulness': 'How helpful was the contact for the client?',
-			'one': '1 - not helpful',
-			'two': '2',
-			'three': '3',
-			'four': '4',
-			'five': '5',
-			'six': '6',
-			'seven': '7',
-			'eight': '8',
-			'nine': '9',
-			'ten': '10 - very helpful'
-		}
-	},
 	navigation: {
 		'asker': {
 			sessions: {
@@ -1298,6 +1131,7 @@ export const en = {
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
 		'enquiry.new': 'You have a new live chat request!',
+		'initialRequest.new': 'You have a new initial request!',
 		'warning': 'warning',
 		'error': 'failed',
 		'success': 'successful',
@@ -1405,6 +1239,8 @@ export const en = {
 			firstName: 'First name',
 			lastName: 'Last name',
 			email: 'E-mail address',
+			emailInfo:
+				'Adding your Email address is optional, and only used to notify you when your counsellor answers in the chat. Your Email address is not visible to counsellors.',
 			agency: {
 				label: 'Beratungsstelle',
 				registrationLink: {
@@ -1479,7 +1315,8 @@ export const en = {
 			activities: {
 				title: 'My activities',
 				statistics: 'My statistics',
-				absence: 'My absence'
+				absence: 'My absence',
+				availability: 'My availability'
 			},
 			notifications: {
 				title: 'Notifications',
@@ -1555,8 +1392,90 @@ export const en = {
 		'notifications': {
 			'title': 'E-mail notification',
 			'subtitle': 'We will notify you when you:',
+			'description':
+				'We will inform you by e-mail when you have received a new message.',
 			'follow.up.email.label':
-				'Have received a message from an accepted advice seeker.'
+				'Have received a message from an accepted advice seeker.',
+			'mainEmail': {
+				title: 'Allow email notifications'
+			},
+			'initialEnquiry': {
+				title: 'Receive a new initial enquiry'
+			},
+			'newMessage': {
+				title: 'New chat message',
+				description:
+					'One of your assigned advice seekers has replied to you'
+			},
+			'reassignmentConsultant': {
+				title: 'Re-assignment of an advice seeker',
+				description:
+					'A colleague has reassigned an advise seeker to you'
+			},
+			'reassignmentAdviceSeeker': {
+				title: 'Change of counsellor',
+				description:
+					'Your counsellor has asked for permission to reassign you to a new counsellor'
+			},
+			'appointmentNotificationEnabled': {
+				title: 'Appointments',
+				description:
+					'An appointment was scheduled, postponed or cancelled'
+			},
+			'error': {
+				title: 'Something went wrong.',
+				description:
+					'Unfortunately, we cannot update your settings at the moment. Please try again later.'
+			},
+			'noEmail': {
+				info: 'You have not yet added an email address.',
+				button: 'Add email address',
+				modal: {
+					title: 'Add email address',
+					description:
+						'Your e-mail address is voluntary and will only be used to inform you about new chat messages from your counsellor. Your email address is not visible to your advisor.',
+					confirm: 'Add',
+					emailInput: {
+						label: 'EMail',
+						valid: 'Your email address is valid.',
+						invalid: 'Your email address is not valid.',
+						unavailable: 'This email address is already in use.'
+					},
+					errorTitle: 'Something went wrong.',
+					errorMessage:
+						'Unfortunately, we cannot activate your notifications now. Please try again later.'
+				}
+			}
+		},
+		'browserNotifications': {
+			title: 'Browser Notifications',
+			description:
+				"If you're online, we'll notify you in this browser when you've got a new message.",
+			toggle: 'Receive notifications in this browser',
+			initialEnquiry: {
+				title: 'A new initial request has been received'
+			},
+			newMessage: {
+				title: 'New chat message',
+				description:
+					'One of the counselees assigned to you has answered you'
+			},
+			denied: {
+				message:
+					'You have opted out of receiving notifications for this browser. To enable push notifications, you must first allow them in your browser settings.'
+			}
+		},
+		'documentation': {
+			title: 'User Manual',
+			description:
+				'Do you have any questions? The user manual will provide you with detailed information on the main functionalities of the online counselling platform.',
+			link: 'Go to user manual'
+		},
+		'liveChat': {
+			title: 'My live chat availability',
+			subtitle:
+				'Activate your availability and see the waiting anoymous advice seekers in the initial requests under "Live Chat Requests".',
+			toggleLabel: 'available'
 		},
 		'appLanguage': {
 			title: 'Language',
@@ -1847,10 +1766,9 @@ export const en = {
 		},
 		'consultant.prefix': 'Consultant - ',
 		'divider.lastRead': 'Last read',
-		'empty': 'Please select a message.',
+		'empty': 'Please select a message',
 		'feedback.label': 'Feedback',
 		'groupChat.consultant.prefix': 'Moderator - ',
-		'monitoring.buttonLabel': 'Document now',
 		'u25.assignment.placeholder': 'Assign consultation',
 		'unreadCount.maxValue': '99+',
 		'dragAndDrop': {
@@ -1917,9 +1835,18 @@ export const en = {
 	sessionList: {
 		'teamsession': 'Team consulting',
 		'empty': {
-			known: 'There are no requests at the moment.',
+			known: 'There are no requests at the moment',
 			anonymous:
-				'Currently, no anonymous advice seekers are waiting for a live chat.'
+				'Currently, no anonymous advice seekers are waiting for a live chat',
+			mySessions: 'You currently have no active consultations',
+			teamSessions: 'Your team has no active consultations',
+			peersessions: 'You currently have no active peer counselling',
+			archived: 'There are no consultations in the archive yet'
+		},
+		'unavailable': {
+			description:
+				'Activate your availability to receive initial inquiries from advice seekers',
+			buttonLabel: 'Activate availability'
 		},
 		'preview': {
 			'headline': 'Initial inquiries',
@@ -2277,10 +2204,6 @@ export const en = {
 			gender: 'Gender',
 			state: 'State'
 		},
-		monitoring: {
-			title: 'Monitoring',
-			buttonLabel: 'Document now'
-		},
 		reassign: {
 			title: 'Allocation',
 			description:
@@ -2339,7 +2262,7 @@ export const en = {
 		waitingroom: {
 			'title.start': 'Waiting room',
 			'dataProtection': {
-				'headline': 'A warm welcome!',
+				'headline': 'A warm welcome',
 				'subline': 'Please confirm our privacy policy.',
 				'description':
 					'After that, our consultants may start a video call with you.',

@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 export const EnableWalkthrough = () => {
 	const { t: translate } = useTranslation();
-	const { userData, setUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { isWalkThroughEnabled } = userData;
 	return (
 		<div className="twoFactorAuth">
@@ -30,15 +30,8 @@ export const EnableWalkthrough = () => {
 						apiPatchConsultantData({
 							walkThroughEnabled: !isWalkThroughEnabled
 						})
-							.then(() => {
-								setUserData({
-									...userData,
-									isWalkThroughEnabled: !isWalkThroughEnabled
-								});
-							})
-							.catch((err) => {
-								console.log(err);
-							});
+							.then(reloadUserData)
+							.catch(console.log);
 					}}
 					checked={userData.isWalkThroughEnabled}
 					uncheckedIcon={false}

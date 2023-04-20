@@ -47,11 +47,9 @@ export interface LoginData {
 interface AutoLoginProps {
 	username: string;
 	password: string;
-	redirect: boolean;
 	otp?: string;
 	useOldUser?: boolean;
 	tenantData?: TenantDataInterface;
-	gcid?: string;
 }
 
 export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
@@ -108,21 +106,15 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 							autoLoginProps
 						);
 
-						const redirect = () =>
-							autoLoginProps.redirect &&
-							redirectToApp(autoLoginProps.gcid);
-
 						if (tenantSettings?.featureToolsEnabled) {
 							getBudibaseAccessToken(
 								username,
 								autoLoginProps.password,
 								tenantSettings
 							).then(() => {
-								redirect();
 								resolve(undefined);
 							});
 						} else {
-							redirect();
 							resolve(undefined);
 						}
 					})
@@ -138,7 +130,6 @@ export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
 					autoLogin({
 						username: autoLoginProps.username,
 						password: autoLoginProps.password,
-						redirect: autoLoginProps.redirect,
 						otp: autoLoginProps.otp,
 						useOldUser: true,
 						tenantData: autoLoginProps.tenantData
@@ -162,7 +153,7 @@ export const handleE2EESetup = (
 	autoLoginProps?: AutoLoginProps,
 	skipUpdateSubscriptions?: boolean
 ): Promise<any> => {
-	return new Promise(async (resolve) => {
+	return new Promise(async (resolve, reject) => {
 		let masterKey = await deriveMasterKeyFromPassword(rcUserId, password);
 
 		let privateKey;
@@ -197,7 +188,9 @@ export const handleE2EESetup = (
 						console.error('could not re-login after e2e key reset');
 					} else {
 						await writeMasterKeyToLocalStorage(masterKey, rcUserId);
-						await autoLogin(autoLoginProps);
+						await autoLogin(autoLoginProps)
+							.then(resolve)
+							.catch(reject);
 						return;
 					}
 				} else {
