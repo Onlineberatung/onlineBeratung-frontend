@@ -26,8 +26,8 @@ export const EmailToggle = ({
 	const { mutate } = useUserMutate({
 		onError: (ex) => {
 			addNotification({
-				title: t('profile.notifications.noEmail.modal.errorTitle'),
-				text: t('profile.notifications.noEmail.modal.errorMessage'),
+				title: t('profile.notifications.toggleError.title'),
+				text: t('profile.notifications.toggleError.description'),
 				notificationType: 'error'
 			});
 			console.error(ex);

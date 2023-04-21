@@ -1367,13 +1367,18 @@ export const de = {
 				description:
 					'Leider können wir Ihre Einstellungen momentan nicht aktualisieren. Bitte versuchen Sie es später noch einmal.'
 			},
+			'toggleError': {
+				title: 'Etwas ist schief gelaufen.',
+				description:
+					'Leider können wir Ihre Benachrichtigungen zur Zeit nicht aktivieren. Bitte versuchen Sie es später noch einmal.'
+			},
 			'noEmail': {
 				info: 'Sie haben noch keine E-Mail-Adresse hinzugefügt.',
 				button: 'E-Mail-Adresse hinzufügen',
 				modal: {
 					title: 'E-Mail-Adresse hinzufügen',
 					description:
-						'Die Angabe Ihrer E-Mail ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer_r Berater_in zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
+						'Die Angabe Ihrer E-Mail-Adresse ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer_r Berater_in zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
 					confirm: 'Hinzufügen',
 					emailInput: {
 						label: 'E-Mail',
@@ -1384,7 +1389,7 @@ export const de = {
 					},
 					errorTitle: 'Etwas ist schief gelaufen.',
 					errorMessage:
-						'Leider können wir Ihre Benachrichtigungen zur Zeit nicht aktivieren. Bitte versuchen Sie es später noch einmal.'
+						'Leider können wir Ihre E-mail-Adresse momentan nicht speichern. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support.'
 				}
 			}
 		},
@@ -1399,7 +1404,7 @@ export const de = {
 			newMessage: {
 				title: 'Neue Chat-Nachricht',
 				description:
-					'Eine_r der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
 			},
 			denied: {
 				message:
