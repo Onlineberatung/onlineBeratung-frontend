@@ -138,7 +138,6 @@ export interface MessageSubmitInterfaceComponentProps {
 	onSendButton?: Function;
 	isTyping?: Function;
 	placeholder: string;
-	showMonitoringButton?: Function;
 	typingUsers?: string[];
 	language?: string;
 	preselectedFile?: File;
@@ -150,7 +149,6 @@ export const MessageSubmitInterfaceComponent = ({
 	onSendButton,
 	isTyping,
 	placeholder,
-	showMonitoringButton,
 	typingUsers,
 	language,
 	preselectedFile,
@@ -527,9 +525,6 @@ export const MessageSubmitInterfaceComponent = ({
 
 	const handleMessageSendSuccess = useCallback(() => {
 		onMessageSendSuccess?.();
-		if (showMonitoringButton) {
-			showMonitoringButton();
-		}
 		if (requestFeedbackCheckboxChecked) {
 			const feedbackButton = document.querySelector(
 				'.sessionInfo__feedbackButton'
@@ -547,12 +542,7 @@ export const MessageSubmitInterfaceComponent = ({
 		setActiveInfo('');
 		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
-	}, [
-		onMessageSendSuccess,
-		requestFeedbackCheckboxChecked,
-		resizeTextarea,
-		showMonitoringButton
-	]);
+	}, [onMessageSendSuccess, requestFeedbackCheckboxChecked, resizeTextarea]);
 
 	const sendMessage = useCallback(
 		async (
