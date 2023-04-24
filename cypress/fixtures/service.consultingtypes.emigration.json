@@ -43,9 +43,6 @@
 	"sendFurtherStepsMessage": true,
 	"sendSaveSessionDataMessage": true,
 	"sessionDataInitializing": {},
-	"monitoring": {
-		"initializeMonitoring": false
-	},
 	"initializeFeedbackChat": false,
 	"roles": {
 		"consultant": {

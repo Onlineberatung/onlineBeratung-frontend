@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
-import { AskerInfoMonitoring } from './AskerInfoMonitoring';
 import {
 	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
@@ -159,14 +158,6 @@ export const AskerInfo = () => {
 									<AskerInfoTools />
 								</Box>
 							)}
-							{activeSession.item.monitoring &&
-								(type === SESSION_LIST_TYPES.MY_SESSION ||
-									type ===
-										SESSION_LIST_TYPES.TEAMSESSION) && (
-									<Box>
-										<AskerInfoMonitoring />
-									</Box>
-								)}
 							{isSessionAssignAvailable() && (
 								<Box>
 									<div className="askerInfo__assign">

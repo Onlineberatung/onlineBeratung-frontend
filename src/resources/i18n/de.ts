@@ -323,7 +323,6 @@ export const de = {
 	chatFlyout: {
 		askerProfil: 'Ratsuchendenprofil',
 		dataProtection: 'Datenschutz',
-		documentation: 'Dokumentation',
 		feedback: 'Feedback',
 		groupChatInfo: 'Chat-Info',
 		imprint: 'Impressum',
@@ -608,20 +607,6 @@ export const de = {
 			},
 			'success.overlay.headline':
 				'Ihre E-Mail-Adresse wurde erfolgreich gespeichert.'
-		},
-		'voluntaryInfo': {
-			headline: 'Wir wollen Sie bestmöglichst beraten',
-			infoText:
-				'Dabei hilft es uns, wenn Sie weitere freiwillige Angaben zu sich und Ihrem Anliegen machen.',
-			button: 'Angaben hinzufügen',
-			overlay: {
-				'button1.label': 'Speichern',
-				'button2.label': 'Schließen',
-				'copy': 'Für die Beratung würden uns folgende Angaben sehr helfen.',
-				'headline': 'Freiwillige Angaben',
-				'success.headline':
-					'Vielen Dank. Ihre freiwilligen Angaben wurden erfolgreich gespeichert.'
-			}
 		}
 	},
 	groupChat: {
@@ -1152,177 +1137,6 @@ export const de = {
 		'liveChat': 'Live Chat',
 		'newEnquiry': 'Neue Anfrage'
 	},
-	monitoring: {
-		title: 'Monitoring',
-		empty: 'Keine Angabe',
-		checked: 'Unterpunkte ausgewählt',
-		monitoringAddiction: {
-			addictiveDrugs: 'Suchtmittel',
-			alcohol: 'Alkohol',
-			drugs: 'Drogen',
-			cannabis: 'Cannabis',
-			hallucinogens: 'Halluzinogene',
-			amphetamines: 'Amphetamine',
-			cocaineCrack: 'Kokain/Crack',
-			opioids: 'Opioide',
-			others: 'Andere',
-			legalHighs: 'Legal Highs/Neue psychoaktive Substanzen',
-			tobacco: 'Tabak',
-			medication: 'Medikamente',
-			gambling: 'Glücksspiel',
-			offline: 'Offline',
-			online: 'Online',
-			internetComputer: 'Internet/Computer',
-			chatting: 'Chatten',
-			gaming: 'Gaming',
-			shopping: 'Shopping',
-			pornography: 'Pornographie/Sexsucht',
-			surfing: 'Surfen',
-			eatingDisorder: 'Essstörung',
-			intervention: 'Intervention',
-			information: 'Information',
-			conveyance: 'Weitervermittlung',
-			consulting: 'Beratung',
-			doctorClinic: 'Arzt/Ärztin/Klinik',
-			debtConsulting: 'Schuldnerberatung',
-			pregnancyConsulting: 'Schwangerschaftsberatung',
-			psychologicalSupport: 'Psychologische Betreuung',
-			childYouthAid: 'Kinder- und Jugendhilfe',
-			addictionHelpFacility: 'Suchthilfeeinrichtung',
-			delinquentHelp: 'Straffälligenhilfe',
-			selfHelp: 'Selbsthilfe',
-			generalConsulting: 'Allgemeine Sozialberatung'
-		},
-		monitoringU25: {
-			'generalData': 'Rahmendaten',
-			'location': 'Wohnort',
-			'freiburg': 'Freiburg',
-			'badenWuerttemberg': 'Baden Württemberg',
-			'bavaria': 'Bayern',
-			'berlin': 'Berlin',
-			'brandenburg': 'Brandenburg',
-			'bremen': 'Bremen',
-			'hamburg': 'Hamburg',
-			'hessia': 'Hessen',
-			'mecklenburgWesternPomerania': 'Mecklenburg-Vorpommern',
-			'lowerSaxony': 'Niedersachsen',
-			'northRhineWestphalia': 'Nordrhein-Westfalen',
-			'rhinelandPalatinate': 'Rheinland-Pfalz',
-			'saarland': 'Saarland',
-			'saxony': 'Sachsen',
-			'saxonyAnhalt': 'Sachsen-Anhalt',
-			'schleswigHolstein': 'Schleswig-Holstein',
-			'thuringia': 'Thüringen',
-			'abroadAustria': 'Ausland (Österreich)',
-			'abroadSwitzerland': 'Ausland (Schweiz)',
-			'abroadOthers': 'Ausland (sonstiges)',
-			'occupation': 'Erwerbstätigkeit/Arbeitssituation',
-			'school': 'Schule',
-			'studies': 'Studium',
-			'apprenticeship': 'Ausbildung',
-			'employed': 'erwerbstätig',
-			'unemployed': 'arbeitslos',
-			'housingSituation': 'Wohnsituation',
-			'family': 'in Familie',
-			'partner': 'Partner_in',
-			'livingCommunity': 'WG',
-			'alone': 'allein lebend',
-			'assistedLiving': 'betreute Wohnform',
-			'homeless': 'ohne Wohnsitz',
-			'consultingData': 'Beratungsdaten',
-			'suicidality': 'Suizidalität bei Kontaktaufnahme',
-			'crisis': 'Krise ohne Suizidalität',
-			'thoughtsOfSuicide': 'Suizidgedanken',
-			'acuteThoughtsOfSuicide': 'akute Suizidgedanken',
-			'afterSuicideAttempt': 'nach Suizidhandlung',
-			'stressfulFactors': 'Belastende Faktoren',
-			'mentalOverload': 'Gefühl von Überforderung',
-			'anxieties': 'Ängste',
-			'futility': 'Sinnlosigkeit',
-			'isolation': 'Isolation/Vereinsamung',
-			'svv': 'SVV',
-			'bullying': 'Mobbing',
-			'sexualAbuse': 'sex. Missbrauch / Vergewaltigung',
-			'mentalIllness': 'psychische Erkrankung',
-			'substanceAbuse': 'Substanzmittelmissbrauch',
-			'mediaConsumption': 'Starker Medienkonsum',
-			'physicalIllness': 'körperliche Beschwerden / chronische Krankheit',
-			'physicalHandicap': 'Körperliche Behinderung',
-			'conflictsPartnership': 'Konflikte in der Partnerschaft',
-			'divorce': 'Trennung',
-			'deceaseLovedOne': 'Tod eines_r Nahestehende_n',
-			'mourning.alt': 'Trauer',
-			'concernLovedOne': 'Sorge um Nahestehende_n',
-			'relationshipRelative': 'Beziehungssituation mit Angehörige_n',
-			'relationshipSocialEnvironment':
-				'Beziehungssituation im sozialen Umfeld',
-			'workSchool': 'Arbeit / Schule / Beruf',
-			'housingSituation.alt': 'Wohnsituation',
-			'financialSituation': 'finanzielle Situation',
-			'debt': 'Verschuldung',
-			'experienceOfViolence': 'Gewalterfahrung',
-			'stressfulChildhood': 'belastende Kindheit',
-			'crime': 'Straftat/Gesetzeskonflikt',
-			'migrationProblems': 'Probleme in Zusammenhang mit Migration',
-			'sexualOrientation': 'Sexuelle Orientierung',
-			'genderIdentity': 'Geschlechtliche Identität',
-			'others': 'Sonstige',
-			'supportDuration':
-				'Dauer der Begleitung (nach Beendigung eintragen)',
-			'onetime': 'einmalig',
-			'oneMonth': 'bis 1 Monat',
-			'threeMonths': 'bis 3 Monate',
-			'sixMonths': 'bis 6 Monate',
-			'oneYear': 'bis 1 Jahr',
-			'oneAndAHalfYear': 'bis 1,5 Jahre',
-			'longer': 'länger',
-			'inConsultation': 'in Beratung',
-			'diagnosis': 'Diagnose',
-			'depression': 'Depression',
-			'eatingDisorder': 'Essstörung',
-			'adhs': 'ADHS',
-			'borderline': 'Borderline',
-			'autism': 'Autismus',
-			'personalityDisorder': 'Persönlichkeitsstörung',
-			'traumaRelatedDisorder': 'Traumafolgestörung',
-			'anxietyDisorder': 'Angststörung',
-			'addiction': 'Sucht',
-			'obsessiveCompulsiveDisorder': 'Zwangsstörung',
-			'schizophrenia': 'Schizophrenie',
-			'furtherConnection': 'Weitere Anbindung',
-			'outpatientTherapy': 'Ambulante Therapie',
-			'inpationsTherapy': 'Stationäre Therapie/Tagesklinik',
-			'consultation': 'Beratung',
-			'supportGroups': 'Selbsthilfegruppe',
-			'medicalTherapy': 'Medikamentöse Therapie',
-			'endOfContact': 'Ende des Kontakts (Mehrfachnennung möglich)',
-			'mutually': 'Einvernehmlich beendet',
-			'noAnswer': 'Klient_in hat sich nicht mehr gemeldet',
-			'suicideAnnouncement': 'Suizidankündigung',
-			'suicide': 'Suizid',
-			'others.alt': 'Sonstiges',
-			'schoolStudies': 'Schule/Studium',
-			'partnerLivingCommunity': 'mit Partner_in in WG',
-			'concern': 'Sorge um Suizidgefährdete_n',
-			'mourning': 'Trauer nach Suizid',
-			'addictionDrugs': 'Sucht (Drogen/Medikamente)',
-			'addictionAlcohol': 'Sucht (Alkohol)',
-			'addictionInternetComputer': 'Sucht (Internet/Computer)',
-			'addictionOthers': 'Sucht (sonstiges)',
-			'noFirstAnswer': 'Klient_in hat auf Erstmail nicht reagiert',
-			'helpfulness': 'Wie hilfreich war der Kontakt für Klient_in?',
-			'one': '1 – nicht hilfreich',
-			'two': '2',
-			'three': '3',
-			'four': '4',
-			'five': '5',
-			'six': '6',
-			'seven': '7',
-			'eight': '8',
-			'nine': '9',
-			'ten': '10 – sehr hilfreich'
-		}
-	},
 	navigation: {
 		'appointments': 'Video - Termine',
 		'asker': {
@@ -1574,13 +1388,18 @@ export const de = {
 				description:
 					'Leider können wir Ihre Einstellungen momentan nicht aktualisieren. Bitte versuchen Sie es später noch einmal.'
 			},
+			'toggleError': {
+				title: 'Etwas ist schief gelaufen.',
+				description:
+					'Leider können wir Ihre Benachrichtigungen zur Zeit nicht aktivieren. Bitte versuchen Sie es später noch einmal.'
+			},
 			'noEmail': {
 				info: 'Sie haben noch keine E-Mail-Adresse hinzugefügt.',
 				button: 'E-Mail-Adresse hinzufügen',
 				modal: {
 					title: 'E-Mail-Adresse hinzufügen',
 					description:
-						'Die Angabe Ihrer E-Mail ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer_r Berater_in zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
+						'Die Angabe Ihrer E-Mail-Adresse ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer_r Berater_in zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
 					confirm: 'Hinzufügen',
 					emailInput: {
 						label: 'E-Mail',
@@ -1591,7 +1410,7 @@ export const de = {
 					},
 					errorTitle: 'Etwas ist schief gelaufen.',
 					errorMessage:
-						'Leider können wir Ihre Benachrichtigungen zur Zeit nicht aktivieren. Bitte versuchen Sie es später noch einmal.'
+						'Leider können wir Ihre E-mail-Adresse momentan nicht speichern. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support.'
 				}
 			}
 		},
@@ -1606,7 +1425,7 @@ export const de = {
 			newMessage: {
 				title: 'Neue Chat-Nachricht',
 				description:
-					'Eine_r der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
 			},
 			denied: {
 				message:
@@ -2003,7 +1822,6 @@ export const de = {
 		'empty': 'Bitte wählen Sie eine Nachricht aus',
 		'feedback.label': 'Feedback',
 		'groupChat.consultant.prefix': 'Moderator_in - ',
-		'monitoring.buttonLabel': 'Jetzt dokumentieren',
 		'u25.assignment.placeholder': 'Beratung zuweisen',
 		'unreadCount.maxValue': '99+',
 		'dragAndDrop': {
@@ -2443,10 +2261,6 @@ export const de = {
 			resort: 'Fachbereich',
 			state: 'Bundesland',
 			title: 'Angaben des Ratsuchenden'
-		},
-		monitoring: {
-			buttonLabel: 'Jetzt dokumentieren',
-			title: 'Monitoring'
 		},
 		reassign: {
 			description:

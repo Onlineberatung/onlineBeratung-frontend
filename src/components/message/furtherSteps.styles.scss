@@ -63,22 +63,6 @@ $further-steps-illustration-height-large: 75px !default;
 	}
 }
 
-.voluntaryInfo__row {
-	margin-top: $grid-base-four;
-
-	&:last-of-type {
-		margin-bottom: $grid-base-three;
-	}
-
-	.headline {
-		margin-bottom: $grid-base-two;
-	}
-
-	.select__wrapper {
-		padding: 0;
-	}
-}
-
 @include breakpoint(1024px) {
 	.furtherSteps {
 		padding: $grid-base-three $grid-base-three $grid-base-four;

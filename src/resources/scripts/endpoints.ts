@@ -126,7 +126,6 @@ export const endpoints = {
 	twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
 	twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
 	updateMessage: apiUrl + '/service/messages/',
-	updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 	userData: apiUrl + '/service/users/data',
 	userDataBySessionId: (sessionId: number) =>
 		apiUrl + `/service/users/consultants/sessions/${sessionId}`,
