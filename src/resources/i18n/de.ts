@@ -759,7 +759,7 @@ export const de = {
 				steps: {
 					'1.1': 'Folgen Sie dem Link zu ',
 					'1.2': ' oder ',
-					'1.3': ' (nur für macOS und iOS verfügbar).',
+					'1.3': ' (nur für macOS und iOS verfügbar)',
 					'2': 'Laden Sie einen der unterstützten Browser herunter.',
 					'3': 'Installieren Sie diesen auf Ihrem PC/Laptop/Tablet/Smartphone.',
 					'4': {
@@ -780,7 +780,7 @@ export const de = {
 				steps: {
 					'1.1': 'Folgen Sie dem Link zu ',
 					'1.2': ' oder ',
-					'1.3': ' (nur für macOS und iOS verfügbar).',
+					'1.3': ' (nur für macOS und iOS verfügbar)',
 					'2': 'Laden Sie einen der unterstützten Browser herunter. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
 					'3': 'Installieren Sie diesen auf Ihrem PC/Laptop/Tablet/Smartphone.',
 					'4': {
