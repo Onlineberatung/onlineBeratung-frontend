@@ -742,7 +742,7 @@ export const en = {
 				steps: {
 					'1.1': 'Follow the link to ',
 					'1.2': ' or ',
-					'1.3': ' (only for macOS and iOS available).',
+					'1.3': ' (only for macOS and iOS available)',
 					'2': 'Download one of the supported browsers',
 					'3': 'Install it on your PC/laptop/tablet/smartphone.',
 					'4': {
@@ -763,7 +763,7 @@ export const en = {
 				steps: {
 					'1.1': 'Follow the link to ',
 					'1.2': ' or ',
-					'1.3': ' (only for macOS and iOS available).',
+					'1.3': ' (only for macOS and iOS available)',
 					'2': 'Download one of the supported browsers. You may need the support of your IT for this.',
 					'3': 'Install it on your PC/laptop/tablet/smartphone.',
 					'4': {
