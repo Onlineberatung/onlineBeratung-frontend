@@ -771,7 +771,7 @@ export const de = {
 			},
 			banner: {
 				content:
-					'Bitte verwenden Sie einen anderen Browser, damit Video-Calls funktionieren können.',
+					'Bitte verwenden Sie einen anderen Browser, um Video-Calls zu ermöglichen.',
 				more: 'Mehr erfahren'
 			},
 			asker: {

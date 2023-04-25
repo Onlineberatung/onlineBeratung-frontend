@@ -30,7 +30,6 @@ import { DevToolbarWrapper } from '../devToolbar/DevToolbar';
 import { PreConditions, preConditionsMet } from './PreConditions';
 import { Loading } from './Loading';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
-import { E2EEncryptionSupportBanner } from '../E2EEncryptionSupportBanner/E2EEncryptionSupportBanner';
 
 const Login = lazy(() =>
 	import('../login/Login').then((m) => ({ default: m.Login }))
@@ -146,7 +145,6 @@ const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 								disconnect={disconnectWebsocket}
 							/>
 						)}
-						<E2EEncryptionSupportBanner></E2EEncryptionSupportBanner>
 						<Suspense fallback={<Loading />}>
 							<Switch>
 								{extraRoutes.map(

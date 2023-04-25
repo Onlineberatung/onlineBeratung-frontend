@@ -4,28 +4,22 @@ import { Banner } from '../banner/Banner';
 import './E2EEncryptionSupportBanner.styles.scss';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { useTranslation } from 'react-i18next';
-import { UserDataContext } from '../../globalState';
 import { Link } from 'react-router-dom';
 
 export const E2EEncryptionSupportBanner = () => {
-	const [showBanner, setShowBanner] = useState<boolean>(false);
+	const [showBanner, setShowBanner] = useState<boolean>(
+		!supportsE2EEncryptionVideoCall() &&
+			!sessionStorage.getItem('hideEncryptionBanner')
+	);
 	const { t: translate } = useTranslation();
-	const { userData } = useContext(UserDataContext);
 
-	useEffect(() => {
-		if (
-			!supportsE2EEncryptionVideoCall() &&
-			!sessionStorage.getItem('hideEncryptionBanner') &&
-			userData
-		) {
-			setShowBanner(true);
-		}
-	}, [userData]);
+	if (!showBanner) {
+		return null;
+	}
 
 	return (
 		<Banner
 			className="encryption-banner"
-			style={{ display: showBanner ? 'flex' : 'none' }}
 			onClose={() => {
 				sessionStorage.setItem('hideEncryptionBanner', 'true');
 				setShowBanner(false);
