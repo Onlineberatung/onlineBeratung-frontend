@@ -223,7 +223,7 @@ export const deInformal = {
 				steps: {
 					'1.1': 'Folge dem Link zu ',
 					'1.2': ' oder ',
-					'1.3': ' (nur für macOS und iOS verfügbar).',
+					'1.3': ' (nur für macOS und iOS verfügbar)',
 					'2': 'Lade einen der unterstützten Browser herunter.',
 					'3': 'Installiere diesen auf Deinem PC/Laptop/Tablet/Smartphone.',
 					'4': {
@@ -243,7 +243,7 @@ export const deInformal = {
 				steps: {
 					'1.1': 'Folge dem Link zu ',
 					'1.2': ' oder ',
-					'1.3': ' (nur für macOS und iOS verfügbar).',
+					'1.3': ' (nur für macOS und iOS verfügbar)',
 					'2': 'Lade einen der unterstützten Browser herunter. Dafür brauchst Du möglicherweise die Unterstützung Deiner EDV.',
 					'3': 'Installiere diesen auf Deinem PC/Laptop/Tablet/Smartphone.',
 					'4': {

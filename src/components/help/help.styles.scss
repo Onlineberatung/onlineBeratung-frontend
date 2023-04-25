@@ -8,7 +8,7 @@
 		width: 100%;
 		margin-top: $grid-base-two;
 
-		@include breakpoint($fromMedium) {
+		@include breakpoint($fromXLarge) {
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: center;
@@ -18,7 +18,7 @@
 			display: block;
 			margin-top: $grid-base-two;
 
-			@include breakpoint($fromMedium) {
+			@include breakpoint($fromXLarge) {
 				display: inline-flex;
 				align-items: center;
 				margin: $grid-base $grid-base-two 0;
