@@ -347,11 +347,13 @@ Cypress.Commands.add('mockApi', () => {
 		]);
 	}).as('consultingTypeServiceBaseBasic');
 
-	cy.intercept(`${endpoints.serviceSettings}`, (req) => {
-		req.reply({
-			...defaultReturns['settings'],
-			...(overrides['settings'] || {})
-		});
+	cy.intercept('GET', `${endpoints.serviceSettings}`, (req) => {
+		req.reply(
+			JSON.stringify({
+				...defaultReturns['settings'],
+				...(overrides['settings'] || {})
+			})
+		);
 	}).as('settings');
 
 	cy.intercept('GET', '/releases/*.json**', (req) => {
