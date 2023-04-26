@@ -1,10 +1,19 @@
-import { useEffect, useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import * as React from 'react';
 import { Banner } from '../banner/Banner';
 import './E2EEncryptionSupportBanner.styles.scss';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { useTranslation } from 'react-i18next';
+import {
+	AUTHORITIES,
+	ConsultingTypeBasicInterface,
+	ConsultingTypesContext,
+	hasUserAuthority,
+	UserDataContext,
+	UserDataInterface
+} from '../../globalState';
 import { Link } from 'react-router-dom';
+import { hasVideoCallFeature } from '../app/RouterConfig';
 
 export const E2EEncryptionSupportBanner = () => {
 	const [showBanner, setShowBanner] = useState<boolean>(
@@ -12,6 +21,42 @@ export const E2EEncryptionSupportBanner = () => {
 			!sessionStorage.getItem('hideEncryptionBanner')
 	);
 	const { t: translate } = useTranslation();
+	const { consultingTypes } = useContext(ConsultingTypesContext);
+	const { userData } = useContext(UserDataContext);
+
+	const shouldHideBanner = (
+		userData: UserDataInterface,
+		consultingTypes: ConsultingTypeBasicInterface[]
+	) => {
+		// check if User can be called by any of his registered agencies
+		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+			const registeredConsultingTypes = Object.values(
+				userData.consultingTypes
+			)
+				.filter((el) => el.isRegistered)
+				.map((el) => el.agency.consultingType);
+			console.log(registeredConsultingTypes, userData);
+			const userCanBeCalled = registeredConsultingTypes.some((el) =>
+				Object.values(consultingTypes).some(
+					(consultingType) =>
+						consultingType.id === el &&
+						consultingType.isVideoCallAllowed
+				)
+			);
+			if (!userCanBeCalled) {
+				return true;
+			}
+		} else if (!hasVideoCallFeature(userData, consultingTypes)) {
+			return true;
+		}
+		return false;
+	};
+
+	useEffect(() => {
+		if (shouldHideBanner(userData, consultingTypes)) {
+			setShowBanner(false);
+		}
+	}, [userData, consultingTypes]);
 
 	if (!showBanner) {
 		return null;

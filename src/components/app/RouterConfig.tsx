@@ -53,7 +53,7 @@ const WriteEnquiry = lazy(() =>
 	import('../enquiry/WriteEnquiry').then((m) => ({ default: m.WriteEnquiry }))
 );
 
-const hasVideoCallFeature = (userData, consultingTypes) =>
+export const hasVideoCallFeature = (userData, consultingTypes) =>
 	userData &&
 	hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 	userData.agencies.some(
