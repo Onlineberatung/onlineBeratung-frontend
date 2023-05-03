@@ -1,14 +1,8 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { useConsultingTypes, UserDataContext } from '../../globalState';
-import {
-	getAddictiveDrugsString,
-	handleNumericTranslation
-} from '../../utils/translate';
-import {
-	getAddictiveDrugsTranslatable,
-	getUserDataTranslateBase
-} from './profileHelpers';
+import { handleNumericTranslation } from '../../utils/translate';
+import { getUserDataTranslateBase } from './profileHelpers';
 import { Headline } from '../headline/Headline';
 import { Box } from '../box/Box';
 import { useTranslation } from 'react-i18next';
