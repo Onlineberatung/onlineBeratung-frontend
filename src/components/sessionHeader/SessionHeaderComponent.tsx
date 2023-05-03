@@ -20,10 +20,7 @@ import {
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
-import {
-	convertUserDataObjectToArray,
-	getAddictiveDrugsTranslatable
-} from '../profile/profileHelpers';
+import { convertUserDataObjectToArray } from '../profile/profileHelpers';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
@@ -73,11 +70,6 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		userSessionData &&
 		!activeSession.isLive
 			? convertUserDataObjectToArray(userSessionData)
-			: null;
-	const addictiveDrugs =
-		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-		userSessionData
-			? getAddictiveDrugsTranslatable(userSessionData.addictiveDrugs)
 			: null;
 	const translateBase =
 		activeSession.item.consultingType === 0
