@@ -60,7 +60,7 @@ export const BrowserNotification = () => {
 				</div>
 				<Text
 					text={t('profile.browserNotifications.description')}
-					type="infoMedium"
+					type="standard"
 					className="tertiary"
 				/>
 			</div>
