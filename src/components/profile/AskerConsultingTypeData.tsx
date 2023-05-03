@@ -1,14 +1,8 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { useConsultingTypes, UserDataContext } from '../../globalState';
-import {
-	getAddictiveDrugsString,
-	handleNumericTranslation
-} from '../../utils/translate';
-import {
-	getAddictiveDrugsTranslatable,
-	getUserDataTranslateBase
-} from './profileHelpers';
+import { handleNumericTranslation } from '../../utils/translate';
+import { getUserDataTranslateBase } from './profileHelpers';
 import { Headline } from '../headline/Headline';
 import { Box } from '../box/Box';
 import { useTranslation } from 'react-i18next';
@@ -53,38 +47,33 @@ export const AskerConsultingTypeData = () => {
 								</div>
 								{resort.sessionData &&
 									Object.keys(resort.sessionData).map(
-										(item, itemIndex) => (
-											<div
-												className="profile__data__item"
-												key={itemIndex}
-											>
-												<p className="profile__data__label">
-													{translate(
-														'userProfile.data.' +
-															item
-													)}
-												</p>
-												<p
-													className={
-														resort.sessionData[item]
-															? `profile__data__content`
-															: `profile__data__content profile__data__content--empty`
-													}
+										(item, itemIndex) =>
+											item === 'age' &&
+											resort.sessionData[item] ===
+												'null' ? null : (
+												<div
+													className="profile__data__item"
+													key={itemIndex}
 												>
-													{resort.sessionData[item]
-														? item ===
-														  'addictiveDrugs'
+													<p className="profile__data__label">
+														{translate(
+															'userProfile.data.' +
+																item
+														)}
+													</p>
+													<p
+														className={
+															resort.sessionData[
+																item
+															]
+																? `profile__data__content`
+																: `profile__data__content profile__data__content--empty`
+														}
+													>
+														{resort.sessionData[
+															item
+														]
 															? translate(
-																	getAddictiveDrugsString(
-																		getAddictiveDrugsTranslatable(
-																			resort
-																				.sessionData[
-																				item
-																			]
-																		)
-																	)
-															  )
-															: translate(
 																	handleNumericTranslation(
 																		getUserDataTranslateBase(
 																			parseInt(
@@ -100,12 +89,12 @@ export const AskerConsultingTypeData = () => {
 																		]
 																	)
 															  )
-														: translate(
-																'profile.noContent'
-														  )}
-												</p>
-											</div>
-										)
+															: translate(
+																	'profile.noContent'
+															  )}
+													</p>
+												</div>
+											)
 									)}
 								<div className="profile__data__item">
 									<p className="profile__data__label">
