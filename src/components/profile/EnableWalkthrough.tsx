@@ -21,7 +21,8 @@ export const EnableWalkthrough = () => {
 				/>
 				<Text
 					text={translate('walkthrough.subtitle')}
-					type="infoLargeAlternative"
+					type="standard"
+					className="tertiary"
 				/>
 			</div>
 			<label className="twoFactorAuth__switch">

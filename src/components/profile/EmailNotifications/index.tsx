@@ -33,7 +33,7 @@ export const EmailNotification = () => {
 				/>
 				<Text
 					text={t('profile.notifications.description')}
-					type="infoMedium"
+					type="standard"
 					className="tertiary"
 				/>
 			</div>
