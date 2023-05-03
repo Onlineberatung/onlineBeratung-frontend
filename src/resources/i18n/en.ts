@@ -2101,18 +2101,6 @@ export const en = {
 				'0': 'Female',
 				'1': 'Male',
 				'2': 'Divers'
-			},
-			addictiveDrugs: {
-				'headline': 'Narcotics',
-				'0': 'Alcohol',
-				'1': 'Drugs',
-				'2': 'Legal highs',
-				'3': 'Tobacco',
-				'4': 'Medication',
-				'5': 'Gambling',
-				'6': 'Internet/Computer',
-				'7': 'Eating disorders',
-				'8': 'Other'
 			}
 		},
 		userU25: {
@@ -2204,7 +2192,6 @@ export const en = {
 			resort: 'Department',
 			postcode: 'Postal code',
 			relation: 'Background',
-			addictiveDrugs: 'Narcotics',
 			age: 'Age',
 			gender: 'Gender',
 			state: 'State'
