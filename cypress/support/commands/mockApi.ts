@@ -263,7 +263,7 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.intercept('POST', endpoints.rejectVideoCall, {}).as('rejectVideoCall');
 
-	cy.intercept('POST', endpoints.attachmentUpload, (req) =>
+	cy.intercept('POST', `${endpoints.attachmentUpload}*`, (req) =>
 		req.reply({
 			...defaultReturns['attachmentUpload'],
 			...(overrides['attachmentUpload'] || {})
