@@ -2143,18 +2143,6 @@ export const de = {
 				'5': '60+',
 				'null': 'Keine Angabe'
 			},
-			addictiveDrugs: {
-				'headline': 'Suchtmittel',
-				'0': 'Alkohol',
-				'1': 'Drogen',
-				'2': 'Legal Highs',
-				'3': 'Tabak',
-				'4': 'Medikamente',
-				'5': 'Glücksspiel',
-				'6': 'Internet/Computer',
-				'7': 'Essstörungen',
-				'8': 'Andere'
-			},
 			gender: {
 				'headline': 'Geschlecht',
 				'0': 'Weiblich',
@@ -2253,9 +2241,7 @@ export const de = {
 			}
 		},
 		data: {
-			addictiveDrugs: 'Suchtmittel',
 			age: 'Alter',
-			gender: 'Geschlecht',
 			postcode: 'Postleitzahl',
 			relation: 'Hintergrund',
 			resort: 'Fachbereich',

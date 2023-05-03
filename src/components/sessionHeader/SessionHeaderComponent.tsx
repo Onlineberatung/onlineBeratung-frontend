@@ -2,10 +2,7 @@ import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
-import {
-	getAddictiveDrugsString,
-	handleNumericTranslation
-} from '../../utils/translate';
+import { handleNumericTranslation } from '../../utils/translate';
 import { mobileListView } from '../app/navigationHandler';
 import {
 	AUTHORITIES,
@@ -23,10 +20,7 @@ import {
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
-import {
-	convertUserDataObjectToArray,
-	getAddictiveDrugsTranslatable
-} from '../profile/profileHelpers';
+import { convertUserDataObjectToArray } from '../profile/profileHelpers';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { apiGetGroupMembers } from '../../api';
 import { decodeUsername } from '../../utils/encryptionHelpers';
@@ -76,11 +70,6 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		userSessionData &&
 		!activeSession.isLive
 			? convertUserDataObjectToArray(userSessionData)
-			: null;
-	const addictiveDrugs =
-		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-		userSessionData
-			? getAddictiveDrugsTranslatable(userSessionData.addictiveDrugs)
 			: null;
 	const translateBase =
 		activeSession.item.consultingType === 0
@@ -407,24 +396,21 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					) : null}
 					{preparedUserSessionData
 						? preparedUserSessionData.map((item, index) =>
-								item.value ? (
+								item.value &&
+								!(
+									item.type === 'age' && item.value === 'null'
+								) ? (
 									<div
 										className="sessionInfo__metaInfo__content"
 										key={index}
 									>
-										{item.type === 'addictiveDrugs'
-											? translate(
-													getAddictiveDrugsString(
-														addictiveDrugs
-													)
-											  )
-											: translate(
-													handleNumericTranslation(
-														translateBase,
-														item.type,
-														item.value
-													)
-											  )}
+										{translate(
+											handleNumericTranslation(
+												translateBase,
+												item.type,
+												item.value
+											)
+										)}
 									</div>
 								) : null
 						  )
