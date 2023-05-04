@@ -591,7 +591,8 @@ export const deInformal = {
 	sessionList: {
 		empty: {
 			mySessions: 'Du hast zur Zeit keine aktiven Beratungen',
-			teamSessions: 'Dein Team hat keine aktiven Beratungen',
+			teamSessions:
+				'Es gibt keine aktiven Teamberatungen. Um eine Teamberatung zu starten, musst du deinen Kunden einem anderen Berater zuweisen. Sobald der Kunde einverstanden ist, können beide Berater gleichzeitig mit dem Kunden chatten.',
 			perSessions: 'Du hast zur Zeit keine aktiven Peer-Beratungen'
 		}
 	},
