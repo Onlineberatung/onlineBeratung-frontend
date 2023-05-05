@@ -113,10 +113,10 @@ export const hasVideoCallAbility = (
 					consultingType.isVideoCallAllowed
 			)
 		);
-		if (!userCanBeCalled) {
+		if (userCanBeCalled) {
 			return true;
 		}
-	} else if (!hasVideoCallFeature(userData, consultingTypes)) {
+	} else if (hasVideoCallFeature(userData, consultingTypes)) {
 		return true;
 	}
 	return false;

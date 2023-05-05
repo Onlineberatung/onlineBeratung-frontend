@@ -20,7 +20,7 @@ export const E2EEncryptionSupportBanner = () => {
 	const { userData } = useContext(UserDataContext);
 
 	useEffect(() => {
-		if (hasVideoCallAbility(userData, consultingTypes)) {
+		if (!hasVideoCallAbility(userData, consultingTypes)) {
 			setShowBanner(false);
 		}
 	}, [userData, consultingTypes]);
