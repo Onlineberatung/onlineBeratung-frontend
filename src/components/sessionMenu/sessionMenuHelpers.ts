@@ -3,6 +3,7 @@ import { BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { ReactComponent as WavingIllustration } from '../../resources/img/illustrations/waving.svg';
+import { ReactComponent as ErrorBubbleIllustration } from '../../resources/img/illustrations/error-bubble.svg';
 
 export const stopGroupChatSecurityOverlayItem: OverlayItem = {
 	svg: XIllustration,
@@ -149,16 +150,12 @@ export const archiveSessionSuccessOverlayItem: OverlayItem = {
 };
 
 export const videoCallErrorOverlayItem: OverlayItem = {
-	svg: XIllustration,
-	illustrationBackground: 'neutral',
+	svg: ErrorBubbleIllustration,
 	headline: 'videoCall.overlay.unsupported.headline',
 	copy: `videoCall.overlay.unsupported.copy`,
+	showCloseButton: true,
+	illustrationStyle: 'large',
 	buttonSet: [
-		{
-			label: 'videoCall.overlay.unsupported.button.close',
-			function: OVERLAY_FUNCTIONS.CLOSE,
-			type: BUTTON_TYPES.SECONDARY
-		},
 		{
 			label: 'videoCall.overlay.unsupported.button.manual',
 			function: 'GOTO_MANUAL',

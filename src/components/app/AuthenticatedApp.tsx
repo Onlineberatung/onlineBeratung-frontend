@@ -27,6 +27,7 @@ import { RocketChatGetUserRolesProvider } from '../../globalState/provider/Rocke
 import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
 import { RocketChatUserStatusProvider } from '../../globalState/provider/RocketChatUserStatusProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { E2EEncryptionSupportBanner } from '../E2EEncryptionSupportBanner/E2EEncryptionSupportBanner';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -121,6 +122,7 @@ export const AuthenticatedApp = ({
 							<RocketChatSubscriptionsProvider>
 								<RocketChatUnreadProvider>
 									<RocketChatUserStatusProvider>
+										<E2EEncryptionSupportBanner/>
 										<Routing logout={handleLogout} />
 										{notifications && (
 											<Notifications

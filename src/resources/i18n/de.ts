@@ -128,7 +128,8 @@ export const de = {
 		'successful': 'Erfolgreich',
 		'faulty': 'Fehlerhaft',
 		'selectLanguage': 'Sprache wählen',
-		'wait': 'Bitte warten'
+		'wait': 'Bitte warten',
+		'closeBanner': 'Banner schließen'
 	},
 	appointments: {
 		copy: {
@@ -753,6 +754,26 @@ export const de = {
 		safari: 'Safari',
 		openInNewTab: 'In neuem Tab öffnen',
 		videoCall: {
+			waitingRoom: {
+				headline: 'Es liegt nicht an Ihnen, sondern an Ihrem Browser.',
+				infoBox: {
+					headline: 'Ihr Browser unterstützt keine Video-Calls.',
+					text: 'Damit Sie an Video-Calls teilnehmen können, verwenden Sie bitte Google Chrome, Microsoft Edge oder Safari.'
+				},
+				subline1:
+					'Haben Sie noch keinen Google Chrome, Microsoft Edge oder Safari?',
+				text1: 'Laden Sie sich einen der Browser herunter.',
+				subline2:
+					'Sie haben bereits Google Chrome, Microsoft Edge oder Safari?',
+				text2: 'Öffnen Sie nun Ihren Link zur Online-Beratung mit einem der unterstützten Browser.',
+				copyLink: 'Link kopieren',
+				copiedLink: 'Link kopiert!'
+			},
+			banner: {
+				content:
+					'Bitte verwenden Sie einen anderen Browser, um Video-Calls zu ermöglichen.',
+				more: 'Mehr erfahren'
+			},
 			asker: {
 				headline: 'Video-Call',
 				intro: 'Damit Sie an Video-Calls teilnehmen können, müssen Sie sich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
@@ -2252,8 +2273,8 @@ export const de = {
 			},
 			unsupported: {
 				button: 'Hilfe öffnen',
-				description: 'Video-Call von {{username}}',
-				hint: 'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Jedoch ist der Video-Call transportverschlüsselt. Bitte folgen Sie der Hilfe, um Ende-zu-Ende verschlüsselt zu telefonieren.'
+				description: '{{username}} versucht Sie anzurufen',
+				hint: 'Ihr Browser erfüllt nicht die notwendigen Sicherheitsanforderungen. Bitte verwenden Sie einen anderen Browser, damit Sie an Video-Calls teilnehmen können.'
 			}
 		},
 		info: 'Anrufinformation',

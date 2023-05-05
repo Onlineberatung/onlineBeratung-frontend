@@ -1,0 +1,23 @@
+.encryption-banner {
+	background-color: #f7d9d9;
+	display: flex;
+	justify-content: center;
+	p {
+		margin: 0;
+	}
+	a {
+		color: $text-color-standard;
+		&:hover {
+			color: $light-grey-hover;
+		}
+	}
+	svg {
+		margin-right: 10px;
+		height: 20px;
+		min-width: 20px;
+		position: static;
+		@include breakpoint($fromLarge) {
+			transform: unset;
+		}
+	}
+}

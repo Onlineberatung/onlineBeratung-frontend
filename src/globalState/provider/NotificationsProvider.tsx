@@ -41,6 +41,7 @@ export type NotificationType = {
 	id?: string | number;
 	notificationType: NotificationTypes;
 	timeout?: number;
+	title?: string;
 };
 
 export type NotificationDefaultType = NotificationType & {

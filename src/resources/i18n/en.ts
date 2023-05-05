@@ -736,6 +736,26 @@ export const en = {
 		safari: 'Safari',
 		openInNewTab: 'Open in new tab',
 		videoCall: {
+			waitingRoom: {
+				headline: "It's not you, it's your browser.",
+				infoBox: {
+					headline: 'Your browser does not support video calls.',
+					text: 'To participate in video calls, please use Google Chrome, Microsoft Edge or Safari.'
+				},
+				subline1:
+					"Don't have Google Chrome, Microsoft Edge, or Safari yet?",
+				text1: 'Download one of the browsers.',
+				subline2:
+					'Already have Google Chrome, Microsoft Edge, or Safari?',
+				text2: 'Now open your link to the online consultation with one of the supported browsers.',
+				copyLink: 'Copy link',
+				copiedLink: 'Link copied!'
+			},
+			banner: {
+				content:
+					'Please use a different browser for video calls to work.',
+				more: 'Learn more'
+			},
 			asker: {
 				headline: 'Video Call',
 				intro: 'To participate in video calls, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
@@ -2214,8 +2234,8 @@ export const en = {
 		incomingCall: {
 			description: 'calls...',
 			unsupported: {
-				description: 'Video call from {{username}}',
-				hint: 'Due to the technical requirements, the video call is not end-to-end encrypted. However, the video call is transport encrypted. Please follow the help to make end-to-end encrypted calls.',
+				description: '{{username}} tries to call you',
+				hint: 'Your browser does not meet the necessary security requirements. Please use a different browser so that you can participate in video calls.',
 				button: 'Open help'
 			},
 			ignored: 'has been trying to reach you.',

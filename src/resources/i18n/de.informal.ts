@@ -199,6 +199,24 @@ export const deInformal = {
 	},
 	help: {
 		videoCall: {
+			waitingRoom: {
+				headline: 'Es liegt nicht an Dir, sondern an Deinem Browser.',
+				infoBox: {
+					headline: 'Dein Browser unterstützt keine Video-Calls.',
+					text: 'Damit Du an Video-Calls teilnehmen kannst, verwende bitte Google Chrome, Microsoft Edge oder Safari.'
+				},
+				subline1:
+					'Hast du noch keinen Google Chrome, Microsoft Edge oder Safari?',
+				text1: 'Lade einen der Browser herunter.',
+				subline2:
+					'Du hast bereits Google Chrome, Microsoft Edge oder Safari?',
+				text2: 'Öffne nun Deinen Link zur Online-Beratung mit einem der unterstützten Browser.'
+			},
+			banner: {
+				content:
+					'Bitte verwenden Sie einen anderen Browser, damit Video-Calls funktionieren können.',
+				more: 'Mehr erfahren'
+			},
 			asker: {
 				headline: 'Video-Call',
 				intro: 'Damit Du an Video-Calls teilnehmen kannst, musst Du Dich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
@@ -694,7 +712,8 @@ export const deInformal = {
 	videoCall: {
 		incomingCall: {
 			unsupported: {
-				hint: 'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Jedoch ist der Video-Call transportverschlüsselt. Bitte folge der Hilfe, um Ende-zu-Ende verschlüsselt zu telefonieren.'
+				description: '{{username}} versucht Dich anzurufen',
+				hint: 'Dein Browser erfüllt nicht die notwendigen Sicherheitsanforderungen. Bitte verwende einen anderen Browser, damit Du an Video-Calls teilnehmen kannst.'
 			},
 			ignored: 'hat versucht Dich zu erreichen.',
 			rejected: {

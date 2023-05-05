@@ -1,0 +1,148 @@
+.encryption-support {
+	&__info-box {
+		border: 1px solid $lighter-grey;
+		padding: $grid-base-four;
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: center;
+		margin-bottom: $grid-base-four;
+
+		* {
+			text-align: center;
+		}
+
+		&-headline {
+			margin: $grid-base-three 0;
+		}
+
+		@include breakpoint($fromMedium) {
+			flex-direction: row;
+			justify-content: space-between;
+			* {
+				text-align: left;
+			}
+			&-headline {
+				margin: 0 0 $grid-base-three 0;
+			}
+		}
+	}
+
+	&__illustration {
+		border-radius: 50%;
+		min-width: 156px;
+		width: 156px;
+		height: 156px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: $illustration-background-neutral;
+
+		@include breakpoint($fromMedium) {
+			margin-left: $grid-base-two;
+		}
+
+		svg {
+			height: 100px;
+			width: 100px;
+		}
+	}
+
+	&__text {
+		margin-top: $grid-base;
+	}
+
+	.browser-list {
+		max-width: unset;
+		width: 100%;
+		margin-top: $grid-base-two;
+
+		@include breakpoint($fromMedium) {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+
+		& > div {
+			display: block;
+			margin-top: $grid-base-two;
+
+			@include breakpoint($fromMedium) {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin: $grid-base $grid-base-two 0;
+			}
+
+			img {
+				width: $grid-base-six;
+				margin-right: $grid-base-two;
+				@include breakpoint($fromMedium) {
+					margin: 0;
+					margin-bottom: $grid-base-two;
+				}
+			}
+
+			a {
+				display: inline-flex;
+				align-items: center;
+			}
+
+			svg {
+				margin-right: $grid-base;
+			}
+		}
+	}
+
+	&__copyLink {
+		display: block;
+		color: $primary;
+		width: max-content;
+
+		&:focus {
+			outline: $focus-outline;
+			outline-offset: 1px;
+			border-radius: 4px;
+		}
+
+		&:focus:not(:focus-visible) {
+			outline: none;
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
+	&__divider {
+		text-transform: uppercase;
+		color: $text-divider-color;
+	}
+
+	&__button-wrapper {
+		display: flex;
+		justify-content: center;
+		margin-top: $grid-base-four;
+	}
+
+	.notifications {
+		position: fixed;
+		display: flex;
+		flex-direction: column;
+		width: calc(100% - #{$grid-base-four});
+		z-index: 500;
+		left: $grid-base-two;
+		right: $grid-base-two;
+		top: $grid-base-two;
+
+		@include breakpoint($fromMedium) {
+			width: 300px;
+			left: auto;
+			right: $grid-base-three;
+			top: $grid-base-three;
+		}
+
+		& > :not(:first-child) {
+			margin-top: 3px;
+		}
+	}
+}
