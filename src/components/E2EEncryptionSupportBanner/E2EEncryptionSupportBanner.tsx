@@ -7,7 +7,12 @@ import {
 	supportsE2EEncryptionVideoCall
 } from '../../utils/videoCallHelpers';
 import { useTranslation } from 'react-i18next';
-import { ConsultingTypesContext, UserDataContext } from '../../globalState';
+import {
+	ConsultingTypesContext,
+	SessionsDataContext,
+	STATUS_EMPTY,
+	UserDataContext
+} from '../../globalState';
 import { Link } from 'react-router-dom';
 
 export const E2EEncryptionSupportBanner = () => {
@@ -18,12 +23,17 @@ export const E2EEncryptionSupportBanner = () => {
 	const { t: translate } = useTranslation();
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { userData } = useContext(UserDataContext);
+	const { sessions } = useContext(SessionsDataContext);
 
 	useEffect(() => {
-		if (!hasVideoCallAbility(userData, consultingTypes)) {
+		if (
+			!hasVideoCallAbility(userData, consultingTypes) ||
+			(sessions.length === 1 &&
+				sessions[0]?.session?.status === STATUS_EMPTY)
+		) {
 			setShowBanner(false);
 		}
-	}, [userData, consultingTypes]);
+	}, [userData, consultingTypes, sessions]);
 
 	if (!showBanner) {
 		return null;

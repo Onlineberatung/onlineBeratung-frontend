@@ -7,7 +7,7 @@ import { Text } from '../text/Text';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CopyIcon } from '../../resources/img/icons';
-import { ReactComponent as ErrorBubbleIllustration } from '../../resources/img/illustrations/error-bubble.svg';
+import { ReactComponent as UnauthorizedBubbleIllustration } from '../../resources/img/illustrations/unauthorized-bubble.svg';
 
 import { Notification } from '../notifications/Notification';
 import Divider from '@mui/material/Divider';
@@ -66,7 +66,7 @@ export const E2EEncryptionSupportHelp = () => {
 					/>
 				</div>
 				<div className="encryption-support__illustration">
-					<ErrorBubbleIllustration />
+					<UnauthorizedBubbleIllustration />
 				</div>
 			</div>
 			<Headline
