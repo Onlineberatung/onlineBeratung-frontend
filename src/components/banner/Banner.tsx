@@ -78,7 +78,7 @@ export const Banner = ({
 			fixedStage[0].style.paddingTop = `${bannerContainer.clientHeight}px`;
 		}
 
-		if (app?.[0]) {
+		if (app?.[0] && getBannersHeight() > 0) {
 			app[0].style.overflow = 'hidden';
 		}
 
@@ -112,7 +112,7 @@ export const Banner = ({
 			}
 
 			if (app?.[0]) {
-				app[0].style.overflow = 'visible';
+				app[0].style.removeProperty('overflow');
 			}
 
 			if (sessionsListHeader?.[0]) {
