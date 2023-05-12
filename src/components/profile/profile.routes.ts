@@ -177,6 +177,7 @@ const profileRoutes = (
 						{
 							component: ConsultantStatistics,
 							condition: () =>
+								tenant === null ||
 								!!tenant?.settings?.featureStatisticsEnabled,
 							column: COLUMN_LEFT
 						}
@@ -212,9 +213,11 @@ const profileRoutes = (
 					elements: [
 						{
 							component: AbsenceFormular,
-							column: tenant?.settings?.featureStatisticsEnabled
-								? COLUMN_RIGHT
-								: COLUMN_LEFT
+							column:
+								tenant === null ||
+								tenant?.settings?.featureStatisticsEnabled
+									? COLUMN_RIGHT
+									: COLUMN_LEFT
 						}
 					]
 				}
