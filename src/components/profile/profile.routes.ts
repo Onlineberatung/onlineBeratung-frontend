@@ -26,8 +26,10 @@ import { EmailNotification } from './EmailNotifications';
 import { BrowserNotification } from './BrowserNotifications';
 import { browserNotificationsSettings } from '../../utils/notificationHelpers';
 
-const shouldShowOverview = (useOverviewPage: boolean) =>
-	useOverviewPage && !isDesktop;
+const shouldShowOverview = (useOverviewPage: boolean, userData) =>
+	useOverviewPage &&
+	!isDesktop &&
+	hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData);
 
 const profileRoutes = (
 	settings: AppConfigInterface,
@@ -41,20 +43,26 @@ const profileRoutes = (
 			url: '/allgemeines',
 			elements: [
 				{
-					condition: () =>
-						shouldShowOverview(settings.useOverviewPage),
+					condition: (userData) =>
+						shouldShowOverview(settings.useOverviewPage, userData),
 					title: 'Overview',
 					url: '/overview',
 					elements: [
 						{
-							condition: () =>
-								shouldShowOverview(settings.useOverviewPage),
+							condition: (userData) =>
+								shouldShowOverview(
+									settings.useOverviewPage,
+									userData
+								),
 							boxed: false,
 							component: OverviewSessions
 						},
 						{
-							condition: () =>
-								shouldShowOverview(settings.useOverviewPage),
+							condition: (userData) =>
+								shouldShowOverview(
+									settings.useOverviewPage,
+									userData
+								),
 							component: OverviewBookings,
 							boxed: false
 						}

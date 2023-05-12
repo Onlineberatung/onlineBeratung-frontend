@@ -1894,8 +1894,7 @@ export const de = {
 				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat',
 			known: 'Aktuell liegen keine Erstanfragen vor',
 			mySessions: 'Sie haben zur Zeit keine aktiven Beratungen',
-			teamSessions:
-				'Es gibt keine aktiven Teamberatungen. Um eine Teamberatung zu starten, müssen Sie Ihren Kunden einem anderen Berater zuweisen. Sobald der Kunde einverstanden ist, können beide Berater gleichzeitig mit dem Kunden chatten.',
+			teamSessions: 'Ihr Team hat keine aktiven Beratungen',
 			peersessions: 'Sie haben zur Zeit keine aktiven Peer-Beratungen',
 			archived: 'Es sind noch keine Beratungen archiviert'
 		},
