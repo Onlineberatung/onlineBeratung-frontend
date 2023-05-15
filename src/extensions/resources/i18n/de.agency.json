@@ -1,0 +1,2671 @@
+{
+	"agency": {
+		"1": {
+			"name": "Beratungsstelle für Ehe-, Paar- und Lebensfragen",
+			"description": "Ehe-, Paar- und Lebensberatung"
+		},
+		"2": {
+			"name": "Beratungsstelle für Erziehungs- und Familienfragen",
+			"description": "Erziehungs- und Familienberatung"
+		},
+		"3": {
+			"name":
+			"Ehe-, Partnerschafts-, Familien- und Lebensberatung - Evangelische Beratungsstelle Augsburg",
+			"description": "EPFL Beratung"
+		},
+		"4": {
+			"name": "Erziehungsberatung - Evangelische Beratungsstelle Augsburg",
+			"description": "Erziehungsberatung"
+		},
+		"5": {
+			"name":
+			"Ehe-, Partnerschafts-, Familien- und Lebensberatung - Evangelische Beratungsst. Augsburg, Kaufbeuren",
+			"description": "EPFL Beratung"
+		},
+		"6": {
+			"name":
+			"Ehe-, Partnerschafts-, Familien- und Lebensberatung - Evangelische Beratungsst. Augsburg, Memmingen",
+			"description": "EPFL Beratung"
+		},
+		"7": {
+			"name":
+			"Ehe-, Partnerschafts-, Familien- und Lebensberatung - Evangelische Beratungsst. Augsburg, Nördlingen",
+			"description": "EPFL Beratung"
+		},
+		"15": {
+			"name": "Diakonie Fürth - Kirchliche Allgemeine Sozialarbeit (KASA)",
+			"description": "Allgemeine Sozialberatung"
+		},
+		"16": {
+			"name": "Diakonie Fürth - Fachstelle für pflegende Angehörige",
+			"description": "Beratung für pflegende Angehörige"
+		},
+		"17": {
+			"name": "Diakonie Fürth - Gesetzliche Betreuungen",
+			"description": "Beratung zu gesetzlichen Betreuungen"
+		},
+		"21": {
+			"name": "Erziehungsberatung der Diakonie in Krefeld",
+			"description":
+			"In unseren Beratungsstellen in Krefeld und Viersen finden Sie Fachkräfte aus den Bereichen Sozialpädagogik, Sozialarbeit, Psychologie, Pädagogik und Heilpädagogik, die Sie im Rahmen einer Erziehungsberatung unterstützen, den Alltag auf die Bedürfnisse Ihrer Familie abzustimmen.\n\n\n Wir beraten Sie, wenn\n\n\n - Sie Fragen zur Erziehung haben,\n - es Schwierigkeiten im Zusammenleben der Familie gibt,\n - Ihr Kind sich auffällig verhält,\n - Ihr Kind Opfer von Gewalt wird,\n - Trennung und Scheidung die Familie belasten.\n Alles, was Sie mit uns besprechen, unterliegt der Schweigepflicht. Unsere Gespräche sind kostenfrei und unabhängig von Nationalität, Weltanschauung, Alter, sexueller Orientierung und Religionszugehörigkeit!"
+		},
+		"22": {
+			"name": "Paarberatung der Diakonie in Krefeld",
+			"description":
+			"In unseren Beratungsstellen in Krefeld und Viersen stehen Ihnen Fachkräfte aus den Bereichen Sozialpädagogik, Sozialarbeit, Psychologie und Pädagogik unterstützend zur Seite, sowohl für Einzelgespräche als auch für gemeinsame Paargespräche.\n\n\n Wir beraten Sie, wenn \n\n\n - Sie Konflikte oder Vertrauensbrüche Ihre Beziehung belasten,\n - Sie Probleme mit Sexualität oder Eifersucht haben,\n - Sie sich nichts mehr zu sagen haben,\n - Sie Trennungsgedanken haben.\n Alles, was Sie mit uns besprechen, unterliegt der Schweigepflicht. Unsere Gespräche sind kostenfrei und unabhängig von Nationalität, Weltanschauung, Alter, sexueller Orientierung und Religionszugehörigkeit!"
+		},
+		"23": {
+			"name": "Lebensberatung der Diakonie in Krefeld",
+			"description":
+			"Wenn wir uns krank fühlen, gehen wir ganz selbstverständlich zum Arzt. Doch der Weg zu einer psychologischen Beratungsstelle ist für viele Menschen ungewohnt. „Ich bin doch nicht verrückt! Ich gehe doch nicht zum Psychologen!“ meinen viele. Richtig! Denn „verrückt“ sind die wenigsten. Aber Probleme hat jeder Mensch irgendwann in seinem Leben.\n\n\n In unseren Beratungsstellen in Krefeld und Viersen treffen Sie auf Fachkräfte aus den Bereichen Sozialpädagogik, Sozialarbeit, Psychologie und Pädagogik, die im Rahmen einer psychologischen Beratung mit Ihnen gemeinsam neue Perspektiven und Lösungen erarbeiten.\n\n\n Wir beraten Sie bei\n\n\n - psychischen Problemen\n - persönlichen Lebenskrisen wie Suizidgedanken, Überforderung, Ängsten oder Depressionen.\n - Mobbing\n - Perspektivlosigkeit\n - Kommunikations- und Kontaktproblemen\n Alles, was Sie mit uns besprechen, unterliegt der Schweigepflicht. Unsere Gespräche sind kostenfrei und unabhängig von Nationalität, Weltanschauung, Alter, sexueller Orientierung und Religionszugehörigkeit!"
+		},
+		"24": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung der Diakonie Krefeld & Viersen",
+			"description":
+			"In unseren Beratungsstellen beraten wir Sie zum Thema Schwangerschaft und Schwangerschaftskonflikte. Als staatlich anerkannte Beratungsstelle führen wir die gesetzlich vorgeschriebene Beratung gemäß §219 StGB durch und stellen auf Wunsch eine Beratungsbescheinigung aus. Alles, was Sie mit uns besprechen, unterliegt der Schweigepflicht und die Beratung kann auf Wunsch auch anonym durchgeführt werden. Unsere Gespräche sind kostenfrei und unabhängig von Nationalität, Weltanschauung, Alter und Religionszugehörigkeit!"
+		},
+		"25": {
+			"name": "Jugendberatung der Diakonie in Krefeld",
+			"description":
+			"In bestimmten Abschnitten des Lebens sind Gespräche zwischen Jugendlichen und Erwachsenen schwierig oder gar unmöglich. Erwachsene bieten scheinbar keine Orientierung oder Hilfe. Jugendliche fühlen sich mit ihren Problemen alleine gelassen.\n\n\n Du bist bei uns richtig, wenn\n\n\n - du einen neutralen, verschwiegenen Zuhörer brauchst,\n - du Ärger mit deinen Eltern hast,\n - du psychische Probleme hast\n - dich Stress in der Schule belastet,\n - es Probleme mit deiner Freundin, deinem Freund gibt.\n In unseren Beratungsstellen in Krefeld und Viersen findest du Fachkräfte aus den Bereichen Sozialpädagogik, Sozialarbeit, Heilpädagogik, Psychologie und Pädagogik. Wir hören dir ohne Schuldzuweisungen oder Vorwürfe zu und suchen gemeinsam mit dir nach Lösungen.\n\n\n Alles, was du mit uns besprichst, unterliegt der Schweigepflicht. Unsere Gespräche sind kostenfrei und unabhängig von Nationalität, Weltanschauung, Alter, sexueller Orientierung und Religionszugehörigkeit!"
+		},
+		"26": {
+			"name": "Schuldnerberatung der Diakonie in Krefeld",
+			"description":
+			"Bei Schuldenproblemen sind unsere Fachkräfte gerne für Sie da. Persönlich und telefonisch erhalten Sie kompetente Beratung zu Schuldenfragen durch unsere Fachkräfte. Gerne beraten wir sie auch zum Verbraucherinsolvenzverfahren. Wir sind anerkannte Stelle für die Verbraucherinsolvenzberatung (§ 305 InsO).\n\n\n Unsere Beratung ist vertraulich und kostenlos und richtet sich an alle Krefelder Bürgerinnen und Bürger. Eine erfolgreiche Beratung kann nur gelingen, wenn Sie zur Zusammenarbeit und Einhaltung von gemeinsam getroffenen Vereinbarungen bereit sind.\n\n\n Unsere Schuldnerberatung hilft:\n\n\n - neue Wege zur Bewältigung der Schuldensituation zu finden\n - bei finanzieller Haushaltsplanung\n - bei Verhandlungen mit Gläubigern und Behörden\n - bei der Einleitung von Vollstreckungsschutz\n - bei der Vermittlung weiterer Hilfemöglichkeiten\n Unsere Insolvenzberatung umfasst:\n\n\n Information über das Insolvenzverfahren\n Einleitung von Maßnahmen zur gerichtlichen Antragstellung\n Begleitung und Unterstützung im gesamten Verfahrensverlauf\n Pfändungsschutzkonto (P-Konto) gem. §850k ZPO\n\n\n Beratung zum Pfändungsschutzkonto\n Ausstellen von Bescheinigungen zum erhöhten Pfändungsschutz"
+		},
+		"27": {
+			"name": "Migrationsberatung der Diakonie in Krefeld",
+			"description":
+			"Die Migrationsberatung für Erwachsene Zuwanderer\n\n\n - unterstützt Zuwanderer und deren Familien auf ihrem Weg der sozialen Integration\n - informiert und berät, begleitet und vermittelt, damit Zuwanderer sich besser in Deutschland zurechtfinden und selbständig in allen Lebenslagen handeln können\n - berät vertraulich, kostenfrei und unabhängig von Konfession, Weltanschauung oder Nationalität\n Das Beratungsangebot richtet sich an - erwachsene Zuwanderer und ihre Familien mit festem Aufenthaltsstatus in Krefeld und dem Kreis Viersen\n - ist unabhängig von Konfession und Herkunftsland\n - Teilnehmerinnen und Teilnehmer an Integrationskursen"
+		},
+		"28": {
+			"name": "Migrationsberatung der Diakonie in Viersen",
+			"description":
+			"Die Migrationsberatung für Erwachsene Zuwanderer\n\n\n - unterstützt Zuwanderer und deren Familien auf ihrem Weg der sozialen Integration\n - informiert und berät, begleitet und vermittelt, damit Zuwanderer sich besser in Deutschland zurechtfinden und selbständig in allen Lebenslagen handeln können\n - berät vertraulich, kostenfrei und unabhängig von Konfession, Weltanschauung oder Nationalität\n Das Beratungsangebot richtet sich an - erwachsene Zuwanderer und ihre Familien mit festem Aufenthaltsstatus in Krefeld und dem Kreis Viersen\n - ist unabhängig von Konfession und Herkunftsland\n - Teilnehmerinnen und Teilnehmer an Integrationskursen"
+		},
+		"29": {
+			"name":
+			"Regionale Flüchtlingsberatung der Diakonie für Brüggen, Schwalmtal und Niederkrüchten",
+			"description":
+			"Die Zielgruppen der Regionalen Flüchtlingsberatung sind im Wesentlichen Asylbewerber*innen nach Verteilung und Zuweisung in die Kommunen. Darüber hinaus können Menschen mit Duldung, ausreisepflichtige Drittstaatsangehörige sowie Zufluchtsuchende mit ungeklärtem Rechtsstatus unser Angebot in Anspruch nehmen.\n Das Beratungsangebot umfasst grundsätzlich alle Themenbereiche, die im Zusammenhang mit Asyl, Flucht und Migration auftreten. Sind Sie ein anerkannter Flüchtling oder kommen Sie aus einem EU-Mitgliedsstaat? Dann sind Sie bei der Migrationsberatungder Diakonie richtig.\n\n\n Schwerpunkte sind:\n\n\n - Asyl-, aufenthalts- und sozialrechtliche Beratung\n - Asylberatung\n - Aufenthaltssicherung\n - Fragen zum Asylbewerberleistungsgesetz\n - Hilfestellung zum Asylverfahren\n - Sozialberatung\n - Perspektivberatung\n - Bewältigung individueller sozialer Problemlagen (z.B. psychische Erkrankung, Abhängigkeiten, fehlender Tagesstruktur, Schwangerschaft, etc.)\n - Unterstützung bei der Suche nach Sprachkursangeboten für Menschen ohne Anspruch auf geförderte Integrationskurse"
+		},
+		"30": {
+			"name": "Erziehungsberatung der Diakonie in Viersen",
+			"description":
+			"In unseren Beratungsstellen in Krefeld und Viersen finden Sie Fachkräfte aus den Bereichen Sozialpädagogik, Sozialarbeit, Psychologie, Pädagogik und Heilpädagogik, die Sie im Rahmen einer Erziehungsberatung unterstützen, den Alltag auf die Bedürfnisse Ihrer Familie abzustimmen.\n\n\n Wir beraten Sie, wenn\n\n\n - Sie Fragen zur Erziehung haben,\n - es Schwierigkeiten im Zusammenleben der Familie gibt,\n - Ihr Kind sich auffällig verhält,\n - Ihr Kind Opfer von Gewalt wird,\n - Trennung und Scheidung die Familie belasten.\n Alles, was Sie mit uns besprechen, unterliegt der Schweigepflicht. Unsere Gespräche sind kostenfrei und unabhängig von Nationalität, Weltanschauung, Alter, sexueller Orientierung und Religionszugehörigkeit!"
+		},
+		"31": {
+			"name": "Paarberatung der Diakonie in Viersen",
+			"description":
+			"In unseren Beratungsstellen in Krefeld und Viersen stehen Ihnen Fachkräfte aus den Bereichen Sozialpädagogik, Sozialarbeit, Psychologie und Pädagogik unterstützend zur Seite, sowohl für Einzelgespräche als auch für gemeinsame Paargespräche.\n\n\n Wir beraten Sie, wenn \n\n\n - Sie Konflikte oder Vertrauensbrüche Ihre Beziehung belasten,\n - Sie Probleme mit Sexualität oder Eifersucht haben,\n - Sie sich nichts mehr zu sagen haben,\n - Sie Trennungsgedanken haben.\n Alles, was Sie mit uns besprechen, unterliegt der Schweigepflicht. Unsere Gespräche sind kostenfrei und unabhängig von Nationalität, Weltanschauung, Alter, sexueller Orientierung und Religionszugehörigkeit!"
+		},
+		"32": {
+			"name": "Lebensberatung der Diakonie in Viersen",
+			"description":
+			"Wenn wir uns krank fühlen, gehen wir ganz selbstverständlich zum Arzt. Doch der Weg zu einer psychologischen Beratungsstelle ist für viele Menschen ungewohnt. „Ich bin doch nicht verrückt! Ich gehe doch nicht zum Psychologen!“ meinen viele. Richtig! Denn „verrückt“ sind die wenigsten. Aber Probleme hat jeder Mensch irgendwann in seinem Leben.\n\n\n In unseren Beratungsstellen in Krefeld und Viersen treffen Sie auf Fachkräfte aus den Bereichen Sozialpädagogik, Sozialarbeit, Psychologie und Pädagogik, die im Rahmen einer psychologischen Beratung mit Ihnen gemeinsam neue Perspektiven und Lösungen erarbeiten.\n\n\n Wir beraten Sie bei\n\n\n - psychischen Problemen\n - persönlichen Lebenskrisen wie Suizidgedanken, Überforderung, Ängsten oder Depressionen.\n - Mobbing\n - Perspektivlosigkeit\n - Kommunikations- und Kontaktproblemen\n Alles, was Sie mit uns besprechen, unterliegt der Schweigepflicht. Unsere Gespräche sind kostenfrei und unabhängig von Nationalität, Weltanschauung, Alter, sexueller Orientierung und Religionszugehörigkeit!"
+		},
+		"33": {
+			"name": "Jugendberatung der Diakonie in Viersen",
+			"description":
+			"In bestimmten Abschnitten des Lebens sind Gespräche zwischen Jugendlichen und Erwachsenen schwierig oder gar unmöglich. Erwachsene bieten scheinbar keine Orientierung oder Hilfe. Jugendliche fühlen sich mit ihren Problemen alleine gelassen.\n\n\n Du bist bei uns richtig, wenn\n\n\n - du einen neutralen, verschwiegenen Zuhörer brauchst,\n - du Ärger mit deinen Eltern hast,\n - du psychische Probleme hast\n - dich Stress in der Schule belastet,\n - es Probleme mit deiner Freundin, deinem Freund gibt.\n In unseren Beratungsstellen in Krefeld und Viersen findest du Fachkräfte aus den Bereichen Sozialpädagogik, Sozialarbeit, Heilpädagogik, Psychologie und Pädagogik. Wir hören dir ohne Schuldzuweisungen oder Vorwürfe zu und suchen gemeinsam mit dir nach Lösungen.\n\n\n Alles, was du mit uns besprichst, unterliegt der Schweigepflicht. Unsere Gespräche sind kostenfrei und unabhängig von Nationalität, Weltanschauung, Alter, sexueller Orientierung und Religionszugehörigkeit!"
+		},
+		"34": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung der Diakonie Krefeld & Viersen",
+			"description":
+			"In unseren Beratungsstellen beraten wir Sie zum Thema Schwangerschaft und Schwangerschaftskonflikte. Als staatlich anerkannte Beratungsstelle führen wir die gesetzlich vorgeschriebene Beratung gemäß §219 StGB durch und stellen auf Wunsch eine Beratungsbescheinigung aus. Alles, was Sie mit uns besprechen, unterliegt der Schweigepflicht und die Beratung kann auf Wunsch auch anonym durchgeführt werden. Unsere Gespräche sind kostenfrei und unabhängig von Nationalität, Weltanschauung, Alter und Religionszugehörigkeit!"
+		},
+		"35": {
+			"name": "Wohnungsnotfallberatung",
+			"description":
+			"Die Leistungen der Fachberatungsstelle umfassen u.a.:\n\n\n - Beratung und Unterstützung bei der Klärung, dem Zugang und der Beantragung von existenzsichernden Leistungen (ALG I, ALG II, Sozialhilfe, Wohngeld, Rente, etc.)\n - Vermittlung in Notschlafstellen oder andere Schutzeinrichtungen\n - Einrichtung und Pflege einer Postadresse zur Sicherstellung der postalischen Erreichbarkeit\n - Beratung und Unterstützung bei der Wohnungssuche\n - Beratung bei allen spezifischen Fragen im Zusammenhang mit Wohnungslosigkeit (z.B. bei Konflikten oder Fragestellungen mit Arbeitgebern, Wahlrecht, usw.)\n - Vermittlung in weitere Fachberatungsstellen\n - Klärung von Krankenversicherungsschutz\n - Unterstützung bei der Schaffung von Zugang zu medizinsicher Versorgung\n - Vermittlung in weiterführende Hilfen oder Wohnformen"
+		},
+		"36": {
+			"name": "Sucht- und Drogenhilfe Witten",
+			"description": "Sucht- und Drogenberatung - ambulante Nachsorge"
+		},
+		"37": {
+			"name": "Suchtberatung Menden",
+			"description": "Suchtberatung - ambulante Nachsorge und ARS"
+		},
+		"38": {
+			"name":
+			"Ehe-, Familien- und Lebensberatung - Diakonisches Werk Passau e.V.",
+			"description":
+			"Hilfen bei Krisen in Partnerschaft, Familien und Lebenssituationen, Trennungs- und Scheidungsberatung"
+		},
+		"39": {
+			"name":
+			"Schuldner- und Insolvenzberatung - Diakonisches Werk Passau e.V.",
+			"description":
+			"Beratung bei Ver- und Überschuldung, Durchführung von Insolvenzverfahren, Beratung bei Versicherungen, notleidenden Baufinanzierungen"
+		},
+		"40": {
+			"name":
+			"Aids-Informations- und Beratungsstelle - Diakonisches Werk Passau e.V.",
+			"description":
+			"Beratung und Information zum Thema HIV und Aids, Testmöglichkeit, Prävention; zuständig für Niederbayern"
+		},
+		"41": {
+			"name":
+			"Beratungsstelle für psychische Gesundheit - Diakonisches Werk Passau e.V.",
+			"description":
+			"Beratung und Begleitung von Menschen mit psychischen Erkrankungen und deren Angehörigen"
+		},
+		"42": {
+			"name": "Migrationsberatung",
+			"description":
+			"Beratung von Erwachsenen und Familien mit Migrationshintergrund, Beratung von EU-Bürgern und sonstigen zugewanderten Personen"
+		},
+		"43": {
+			"name": "Jugendmigrationsdienst",
+			"description":
+			"Beratung von Jugendlichen und jungen Erwachsenen mit Migrationshintergrund bis zu einem Alter von 27 Jahren mit Schwerpunkt Schule, Ausbildung, Berufswahl"
+		},
+		"44": {
+			"name": "Flüchtlingsberatung",
+			"description":
+			"Beratung von Asylbewerbern im Verfahren und bei Fragen zu Sprachkursen, Anerkennung von Abschlüssen und Integration"
+		},
+		"46": {
+			"name": "Fachstelle Sucht Diakonische Bezirksstelle FDS",
+			"description": "Suchtberatung"
+		},
+		"47": {
+			"name":
+			"Schwangeren- und Schwangerschaftskofliktberatung Diakonische Bezirksstelle FDS",
+			"description": "Schwangerenberatung"
+		},
+		"48": {
+			"name":
+			"Allg. Sozial- und Lebensberatung Diakonische Bezirksstelle FDS",
+			"description": "Sozialberatung und Lebensberatung"
+		},
+		"49": {
+			"name": "Ehrenamt und Flucht Diakonische Bezirksstelle FDS",
+			"description": "Flüchtlinge und Ehrenamtliche"
+		},
+		"50": {
+			"name": "Ev. Beratungszentrum, Ehe-, Paar- und Lebensberatung",
+			"description":
+			"Das Evangelische Beratungszentrum bietet Menschen aus Bochum psychologische Beratung, Diagnostik und Krisenintervention an. Es ist Anlaufstelle für Eltern, Kinder und Jugendliche, Paare und einzelne Erwachsene unabhängig von Herkunft, Nationalität, Konfession, Weltanschauung oder sexueller Orientierung."
+		},
+		"55": {
+			"name": "Erziehungs- und Familienberatung - Familienberatungszentrum",
+			"description": "Beratungsstelle für Kinder, Jugendliche und Familien"
+		},
+		"56": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung - Familienberatungszentrum",
+			"description":
+			"Beratung von Schwangeren und im Schwangerschaftskonflikt"
+		},
+		"57": {
+			"name":
+			"Schuldner- und Insolvenzberatungsstelle Charlottenburg-Wilmersdorf",
+			"description":
+			"Die Schuldner- und Insolvenzberatung Charlottenburg-Wilmersdorf bietet überschuldeten oder von Überschuldung bedrohten Ratsuchenden eine am Einzelfall orientierte Unterstützung. Wir sind als geeignete Stelle für Beratungen zur Verbraucherinsolvenz staatlich anerkannt. Das Angebot richtet sich an Bürgerinnen und Bürger des Bezirks. Die Beratung ist für Ratsuchende kostenfrei."
+		},
+		"58": {
+			"name":
+			"Schuldner- und Insolvenzberatungsstelle Tempelhof-Schöneberg",
+			"description":
+			"Die Schuldner- und Insolvenzberatung Tempelhof-Schöneberg bietet überschuldeten oder von Überschuldung bedrohten Ratsuchenden eine am Einzelfall orientierte Unterstützung. Wir sind als geeignete Stelle für Beratungen zur Verbraucherinsolvenz staatlich anerkannt. Das Angebot richtet sich an Bürgerinnen und Bürger des Bezirks. Die Beratung ist für Ratsuchende kostenfrei."
+		},
+		"59": {
+			"name": "Ambulante Hilfen",
+			"description":
+			"Typische Themen unserer Hilfe sind Kündigung und Räumung der Wohnung, Verwahrlosung, unzumutbare Wohnverhältnisse sowie Wohnungslosigkeit. Weitere Themen sind Mittellosigkeit, geringes Einkommen oder gewaltgeprägte Umstände. In der Hilfe gibt es wöchentliche Gespräche. Bei Bedarf werden Sie zu Ämtern und Behörden begleitet. Gerne schauen wir mit Ihnen, ob die Hilfe zu Ihnen passt. Auch unterstützen wir Sie bei der Beantragung der Hilfe. Die Kosten werden von dem Amt für Soziales übernommen. In der Hilfe werden Sie durch qualifizierte Sozialarbeiterinnen und Sozialarbeiter beraten. Wir legen großen Wert auf eine vertrauensvolle Zusammenarbeit und unterstützen Sie bei der Erreichung Ihrer Ziele. Die Hilfe ist im Zwölften Sozialgesetzbuch in den Paragraphen 67 bis 69 geregelt."
+		},
+		"60": {
+			"name": "Heidelberger Suchtberatung",
+			"description":
+			"Beratungsstelle für Suchtfragen (Information; Beratungs- und Behandlungsgespräche; Angehörigenberatung ; Hilfen für Kinder aus suchtbeasteten Familien; Ambulante Therapie; Vermittlung in stationäre Therapie und in Selbsthilfegruppen; Nachbetreuung nach einer Therapie)"
+		},
+		"61": {
+			"name": "Suchtberatung im Neckar-Odenwald-Kreis",
+			"description":
+			"Beratungsstelle für Suchtfragen (Information; Beratungs- und Behandlungsgespräche; Angehörigenberatung ; Hilfen für Kinder aus suchtbeasteten Familien; Ambulante Therapie; Vermittlung in stationäre Therapie und in Selbsthilfegruppen; Nachbetreuung nach einer Therapie)"
+		},
+		"62": {
+			"name": "Beratungsstelle für Suchtfragen Bretten",
+			"description":
+			"Beratungsstelle für Suchtfragen (Information; Beratungs- und Behandlungsgespräche; Angehörigenberatung ; Hilfen für Kinder aus suchtbeasteten Familien; Ambulante Therapie; Vermittlung in stationäre Therapie und in Selbsthilfegruppen; Nachbetreuung nach einer Therapie)"
+		},
+		"63": {
+			"name": "Frauen beraten e.V. München Stadtmitte",
+			"description":
+			"staatl. anerk. Beratungsstelle für Schwangerschaftsfragen"
+		},
+		"64": {
+			"name": "Ambulanter Hospiz- und Palliativberatungsdienst Muldental",
+			"description": "aufsuchender Dienst in der Hospizbegleitg."
+		},
+		"65": {
+			"name": "Kompetenzzentrum Pflegeberatung",
+			"description": "aufsuchender Dienst Pflegeberatung"
+		},
+		"66": {
+			"name":
+			"KirchenBezirksSozialarbeit - Allgemeine Soziale Beratung Grimma",
+			"description": "Soziale Beratung, Mutter-Vater-Kind-Kur-Beratung"
+		},
+		"67": {
+			"name":
+			"KirchenBezirksSozialarbeit - Allgemeine Soziale Beratung Wurzen",
+			"description": "Soziale Beratung, Mutter-Vater-Kind-Kur-Beratung"
+		},
+		"68": {
+			"name":
+			"KirchenBezirksSozialarbeit - Allgemeine Soziale Beratung Borna",
+			"description": "Soziale Beratung, Mutter-Vater-Kind-Kur-Beratung"
+		},
+		"69": {
+			"name":
+			"KirchenBezirksSozialarbeit - Allgemeine Soziale Beratung Geithain",
+			"description": "Soziale Beratung, Mutter-Vater-Kind-Kur-Beratung"
+		},
+		"70": {
+			"name": "Wohnungsnotfallhilfe - Ambulant Betreutes Wohnen",
+			"description": "Beratung bei Wohnungsnotfällen"
+		},
+		"71": {
+			"name":
+			"Soziale Schuldner- & Insolvenzberatung - Beratungsstelle Borna",
+			"description":
+			"Beratung bei Schulden und Hilfen zur Insolvenzeröffnung"
+		},
+		"72": {
+			"name":
+			"Soziale Schuldner- & Insolvenzberatung - Beratungsstelle Grimma",
+			"description":
+			"Beratung bei Schulden und Hilfen zur Insolvenzeröffnung"
+		},
+		"73": {
+			"name":
+			"Soziale Schuldner- & Insolvenzberatung - Beratungsstelle Wurzen",
+			"description":
+			"Beratung bei Schulden und Hilfen zur Insolvenzeröffnung"
+		},
+		"74": {
+			"name":
+			"Soziale Schuldner- & Insolvenzberatung - Beratungsstelle Markranstädt",
+			"description":
+			"Beratung bei Schulden und Hilfen zur Insolvenzeröffnung"
+		},
+		"75": {
+			"name":
+			"Soziale Schuldner- & Insolvenzberatung - Beratungsstelle Markkleeberg",
+			"description":
+			"Beratung bei Schulden und Hilfen zur Insolvenzeröffnung"
+		},
+		"76": {
+			"name":
+			"Soziale Schuldner- & Insolvenzberatung - Beratungsstelle Geithain",
+			"description":
+			"Beratung bei Schulden und Hilfen zur Insolvenzeröffnung"
+		},
+		"77": {
+			"name": "Familienberatungsstelle - Beratungsstelle Pegau",
+			"description":
+			"Familienberatung, Erziehungsberatung, Paarhilfen, Kurberatung"
+		},
+		"78": {
+			"name": "Familienberatungsstelle - Beratungsstelle Markranstädt",
+			"description":
+			"Familienberatung, Erziehungsberatung, Paarhilfen, Kurberatung"
+		},
+		"79": {
+			"name":
+			"Schwangeren- & Schwangerschaftskonfliktberatung - Beratungsstelle Pegau",
+			"description":
+			"Beratung & Begleitung bei Schwangerschaft, Geburt, Abbruch, Kurberatung"
+		},
+		"80": {
+			"name":
+			"Schwangeren- & Schwangerschaftskonfliktberatung - Beratungsstelle Markranstädt",
+			"description":
+			"Beratung & Begleitung bei Schwangerschaft, Geburt, Abbruch, Kurberatung"
+		},
+		"81": {
+			"name":
+			"Schwangeren- & Schwangerschaftskonfliktberatung - Beratungsstelle Geithain",
+			"description":
+			"Beratung & Begleitung bei Schwangerschaft, Geburt, Abbruch, Kurberatung"
+		},
+		"84": {
+			"name": "Sozialpsychatrischer Dienst",
+			"description":
+			"Der Sozialpsychiatrische Dienst begleitet Menschen, die von einer psychischen Erkrankung betroffen sind oder sich in einer seelischen Notlage befinden."
+		},
+		"85": {
+			"name": "Fachstelle für Sucht- und Suchtprävention",
+			"description":
+			"Die Fachstelle für Sucht und Suchtprävention steht Menschen zur Verfügung, die Probleme mit einer Suchterkrankung oder Suchtmittelmissbrauch (Alkohol, Drogen, Medikamente, Glücksspiel) haben."
+		},
+		"86": {
+			"name": "Ehe-, Paar-, Lebensberatung - Ev. Lebensberatungsstelle",
+			"description": "Ehe-, Paar-, Lebensberatung"
+		},
+		"87": {
+			"name":
+			"Erziehungs- und Familienberatung - Ev. Lebensberatungsstelle",
+			"description": "Erziehungs- und Familienberatung"
+		},
+		"88": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung - Ev. Lebensberatungsstelle",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"89": {
+			"name":
+			"Staatl. Anerkannte Beratungsstelle für Schwangerschaftsfragen im ebz München",
+			"description":
+			"Beratung rund um Sexualität, Familienplanung, (ungeplante) Schwangerschaft und erste Zeit mit Baby - kostenlos, neutral und vertraulich. Auf Wunsch mit Hilfe von Gebärden- oder Fremdsprachendolmetscherdienst"
+		},
+		"100": {
+			"name":
+			"Ehe-, Partnerschafts-, Familien- und Lebensberatung im ebz München",
+			"description": "Ehe-, Partnerschafts-, Familien- und Lebensberatung"
+		},
+		"107": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung Diakonie Paderborn-Höxter",
+			"description":
+			"Beratung vor, während und nach der Geburt bis zum 3. Lebensjahr, Schwangerschaftskonfliktberatung, Familienplanung und Sexualität"
+		},
+		"108": {
+			"name":
+			"Paar- und Lebensberatungsstelle - Ev.Beratungsstelle für Erziehungs-, Ehe- und Lebensfragen",
+			"description": "Integrierte Beratungsstelle"
+		},
+		"109": {
+			"name":
+			"Familien- und Erziehungsberatungsstelle- Ev. Beratungsstelle für Erziehungs-, Paar- und Lebensfragen",
+			"description": "Integrierte Beratungsstelle"
+		},
+		"110": {
+			"name": "Jugendberatung - Jugendberatungsstelle JUBS",
+			"description": "Jugendberatung"
+		},
+		"111": {
+			"name": "Familienberatung - Jugendberatungsstelle JUBS",
+			"description": "Erziehungs- und Familienberatung"
+		},
+		"112": {
+			"name":
+			"EVA - Evangelische Beratungsstelle für Schwangerschaft, Sexualität und Pränataldiagnostik",
+			"description":
+			"Beratungsstelle für alle Fragen rund um die Themen Schwangerschaft, Begleitung ab der Geburt, Verhütung, Sexualität und Pränataldiagnostik"
+		},
+		"114": {
+			"name": "Testberatungsstelle der Diakonie Deutschland",
+			"description":
+			"Dies ist keine echte Beratunsstelle! Wir bieten als Testberatungsstelle allgemeine Sozialberatung nur zum Testen des Systems an. "
+		},
+		"115": {
+			"name": "Diakonisches Testwerk Freiburg",
+			"description":
+			"Dies ist keine echte Beratungsstelle! Wir bieten als Testberatungsstelle nur zum Testen des Systems an. "
+		},
+		"116": {
+			"name":
+			"Schwangeren- und Familienberatung Diakonisches Testwerk Freiburg",
+			"description":
+			"Dies ist keine echte Beratungsstelle! Wir bieten als Testberatungsstelle nur zum Testen des Systems an. "
+		},
+		"117": {
+			"name":
+			"Schwangerschaftsberatung des Testwerks Breisgau-Hochschwarzwald, Kirchzarten",
+			"description":
+			"Dies ist keine echte Beratungsstelle! Wir bieten als Testberatungsstelle nur zum Testen des Systems an. "
+		},
+		"118": {
+			"name":
+			"Sozialberatung Test für Aus- und Übersiedler/ Migrationsberatung",
+			"description":
+			"Dies ist keine echte Beratungsstelle! Wir bieten als Testberatungsstelle nur zum Testen des Systems an. "
+		},
+		"119": {
+			"name": "Wanderwerk",
+			"description":
+			"Dies ist keine echte Beratungsstelle! Wir bieten als Testberatungsstelle nur zum Testen des Systems an. "
+		},
+		"120": {
+			"name": "Beratung Traumata Berlin",
+			"description":
+			"Dies ist keine echte Beratungsstelle! Wir bieten als Testberatungsstelle nur zum Testen des Systems an. "
+		},
+		"121": {
+			"name": "Familienhilfe Test e.V.",
+			"description":
+			"Dies ist keine echte Beratungsstelle! Wir bieten als Testberatungsstelle nur zum Testen des Systems an. "
+		},
+		"122": {
+			"name": "Beratung zur Altersvorsorge Karlshorst",
+			"description":
+			"Dies ist keine echte Beratungsstelle! Wir bieten als Testberatungsstelle nur zum Testen des Systems an. "
+		},
+		"123": {
+			"name": "Seniorenberatung Kreuzberg ",
+			"description":
+			"Dies ist keine echte Beratungsstelle! Wir bieten als Testberatungsstelle nur zum Testen des Systems an. "
+		},
+		"124": {
+			"name": "Suchtberatungs- und Behandlungsstelle come back e.V.",
+			"description":
+			"Suchtberatung / Behandlung bei: Alkoholproblemen Drogenprobleme Medikamentenmissbrauch oder – abhängigkeit problematischem (Glücks-) Spielverhalten Essstörungen Nikotinmissbrauch (Raucherentwöhnung)anderem süchtigen Verhalten Unsere Beratungsstelle steht allen Interessierten, Angehörigen oder selbst Betroffenen kostenlos zur Verfügung. Wir beraten unsere Klienten individuell auf Wunsch auch anonym, dabei unterliegen unsere Mitarbeiter der gesetzlichen Schweigepflicht."
+		},
+		"125": {
+			"name": "KASA - Diakonisches Werk Bamberg-Forchheim",
+			"description": "Kirchliche allgemeine Sozialarbeit"
+		},
+		"126": {
+			"name":
+			"Schuldner- und Insolvenzberatung - Diakonisches Werk Bamberg-Forchheim",
+			"description": "Schuldner- und Insolvenzberatung"
+		},
+		"127": {
+			"name": "Schwangeren- und Familienberatung Diakonie Kamenz",
+			"description":
+			"Beratung zu rechtlichen, sozialen, medizinischen und psychischen Fragen, Vermittlung finanzieller Hilfen Schwangerschaftskonfliktberatung nach 219 StGB, \n\nKurberatung"
+		},
+		"128": {
+			"name": "Suchtberatungsstelle Weißwasser/Niesky",
+			"description":
+			"Beratungsstelle für Suchtkranke- oder gefährdete und deren Angehörigen. "
+		},
+		"129": {
+			"name": "Beratungsstelle Arbeit - Diakonisches Werk",
+			"description":
+			"Erwerbslosenberatung, Beratung zum Thema Arbeit und Arbeitslosigkeit, Beratung in prekären Arbeitsverhältnissen und bei Arbeitsausbeutung"
+		},
+		"130": {
+			"name": "Flüchtlingsberatung - Diakonisches Werk",
+			"description":
+			"Flüchtlingsberatung für den Kreis Herford; Asylverfahrensberatung nur für Bewohner*innen in der ZUE Herford"
+		},
+		"131": {
+			"name": "Jugendmigrationsdienst - Diakonisches Werk",
+			"description":
+			"Beratung von jungen zugewanderten Menschen bis 27 Jahren"
+		},
+		"132": {
+			"name":
+			"Migrationsberatung für Erwachsene und Familien - Diakonisches Werk",
+			"description":
+			"Beratung von zugewanderten Menschen (über 27 Jahre alt) und ihren Familien; "
+		},
+		"133": {
+			"name": "Suchtberatung und -prävention - Diakonisches Werk",
+			"description":
+			"Beratung von suchtmittelkonsumierenden Personen und ihren Angehörigen; Jugendsuchtberatung; Beratung bei Alkoholkonsun, Drogenkonsum, Medienkonsum, Medikamentenkonsum und von glücksspielenden Personen"
+		},
+		"134": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung - Diakonisches Werk",
+			"description":
+			"Schwangerschaftskonfliktberatung, Schwangerenberatung, Sexualberatung & Sexualpädagogik, Verhütungsberatung, Beratung & Begleitung nach Geburt, Babyberatung, Elternberatung"
+		},
+		"135": {
+			"name": "Kurberatung für Mütter und Väter - Diakonisches Werk",
+			"description": "Kurberatung für Mütter und Väter"
+		},
+		"136": {
+			"name": "Psychosoziale Beratungsstelle Weilheim - Suchtberatung",
+			"description":
+			"Suchtberatung, Alkohol, Medikamente, illegale Drogen, Glücksspiel, Onlinesucht"
+		},
+		"137": {
+			"name": "Suchthilfezentrum der Diakonie in Nordhausen",
+			"description":
+			"Ambulante Suchtberatung, Einzel- und Gruppenberatung für Suchtkranke, Suchtgefährdete und Angehörige"
+		},
+		"138": {
+			"name": "Kirchliche Allgemeine Sozialarbeit ",
+			"description":
+			"Gemeinsam Wege finden. Sie befinden sich in einer schwierigen Lebenssituation und suchen nach Lösungen. Sie benötigen Unterstützung und möchten wissen, an wen Sie sich wenden können. Sie haben finanzielle Probleme, fühlen sich überlastet und möchten wissen, wie es weiter geht. Sie haben Sorgen in der Familie, mit den Kindern oder Angehörigen und suchen einen Gesprächspartner. Die KASA ist erste Anlaufstelle für Ihre Fragen, wenn Sie nicht wissen, wo Sie Unterstützung bekommen können."
+		},
+		"139": {
+			"name": "Kur- und Erholungshilfe",
+			"description":
+			"Die Abteilung Kur- und Erholungshilfe gehört zur Kirchlichen Allgemeinen Sozialarbeit des Diakonischen Werkes Coburg e.V. Wir vermitteln Erholungsmaßnahmen für Familien, die eine Auszeit von den täglichen Sorgen um das Geld, um gesundheitliche Probleme oder von den belasteten Beziehungen untereinander brauchen. Die Erholungsmaßnahme soll die Gesundheit stabilisieren, fördern und die Kraftreserven wieder auffüllen. Unser Angebot richtet sich an Eltern, alleinerziehende Mütter und Väter, Erziehungsberechtigte, Menschen mit Behinderung. Wir vermitteln Mütterkuren, Mutter-/Vater-Kind-Kuren, Kinderkuren sowie Familienerholungskuren. "
+		},
+		"140": {
+			"name": "TAFF - Angebot der Migrationsberatung für Erwachsene",
+			"description":
+			"TAFF in Coburg hat sich zum Ziel gesetzt, die Versorgung von psychisch erkrankten Flüchtlingen, Migrantinnen und Migranten zu verbessern. Abseits der großen Behandlungszentren in größeren Städten fördert TAFF die regional bestehenden Versorgungsstrukturen, ergänzt diese und arbeitet daran, kurze Wege zwischen den einzelnen Akteuren zu ermöglichen. TAFF kümmert sich um den gesamten Prozess von der Abklärung des Therapiebedarfs bis hin zur Vermittlung an geeignete Therapeuten oder sonstiger Angebote (Stabilisierung etc.). "
+		},
+		"141": {
+			"name": "Erziehungs- und Familienberatung ",
+			"description":
+			"Die Erziehungsberatung ist eine Leistung der Kinder- und Jugendhilfe. Sie ist kostenfrei und freiwillig. Es ist Aufgabe von Erziehungsberatungsstellen, die Entwicklung von Kindern und Jugendlichen in ihren Familien zu unterstützen und die Erziehungsfähigkeit von Eltern oder Elternteilen zu stärken. Auch die Bewältigung von Trennung und Scheidung, sind dabei hervorgehoben."
+		},
+		"142": {
+			"name": "Suchtberatung Coburg, Kronach und Lichtenfels",
+			"description":
+			"Wir sind Ansprechpartner für jede Person, die Schwierigkeiten hat im Umgang mit Alkohol, Medikamenten, Drogen, Essverhalten oder Glückspiel und nach Lösungen sucht. Zu uns kommen: Betroffene, Partner, Familienangehörige, Freunde, Arbeitskollegen und Arbeitgeber. "
+		},
+		"143": {
+			"name": "Sozialpsychiatrischer Dienst Altötting",
+			"description":
+			"Unser Angebot richtet sich an erwachsene Menschen mit psychischen Problemen, Erkrankungen oder in Lebenskrisen und deren Angehörige aus dem Landkreis Altötting."
+		},
+		"147": {
+			"name": "Suchthilfezentrum der Stadtmission Nürnberg e. V.",
+			"description":
+			"Beratungsstelle für Suchtmittelkonsumiertende (stoffgebunden / ungebunden) und Personen im sozialen Umfeld"
+		},
+		"148": {
+			"name":
+			"Staatl. anerk. Beratungsstelle für Schwangerschaftsfragen und Sexualberatung im Chr.-Kreller-Haus",
+			"description":
+			"Schwangerschaftsberatung / Konfliktberatung / Sexualberatung"
+		},
+		"149": {
+			"name": "Erziehungsberatung der Stadtmission Nürnberg",
+			"description": "Beratung für Eltern, Kinder und Jugendliche"
+		},
+		"150": {
+			"name": "Ehe-, Paar- und Lebensberatung der Stadtmission Nürnberg",
+			"description": "Beratung für Paare und einzelne Erwachsene"
+		},
+		"159": {
+			"name": "Sozialpsychiatrischer Dienst Coburg ",
+			"description":
+			"Anlaufstelle für psychiatrische und psychosoziale Anliegen und Krisen für Betroffene und deren Angehörige "
+		},
+		"160": {
+			"name":
+			"Beratung zur Familienerholung - Diakonie Familienberatung Freital",
+			"description": "integrierte Familienberatungsstelle"
+		},
+		"161": {
+			"name":
+			"Ehe-, Paar- und Lebensberatung - Diakonie Familienberatung Freital",
+			"description": "integrierte Familienberatungsstelle"
+		},
+		"162": {
+			"name": "Erziehungs- und Familienberatung der Diakonie in Freital",
+			"description": "integrierte Familienberatungsstelle"
+		},
+		"163": {
+			"name":
+			"Kurberatung für Mütter/Väter -Diakonie Familienberatung Freital",
+			"description": "integrierte Familienberatungsstelle"
+		},
+		"164": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung der Diakonie in Freital",
+			"description": "integrierte Familienberatungsstelle"
+		},
+		"165": {
+			"name":
+			"Beratung zur Familienerholung - Diakonie Familienberatung Dippoldiswalde",
+			"description": "integrierte Familienberatungsstelle"
+		},
+		"166": {
+			"name":
+			"Ehe-, Paar- und Lebensberatung - Diakonie Familienberatung Dippoldiswalde",
+			"description": "integrierte Familienberatungsstelle"
+		},
+		"167": {
+			"name":
+			"Erziehungs- und Familienberatung der Diakonie in Dippoldiswalde",
+			"description": "integrierte Familienberatungsstelle"
+		},
+		"168": {
+			"name":
+			"Kurberatung für Mütter/Väter -Diakonie Familienberatung Dippoldiswalde",
+			"description": "integrierte Familienberatungsstelle"
+		},
+		"169": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung der Diakonie in Dippoldiswalde",
+			"description": "integrierte Familienberatungsstelle"
+		},
+		"172": {
+			"name": "Sozialpsychiatrische Dienste Neuhausen-Nymphenburg",
+			"description":
+			"Beratung und Begleitung für Menschen und deren Angehörigen in psychisch belastenden Situationen "
+		},
+		"173": {
+			"name": "Sozialpsychiatrische Dienste Bogenhausen",
+			"description":
+			"Beratung und Begleitung für Menschen und deren Angehörigen in psychisch belastenden Situationen "
+		},
+		"174": {
+			"name": "Sozialpsychiatrische Dienste Ebersberg",
+			"description":
+			"Beratung und Begleitung für Menschen und deren Angehörigen in psychisch belastenden Situationen "
+		},
+		"175": {
+			"name": "Fachambulanz für Suchterkrankungen PSB",
+			"description":
+			"Die Fachambulanz für Suchterkrankungen ist offen für alle Menschen, die das Thema Sucht in irgendeiner Form begleitet. Gemeinsam mit Ihnen besprechen wir Ihre momentane Situation und erarbeiten das weitere Vorgehen. Je nach Ausgangslage und Art der Sucht werden adäquate Behandlungen dargestellt und ggf. findet eine Weitervermittlung an die entsprechende Stelle statt."
+		},
+		"176": {
+			"name": "Kontakt und Begegnungsstätte Innkontakt ",
+			"description":
+			"Vorrangiges Ziel der Kontakt- und Begegnungsstätte ist es, zur Verbesserung der Lebensbedingungen psychisch- und sucht kranker Menschen und zu ihrer Integration in die Gesellschaft und die Gemeinschaft beizutragen."
+		},
+		"177": {
+			"name": "Schuldner- und Insolvenzberatung Ebersberg",
+			"description":
+			"Die Fachberatungsstelle soll dazu beitragen, die Existenz der Ratsuchenden sicher zu stellen, die Handlungsautonomie der Ratsuchenden über ihre Finanzen wiederherzustellen, erneute Überschuldung vorzubeugen und die Ausbreitung von Armut zu begrenzen."
+		},
+		"178": {
+			"name": "Schuldner- und Insolvenzberatung Rosenheim",
+			"description":
+			"Die Fachberatungsstelle soll dazu beitragen, die Existenz der Ratsuchenden sicher zu stellen, die Handlungsautonomie der Ratsuchenden über ihre Finanzen wiederherzustellen, erneute Überschuldung vorzubeugen und die Ausbreitung von Armut zu begrenzen."
+		},
+		"179": {
+			"name": "Kirchliche allgemeine Sozialarbeit KASA",
+			"description":
+			"Die KASA versteht sich als niedrigschwelliges Beratungsangebot der evangelischen Landeskirche, um Menschen in schwierigen Lebenssituationen eine Anlaufstelle zu bieten, Notlagen zu erkennen und an ihrer Bewältigung mitzuwirken."
+		},
+		"180": {
+			"name":
+			"Erziehungs-, Ehe-, Familien- und Lebensberatung im Saale-Orla-Kreis",
+			"description":
+			"Die Erziehungs-, Ehe-, Familien- und Lebensberatung des Diakonieverein Orlatal e.V. unterstützt Sie in Fragen zur Erziehung, bei Auffälligkeiten in der Entwicklung von Kindern und Jugendlichen, bei Konflikten in der Familie, bei Problemen in der Partnerschaft und bei Trennung oder Scheidung."
+		},
+		"181": {
+			"name":
+			"Paar- und Lebensberatung der Familienberatungsstelle im Saale-Orla-Kreis",
+			"description":
+			"Die Erziehungs-, Ehe-, Familien- und Lebensberatung des Diakonieverein Orlatal e.V. unterstützt Sie in Fragen zur Beziehung und Partnerschaft, sowie in Krisen oder herausfordernden Lebenssituationen."
+		},
+		"182": {
+			"name":
+			"Beratung bei häuslicher und sexualisierter Gewalt der Familienberatungsstelle im Saale-Orla-Kreis",
+			"description":
+			"Die Erziehungs-, Ehe-, Familien- und Lebensberatung des Diakonieverein Orlatal e.V. unterstützt Sie, wenn Ihre oder Ihnen nahestehende Kinder von Gewalt betroffen sind oder wenn Sie unsicher sind, ob ein Kind in Sicherheit ist. Kinder und Jugendliche können sich auch ohne Wissen der Eltern an uns wenden. "
+		},
+		"183": {
+			"name":
+			"Beratung für Kinder und Jugendliche der Familienberatungsstelle im Saale-Orla-Kreis",
+			"description":
+			"Die Erziehungs-, Ehe-, Familien- und Lebensberatung des Diakonieverein Orlatal e.V. unterstützt dich, wenn du Sorgen oder Ängste hast, du dich niedergeschlagen fühlst, wenn es Streit in deiner Familie gibt oder dir manchmal alles zu viel wird. Du kannst dich auch ohne Wissen deiner Eltern an uns wenden."
+		},
+		"184": {
+			"name":
+			"Allgemeine Sozial- und Lebensberatung der Kirchenkreissozialarbeit Saale-Orla-Kreis",
+			"description":
+			"Im Rahmen der Allgemeinen Sozial- und Lebensberatung bieten wir Ihnen Unterstützung, wenn Sie mit sich selbst oder im Umgang mit anderen Menschen oder mit Behörden Schwierigkeiten haben. "
+		},
+		"185": {
+			"name": "Kurberatung der Kirchenkreissozialarbeit Saale-Orla-Kreis",
+			"description":
+			"Im Rahmen der Kurberatung informieren wir Sie über Möglichkeiten von Mutter/Vater-Kind-Kuren, Mütter-/Väter-Kuren oder Kuren für pflegende Angehörige und unterstützen Sie bei der Antragsstellung."
+		},
+		"186": {
+			"name":
+			"Beratung zu Fragen der Familienerholung der Kirchenkreissozialarbeit Saale-Orla-Kreis",
+			"description":
+			"In der Beratung informieren wir Sie über Möglichkeiten, als Familie in besonderen Lebenslagen Urlaub zu machen und unterstützen Sie bei der Antragsstellung."
+		},
+		"187": {
+			"name": "FamilienRaum - Beratung für Eltern, Jugendliche und Kinder",
+			"description": "Familien- und Erziehungsberatungsstelle Essen-Borbeck"
+		},
+		"188": {
+			"name": "Erziehungs- und Familienberatungsstelle Lübbenau ",
+			"description": "Ehe-,Paar- und Lebensberatung - EFB Lübbenau"
+		},
+		"189": {
+			"name": "Erziehungs- und Familienberatungsstelle Lübbenau ",
+			"description": "Erziehungs- und Familienberatung - EFB Lübbenau"
+		},
+		"190": {
+			"name": "Erziehungs- und Familienberatungsstelle Lübbenau ",
+			"description": "Kinder- und Jugendberatung - EFB Lübbenau"
+		},
+		"198": {
+			"name": "Eltern- und Jugendberatung",
+			"description":
+			"Erziehungsberatungsstelle, Beratung von Eltern, Jugendlichen, Kindern und Fachkräften"
+		},
+		"199": {
+			"name":
+			"Schuldner- und Insolvenzberatung für den Landkreis Weißenburg-Gunzenhausen",
+			"description":
+			"Schuldner- und Insolvenzberatung, Haushaltsberatung, P-Konto Bescheinigung, Pfändungsschutz, Existenzsicherung, außergerichtlichen Regulierung, Begeleitung im gerichtlichen Insolvenzverfahren "
+		},
+		"200": {
+			"name": "Schuldner- und Insolvenzberatung für den Landkreis Ansbach",
+			"description":
+			"Schuldner- und Insolvenzberatung, Haushaltsberatung, P-Konto Bescheinigung, Pfändungsschutz, Existenzsicherung, außergerichtlichen Regulierung, Begeleitung im gerichtlichen Insolvenzverfahren "
+		},
+		"201": {
+			"name":
+			"Sozialpsychiatrischer Dienst & Gerontopsychiatrischer Dienst (Beratung für seelische Gesundheit)",
+			"description":
+			"Beratungsstelle für Menschen, die von psychischer Erkrankung bedroht oder betroffen sind, Menschen in einer Lebenskrise, sowie die jeweiligen Angehörigen"
+		},
+		"202": {
+			"name": "Kirchliche Allgemeine Sozialarbeit/Sozialberatung",
+			"description":
+			"Sozialberatung im Bereich der Existenzsicherung z.B. bei finanziellen und wirtschaftlichen Problemen,z.B. in sozialen Notsituationen"
+		},
+		"203": {
+			"name": "Suchtberatung Weißenburg-Gunzenhausen",
+			"description":
+			"Wir beraten Betroffene, Angehörige und Fachkräfte rund um die Themen Sucht, Suchtgefährdung und Konsum. Unsere Beratung ist kostenfrei, vertraulich und freiwillig."
+		},
+		"204": {
+			"name": "Kinder- und Jugendschutzzentrum Baumhaus",
+			"description":
+			"Das Kinder- und Jugendschutzzentrum Baumhaus ist eine Beratungs- und Präventionsstelle für den Ilm-Kreis und wendet sich speziell an Kinder und Jugendliche, die von Gewalt betroffen sind bzw. bei Problemen in Familie oder Schule einen Ansprechpartner suchen."
+		},
+		"205": {
+			"name": "Schwangerschaftsberatungsstelle ",
+			"description":
+			"Beratung zu allen Fragen rund um Schwangerschaft und Geburt sowie zu Sexualität und Familienplanung"
+		},
+		"206": {
+			"name": "PSBS Ilm-Kreis Suchtberatung Arnstadt",
+			"description":
+			"Psychosoziale Beratungs- und Behandlungsstelle für Suchtgefährdete, Suchtkranke und deren Angehörige in Arnstadt"
+		},
+		"207": {
+			"name": "PSBS Ilm-Kreis Suchtberatung Ilmenau",
+			"description":
+			"Psychosoziale Beratungs- und Behandlungsstelle für Suchtgefährdete, Suchtkranke und deren Angehörige in Ilmenau"
+		},
+		"208": {
+			"name":
+			"Allgemeine Sozial- und Lebensberatung - Kreisdiakoniestelle Arnstadt",
+			"description":
+			"Hilfe wenn Sie mit sich selbst oder in Ihrer Beziehung zu anderen Menschen oder mit Behörden und Ämtern nicht zurechtkommen, wenn Sie sich alleingelassen fühlen oder sich in einer finanziellen Notlage befinden"
+		},
+		"209": {
+			"name": "Kurberatung der Kreisdiakoniestelle Arnstadt",
+			"description":
+			"Beratung und Vermittlung von Mutter-/Vater-Kind-Kuren sowie Kuren für pflegende Angehörige"
+		},
+		"210": {
+			"name":
+			"Allgemeine Sozial- und Lebensberatung - Kreisdiakoniestelle Ilmenau",
+			"description":
+			"Hilfe wenn Sie mit sich selbst oder in Ihrer Beziehung zu anderen Menschen oder mit Behörden und Ämtern nicht zurechtkommen, wenn Sie sich alleingelassen fühlen oder sich in einer finanziellen Notlage befinden"
+		},
+		"211": {
+			"name": "Kurberatung der Kreisdiakoniestelle Ilmenau",
+			"description":
+			"Beratung und Vermittlung von Mutter-/Vater-Kind-Kuren sowie Kuren für pflegende Angehörige"
+		},
+		"212": {
+			"name": "Suchtberatungs- und Behandlungsstelle Dresden",
+			"description": "Suchtberatungs- und Behandlungsstelle"
+		},
+		"213": {
+			"name": "Suchtberatungs- und Behandlungsstelle Dresden-Mitte",
+			"description": "Suchtberatungs- und Behandlungsstelle"
+		},
+		"214": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung - Evangelische Beratungsstelle Dresden",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"215": {
+			"name":
+			"Ehe-, Paar- und Lebensberatung - Evangelische Beratungsstelle Dresden",
+			"description": "Ehe-, Paar- und Lebensberatung"
+		},
+		"216": {
+			"name":
+			"Erziehungs- und Familienberatung - Evangelische Beratungsstelle Dresden",
+			"description": "Erziehungs- und Familienberatung"
+		},
+		"217": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung - Evangelische Beratungsstelle Radebeul",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"218": {
+			"name":
+			"Ehe-, Paar- und Lebensberatung - Evangelische Beratungsstelle Radebeul",
+			"description": "Ehe-, Paar- und Lebensberatung"
+		},
+		"219": {
+			"name": "AIDS-Beratung Mittelfranken",
+			"description":
+			"Beratung, Prävention und Begleitung für von HIV betroffene Menschen"
+		},
+		"220": {
+			"name":
+			"Allgemeine Sozialberatung Passau - Diakonisches Werk Passau e.V.",
+			"description":
+			"Beratung, Information und Unterstützung in persönlichen, finanziellen und familiären Krisen"
+		},
+		"221": {
+			"name":
+			"Allgemeine Sozialberatung Rottal-Inn - Diakonisches Werk Passau e.V.",
+			"description":
+			"Beratung, Information und Unterstützung in persönlichen, finanziellen und familiären Krisen"
+		},
+		"222": {
+			"name": "Frauen beraten e.V. München Sendling",
+			"description":
+			"staatl. anerk. Beratungsstelle für Schwangerschaftsfragen"
+		},
+		"223": {
+			"name": "Frauen beraten e.V. München Neuperlach",
+			"description":
+			"staatl. anerk. Beratungsstelle für Schwangerschaftsfragen"
+		},
+		"229": {
+			"name":
+			"Familien- und Erziehungsberatung, Beratungs- und BildungsCentrum, Diakonie Münster",
+			"description":
+			"Beratung von Eltern, Kindern und Jugendlichen, Einzelpersonen, Paaren und Familien in Trennunngs- und Scheidungssituationen, bei partnerschaftlichen, erzieherischen, familiären und anderen alltagspraktischen Fragestellungen"
+		},
+		"230": {
+			"name":
+			"Ehe-, Paar-, Lebensberatung, Beratungs- und BildungsCentrum, Diakonie Münster",
+			"description":
+			"Beratung von Einzelpersonen, Paaren und Familiensystemen zu Fragen des Zusammenlebens, emotionalen Belastungssituationen, Paarkonflikten oder berufsbedingten Problematiken "
+		},
+		"231": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung, Beratungs- und BildungsCentrum, Diakonie Münster",
+			"description":
+			"Beratung von Einzelpersonen, Paaren und Familiensystemen zu Schwangerschaft, Geburt, Familienplanung, Zusammenleben, Kinderwunsch, Verhütung und Sexualität; Unterstützung in alltagspraktischen, rechtlichen und wirtschaftlichen Fragestellungen"
+		},
+		"232": {
+			"name": "Psychosoziale Kontakt- und Beratungsstelle",
+			"description":
+			"Beratung für Menschen mit psychischer Erkrankung oder Angehörigen, die in einer Krisensituation Beratung und Begleitung suchen."
+		},
+		"233": {
+			"name": "Beratungsstelle Demenz",
+			"description":
+			"Beratung für Menschen mit (beginnender) Demenz und ihre Angehörigen, die sich über regionale Unterstützungsangebote informieren möchten und in einer Krisensituation Beratung und Begleitung wünschen."
+		},
+		"234": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatungsstelle - Diakonie Freiberg",
+			"description":
+			"Beratung von Schwangeren zu allen Themen - soziale, psychologische und Paarberatung; Vermittlung von Geldern, Hilfe bei Antragsstellung"
+		},
+		"235": {
+			"name":
+			"Ehe-, Familien- und Lebensberatungsstelle - Diakonie Freiberg",
+			"description":
+			"Beratung Einzelner und von Paaren in Lebenskrisen und bei Veränderungswunsch"
+		},
+		"236": {
+			"name": "Familien- und Erziehugsberatungsstelle - Diakonie Freiberg",
+			"description":
+			"Erziehungsberatung, Beratung bei Konflikten, Krisen und Belastungen in der Familie, bei Trennung und Scheidung, bei Entwicklungsbesonderheiten und Verhaltensauffälligkeiten von Kindern"
+		},
+		"237": {
+			"name":
+			"Familien- und Erziehugsberatungsstelle - Kinder- und Jugendberatung - Diakonie Freiberg",
+			"description":
+			"Beratung für Kinder und Jugendliche bei persönlichen Krisen und Belastungen, Konflikten in der Familie, Entwicklungsbesonderheiten und Verhaltensauffälligkeiten"
+		},
+		"238": {
+			"name": "Flüchtlingsberatung",
+			"description":
+			"Hilfen für Menschen mit Duldung, Aufenthaltsgestattung und ohne Papiere"
+		},
+		"239": {
+			"name": "Migrationsberatung für erwachsene Zugewanderte",
+			"description":
+			"Hilfen für Für Migrant:innen, EU-Bürger:innen, Spätaussiedler:innen und anerkannte Geflüchtete über 27 Jahren"
+		},
+		"240": {
+			"name": "Allgemeine Sozialberatung ",
+			"description": "Die Sozialberatung ist offen für alle Fragen. "
+		},
+		"241": {
+			"name": "Rechtliche Betreuung",
+			"description": "Beratung zur rechtlichen Betreuung"
+		},
+		"242": {
+			"name": "Vorsorgevollmacht und Patientenverfügung",
+			"description": "Beratung zur Vorsorgevollmacht und Patientenverfügung"
+		},
+		"243": {
+			"name": "Ungeplante Schwangerschaft",
+			"description":
+			"Konfliktberatung innerhalb 24 Stunden nach § 219 StGB mit Beratungsschein"
+		},
+		"244": {
+			"name": "Schwangerschaft und Geburt",
+			"description":
+			"Finanzielle Hilfen in der Schwangerschaft (Bundesstiftung / Notfallfonds);\nRechtliche, finanzielle und psychosoziale Beratung;\nElterngeld und Elternzeitberatung;\nHilfe bei Anträgen; \nVorgeburtliche Diagnostik;\n"
+		},
+		"245": {
+			"name": "Die erste Zeit nach der Geburt",
+			"description":
+			"Unterstützung bei aller Art von Problemen;\nHilfe für Alleinerziehende; \nHilfe bei Kinderzuschlag, Unterhaltsvorschuss, Kinderbetreuung;\nSchreibaby;\nDurchschlafprobleme;\nRegulationsstörungen;"
+		},
+		"246": {
+			"name": "Die erste Zeit nach der Geburt",
+			"description":
+			"Unterstützung bei aller Art von Problemen;\nHilfe für Alleinerziehende; \nHilfe bei Kinderzuschlag, Unterhaltsvorschuss, Kinderbetreuung;\nSchreibaby;\nDurchschlafprobleme;\nRegulationsstörungen;"
+		},
+		"247": {
+			"name": "Die erste Zeit nach der Geburt",
+			"description":
+			"Unterstützung bei aller Art von Problemen;\nHilfe für Alleinerziehende; \nHilfe bei Kinderzuschlag, Unterhaltsvorschuss, Kinderbetreuung;\nSchreibaby;\nDurchschlafprobleme;\nRegulationsstörungen;"
+		},
+		"248": {
+			"name": "Verhütung",
+			"description": "Beratung und Geld für Verhütung"
+		},
+		"249": {
+			"name": "Vertrauliche Geburt",
+			"description": "anonym und medizinisch sicher entbinden "
+		},
+		"250": {
+			"name": "Kinderwunsch",
+			"description": "Beratung, Begleitung und Hilfe bei Antragsstellung"
+		},
+		"251": {
+			"name": "Psychische Beeinträchtigung",
+			"description":
+			"Hilfen für Menschen mit psychischen Beeinträchtigungen"
+		},
+		"252": {
+			"name": "Psychische Beeinträchtigung",
+			"description":
+			"Hilfen für Menschen mit psychischen Beeinträchtigungen"
+		},
+		"253": {
+			"name": "Psychische Beeinträchtigung",
+			"description":
+			"Hilfen für Menschen mit psychischen Beeinträchtigungen"
+		},
+		"254": {
+			"name": "Hilfe im Alter",
+			"description":
+			"Hilfe für psychisch kranke Senioren ab 65 Jahren und Angehörige "
+		},
+		"255": {
+			"name": "Hilfe im Alter",
+			"description":
+			"Hilfe für psychisch kranke Senioren ab 65 Jahren und Angehörige "
+		},
+		"256": {
+			"name":
+			"Hilfen zur Erziehung, Kinder psychisch und suchtkranker Eltern",
+			"description":
+			"Hilfe für Kinder psychisch kranker Eltern und Hilfen zur Erziehung"
+		},
+		"257": {
+			"name":
+			"Hilfen zur Erziehung, Kinder psychisch und suchtkranker Eltern",
+			"description":
+			"Hilfe für Kinder psychisch kranker Eltern und Hilfen zur Erziehung"
+		},
+		"258": {
+			"name": "Ambulant aufsuchender Dienst",
+			"description":
+			"Hilfe für psychischkranke Menschen bis 65 Jahren in Krisensituationen"
+		},
+		"259": {
+			"name": "Ambulant aufsuchender Dienst",
+			"description":
+			"Hilfe für psychischkranke Menschen bis 65 Jahren in Krisensituationen"
+		},
+		"260": {
+			"name": "Ambulant aufsuchender Dienst über 65 Jahre ",
+			"description":
+			"Hilfe für psychischkranke Menschen ab 65 Jahren in Krisensituationen"
+		},
+		"261": {
+			"name": "Ambulant aufsuchender Dienst über 65 Jahre ",
+			"description":
+			"Hilfe für psychischkranke Menschen ab 65 Jahren in Krisensituationen"
+		},
+		"262": {
+			"name": "Ambulant aufsuchender Dienst über 65 Jahre ",
+			"description":
+			"Hilfe für psychischkranke Menschen ab 65 Jahren in Krisensituationen"
+		},
+		"263": {
+			"name": "Assistenzleistungen zur sozialen Teilhabe",
+			"description":
+			"Hilfe für psychischkranke Menschen zum selbständigen Leben und zur Teilhabe am Leben in der Gesellschaft"
+		},
+		"264": {
+			"name": "Assistenzleistungen zur sozialen Teilhabe",
+			"description":
+			"Hilfe für psychischkranke Menschen zum selbständigen Leben und zur Teilhabe am Leben in der Gesellschaft"
+		},
+		"265": {
+			"name": "Tagesstrukturierende Hilfen",
+			"description": "Dein Tag - bekommt Struktur und gestaltet sich schön"
+		},
+		"266": {
+			"name": "Tagesstrukturierende Hilfen",
+			"description": "Dein Tag - bekommt Struktur und gestaltet sich schön"
+		},
+		"267": {
+			"name": "Psychosoziale Kontakt- und Beratungsstelle",
+			"description": "Nicht mehr allein - hier treffe ich mich mit anderen"
+		},
+		"268": {
+			"name": "Psychosoziale Kontakt- und Beratungsstelle",
+			"description": "Nicht mehr allein - hier treffe ich mich mit anderen"
+		},
+		"269": {
+			"name": "Suchthilfe",
+			"description": "Hilfen bei Suchtmittelkonsum "
+		},
+		"270": {
+			"name":
+			"Familienberatungsstelle Rochlitz des Diakonischen Werkes Rochlitz e.V.",
+			"description": "Familienberatungsstelle Rochlitz"
+		},
+		"271": {
+			"name":
+			"Familienberatungsstelle Mittweida des Diakonischen Werkes Rochlitz e.V.",
+			"description": "Familienberatungsstelle Mittweida"
+		},
+		"272": {
+			"name":
+			"Familienberatungsstelle Burgstädt des Diakonischen Werkes Rochlitz e.V.",
+			"description": "Familienberatungsstelle Burgstädt"
+		},
+		"273": {
+			"name":
+			"Familienberatungsstelle Frankenberg des Diakonischen Werkes Rochlitz e.V.",
+			"description": "Familienberatungsstelle Frankenberg"
+		},
+		"274": {
+			"name": "Behindertenberatung des Diakonischen Werkes Rochlitz e.V.",
+			"description": "Behindertenberatung"
+		},
+		"275": {
+			"name":
+			"Schuldner- und Verbraucheninsolventberatung Rochlitz des Diakonischen Werkes Rochlitz e.V.",
+			"description": "Schuldnerberatung Rochlitz"
+		},
+		"276": {
+			"name":
+			"Schuldner- und Verbraucheninsolventberatung Burgstädt des Diakonischen Werkes Rochlitz e.V.",
+			"description": "Schuldnerberatung Burgstädt"
+		},
+		"278": {
+			"name": "Suchthilfe Blaues Kreuz Ansbach UG",
+			"description":
+			"Angebote zur Suchtberatung, Suchtprävention & ambulante Hilfen"
+		},
+		"279": {
+			"name": "Betreuungsverein",
+			"description":
+			"Beratung ehrenamtlicher Betreuer und Vorsorgebevollmächtigter"
+		},
+		"280": {
+			"name": "Beratungszentrum Magdeburg - Suchtberatung ",
+			"description":
+			"Beratung Betroffener und Angehöriger\n\nVermittlung in weiterführende Einrichtungen \n\nNachsorge\n\nGruppenangebote und Selbsthilfegruppen"
+		},
+		"281": {
+			"name":
+			"Beratungszentrum Magdeburg - Beratung bei pathologischem Glücksspiel ",
+			"description":
+			"Einzelgespräche/ Gruppengespräche für Betroffene und Angehörige \n\nPräventionsarbeit\n\nUnterstützung bei \"Selbstsperrung\"\n\n"
+		},
+		"282": {
+			"name":
+			"Beratungszentrum Magdeburg - Schwangerschaftsberatung, -konfliktberatung, Sexualberatung",
+			"description":
+			"Beratung zu sozialrechtlichen Fragen, Elternzeitgestaltung, finanzieller Unterstützung (z.B. Stiftungsantrag), bei persönlichen Krisen in der Schwangerschaft/ ungewollter Kinderlosigkeit, zu vorgeburtlichen Untersuchungen Beratung zu Vertraulicher Geburt\n\nSchwangerschaftskonfliktberatung mit Ausstellung der Beratungsbescheinigung nach §219 StGB"
+		},
+		"283": {
+			"name":
+			"Beratungszentrum Magdeburg - Familien- und Erziehungsberatung ",
+			"description":
+			"Beratung bei schwierigen Situationen in Familien, Entwicklungs- und Verhaltensauffälligkeiten, Trennung oder Scheidung, Umgangsfragen (Kind), Veränderungen in der Familie, Unterstützung des eigenen Erziehungsstils, Verarbeitung eines Verlustes \n\nBeratung für Kinder und Jugendliche, die “Stress” mit den Eltern oder in der Schule haben \n\nUnterstützung ihres Selbstwertgefühls und bei der Findung der eigenen Identität"
+		},
+		"284": {
+			"name": "Beratungszentrum Magdeburg - Paar- und Lebensberatung",
+			"description":
+			"Beratung bei unerfülltem Kinderwunsch, Konflikten in der Partnerschaft, Sexualität, Trennungsfragen, Verlusterlebnissen Unterstützung in schweren und sich verändernden Lebenssituatutionen Umgang mit körperlichen und/ oder psychischen Erkrankungen\n\n"
+		},
+		"285": {
+			"name":
+			"Beratungszentrum Magdeburg - Mobiles Team psychol. Betreuung von Frauen u. Kindern in Frauenhäusern",
+			"description":
+			"Psychologische Beratung von Frauen und Kindern sowie Jugendlichen nach Gewalterfahrung - ausschließlich für Bewohner*innen in den Frauenhäusern in Sachsen-Anhalt"
+		},
+		"286": {
+			"name": "Beratungsstelle Lurup222",
+			"description":
+			"Wir beraten und begleiten Sie, wenn Sie sich in einer Krisensituation befinden oder psychisch erkrankt sind. Unser Angebot richtet sich an Einzelpersonen, Paare und Angehörige."
+		},
+		"287": {
+			"name": "Beratungsstelle für Wohnungslose",
+			"description":
+			"Beratung und Unterstützung zum Thema Wohnen und Existenzsicherung"
+		},
+		"288": {
+			"name": "Elternschule Altona",
+			"description":
+			"Angebot der Familienförderung für Schwangere und Familien mit Kindern von 0-6 Jahren; Beratung für Paare und Familien "
+		},
+		"289": {
+			"name": "Elternschule Osdorf/Evangelische Familienbildung",
+			"description":
+			"Die Elternschule unterstützt und begleitet Schwangere, Mütter und (werdende) Väter. Familien werden beraten zu Themen wie Erziehung, Entwicklung, Gesundheit des Kindes, stressfreie Zeiten miteinander sowie zu Behördenangelegenheiten."
+		},
+		"290": {
+			"name":
+			"Evangelische Beratungsstelle für Familien – Ehe-, Paar- und Lebensberatung ",
+			"description":
+			"Evangelische Beratungsstelle für Familien – Ehe-, Paar- und Lebensberatung "
+		},
+		"291": {
+			"name":
+			"Evangelische Beratungsstelle für Familien – Erziehungsberatung ",
+			"description":
+			"Erziehungsberatung; TuSch-Gruppe (Gruppe für Kinder in Trennungs- und Scheidungssituationen); therap. Begleitung von Kindern"
+		},
+		"292": {
+			"name":
+			"Ev. Beratungsstelle für Familien - Fachberatung bei Verdacht auf sex. Gewalt an Kindern und Jugendl.",
+			"description":
+			"Beratung bei Verdacht auf sexualisierte Gewalt gegen Kinder oder Jugendliche; Beratung der betroffenen Familiensysteme; Kindertherapie; Beratung von Einrichtungen und Institutionen"
+		},
+		"293": {
+			"name": "Evangelische Beratungsstelle für Familien – Männersache",
+			"description":
+			"Beratung für Männer, die körperlich, sexualisiert oder strukturell grenzverletzend oder gewalttätig sind (häusliche und Erziehungsgewalt; Vergewaltigung; Kindesmissbrauch; Kinderpornographie; Stalking; ...)\nBeratung ist in der Regel honorarpflichtig"
+		},
+		"294": {
+			"name": "Evangelische Familienbildung Blankenese",
+			"description":
+			"Die Evangelische Familienbildung Blankenese unterstützt Schwangere und (werdende) Eltern in ihrem Alltag. Der Schwerpunkt der Beratung liegt auf den ersten 3 Lebenjahren: Eltern sein, Schlafen und Tragen, Essen und Entwicklung, Autonomie und Geschwister sowie Übergang in die Krippe/Kita"
+		},
+		"295": {
+			"name":
+			"Flüchtlings- und Migrationsarbeit Diakonie Norderstedt / Interpunkt - Migrationsberatung für Bf. 19",
+			"description":
+			"Die Migrationsberatung unterstützt bei\nFragen zum Asylantrag (z. B. bei Geburt eines Kindes)\nder Familienzusammenführung\nFragen zum Aufenthalt (Arbeitserlaubnis, Niederlassung, Einbürgerung)\nder Ausbildungsduldung\nLeistungen vom Jobcenter\nund anderen Fragen zu Aufenthalt, Sozialleistungen, etc."
+		},
+		"296": {
+			"name":
+			"Flüchtlings- und Migrationsarbeit Diakonie Norderstedt / Interpunkt - Verfahrensberatung für Bf. 11",
+			"description":
+			"Die Migrationsberatung unterstützt bei\nFragen zum Asylantrag (z. B. bei Geburt eines Kindes)\nder Familienzusammenführung\nFragen zum Aufenthalt (Arbeitserlaubnis, Niederlassung, Einbürgerung)\nder Ausbildungsduldung\nLeistungen vom Jobcenter\nund anderen Fragen zu Aufenthalt, Sozialleistungen, etc."
+		},
+		"297": {
+			"name":
+			"Flüchtlings- und Migrationsarbeit Diakonie Norderstedt / Ochsenzoller Straße - Migrationsb. Bf. 19",
+			"description":
+			"Die Migrationsberatung unterstützt bei\nFragen zum Asylantrag (z. B. bei Geburt eines Kindes)\nder Familienzusammenführung\nFragen zum Aufenthalt (Arbeitserlaubnis, Niederlassung, Einbürgerung)\nder Ausbildungsduldung\nLeistungen vom Jobcenter\nund anderen Fragen zu Aufenthalt, Sozialleistungen, etc."
+		},
+		"298": {
+			"name":
+			"Flüchtlings- und Migrationsarbeit Diakonie Norderstedt / Ochsenzoller Str. - Verfahrensber. Bf. 11",
+			"description":
+			"Die Migrationsberatung unterstützt bei\nFragen zum Asylantrag (z. B. bei Geburt eines Kindes)\nder Familienzusammenführung\nFragen zum Aufenthalt (Arbeitserlaubnis, Niederlassung, Einbürgerung)\nder Ausbildungsduldung\nLeistungen vom Jobcenter\nund anderen Fragen zu Aufenthalt, Sozialleistungen, etc."
+		},
+		"299": {
+			"name":
+			"Flüchtlings- und Migrationsarbeit Diakonie Norderstedt / Quickborn - Migrationsberatung für Bf. 19",
+			"description":
+			"Die Migrationsberatung unterstützt bei\nFragen zum Asylantrag (z. B. bei Geburt eines Kindes)\nder Familienzusammenführung\nFragen zum Aufenthalt (Arbeitserlaubnis, Niederlassung, Einbürgerung)\nder Ausbildungsduldung\nLeistungen vom Jobcenter\nund anderen Fragen zu Aufenthalt, Sozialleistungen, etc."
+		},
+		"300": {
+			"name":
+			"Flüchtlings- und Migrationsarbeit Diakonie Norderstedt / Quickborn - Verfahrensberatung für Bf. 11",
+			"description":
+			"Die Migrationsberatung unterstützt bei\nFragen zum Asylantrag (z. B. bei Geburt eines Kindes)\nder Familienzusammenführung\nFragen zum Aufenthalt (Arbeitserlaubnis, Niederlassung, Einbürgerung)\nder Ausbildungsduldung\nLeistungen vom Jobcenter\nund anderen Fragen zu Aufenthalt, Sozialleistungen, etc."
+		},
+		"301": {
+			"name": "Stadtteildiakonie Bahrenfeld",
+			"description":
+			"Die Stadtteildiakonie Bahrenfeld bietet allgemeine Sozialberatung an. Sie unterstützt unter anderem bei Kontakten zu Behörden wie dem Jobcenter oder der Agentur für Arbeit, berät zu Sozialleistungen, hilft bei der Suche nach einem Arbeits-, Ausbildungsplatz oder Sprachkurs und vermittelt in die passenden Beratungstellen zu weiterführenden Themen. "
+		},
+		"302": {
+			"name": "Stadtteildiakonie Eidelstedt",
+			"description":
+			"Allgemeine Beratung und Unterstützung zu Fragen des täglichen Lebens, z. B. Kontakt mit dem Jobcenter, Schreiben von Behörden, Suche nach Arbeits-/Ausbildungsplatz, etc. "
+		},
+		"303": {
+			"name": "Stadtteildiakonie Sülldorf/Iserbrook",
+			"description":
+			"Allgemeine soziale Beratung zu Fragen der Existenzsicherung. Sie bekommen bei uns Informationen zu Leistungen aus dem SGB II und SGB XII. Wir unterstützen Sie beim Schriftverkehr mit den Behörden und bei der Durchsetzung Ihrer Rechtmäßigen Ansprüche ( Wohngeld, Kindergeld, Kindergeldzuschlag), Leistungen nach dem Asylbewerberleistungsgesetz etc.)."
+		},
+		"313": {
+			"name": "Jugendberatung Kompetenzagentur Auerbach",
+			"description": "Kompetenzagentur Auerbach"
+		},
+		"314": {
+			"name": "Migrations-Beratung für Erwachsene Zuwanderer (MBE) ",
+			"description": "Migrations-Beratung"
+		},
+		"315": {
+			"name": "Schulsozialarbeit",
+			"description":
+			"Schulsozialarbeit - Beratung für Schüler, Eltern, Lehrer"
+		},
+		"317": {
+			"name": "Pflegekinder in Dresden - Pflegeelternberatungsstelle",
+			"description":
+			"Beratungsangebot für Pflegeeltern, die es bereits sind oder auch noch werden wollen, und für Eltern, deren Kind in einer Pflegefamilie lebt"
+		},
+		"318": {
+			"name": "Beratung für Menschen mit Behinderung",
+			"description":
+			"Beratungsangebot für Menschen mit Behinderung und deren Angehörige, Freunde, gesetzliche Betreuer*innen, etc. Sie haben Fragen zum Thema: Wohnen, Arbeit, Ausbildung, Freizeit, Geld zum Leben, Partnerschaft, Familie, Rechte für Menschen mit Behinderung, Assistenz, Persönliches Budget, Persönliche Zukunftsplanung. Wir beraten Sie. Wir unterstützen Sie. Wir begleiten Sie. Wir vermitteln weitere Hilfen."
+		},
+		"319": {
+			"name":
+			"Flüchtlings- und Integrationsberatung - Diakonisches Werk Bamberg-Forchheim",
+			"description": "Flüchtlings- und Integrationsberatung"
+		},
+		"320": {
+			"name": "Psychsoziales Gemeindezentrum BLICKWECHSEL",
+			"description":
+			"Beratung und Betreuung von Menschen \nmit psychischen Erkrankungen und \nderen Angehörigen"
+		},
+		"321": {
+			"name": "Beratungsstelle für Familien- und Lebensfragen",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"322": {
+			"name": "Beratungsstelle für Familien- und Lebensfragen",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"323": {
+			"name": "Beratungsstelle für Familien- und Lebensfragen",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"324": {
+			"name": "Beratungsstelle für Familien- und Lebensfragen",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"325": {
+			"name": "Beratungsstelle für Familien- und Lebensfragen",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"326": {
+			"name": "Beratungsstelle für Familien- und Lebensfragen",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"327": {
+			"name":
+			"Erziehungs- und Familienberatung - Ärztlich-Psychologische Beratungsstelle",
+			"description":
+			"Herzlich Willkommen! Familien, Eltern, Kinder und Jugendliche, Paare und Einzelpersonen können bei uns Beratung in Anspruch nehmen. Das Angebot richtet sich an Ratsuchende aus der Stadt und dem Landkreis Gießen. "
+		},
+		"328": {
+			"name":
+			"Einzel- und Paarberatung - Ärztlich-Psychologische Beratungsstelle",
+			"description":
+			"Herzlich Willkommen! Familien, Eltern, Kinder und Jugendliche, Paare und Einzelpersonen können bei uns Beratung in Anspruch nehmen. Das Angebot richtet sich an Ratsuchende aus der Stadt und dem Landkreis Gießen. Einzel- und Paarberatung bieten wir auch im Wetteraukreis an."
+		},
+		"329": {
+			"name":
+			"Kinder- und Jugendberatung - Ärztlich-Psychologische Beratungsstelle",
+			"description":
+			"Herzlich Willkommen! Familien, Eltern, Kinder und Jugendliche, Paare und Einzelpersonen können bei uns Beratung in Anspruch nehmen. Das Angebot richtet sich an Ratsuchende aus der Stadt und dem Landkreis Gießen. "
+		},
+		"330": {
+			"name":
+			"Schwangerenberatung und Schwangerschaftskonfliktberatung, Evangelische Beratungsstelle Halle (Saale)",
+			"description": "Evangelische Beratungsstelle"
+		},
+		"331": {
+			"name":
+			"Erziehungs- und Familienberatung, Evangelische Beratungsstelle Halle (Saale)",
+			"description": "Evangelische Beratungsstelle"
+		},
+		"332": {
+			"name":
+			"Ehe-, Paar- und Lebensberatung, Evangelische Beratungsstelle Halle (Saale)",
+			"description": "Evangelische Beratungsstelle"
+		},
+		"333": {
+			"name":
+			"Kinder- und Jugendberatung, Evangelische Beratungsstelle Halle (Saale)",
+			"description": "Evangelische Beratungsstelle"
+		},
+		"334": {
+			"name":
+			"Kurberatung für Mütter und Väter, Evangelische Beratungsstelle Halle (Saale)",
+			"description": "Evangelische Beratungsstelle"
+		},
+		"335": {
+			"name": "Schwangerschaftsberatung Diakonie",
+			"description":
+			"Beratung und Vermittlung von Hilfen in Schwangerschaft und nach der Geburt bis zum 3. Lj. des Kindes, psychosoziale Beratung in Krisensituationen"
+		},
+		"336": {
+			"name":
+			"Kirchliche Allgemeine Sozialarbeit - Allgemeine Sozialberatung",
+			"description":
+			"Beratung in sozialrechtlichen Fragen, Unterstützung in sozialen und finanziellen Notlagen und beim Umgang mit Ämtern und Behörden"
+		},
+		"337": {
+			"name": "Wohnungsnotfallhilfe im Landkreis Ansbach",
+			"description":
+			"Beratung und Unterstützung für Menschen, die von Wohnungslosigkeit bedroht oder betroffen sind"
+		},
+		"338": {
+			"name":
+			"Beratungsstelle für seelische Gesundheit - Sozialpsychiatrischer Dienst",
+			"description":
+			"Der Sozialpsychiatrische Dienst (SpDi) berät und begleitet Menschen ab 18 Jahren mit psychischen Erkrankungen oder Menschen in Lebenskrisen und deren Angehörige kostenlos, niederschwellig und wohnortnah. Zu den Aufgaben zählen zudem die Krisenintervention in Notsituationen, die Hilfen zur Teilhabe am Leben in der Gemeinschaft, Präventionsarbeit , das Vermeiden von stationären Aufenthalten in Kliniken und die Anleitung und Betreuung von Gruppenangeboten."
+		},
+		"339": {
+			"name": "Ambulante Suchthilfe Bethel",
+			"description":
+			"Die Beratungsstelle hält ein Beratungs- und Behandlungsangebot für Menschen mit stoff- (Alkohol, Drogen, Medikamente) und stoffungebundenen Süchten (Glücksspiel, PC/Internet, Kaufsucht etc.) vor. "
+		},
+		"340": {
+			"name": "Kirchliche Allgemeine Sozialarbeit - Ingolstadt",
+			"description": "Existenzsicherung, Clearingstelle"
+		},
+		"341": {
+			"name": "Schuldner- und Insolvenzberatung - Ingolstadt",
+			"description": "Entschuldung, Insolvenzverfahren"
+		},
+		"342": {
+			"name": "Schuldner- und Insolvenzberatung - Neuburg",
+			"description": "Entschuldung, Insolvenzverfahren"
+		},
+		"343": {
+			"name": "kirchliche Allgemeine Sozialarbeit - Neuburg",
+			"description": "Existenzsicherung, Clearingstelle"
+		},
+		"344": {
+			"name": "Schwangerschafts(konflikt)beratungsstelle",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"345": {
+			"name": "Ehe-, Paar- und Lebensberatungsstelle ",
+			"description": "Ehe-, Paar- und Lebensberatung"
+		},
+		"346": {
+			"name": "Familienberatungsstelle - Familienerholung",
+			"description": "Beratung zu Fragen der Familienerholung"
+		},
+		"347": {
+			"name": "Familienberatungsstelle - Kurberatung",
+			"description": "Kurberatung für Mütter und Väter"
+		},
+		"348": {
+			"name":
+			"Ehe-, Paar- und Lebensberatung - Lebensberatungsstelle Stadtmission Zwickau e.V.",
+			"description": "Ehe-, Paar- und Lebensberatung"
+		},
+		"349": {
+			"name":
+			"Erziehungsberatungs- und Familienberatung - Lebensberatungsstelle Stadtmission Zwickau e.V.",
+			"description": "Erziehungsberatungs- und Familienberatung"
+		},
+		"350": {
+			"name":
+			"Schwangeren- und Schwangerschaftskonfliktberatung - Lebensberatungsstelle Stadtmission Zwickau e.V.",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"351": {
+			"name":
+			"Kinder- und Jugendberatung - Lebensberatungsstelle Stadtmission Zwickau e.V.",
+			"description": "Kinder- und Jugendberatung"
+		},
+		"352": {
+			"name": "AH Sucht- und Drogenberatungsstelle Brandenburg",
+			"description":
+			"Sucht- und Drogenberatung, Spiel- und Mediensucht, ambulante Reha, MPU-Beratung"
+		},
+		"353": {
+			"name": "Wo.Pro - Hilfen bei Wohnungsnotfällen",
+			"description":
+			"ambulante Hilfen nach §67 SG XII bei Wohnungsnotfällen, Umgang mit Ämtern, Schulden, besonderen sozialen Schwierigkeiten"
+		},
+		"354": {
+			"name": "AH Obdachlosenhaus Brandenburg",
+			"description":
+			"Unterkunft und sozialarbeiterische Hilfestellung für Bewohner des Obdachlosenhaus"
+		},
+		"355": {
+			"name":
+			"Psychosoziale Kontakt- und Beratungsstelle Freital und Außenstelle Dippoldiswalde",
+			"description":
+			"Beratung und Begleitung für Betroffene durch Einzel- und Gruppenangebote, Förderung sozialer Kompetenzen durch Kontaktmöglichkeit, kreative Beschäftigung und kulturelle Angebote, Vorbeugung krankheitsbedingter Isolation"
+		},
+		"357": {
+			"name": "Erziehungsberatungsstelle Kaiserslautern",
+			"description":
+			"Wir, die Erziehungs- und Familienberatung, unterstützen Kinder, Jugendliche, Eltern, Großeltern, Alleinerziehende, Stief- und Patchworkfamilien bei der Klärung und Bewältigung individueller und familienbezogener Probleme, bei der Lösung von Erziehungsfragen sowie bei Trennung und Scheidung. Auch Fachleute wie Erzieher*innen und Lehrer*innen können unsere Beratung in Anspruch nehmen."
+		},
+		"358": {
+			"name": "Erziehungsberatungsstelle Pirmasens",
+			"description":
+			"Wir, die Erziehungs- und Familienberatung, unterstützen Kinder, Jugendliche, Eltern, Großeltern, Alleinerziehende, Stief- und Patchworkfamilien bei der Klärung und Bewältigung individueller und familienbezogener Probleme, bei der Lösung von Erziehungsfragen sowie bei Trennung und Scheidung. Auch Fachleute wie Erzieher*innen und Lehrer*innen können unsere Beratung in Anspruch nehmen."
+		},
+		"359": {
+			"name": "Erziehungsberatungsstelle Bad Dürkheim-Grünstadt",
+			"description":
+			"Wir, die Erziehungs- und Familienberatung, unterstützen Kinder, Jugendliche, Eltern, Großeltern, Alleinerziehende, Stief- und Patchworkfamilien bei der Klärung und Bewältigung individueller und familienbezogener Probleme, bei der Lösung von Erziehungsfragen sowie bei Trennung und Scheidung. Auch Fachleute wie Erzieher*innen und Lehrer*innen können unsere Beratung in Anspruch nehmen."
+		},
+		"360": {
+			"name": "Erziehungsberatungsstelle Kusel",
+			"description":
+			"Wir, die Erziehungs- und Familienberatung, unterstützen Kinder, Jugendliche, Eltern, Großeltern, Alleinerziehende, Stief- und Patchworkfamilien bei der Klärung und Bewältigung individueller und familienbezogener Probleme, bei der Lösung von Erziehungsfragen sowie bei Trennung und Scheidung. Auch Fachleute wie Erzieher*innen und Lehrer*innen können unsere Beratung in Anspruch nehmen."
+		},
+		"361": {
+			"name": "Erziehungsberatungsstelle Neustadt",
+			"description":
+			"Wir, die Erziehungs- und Familienberatung, unterstützen Kinder, Jugendliche, Eltern, Großeltern, Alleinerziehende, Stief- und Patchworkfamilien bei der Klärung und Bewältigung individueller und familienbezogener Probleme, bei der Lösung von Erziehungsfragen sowie bei Trennung und Scheidung. Auch Fachleute wie Erzieher*innen und Lehrer*innen können unsere Beratung in Anspruch nehmen."
+		},
+		"362": {
+			"name": "Kinderschutzdienst Mittelhaardt",
+			"description":
+			"Der Kinderschutzdienst Mittelhaardt ist eine Beratungsstelle für Kinder und Jugendliche, die von sexueller, körperlicher und/oder seelischer Gewalt bedroht bzw. betroffen sind oder bei denen eine entsprechende Vermutung besteht. Darüber hinaus unterstützen sie Erwachsene aus dem Umfeld, die sich um ein Kind Sorgen machen und helfen wollen."
+		},
+		"363": {
+			"name": "Interventionsstelle Kaiserslautern",
+			"description":
+			"Die Interventionsstelle ist zuständig für von der Polizei vermittelte Betroffene und für Betroffene von Gewalt in engen sozialen Beziehungen, die sich direkt an die Interventionsstelle wenden."
+		},
+		"364": {
+			"name": "Interventionsstelle Ludwigshafen",
+			"description":
+			"Die Interventionsstelle ist zuständig für Frauen (und Männer), die von Gewalt in engen sozialen Beziehungen betroffen sind und von der Polizei vermittelt wurden."
+		},
+		"365": {
+			"name":
+			"Migrationsberatung für Erwachsene (MBE), Haus der Diakonie Bad Bergzaben ",
+			"description":
+			"Die Migrationsberatung ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen, die lange in Deutschland bleiben werden und Hilfe brauchen. Die Beratung ist für Menschen, die an einem Integrationskurs teilnehmen.\n"
+		},
+		"366": {
+			"name":
+			"Migrationsfachdienst (MFD) und Flüchtlingsberatung, Haus der Diakonie Frankenthal",
+			"description":
+			"Der Migrationsfachdienst ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen unabhängig davon, wie lange sie schon in Deutschland leben, wo sie herkommen oder welchen Aufenthaltsstatus sie haben. Die Menschen erhalten Unterstützung, auch wenn sie aus einem Land mit sogenannter schlechter Bleibeperspektive kommen.\n"
+		},
+		"367": {
+			"name":
+			"Migrationsberatung für Erwachsene (MBE), Haus der Diakonie Germersheim",
+			"description":
+			"Die Migrationsberatung ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen, die lange in Deutschland bleiben werden und Hilfe brauchen. Die Beratung ist für Menschen, die an einem Integrationskurs teilnehmen.\n"
+		},
+		"368": {
+			"name":
+			"Psychosoziale Beratung für Geflüchtete, Psychosoziales Zentrum Pfalz (PSZ) Außenstelle Germersheim",
+			"description":
+			"Die Beratung ist für Menschen mit einem unsicheren Aufenthaltsstatus, unabhängig davon wo sie herkommen. Die Beratung ist für psychisch erkrankte Menschen mit besonderem Schutzbedarf.\n"
+		},
+		"369": {
+			"name": "Flüchtlingsberatung, Haus der Diakonie Kaiserslautern",
+			"description":
+			"Der Migrationsfachdienst ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen unabhängig davon, wie lange sie schon in Deutschland leben, wo sie herkommen oder welchen Aufenthaltsstatus sie haben. Die Menschen erhalten Unterstützung, auch wenn sie aus einem Land mit sogenannter schlechter Bleibeperspektive kommen.\n"
+		},
+		"370": {
+			"name": "Flüchtlingsberatung , Haus der Diakonie Otterbach",
+			"description":
+			"Der Migrationsfachdienst ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen unabhängig davon, wie lange sie schon in Deutschland leben, wo sie herkommen oder welchen Aufenthaltsstatus sie haben. Die Menschen erhalten Unterstützung, auch wenn sie aus einem Land mit sogenannter schlechter Bleibeperspektive kommen.\n"
+		},
+		"371": {
+			"name":
+			"Sozial- und Verfahrensberatung (SuV), Haus der Diakonie Kusel - Außenstelle: AfA Kusel ",
+			"description":
+			"Die Beratung ist für Menschen, die in der Aufnahmeeinrichtung für Asylbegehrende (AfA) in Speyer leben. In der Beratung werden Menschen im Asylverfahren begleitet, z. B.: Vorbereitung auf die Anhörung und Hilfe, wenn ein Bescheid negativ ist. Die Beratung hilft beim Kontakt zur Ausländerbehörde und zum Transferbüro. Die Beratung hilft bei Fragen zu Gesundheit, Schwangerschaft, Vulnerabilität, …"
+		},
+		"372": {
+			"name":
+			"Migrationsberatung für Erwachsene (MBE), Haus der Diakonie Landau",
+			"description":
+			"Die Migrationsberatung ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen, die lange in Deutschland bleiben werden und Hilfe brauchen. Die Beratung ist für Menschen, die an einem Integrationskurs teilnehmen. \n"
+		},
+		"373": {
+			"name":
+			"Migrationsfachdienst (MFD) und Flüchtlingsberatung, Haus der Diakonie Landau",
+			"description":
+			"Der Migrationsfachdienst ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen unabhängig davon, wie lange sie schon in Deutschland leben, wo sie herkommen oder welchen Aufenthaltsstatus sie haben. Die Menschen erhalten Unterstützung, auch wenn sie aus einem Land mit sogenannter schlechter Bleibeperspektive kommen.\n"
+		},
+		"374": {
+			"name":
+			"Migrationsberatung für Erwachsene (MBE), Haus der Diakonie Ludwigshafen",
+			"description":
+			"Die Migrationsberatung ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen, die lange in Deutschland bleiben werden und Hilfe brauchen. Die Beratung ist für Menschen, die an einem Integrationskurs teilnehmen.\n"
+		},
+		"375": {
+			"name":
+			"Migrationsfachdienst (MFD) und Flüchtlingsberatung, Haus der Diakonie Ludwigshafen",
+			"description":
+			"Der Migrationsfachdienst ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen unabhängig davon, wie lange sie schon in Deutschland leben, wo sie herkommen oder welchen Aufenthaltsstatus sie haben. Die Menschen erhalten Unterstützung, auch wenn sie aus einem Land mit sogenannter schlechter Bleibeperspektive kommen.\n"
+		},
+		"376": {
+			"name":
+			"Vermittlung in Arbeit, Schule oder Ausbildung (InProcedere), Haus der Diakonie Ludwigshafen ",
+			"description":
+			"Die Beratung ist für Menschen, die aus einem anderen Land nach Deutschland kommen. Die Beratung hilft Menschen mit Duldung, Aufenthaltsgestattung und Aufenthaltserlaubnis. Die Beratung hilft den Menschen Arbeit, eine Schule oder Ausbildung zu finden. Die Beratung hilft bei der Anerkennung von im Ausland erworbenen Abschlüssen \n"
+		},
+		"377": {
+			"name":
+			"Psychosoziale Beratung für Geflüchtete, Psychosoziales Zentrum Pfalz (PSZ), Ludwigshafen ",
+			"description":
+			"Die Beratung ist für Menschen mit einem unsicheren Aufenthaltsstatus, unabhängig davon wo sie herkommen. Die Beratung ist für psychisch erkrankte Menschen mit besonderem Schutzbedarf. \n"
+		},
+		"378": {
+			"name":
+			"Migrationsfachdienst (MFD) und Flüchtlingsberatung, Haus der Diakonie Pirmasens",
+			"description":
+			"Der Migrationsfachdienst ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen unabhängig davon, wie lange sie schon in Deutschland leben, wo sie herkommen oder welchen Aufenthaltsstatus sie haben. Die Menschen erhalten Unterstützung, auch wenn sie aus einem Land mit sogenannter schlechter Bleibeperspektive kommen. \n"
+		},
+		"379": {
+			"name":
+			"Migrationsberatung für Erwachsene (MBE), Haus der Diakonie Speyer",
+			"description":
+			"Die Migrationsberatung ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen, die lange in Deutschland bleiben werden und Hilfe brauchen. Die Beratung ist für Menschen, die an einem Integrationskurs teilnehmen. \n"
+		},
+		"380": {
+			"name": "Flüchtlingsberatung, Haus der Diakonie Speyer",
+			"description":
+			"Der Migrationsfachdienst ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen unabhängig davon, wie lange sie schon in Deutschland leben, wo sie herkommen oder welchen Aufenthaltsstatus sie haben. Die Menschen erhalten Unterstützung, auch wenn sie aus einem Land mit sogenannter schlechter Bleibeperspektive kommen. \n"
+		},
+		"381": {
+			"name":
+			"Sozial- und Verfahrensberatung (SuV), Haus der Diakonie Speyer - Außenstelle: AfA Speyer ",
+			"description":
+			"Die Beratung ist für Menschen, die in der Aufnahmeeinrichtung für Asylbegehrende (AfA) in Speyer leben. In der Beratung werden Menschen im Asylverfahren begleitet, z. B.: Vorbereitung auf die Anhörung und Hilfe, wenn ein Bescheid negativ ist. Die Beratung hilft beim Kontakt zur Ausländerbehörde und zum Transferbüro. Die Beratung hilft bei Fragen zu Gesundheit, Schwangerschaft, Vulnerabilität, …\n"
+		},
+		"382": {
+			"name":
+			"Psychosoziale Beratung für Geflüchtete, Psychosoziales Zentrum Pfalz (PSZ) - Außenstelle: AfA Speyer",
+			"description":
+			"Die Beratung ist nur für Menschen, die in der Aufnahmeeinrichtung für Asylbegehrende (AfA) Speyer leben. Die Beratung ist für Menschen mit einem unsicheren Aufenthaltsstatus, unabhängig davon wo sie herkommen. Die Beratung ist für psychisch erkrankte Menschen mit besonderem Schutzbedarf. \n\n\n"
+		},
+		"383": {
+			"name":
+			"Migrationsfachdienst (MFD) und Flüchtlingsberatung, Haus der Diakonie Zweibrücken",
+			"description":
+			"Der Migrationsfachdienst ist für Frauen und Männer, die aus einem anderen Land nach Deutschland kommen. Die Beratung ist für Menschen unabhängig davon, wie lange sie schon in Deutschland leben, wo sie herkommen oder welchen Aufenthaltsstatus sie haben. Die Menschen erhalten Unterstützung, auch wenn sie aus einem Land mit sogenannter schlechter Bleibeperspektive kommen.\n"
+		},
+		"385": {
+			"name":
+			"Schuldner- und Insolvenzberatung, Haus der Diakonie Frankenthal",
+			"description":
+			"Die Beraterinnen und Berater der Schuldnerberatung helfen, wenn Menschen den Überblick über ihre Finanzen verloren haben. Das schließt neben den finanziellen auch mögliche soziale oder psychische Probleme ein. Die Beratungsstelle ist als Verbraucherinsolvenzberatungsstelle staatlich anerkannt. "
+		},
+		"386": {
+			"name":
+			"Schuldner- und Insolvenzberatung, Haus der Diakonie Landstuhl",
+			"description":
+			"Die Beraterinnen und Berater der Schuldnerberatung helfen, wenn Menschen den Überblick über ihre Finanzen verloren haben. Das schließt neben den finanziellen auch mögliche soziale oder psychische Probleme ein. Die Beratungsstelle ist als Verbraucherinsolvenzberatungsstelle staatlich anerkannt. "
+		},
+		"387": {
+			"name":
+			"Schuldner- und Insolvenzberatung, Haus der Diakonie Kirchheimbolanden",
+			"description":
+			"Die Beraterinnen und Berater der Schuldnerberatung helfen, wenn Menschen den Überblick über ihre Finanzen verloren haben. Das schließt neben den finanziellen auch mögliche soziale oder psychische Probleme ein. Die Beratungsstelle ist als Verbraucherinsolvenzberatungsstelle staatlich anerkannt. "
+		},
+		"388": {
+			"name":
+			"Schuldner- und Insolvenzberatung, Haus der Diakonie Ludwigshafen",
+			"description":
+			"Die Beratungsstelle ist ausschließlich für suchtmittel- bzw. ehemals suchtmittelabhängige Menschen offen. Die Beraterinnen und Berater der Schuldnerberatung helfen, wenn Menschen den Überblick über ihre Finanzen verloren haben. Das schließt neben den finanziellen auch mögliche soziale oder psychische Probleme ein. Die Beratungsstelle ist als Verbraucherinsolvenzberatungsstelle staatlich anerkannt. "
+		},
+		"389": {
+			"name": "Schuldner- und Insolvenzberatung, Haus der Diakonie Speyer",
+			"description":
+			"Die Beraterinnen und Berater der Schuldnerberatung helfen, wenn Menschen den Überblick über ihre Finanzen verloren haben. Das schließt neben den finanziellen auch mögliche soziale oder psychische Probleme ein. Die Beratungsstelle ist als Verbraucherinsolvenzberatungsstelle staatlich anerkannt. "
+		},
+		"390": {
+			"name":
+			"Schuldner- und Insolvenzberatung, Haus der Diakonie Kaiserslautern",
+			"description":
+			"Die Beraterinnen und Berater der Schuldnerberatung helfen, wenn Menschen den Überblick über ihre Finanzen verloren haben. Das schließt neben den finanziellen auch mögliche soziale oder psychische Probleme ein. Die Beratungsstelle ist als Verbraucherinsolvenzberatungsstelle staatlich anerkannt. "
+		},
+		"391": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Lauterecken",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"392": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Otterbach",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"393": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Rockenhausen",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"394": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Bad Dürkheim",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"395": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Grünstadt",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"396": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Frankenthal",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"397": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Homburg/Saar",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"398": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Landstuhl",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"399": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Kirchheimbolanden",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"400": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Obermoschel",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"401": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Kusel",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"402": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Landau",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"403": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Bad Bergzabern",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"404": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Ludwigshafen",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"405": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Neustadt",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"406": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Pirmasens",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"407": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Speyer",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"408": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Germersheim",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"409": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Limburgerhof",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"410": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung Zweibrücken",
+			"description":
+			"In der Schwangerschaftsberatung bieten wir Ihnen eine umfassende Beratung in sozialen, persönlichen und finanziellen Belangen an. Auch Ihre Fragen zu Verhütung und Familienplanung werden in unserer Beratungsstelle kompetent und umfassend beantwortet. Wir beraten in Fragen der vertraulichen Geburt. In der Konfliktberatung informieren wir Sie ergebnisoffen in vorurteilsfreier Atmosphäre zu medizinischen, sozialen und rechtlichen Fragen. Wir stellen Ihnen die Beratungsbescheinigung nach §219StGB aus. "
+		},
+		"411": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Lauterecken",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"412": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Otterbach",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"413": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Rockenhausen",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"414": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Bad Dürkheim",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"415": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Grünstadt",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"416": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Frankenthal",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"417": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Homburg/Saar",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"418": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Landstuhl",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"419": {
+			"name":
+			"Sozial- und Lebensberatung Haus der Diakonie Kirchheimbolanden",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"420": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Obermoschel",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"421": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Kusel",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"422": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Landau",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"423": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Bad Bergzabern",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"424": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Ludwigshafen",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"425": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Neustadt",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"426": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Pirmasens",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"427": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Speyer",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"428": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Germersheim",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"429": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Limburgerhof",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"430": {
+			"name": "Sozial- und Lebensberatung Haus der Diakonie Zweibrücken",
+			"description":
+			"Wir können bei sozialen Schwierigkeiten helfen. Wir können bei wirtschaftlichen Schwierigkeiten helfen. Wir können in Krisensituationen helfen. Wir können bei gesundheitlichen Problemen helfen."
+		},
+		"431": {
+			"name": "Fachstelle Sucht Haus der Diakonie Ludwigshafen",
+			"description":
+			"Unsere \"Fachstellen Sucht\" bieten Informations-, Beratungs- und Behandlungsangebote für Interessierte, Betroffene und Angehörige."
+		},
+		"432": {
+			"name": "Fachstelle Sucht Haus der Diakonie Landau",
+			"description":
+			"Unsere \"Fachstellen Sucht\" bieten Informations-, Beratungs- und Behandlungsangebote für Interessierte, Betroffene und Angehörige."
+		},
+		"433": {
+			"name": "Fachstelle Sucht Haus der Diakonie Kaiserslautern",
+			"description":
+			"Unsere \"Fachstellen Sucht\" bieten Informations-, Beratungs- und Behandlungsangebote für Interessierte, Betroffene und Angehörige."
+		},
+		"434": {
+			"name": "Fachstelle Sucht Haus der Diakonie Kusel",
+			"description":
+			"Unsere \"Fachstellen Sucht\" bieten Informations-, Beratungs- und Behandlungsangebote für Interessierte, Betroffene und Angehörige."
+		},
+		"435": {
+			"name": "Fachstelle Sucht Haus der Diakonie Zweibrücken",
+			"description":
+			"Unsere \"Fachstellen Sucht\" bieten Informations-, Beratungs- und Behandlungsangebote für Interessierte, Betroffene und Angehörige."
+		},
+		"436": {
+			"name": "Fachstelle Sucht Haus der Diakonie Pirmasens",
+			"description":
+			"Unsere \"Fachstellen Sucht\" bieten Informations-, Beratungs- und Behandlungsangebote für Interessierte, Betroffene und Angehörige."
+		},
+		"437": {
+			"name": "Fachstelle Sucht Haus der Diakonie Bad Dürkheim",
+			"description":
+			"Unsere \"Fachstellen Sucht\" bieten Informations-, Beratungs- und Behandlungsangebote für Interessierte, Betroffene und Angehörige."
+		},
+		"438": {
+			"name": "Diak. Beratungszentrum Vogtland: Familienberatung",
+			"description": "Erziehungs- und Familienberatung"
+		},
+		"439": {
+			"name": "Diak. Beratungszentrum Vogtland: Familienberatung",
+			"description": "Erziehungs- und Familienberatung"
+		},
+		"440": {
+			"name":
+			"Diak. Beratungszentrum Vogtland: Schwangeren- und Schwangerschaftskonfliktberatung",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"441": {
+			"name":
+			"Diak. Beratungszentrum Vogtland: Schwangeren- und Schwangerschaftskonfliktberatung",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"442": {
+			"name":
+			"Diak. Beratungszentrum Vogtland: Schwangeren- und Schwangerschaftskonfliktberatung",
+			"description": "Schwangeren- und Schwangerschaftskonfliktberatung"
+		},
+		"443": {
+			"name": "Diak. Beratungszentrum Vogtland: Ehe- und Lebensberatung",
+			"description": "Ehe- und Lebensberatung"
+		},
+		"444": {
+			"name":
+			"Diak. Beratungszentrum Vogtland: Beratung für Menschen mit Behinderung/chronischen Krankheiten",
+			"description": "Behindertenberatung"
+		},
+		"445": {
+			"name": "Der Wendepunkt, Frauenberatung und Gewaltschutzzentrum",
+			"description":
+			"Beratung für Frauen, Männer und Kinder als Opfer von häuslicher Gewalt und Stalking, Beratung für Frauen in Krisen "
+		},
+		"446": {
+			"name":
+			"Der Wendepunkt, Fachberatungsstelle für Frauen bei Wohnungsnot",
+			"description":
+			"Fachberatungsstelle für Frauen mit besonderen sozialen Schwierigkeiten gem.§67 SGBXII"
+		},
+		"447": {
+			"name": "Wohnhilfen Oberberg ",
+			"description": "Fachberatungsstelle für Wohnungsnot"
+		},
+		"448": {
+			"name": "ZeitRaum - Ehe-, Paar- und Lebensberatung",
+			"description":
+			"Die Beratungsstelle ZeitRaum bietet Ehe-, Paar- und Lebensberatung an. "
+		},
+		"449": {
+			"name": "ZeitRaum - Erziehungs- und Familienberatung",
+			"description":
+			"Die Beratungsstelle ZeitRaum bietet Erziehungs- und Familienberatung an. "
+		},
+		"450": {
+			"name": "ZeitRaum - Kinder- und Jugendberatung",
+			"description":
+			"Die Beratungsstelle ZeitRaum bietet Kinder- und Jugendberatung, auf Wunsch auch anonym und ohne Kenntnis der Sorgeberechtigten an."
+		},
+		"451": {
+			"name":
+			"ZeitRaum - Spezialisierte Beratung für von sexualisierter Gewalt betroffene Kinder und Jugendliche",
+			"description":
+			"Die Beratungsstelle ZeitRaum bietet Beratung für von sexualisierter Gewalt betroffene Kinder und Jugendliche sowie deren Sorgeberechtige an."
+		},
+		"452": {
+			"name": "SichtWeise - Ehe-, Paar- und Lebensberatung",
+			"description":
+			"Die Beratungsstelle SichtWeise bietet Ehe-, Paar- und Lebensberatung für junge Familien mit mindestens einem Kind unter 3 Jahren an. "
+		},
+		"453": {
+			"name": "SichtWeise - Erziehungs- und Familienberatung",
+			"description":
+			"Die Beratungsstelle SichtWeise bietet Erziehungs- und Familienberatung für junge Familien mit mindestens einem Kind unter 3 Jahren an. "
+		},
+		"454": {
+			"name":
+			"SichtWeise - Schwangeren- und Schwangerschaftskonfliktberatung",
+			"description":
+			"Die Beratungsstelle SichtWeise bietet Schwangeren- und Schwangerschaftskonfliktberatung an."
+		},
+		"455": {
+			"name": "Anlaufstelle der Straffälligenhilfe Projekt Brückenbau",
+			"description": "Anlaufstelle Projekt Brückenbau Straffälligenhilfe"
+		},
+		"456": {
+			"name": "Psychosoziale Beratungsstelle der Diakonie - Suchtberatung",
+			"description":
+			"Wir beraten Menschen mit Abhängigkeit oder Suchtgefährdung bezüglich Alkohol, Medikamenten oder Drogen; Menschen mit Essstörungen; Menschen mit einem problematischen Glücksspielverhalten oder Medienkonsum; Einzel-, Paar- und Familienberatung für Betroffene und deren Angehörige; Diverse Gruppenangebote; Vermittlung in eine stationäre Therapie; Ambulante Nachsorge im Anschluss an eine Stationäre Therapie; Substitutionsbegleitung; Aufsuchende Betreuung ( z.B. in Krankenhäusern); Besuche bei Ihnen zu Hause oder in Ihrem Umfeld; Allgemeine Informationen zur Abhängigkeitsproblematik; Informations- und Weiterbildungsveranstaltungen; Mitarbeiterschulungen; persönliche, telefonische oder online Beratung"
+		},
+		"457": {
+			"name":
+			"Sozialpsychiatrischer Dienst - Beratungsstelle für seelische Gesundheit",
+			"description":
+			"Beratungsstelle für Menschen mit psychischen Erkrankungen und in seelischen Krisen sowie deren Angehörigen"
+		},
+		"458": {
+			"name": "Schuldner- und Insolvenzberatung",
+			"description": "Hilfe bei Schulden und Schuldenproblematik"
+		},
+		"459": {
+			"name": "Flüchtlings- und Integrationsberatung",
+			"description":
+			"Hilfe und Unterstützung für Migrat:innen und Geflüchtete"
+		},
+		"460": {
+			"name": "Kirchliche Allgemeine Sozialarbeit",
+			"description": "Clearingstelle und Hilfe bei der Erstorientierung"
+		},
+		"461": {
+			"name": "Kurberatung für Mütter und Väter",
+			"description": "Hilfe bei der Antragstellung und Vermittlung"
+		},
+		"462": {
+			"name": "Erziehungs- und Lebensberatungsstelle",
+			"description":
+			"Psychologische Beratung für Kinder, Jugendliche und Eltern"
+		},
+		"463": {
+			"name":
+			"Psychosoziale Suchtberatungsstelle Würzburg, Blaues Kreuz Diakoniewerk mGmbH",
+			"description":
+			"Suchtberatung mit Schwerpunkt Alkohol und/oder Medikamenten, Angehörigenberatung, ambulante Nachsorge"
+		},
+		"464": {
+			"name":
+			"Psychosoziale Suchtberatungsstelle Mittweida, Blaues Kreuz Diakoniewerk mGmbH",
+			"description":
+			"Suchtberatung mit Schwerpunkt Alkohol und/oder Medikamenten, Angehörigenberatung, ambulante Nachsorge"
+		},
+		"465": {
+			"name":
+			"Psychosoziale Suchtberatungsstelle Mittweida, Blaues Kreuz Diakoniewerk mGmbH",
+			"description":
+			"Suchtberatung mit Schwerpunkt Alkohol und/oder Medikamenten, Angehörigenberatung, ambulante Nachsorge"
+		},
+		"466": {
+			"name":
+			"Psychosoziale Suchtberatungsstelle Mittweida, Blaues Kreuz Diakoniewerk mGmbH",
+			"description":
+			"Suchtberatung mit Schwerpunkt Alkohol und/oder Medikamenten, Angehörigenberatung, ambulante Nachsorge"
+		},
+		"467": {
+			"name":
+			"Psychosoziale Suchtberatungsstelle Mittweida, Blaues Kreuz Diakoniewerk mGmbH",
+			"description":
+			"Suchtberatung mit Schwerpunkt Alkohol und/oder Medikamenten, Angehörigenberatung, ambulante Nachsorge"
+		},
+		"468": {
+			"name":
+			"Psychosoziale Suchtberatungsstelle Mittweida, Blaues Kreuz Diakoniewerk mGmbH",
+			"description":
+			"Suchtberatung mit Schwerpunkt Alkohol und/oder Medikamenten, Angehörigenberatung, ambulante Nachsorge"
+		},
+		"469": {
+			"name": "Blaukreuz-Zentrum Marburg, Suchtberatungsstelle",
+			"description": "Suchtberatungsstelle"
+		},
+		"470": {
+			"name": "Blaukreuz-Zentrum München, Hauptstelle Schwabing",
+			"description": "Suchtberatungsstelle"
+		},
+		"471": {
+			"name": "Blaukreuz-Zentrum München-Nord",
+			"description": "Suchtberatungsstelle"
+		},
+		"472": {
+			"name": "Blaukreuz-Zentrum München-Ost",
+			"description": "Suchtberatungsstelle"
+		},
+		"473": {
+			"name": "Blaukreuz-Zentrum München-Landkreis",
+			"description": "Suchtberatungsstelle"
+		},
+		"474": {
+			"name": "Sozialstation Eutin/Malente",
+			"description": "Ambulanter Pflegedienst"
+		},
+		"475": {
+			"name": "Sozialstation Neustadt i.H. ",
+			"description": "Ambulanter Pflegedienst"
+		},
+		"476": {
+			"name": "Sozialstation Oldenburg i.H. ",
+			"description": "Ambulanter Pflegedienst"
+		},
+		"477": {
+			"name": "Sozialstation Ahrensbök",
+			"description": "Ambulanter Pflegedienst"
+		},
+		"478": {
+			"name": "Sozialstation Bad Schwartau",
+			"description": "Ambulanter Pflegedienst"
+		},
+		"479": {
+			"name": "Allgemeine Soziale Beratung Potsdam-Mittelmark",
+			"description":
+			"Allgemeine Soziale Beratung, bedarfsorientierte Beratung und Vermittlung zu den jeweiligen Hilfesystemen, Beratung/Vermttlung/Organisation von Maßnahmen der Wohnraumanpassung"
+		},
+		"480": {
+			"name": "Allgemeine Soziale Beratung Potsdam-Mittelmark",
+			"description":
+			"Allgemeine Soziale Beratung, bedarfsorientierte Beratung und Vermittlung zu den jeweiligen Hilfesystemen, Beratung/Vermttlung/Organisation von Maßnahmen der Wohnraumanpassung"
+		},
+		"481": {
+			"name": "Familienentlastender Dienst Kloster Lehnin",
+			"description":
+			"Beratung zu Unterstützungmöglichkeiten pflegender Angehöriger, Assistenzleistungen zur Familienentlastung, Begleitung durch ehrenamtliche Helfer"
+		},
+		"482": {
+			"name": "Familienentlastender Dienst Teltow",
+			"description":
+			"Beratung zu Unterstützungmöglichkeiten pflegender Angehöriger, Assistenzleistungen zur Familienentlastung, Begleitung durch ehrenamtliche Helfer"
+		},
+		"483": {
+			"name": "Assistenzleistungen im Bereich Wohnen",
+			"description":
+			"Beratung zu sozialen Teilhabeleistungen im Bereich Wohnen und deren Beantragung"
+		},
+		"484": {
+			"name": "Frühförder- und Beratungsstelle Teltow",
+			"description":
+			"Erstberatung, Heilpädagogische Diagnostik, Heilpädagogische Frühförderung, Heilpädagogische Kitafachberatung"
+		},
+		"485": {
+			"name":
+			"Beratungseinsatz - Pflegebesuch - Pflegeberatung § 37.3 SGB XI",
+			"description": "Pflegeberatung"
+		},
+		"486": {
+			"name": "ambulanter Pflegedienst - Grundpflege - Behandlungspflege",
+			"description": "ambulanter Pflegedienst"
+		},
+		"487": {
+			"name": "ambulante Palliativpflege - Palliativversorgung",
+			"description": "ambulante Palliativpflege"
+		},
+		"488": {
+			"name": "Tagespflege - Region Zeven/Heeslingen",
+			"description": "Tagespflege Heeslingen"
+		},
+		"489": {
+			"name": "Tagespflege - Region Selsingen",
+			"description": "Tagespflege Selsingen"
+		},
+		"490": {
+			"name":
+			"Tagespflege - Region Selsingen Schwerpunkt eingeschränkte Alltagskompetenz",
+			"description": "Tagespflege Selsingen Schwerpunkt Alltagskompetenz"
+		},
+		"491": {
+			"name": "Tagespflege - Region Sittensen",
+			"description": "Tagespflege Sittensen"
+		},
+		"492": {
+			"name": "Tagespflege - Region Gnarrenburg",
+			"description": "Tagespflege Gnarrenburg"
+		},
+		"493": {
+			"name": "Suchthilfe der Diakonie Wolfsburg",
+			"description": "Fachstelle für Sucht und Suchtprävention"
+		},
+		"494": {
+			"name": "Ambulant Betreutes Wohnen ",
+			"description": "Ambulant Betreutes Wohnen (ABW)"
+		},
+		"495": {
+			"name": "Fachstelle für Sucht und Suchtprävention Stadt Osnabrück",
+			"description":
+			"Hilfe bei Problemen mit Alkohol, Medikamenten, Cannabis und anderen Drogen, Glücksspiel/Wetten, exzessivem Meidenkonsum, Nikotin für Betroffene und Angehörige"
+		},
+		"496": {
+			"name": "Fachstelle für Sucht und Suchtprävention Melle",
+			"description":
+			"Hilfe bei Problemen mit Alkohol, Medikamenten, Cannabis und anderen Drogen, Glücksspiel/Wetten, exzessivem Meidenkonsum, Nikotin für Betroffene und Angehörige"
+		},
+		"497": {
+			"name": "Fachstelle für Sucht und Suchtprävention Bramsche",
+			"description":
+			"Hilfe bei Problemen mit Alkohol, Medikamenten, Cannabis und anderen Drogen, Glücksspiel/Wetten, exzessivem Meidenkonsum, Nikotin für Betroffene und Angehörige"
+		},
+		"498": {
+			"name": "Fachstelle für Sucht und Suchtprävention Georgsmarienhütte",
+			"description":
+			"Hilfe bei Problemen mit Alkohol, Medikamenten, Cannabis und anderen Drogen, Glücksspiel/Wetten, exzessivem Meidenkonsum, Nikotin für Betroffene und Angehörige"
+		},
+		"499": {
+			"name":
+			"Allgemeine Sozialberatung für Osnabrück, Belm, Hasbergen und Wallenhorst",
+			"description":
+			"Hilfe für Menschen, die in unterschiedlichsten Problemlagen Beratung, Hilfe und Unterstützung benötigen."
+		},
+		"500": {
+			"name": "Beratung zur Fragen der Familienerholung Osnabrück",
+			"description": "Beratung zur Fragen der Familienerholung"
+		},
+		"501": {
+			"name": "Kurberatung Osnabrück",
+			"description":
+			"Unterstützung bei der Wahl und Beantragung einer geigneten Kurmaßnahme"
+		},
+		"502": {
+			"name": "Schuldner- und Insolvenzberatung Georgsmarienhütte",
+			"description": "Hilfe zur Vermeidung und zum Abbau von Schulden"
+		},
+		"503": {
+			"name": "Schuldner- und Insolvenzberatung Georgsmarienhütte",
+			"description": "Hilfe zur Vermeidung und zum Abbau von Schulden"
+		},
+		"504": {
+			"name": "Schwangeren und Schwangerenkonfliktberatung Osnabrück",
+			"description":
+			"Hilfe bei Fragen zu den Themen Schwangerschaft, Familienplanung, Sexualität "
+		},
+		"505": {
+			"name": "Schwangeren und Schwangerenkonfliktberatung Melle",
+			"description":
+			"Hilfe bei Fragen zu den Themen Schwangerschaft, Familienplanung, Sexualität "
+		},
+		"506": {
+			"name": "Psychologische Beratungsstelle Osnabrück",
+			"description":
+			"Hilfe zu Fragen der Erziehung; Familien und Lebensberatung"
+		},
+		"507": {
+			"name": "Integratives Beratungszentrum Melle",
+			"description":
+			"Hilfe für Menschen, die mit sich selbst oder anderen nicht mehr klar kommen und professionelle Hilfe suchen. "
+		},
+		"508": {
+			"name": "Suchtberatung",
+			"description":
+			"Wenn Sie sich über Ihren Umgang mit Suchtmitteln und sonstigen Abhängigkeiten Gedanken machen, in Probleme verstrickt sind, der Arbeitsplatz bedroht ist, der Führerschein in Gefahr ist, die familiäre Situation schwierig geworden ist, ein Strafverfahren droht, wenn sie den Eindruck haben auf Suchtmittel nicht mehr verzichten zu können. Wir helfen bei der Vermittlung in stationäre und ambulante Behandlung, -ambulante Rehabilitation, -Unterstützung von Angehörigen und der Prävention. Außerdem leisten wir Ambulante Therapie."
+		},
+		"509": {
+			"name": "Integrationsfachdienst",
+			"description":
+			"Der IFD nach SGB IX ist ein professionelles Beratungsangebot in allen Fragen der beruflichen Eingliederung. Der IFD versteht sich als Partner, sowohl der schwerbehinderten Arbeitnehmer/innen als auch der Arbeitgeber."
+		},
+		"510": {
+			"name": "Migrationsberatung",
+			"description":
+			"Beratung zu asyl- und aufenthaltsrechtlichen Fragen\nKlärung bei sozialrechtlichen Fragen\nUnterstützung beim Prozess der Integration, dem Schulbesuch und der Arbeitssituation\nVermittlung zu Deutsch- und Integrationskursen\nBeratung und Unterstützung im Bereich Familienzusammenführung\nPsychosoziale und ressourcenorientierte Beratung in Krisensituationen\nKooperation mit anderen Fachdiensten, Behörden und Ehrenamtlichen\nEinsatz und Begleitung von Integrationslotsen"
+		},
+		"511": {
+			"name": "Migrationsberatung für Erwachsene",
+			"description":
+			"Beratung zu asyl- und aufenthaltsrechtlichen Fragen\nKlärung bei sozialrechtlichen Fragen\nUnterstützung beim Prozess der Integration, dem Schulbesuch und der Arbeitssituation\nVermittlung zu Deutsch- und Integrationskursen\nBeratung und Unterstützung im Bereich Familienzusammenführung\nPsychosoziale und ressourcenorientierte Beratung in Krisensituationen\nKooperation mit anderen Fachdiensten, Behörden und Ehrenamtlichen\nEinsatz und Begleitung von Integrationslotsen"
+		},
+		"512": {
+			"name": "Ambulante Wohungslosenhilfe",
+			"description":
+			"Personen mit besonderen sozialen Schwierigkeiten, insbesondere alleinstehende Wohnungslose (Nichtsesshafte / Obdachlose) erhalten Hilfe und Unterstützung wenn sie sesshaft werden wollen oder bei der Regelung ihrer Angelegenheiten."
+		},
+		"513": {
+			"name": "Schwangeren- und Schwangerschaftskonfliktberatung",
+			"description":
+			"Psychosoziale Beratung\nWir bieten Rat und Hilfe zu Ihren Fragen rund um Schwangerschaft und Geburt.\n\nKonfliktberatung\nWir beraten und begleiten im Schwangerschaftskonflikt, sowie bei vertraulicher oder anonymer Geburt."
+		},
+		"514": {
+			"name": "Kurvermittlung",
+			"description":
+			"Mütterkuren/Mutter-/Vater-Kind-Kuren\n·Individuelle Beratung\n·Antragstellung bei der zuständigen Krankenversicherung\n·Vermittlung indikationsbezogener Kurkliniken\n·Beratung und Hilfe beim Widerspruch"
+		},
+		"515": {
+			"name": "Schuldnerberatung",
+			"description":
+			"UNTERSTÜTZUNG\nStabilisierung der finanziellen Verhältnisse\nUnterlagen sichten und sortieren\nSozialleistungen beantragen\ndas Gleichgewicht im Haushaltsplan wieder herstellen\n\nSCHULDNERBERATUNG\nEidesstattliche Versicherung\nVollstreckungsbescheid\nKontenpfändung\nGerichtsvollzieher\nAusstellung von P-Kontobescheinigungen\n\nINSOLVENZBERATUNG\nInformationen über den Ablauf des Verbraucherinsolvenzverfahren\nForderungen prüfen\nVerhandlung mit den Gläubigern\nHilfe bei der Antragsstellung im Verbraucherinsolvenzverfahren"
+		},
+		"516": {
+			"name": "Freiwilligendienste",
+			"description":
+			"Der Freiwilligendienst bietet dir die Chance, neue Lebens- und Berufsperspektiven zu entdecken und ist viel mehr als nur soziales Engagement. Eine persönliche Herausforderung für dich! Du kannst die Zeit zwischen Schule und Ausbildung oder Studium sinnvoll nutzen, lernst soziale Berufe in der Praxis kennen und arbeitest in einem Team mit. Für deine spätere Ausbildung oder Studium erlangst du zusätzliche Kompetenzen."
+		},
+		"517": {
+			"name": "Sozialpsychiatrische Angebote",
+			"description":
+			"Beratung für psychisch kranke Menschen zu Unterstützungsleistungen im Bereich der Eingliederunghilfe (Psychiatrische Nachsorge)"
+		},
+		"518": {
+			"name":
+			"Erwerbslosenberatung - Kirchliche Erwerbsloseninitiative Leipzig",
+			"description":
+			"Die Kirchliche Erwerbsloseninitiative Leipzig (KEL) bietet kostenlose Schuldnerberatung und Verbraucherinsolvenzberatung an. Sie berät professionell zu Fragen der Erwerbslosigkeit und zu weiteren sozialen Angelegenheiten. Die KEL unterstützt beim Erstellen und Ausfüllen von Anträgen für ALG I, ALG II, Wohngeld, Kindergeld, Bafög und anderem. Sie bietet Hilfestellung für Erwerbslose wie z.B. Hilfe zur Bewerbung und Berufsorientierung. Die Beratung ist kostenlos, unabhängig und offen für alle. Die Mitgliedschaft zu einer Kirche oder Glaubensgemeinschaft ist keine Voraussetzung. "
+		},
+		"519": {
+			"name":
+			"Ehe-, Familien- und Lebensberatung - Kirchliche Erwerbsloseninitiative Leipzig",
+			"description":
+			"Die Kirchliche Erwerbsloseninitiative Leipzig (KEL) bietet kostenlose Schuldnerberatung und Verbraucherinsolvenzberatung an. Sie berät professionell zu Fragen der Erwerbslosigkeit und zu weiteren sozialen Angelegenheiten. Die KEL unterstützt beim Erstellen und Ausfüllen von Anträgen für ALG I, ALG II, Wohngeld, Kindergeld, Bafög und anderem. Sie bietet Hilfestellung für Erwerbslose wie z.B. Hilfe zur Bewerbung und Berufsorientierung. Die Beratung ist kostenlos, unabhängig und offen für alle. Die Mitgliedschaft zu einer Kirche oder Glaubensgemeinschaft ist keine Voraussetzung. "
+		},
+		"520": {
+			"name":
+			"Schuldner- und Insolvenzberatung - Kirchliche Erwerbsloseninitiative Leipzig",
+			"description":
+			"Die Kirchliche Erwerbsloseninitiative Leipzig (KEL) bietet kostenlose Schuldnerberatung und Verbraucherinsolvenzberatung an. Sie berät professionell zu Fragen der Erwerbslosigkeit und zu weiteren sozialen Angelegenheiten. Die KEL unterstützt beim Erstellen und Ausfüllen von Anträgen für ALG I, ALG II, Wohngeld, Kindergeld, Bafög und anderem. Sie bietet Hilfestellung für Erwerbslose wie z.B. Hilfe zur Bewerbung und Berufsorientierung. Die Beratung ist kostenlos, unabhängig und offen für alle. Die Mitgliedschaft zu einer Kirche oder Glaubensgemeinschaft ist keine Voraussetzung. "
+		},
+		"521": {
+			"name": "Fachstelle Sucht und Suchtprävention Achim/Verden",
+			"description":
+			"Wir bieten Beratung für Menschen, die bei sich selbst oder nahestehenden Personen einen erhöhten Konsum von Suchtmitteln oder exzessives Verhalten (z.B. Medien) bemerken. Zunächst geht es um Informationen und erste Schritte der Hilfe. Wir vermitteln in ambulante und stationäre Therapie."
+		},
+		"522": {
+			"name": "Suchtberatung, Fachambulanz Helmstedt ",
+			"description":
+			"Beratung aller Ratsuchenden im Bereich Alkohol, Medikamente, Glücksspiel, Mediennutzung, Sportwetten und illegale Drogen. Vermittlung in Entgiftungsbehandlungen und Therapien, Durchführung Ambulante Rehabilitation Sucht und ambulante Nachsorge, Psychosoziale Begleitung bei Substitution, Präventions- und Informationsveranstaltungen, Betriebeschulungen, Vorbereitung auf die MPU, Assistenz beim Wohnen (Eingliederungshilfe, Ambulant Betreutes Wohnen)"
+		},
+		"523": {
+			"name": "Suchtberatung, Fachambulanz Braunschweig",
+			"description":
+			"Beratung aller Ratsuchenden im Bereich Alkohol, Medikamente, Glücksspiel, Mediennutzung, Sportwetten und illegale Drogen. Vermittlung in Entgiftungsbehandlungen und Therapien, Durchführung Ambulante Rehabilitation Sucht und ambulante Nachsorge, Präventions- und Informationsveranstaltungen, Betriebeschulungen, Vorbereitung auf die MPU, Assistenz beim Wohnen (Eingliederungshilfe, Ambulant Betreutes Wohnen)"
+		},
+		"524": {
+			"name": "Suchtberatung, Fachambulanz Northeim",
+			"description":
+			"Beratung aller Ratsuchenden im Bereich Alkohol, Medikamente, Glücksspiel, Mediennutzung, Sportwetten und illegale Drogen. Vermittlung in Entgiftungsbehandlungen und Therapien, Durchführung Ambulante Rehabilitation Sucht und ambulante Nachsorge, Psychosoziale Begleitung bei Substitution, Präventions- und Informationsveranstaltungen, Betriebeschulungen, Vorbereitung auf die MPU, Assistenz beim Wohnen (Eingliederungshilfe, Ambulant Betreutes Wohnen)"
+		},
+		"525": {
+			"name": "Suchtberatung, Fachambulanz Wolfenbüttel",
+			"description":
+			"Beratung aller Ratsuchenden im Bereich Alkohol, Medikamente, Glücksspiel, Mediennutzung, Sportwetten und illegale Drogen. Vermittlung in Entgiftungsbehandlungen und Therapien, Durchführung Ambulante Rehabilitation Sucht und ambulante Nachsorge, Psychosoziale Begleitung bei Substitution, Präventions- und Informationsveranstaltungen, Betriebeschulungen, Vorbereitung auf die MPU, Assistenz beim Wohnen (Eingliederungshilfe, Ambulant Betreutes Wohnen)"
+		},
+		"526": {
+			"name": "Suchtberatung, Fachambulanz Peine",
+			"description":
+			"Beratung aller Ratsuchenden im Bereich Alkohol, Medikamente, Glücksspiel, Mediennutzung, Sportwetten und illegale Drogen. Vermittlung in Entgiftungsbehandlungen und Therapien, Durchführung Ambulante Rehabilitation Sucht und ambulante Nachsorge, Psychosoziale Begleitung bei Substitution, Präventions- und Informationsveranstaltungen, Betriebeschulungen, Vorbereitung auf die MPU, Assistenz beim Wohnen (Eingliederungshilfe, Ambulant Betreutes Wohnen)"
+		},
+		"527": {
+			"name": "Suchtberatung, Fachambulanz Goslar",
+			"description":
+			"Beratung aller Ratsuchenden im Bereich Alkohol, Medikamente, Glücksspiel, Mediennutzung und Sportwetten. Vermittlung in Entgiftungsbehandlungen und Therapien, Durchführung Ambulante Rehabilitation Sucht und ambulante Nachsorge, Präventions- und Informationsveranstaltungen, Betriebeschulungen, Vorbereitung auf die MPU, Assistenz beim Wohnen (Eingliederungshilfe, Ambulant Betreutes Wohnen)"
+		},
+		"528": {
+			"name": "ELAS-Suchtselbsthilfe",
+			"description":
+			"Die ELAS-Suchtselbsthilfe unterstützt eine abstinente Lebensweise und eröffnet neue Perspektiven. Als qualifiziertes Angebot bietet sie Ausbildung, Fortbildung und Praxisbegleitung bei Suchterkrankungen. "
+		},
+		"529": {
+			"name":
+			"Treffpunkt Beruf - für Mütter mit Migrationsgeschichte (Diakonisches Werk Hamburg)",
+			"description":
+			"Beruflicher (Wieder-)Einstieg von Müttern mit Migrationsgeschichte"
+		},
+		"530": {
+			"name":
+			"Zentrale Anlaufstelle Anerkennung ausländischer Abschlüsse (ZAA) - Diakonisches Werk Hamburg",
+			"description":
+			"Die Diakonie hilft Ihnen bei der Anerkennung Ihres ausländischen Abschlusses (keine Aufenthaltsgenehmigungen)."
+		},
+		"531": {
+			"name": "Schuldnerberatung RheinBerg",
+			"description": "Schuldner- und Insolvenzberatung"
+		},
+		"532": {
+			"name": "Schuldnerberatung Rhein-Erft",
+			"description": "Schuldner- und Insolvenzberatung"
+		},
+		"533": {
+			"name": "Schuldnerberatung Köln",
+			"description": "Schuldner- und Insolvenzberatung"
+		},
+		"534": {
+			"name": "Suchtberatung Köln-Mülheim",
+			"description":
+			"Suchtberatung bei Abhängigkeit von legalen und illegalen Drogen, Spielsucht (Automaten)"
+		},
+		"535": {
+			"name": "Suchtberatung Köln-Innenstadt",
+			"description":
+			"Suchtberatung bei Abhängigkeit von legalen und illegalen Drogen "
+		},
+		"536": {
+			"name": "Allgemeine Sozialberatung Bergheim",
+			"description": "Allgemeine Sozialberatung"
+		},
+		"537": {
+			"name":
+			"Allgemeine Sozialberatung Erftstadt - Mobile Beratung Hochwasserhilfe",
+			"description": "Hochwasserhilfe"
+		},
+		"538": {
+			"name":
+			"Allgemeine Sozialberatung Rösrath - Mobile Beratung Hochwasserhilfe",
+			"description": "Hochwasserhilfe"
+		},
+		"539": {
+			"name":
+			"Allgemeine Sozialberatung Köln - Mobile Beratung Hochwasserhilfe",
+			"description": "Hochwasserhilfe"
+		},
+		"540": {
+			"name":
+			"Beratungszentrum der Diakonie - Fachbereich \"Starteklar - Frühe Hilfen für Familien\"",
+			"description":
+			"Frühe Hilfen unterstützen Familien von Anfang an bis zum Alter der Kinder von 3 Jahren "
+		},
+		"541": {
+			"name": "Suchtberatung Diakonie - Beratungsnetz im Landkreis Harburg",
+			"description":
+			"Allgemeine Suchtberatung und Suchtprävention - unsere Besonderheiten: ambulante Entwöhnungstherapie sowie Weiterbehandlung nach stationärer Therapie und Psychosoziale Betreuung von Menschen in einer Substitutionsbehandlung (z.B. Methadon)"
+		},
+		"542": {
+			"name": "Paar- und Lebensberatung EFB Hamburg",
+			"description":
+			"Beratung für Ehe-, Partnerschafts-, Familien-, Erziehungs- und Lebensfragen"
+		},
+		"543": {
+			"name": "Erziehungsberatung EFB Hamburg",
+			"description":
+			"Beratung für Ehe-, Partnerschafts-, Familien-, Erziehungs- und Lebensfragen"
+		},
+		"544": {
+			"name": "Jugendberatung EFB Hamburg",
+			"description":
+			"Beratung für Ehe-, Partnerschafts-, Familien-, Erziehungs- und Lebensfragen"
+		},
+		"545": {
+			"name": "Psychol. Beratung EFB Hamburg",
+			"description":
+			"Beratung für Ehe-, Partnerschafts-, Familien-, Erziehungs- und Lebensfragen"
+		},
+		"546": {
+			"name":
+			"Beratungsstelle für Betroffene von häuslicher Gewalt \"Klara\"",
+			"description":
+			"Die Beratung ist kostenlos, vertraulich und auf Wunsch anonym. Sie richtet sich an alle Menschen ab 18 Jahren unabhängig vom Geschlecht, Herkunft oder Glauben. Häusliche Gewalt meint körperliche, seelische, sexualisierte, finanzielle, digitale und soziale Gewalt im sozialen Nahraum sowie Stalking. "
+		},
+		"547": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung - Diakoniezentrum Borwinheim ",
+			"description":
+			"Beratung zu Familienplanung, Schwangerschaft, Geburt, Leben mit Kind sowie Beratung im Schwangerschaftskonflikt gemäß SchKG. Die Beratung ist kostenlos, vertraulich, auf Wunsch anonym. Nach Abschluss der Schwangerschaftskonfliktberatung wird eine Beratungsbescheinigung ausgestellt."
+		},
+		"548": {
+			"name":
+			"Partnerschafts- und Lebensberatung - Diakoniezentrum Borwinheim ",
+			"description":
+			"Die Beratung richtet sich an Personen und Paare mit psychosozialen Konflikten und Entwicklungswünschen im persönlichen, partnerschaftlichen oder familiären Kontext. Die Beratung ist kostenlos, vertraulich und auf Wunsch anonym und kann unabhängig von Alter und Lebenssituation wahrgenommen werden."
+		},
+		"549": {
+			"name": "Allgemeine Sozialberatung - Diakoniezentrum Borwinheim ",
+			"description":
+			"Die Beratung richtet sich an Menschen in psychosozialen Problemlagen und bei Unterstützungsbedarf bei der Wahrnehmung sozialrechtlicher Leistungsansprüche. Es wird kostenlos und vertraulich beraten und bedarfsgerecht zu Fachberatungsstellen und Behörden vermittelt."
+		},
+		"550": {
+			"name":
+			"Erziehungs- und Familienberatung - Diakoniezentrum Borwinheim ",
+			"description":
+			"Die Beratung richtet sich an Kinder, Jugendliche, Eltern und andere Erziehungsberechtigte mit individuellen und familienbezogenen Problemen, bei Erziehungsfragen und bei Beratungsbedarf in Trennungs- und Scheidungsprozessen. Die Beratung ist kostenlos und kann Auftrag seitens des Jugendamts sein."
+		},
+		"551": {
+			"name":
+			"Schwangerschafts- und Schwangerschaftskonfliktberatung - Psychologische Beratungsstelle Röbel",
+			"description":
+			"Beratung zu Familienplanung, Schwangerschaft, Geburt, Leben mit Kind sowie Beratung im Schwangerschaftskonflikt gemäß SchKG. Die Beratung ist kostenlos, vertraulich, auf Wunsch anonym. Nach Abschluss der Schwangerschaftskonfliktberatung wird eine Beratungsbescheinigung ausgestellt."
+		},
+		"552": {
+			"name":
+			"Erziehungs- und Familienberatung - Psychologische Beratungsstelle Röbel",
+			"description":
+			"Die Beratung richtet sich an Kinder, Jugendliche, Eltern und andere Erziehungsberechtigte mit individuellen und familienbezogenen Problemen, bei Erziehungsfragen und bei Beratungsbedarf in Trennungs- und Scheidungsprozessen. Die Beratung ist kostenlos und kann Auftrag seitens des Jugendamts sein."
+		},
+		"553": {
+			"name":
+			"Partnerschafts- und Lebensberatung - Psychologische Beratungsstelle Röbel",
+			"description":
+			"Die Beratung richtet sich an Personen und Paare mit psychosozialen Konflikten und Entwicklungswünschen im persönlichen, partnerschaftlichen oder familiären Kontext. Die Beratung ist kostenlos, vertraulich und auf Wunsch anonym und kann unabhängig von Alter und Lebenssituation wahrgenommen werden."
+		},
+		"554": {
+			"name":
+			"Brücke Harburg - Treffpunkt für seelische Gesundheit. Beratung zum Thema Psychische Beeinträchtigung",
+			"description":
+			"Die Brücke Harburg, anerkannter Träger von Leistungen der ambulanten Sozialpsychiatrie (ASP) bietet Menschen in krisenhaften Lebensphasen Unterstützung in Einzelberatung und Gruppenangeboten. Ob von psychischer Erkrankung bedroht oder betroffen oder Angehörige: Wir beraten ohne Wartezeit, konfessionsfrei, anonym, kostenlos und vertraulich. Auch längerfristige Intensivhilfen sind möglich. "
+		},
+		"555": {
+			"name": "Fachstelle für Sucht und Suchtprävention Diepholz",
+			"description":
+			"Die Fachstelle für Sucht bietet Unterstützung für Betroffene und deren Angehörige an, die einen problematischen Umgang mit Alkohol, Medikamenten, Nikotin oder Drogen zeigen. Weitere Anlässe, unsere Fachstelle aufzusuchen, können ein problematisches Spiel-, Medien-, Kauf- oder Essverhalten sein."
+		},
+		"556": {
+			"name": "Fachstelle für Sucht und Suchtprävention Sulingen",
+			"description":
+			"Die Fachstelle für Sucht bietet Unterstützung für Betroffene und deren Angehörige an, die einen problematischen Umgang mit Alkohol, Medikamenten, Nikotin oder Drogen zeigen. Weitere Anlässe, unsere Fachstelle aufzusuchen, können ein problematisches Spiel-, Medien-, Kauf- oder Essverhalten sein."
+		},
+		"557": {
+			"name":
+			"Erziehungs- und Jugendberatungsstelle im Landkreis Nürnberger Land",
+			"description":
+			"Beratung und Therapie für Kinder, Jugendliche, junge Erwachsene, Eltern, Paare, Familien, Alleinerziehende"
+		},
+		"558": {
+			"name": "Suchtberatung Nürnberger Land",
+			"description":
+			"Beratung und Therapie für Menschen mit Suchtmittelkonsum und deren Angehörigen "
+		},
+		"559": {
+			"name": "Suchtberatung Neumarkt",
+			"description":
+			"Beratung und Therapie für Menschen mit Suchtmittelkonsum und deren Angehörigen "
+		},
+		"560": {
+			"name": "KASA Neumarkt",
+			"description": "Allgemeine Sozialberatung"
+		},
+		"561": {
+			"name": "KASA Hersbruck / Lauf",
+			"description": "Allgemeine Sozialberatung"
+		},
+		"562": {
+			"name": "KASA Feucht / Altdorf",
+			"description": "Allgemeine Sozialberatung"
+		},
+		"563": {
+			"name": "Flüchtlings- und Integrationsberatung Nürnberger Land",
+			"description":
+			"Asylsozialberatung, Flüchtlings- und Integrationsberatung"
+		},
+		"564": {
+			"name": "Wohnungsnotfallhilfe",
+			"description":
+			"Unser Ziel ist es für die Bürger der Stadt Gersthofen, ihren Wohnraum zu erhalten. Wir beraten Sie bei Problemlagen wie Mietrückstände, Räumungsklagen, Kündigungen und unterstützen Menschen in unzumutbaren Wohnsituationen. Die Beratung ist für Sie immer kostenlos!"
+		},
+		"565": {
+			"name": "Wohnungsnotfallhilfe",
+			"description":
+			"Unser Ziel ist es für die Bürger der Stadt Neusäß, ihren Wohnraum zu erhalten. Wir beraten Sie bei Problemlagen wie Mietrückstände, Räumungsklagen, Kündigungen und unterstützen Menschen in unzumutbaren Wohnsituationen. Die Beratung ist für Sie immer kostenlos!"
+		},
+		"566": {
+			"name": "Diakonisches Werk im Evangelischen Kirchenbezirk Hochrhein",
+			"description":
+			"Migrationsberatung für erwachsene Zuwanderer ab 27 Jahren"
+		},
+		"567": {
+			"name": "Diakonisches Werk im Evangelischen Kirchenbezirk Hochrhein",
+			"description":
+			"Beratung und Information rund um Schwangerschaft und Familie, -in der Schwangerschaft, -nach der Geburt, -bei Kinderwunsch"
+		},
+		"568": {
+			"name": "Diakonisches Werk im Evangelischen Kirchenbezirk Hochrhein",
+			"description": "Beratung im Schwangerschaftskonflikt"
+		},
+		"569": {
+			"name": "Diakonisches Werk im Evangelischen Kirchenbezirk Hochrhein",
+			"description": "KASA - Kirchliche Allgemeine Sozialarbeit"
+		},
+		"570": {
+			"name": "Soziale Schuldner- und Insolvenzberatung Kitzingen",
+			"description":
+			"Die Schuldner- und Insolvenzberatung hilft, wenn Ihre finanziellen Probleme aussichtslos erscheinen. Die Mitarbeiterinnen helfen Ihnen existenznotwendige Sozialleistungen zu bekommen und zu sichern. Sie bieten Ihnen zudem Unterstüzung und Sicherheit im Umgang mit Gläubigern, Ämern, Gerichten und bei Verhandlungen. "
+		},
+		"571": {
+			"name": "KASA - Kirchliche Allgemeine Sozialarbeit",
+			"description":
+			"Sie befinden sich in einer Krise, sind allein oder haben finanzielle Probleme. Wir sind offen für Ratsuchende mit unterschiedlichsten Problemen. Wir beraten kostenfrei und unabhängig von Alter, Konfession, Religion, Geschlecht und Nationalität."
+		},
+		"572": {
+			"name": "Suchtberatung Stadthagen",
+			"description":
+			"Fachstelle für Sucht-und Suchtprävention. Ambulante Grundversorgung Sucht mit Suchtberatung und integrieter Dogenbertaung sowie Ambulante Reha Sucht. "
+		},
+		"573": {
+			"name": "Suchtberatung Rinteln",
+			"description":
+			"Fachstelle für Sucht-und Suchtprävention. Ambulante Grundversorgung Sucht mit Suchtberatung und integrieter Dogenbertaung sowie Ambulante Reha Sucht. "
+		},
+		"574": {
+			"name": "Erziehungs- und Familienberatungsstelle Lübben",
+			"description":
+			"Beratung zu Familien- und Erziehungsfragen, bei Trennung und Scheidung, bei Entwicklungs- und Verhaltensauffälligkeiten, im Kinderschutz, bei Schulschwierigkeiten, bei psychischen Problemen"
+		},
+		"575": {
+			"name": "Immanuel Beratung Fischerinsel",
+			"description":
+			"Schwangeren und Schwangerschaftskonfliktberatung gemäß §§ 218f StGB"
+		},
+		"576": {
+			"name": "Immanuel Beratung Lichtenberg",
+			"description":
+			"Wir informieren, unterstützen und beraten Menschen, die von Wohnungslosigkeit bedroht sind."
+		},
+		"577": {
+			"name": "Immanuel Beratung Rummelsburg",
+			"description":
+			"Lebens- und Paarberatung, Beratung bei allen Fragen rund um Familie, Beziehung und Erziehung."
+		},
+		"578": {
+			"name": "Immanuel Beratung Fennpfuhl",
+			"description":
+			"Erziehungs und Familienberatung, Paar- und Trennungsberatung "
+		},
+		"579": {
+			"name": "Immanuel Beratung Spandau",
+			"description":
+			"Allgemeine Sozialberatung sowie Unterstützung in Krisensituationen"
+		},
+		"580": {
+			"name": "Immanuel Beratung Marzahn",
+			"description":
+			"Beratung und Unterstützung zur Integration, Lebens- und Alltagsgestaltung"
+		},
+		"581": {
+			"name": "Immanuel Beratung Pankow",
+			"description":
+			"Psychologische Beratung in Partnerschafts-, Familien-, Erziehungs- und Lebensfragen"
+		},
+		"582": {
+			"name": "Immanuel Beratung Helmholtzplatz",
+			"description":
+			"Psychologische Beratung in Partnerschafts-, Familien-, Erziehungs- und Lebensfragen"
+		},
+		"583": {
+			"name": "Immanuel Beratung Wilmersdorf, Adoptionsdienst",
+			"description":
+			"Beratung in Kooperation mit der Caritas als Adoptionsdienst Berlin"
+		},
+		"584": {
+			"name": "Immanuel Beratung Prenzlauer Berg",
+			"description":
+			"Sozialberatung, Sozial-Coaching sowie ein Gruppenangebot zur Integration in Arbeit"
+		},
+		"585": {
+			"name": "Tagesstätte für Wohnungslose",
+			"description":
+			"Anlaufstelle für Menschen in schwierigen Lebenslage und Wohnungslosigkeit"
+		},
+		"586": {
+			"name": "Immanuel Beratung Reinickendorf",
+			"description":
+			"Begleitung und Unterstützung bei der Bewältigung von Krisen in der Familie"
+		},
+		"587": {
+			"name": "Immanuel Beratung Zehdenick",
+			"description":
+			"Familien- und Erziehungsberatung, Schwangerschaftsberatung, Paarberatung"
+		},
+		"588": {
+			"name": "Immanuel Beratung Rüdersdorf",
+			"description":
+			"Schwangeren und Schwangerschaftskonfliktberatung gemäß §§ 218f StGB"
+		},
+		"589": {
+			"name": "Immanuel Beratung Calau",
+			"description":
+			"Schwangeren und Schwangerschaftskonfliktberatung gemäß §§ 218f StGB"
+		},
+		"590": {
+			"name": "Immanuel Beratung Wittstock",
+			"description":
+			"Schwangeren und Schwangerschaftskonfliktberatung gemäß §§ 218f StGB"
+		},
+		"591": {
+			"name": "Dialog",
+			"description":
+			"Mitarbeiterberatung, Prävention und Gesundheitsförderung"
+		},
+		"592": {
+			"name": "Geschäftsstelle",
+			"description": "Leitung und Projektkoordination"
+		},
+		"593": {
+			"name":
+			"Sozialberatung - KINDERHILFE – Hilfe für krebs- und schwerkranke Kinder e.V.",
+			"description":
+			"Wir beraten und betreuen Eltern und Geschwister von\nkrebs- und schwerkranken Kindern und unterstützen sie auf ihrem Weg. Wir haben Angebote wie z.B. psychosoziale Beratung & Begleitung, Geschwisterarbeit, Trauerangebote sowie einen ambulanten Kinderhospizdienst."
+		},
+		"594": {
+			"name":
+			"Hospiz- und Palliativberatung - KINDERHILFE – Hilfe für krebs- und schwerkranke Kinder e.V.",
+			"description":
+			"Wir beraten und betreuen Eltern und Geschwister von\nkrebs- und schwerkranken Kindern und unterstützen sie auf ihrem Weg. Wir haben Angebote wie z.B. psychosoziale Beratung & Begleitung, Geschwisterarbeit, Trauerangebote sowie einen ambulanten Kinderhospizdienst."
+		},
+		"595": {
+			"name": "Evangelische Beratungsstelle Bonn",
+			"description":
+			"Beratungsstelle für Erziehungs-, Jugend-, Ehe- und Lebensfragen"
+		},
+		"596": {
+			"name": "Evangelische Beratungsstelle Bonn",
+			"description":
+			"Beratungsstelle für Erziehungs-, Jugend-, Ehe- und Lebensfragen"
+		},
+		"597": {
+			"name": "Evangelische Beratungsstelle Bonn",
+			"description":
+			"Beratungsstelle für Erziehungs-, Jugend-, Ehe- und Lebensfragen"
+		}
+	}
+}

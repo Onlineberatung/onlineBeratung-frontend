@@ -1,0 +1,151 @@
+// FONTS
+$font-family-sans-serif: Arial, sans-serif;
+$font-family-divider: $font-family-sans-serif;
+$body-font-family: $font-family-sans-serif;
+
+$font-weight-light: normal;
+$font-weight-regular: normal;
+$font-weight-medium: bold;
+$font-weight-bold: bold;
+
+// COLORS
+$primary: #5a2572;
+$primary-2: #462672;
+$primary-3: #6e2272;
+$primary-4: #3a2673;
+
+$blue: #009bdc;
+$grey-light: #d9d7ed;
+$background-light: #e4e3f3;
+$background-lighter: #f2f0f9;
+$background-grey: #677391;
+$background-accent: #e4e3f3;
+
+$message-name-self: $tertiary;
+$message-name-system: $primary;
+$message-name-consultant: $primary;
+$message-name-user: $primary;
+
+$hover-primary: $primary-4;
+$hover-select: $background-accent;
+
+$text-high-emphasis: rgba(0, 0, 0, 0.9);
+$text-low-emphasis: rgba(0, 0, 0, 0.6);
+$text-disabled: rgba(0, 0, 0, 0.4);
+$text-invert: rgba(255, 255, 255, 1);
+
+$border-default: rgba(0, 0, 0, 0.2);
+$border-hover: rgba(0, 0, 0, 0.9);
+$border-active: rgba(0, 0, 0, 0.9);
+
+// Components
+$button-auto-close-color: #835b95;
+$button-border-radius: none;
+$button-box-shadow-default: none;
+$button-box-shadow-grey: none;
+$button-small-icon-background-color-default: $blue;
+$button-small-icon-border-radius: 0;
+$button-small-icon-alternate-background-color: $blue;
+$checkbox-border-radius: 0;
+$datepicker-hover-color: $background-accent;
+$enquiry-background: $background-lighter;
+$enquiry-circle-background: $background-lighter;
+$enquiry-input-border-radius: $grid-base-three;
+$form-accordion-index-background-active: $primary;
+$form-accordion-index-border: 1px solid $primary;
+$form-accordion-index-color-active: $white;
+$form-accordion-index-color: $primary;
+$form-input-border: #dcd9dc;
+$further-steps-step-info-text-align: left;
+$headline-1-font-weight: $font-weight-medium;
+$headline-2-font-weight: $font-weight-medium;
+$illustration-background-error: rgba(255, 0, 0, 0.08);
+$illustration-background-info: rgba($black, 0.05);
+$illustration-background-neutral: rgba(53, 58, 74, 0.1);
+$input-field-border-radius: 0;
+$input-field-box-shadow: none;
+$input-field-height: 50px;
+$legal-information-links-left-default: $grid-base-two;
+$legal-information-links-left-large: $grid-base-five;
+$legal-information-links-left-medium: $grid-base-five;
+$link-color: $primary;
+$link-color-hover: $hover-primary;
+$link-text-decoration: underline;
+$link-text-decoration-hover: $link-text-decoration !default;
+$link-font-weight: inherit;
+$login-align-items: flex-start;
+$login-button-focus-border-radius: 0px;
+$login-icon-transform: none;
+$login-button-width: 320px;
+$login-button-width-large: $login-button-width;
+$login-text-align: left;
+$link-hover-color-default: $hover-primary;
+$max-input-width: 320px;
+$message-background-primary: $primary;
+$message-background-secondary: black;
+$message-background-rate: 0%;
+$message-background: mix(
+	$message-background-secondary,
+	$primary,
+	$message-background-rate
+);
+$message-submit-interface-textarea-background-color: $grey-light;
+$message-submit-interface-textarea-background-color-yellow: $yellow-3;
+$message-submit-interface-textarea-placeholder-color: $light-grey;
+$overlay-text-align: left;
+$overlay-list-align: left;
+$overlay-input-field-margin: $grid-base-three 0;
+$overlay-button-margin: $grid-base-two 0 0 auto;
+$overlay-stepped-text-align: left;
+$overlay-stepped-input-field-margin: $grid-base-three 0;
+$two-factor-qr-code-width: 100px;
+$profile-divider-text-align: left;
+$profile-imprint-background-color: $grey-light;
+$registration-form-max-width: auto;
+$registration-form-margin-left: 0 !default;
+$registration-text-align: left;
+$select-dropdown-border-radius: 0;
+$select-focus-background-color: $primary-4;
+$selection-focus-color: $text-invert;
+$sendInputHeight: 48px;
+$session-background-color: $background-lighter;
+$session-content-background-color: $background-lighter;
+$session-header-background-color: $background-light;
+$session-header-background-color-large: $background-lighter;
+$session-list-item-background-active: $background-lighter;
+$session-list-item-border-radius: 0px;
+$sessions-list-background-color-primary: $background-lighter;
+$sessions-list-background-color-secondary: $background-light;
+$session-menu-legal-links-color: $text-invert;
+$statistics-highlight-color: $primary;
+$text-color-standard: $secondary;
+$text-color-info-large-standard: $secondary;
+$text-divider-color: $primary;
+$text-divider-letter-spacing: 1px;
+$text-divider-font-weight: $font-weight-bold;
+$text-divider-text-transform: uppercase;
+$upload-progress: #80dd92;
+$welcome-screen-icon-background: $primary;
+$notice-background: transparent;
+$notice-border: 1px solid rgba(0, 0, 0, 0.2);
+$notice-padding: $grid-base-three;
+$tab-border-radius: 25px;
+$tab-background-color: rgba(0, 0, 0, 0.05);
+$tab-background-color-hover: rgba(0, 0, 0, 0.2);
+$tab-background-color-selected: rgba($primary, 0.2);
+$tab-background-color-selected-hover: rgba($hover-primary, 0.2);
+$tab-background-border-color-selected: $primary;
+$tab-color: $tertiary;
+$tab-color-hover: rgba(0, 0, 0, 0.8);
+$tab-color-selected: $primary;
+$overlay-radio-outline: 1px solid rgba(0, 0, 0, 0.2);
+$overlay-radio-radius: 25px;
+$header-height: $grid-base-twelve;
+$message-wrapper-height: 109px;
+$box-border-radius: 0px;
+$link-menu-item-border-radius: 0px;
+
+@import './sessionMenu.scss';
+@import './twoFactorAuth.scss';
+@import './releaseNote.styles';
+@import './generateQrCode.scss';

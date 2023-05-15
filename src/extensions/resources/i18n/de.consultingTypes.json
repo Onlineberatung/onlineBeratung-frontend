@@ -1,0 +1,482 @@
+{
+	"consultingType": {
+		"0": {},
+		"1": {
+			"description":
+			"Sie möchten ein Kind adoptieren oder ein Pflegekind in Ihrem Zuhause aufnehmen? Sie sind unsicher, ob Sie ihr Kind gut versorgen können? Sie sind selbst adoptiert und möchten Einblick in Ihre Akte nehmen? Wir beraten Sie vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups": "[\"Kinder, Jugendliche, Erwachsene und Familie\"]",
+			"titles": {
+				"default": "Adoption und Pflegekind",
+				"short": "Adoption und Pflegekind",
+				"long": "Adoptions- und Pflegekindberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Adoptions- und Pflegekindberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"2": {
+			"description":
+			"Sie haben ein persönliches Problem, sind in einer schwierigen finanziellen Lage oder haben Schwierigkeiten mit einer Behörde? Egal welches Problem Sie plagt, wir beraten Sie kostenfrei und vertraulich hier in der Online-Beratung.",
+			"groups":
+			"[\"Kinder, Jugendliche, Erwachsene und Familie\", \"Existenzsicherung\"]",
+			"titles": {
+				"default": "Allgemeine Sozialberatung",
+				"short": "Allgemeine Sozialberatung",
+				"long": "Allgemeine Sozialberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Allgemeine Sozialberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"3": {
+			"description":
+			"Sie haben Ihren Job verloren? Sie haben Fragen zum Arbeitslosengeld I und II? Sie brauchen Hilfe bei der Arbeitsplatzsuche oder arbeiten prekär? Wir helfen Ihnen vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups": "[\"Existenzsicherung\"]",
+			"titles": {
+				"default": "Arbeitslos, erwerbslos",
+				"short": "Arbeitslos, erwerbslos",
+				"long": "Arbeitslosenberatung/Erwerbslosenberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown":
+				"Arbeitslosenberatung/Erwerbslosenberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"4": {
+			"description":
+			"Sie müssen oder wollen Deutschland verlassen? Sie überlegen, ob Sie in Deutschland oder in Ihrem Herkunftsland leben möchten? Wir beraten Sie unabhängig von Ihrem Aufenthaltsstatus vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups": "[\"Migration, Flucht, Asyl\"]",
+			"titles": {
+				"default": "Ausreise und Perspektive",
+				"short": "Ausreise und Perspektive",
+				"long": "Ausreise- und Perspektivberatung - Rückkehrberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown":
+				"Ausreise- und Perspektivberatung - Rückkehrberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"5": {
+			"description":
+			"Sie haben keine Wohnung oder Angst Ihr Zuhause zu verlieren? Sie leben in unzumutbaren Wohnverhältnissen? Sie sind in einer Notlage? Wir helfen Ihnen vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups":
+			"[\"Existenzsicherung\", \"Besondere Lebenssituationen und Krisen\"]",
+			"titles": {
+				"default": "Wohnungsnotfall",
+				"short": "Wohnungsnotfall",
+				"long": "Beratung bei Wohnungsnotfällen",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Beratung bei Wohnungsnotfällen"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"6": {
+			"description":
+			"Sie sind Sexarbeiter:in und erleben häufig Stigmatisierung, Diskriminierung und Abwertung? Sie wollen nicht mehr als Sexarbeiter:in arbeiten? Wir unterstützen sie darin, Ihre Rechte durchzusetzen, organisieren notwendige Hilfen und helfen beim Ausstieg.",
+			"groups": "[\"Besondere Lebenssituationen und Krisen\"]",
+			"titles": {
+				"default": "Prostitution",
+				"short": "Prostitution",
+				"long":
+				"Beratung für Menschen in Prostitution und Menschenhandel",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown":
+				"Beratung für Menschen in Prostitution und Menschenhandel"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"7": {
+			"description":
+			"Sie waren in Haft und haben Fragen zu Ansprüchen auf Sozialleistungen? Sie brauchen Unterstützung bei der Wohnungs- und Arbeitssuche? Sie haben persönliche Probleme? Rund um die Haft gibt es Situationen, die man nicht alleine stemmen kann.  Wir helfen Ihnen vertraulich und kostenfrei.",
+			"groups":
+			"[\"Existenzsicherung\", \"Besondere Lebenssituationen und Krisen\"]",
+			"titles": {
+				"default": "Straffälligkeit",
+				"short": "Straffälligkeit",
+				"long":
+				"Beratung für straffällig gewordene Menschen und ihre Angehörigen",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown":
+				"Beratung für straffällig gewordene Menschen und ihre Angehörigen"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"8": {
+			"description":
+			"Ihre Familie braucht eine Auszeit, die bezahlbar ist? Wir beraten Sie gerne zu Ihrer individuellen Auszeit und Fördermöglichkeiten für Familien mit geringem Einkommen. Alle Familien sind in den Ferienstätten willkommen. Konfession und Familienkonstellation spielen keine Rolle.",
+			"groups": "[\"Kinder, Jugendliche, Erwachsene und Familie\"]",
+			"titles": {
+				"default": "Familienerholung",
+				"short": "Familienerholung",
+				"long": "Beratung zu Fragen der Familienerholung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Beratung zu Fragen der Familienerholung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"9": {
+			"description":
+			"Sie haben einen zermürbenden Konflikt oder Sorgen lassen Sie nicht zur Ruhe kommen? Sie haben Probleme in der Partnerschaft, die Sie nicht lösen können? Wir helfen Ihnen, wenn Ängste Ihren Alltag bestimmen, wenn die Trauer über den Verlust eines Menschen oder Einsamkeit Ihnen die Lebensfreude nehmen.",
+			"groups": "[\"Kinder, Jugendliche, Erwachsene und Familie\"]",
+			"titles": {
+				"default": "Ehe, Paar und Leben",
+				"short": "Ehe, Paar und Leben",
+				"long": "Ehe-, Paar- und Lebensberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Ehe-, Paar- und Lebensberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"10": {
+			"description":
+			"Hat Ihr Kind Schwierigkeiten im Kindergarten oder in der Schule? Fühlen Sie sich im Familienalltag überfordert? Stehen Sie vor einer Trennung oder brauchen Sie wegen einer Trennung Unterstützung für sich und Ihre Kinder? Wir helfen Ihnen vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups": "[\"Kinder, Jugendliche, Erwachsene und Familie\"]",
+			"titles": {
+				"default": "Erziehung und Familie",
+				"short": "Erziehung und Familie",
+				"long": "Erziehungs- und Familienberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Erziehungs- und Familienberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"11": {
+			"description":
+			"Sie sind geflüchtet und haben Fragen zum Asylverfahren? Sie brauchen Hilfe bei der Vorbereitung zur Anhörung im Asylverfahren? Das Asylverfahren ist abgeschlossen und Sie brauchen Unterstützung in Deutschland? Wir beraten Menschen jeder Herkunft und unabhängig von der Konfession.",
+			"groups": "[\"Migration, Flucht, Asyl\"]",
+			"titles": {
+				"default": "Flucht und Asyl",
+				"short": "Flucht und Asyl",
+				"long": "Flüchtlings- & Asylverfahrensberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Flüchtlings- & Asylverfahrensberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"12": {
+			"description":
+			"Sie haben ein positives Testergebnis erhalten und fragen sich, wie es weitergeht? Sie sind Angehörige:r einer HIV-positiven Person und haben offene Fragen? Sie möchten wissen, wie Sie sich vor HIV oder anderen sexuell übertragbaren Infektionen schützen können? Wir helfen Ihnen vertraulich und kostenfrei.",
+			"groups": "[\"Gesundheitliche Beeinträchtigung\"]",
+			"titles": {
+				"default": "HIV und Aids",
+				"short": "HIV und Aids",
+				"long": "HIV und Aids",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "HIV und Aids"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"13": {
+			"description":
+			"Sie sind schwerkrank, haben nicht mehr lange zu leben oder sind Angehörige:r und brauchen Unterstützung? Sie möchten in dieser Situation die bestmögliche Lebensqualität erreichen? Sie haben Fragen zur Vorsorgeplanung? Wir beraten Sie vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups":
+			"[\"Gesundheitliche Beeinträchtigung\", \"Kinder, Jugendliche, Erwachsene und Familie\", \"Alter\"]",
+			"titles": {
+				"default": "Hospiz und Palliativ",
+				"short": "Hospiz und Palliativ",
+				"long": "Hospiz- und Palliativberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Hospiz- und Palliativberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"14": {
+			"description":
+			"Sind Sie von sexualisierter Gewalt betroffen? Wurden Sie von einer anderen Person durch physische Gewalt verletzt? Droht Ihnen jemand, beleidigt Sie oder schreit Sie an? Kennen Sie eine Person, die unter häuslicher oder sexualisierter Gewalt leidet? Wir helfen Ihnen vertraulich und kostenfrei.",
+			"groups": "[\"Kinder, Jugendliche, Erwachsene und Familie\"]",
+			"titles": {
+				"default": "Gewalt",
+				"short": "Gewalt",
+				"long": "Beratung bei häuslicher und sexualisierter Gewalt",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown":
+				"Beratung bei häuslicher und sexualisierter Gewalt"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"15": {
+			"description":
+			"Du bist zwischen 12 und 27 Jahren alt, hast Migrationshintergrund und Fragen zu schulischen Abschlüssen, Ausbildung oder Sprachkursen? Wir beraten dich zu Bildungs- und Freizeitangeboten kostenfrei und vertraulich hier in der Online-Beratung.",
+			"groups": "[\"Migration, Flucht, Asyl\"]",
+			"titles": {
+				"default": "Jugendmigrationsdienste",
+				"short": "Jugendmigrationsdienste",
+				"long": "Jugendmigrationsdienste (JMD)",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Jugendmigrationsdienste (JMD)"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"16": {
+			"description":
+			"Weißt Du einfach nicht mehr weiter? Fühlst Du Dich nicht verstanden? Machst Du Dir Sorgen um eine Freundin oder einen Freund? Hast Du Schwierigkeiten mit deinen Eltern? Wirst Du geschlagen? Hast Du Stress in der Schule, mit Freunden oder wegen Geld? Wir beraten Dich vertraulich und kostenfrei.",
+			"groups": "[\"Kinder, Jugendliche, Erwachsene und Familie\"]",
+			"titles": {
+				"default": "Kinder und Jugend",
+				"short": "Kinder und Jugend",
+				"long": "Kinder- und Jugendberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Kinder- und Jugendberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"17": {
+			"description":
+			"Sie fühlen sich von Ihren Aufgaben durch Job, Familie oder die Pflege von Angehörigen ausgelaugt? Sie sind krank und brauchen eine Auszeit vom Alltag? Eine Kur kann helfen, wieder Kräfte zu sammeln. Wir beraten Mütter, Väter und pflegende Angehörige vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups":
+			"[\"Kinder, Jugendliche, Erwachsene und Familie\", \"Gesundheitliche Beeinträchtigung\"]",
+			"titles": {
+				"default": "Kurberatung",
+				"short": "Kurberatung",
+				"long": "Kurberatung für Mütter und Väter",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Kurberatung für Mütter und Väter"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"18": {
+			"description":
+			"Sie brauchen Beratung zum Thema Wohnen im Alter? Sie haben Fragen zu Hilfen im Haushalt? Sie wollen Ihre Freizeit oder die Freizeit eines älteren Familienangehörigen abwechslungsreicher gestalten? Sie suchen Information zu Themen wie Demenz? Wir beraten Sie vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups": "[\"Gesundheitliche Beeinträchtigung\", \"Alter\"]",
+			"titles": {
+				"default": "Alter und Pflegeberatung",
+				"short": "Alter und Pflegeberatung",
+				"long": "Leben im Alter und Pflegeberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Leben im Alter und Pflegeberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"19": {
+			"description":
+			"Sie sind über 26 Jahre alt und brauchen Hilfe sich in Deutschland zurecht zu finden? Sie brauchen Hilfe bei der Suche nach Arbeit oder einem Sprachkurs? Wir beraten Neu-Zugewanderte, aber auch Personen, die schon lange in Deutschland leben, Spätaussiedler:innen sowie Unionsbürger:innen.",
+			"groups": "[\"Migration, Flucht, Asyl\"]",
+			"titles": {
+				"default": "Migrationsberatung",
+				"short": "Migrationsberatung",
+				"long": "Migrationsberatung für Erwachsene und Familien",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown":
+				"Migrationsberatung für Erwachsene und Familien"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"20": {
+			"description":
+			"Sie möchten ein selbstbestimmtes Leben führen und brauchen dabei Hilfe? Sie haben Fragen zu Finanzierung, Hilfsmitteln und Assistenz? Wir beraten Sie vertraulich und kostenfrei zu Ihren Fragen zur Selbsthilfe in den Lebensbereichen Arbeiten, Wohnen, Bildung und Freizeit.",
+			"groups": "[\"Gesundheitliche Beeinträchtigung\"]",
+			"titles": {
+				"default": "Psychische Beeintr.",
+				"short": "Psychische Beeintr.",
+				"long": "Psychische Beeinträchtigung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Psychische Beeinträchtigung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"21": {
+			"description":
+			"Sie haben während Ihrer Flucht traumatische Erfahrungen gemacht? Sie haben in Ihrem Herkunftsland unter Folter, Gewalt und Rassismus gelitten? Sie kennen eine geflüchtete Person, die traumatisiert ist?  Wir helfen Ihnen mit einer psychologischen und sozalpädagogischen Beratung.",
+			"groups": "[\"Migration, Flucht, Asyl\"]",
+			"titles": {
+				"default": "Psychosoziale Beratung",
+				"short": "Psychosoziale Beratung",
+				"long":
+				"Psychosoziale Beratung für Geflüchtete und Migrant:innen",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown":
+				"Psychosoziale Beratung für Geflüchtete und Migrant:innen"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"22": {
+			"description":
+			"Sie möchten als rechtliche:r Betreuer:in eingesetzt werden und möchten wissen, wie eine Betreuung eingerichtet wird und welche Aufgaben auf Sie zukommen? Sie möchten selbst vorsorgen und eine Patientenverfügung erstellen? Wir beraten Sie vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups": "[\"Teilhabe für Menschen mit Beeinträchtigung\"]",
+			"titles": {
+				"default": "Rechtliche Betreuung",
+				"short": "Rechtliche Betreuung",
+				"long": "Rechtliche Betreuung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Rechtliche Betreuung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"23": {
+			"description":
+			"Sie haben Schulden, die Wohnung wurde gekündigt oder der Gerichtsvollzieher kommt? Wir beraten Sie vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups": "[\"Existenzsicherung\"]",
+			"titles": {
+				"default": "Schulden und Insolvenz",
+				"short": "Schulden und Insolvenz",
+				"long": "Schuldnerberatung und Insolvenzberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Schuldnerberatung und Insolvenzberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"24": {
+			"description":
+			"Sie sind schwanger und haben Fragen? Sie fürchten um Ihre Partnerschaft? Sie haben Angst vor finanziellen Schwierigkeiten, wenn das Kind kommt. Sie möchten Beratung zu vorgeburtlichen Untersuchungen?  Sie überlegen die Schwangerschaft abzubrechen? Wir beraten Sie vertraulich und kostenfrei.",
+			"groups": "[\"Kinder, Jugendliche, Erwachsene und Familie\"]",
+			"titles": {
+				"default": "Schwangerschaft",
+				"short": "Schwangerschaft",
+				"long": "Schwangeren- und Schwangerschaftskonfliktberatung",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown":
+				"Schwangeren- und Schwangerschaftskonfliktberatung"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"25": {
+			"description":
+			"Sie haben ein Suchtproblem oder machen sich Sorgen um betroffene Freunde und Verwandte? Sie haben Fragen zu Sucht und Abhängigkeit - Alkohol, Drogen, Medikamente, Glücksspiel, Computer-/Medienkonsum? Wir beraten Sie vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups":
+			"[\"Kinder, Jugendliche, Erwachsene und Familie\", \"Besondere Lebenssituationen und Krisen\", \"Gesundheitliche Beeinträchtigung\"]",
+			"titles": {
+				"default": "Sucht",
+				"short": "Sucht",
+				"long": "Suchtberatung und -prävention",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Suchtberatung und -prävention"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"26": {
+			"description":
+			"Sie möchten ein selbstbestimmtes Leben führen und brauchen dabei Hilfe? Sie haben Fragen zu Finanzierung, Hilfsmitteln und Assistenz? Wir beraten Sie vertraulich und kostenfrei zu Ihren Fragen zur Selbsthilfe in den Lebensbereichen Arbeiten, Wohnen, Bildung und Freizeit.",
+			"groups": "[\"Teilhabe für Menschen mit Beeinträchtigung\"]",
+			"titles": {
+				"default": "Teilhabe",
+				"short": "Teilhabe",
+				"long": "Teilhabe von Menschen mit Beeinträchtigungen",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown":
+				"Teilhabe von Menschen mit Beeinträchtigungen"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		},
+		"27": {
+			"description":
+			"Du hast Fragen rund um Schule, Ausbildung und Beruf? Wie stellst Du Dir Deine Zukunft vor? Was brauchst Du dafür? Wir helfen Dir vertraulich und kostenfrei hier in der Online-Beratung.",
+			"groups": "[\"Kinder, Jugendliche, Erwachsene und Familie\"]",
+			"titles": {
+				"default": "von Schule zu Beruf",
+				"short": "von Schule zu Beruf",
+				"long": "Übergang von Schule zu Beruf",
+				"welcome": "Willkommen bei der Online-Beratung",
+				"registrationDropdown": "Übergang von Schule zu Beruf"
+			},
+			"anonymous": {
+				"title": "Anonym und kostenfrei",
+				"text":
+				"Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+			}
+		}
+	}
+}

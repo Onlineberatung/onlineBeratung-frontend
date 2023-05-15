@@ -1,0 +1,63 @@
+.consultingTypes {
+	padding: 0;
+
+	@include breakpoint($fromMedium) {
+		width: 490px;
+	}
+
+	&__intro {
+		font-size: $font-size-h3;
+		line-height: 32px;
+	}
+
+	&__groupSelect {
+		max-width: 100%;
+		margin: $grid-base-three 0;
+		padding: 0;
+	}
+
+	&__children {
+		margin: $grid-base-six -#{$grid-base-three} 0;
+	}
+
+	&__learnMore {
+		display: flex;
+		align-items: flex-start;
+		margin-top: $grid-base-eight;
+		appearance: none;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+		text-decoration: underline;
+		padding-left: 0;
+
+		&:hover {
+			color: var(--skin-color-primary-hover, $hover-primary);
+		}
+	}
+
+	&__learnMoreIcon {
+		margin-right: $grid-base;
+		position: relative;
+		color: $primary;
+	}
+
+	&__learnMoreText {
+		color: $primary;
+		&:hover {
+			color: var(--skin-color-primary-hover, $hover-primary);
+		}
+	}
+
+	&__explanationOverlay .overlay__content {
+		text-align: left;
+	}
+
+	.button-as-link {
+		&:focus-visible {
+			outline: $focus-outline;
+			outline-offset: 4px;
+			border-radius: $login-button-focus-border-radius;
+		}
+	}
+}

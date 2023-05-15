@@ -1,0 +1,307 @@
+{
+	"appointments": {
+		"onlineMeeting": {
+			"overlay": {
+				"start": {
+					"copy":
+					"Sie starten jetzt den Video-Call. Eingeladene Teilnehmerinnen oder Teilnehmer können ab sofort mit dem Einladungslink beitreten."
+				}
+			}
+		}
+	},
+	"anonymous": {
+		"overlay": {
+			"chatWasFinished": {
+				"headline":
+				"Ihre Beraterin oder Ihr Berater hat den Chat beendet.",
+				"button": "Zu Diakonie.de"
+			},
+			"finishChat": {
+				"success": {
+					"button": "Zu Diakonie.de"
+				}
+			}
+		},
+		"waitingroom": {
+			"dataProtection": {
+				"description":
+				"Danach dürfen unsere Beraterinnen oder Berater einen Chat mit Ihnen starten."
+			},
+			"subline":
+			"Derzeit sind alle Beraterinnen oder Berater im Gespräch. Wir sind schnellstmöglich für Sie da.",
+			"overlay": {
+				"acceptance": {
+					"copy":
+					"Sie werden von Ihrer Beraterin oder Ihrem Berater im Chat erwartet. Sind Sie bereit?"
+				},
+				"rejection": {
+					"copy":
+					"Leider konnten wir innerhalb der Chat-Zeit nicht auf Ihr Anliegen eingehen. Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns innerhalb von 2 Arbeitstagen bei Ihnen."
+				}
+			},
+			"redirect": {
+				"subline":
+				"Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns innerhalb von 2 Arbeitstagen bei Ihnen."
+			}
+		}
+	},
+	"app": {
+		"title": "Beratung",
+		"stage.title": "Beratung\n& Hilfe"
+	},
+	"banner": {
+		"ie": {
+			"text":
+			"Diese Anwendung ist nicht für die Nutzung mit dem <strong>Internet Explorer</strong> optimiert. Für ein optimales Nutzungserlebnis verwenden Sie bitte einen modernen Browser."
+		}
+	},
+	"consultant": {
+		"jobTitle": "Beraterin oder Berater"
+	},
+	"consultingTypes": {
+		"title": "Willkommen bei den Online-Beratungsangeboten der Diakonie",
+		"intro": "Ich suche Beratung für folgendes Thema:",
+		"selectGroup": "Bitte Thema auswählen",
+		"learnMore":
+		"Mehr über den Ablauf bei der Beratung der Diakonie erfahren",
+		"info": "Info",
+		"details": {
+			"explanation": {
+				"title":
+				"Um Sie bestmöglich beraten zu können benötigen wir Ihre Postleitzahl",
+				"description":
+				"Warum? Weil dann unsere Fachleute:\n•  die Hilfen rund um Ihren Wohnort kennen\n•  die Gesetze Ihres Bundeslandes kennen"
+			}
+		},
+		"overlay": {
+			"title": "So läuft die Beratung der Diakonie ab",
+			"close": "Schliessen"
+		},
+		"register": "Registrieren"
+	},
+	"dataProtection": {
+		"title": "Datenschutz",
+		"subtitle1": "Allgemeine Hinweise",
+		"title1": "Zielsetzung und verantwortliche Stelle",
+		"text1": "Für uns ist der Schutz Ihrer im Rahmen der Nutzung unserer Webangebote bereitgestellten \npersonenbezogenen Daten ein wichtiges Anliegen. \nDeshalb möchten wir Sie nachfolgend über die Art, den Umfang und Zweck der Erhebung und Verwendung \nvon Daten sowie Verwendung von Cookies innerhalb unseres Internetangebotes und mit diesem \nzusammenhängenden Datenerhebung und -verwendung informieren.<br><br>\nVerantwortliche Stelle im Sinne der Datenschutzvorschriften ist das Evangelische Werk für Diakonie \nund Entwicklung e.V., Caroline-Michaelis-Str.1, 10115 Berlin, \n<a href=\"{{url}}\" target=\"_blank\" rel=\"noreferrer\">Impressum</a> (nachfolgend bezeichnet als \"Diakonie Deutschland\", \"wir\" oder \"uns\").",
+		"title2": "Grundsätzliche Angaben zur Datenverarbeitung",
+		"text2": "Grundlage unserer Datenverarbeitung sind die geltenden Datenschutznormen, insbesondere das Kirchengesetz über den Datenschutz der Evangelischen Kirche in Deutschland (DSG-EKD).<br><br>\nDie nachfolgende Bezeichnung als \"Nutzer\", umfasst sowohl unsere Mitglieder, Spender als auch die Besucher unserer Onlineangebote und ist geschlechtsneutral zu verstehen.<br><br>\nNeben dieser Datenschutzerklärung kann unser Internetangebot weitere und speziellere Datenschutzhinweise enthalten, auf die Sie gesondert hingewiesen werden.<br><br>\nWir verarbeiten personenbezogene Daten der Nutzer nur unter Einhaltung der einschlägigen Datenschutzbestimmungen. Das bedeutet, die Daten der Nutzer werden nur beim Vorliegen einer gesetzlichen Erlaubnis oder Vorliegen einer Einwilligung verwendet.<br><br>\nWir treffen organisatorische, vertragliche und technische Sicherheitsmaßnahmen entsprechend dem Stand der Technik, um sicher zu stellen, dass die Vorschriften der Datenschutzgesetze eingehalten werden und um damit die durch uns verwalteten Daten gegen zufällige oder vorsätzliche Manipulationen, Verlust, Zerstörung oder gegen den Zugriff unberechtigter Personen zu schützen.",
+		"title3": "Verarbeitung personenbezogener Daten",
+		"text3": "Die personenbezogenen Daten der Nutzer werden, neben den in dieser Datenschutzerklärung ausdrücklich genannten Verwendungen, für die folgenden Zwecke verwendet:<br><br>\n<ul>\n<li>Die Wahrnehmung unserer satzungsmäßigen Aufgaben, Ausführung unserer Dienste-, Service- und Nutzerleistungen;</li>\n<li>technische und geschäftsbezogene Benachrichtigungen betreffend unserer Angebote.</li><br>\n</ul>\nDie uns online zur Verfügung gestellten personenbezogenen Daten werden nur für die im konkreten Fall mitgeteilten Zwecke erhoben, verarbeitet und genutzt. Eine darüberhinausgehende Erhebung, Verarbeitung oder Nutzung erfolgt nur im Einklang mit dem Gesetz.<br><br>\nDabei ist die Verarbeitung gemäß § 6 DSG-EKD nur rechtmäßig, wenn mindestens eine der nachstehenden Bedingungen erfüllt ist:<br><br>\n<ol>\n<li>eine Rechtsvorschrift erlaubt die Verarbeitung der personenbezogenen Daten oder ordnet sie an;</li>\n<li>die betroffene Person hat ihre Einwilligung zu der Verarbeitung der sie betreffenden personenbezogenen Daten für einen oder mehrere bestimmte Zwecke gegeben;</li>\n<li>die Verarbeitung ist zur Erfüllung der Aufgaben der verantwortlichen Stelle erforderlich, einschließlich der Ausübung kirchlicher Aufsicht,</li> \n<li>die Verarbeitung ist für die Wahrnehmung einer sonstigen Aufgabe erforderlich, die im kirchlichen Interesse liegt,</li>\n<li>die Verarbeitung ist für die Erfüllung eines Vertrags, dessen Vertragspartei die betroffene Person ist, oder zur Durchführung vorvertraglicher Maßnahmen erforderlich, die auf Anfrage der betroffenen Person erfolgt;</li> \n<li>die Verarbeitung ist zur Erfüllung einer rechtlichen Verpflichtung erforderlich, der die kirchliche Stelle unterliegt;</li> \n<li>die Verarbeitung ist erforderlich, um lebenswichtige Interessen der betroffenen Person oder einer anderen natürlichen Person zu schützen;</li> \n<li>die Verarbeitung ist zur Wahrung der berechtigten Interessen eines Dritten erforderlich, sofern nicht die schutzwürdigen Interessen der betroffenen Person überwiegen, insbesondere dann, wenn diese minderjährig ist.</li> \n</ol><br>\nWir übermitteln Daten ferner an Dritte, wenn dies auf Grundlage einer Einwilligung geschieht oder dies für Abrechnungszwecke (z.B. Durchführung von Banktransaktionen oder postalischer Versand von Waren und Rechnungen) oder sonst notwendig ist, um unsere vertraglichen Pflichten den Nutzern gegenüber zu erfüllen.<br><br>\nBei Kontaktaufnahme mit uns werden die Angaben zwecks Bearbeitung der Anfrage sowie für den Fall, dass Anschlussfragen entstehen, gespeichert.<br><br>\nSofern innerhalb des Internetangebotes die Möglichkeit zur Eingabe persönlicher oder geschäftlicher Daten (zum Beispiel im Rahmen einer persönlichen Registrierung, Bestellung, Anforderung oder Mitteilung) besteht, so erfolgt die Angabe dieser Daten seitens des Nutzers auf ausdrücklich freiwilliger Basis.<br><br>\nPersonenbezogene Daten werden gelöscht, sofern sie ihren Verwendungszweck erfüllt haben und der Löschung keine Aufbewahrungspflichten entgegenstehen.",
+		"title4": "Änderungen der Datenschutzerklärung",
+		"text4": "Wir behalten uns vor die Datenschutzerklärung zu ändern, um sie an geänderte Rechtslagen, oder bei Änderungen des Dienstes sowie der Datenverarbeitung anzupassen.<br><br>\nDie Nutzer werden daher gebeten sich regelmäßig über deren Inhalt zu informieren, insbesondere wenn sie erneut personenbezogene Informationen mitteilen.",
+		"title5": "Rechte der betroffenen Person",
+		"text5": "Sie haben das Recht über die personenbezogenen Daten, die von uns über sie gespeichert \nwurden, auf Antrag unentgeltlich Auskunft zu erhalten.<br><br>\nSie haben das Recht, Ihre datenschutzrechtliche Einwilligungserklärung jederzeit zu widerrufen \n(s.a. z.B. Newsletter). \nDurch den Widerruf der Einwilligung wird die Rechtmäßigkeit der aufgrund der Einwilligung bis \nzum Widerruf erfolgten Verarbeitung nicht berührt.<br><br>\nZusätzlich haben Sie in berechtigten Fällen das Recht auf Berichtigung, auf Löschung, auf \nEinschränkung der Verarbeitung, auf Datenübertragbarkeit sowie eines Widerspruchsrechts gegen \ndie Verarbeitung.<br><br>\nDie Kontaktdaten sind dem <a href=\"{{ url }}\" target=\"_blank\" rel=\"noreferrer\">Impressum</a> zu entnehmen.<br><br>\nIm Falle datenschutzrechtlicher Verstöße steht dem Betroffenen ein Beschwerderecht bei der\nzuständigen Aufsichtsbehörde zu.\nZuständige Aufsichtsbehörde ist die oder der<br><br>\nBeauftragte für den Datenschutz der EKD<br>\nLange Laube 20, 30159 Hannover<br>\nTelefon: 0511 768128-0<br>\n<a href=\"https://datenschutz.ekd.de\" target=\"_blank\" rel=\"noreferrer\">https://datenschutz.ekd.de</a>",
+		"title6": "Ansprechpartner",
+		"text6": "Für Fragen zum Datenschutz wenden Sie sich bitte an den Betriebsbeauftragten für den Datenschutz im Evangelischen Werk für Diakonie und Entwicklung:<br><br>\nDie oder Der örtlich Beauftragte für den Datenschutz<br>\nCaroline-Michaelis-Str. 1<br>\n10115 Berlin<br>\nE-Mail: <a href=\"mailto:datenschutz@ewde.de\" target=\"_blank\" rel=\"noreferrer\">datenschutz@ewde.de</a>",
+		"subtitle2": "Datenerfassung auf der Webseite",
+		"title7": "Was sind Cookies und Co?",
+		"subtitle7": "Web-Browser-Cookies",
+		"text7": "Cookies sind Informationen, die von unserem Webserver an Ihren Web-Browser übertragen und dort für einen späteren Abruf gespeichert werden. \nInformationen können zum Beispiel Ihre IP-Adresse oder eine andere Kennung, Ihren Browsertyp und Informationen über digitale Inhalte, mit denen Sie interagieren, enthalten. \nDurch das Speichern solcher Informationen können Webbrowser-Cookies Ihre Präferenzen und Einstellungen für Online-Dienste speichern und analysieren, wie Sie Online-Dienste nutzen.",
+		"title8": "Verwendung, Rechtsgrundlage und Zweck",
+		"subtitle8": "Technisch notwendige Cookies",
+		"text8": "Die Verwendung technisch notweniger Cookies dient dazu, die Nutzung der Webseiten für die Webseitenbesucher zu vereinfachen. \nEinige Funktionen unserer Webseite erfordern den Einsatz von technisch notwendigen Cookies. \nDer Browser des Nutzers muss dafür auch nach einem Seitenwechsel wiedererkannt werden. \nWir erheben Daten über jeden Zugriff auf den Server, auf dem sich dieses Angebot befindet (so genannte Serverlogfiles).<br><br>\nDie Rechtsgrundlage für die Verarbeitung personenbezogener Daten unter Verwendung technisch notweniger Cookies ist § 6 Nr.4 DSG-EKD.<br><br>\nZu den Zugriffsdaten gehören Name der abgerufenen Webseite, Datei, Datum und Uhrzeit des Abrufs, übertragene Datenmenge, Meldung über erfolgreichen Abruf, Browsertyp nebst Version, das Betriebssystem des Nutzers, Referrer URL (die zuvor besuchte Seite), IP-Adresse und der anfragende Provider. Diese Daten werden nicht gespeichert, sind jedoch zur Laufzeit verfügbar.<br><br>\nWir verwenden die Protokolldaten ohne Zuordnung zur Person des Nutzers oder sonstiger Profilerstellung entsprechend den gesetzlichen Bestimmungen nur für statistische Auswertungen zum Zweck des Betriebs, der Sicherheit und der Optimierung des Angebotes. \nWir behalten uns jedoch vor, die Protokolldaten nachträglich zu überprüfen, wenn aufgrund konkreter Anhaltspunkte der berechtigte Verdacht einer rechtswidrigen Nutzung besteht. \nDie durch technisch notwendige Cookies erhobenen Nutzerdaten werden nicht zur Erstellung von Nutzerprofilen verwendet.",
+		"title9":
+		"Dauer der Speicherung, Widerspruchs- und Beseitigungsmöglichkeit",
+		"text9": "Cookies werden auf dem Rechner des Nutzers gespeichert und von diesem an unserer Seite übermittelt. \nDaher haben Sie als Nutzer auch die volle Kontrolle über die Verwendung von Cookies. \nDurch eine Änderung der Einstellungen in Ihrem Internetbrowser können Sie die Übertragung von Cookies deaktivieren oder einschränken. \nBereits gespeicherte Cookies können jederzeit gelöscht werden. \nDies kann auch automatisiert erfolgen. Werden Cookies für unsere Website deaktiviert, können möglicherweise nicht mehr alle Funktionen der Website vollumfänglich genutzt werden.",
+		"title10": "Verwendete Cookies",
+		"text10": "\n<table>\n<tr>\n<th>Name</th>\n<th>Speicherdauer</th>\n<th>Zugriff Dritter</th>\n</tr>\n<tr>\n<td>CSRF-TOKEN</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>keycloak</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>KEYCLOAK_LOCALE</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>rc_token</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>rc_uid</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>refreshToken</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>useInformal</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>userRoles</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>registeredUsername</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>hideInfoBanner</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>public_key</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>private_key</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>visited</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>anonymousSessionId</td>\n<td>Session</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>auth.access_token_valid_until</td>\n<td>Dauerhaft</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>auth.refresh_token_valid_until</td>\n<td>Dauerhaft</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>mk_*</td>\n<td>Dauerhaft</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>locale</td>\n<td>Dauerhaft</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>releaseNote</td>\n<td>Dauerhaft</td>\n<td>nein</td>\n</tr>\n<tr>\n<td>pseudoPassword_*</td>\n<td>Dauerhaft</td>\n<td>nein</td>\n</tr>\n</table>\n",
+		"title11": "Registrierung und Kommunikation über die Beratungsplattform",
+		"text11": "Das Beratungsportal ist ein geschlossenes und verschlüsseltes System, über das Ratsuchende anonymen Kontakt zu einer Beratungsstelle der Diakonie herstellen können. \nDie Diakonie Deutschland stellt dieses System zur Verfügung und gewährleistet die technische Sicherheit, hat aber keinen Einblick in die Beratungsvorgänge. \nDiese liegen in der Verantwortung der einzelnen Beratungsstellen. \nBei Fragen zu einem Beratungsvorgang wenden Sie sich daher bitte direkt an die jeweilige Beratungsstelle.",
+		"title12": "Umfang und Zweck der Datenverarbeitung, Rechtsgrundlage",
+		"text12": "Ziel des Beratungsportals ist es, in der Online-Kommunikation einen Grad der Vertraulichkeit herzustellen, der mit einem Vier-Augen-Gespräch innerhalb einer Beratungsstelle vergleichbar ist.<br><br>\nAuf technischem Wege wird dabei sichergestellt, dass Beratungsanfragen nach der Fallverteilung nur von dem oder der Ratsuchenden und einer Beraterin oder einem Berater gelesen werden können. \nEin Mitlesen von Beratungsinhalten durch Dritte ist technisch nicht möglich.<br><br>\nBeratungsstellen haben zusätzlich die Möglichkeit einer Teamberatung. Alle Beraterinnen und Berater einer Teamberatungsstelle können die Beratung einsehen. Dies wird dem oder der Ratsuchenden vor der Beratungsanfrage angezeigt.<br><br>\nBei einer Videoberatung kann eine Beraterin oder ein Berater Dritte hinzuschalten, z.B. Dolmetscher. Die Zuschaltung erfolgt für die Ratsuchende oder den Ratsuchenden sichtbar.<br><br>\nZur Aufrechterhaltung des Mailserver-Betriebs, zur Fehlerdiagnose und zur Verhinderung von Missbrauch werden Mail-Server-Logs maximal 30 Tage gespeichert. \nZur Sicherstellung des Betriebs, zur Verhinderung von Missbrauch und zur Besucherauswertung werden IP-Adressen der Benutzer während der Session verarbeitet. Eine Speicherung der IP-Adressen erfolgt nicht.<br><br>\nRechtsgrundlage für die Verarbeitung der Daten ist bei Vorliegen einer Einwilligung § 6 Nr. 2 DSG-EKD.",
+		"title13": "Anonymität",
+		"text13": "Ratsuchende brauchen ihren Namen nicht anzugeben, es wird lediglich ein Benutzername zur Identifizierung des oder der Ratsuchenden verlangt. \nDazu kann ein frei wählbares Pseudonym genutzt werden, welches keinen Rückschluss auf den tatsächlichen Namen zulässt.<br><br>\nRatsuchende können darüber hinaus freiwillig eine eigene E-Mail-Adresse angeben, an die sie automatisierte Benachrichtigungen erhalten, sobald eine Antwort auf Ihre Anfrage vorliegt. Diese E-Mail-Adresse ist von den Beraterinnen oder Beratern nicht zu sehen und es werden niemals Beratungsinhalte an diese E-Mail-Adresse gesendet.<br><br>\nDie IP-Adresse von Ratsuchenden wird nicht zusammen mit der Anfrage gespeichert.<br><br>\nEs werden keine Benutzerprofile angelegt, die es ermöglichen, eine Verbindung zwischen verschiedene Anfragen herzustellen.",
+		"title14": "Datenlöschung",
+		"text14": "Alle Nachrichten einer Anfrage werden automatisch 180 Tage nach der letzten Nachricht gelöscht. \nDurch die \"Schutzfrist\" von 180 Tagen ist gewährleistet, dass eine Anfrage auch dann fortgesetzt werden kann, wenn sie durch Urlaub oder Krankheit der Beraterin, des Beraters, des oder der Ratsuchenden einige Wochen unterbrochen wird.<br><br>\nEventuelle Dokumentations- und Archivierungspflichten verbleiben bei der Beratungsstelle.",
+		"text15": "Stand der Datenschutzerklärung: November 2022"
+	},
+	"deleteAccount": {
+		"successOverlay": {
+			"headline":
+			"Sie haben Ihren Account bei der Diakonie Beratung erfolgreich gelöscht."
+		}
+	},
+	"enquiry": {
+		"write": {
+			"input": {
+				"placeholder": {
+					"consultant": "Nachricht an Klient:in schreiben",
+					"feedback": {
+						"peer": "Nachricht an Teamleiter:in schreiben"
+					}
+				}
+			},
+			"overlay": {
+				"copy":
+				"Innerhalb von 2 Arbeitstagen erhalten Sie eine Antwort von uns."
+			}
+		}
+	},
+	"furtherSteps": {
+		"step2.info":
+		"Jetzt finden wir eine Beraterin oder einen Berater für Sie.",
+		"step3.info":
+		"Ihre Beraterin oder Ihr Berater antwortet innerhalb von 2 Arbeitstagen.",
+		"emailNotification": {
+			"infoText":
+			"Wenn Sie Ihre E-Mail-Adresse angeben (freiwillig)<br><ul><li>erhalten Sie eine E-Mail-Benachrichtigung, wenn Ihre Beraterin oder Ihr Berater Ihnen geschrieben hat</li><li>können Sie Ihr Passwort zurücksetzen, falls Sie es vergessen haben.</li></ul>Ihre E-Mail-Adresse kann von den Beraterinnen und Beratern nicht eingesehen werden."
+		}
+	},
+	"groupChat": {
+		"join": {
+			"warning.message":
+			"Ihre Beraterin/Moderatorin oder ihr Berater/Moderator hat den Chat noch nicht gestartet. Sobald Ihre Beraterin/Moderatorin oder Ihr Berater/Moderator den Chat gestartet hat können Sie mit uns chatten. Bitte haben Sie noch etwas Geduld."
+		}
+	},
+	"imprint": {
+		"title": "Impressum",
+		"title1": "Anbieterkennzeichnung gemäß den gesetzlichen Bestimmungen",
+		"text1": "Diakonie Deutschland<br>\nEvangelisches Werk für Diakonie und Entwicklung e.V.<br>\nCaroline-Michaelis-Str. 1<br>\n10115 Berlin<br><br>\nTelefon: 030 65211-0<br>\nTelefax: 030 65211-3333<br> \nE-Mail: <a href=\"mailto:diakonie@diakonie.de\" target=\"_blank\" rel=\"noreferrer\">diakonie@diakonie.de</a>",
+		"title2":
+		"Das Werk wird durch den Vorstand vertreten. Er besteht aus folgenden Mitgliedern",
+		"text2": "Vorsitzende: Präsidentin Pfarrerin Dr. Dagmar Pruin<br>\nstellvertretender Vorsitzender: Präsident Pfarrer Ulrich Lilie<br><br>\nDr. Jörg Kruttschnitt<br>\nMaria Loheide<br><br>\nJeweils zwei Mitglieder des Vorstandes vertreten das Evangelische Werk für Diakonie und Entwicklung e.V. im Rechtsverkehr gemeinsam.",
+		"title3": "Registergericht",
+		"text3": "Amtsgericht Berlin-Charlottenburg, Vereinsregister 31924 B<br><br>\nUSt-IdNr.: DE 147801862<br><br>\nDas Evangelische Werk für Diakonie und Entwicklung verfolgt ausschließlich und unmittelbar gemeinnützige, mildtätige und kirchliche Zwecke im Sinne des Abschnitts \"steuerbegünstigte Zwecke\" der Abgabenordnung.",
+		"title4": "Verantwortlich für den Web-Auftritt",
+		"text4": "Dr. Thomas Schiller<br>\nLeiter Kommunikation<br>\nEvangelisches Werk für Diakonie und Entwicklung e.V.<br>\nCaroline-Michaelis-Str.1<br>\n10115 Berlin<br><br>\nTelefon: 030 65211-1356<br>\nFax: 030 65211-3356<br>\nE-Mail: <a href=\"mailto:thomas.schiller@diakonie.de\" target=\"_blank\" rel=\"noreferrer\">thomas.schiller@diakonie.de</a>",
+		"title5": "Copyright-Hinweis",
+		"text5": "Alle auf unseren Seiten verwendeten Bilder, Fotos, Logos, Texte etc. unterliegen dem Copyright des Evangelischen Werkes für Diakonie und Entwicklung e.V. bzw. von Dritten. Sie dürfen nicht bzw. nur nach Rücksprache mit der Redaktion weiter verwendet werden. Die verschiedenen Logos der Diakonie sowie das Kronenkreuz sind eingetragene Marken, deren Eigentümer das Evangelische Werk für Diakonie und Entwicklung e.V. ist. Die unberechtigte Nutzung und Verwendung ist unzulässig.",
+		"title6": "Rechtlicher Hinweis zur Haftung",
+		"text6": "Die Inhalte externer Links werden von uns sorgfältig geprüft. Wir übernehmen dennoch keine Haftung für die Inhalte der mit oder von unserer Website verlinkten externen Seiten. Für die Inhalte dieser Seiten sind ausschließlich deren Anbieter verantwortlich.<br><br>\nDie Diakonie Deutschland ist Dachorganisation der Diakonie in Deutschland. Als evangelischer Wohlfahrtsverband ist sie der soziale Dienst der Kirchen in Deutschland und vertritt die Interessen der Menschen für die die diakonischen Dienste und Einrichtungen tätig sind. Der Online-Auftritt richtet sich deshalb an alle, die an den Angeboten der Diakonie in Deutschland interessiert sind."
+	},
+	"monitoring": {
+		"monitoringU25": {
+			"deceaseLovedOne": "Tod einer oder eines Nahestehenden",
+			"concernLovedOne": "Sorge um Nahestehende:n",
+			"relationshipRelative": "Beziehungssituation mit Angehörige:n",
+			"noAnswer": "Klient:in hat sich nicht mehr gemeldet",
+			"partnerLivingCommunity": "mit Partner:in in WG",
+			"concern": "Sorge um Suizidgefährdete:n",
+			"noFirstAnswer": "Klient:in hat auf Erstmail nicht reagiert",
+			"helpfulness": "Wie hilfreich war der Kontakt für Klient:in?"
+		}
+	},
+	"profile": {
+		"data": {
+			"register": {
+				"consultingModeInfo": {
+					"groupChats":
+					"In der Selbsthilfe tauschen sich Betroffene über ein Thema oder ein Anliegen miteinander aus. Die Betroffenen sprechen über ihre Probleme, Gefühle und Hoffnungen und erfahren so, wie andere Probleme bewältigt haben. Die Gruppen werden von Moderatorinnen oder Moderatoren geleitet."
+				}
+			}
+		},
+		"notifications": {
+			"follow.up.email.label":
+			"eine Nachricht von einem oder einer angenommenen Ratsuchenden erhalten haben."
+		}
+	},
+	"registration": {
+		"agencySelection": {
+			"postcode": {
+				"unavailable": {
+					"title": "Keine Online-Beratungsstelle gefunden"
+				}
+			}
+		},
+		"overlay": {
+			"success": {
+				"headline":
+				"Herzlich willkommen<br>bei der Beratung der Diakonie."
+			}
+		},
+		"user": {
+			"infoText":
+			"Um Ihre Anonymität zu schützen, raten wir Ihnen, nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen."
+		},
+		"welcomeScreen": {
+			"subline": "Wie läuft die Beratung der Diakonie ab?",
+			"info3": {
+				"text": "Innerhalb von 2 Arbeitstagen bekommen Sie eine Antwort"
+			},
+			"info4": {
+				"text": "Sie bleiben anonym und erhalten kostenfreie Beratung"
+			}
+		},
+		"consultingTypeAgencySelection": {
+			"consultingType": {
+				"infoText":
+				"Ihre Beraterin oder Ihr Berater ist in mehreren Themenfeldern tätig. Bitte wählen Sie Ihr gewünschtes Themenfeld."
+			},
+			"agency": {
+				"infoText":
+				"Ihre Beraterin oder Ihr Berater ist in mehreren Beratungsstellen tätig. Bitte wählen Sie Ihre gewünschte Beratungsstelle."
+			}
+		}
+	},
+	"session": {
+		"consultant.prefix": "Beraterin oder Berater - ",
+		"groupChat.consultant.prefix": "Moderatorin oder Moderator - ",
+		"acceptance": {
+			"overlay.headline":
+			"Sie haben die Erstanfrage erfolgreich angenommen und finden diese nun unter „Meine Beratungen“."
+		},
+		"assignOther": {
+			"overlay": {
+				"subtitle.noTeam":
+				"{{newConsultant}} ist somit für die Ratsuchende oder den Ratsuchenden verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.",
+				"subtitle.team.self":
+				"{{newConsultant}} ist somit für die Ratsuchende oder den Ratsuchenden verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, finden Sie den Chatverlauf in Ihren Nachrichten und nicht mehr unter Teamberatung.",
+				"subtitle.team.other":
+				"{{newConsultant}} ist somit für die Ratsuchende oder den Ratsuchenden verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, finden Sie den Chatverlauf unter Teamberatung und nicht mehr in Ihren Nachrichten."
+			}
+		}
+	},
+	"sessionList": {
+		"view": {
+			"headline": "Meine Beratungen"
+		},
+		"user": {
+			"headline": "Meine Beratungen",
+			"consultantUnknown": "Beraterinnen- oder Berater-Suche läuft"
+		}
+	},
+	"twoFactorAuth": {
+		"activate": {
+			"app": {
+				"step3": {
+					"title": "Verknüpfen Sie die App mit Ihrem Account"
+				}
+			}
+		}
+	},
+	"typingIndicator": {
+		"multipleUsers.typing": "Teilnehmerinnen oder Teilnehmer schreiben"
+	},
+	"userProfile": {
+		"data": {
+			"resort": "Beratungsfeld"
+		},
+		"reassign": {
+			"description":
+			"Sie können die Unterhaltung einem anderen Teammitglied zuweisen. Diese Person ist dann für die Ratsuchende oder den Ratsuchenden verantwortlich."
+		}
+	},
+	"videoConference": {
+		"waitingroom": {
+			"dataProtection": {
+				"description":
+				"Danach dürfen unsere Beraterinnen oder Berater einen Video-Call mit Ihnen starten."
+			},
+			"subline":
+			"Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet sobald Ihre Beraterin oder Ihr Berater den Video-Call startet.",
+			"paused": {
+				"subline":
+				"Der Video-Call wurde beendet. Sollten Ihre Beraterin oder Ihr Berater nur abwesend sein werden Sie in den Video-Call weitergeleitet sobald Ihre Beraterin oder Ihr Berater den Video-Call fortsetzt."
+			},
+			"errorPage": {
+				"description":
+				"Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde. Sollten Sie weiterhin Probleme haben fragen Sie bitte Ihre Beraterin oder Ihren Berater.",
+				"rejected": {
+					"description":
+					"Leider können Sie an diesem Video-Call nicht teilnehmen, da Ihre Beraterin oder Ihr Berater Sie abgelehnt hat."
+				}
+			}
+		}
+	}
+}

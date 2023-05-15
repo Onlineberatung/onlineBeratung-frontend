@@ -1,0 +1,41 @@
+.consultingTypesAgencySelection {
+	margin-top: $grid-base-three;
+
+	&__innerWrapper {
+		@include breakpoint($xlarge) {
+			display: flex;
+		}
+	}
+
+	&__postcode {
+		@include breakpoint($xlarge) {
+			max-width: 200px;
+		}
+	}
+
+	&__register {
+		margin-top: $grid-base-three;
+
+		button {
+			width: 100%;
+		}
+
+		@include breakpoint($xlarge) {
+			margin-top: 0;
+			margin-left: $grid-base-two;
+		}
+	}
+
+	&__postcodeFallback {
+		margin-top: $grid-base-three;
+
+		p {
+			margin-bottom: 20px;
+		}
+
+		a {
+			display: block;
+			text-decoration: underline;
+		}
+	}
+}
