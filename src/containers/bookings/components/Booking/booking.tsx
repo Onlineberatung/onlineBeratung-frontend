@@ -58,7 +58,7 @@ export const Booking = () => {
 
 	return (
 		<React.Fragment>
-			{appointmentLink && settings.calcomUrl && (
+			{appointmentLink && settings.calcomUrl && userData.userId && (
 				<Cal
 					calLink={appointmentLink}
 					calOrigin={settings.calcomUrl}
