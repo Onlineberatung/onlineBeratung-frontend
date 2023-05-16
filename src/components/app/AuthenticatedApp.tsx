@@ -122,7 +122,7 @@ export const AuthenticatedApp = ({
 							<RocketChatSubscriptionsProvider>
 								<RocketChatUnreadProvider>
 									<RocketChatUserStatusProvider>
-										<E2EEncryptionSupportBanner/>
+										<E2EEncryptionSupportBanner />
 										<Routing logout={handleLogout} />
 										{notifications && (
 											<Notifications

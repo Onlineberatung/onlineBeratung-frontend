@@ -270,7 +270,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	const getContent = () => {
 		if (!supportsE2EEncryptionVideoCall()) {
-			return <E2EEncryptionSupportHelp/>;
+			return <E2EEncryptionSupportHelp />;
 		} else if (isDataProtectionViewActive) {
 			return (
 				<WaitingRoomContent
