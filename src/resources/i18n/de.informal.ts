@@ -77,6 +77,18 @@ export const deInformal = {
 			info: 'Wir haben Dich gebeten, die Chat-Regeln einzuhalten.<br/><br/>Weil Du heute die Chat-Regeln wiederholt nicht eingehalten hast, haben wir Dich für den heutigen Chat ausgeschlossen.<br/><br/>Mache Dich mit den Chat-Regeln vertraut!</br></br>Wenn Du bereit bist, die Chat-Regeln einzuhalten, bist Du ab morgen wieder im Chat willkommen!'
 		}
 	},
+
+	termsAndConditionOverlay: {
+		labels: {
+			here: 'hier'
+		},
+		contentLine1: {
+			termsAndCondition:
+				'Wir haben die Nutzungsbedingungen der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir deine Zustimmung.',
+			termsAndConditionAndPrivacy:
+				'Wir haben die Nutzungsbedingungen und Datenschutzerklärung der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir deine Zustimmung.'
+		}
+	},
 	deleteAccount: {
 		confirmOverlay: {
 			'headline': 'Möchtest Du Deinen Account wirklich löschen?',
