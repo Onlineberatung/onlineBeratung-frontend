@@ -301,8 +301,10 @@ export const de = {
 			'location': {
 				IN_PERSON: 'In der Beratungsstelle',
 				PHONE_CALL: 'Telefon-Beratung',
+				USER_PHONE: 'Telefon-Beratung',
 				VIDEO_CALL: 'Videoberatung',
-				CHAT: 'Text-Chat'
+				CHAT: 'Text-Chat',
+				LINK: 'Videoberatung'
 			},
 			'tooltip': {
 				consultant:
