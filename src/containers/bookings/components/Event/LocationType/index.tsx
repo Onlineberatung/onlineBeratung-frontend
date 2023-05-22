@@ -40,8 +40,10 @@ export const LocationType = ({ event }: { event: BookingEventUiInterface }) => {
 					</Tooltip>
 				</div>
 				<div className="bookingEvents__video-label">
-					{event.location === 'PHONE_CALL' && <CallIcon />}
-					{event.location === 'VIDEO_CALL' && <VideoCalIcon />}
+					{(event.location === 'PHONE_CALL' ||
+						event.location === 'USER_PHONE') && <CallIcon />}
+					{(event.location === 'VIDEO_CALL' ||
+						event.location === 'LINK') && <VideoCalIcon />}
 					{event.location === 'IN_PERSON' && <LocationIcon />}
 					{event.location === 'CHAT' && <ChatIcon />}
 					<Text
