@@ -83,9 +83,9 @@ export const deInformal = {
 		},
 		contentLine1: {
 			termsAndCondition:
-				'Wir haben die Nutzungsbedingungen der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir deine Zustimmung.',
+				'Wir haben die Nutzungsbedingungen der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Deine Zustimmung.',
 			termsAndConditionAndPrivacy:
-				'Wir haben die Nutzungsbedingungen und Datenschutzerklärung der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir deine Zustimmung.'
+				'Wir haben die Nutzungsbedingungen und Datenschutzerklärung der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Deine Zustimmung.'
 		}
 	},
 	deleteAccount: {
@@ -396,10 +396,10 @@ export const deInformal = {
 			'follow.up.email.label':
 				'eine Nachricht von angenommenen Ratsuchenden erhalten hast.',
 			'description':
-				'Wir informieren Dich per E-Mail, wenn Du eine neue Nachricht erhalten hast.',
+				'Wir informieren Dich per E-Mail, wenn Du eine neue Nachricht erhalten haben, solange Du nicht im System angemeldet bist.',
 			'initialEnquiry': {
 				description:
-					'Wir informieren dich auch, wenn du im System angemeldet bist.'
+					'Wir informieren Dich auch, wenn Du im System angemeldet bist.'
 			},
 			'reassignmentAdviceSeeker': {
 				description:
