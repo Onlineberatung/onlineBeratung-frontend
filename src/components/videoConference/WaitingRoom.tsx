@@ -75,7 +75,7 @@ export const WaitingRoom = ({
 
 	const getContent = () => {
 		if (!supportsE2EEncryptionVideoCall()) {
-			return <E2EEncryptionSupportHelp/>;
+			return <E2EEncryptionSupportHelp />;
 		} else if (error) {
 			return (
 				<WaitingRoomContent

@@ -63,6 +63,7 @@ module.exports = {
 	},
 	appPackageJson: resolveApp('package.json'),
 	appSrc: resolveApp('src'),
+	appExtensions: resolveApp(process.env.EXTENSION_DIR ?? './src/extensions'),
 	appTsConfig: resolveApp('tsconfig.json'),
 	appJsConfig: resolveApp('jsconfig.json'),
 	yarnLockFile: resolveApp('yarn.lock'),
