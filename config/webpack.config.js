@@ -86,6 +86,17 @@ const hasJsxRuntime = (() => {
 	}
 })();
 
+const getTemplate = (templatePath) => {
+	const templateAbsPath = path.resolve(paths.appExtensions, templatePath);
+	if (
+		fs.existsSync(templateAbsPath) &&
+		!fs.lstatSync(templateAbsPath).isDirectory()
+	) {
+		return templateAbsPath;
+	}
+	return path.resolve(paths.appSrc, templatePath);
+};
+
 const localAliases = (paths) =>
 	paths
 		// Remove paths which are not overridden
@@ -204,18 +215,20 @@ module.exports = function (webpackEnv) {
 				{
 					loader: require.resolve(preProcessor),
 					options: {
-						sassOptions: {
-							includePaths: [
-								path.resolve(
-									process.cwd(),
-									'./src/resources/styles/settings.scss'
-								)
-							]
+						additionalData: (content) => {
+							let newContent = `@import "${path.resolve(
+								paths.appSrc,
+								'resources/styles/settings.scss'
+							)}"; `;
+							const settingsPathExtensions = path.resolve(
+								paths.appExtensions,
+								'resources/styles/settings.scss'
+							);
+							if (fs.existsSync(settingsPathExtensions)) {
+								newContent += `@import "${settingsPathExtensions}"; `;
+							}
+							return `${newContent} ${content}`;
 						},
-						additionalData: `@import "${path.resolve(
-							process.cwd(),
-							'./src/resources/styles/settings.scss'
-						)}";`,
 						sourceMap: true
 					}
 				}
@@ -362,7 +375,9 @@ module.exports = function (webpackEnv) {
 					'react-dom$': 'react-dom/profiling',
 					'scheduler/tracing': 'scheduler/tracing-profiling'
 				}),
-				...(modules.webpackAliases || {})
+				...(modules.webpackAliases || {}),
+				'src': paths.appSrc,
+				'extensions': path.join(paths.appSrc, 'extensions')
 			},
 			plugins: [
 				// Prevents users from importing files from outside of src/ (or node_modules/).
@@ -459,6 +474,7 @@ module.exports = function (webpackEnv) {
 							test: /\.(js|mjs|jsx|ts|tsx)$/,
 							include: [
 								paths.appSrc,
+								paths.appExtensions,
 								path.resolve(
 									'node_modules/@onlineberatung/onlineberatung-frontend'
 								)
@@ -637,7 +653,7 @@ module.exports = function (webpackEnv) {
 					type: 'app'
 				},
 				inject: true,
-				template: 'src/pages/app.html',
+				template: getTemplate('pages/app.html'),
 				chunks: ['app'],
 				filename: 'beratung-hilfe.html'
 			}),
@@ -647,7 +663,7 @@ module.exports = function (webpackEnv) {
 					type: 'error',
 					errorType: '400'
 				},
-				template: 'src/pages/app.html',
+				template: getTemplate('pages/app.html'),
 				chunks: ['error'],
 				filename: 'error.400.html'
 			}),
@@ -657,7 +673,7 @@ module.exports = function (webpackEnv) {
 					type: 'error',
 					errorType: '401'
 				},
-				template: 'src/pages/app.html',
+				template: getTemplate('pages/app.html'),
 				chunks: ['error'],
 				filename: 'error.401.html'
 			}),
@@ -667,7 +683,7 @@ module.exports = function (webpackEnv) {
 					type: 'error',
 					errorType: '404'
 				},
-				template: 'src/pages/app.html',
+				template: getTemplate('pages/app.html'),
 				chunks: ['error'],
 				filename: 'error.404.html'
 			}),
@@ -677,12 +693,14 @@ module.exports = function (webpackEnv) {
 					type: 'error',
 					errorType: '500'
 				},
-				template: 'src/pages/app.html',
+				template: getTemplate('pages/app.html'),
 				chunks: ['error'],
 				filename: 'error.500.html'
 			}),
 			new CopyPlugin({
-				patterns: [{ from: 'src/pages/under-construction.html' }]
+				patterns: [
+					{ from: getTemplate('pages/under-construction.html') }
+				]
 			}),
 			// Inlines the webpack runtime script. This script is too small to warrant
 			// a network request.
@@ -851,42 +869,64 @@ module.exports = function (webpackEnv) {
 					}
 				}),
 			new webpack.NormalModuleReplacementPlugin(
-				new RegExp(
-					`${process.cwd()}/(node_modules/@onlineberatung/onlineberatung-frontend/)?src/(?!extensions/).*`
-				),
+				new RegExp(`${paths.appSrc}/.*`),
 				async (result) => {
 					let originalPath = path.join(
 						result.context,
 						result.request
 					);
+
+					if (originalPath.indexOf(paths.appExtensions) >= 0) {
+						return;
+					}
+
 					// Check if absolute import
 					if (result.request.indexOf('/') === 0) {
 						originalPath = result.request;
 					}
 
 					const newPath = originalPath.replace(
-						new RegExp(
-							`${process.cwd()}/(node_modules/@onlineberatung/onlineberatung-frontend\/)?src/`
-						),
-						`${process.cwd()}/src/extensions/`
+						`${paths.appSrc}/`,
+						`${paths.appExtensions}/`
 					);
 
-					['', ...paths.moduleFileExtensions.map((ext) => `.${ext}`)]
+					let originalExt = null;
+					[
+						'',
+						'.html',
+						...paths.moduleFileExtensions.map((ext) => `.${ext}`)
+					]
 						.filter((ext) => useTypeScript || !ext.includes('ts'))
 						.forEach((ext) => {
-							if (fs.existsSync(`${newPath}${ext}`)) {
-								console.log(
-									`Overwritten ${originalPath} -> ${`${newPath}${ext}`}`
-								);
-
-								if (result.createData) {
-									result.createData.resource = `${newPath}${ext}`;
-									result.createData.context = path.dirname(
-										`${newPath}${ext}`
-									);
-								}
+							if (
+								fs.existsSync(`${originalPath}${ext}`) &&
+								!fs
+									.lstatSync(`${originalPath}${ext}`)
+									.isDirectory()
+							) {
+								originalExt = ext;
 							}
 						});
+
+					if (originalExt === null) {
+						return;
+					}
+
+					if (
+						fs.existsSync(`${newPath}${originalExt}`) &&
+						!fs.lstatSync(`${newPath}${originalExt}`).isDirectory()
+					) {
+						console.log(
+							`Overwritten ${originalPath} -> ${newPath}${originalExt}`
+						);
+
+						if (result.createData) {
+							result.createData.resource = `${newPath}${originalExt}`;
+							result.createData.context = path.dirname(
+								`${newPath}.${originalExt}`
+							);
+						}
+					}
 				}
 			),
 			...localAliases([

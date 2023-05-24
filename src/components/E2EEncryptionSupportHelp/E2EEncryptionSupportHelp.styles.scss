@@ -6,6 +6,7 @@
 		flex-direction: column-reverse;
 		align-items: center;
 		margin-bottom: $grid-base-four;
+		border-radius: 4px;
 
 		* {
 			text-align: center;
@@ -35,15 +36,14 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: $illustration-background-neutral;
 
 		@include breakpoint($fromMedium) {
-			margin-left: $grid-base-two;
+			margin-left: $grid-base-three;
 		}
 
 		svg {
-			height: 100px;
-			width: 100px;
+			height: 156px;
+			width: 156px;
 		}
 	}
 
