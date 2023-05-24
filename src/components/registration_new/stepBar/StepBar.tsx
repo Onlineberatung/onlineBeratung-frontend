@@ -28,17 +28,26 @@ export const StepBar = ({ currentStep, maxNumberOfSteps }: StepBarProps) => {
 						variant="h5"
 						sx={{ color: 'white', fontWeight: '600' }}
 					>
-						{currentStep}
+						{currentStep > maxNumberOfSteps
+							? maxNumberOfSteps
+							: currentStep}
 					</Typography>
 				</Box>
 				<Typography variant="h5" sx={{ fontWeight: '600' }}>
-					{translate('registration.stepbar.step')} {currentStep}{' '}
+					{translate('registration.stepbar.step')}{' '}
+					{currentStep > maxNumberOfSteps
+						? maxNumberOfSteps
+						: currentStep}{' '}
 					{translate('registration.stepbar.of')} {maxNumberOfSteps}
 				</Typography>
 			</Box>
 			<LinearProgress
 				variant="determinate"
-				value={(currentStep / maxNumberOfSteps) * 100}
+				value={
+					currentStep > maxNumberOfSteps
+						? 100
+						: (currentStep / maxNumberOfSteps) * 100
+				}
 				color="primary"
 				sx={{ mt: '20px', backgroundColor: '#0000001A' }}
 			/>

@@ -1,7 +1,7 @@
 import { createTheme } from '@mui/material/styles';
 
 const getCssVarValue = (name) =>
-	// If you need a scss variable add a css variable for it in mui-variables.scss
+	// If you need a scss variable add a css variable for it in mui-variables-mapping.scss
 	getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
 // A custom theme for this app

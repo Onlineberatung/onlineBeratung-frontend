@@ -28,6 +28,12 @@ module.exports = defineConfig({
 			on('file:preprocessor', wp(options));
 		}
 	},
+	component: {
+		devServer: {
+			framework: 'create-react-app',
+			bundler: 'webpack'
+		}
+	},
 	env: {
 		CYPRESS_WS_URL:
 			process.env.CYPRESS_WS_URL || process.env.REACT_APP_API_URL
