@@ -41,7 +41,7 @@ export const ZipcodeInput = () => {
 					},
 					'& label': {
 						ml: 4,
-						color: '#00000099'
+						color: 'info.light'
 					},
 					'& label.MuiInputLabel-shrink': {
 						top: '10px'

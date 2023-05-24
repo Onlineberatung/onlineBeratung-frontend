@@ -189,7 +189,7 @@
 		"start": "node scripts/start.js",
 		"build": "node scripts/build.js",
 		"test": "cross-env BROWSER=none REACT_APP_API_URL=http://localhost:9001 HTTPS=0 PORT=9001 WDS_SOCKET_PORT=9001 concurrently --kill-others --success first \"node scripts/start.js\" \"wait-on http://localhost:9001 && cypress run\"",
-		"test:components": "cypress run --component",
+		"test:components": "cypress run --component --headed",
 		"test:build": "cross-env BROWSER=none PORT=9001 CYPRESS_WS_URL=http://localhost:9002 REACT_APP_API_URL=http://localhost:9001 concurrently --kill-others --success first \"node scripts/build.js && serve\" \"wait-on http://localhost:9001 && cypress open\"",
 		"release": "standard-version",
 		"serve": "serve build",
