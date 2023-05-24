@@ -1864,8 +1864,7 @@ export const en = {
 			anonymous:
 				'Currently, no anonymous advice seekers are waiting for a live chat',
 			mySessions: 'You currently have no active consultations',
-			teamSessions:
-				'There are no active team consultations. To start a team consultation, you will need to assign your client to another advisor. Once the advice seeker has agreed to this, both advisors will be able to chat here with the customer at the same time.',
+			teamSessions: 'Your team has no active consultations',
 			peersessions: 'You currently have no active peer counselling',
 			archived: 'There are no consultations in the archive yet'
 		},
