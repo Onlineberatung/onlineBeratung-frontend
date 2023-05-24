@@ -4,6 +4,7 @@ COPY beratung-hilfe.html /usr/share/nginx/html/
 COPY error.401.html /usr/share/nginx/html/
 COPY error.404.html /usr/share/nginx/html/
 COPY error.500.html /usr/share/nginx/html/
+COPY storybook-static /usr/share/nginx/html/storybook
 COPY favicon.ico /usr/share/nginx/html/
 COPY logo192.png /usr/share/nginx/html/
 COPY logo512.png /usr/share/nginx/html/

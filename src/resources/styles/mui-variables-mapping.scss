@@ -1,0 +1,37 @@
+// Mui only accepts css variables, here is a mapping for needed scss variables to css variable
+@import './settings';
+
+:root {
+	--font-family-sans-serif: #{$font-family-sans-serif};
+	--font-family-divider: #{$font-family-sans-serif};
+	--font-weight-light: #{$font-weight-light};
+	--font-weight-regular: #{$font-weight-regular};
+	--font-weight-medium: #{$font-weight-medium};
+	--font-weight-bold: #{$font-weight-bold};
+	--white: #{$white};
+	--primary: #{$primary};
+	--secondary: #{$secondary};
+	--tertiary: #{$tertiary};
+	--black: #{$black};
+	--font-size-h1: #{$font-size-h1};
+	--font-size-h2: #{$font-size-h2};
+	--font-size-h3: #{$font-size-h3};
+	--font-size-h4: #{$font-size-h4};
+	--font-size-h5: #{$font-size-h5};
+
+	--font-size-super-large: #{$font-size-super-large};
+
+	--font-size-super-mobile: #{$font-size-super-mobile};
+	--font-size-h1-mobile: #{$font-size-h1-mobile};
+
+	--font-size-primary: #{$font-size-primary};
+	--font-size-secondary: #{$font-size-secondary};
+	--font-size-tertiary: #{$font-size-tertiary};
+
+	--line-height-primar: #{$line-height-primary};
+	--line-height-secondary: #{$line-height-secondary};
+	--line-height-tertiary: #{$line-height-tertiary};
+	--line-height-quaternary: #{$line-height-quaternary};
+
+	--line-size-subheadline: #{$font-size-subheadline};
+}
