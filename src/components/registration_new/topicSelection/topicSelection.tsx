@@ -18,6 +18,15 @@ import { useTranslation } from 'react-i18next';
 
 export const TopicSelection = () => {
 	const { t: translate } = useTranslation();
+	const sortedTopicGroups = topicGroups.sort((a, b) => {
+		if (a.name < b.name) {
+			return -1;
+		}
+		if (a.name > b.name) {
+			return 1;
+		}
+		return 0;
+	});
 	return (
 		<>
 			<Typography variant="h3">
@@ -28,7 +37,7 @@ export const TopicSelection = () => {
 			</Typography>
 			<FormControl sx={{ width: '100%' }}>
 				<RadioGroup aria-label="topic-selection" name="topic-selection">
-					{topicGroups.map((topicGroup) => {
+					{sortedTopicGroups.map((topicGroup) => {
 						return (
 							<Accordion
 								sx={{
@@ -74,8 +83,19 @@ export const TopicSelection = () => {
 									</Typography>
 								</AccordionSummary>
 								<AccordionDetails sx={{ pt: 0 }}>
-									{topicGroup.topicIds.map(
-										(topicId, index) => {
+									{topicGroup.topicIds
+										.sort((a, b) => {
+											const topicA = getTopic(a);
+											const topicB = getTopic(b);
+											if (topicA.name < topicB.name) {
+												return -1;
+											}
+											if (topicA.name > topicB.name) {
+												return 1;
+											}
+											return 0;
+										})
+										.map((topicId, index) => {
 											const topic = getTopic(topicId);
 											return (
 												<Box
@@ -128,8 +148,7 @@ export const TopicSelection = () => {
 													)}
 												</Box>
 											);
-										}
-									)}
+										})}
 								</AccordionDetails>
 							</Accordion>
 						);

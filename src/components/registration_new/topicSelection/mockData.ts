@@ -8,14 +8,14 @@ export const topicGroups: TopicGroup[] = [
 		topicIds: [1]
 	},
 	{
-		id: 2,
-		name: 'Besondere Lebenssituationen und Krisen',
-		topicIds: [2, 3]
-	},
-	{
 		id: 3,
 		name: 'Existenzsicherung',
 		topicIds: [4]
+	},
+	{
+		id: 2,
+		name: 'Besondere Lebenssituationen und Krisen',
+		topicIds: [3, 2]
 	}
 ];
 
