@@ -452,6 +452,10 @@ export const deInformal = {
 			bullet2: '• die Gesetze Deines Bundeslandes kennen',
 			label: 'Deine Postleitzahl'
 		},
+		'topic': {
+			headline: 'Zu welchem Thema suchst Du Beratung?',
+			subline: 'Wähle ein Thema aus unserem Beratungsangebot aus.'
+		},
 		'agency': {
 			'preselected.prefix': 'Deine vorausgewählte Beratungsstelle: ',
 			'preselected.isTeam': 'Du wirst von einem Team beraten.',

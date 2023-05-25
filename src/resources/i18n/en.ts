@@ -1542,6 +1542,10 @@ export const en = {
 			step: 'Step',
 			of: 'of'
 		},
+		'topic': {
+			headline: 'On what topic are you looking for advice?',
+			subline: 'Select a topic from our consulting offer.'
+		},
 		'zipcode': {
 			headline:
 				'To be able to advise you in the best possible way we need your zip code',

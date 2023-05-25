@@ -1567,6 +1567,10 @@ export const de = {
 			step: 'Schritt',
 			of: 'von'
 		},
+		'topic': {
+			headline: 'Zu welchem Thema suchen Sie Beratung?',
+			subline: 'Wählen Sie ein Thema aus unserem Beratungsangebot aus.'
+		},
 		'zipcode': {
 			headline:
 				'Um Sie bestmöglich beraten zu können benötigen wir Ihre Postleitzahl',
