@@ -166,8 +166,8 @@ export const AgencySelectionResults = ({
 				<>
 					<FormControl sx={{ width: '100%' }}>
 						<RadioGroup
-							aria-labelledby="demo-radio-buttons-group-label"
-							name="radio-buttons-group"
+							aria-label="agency-selection-radio-group"
+							name="agency-selection-radio-group"
 							defaultValue={results?.[0].name || ''}
 						>
 							<Box
@@ -239,8 +239,8 @@ export const AgencySelectionResults = ({
 					<>
 						<FormControl sx={{ width: '100%' }}>
 							<RadioGroup
-								aria-labelledby="demo-radio-buttons-group-label"
-								name="radio-buttons-group"
+								aria-label="agency-selection-radio-group"
+								name="agency-selection-radio-group"
 							>
 								{results?.map((agency, index) => {
 									return (
