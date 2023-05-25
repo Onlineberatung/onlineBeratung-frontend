@@ -308,7 +308,7 @@ export const de = {
 			},
 			'tooltip': {
 				consultant:
-					'Falls Sie den Termin nicht in dem vom Rastsuchenden gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.',
+					'Falls Sie den Termin nicht in dem vom Ratsuchende gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.',
 				adviceSeeker:
 					'Falls Ihr:e Berater:in den Termin nicht in dem von Ihnen gewählten Modus wahrnehmen kann, generieren wir für Sie immer einen Link zum Video-Call als Alternative.'
 			}
