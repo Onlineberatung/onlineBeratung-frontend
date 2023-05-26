@@ -13,7 +13,6 @@
 	align-self: flex-end;
 	margin-top: 16px;
 
-	/* stylelint-disable-next-line selector-pseudo-class-no-unknown */
 	:global(.button__item) {
 		gap: 13px;
 		display: flex;
