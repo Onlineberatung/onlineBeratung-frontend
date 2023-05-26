@@ -58,7 +58,7 @@ jobs:
             - name: Run build
               run: |
                   npm run build
-            - uses: actions/upload-artifact@v2
+            - uses: actions/upload-artifact@v3
               with:
                   name: buildfiles
                   path: build/**/*
