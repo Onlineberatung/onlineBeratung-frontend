@@ -405,9 +405,15 @@ export const deInformal = {
 				description:
 					'Dein_e Berater_in hat um Erlaubnis gebeten, Dich einem neuen Berater zuzuweisen.'
 			},
-			'newMessage': {
+			'newMessageAdviceSeeker': {
+				title: 'Neue Chat-Nachricht',
 				description:
-					'Einer der Dir zugewiesenen Ratsuchenden hat Dir geantwortet'
+					'Wir informieren Dich, solange Du nicht im System angemeldet bist.'
+			},
+			'newMessageConsultant': {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Einer der Dir zugewiesenen Ratsuchenden hat Dir geantwortet. Wir informieren Dich, solange Du nicht im System angemeldet bist.'
 			},
 			'reassignmentConsultant': {
 				description:

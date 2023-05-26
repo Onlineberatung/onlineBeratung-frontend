@@ -1363,14 +1363,17 @@ export const de = {
 				title: 'E-Mail-Benachrichtigungen zulassen'
 			},
 			'initialEnquiry': {
-				title: 'Eine neue Erstanfrage ist eingegangen',
-				description:
-					'Wir informieren Sie auch, wenn Sie im System angemeldet sind.'
+				title: 'Eine neue Erstanfrage ist eingegangen'
 			},
-			'newMessage': {
+			'newMessageAdviceSeeker': {
 				title: 'Neue Chat-Nachricht',
 				description:
-					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+					'Wir informieren Sie, solange Sie nicht im System angemeldet sind'
+			},
+			'newMessageConsultant': {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet. Wir informieren Sie, solange Sie nicht im System angemeldet sind.'
 			},
 			'reassignmentConsultant': {
 				title: 'Neuzuweisung eines Ratsuchenden',
