@@ -308,7 +308,7 @@ export const de = {
 			},
 			'tooltip': {
 				consultant:
-					'Falls Sie den Termin nicht in dem vom Rastsuchenden gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.',
+					'Falls Sie den Termin nicht in dem vom Ratsuchende gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.',
 				adviceSeeker:
 					'Falls Ihr:e Berater:in den Termin nicht in dem von Ihnen gewählten Modus wahrnehmen kann, generieren wir für Sie immer einen Link zum Video-Call als Alternative.'
 			}
@@ -1356,21 +1356,24 @@ export const de = {
 			'title': 'E-Mail-Benachrichtigungen',
 			'subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
 			'description':
-				'Wir informieren Sie per E-Mail, wenn Sie eine neue Nachricht erhalten haben, solange Sie nicht im System angemeldet sind.',
+				'Wir informieren Sie per E-Mail, wenn Sie eine neue Nachricht erhalten haben.',
 			'follow.up.email.label':
 				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.',
 			'mainEmail': {
 				title: 'E-Mail-Benachrichtigungen zulassen'
 			},
 			'initialEnquiry': {
-				title: 'Eine neue Erstanfrage ist eingegangen',
-				description:
-					'Wir informieren Sie auch, wenn Sie im System angemeldet sind.'
+				title: 'Eine neue Erstanfrage ist eingegangen'
 			},
-			'newMessage': {
+			'newMessageAdviceSeeker': {
 				title: 'Neue Chat-Nachricht',
 				description:
-					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+					'Wir informieren Sie, solange Sie nicht im System angemeldet sind'
+			},
+			'newMessageConsultant': {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet. Wir informieren Sie, solange Sie nicht im System angemeldet sind.'
 			},
 			'reassignmentConsultant': {
 				title: 'Neuzuweisung eines Ratsuchenden',

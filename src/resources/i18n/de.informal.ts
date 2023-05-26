@@ -396,7 +396,7 @@ export const deInformal = {
 			'follow.up.email.label':
 				'eine Nachricht von angenommenen Ratsuchenden erhalten hast.',
 			'description':
-				'Wir informieren Dich per E-Mail, wenn Du eine neue Nachricht erhalten haben, solange Du nicht im System angemeldet bist.',
+				'Wir informieren Dich per E-Mail, wenn Du eine neue Nachricht erhalten hast.',
 			'initialEnquiry': {
 				description:
 					'Wir informieren Dich auch, wenn Du im System angemeldet bist.'
@@ -405,9 +405,15 @@ export const deInformal = {
 				description:
 					'Dein_e Berater_in hat um Erlaubnis gebeten, Dich einem neuen Berater zuzuweisen.'
 			},
-			'newMessage': {
+			'newMessageAdviceSeeker': {
+				title: 'Neue Chat-Nachricht',
 				description:
-					'Einer der Dir zugewiesenen Ratsuchenden hat Dir geantwortet'
+					'Wir informieren Dich, solange Du nicht im System angemeldet bist.'
+			},
+			'newMessageConsultant': {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Einer der Dir zugewiesenen Ratsuchenden hat Dir geantwortet. Wir informieren Dich, solange Du nicht im System angemeldet bist.'
 			},
 			'reassignmentConsultant': {
 				description:
