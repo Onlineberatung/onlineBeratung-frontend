@@ -1356,7 +1356,7 @@ export const de = {
 			'title': 'E-Mail-Benachrichtigungen',
 			'subtitle': 'Wir benachrichtigen Sie, wenn Sie:',
 			'description':
-				'Wir informieren Sie per E-Mail, wenn Sie eine neue Nachricht erhalten haben, solange Sie nicht im System angemeldet sind.',
+				'Wir informieren Sie per E-Mail, wenn Sie eine neue Nachricht erhalten haben.',
 			'follow.up.email.label':
 				'eine Nachricht von angenommenen Ratsuchenden erhalten haben.',
 			'mainEmail': {

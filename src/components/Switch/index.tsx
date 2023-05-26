@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import ReactSwitch from 'react-switch';
 import { ReactSwitchProps } from 'react-switch';
 import { Text } from '../text/Text';
+import styles from './switch.module.scss';
 
 interface SwitchProps extends ReactSwitchProps {
 	titleKey: string;
@@ -31,7 +32,11 @@ export const Switch = ({ titleKey, descriptionKey, ...props }: SwitchProps) => {
 				/>
 			</div>
 			{descriptionKey && (
-				<Text text={t(descriptionKey)} type="infoMedium" />
+				<Text
+					text={t(descriptionKey)}
+					type="infoMedium"
+					className={styles.description}
+				/>
 			)}
 		</div>
 	);

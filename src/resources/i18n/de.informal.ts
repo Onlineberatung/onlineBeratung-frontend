@@ -396,7 +396,7 @@ export const deInformal = {
 			'follow.up.email.label':
 				'eine Nachricht von angenommenen Ratsuchenden erhalten hast.',
 			'description':
-				'Wir informieren Dich per E-Mail, wenn Du eine neue Nachricht erhalten haben, solange Du nicht im System angemeldet bist.',
+				'Wir informieren Dich per E-Mail, wenn Du eine neue Nachricht erhalten hast.',
 			'initialEnquiry': {
 				description:
 					'Wir informieren Dich auch, wenn Du im System angemeldet bist.'
