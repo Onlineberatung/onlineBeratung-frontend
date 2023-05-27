@@ -6,45 +6,54 @@ import { RadioButton } from '../radioButton/RadioButton';
 import { AgencyInfo } from '../agencySelection/AgencyInfo';
 import {
 	VALIDITY_VALID,
-	VALIDITY_INITIAL
+	VALIDITY_INVALID
 } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';
-import { useLocaleData } from '../../globalState';
+import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
 
 export interface MainTopicSelectionProps {
 	name: string;
-	preselectedTopic: number;
-	onChange: (value: string) => void;
+	value: TopicsDataInterface | null;
+	onChange: (value: TopicsDataInterface) => void;
 	onValidityChange: (key: string, value: string) => void;
 }
 
 export const MainTopicSelection = ({
 	name,
-	preselectedTopic,
+	value,
 	onChange,
 	onValidityChange
 }: MainTopicSelectionProps) => {
-	const { locale } = useLocaleData();
 	const { t: translate } = useTranslation();
+
 	const [topics, setTopics] = useState([]);
-	const [selectedTopic, setSelectedTopic] = useState(preselectedTopic);
+	const [isTouched, setIsTouched] = useState(false);
 
 	useEffect(() => {
 		apiGetTopicsData().then((data) => setTopics(data));
-		onValidityChange(
-			name,
-			selectedTopic >= 0 ? VALIDITY_VALID : VALIDITY_INITIAL
-		);
-	}, [name, locale]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, []);
 
-	const onChangeInput = useCallback(
-		(value) => {
-			setSelectedTopic(value);
-			onChange(value);
-			onValidityChange(name, value ? VALIDITY_VALID : VALIDITY_INITIAL);
+	useEffect(() => {
+		if (!isTouched) return;
+
+		onValidityChange(name, value ? VALIDITY_VALID : VALIDITY_INVALID);
+	}, [isTouched, name, onValidityChange, value]);
+
+	const handleChange = useCallback(
+		(topic: TopicsDataInterface) => {
+			setIsTouched(true);
+			onChange(topic);
 		},
-		[name, onValidityChange, onChange]
+		[onChange]
 	);
+
+	// If options change, check for still valid preselected topic
+	useEffect(() => {
+		if (!value || topics.some((t) => t.id === value.id)) {
+			return;
+		}
+		onChange(null);
+	}, [onChange, topics, value]);
 
 	return (
 		<div className="mainTopicSelection">
@@ -61,9 +70,9 @@ export const MainTopicSelection = ({
 							className="mainTopicSelection__radioButton"
 							name="topicSelection"
 							type="smaller"
-							handleRadioButton={() => onChangeInput(id)}
+							handleRadioButton={() => handleChange(topic)}
 							value={id}
-							checked={selectedTopic === id}
+							checked={value?.id === id}
 							inputId={`${name
 								.toLowerCase()
 								.replace(' ', '-')}-${id}`}

@@ -7,6 +7,7 @@ export const apiAgencySelection = async (params: {
 	postcode: string;
 	consultingType: number | undefined;
 	topicId?: number;
+	signal?: AbortSignal;
 }): Promise<Array<AgencyDataInterface> | null> => {
 	let queryStr = Object.keys(params)
 		.filter((key) => params[key] !== undefined)
@@ -19,7 +20,8 @@ export const apiAgencySelection = async (params: {
 			url: url,
 			method: FETCH_METHODS.GET,
 			skipAuth: true,
-			responseHandling: [FETCH_ERRORS.EMPTY]
+			responseHandling: [FETCH_ERRORS.EMPTY],
+			...(params.signal && { signal: params.signal })
 		}).then((result) => {
 			if (result) {
 				// External agencies should only be returned
