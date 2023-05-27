@@ -3,6 +3,7 @@ import {
 	getErrorCaseForStatus,
 	redirectToErrorPage
 } from '../components/error/errorHandling';
+import { RequestLog } from '../utils/requestCollector';
 
 export const fetchRCData = (
 	url: string,
@@ -10,6 +11,8 @@ export const fetchRCData = (
 	bodyData: string = null,
 	ignoreErrors: boolean = false
 ): Promise<any> => {
+	const reqLog = new RequestLog(url, method);
+
 	const rcAuthToken = getValueFromCookie('rc_token');
 	const rcUid = getValueFromCookie('rc_uid');
 
@@ -25,13 +28,19 @@ export const fetchRCData = (
 		body: bodyData
 	});
 
-	return fetch(req).then((response) => {
-		if (response.status === 200) {
-			return response.json();
-		} else if (!ignoreErrors) {
-			const error = getErrorCaseForStatus(response.status);
-			redirectToErrorPage(error);
-			throw new Error('api call error');
-		}
-	});
+	return fetch(req)
+		.then((response) => {
+			reqLog.finish(response.status);
+			if (response.status === 200) {
+				return response.json();
+			} else if (!ignoreErrors) {
+				const error = getErrorCaseForStatus(response.status);
+				redirectToErrorPage(error);
+				throw new Error('api call error');
+			}
+		})
+		.catch((error) => {
+			reqLog.finish(error.status);
+			throw error;
+		});
 };
