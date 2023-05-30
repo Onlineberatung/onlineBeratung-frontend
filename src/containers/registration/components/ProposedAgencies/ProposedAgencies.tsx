@@ -115,7 +115,8 @@ export const ProposedAgencies = ({
 	useEffect(() => {
 		if (
 			isLoading ||
-			((!autoSelectPostcode ||
+			(((!autoSelectPostcode &&
+				!isPostcodeValid(formAccordionData.postcode)) ||
 				consultingTypes.length > 1 ||
 				agencies?.length > 1) &&
 				!isTouched)
