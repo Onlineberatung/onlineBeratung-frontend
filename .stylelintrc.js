@@ -87,6 +87,12 @@ module.exports = {
 		'selector-no-vendor-prefix': null,
 		'value-no-vendor-prefix': null,
 		'shorthand-property-no-redundant-values': null,
-		'declaration-block-no-duplicate-properties': null
+		'declaration-block-no-duplicate-properties': null,
+		'selector-pseudo-class-no-unknown': [
+			true,
+			{
+				ignorePseudoClasses: ['global']
+			}
+		]
 	}
 };

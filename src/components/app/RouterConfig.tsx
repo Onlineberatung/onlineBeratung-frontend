@@ -13,7 +13,6 @@ import {
 } from '../session/sessionHelpers';
 
 import { AskerInfo } from '../askerInfo/AskerInfo';
-import { Monitoring } from '../monitoring/Monitoring';
 import { Profile } from '../profile/Profile';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
@@ -46,6 +45,7 @@ import { Booking } from '../../containers/bookings/components/Booking/booking';
 import { BookingCancellation } from '../../containers/bookings/components/BookingCancellation/bookingCancellation';
 import { BookingEvents } from '../../containers/bookings/components/BookingEvents/bookingEvents';
 import { BookingReschedule } from '../../containers/bookings/components/BookingReschedule/bookingReschedule';
+import { hasVideoCallFeature } from '../../utils/videoCallHelpers';
 
 const SessionView = lazy(() =>
 	import('../session/SessionView').then((m) => ({ default: m.SessionView }))
@@ -53,18 +53,6 @@ const SessionView = lazy(() =>
 const WriteEnquiry = lazy(() =>
 	import('../enquiry/WriteEnquiry').then((m) => ({ default: m.WriteEnquiry }))
 );
-
-const hasVideoCallFeature = (userData, consultingTypes) =>
-	userData &&
-	hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-	userData.agencies.some(
-		(agency) =>
-			!!(consultingTypes || []).find(
-				(consultingType) =>
-					consultingType.id === agency.consultingType &&
-					consultingType.isVideoCallAllowed
-			)
-	);
 
 const showAppointmentsMenuItem = (userData, hasAssignedConsultant) => {
 	return (
@@ -349,11 +337,6 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
-				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring,
-				type: SESSION_LIST_TYPES.MY_SESSION
-			},
-			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
 				component: GroupChatInfo,
 				type: SESSION_LIST_TYPES.MY_SESSION
@@ -547,11 +530,6 @@ export const RouterConfigTeamConsultant = (
 				type: SESSION_LIST_TYPES.MY_SESSION
 			},
 			{
-				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring,
-				type: SESSION_LIST_TYPES.MY_SESSION
-			},
-			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
 				component: GroupChatInfo,
 				type: SESSION_LIST_TYPES.MY_SESSION
@@ -559,11 +537,6 @@ export const RouterConfigTeamConsultant = (
 			{
 				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile',
 				component: AskerInfo,
-				type: SESSION_LIST_TYPES.TEAMSESSION
-			},
-			{
-				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/userProfile/monitoring',
-				component: Monitoring,
 				type: SESSION_LIST_TYPES.TEAMSESSION
 			},
 			{

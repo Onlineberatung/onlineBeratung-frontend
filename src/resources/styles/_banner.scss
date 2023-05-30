@@ -5,7 +5,7 @@
 	width: 100%;
 	margin: 0;
 	padding: 0;
-	z-index: 500;
+	z-index: 51;
 
 	&__element {
 		position: relative;
@@ -43,24 +43,30 @@
 			}
 		}
 
-		a.close {
+		button.close {
+			border: unset;
+			background-color: unset;
+			position: absolute;
+			top: $grid-base-two;
+			right: $grid-base-two;
+			@include breakpoint($fromLarge) {
+				top: 50%;
+				transform: translate(0, -50%);
+				right: $grid-base-three;
+			}
 			svg {
 				width: $grid-base-two;
 				height: $grid-base-two;
-				position: absolute;
-				top: $grid-base-two;
-				@include breakpoint($fromLarge) {
-					top: 50%;
-					transform: translate(0, -50%);
-					right: $grid-base-three;
-				}
-				right: $grid-base-two;
+
 				path {
 					transition: fill 500ms ease;
 					fill: var(--skin-color-secondary-contrast-safe, $secondary);
 				}
 			}
 			&:hover {
+				background-color: unset;
+				cursor: pointer;
+
 				svg {
 					path {
 						fill: $black;

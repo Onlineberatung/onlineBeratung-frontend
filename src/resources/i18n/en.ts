@@ -312,7 +312,6 @@ export const en = {
 	chatFlyout: {
 		askerProfil: 'Advice seeker profile',
 		dataProtection: 'Data protection',
-		documentation: 'Documentation',
 		feedback: 'Feedback',
 		groupChatInfo: 'Chat info',
 		imprint: 'Imprint',
@@ -591,20 +590,6 @@ export const en = {
 			},
 			'success.overlay.headline':
 				'Your e-mail address was successfully saved.'
-		},
-		'voluntaryInfo': {
-			headline: 'We want to advise you in the best possible way',
-			infoText:
-				'It helps us if you provide additional voluntary information about yourself and your request.',
-			button: 'Add details',
-			overlay: {
-				'button1.label': 'Save',
-				'button2.label': 'Close',
-				'headline': 'Voluntary information',
-				'copy': 'For the consultation, the following information would help us a lot.',
-				'success.headline':
-					'Thank you very much. Your voluntary data has been successfully saved.'
-			}
 		}
 	},
 	groupChat: {
@@ -748,37 +733,69 @@ export const en = {
 	help: {
 		googleChrome: 'Google Chrome',
 		msEdge: 'Microsoft Edge',
+		safari: 'Safari',
 		openInNewTab: 'Open in new tab',
 		videoCall: {
+			waitingRoom: {
+				headline: "It's not you, it's your browser.",
+				infoBox: {
+					headline: 'Your browser does not support video calls.',
+					text: 'To participate in video calls, please use Google Chrome, Microsoft Edge or Safari.'
+				},
+				subline1:
+					"Don't have Google Chrome, Microsoft Edge, or Safari yet?",
+				text1: 'Download one of the browsers.',
+				subline2:
+					'Already have Google Chrome, Microsoft Edge, or Safari?',
+				text2: 'Now open your link to the online consultation with one of the supported browsers.',
+				copyLink: 'Copy link',
+				copiedLink: 'Link copied!'
+			},
+			banner: {
+				content:
+					'Please use a different browser for video calls to work.',
+				more: 'Learn more'
+			},
 			asker: {
-				intro: 'To make end-to-end encrypted calls, follow these steps:',
+				headline: 'Video Call',
+				intro: 'To participate in video calls, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
 				steps: {
-					'headline': {
-						'1': 'Video-Call',
-						'2': 'Already have Google Chrome or Microsoft Edge?'
+					'1.1': 'Follow the link to ',
+					'1.2': ' or ',
+					'1.3': ' (only for macOS and iOS available)',
+					'2': 'Download one of the supported browsers',
+					'3': 'Install it on your PC/laptop/tablet/smartphone.',
+					'4': {
+						'1': 'Now open the online consultation with this browser.',
+						'2': 'Open the online consultation with one of these browsers.'
 					},
-					'1': 'Follow the link to Google Chrome or Microsoft Edge.',
-					'2': 'Download Chrome or Edge.',
-					'3': 'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',
-					'4': 'Now open the online consultation via Chrome or Edge.',
 					'5': 'Sign up for online counseling.',
-					'6': 'Ask your advisor to call you again.'
+					'6': 'Ask your advisor to call you again.',
+					'headline': {
+						'1': 'Step by step guide',
+						'2': 'Already have Google Chrome, Microsoft Edge or Safari?'
+					}
 				}
 			},
 			consultant: {
-				headline: 'Video-Call',
-				intro: 'To be able to start a video call, you must log in to the online consultation via Google Chrome or Microsoft Edge. Thus, the video call can be encrypted end-to-end and you can start.',
+				headline: 'Video Call',
+				intro: 'To perform a video call, you must log in using one of the supported browsers. The chat consultation still works with Firefox.',
 				steps: {
-					'headline.1': 'Step by step guide',
-					'headline.2':
-						'Already have Google Chrome or Microsoft Edge?',
 					'1.1': 'Follow the link to ',
 					'1.2': ' or ',
-					'2': 'Download Chrome or Edge. You may need the support of your IT for this.',
-					'3': 'Install Chrome or Edge on your PC/laptop/tablet/smartphone.',
-					'4': 'Now open the online consultation via Chrome or Edge.',
+					'1.3': ' (only for macOS and iOS available)',
+					'2': 'Download one of the supported browsers. You may need the support of your IT for this.',
+					'3': 'Install it on your PC/laptop/tablet/smartphone.',
+					'4': {
+						'1': 'Now open the online consultation with this browser.',
+						'2': 'Open the online consultation with one of these browsers.'
+					},
 					'5': 'Sign up for online counseling.',
-					'6': 'Start the video call.'
+					'6': 'Start the video call.',
+					'headline': {
+						'1': 'Step by step guide',
+						'2': 'Already have Google Chrome, Microsoft Edge or Safari?'
+					}
 				}
 			},
 			loginLink: {
@@ -1101,177 +1118,6 @@ export const en = {
 		'groupChat': 'Group chat',
 		'liveChat': 'Live chat',
 		'newEnquiry': 'New enquiry'
-	},
-	monitoring: {
-		title: 'Monitoring',
-		empty: 'Not specified',
-		checked: 'Subvalue selected',
-		monitoringAddiction: {
-			addictiveDrugs: 'Addictive drugs',
-			alcohol: 'Alcohol',
-			drugs: 'Drugs',
-			cannabis: 'Cannabis',
-			hallucinogens: 'Hallucinogens',
-			amphetamines: 'Amphetamines',
-			cocaineCrack: 'Cocaine/Crack',
-			opioids: 'Opioids',
-			others: 'Other',
-			legalHighs: 'Legal highs/new psychoactive substances',
-			tobacco: 'Tobacco',
-			medication: 'Medication',
-			gambling: 'Gambling',
-			offline: 'Offline',
-			online: 'Online',
-			internetComputer: 'Internet/Computer',
-			chatting: 'Chatting',
-			gaming: 'Gaming',
-			shopping: 'Shopping',
-			pornography: 'Pornography/Sex addiction',
-			surfing: 'Surfing',
-			eatingDisorder: 'Eating disorder',
-			intervention: 'Intervention',
-			information: 'Information',
-			conveyance: 'Conveyance',
-			consulting: 'Consulting',
-			doctorClinic: 'Doctor / Clinic',
-			debtConsulting: 'Debt counseling',
-			pregnancyConsulting: 'Pregnancy counseling',
-			psychologicalSupport: 'Psychological support',
-			childYouthAid: 'Child and youth welfare',
-			addictionHelpFacility: 'Addiction Help Facility',
-			delinquentHelp: 'Offender Assistance',
-			selfHelp: 'Self Help',
-			generalConsulting: 'General social counseling'
-		},
-		monitoringU25: {
-			'generalData': 'General data',
-			'location': 'Location',
-			'freiburg': 'Freiburg',
-			'badenWuerttemberg': 'Baden Württemberg',
-			'bavaria': 'Bavaria',
-			'berlin': 'Berlin',
-			'brandenburg': 'Brandenburg',
-			'bremen': 'Bremen',
-			'hamburg': 'Hamburg',
-			'hessia': 'Hessia',
-			'mecklenburgWesternPomerania': 'Mecklenburg-Western Pomerania',
-			'lowerSaxony': 'Lower Saxony',
-			'northRhineWestphalia': 'North Rhine-Westphalia',
-			'rhinelandPalatinate': 'Rhineland-Palatinate',
-			'saarland': 'Saarland',
-			'saxony': 'Saxony',
-			'saxonyAnhalt': 'Saxony-Anhalt',
-			'schleswigHolstein': 'Schleswig-Holstein',
-			'thuringia': 'Thuringia',
-			'abroadAustria': 'Abroad (Austria)',
-			'abroadSwitzerland': 'Abroad (Switzerland)',
-			'abroadOthers': 'Abroad (other)',
-			'occupation': 'Employment/work situation',
-			'school': 'School',
-			'studies': 'Study',
-			'apprenticeship': 'Apprenticeship',
-			'employed': 'employed',
-			'unemployed': 'unemployed',
-			'housingSituation': 'Housing situation',
-			'family': 'in family',
-			'partner': 'Partner',
-			'livingCommunity': 'Living Community',
-			'alone': 'Living alone',
-			'assistedLiving': 'assisted living',
-			'homeless': 'Homeless',
-			'consultingData': 'Consultation data',
-			'suicidality': 'Suicidality at contact',
-			'crisis': 'Crisis without suicidality',
-			'thoughtsOfSuicide': 'Suicidal thoughts',
-			'acuteThoughtsOfSuicide': 'acute suicidal thoughts',
-			'afterSuicideAttempt': 'After suicide act',
-			'stressfulFactors': 'Stressful factors',
-			'mentalOverload': 'Feeling of being overwhelmed',
-			'anxieties': 'Anxieties',
-			'futility': 'Futility',
-			'isolation': 'Isolation/loneliness',
-			'svv': 'SVV',
-			'bullying': 'Bullying',
-			'sexualAbuse': 'sex. Abuse / Rape',
-			'mentalIllness': 'mental illness',
-			'substanceAbuse': 'Substance Abuse',
-			'mediaConsumption': 'Heavy media consumption',
-			'physicalIllness': 'physical complaints / chronic disease',
-			'physicalHandicap': 'Physical disability',
-			'conflictsPartnership': 'Conflicts in the partnership',
-			'divorce': 'Divorce',
-			'deceaseLovedOne': 'Death of a loved one',
-			'mourning.alt': 'Mourning',
-			'concernLovedOne': 'Concern for loved one',
-			'relationshipRelative': 'Relationship situation with relatives',
-			'relationshipSocialEnvironment':
-				'Relationship situation in the social environment',
-			'workSchool': 'Work / School / Profession',
-			'housingSituation.alt': 'Housing situation',
-			'financialSituation': 'Financial situation',
-			'debt': 'Debt',
-			'experienceOfViolence': 'Experience of violence',
-			'stressfulChildhood': 'stressful childhood',
-			'crime': 'Crime/conflict of laws',
-			'migrationProblems': 'Problems related to migration',
-			'sexualOrientation': 'Sexual orientation',
-			'genderIdentity': 'Gender identity',
-			'others': 'Other',
-			'supportDuration':
-				'Duration of accompaniment (enter after completion)',
-			'onetime': 'one time',
-			'oneMonth': 'Until 1 month',
-			'threeMonths': 'Until 3 months',
-			'sixMonths': 'Until 6 months',
-			'oneYear': 'Until 1 year',
-			'oneAndAHalfYear': 'Until 1.5 years',
-			'longer': 'longer',
-			'inConsultation': 'in consultation',
-			'diagnosis': 'Diagnosis',
-			'depression': 'Depression',
-			'eatingDisorder': 'Eating disorder',
-			'adhs': 'ADHS',
-			'borderline': 'Borderline',
-			'autism': 'Autism',
-			'personalityDisorder': 'Personality Disorder',
-			'traumaRelatedDisorder': 'Trauma Consequence Disorder',
-			'anxietyDisorder': 'Anxiety disorder',
-			'addiction': 'Addiction',
-			'obsessiveCompulsiveDisorder': 'Obsessive Compulsive Disorder',
-			'schizophrenia': 'Schizophrenia',
-			'furtherConnection': 'Further connection',
-			'outpatientTherapy': 'Outpatient therapy',
-			'inpationsTherapy': 'Inpatient therapy/day clinic',
-			'consultation': 'Consulting',
-			'supportGroups': 'Support group',
-			'medicalTherapy': 'Medicinal therapy',
-			'endOfContact': 'End of contact (multiple answers possible)',
-			'mutually': 'Terminated by mutual agreement',
-			'noAnswer': 'Client has not contacted us again',
-			'suicideAnnouncement': 'Suicide Announcement',
-			'suicide': 'Suicide',
-			'others.alt': 'Other',
-			'schoolStudies': 'School/Studies',
-			'partnerLivingCommunity': 'with partner in shared apartment',
-			'concern': 'Concern for suicidal person',
-			'mourning': 'Mourning after suicide',
-			'addictionDrugs': 'Addiction (drugs/medication)',
-			'addictionAlcohol': 'Addiction (alcohol)',
-			'addictionInternetComputer': 'Addiction (Internet/Computer)',
-			'addictionOthers': 'Addiction (other)',
-			'noFirstAnswer': 'Client has not responded to initial email',
-			'helpfulness': 'How helpful was the contact for the client?',
-			'one': '1 - not helpful',
-			'two': '2',
-			'three': '3',
-			'four': '4',
-			'five': '5',
-			'six': '6',
-			'seven': '7',
-			'eight': '8',
-			'nine': '9',
-			'ten': '10 - very helpful'
-		}
 	},
 	navigation: {
 		'asker': {
@@ -1601,6 +1447,11 @@ export const en = {
 				description:
 					'Unfortunately, we cannot update your settings at the moment. Please try again later.'
 			},
+			'toggleError': {
+				title: 'Something went wrong.',
+				description:
+					'Unfortunately, we cannot activate your notifications at this time. Please try again later.'
+			},
 			'noEmail': {
 				info: 'You have not yet added an email address.',
 				button: 'Add email address',
@@ -1617,7 +1468,7 @@ export const en = {
 					},
 					errorTitle: 'Something went wrong.',
 					errorMessage:
-						'Unfortunately, we cannot activate your notifications now. Please try again later.'
+						'Unfortunately, we cannot save your e-mail address at the moment. Please try again later or contact our support.'
 				}
 			}
 		},
@@ -1943,7 +1794,6 @@ export const en = {
 		'empty': 'Please select a message',
 		'feedback.label': 'Feedback',
 		'groupChat.consultant.prefix': 'Moderator - ',
-		'monitoring.buttonLabel': 'Document now',
 		'u25.assignment.placeholder': 'Assign consultation',
 		'unreadCount.maxValue': '99+',
 		'dragAndDrop': {
@@ -2271,18 +2121,6 @@ export const en = {
 				'0': 'Female',
 				'1': 'Male',
 				'2': 'Divers'
-			},
-			addictiveDrugs: {
-				'headline': 'Narcotics',
-				'0': 'Alcohol',
-				'1': 'Drugs',
-				'2': 'Legal highs',
-				'3': 'Tobacco',
-				'4': 'Medication',
-				'5': 'Gambling',
-				'6': 'Internet/Computer',
-				'7': 'Eating disorders',
-				'8': 'Other'
 			}
 		},
 		userU25: {
@@ -2374,14 +2212,9 @@ export const en = {
 			resort: 'Department',
 			postcode: 'Postal code',
 			relation: 'Background',
-			addictiveDrugs: 'Narcotics',
 			age: 'Age',
 			gender: 'Gender',
 			state: 'State'
-		},
-		monitoring: {
-			title: 'Monitoring',
-			buttonLabel: 'Document now'
 		},
 		reassign: {
 			title: 'Allocation',
@@ -2400,8 +2233,8 @@ export const en = {
 		incomingCall: {
 			description: 'calls...',
 			unsupported: {
-				description: 'Video call from {{username}}',
-				hint: 'Due to the technical requirements, the video call is not end-to-end encrypted. However, the video call is transport encrypted. Please follow the help to make end-to-end encrypted calls.',
+				description: '{{username}} tries to call you',
+				hint: 'Your browser does not meet the necessary security requirements. Please use a different browser so that you can participate in video calls.',
 				button: 'Open help'
 			},
 			ignored: 'has been trying to reach you.',

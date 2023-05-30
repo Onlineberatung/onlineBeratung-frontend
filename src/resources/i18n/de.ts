@@ -65,14 +65,14 @@ export const de = {
 				button: 'Ich bin einverstanden',
 				description:
 					'Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.',
-				headline: 'Herzlich Willkommen',
+				headline: 'Herzlich willkommen',
 				subline:
 					'Bitte bestätigen Sie unsere Datenschutzbestimmungen. Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.'
 			},
 			'errorPage': {
 				button: 'Neu laden',
 				description:
-					'Es tut uns leid da ist wohl etwas schief gelaufen.<br>Versuchen Sie es erneut.',
+					'Es tut uns leid, da ist wohl etwas schiefgelaufen.<br>Versuchen Sie es erneut.',
 				headline: 'Ups!'
 			},
 			'closed': {
@@ -86,7 +86,7 @@ export const de = {
 				'Um Ihre Anonymität zu schützen, löschen wir Ihre Nachrichten spätestens 48 Stunden nachdem der Chat beendet wurde.',
 			'overlay': {
 				acceptance: {
-					headline: 'Herzlich Willkommen!',
+					headline: 'Herzlich willkommen!',
 					copy: 'Sie werden von Ihrer Berater_in im Chat erwartet. Sind Sie bereit?',
 					button: 'Jetzt chatten'
 				},
@@ -128,7 +128,8 @@ export const de = {
 		'successful': 'Erfolgreich',
 		'faulty': 'Fehlerhaft',
 		'selectLanguage': 'Sprache wählen',
-		'wait': 'Bitte warten'
+		'wait': 'Bitte warten',
+		'closeBanner': 'Banner schließen'
 	},
 	appointments: {
 		copy: {
@@ -300,12 +301,14 @@ export const de = {
 			'location': {
 				IN_PERSON: 'In der Beratungsstelle',
 				PHONE_CALL: 'Telefon-Beratung',
+				USER_PHONE: 'Telefon-Beratung',
 				VIDEO_CALL: 'Videoberatung',
-				CHAT: 'Text-Chat'
+				CHAT: 'Text-Chat',
+				LINK: 'Videoberatung'
 			},
 			'tooltip': {
 				consultant:
-					'Falls Sie den Termin nicht in dem vom Rastsuchenden gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.',
+					'Falls Sie den Termin nicht in dem vom Ratsuchende gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.',
 				adviceSeeker:
 					'Falls Ihr:e Berater:in den Termin nicht in dem von Ihnen gewählten Modus wahrnehmen kann, generieren wir für Sie immer einen Link zum Video-Call als Alternative.'
 			}
@@ -322,7 +325,6 @@ export const de = {
 	chatFlyout: {
 		askerProfil: 'Ratsuchendenprofil',
 		dataProtection: 'Datenschutz',
-		documentation: 'Dokumentation',
 		feedback: 'Feedback',
 		groupChatInfo: 'Chat-Info',
 		imprint: 'Impressum',
@@ -462,23 +464,23 @@ export const de = {
 		attachment: {
 			encrypted: 'Datei für Download entschlüsseln',
 			is_decrypting: 'Datei wird entschlüsselt',
-			decryption_error: 'Fehler beim entschlüsseln',
+			decryption_error: 'Fehler beim Entschlüsseln',
 			save: 'Datei downloaden',
 			error: {
 				title: 'Leider, konnten wir die Datei nicht entschlüsseln und downloaden.',
-				text: 'Bitten Sie den Sender oder die Senderin die Datei erneut zu schicken. Downloaden Sie dann die neue Datei.'
+				text: 'Bitten Sie den Sender oder die Senderin, die Datei erneut zu schicken. Downloaden Sie dann die neue Datei.'
 			}
 		},
 		inProgress: {
 			headline: 'Einen Moment bitte.',
 			copy: 'Ihre Sicherheit ist uns wichtig! Wir verschlüsseln gerade Ihren Chat. Dies kann einen Moment dauern.',
 			confirm:
-				'Bitte warten Sie bis die Verschlüsselung abgeschlossen ist!'
+				'Bitte warten Sie, bis die Verschlüsselung abgeschlossen ist!'
 		},
 		roomNotFound: {
 			'notice.line1': 'Ohh!',
 			'notice.line2':
-				'Es tut uns leid, da ist wohl etwas schief gelaufen.',
+				'Es tut uns leid, da ist wohl etwas schiefgelaufen.',
 			'notice.line3':
 				'Bitte laden Sie die Seite neu und probieren Sie es nochmal.',
 			'notice.link': 'Seite neu laden'
@@ -493,7 +495,7 @@ export const de = {
 			},
 			notice: {
 				link: 'Benachrichtigung schicken',
-				text: 'Da Sie Ihr Passwort zurückgesetzt haben, sind die Nachrichten für Sie momentan nicht lesbar. Sobald ein_e Chat-Teilnehmer_in den Chat wieder öffnet, können Sie die Nachrichten wieder lesen und Neue schreiben.',
+				text: 'Da Sie Ihr Passwort zurückgesetzt haben, sind die Nachrichten für Sie momentan nicht lesbar. Sobald ein_e Chat-Teilnehmer_in den Chat wieder öffnet, können Sie die Nachrichten wieder lesen und neue schreiben.',
 				title: 'Ihre Sicherheit ist uns wichtig!',
 				more: 'Mehr erfahren'
 			},
@@ -516,7 +518,7 @@ export const de = {
 		'write': {
 			infotext: {
 				copy: {
-					facts: '<ul><li>Was ist passiert?</li><li>Wie ist Ihre aktuelle Situation?</li><li>Was beschäftigt Sie?</li><li>Haben Sie eine bestimmte Frage oder wissen Sie vielleicht selbst noch nicht so genau was Ihnen helfen könnte?</li></ul>',
+					facts: '<ul><li>Was ist passiert?</li><li>Wie ist Ihre aktuelle Situation?</li><li>Was beschäftigt Sie?</li><li>Haben Sie eine bestimmte Frage oder wissen Sie vielleicht selbst noch nicht so genau, was Ihnen helfen könnte?</li></ul>',
 					title: 'Vielleicht helfen Ihnen folgende Punkte bei der Formulierung weiter:'
 				},
 				headline: 'Hier ist Platz für Ihre Anliegen.',
@@ -559,12 +561,12 @@ export const de = {
 			},
 			404: {
 				description:
-					'Es tut uns leid da ist wohl etwas schief gelaufen.<br>Wir konnten die gewünschte Seite nicht finden.',
+					'Es tut uns leid, da ist wohl etwas schiefgelaufen.<br>Wir konnten die gewünschte Seite nicht finden.',
 				headline: 'Ohh!'
 			},
 			500: {
 				description:
-					'Wie es aussieht haben wir momentan ein Serverproblem.<br>Versuchen Sie es später noch einmal.',
+					'Wie es aussieht, haben wir momentan ein Serverproblem.<br>Versuchen Sie es später noch einmal.',
 				headline: 'Ups!'
 			}
 		},
@@ -607,20 +609,6 @@ export const de = {
 			},
 			'success.overlay.headline':
 				'Ihre E-Mail-Adresse wurde erfolgreich gespeichert.'
-		},
-		'voluntaryInfo': {
-			headline: 'Wir wollen Sie bestmöglichst beraten',
-			infoText:
-				'Dabei hilft es uns, wenn Sie weitere freiwillige Angaben zu sich und Ihrem Anliegen machen.',
-			button: 'Angaben hinzufügen',
-			overlay: {
-				'button1.label': 'Speichern',
-				'button2.label': 'Schließen',
-				'copy': 'Für die Beratung würden uns folgende Angaben sehr helfen.',
-				'headline': 'Freiwillige Angaben',
-				'success.headline':
-					'Vielen Dank. Ihre freiwilligen Angaben wurden erfolgreich gespeichert.'
-			}
 		}
 	},
 	groupChat: {
@@ -704,7 +692,7 @@ export const de = {
 			},
 			'content.headline': '"Spielregeln" des Chats',
 			'warning.message':
-				'Ihr Berater_in/Moderator_in hat den Chat noch nicht gestartet. Sobald Ihr Berater_in/Moderator_in den Chat gestartet hat können Sie mit uns chatten. Bitte haben Sie noch etwas Geduld.'
+				'Ihr Berater_in/Moderator_in hat den Chat noch nicht gestartet. Sobald Ihr Berater_in/Moderator_in den Chat gestartet hat, können Sie mit uns chatten. Bitte haben Sie noch etwas Geduld.'
 		},
 		'joinError': {
 			overlay: {
@@ -765,37 +753,68 @@ export const de = {
 	help: {
 		googleChrome: 'Google Chrome',
 		msEdge: 'Microsoft Edge',
+		safari: 'Safari',
 		openInNewTab: 'In neuem Tab öffnen',
 		videoCall: {
+			waitingRoom: {
+				headline: 'Es liegt nicht an Ihnen, sondern an Ihrem Browser.',
+				infoBox: {
+					headline: 'Ihr Browser unterstützt keine Video-Calls.',
+					text: 'Damit Sie an Video-Calls teilnehmen können, verwenden Sie bitte Google Chrome, Microsoft Edge oder Safari.'
+				},
+				subline1:
+					'Haben Sie noch keinen Google Chrome, Microsoft Edge oder Safari?',
+				text1: 'Laden Sie sich einen der Browser herunter.',
+				subline2:
+					'Sie haben bereits Google Chrome, Microsoft Edge oder Safari?',
+				text2: 'Öffnen Sie nun Ihren Link zur Online-Beratung mit einem der unterstützten Browser.',
+				copyLink: 'Link kopieren',
+				copiedLink: 'Link kopiert!'
+			},
+			banner: {
+				content:
+					'Bitte verwenden Sie einen anderen Browser, um Video-Calls zu ermöglichen.',
+				more: 'Mehr erfahren'
+			},
 			asker: {
-				intro: 'Um Ende-zu Ende verschlüsselt zu telefonieren, befolgen Sie folgende Schritte:',
+				headline: 'Video-Call',
+				intro: 'Damit Sie an Video-Calls teilnehmen können, müssen Sie sich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
-					'1': 'Öffnen Sie den Link zu Google Chrome oder Microsoft Edge.',
-					'2': 'Laden Sie sich Chrome oder Edge herunter.',
-					'3': 'Installieren Sie Chrome oder Edge auf Ihrem PC/Laptop/Tablet/Smartphone.',
-					'4': 'Öffnen Sie nun über Chrome oder Edge die Online-Beratung.',
+					'1.1': 'Folgen Sie dem Link zu ',
+					'1.2': ' oder ',
+					'1.3': ' (nur für macOS und iOS verfügbar)',
+					'2': 'Laden Sie einen der unterstützten Browser herunter.',
+					'3': 'Installieren Sie diesen auf Ihrem PC/Laptop/Tablet/Smartphone.',
+					'4': {
+						'1': 'Öffnen Sie nun mit diesem Browser die Online-Beratung.',
+						'2': 'Öffnen Sie die Online-Beratung mit einem dieser Browser.'
+					},
 					'5': 'Melden Sie sich bei der Online-Beratung an.',
 					'6': 'Bitten Sie Ihre_n Berater_in Sie nochmals anzurufen.',
 					'headline': {
-						'1': 'Video-Call',
-						'2': 'Sie haben bereits Google Chrome oder Microsoft Edge?'
+						'1': 'Schritt-für-Schritt-Anleitung',
+						'2': 'Sie haben bereits Google Chrome, Microsoft Edge oder Safari?'
 					}
 				}
 			},
 			consultant: {
 				headline: 'Video-Call',
-				intro: 'Um einen Video-Call starten zu können, müssen Sie sich über Google Chrome oder Microsoft Edge bei der Online-Beratung anmelden. Somit kann der Video-Call Ende-zu-Ende verschlüsselt werden und Sie können starten.',
+				intro: 'Um einen Video-Call durchführen zu können, müssen Sie sich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
 					'1.1': 'Folgen Sie dem Link zu ',
 					'1.2': ' oder ',
-					'2': 'Laden Sie sich Chrome oder Edge herunter. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
-					'3': 'Installieren Sie Chrome oder Edge auf Ihrem PC/Laptop/Tablet/Smartphone.',
-					'4': 'Öffnen Sie nun über Chrome oder Edge die Online-Beratung.',
+					'1.3': ' (nur für macOS und iOS verfügbar)',
+					'2': 'Laden Sie einen der unterstützten Browser herunter. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
+					'3': 'Installieren Sie diesen auf Ihrem PC/Laptop/Tablet/Smartphone.',
+					'4': {
+						'1': 'Öffnen Sie nun mit diesem Browser die Online-Beratung.',
+						'2': 'Öffnen Sie die Online-Beratung mit einem dieser Browser.'
+					},
 					'5': 'Melden Sie sich bei der Online-Beratung an.',
 					'6': 'Starten Sie den Video-Call.',
 					'headline': {
-						'1': 'Schritt für Schritt Anleitung',
-						'2': 'Sie haben bereits Google Chrome oder Microsoft Edge?'
+						'1': 'Schritt-für-Schritt-Anleitung',
+						'2': 'Sie haben bereits Google Chrome, Microsoft Edge oder Safari?'
 					}
 				}
 			},
@@ -1117,179 +1136,8 @@ export const de = {
 		'read': 'gelesen',
 		'sent': 'zugestellt',
 		'groupChat': 'Gruppenchat',
-		'liveChat': 'Live Chat',
+		'liveChat': 'Live-Chat',
 		'newEnquiry': 'Neue Anfrage'
-	},
-	monitoring: {
-		title: 'Monitoring',
-		empty: 'Keine Angabe',
-		checked: 'Unterpunkte ausgewählt',
-		monitoringAddiction: {
-			addictiveDrugs: 'Suchtmittel',
-			alcohol: 'Alkohol',
-			drugs: 'Drogen',
-			cannabis: 'Cannabis',
-			hallucinogens: 'Halluzinogene',
-			amphetamines: 'Amphetamine',
-			cocaineCrack: 'Kokain/Crack',
-			opioids: 'Opioide',
-			others: 'Andere',
-			legalHighs: 'Legal Highs/Neue psychoaktive Substanzen',
-			tobacco: 'Tabak',
-			medication: 'Medikamente',
-			gambling: 'Glücksspiel',
-			offline: 'Offline',
-			online: 'Online',
-			internetComputer: 'Internet/Computer',
-			chatting: 'Chatten',
-			gaming: 'Gaming',
-			shopping: 'Shopping',
-			pornography: 'Pornographie/Sexsucht',
-			surfing: 'Surfen',
-			eatingDisorder: 'Essstörung',
-			intervention: 'Intervention',
-			information: 'Information',
-			conveyance: 'Weitervermittlung',
-			consulting: 'Beratung',
-			doctorClinic: 'Arzt/Ärztin/Klinik',
-			debtConsulting: 'Schuldnerberatung',
-			pregnancyConsulting: 'Schwangerschaftsberatung',
-			psychologicalSupport: 'Psychologische Betreuung',
-			childYouthAid: 'Kinder- und Jugendhilfe',
-			addictionHelpFacility: 'Suchthilfeeinrichtung',
-			delinquentHelp: 'Straffälligenhilfe',
-			selfHelp: 'Selbsthilfe',
-			generalConsulting: 'Allgemeine Sozialberatung'
-		},
-		monitoringU25: {
-			'generalData': 'Rahmendaten',
-			'location': 'Wohnort',
-			'freiburg': 'Freiburg',
-			'badenWuerttemberg': 'Baden Württemberg',
-			'bavaria': 'Bayern',
-			'berlin': 'Berlin',
-			'brandenburg': 'Brandenburg',
-			'bremen': 'Bremen',
-			'hamburg': 'Hamburg',
-			'hessia': 'Hessen',
-			'mecklenburgWesternPomerania': 'Mecklenburg-Vorpommern',
-			'lowerSaxony': 'Niedersachsen',
-			'northRhineWestphalia': 'Nordrhein-Westfalen',
-			'rhinelandPalatinate': 'Rheinland-Pfalz',
-			'saarland': 'Saarland',
-			'saxony': 'Sachsen',
-			'saxonyAnhalt': 'Sachsen-Anhalt',
-			'schleswigHolstein': 'Schleswig-Holstein',
-			'thuringia': 'Thüringen',
-			'abroadAustria': 'Ausland (Österreich)',
-			'abroadSwitzerland': 'Ausland (Schweiz)',
-			'abroadOthers': 'Ausland (sonstiges)',
-			'occupation': 'Erwerbstätigkeit/Arbeitssituation',
-			'school': 'Schule',
-			'studies': 'Studium',
-			'apprenticeship': 'Ausbildung',
-			'employed': 'erwerbstätig',
-			'unemployed': 'arbeitslos',
-			'housingSituation': 'Wohnsituation',
-			'family': 'in Familie',
-			'partner': 'Partner_in',
-			'livingCommunity': 'WG',
-			'alone': 'allein lebend',
-			'assistedLiving': 'betreute Wohnform',
-			'homeless': 'ohne Wohnsitz',
-			'consultingData': 'Beratungsdaten',
-			'suicidality': 'Suizidalität bei Kontaktaufnahme',
-			'crisis': 'Krise ohne Suizidalität',
-			'thoughtsOfSuicide': 'Suizidgedanken',
-			'acuteThoughtsOfSuicide': 'akute Suizidgedanken',
-			'afterSuicideAttempt': 'nach Suizidhandlung',
-			'stressfulFactors': 'Belastende Faktoren',
-			'mentalOverload': 'Gefühl von Überforderung',
-			'anxieties': 'Ängste',
-			'futility': 'Sinnlosigkeit',
-			'isolation': 'Isolation/Vereinsamung',
-			'svv': 'SVV',
-			'bullying': 'Mobbing',
-			'sexualAbuse': 'sex. Missbrauch / Vergewaltigung',
-			'mentalIllness': 'psychische Erkrankung',
-			'substanceAbuse': 'Substanzmittelmissbrauch',
-			'mediaConsumption': 'Starker Medienkonsum',
-			'physicalIllness': 'körperliche Beschwerden / chronische Krankheit',
-			'physicalHandicap': 'Körperliche Behinderung',
-			'conflictsPartnership': 'Konflikte in der Partnerschaft',
-			'divorce': 'Trennung',
-			'deceaseLovedOne': 'Tod eines_r Nahestehende_n',
-			'mourning.alt': 'Trauer',
-			'concernLovedOne': 'Sorge um Nahestehende_n',
-			'relationshipRelative': 'Beziehungssituation mit Angehörige_n',
-			'relationshipSocialEnvironment':
-				'Beziehungssituation im sozialen Umfeld',
-			'workSchool': 'Arbeit / Schule / Beruf',
-			'housingSituation.alt': 'Wohnsituation',
-			'financialSituation': 'finanzielle Situation',
-			'debt': 'Verschuldung',
-			'experienceOfViolence': 'Gewalterfahrung',
-			'stressfulChildhood': 'belastende Kindheit',
-			'crime': 'Straftat/Gesetzeskonflikt',
-			'migrationProblems': 'Probleme in Zusammenhang mit Migration',
-			'sexualOrientation': 'Sexuelle Orientierung',
-			'genderIdentity': 'Geschlechtliche Identität',
-			'others': 'Sonstige',
-			'supportDuration':
-				'Dauer der Begleitung (nach Beendigung eintragen)',
-			'onetime': 'einmalig',
-			'oneMonth': 'bis 1 Monat',
-			'threeMonths': 'bis 3 Monate',
-			'sixMonths': 'bis 6 Monate',
-			'oneYear': 'bis 1 Jahr',
-			'oneAndAHalfYear': 'bis 1,5 Jahre',
-			'longer': 'länger',
-			'inConsultation': 'in Beratung',
-			'diagnosis': 'Diagnose',
-			'depression': 'Depression',
-			'eatingDisorder': 'Essstörung',
-			'adhs': 'ADHS',
-			'borderline': 'Borderline',
-			'autism': 'Autismus',
-			'personalityDisorder': 'Persönlichkeitsstörung',
-			'traumaRelatedDisorder': 'Traumafolgestörung',
-			'anxietyDisorder': 'Angststörung',
-			'addiction': 'Sucht',
-			'obsessiveCompulsiveDisorder': 'Zwangsstörung',
-			'schizophrenia': 'Schizophrenie',
-			'furtherConnection': 'Weitere Anbindung',
-			'outpatientTherapy': 'Ambulante Therapie',
-			'inpationsTherapy': 'Stationäre Therapie/Tagesklinik',
-			'consultation': 'Beratung',
-			'supportGroups': 'Selbsthilfegruppe',
-			'medicalTherapy': 'Medikamentöse Therapie',
-			'endOfContact': 'Ende des Kontakts (Mehrfachnennung möglich)',
-			'mutually': 'Einvernehmlich beendet',
-			'noAnswer': 'Klient_in hat sich nicht mehr gemeldet',
-			'suicideAnnouncement': 'Suizidankündigung',
-			'suicide': 'Suizid',
-			'others.alt': 'Sonstiges',
-			'schoolStudies': 'Schule/Studium',
-			'partnerLivingCommunity': 'mit Partner_in in WG',
-			'concern': 'Sorge um Suizidgefährdete_n',
-			'mourning': 'Trauer nach Suizid',
-			'addictionDrugs': 'Sucht (Drogen/Medikamente)',
-			'addictionAlcohol': 'Sucht (Alkohol)',
-			'addictionInternetComputer': 'Sucht (Internet/Computer)',
-			'addictionOthers': 'Sucht (sonstiges)',
-			'noFirstAnswer': 'Klient_in hat auf Erstmail nicht reagiert',
-			'helpfulness': 'Wie hilfreich war der Kontakt für Klient_in?',
-			'one': '1 – nicht hilfreich',
-			'two': '2',
-			'three': '3',
-			'four': '4',
-			'five': '5',
-			'six': '6',
-			'seven': '7',
-			'eight': '8',
-			'nine': '9',
-			'ten': '10 – sehr hilfreich'
-		}
 	},
 	navigation: {
 		'appointments': 'Video - Termine',
@@ -1322,7 +1170,7 @@ export const de = {
 	},
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
-		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!',
+		'enquiry.new': 'Sie haben eine neue Live-Chat Anfrage!',
 		'initialRequest.new': 'Sie haben eine neue Erstanfrage!',
 		'warning': 'Warnung',
 		'error': 'Fehlgeschlagen',
@@ -1345,15 +1193,15 @@ export const de = {
 		emptyMessages: 'Du hast alles im Blick, alle Nachrichten sind gelesen!',
 		emptyInitialMessage: 'Sehr gut, alle Erstanfragen sind bearbeitet!',
 		emptyAppointments:
-			'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern',
+			'Heute stehen keine Termine an, Verabrede Dich mit Ratsuchenden um das zu ändern',
 		emptyAppointmentsMobile:
-			'Keine Termine derzeit, Verabrede dich mit Ratsuchenden um das zu ändern',
+			'Keine Termine derzeit, Verabrede Dich mit Ratsuchenden um das zu ändern',
 		viewAll: 'Alle Anzeigen',
 		myMessagesEmpty:
 			'Du hast alles im Blick, alle Nachrichten sind gelesen!',
 		initialInquiriesEmpty: 'Sehr gut, alle Erstanfragen sind bearbeitet!',
 		appointmentsEmpty:
-			'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern',
+			'Heute stehen keine Termine an, Verabrede Dich mit Ratsuchenden um das zu ändern',
 		start: 'Starten'
 	},
 	preconditions: {
@@ -1469,7 +1317,7 @@ export const de = {
 					'Deaktivieren Sie Ihre Abwesenheit, um eine Nachricht zu hinterlegen oder sie zu bearbeiten.'
 			},
 			'masterKey.saveError':
-				'Beim Passwort Ändern ist ein Problem aufgetaucht. Bitte versuchen Sie es erneut.',
+				'Beim Passwort ändern ist ein Problem aufgetaucht. Bitte versuchen Sie es erneut.',
 			'password': {
 				reset: {
 					'confirm.label': 'Neues Passwort bestätigen',
@@ -1517,10 +1365,15 @@ export const de = {
 			'initialEnquiry': {
 				title: 'Eine neue Erstanfrage ist eingegangen'
 			},
-			'newMessage': {
+			'newMessageAdviceSeeker': {
 				title: 'Neue Chat-Nachricht',
 				description:
-					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+					'Wir informieren Sie, solange Sie nicht im System angemeldet sind'
+			},
+			'newMessageConsultant': {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet. Wir informieren Sie, solange Sie nicht im System angemeldet sind.'
 			},
 			'reassignmentConsultant': {
 				title: 'Neuzuweisung eines Ratsuchenden',
@@ -1538,9 +1391,14 @@ export const de = {
 					'Ein Termin wurde angesetzt, verschoben oder abgesagt'
 			},
 			'error': {
-				title: 'Etwas ist schief gelaufen.',
+				title: 'Etwas ist schiefgelaufen.',
 				description:
 					'Leider können wir Ihre Einstellungen momentan nicht aktualisieren. Bitte versuchen Sie es später noch einmal.'
+			},
+			'toggleError': {
+				title: 'Etwas ist schiefgelaufen.',
+				description:
+					'Leider können wir Ihre Benachrichtigungen zurzeit nicht aktivieren. Bitte versuchen Sie es später noch einmal.'
 			},
 			'noEmail': {
 				info: 'Sie haben noch keine E-Mail-Adresse hinzugefügt.',
@@ -1548,7 +1406,7 @@ export const de = {
 				modal: {
 					title: 'E-Mail-Adresse hinzufügen',
 					description:
-						'Die Angabe Ihrer E-Mail ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer_r Berater_in zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
+						'Die Angabe Ihrer E-Mail-Adresse ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer_r Berater_in zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
 					confirm: 'Hinzufügen',
 					emailInput: {
 						label: 'E-Mail',
@@ -1557,9 +1415,9 @@ export const de = {
 						unavailable:
 							'Diese E-Mail-Adresse ist bereits registriert.'
 					},
-					errorTitle: 'Etwas ist schief gelaufen.',
+					errorTitle: 'Etwas ist schiefgelaufen.',
 					errorMessage:
-						'Leider können wir Ihre Benachrichtigungen zur Zeit nicht aktivieren. Bitte versuchen Sie es später noch einmal.'
+						'Leider können wir Ihre E-Mail-Adresse momentan nicht speichern. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support.'
 				}
 			}
 		},
@@ -1574,7 +1432,7 @@ export const de = {
 			newMessage: {
 				title: 'Neue Chat-Nachricht',
 				description:
-					'Eine_r der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
 			},
 			denied: {
 				message:
@@ -1590,7 +1448,7 @@ export const de = {
 		'liveChat': {
 			title: 'Meine Live-Chat Verfügbarkeit',
 			subtitle:
-				'Aktivieren Sie Ihre Verfügbarkeit und sehen Sie in den Erstanfragen unter „Live-Chat Anfragen“ die wartenden anoymen Ratsuchenden.',
+				'Aktivieren Sie Ihre Verfügbarkeit und sehen Sie in den Erstanfragen unter „Live-Chat Anfragen“ die wartenden anonymen Ratsuchenden.',
 			toggleLabel: 'Bin verfügbar'
 		},
 		'routes': {
@@ -1724,7 +1582,7 @@ export const de = {
 					'Warum hilft Ihnen auch online eine Beratungsstelle in Ihrer Nähe?',
 				point1: 'die regionalen Hilfestrukturen kennt,',
 				point2: 'mit den rechtlichen Voraussetzungen vertraut ist,',
-				point3: 'Sie gegebenfalls auch vor Ort beraten kann.',
+				point3: 'Sie gegebenenfalls auch vor Ort beraten kann.',
 				subline: 'Weil dann das Fachpersonal:'
 			},
 			languages: {
@@ -1784,7 +1642,7 @@ export const de = {
 		},
 		'mainTopic': {
 			headline:
-				'Welches dieser Problemfelder ist für Sie aktuell am Wichtigsten?',
+				'Welches dieser Problemfelder ist für Sie aktuell am wichtigsten?',
 			noTopics:
 				'Derzeit können leider keine Themen ausgewählt werden. Führen Sie die Anmeldung im nächsten Schritt fort.'
 		},
@@ -1845,7 +1703,7 @@ export const de = {
 		'user': {
 			label: 'Benutzername',
 			infoText:
-				'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
+				'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialen zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 			suitable: 'Ihr Benutzername ist geeignet.',
 			unsuitable: 'Ihr Benutzername ist zu kurz.',
 			unavailable: 'Der Benutzername ist bereits vergeben.'
@@ -1906,10 +1764,10 @@ export const de = {
 		},
 		contentLine2: {
 			termsAndCondition:
-				'Ich habe die Nutzungsbedingungen zur Kenntniss genommen.\n Damit erkläre ich mich einverstanden.',
+				'Ich habe die Nutzungsbedingungen zur Kenntnis genommen.\n Damit erkläre ich mich einverstanden.',
 			termsAndConditionAndPrivacy:
 				'Ich habe die Nutzungsbedingungen und Datenschutzerklärung\n' +
-				'zur Kenntniss genommen. Damit erkläre ich mich einverstanden.'
+				'zur Kenntnis genommen. Damit erkläre ich mich einverstanden.'
 		},
 		buttons: {
 			decline: 'Ablehnen',
@@ -1944,7 +1802,7 @@ export const de = {
 					'2': 'Sie haben die Beratung erfolgreich zugewiesen.'
 				},
 				'subtitle.noTeam':
-					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.',
+					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugriff mehr auf die Nachrichten.',
 				'subtitle.team.self':
 					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, finden Sie den Chatverlauf in Ihren Nachrichten und nicht mehr unter Teamberatung.',
 				'subtitle.team.other':
@@ -1971,7 +1829,6 @@ export const de = {
 		'empty': 'Bitte wählen Sie eine Nachricht aus',
 		'feedback.label': 'Feedback',
 		'groupChat.consultant.prefix': 'Moderator_in - ',
-		'monitoring.buttonLabel': 'Jetzt dokumentieren',
 		'u25.assignment.placeholder': 'Beratung zuweisen',
 		'unreadCount.maxValue': '99+',
 		'dragAndDrop': {
@@ -2043,14 +1900,14 @@ export const de = {
 			anonymous:
 				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat',
 			known: 'Aktuell liegen keine Erstanfragen vor',
-			mySessions: 'Sie haben zur Zeit keine aktiven Beratungen',
+			mySessions: 'Sie haben zurzeit keine aktiven Beratungen',
 			teamSessions: 'Ihr Team hat keine aktiven Beratungen',
-			peersessions: 'Sie haben zur Zeit keine aktiven Peer-Beratungen',
+			peersessions: 'Sie haben zurzeit keine aktiven Peer-Beratungen',
 			archived: 'Es sind noch keine Beratungen archiviert'
 		},
 		'unavailable': {
 			description:
-				'Aktivieren Sie Ihre Verfügbarkeit und erhalten Sie hier die Live-Chat Anfragen von anoymen Ratsuchenden',
+				'Aktivieren Sie Ihre Verfügbarkeit und erhalten Sie hier die Live-Chat Anfragen von anonymen Ratsuchenden',
 			buttonLabel: 'Verfügbarkeit aktivieren'
 		},
 		'filter': {
@@ -2100,7 +1957,7 @@ export const de = {
 		'shared': 'Mit dem/der Berater/in geteilt',
 		'calendar.title': 'Mein Kalender',
 		'calendar.description':
-			'Tragen Sie Ihre Urlaube oder sonstigen Termine in den Kalender ein, sodass die Ratsuchenden in dieser Zeit keine Termine bei Ihnen buchen können.<br/>Melden Sie sich mit der gleichen E-mail Adresse und Passwort an, das Sie auch hier bei der Online Beratung verwenden.',
+			'Tragen Sie Ihre Urlaube oder sonstigen Termine in den Kalender ein, sodass die Ratsuchenden in dieser Zeit keine Termine bei Ihnen buchen können.<br/>Melden Sie sich mit der gleichen E-Mail-Adresse und Passwort an, das Sie auch hier bei der Online Beratung verwenden.',
 		'calendar.button.label': 'Öffnen'
 	},
 	twoFactorAuth: {
@@ -2162,7 +2019,7 @@ export const de = {
 			app: {
 				step2: {
 					'title': 'Installieren Sie sich die App',
-					'copy': 'Bitte installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authentificator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
+					'copy': 'Bitte installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authenticator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
 					'visualisation.label': 'Installation',
 					'tool1': {
 						title: 'FreeOTP App:',
@@ -2185,7 +2042,7 @@ export const de = {
 				},
 				step3: {
 					'title': 'Fügen Sie die Online-Beratung zur App hinzu',
-					'copy': 'Sie haben zwei Möglichkeiten die Online-Beratung zur App hinzuzufügen:',
+					'copy': 'Sie haben zwei Möglichkeiten, die Online-Beratung zur App hinzuzufügen:',
 					'visualisation.label': 'Hinzufügen',
 					'connect': {
 						qrCode: 'Öffnen Sie die App und scannen Sie den folgenden QR-Code:',
@@ -2219,12 +2076,12 @@ export const de = {
 					title: 'E-Mail-Adresse bearbeiten',
 					copy: {
 						'1': 'Sie nutzen diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
-						'2': 'Deaktivieren Sie die Zwei-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.'
+						'2': 'Deaktivieren Sie die Zwei-Faktor-Authentifizierung, um die E-Mail-Adresse zu bearbeiten.'
 					},
 					binding: {
 						copy: {
-							'1': 'Sie können Ihre E-Mail Adresse nicht ändern solange Sie diese als zweiten Faktor für eine sichere Anmeldung verwenden.',
-							'2': 'Wechseln Sie den zweiten Faktor von "E-Mail Adresse" zu "App". Dann können Sie Ihre E-Mail Adresse ändern.'
+							'1': 'Sie können Ihre E-Mail-Adresse nicht ändern, solange Sie diese als zweiten Faktor für eine sichere Anmeldung verwenden.',
+							'2': 'Wechseln Sie den zweiten Faktor von "E-Mail-Adresse" zu "App". Dann können Sie Ihre E-Mail-Adresse ändern.'
 						}
 					},
 					button: {
@@ -2240,7 +2097,7 @@ export const de = {
 		nag: {
 			'button.later': 'Später erinnern',
 			'button.protect': 'Jetzt schützen',
-			'copy': 'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung.',
+			'copy': 'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Beratung.',
 			'obligatory': {
 				moment: {
 					title: 'Schützen Sie Ihr Konto bis spätestens {{date}}',
@@ -2292,18 +2149,6 @@ export const de = {
 				'4': '41-59',
 				'5': '60+',
 				'null': 'Keine Angabe'
-			},
-			addictiveDrugs: {
-				'headline': 'Suchtmittel',
-				'0': 'Alkohol',
-				'1': 'Drogen',
-				'2': 'Legal Highs',
-				'3': 'Tabak',
-				'4': 'Medikamente',
-				'5': 'Glücksspiel',
-				'6': 'Internet/Computer',
-				'7': 'Essstörungen',
-				'8': 'Andere'
 			},
 			gender: {
 				'headline': 'Geschlecht',
@@ -2391,7 +2236,7 @@ export const de = {
 			},
 			share: {
 				sharedContent: 'Zu den geteilten Inhalten',
-				title: 'Sehen Sie hier welche Inhalte mit Ihnen geteilt wurden.',
+				title: 'Sehen Sie hier, welche Inhalte mit Ihnen geteilt wurden.',
 				info: 'Nur zugewiesene Berater_innen können die Inhalte der Ratsuchenden einsehen. Wenn Sie aus der Teamberatung auf die Inhalte zugreifen, sind die Ratsuchenden nicht vorausgewählt.'
 			},
 			modal: {
@@ -2403,18 +2248,12 @@ export const de = {
 			}
 		},
 		data: {
-			addictiveDrugs: 'Suchtmittel',
 			age: 'Alter',
-			gender: 'Geschlecht',
 			postcode: 'Postleitzahl',
 			relation: 'Hintergrund',
 			resort: 'Fachbereich',
 			state: 'Bundesland',
 			title: 'Angaben des Ratsuchenden'
-		},
-		monitoring: {
-			buttonLabel: 'Jetzt dokumentieren',
-			title: 'Monitoring'
 		},
 		reassign: {
 			description:
@@ -2440,8 +2279,8 @@ export const de = {
 			},
 			unsupported: {
 				button: 'Hilfe öffnen',
-				description: 'Video-Call von {{username}}',
-				hint: 'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Jedoch ist der Video-Call transportverschlüsselt. Bitte folgen Sie der Hilfe, um Ende-zu-Ende verschlüsselt zu telefonieren.'
+				description: '{{username}} versucht Sie anzurufen',
+				hint: 'Ihr Browser erfüllt nicht die notwendigen Sicherheitsanforderungen. Bitte verwenden Sie einen anderen Browser, damit Sie an Video-Calls teilnehmen können.'
 			}
 		},
 		info: 'Anrufinformation',
@@ -2454,7 +2293,7 @@ export const de = {
 			unsupported: {
 				'button.close': 'Schließen',
 				'button.manual': 'Zur Anleitung',
-				'copy': 'Ihr Gerät erfüllt nicht alle nötigen technischen Vorgaben für einen Video-Call. Bitte folgen Sie dieser Anleitung um einen Video-Call starten zu können. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
+				'copy': 'Ihr Gerät erfüllt nicht alle nötigen technischen Vorgaben für einen Video-Call. Bitte folgen Sie dieser Anleitung, um einen Video-Call starten zu können. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
 				'headline': 'Der Video-Call kann nicht gestartet werden'
 			}
 		},
@@ -2477,7 +2316,7 @@ export const de = {
 				'button': 'Bestätigen',
 				'description':
 					'Danach dürfen unsere Berater_innen einen Video-Call mit Ihnen starten.',
-				'headline': 'Herzlich Willkommen!',
+				'headline': 'Herzlich willkommen!',
 				'label.text':
 					'Ich habe die {{legal_links}} zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 				'label.and': 'und',
@@ -2489,18 +2328,18 @@ export const de = {
 			'errorImageTitle': 'Fehlgeschlagen',
 			'headline': 'Bitte haben Sie etwas Geduld',
 			'subline':
-				'Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet sobald Ihr_e Berater_in den Video-Call startet.',
+				'Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet, sobald Ihr_e Berater_in den Video-Call startet.',
 			'paused': {
 				headline: 'Der Video-Call wurde beendet',
 				subline:
-					'Der Video-Call wurde beendet. Sollten Ihr_e Berater_in nur abwesend sein werden Sie in den Video-Call weitergeleitet sobald Ihr_e Berater_in den Video-Call fortsetzt.'
+					'Der Video-Call wurde beendet. Sollten Ihr_e Berater_in nur abwesend sein werden Sie in den Video-Call weitergeleitet, sobald Ihr_e Berater_in den Video-Call fortsetzt.'
 			},
 			'errorPage': {
 				'button': 'Neu laden',
 				'consultant.description':
-					'Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde.',
+					'Zu Ihrem Link können wir keinen Video-Call finden, da der Video-Call entweder gelöscht oder bereits beendet wurde.',
 				'description':
-					'Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde. Sollten Sie weiterhin Probleme haben fragen Sie bitte Ihre_n Berater_in.',
+					'Zu Ihrem Link können wir keinen Video-Call finden, da der Video-Call entweder gelöscht oder bereits beendet wurde. Sollten Sie weiterhin Probleme haben fragen Sie bitte Ihre_n Berater_in.',
 				'headline': 'Der Video-Call wurde nicht gefunden',
 				'rejected': {
 					description:
@@ -2530,7 +2369,7 @@ export const de = {
 			},
 			1: {
 				title: 'Erstanfragen',
-				intro: "Hier finden Sie eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Ihr gesamtes Team hat Zugriff auf diese Übersicht.\n<br /><br /> Die ältesten Anfragen stehen oben, die neuesten ganz unten, damit Sie die zuerst eingegangenen leichter finden können.\n<br /><br /> In dem Moment, in dem Sie auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in Ihren Bereich 'Meine Beratungen' verschoben und die anderen Berater_innen sehen sie nicht mehr."
+				intro: "Hier finden Sie eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Ihr gesamtes Team hat Zugriff auf diese Übersicht.\n<br /><br /> Die ältesten Anfragen stehen oben, die neuesten ganz unten, damit Sie die zuerst eingegangenen leichter finden können.\n<br /><br /> In dem Moment, in dem Sie auf 'Anfrage annehmen' klicken, wird die Anfrage sofort in Ihren Bereich 'Meine Beratungen' verschoben und die anderen Berater_innen sehen sie nicht mehr."
 			},
 			2: {
 				title: 'Live-Chat Anfragen',

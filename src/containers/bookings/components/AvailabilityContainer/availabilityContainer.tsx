@@ -9,12 +9,22 @@ import { apiHasCalDavAccount } from '../../../../api/apiGetCalDavAccount';
 import { MyCalendar } from '../MyCalendar/myCalendar';
 
 export const AvailabilityContainer = () => {
+	const [height, setHeight] = useState('80%');
 	const { t: translate } = useTranslation();
 	const settings = useAppConfig();
 	const [hasCalDavAccount, setHasCalDavAccount] = useState(false);
 
 	useEffect(() => {
+		const fn = (data) => {
+			if (data?.data?.resize) {
+				setHeight(data?.data?.resize);
+			}
+		};
+		window.addEventListener('message', fn);
 		apiHasCalDavAccount().then(setHasCalDavAccount);
+		return () => {
+			window.removeEventListener('message', fn);
+		};
 	}, []);
 
 	return (
@@ -43,7 +53,7 @@ export const AvailabilityContainer = () => {
 						frameBorder={0}
 						scrolling="false"
 						width="100%"
-						height="80%"
+						height={height}
 					/>
 				)}
 			</Box>

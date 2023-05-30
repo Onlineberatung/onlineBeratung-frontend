@@ -10,43 +10,7 @@ export const enConsultingTypes = {
 			},
 			'anonymous.title': 'Anonymous and free of charge',
 			'welcomeScreen.anonymous.text':
-				'You remain anonymous and receive free advice and help',
-			'voluntaryComponents': {
-				relation: {
-					headline: 'Background',
-					affected: 'Affected',
-					relative: 'Affiliated',
-					otherType: 'Other'
-				},
-				addictiveDrugs: {
-					headline: 'Narcotics',
-					alcohol: 'Alcohol',
-					drugs: 'Drugs',
-					legalHighs: 'Legal Highs',
-					tabacco: 'Tobacco',
-					medication: 'Medication',
-					gambling: 'Gambling',
-					internetUse: 'Internet/Computer',
-					eatingDisorder: 'Eating disorders',
-					otherDrug: 'Other'
-				},
-				age: {
-					'headline': 'Age',
-					'selectInputLabel': 'Select age',
-					'0': '0-17',
-					'1': '18-20',
-					'2': '21-30',
-					'3': '31-40',
-					'4': '41-59',
-					'5': '60+'
-				},
-				gender: {
-					headline: 'Gender',
-					female: 'Female',
-					male: 'Male',
-					diverseGender: 'Divers'
-				}
-			}
+				'You remain anonymous and receive free advice and help'
 		},
 		1: {
 			'titles': {
@@ -60,14 +24,6 @@ export const enConsultingTypes = {
 			'anonymous.title': 'Anonymous and free of charge',
 			'welcomeScreen.anonymous.text':
 				'You remain anonymous and receive free advice and help',
-			'voluntaryComponents': {
-				gender: {
-					'.headline': 'Gender',
-					'gender.female': 'Female',
-					'gender.male': 'Male',
-					'gender.diverseGender': 'Divers'
-				}
-			},
 			'requiredComponents': {
 				age: {
 					'0': 'under 12',
@@ -350,13 +306,6 @@ export const enConsultingTypes = {
 			'anonymous.title': 'Anonymous and free of charge',
 			'welcomeScreen.anonymous.text':
 				'You remain anonymous and receive free advice and help',
-			'voluntaryComponents': {
-				gender: {
-					female: 'Female',
-					male: 'Male',
-					diverseGender: 'Divers'
-				}
-			},
 			'requiredComponents': {
 				age: {
 					'50': '20',

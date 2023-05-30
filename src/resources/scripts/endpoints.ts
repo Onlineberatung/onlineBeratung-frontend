@@ -35,7 +35,7 @@ export const endpoints = {
 		apiUrl +
 		`/service/appointservice/consultants/${userId}/bookings?status=${status}`,
 	askerSessions: apiUrl + '/service/users/sessions/askers',
-	attachmentUpload: apiUrl + '/service/uploads/new/*',
+	attachmentUpload: apiUrl + '/service/uploads/new/',
 	attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
 	banUser: (rcUserId, chatId) =>
 		apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
@@ -126,7 +126,6 @@ export const endpoints = {
 	twoFactorAuthApp: apiUrl + '/service/users/2fa/app',
 	twoFactorAuthEmail: apiUrl + '/service/users/2fa/email',
 	updateMessage: apiUrl + '/service/messages/',
-	updateMonitoring: apiUrl + '/service/users/sessions/monitoring',
 	userData: apiUrl + '/service/users/data',
 	userDataBySessionId: (sessionId: number) =>
 		apiUrl + `/service/users/consultants/sessions/${sessionId}`,

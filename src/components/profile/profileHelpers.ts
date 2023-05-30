@@ -19,10 +19,6 @@ export const convertUserDataObjectToArray = (object) => {
 	return array;
 };
 
-export const getAddictiveDrugsTranslatable = (addictiveDrugs) => {
-	return addictiveDrugs ? addictiveDrugs.toString().split(',') : null;
-};
-
 export const getUserDataTranslateBase = (consultingType: number) => {
 	return consultingType === 0 ? 'user.userAddiction' : 'user.userU25';
 };

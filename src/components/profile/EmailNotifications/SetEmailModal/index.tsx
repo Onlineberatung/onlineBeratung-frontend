@@ -40,14 +40,15 @@ export const SetEmailModal = ({ onClose }) => {
 						)
 					);
 					setEmailLabelState('invalid');
+					return;
 				}
-			} else {
-				addNotification({
-					title: t('profile.notifications.noEmail.modal.errorTitle'),
-					text: t('profile.notifications.noEmail.modal.errorMessage'),
-					notificationType: 'error'
-				});
 			}
+
+			addNotification({
+				title: t('profile.notifications.noEmail.modal.errorTitle'),
+				text: t('profile.notifications.noEmail.modal.errorMessage'),
+				notificationType: 'error'
+			});
 		}
 	});
 

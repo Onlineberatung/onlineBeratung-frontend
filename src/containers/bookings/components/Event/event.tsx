@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
-import { generatePath, Link, useHistory } from 'react-router-dom';
+import { generatePath, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import '../booking.styles';
 import { Box } from '../../../../components/box/Box';
@@ -205,13 +205,19 @@ export const Event: React.FC<EventProps> = ({ event, bookingStatus }) => {
 				{event.videoAppointmentId && (
 					<>
 						<div className="bookingEvents__video-link-grid-wrapper">
-							<Link
-								className="bookingEvents__video-link-grid-wrapper--text"
-								target="_blank"
-								to={getLink(event.videoAppointmentId)}
-							>
-								{translate('booking.event.linkVideo')}
-							</Link>
+							<Button
+								className="bookingEvents__video-div-grid-wrapper--text"
+								item={{
+									type: BUTTON_TYPES.LINK_INLINE,
+									title: translate('booking.event.linkVideo'),
+									label: translate('booking.event.linkVideo')
+								}}
+								buttonHandle={() =>
+									copyRegistrationLink(
+										event.videoAppointmentId
+									)
+								}
+							/>
 							<div>
 								<CopyIcon
 									className={'bookingEvents__copy icn--s'}

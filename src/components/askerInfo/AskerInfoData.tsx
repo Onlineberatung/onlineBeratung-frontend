@@ -1,13 +1,9 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import {
-	handleNumericTranslation,
-	getAddictiveDrugsString
-} from '../../utils/translate';
+import { handleNumericTranslation } from '../../utils/translate';
 import { getContact, useConsultingType } from '../../globalState';
 import {
 	convertUserDataObjectToArray,
-	getAddictiveDrugsTranslatable,
 	getUserDataTranslateBase
 } from '../profile/profileHelpers';
 import { Text } from '../text/Text';
@@ -26,9 +22,6 @@ export const AskerInfoData = () => {
 	).sessionData;
 	const preparedUserSessionData =
 		convertUserDataObjectToArray(userSessionData);
-	const addictiveDrugs = userSessionData.addictiveDrugs
-		? getAddictiveDrugsTranslatable(userSessionData.addictiveDrugs)
-		: null;
 
 	return (
 		<>
@@ -59,24 +52,21 @@ export const AskerInfoData = () => {
 					</p>
 				</div>
 			)}
-			{preparedUserSessionData.map((item, index) => (
-				<div className="profile__data__item" key={index}>
-					<p className="profile__data__label">
-						{translate('userProfile.data.' + item.type)}
-					</p>
-					<p
-						className={
-							item.value
-								? `profile__data__content`
-								: `profile__data__content profile__data__content--empty`
-						}
-					>
-						{item.value
-							? item.type === 'addictiveDrugs'
+			{preparedUserSessionData.map((item, index) =>
+				item.type === 'age' && item.value === 'null' ? null : (
+					<div className="profile__data__item" key={index}>
+						<p className="profile__data__label">
+							{translate('userProfile.data.' + item.type)}
+						</p>
+						<p
+							className={
+								item.value
+									? `profile__data__content`
+									: `profile__data__content profile__data__content--empty`
+							}
+						>
+							{item.value
 								? translate(
-										getAddictiveDrugsString(addictiveDrugs)
-								  )
-								: translate(
 										handleNumericTranslation(
 											getUserDataTranslateBase(
 												activeSession.item
@@ -86,10 +76,11 @@ export const AskerInfoData = () => {
 											item.value
 										)
 								  )
-							: translate('profile.noContent')}
-					</p>
-				</div>
-			))}
+								: translate('profile.noContent')}
+						</p>
+					</div>
+				)
+			)}
 		</>
 	);
 };

@@ -20,9 +20,7 @@ export const EmailNotification = () => {
 		userData
 	);
 
-	const reassignmentKey = isConsultant
-		? 'reassignmentConsultant'
-		: 'reassignmentAdviceSeeker';
+	const extraKey = isConsultant ? 'Consultant' : 'AdviceSeeker';
 
 	return (
 		<div className="notifications__content">
@@ -33,7 +31,7 @@ export const EmailNotification = () => {
 				/>
 				<Text
 					text={t('profile.notifications.description')}
-					type="infoMedium"
+					type="standard"
 					className="tertiary"
 				/>
 			</div>
@@ -56,13 +54,13 @@ export const EmailNotification = () => {
 							)}
 							<EmailToggle
 								name="settings.newChatMessageNotificationEnabled"
-								titleKey="profile.notifications.newMessage.title"
-								descriptionKey="profile.notifications.newMessage.description"
+								titleKey={`profile.notifications.newMessage${extraKey}.title`}
+								descriptionKey={`profile.notifications.newMessage${extraKey}.description`}
 							/>
 							<EmailToggle
 								name="settings.reassignmentNotificationEnabled"
-								titleKey={`profile.notifications.${reassignmentKey}.title`}
-								descriptionKey={`profile.notifications.${reassignmentKey}.description`}
+								titleKey={`profile.notifications.reassignment${extraKey}.title`}
+								descriptionKey={`profile.notifications.reassignment${extraKey}.description`}
 							/>
 							{settings.featureAppointmentsEnabled && (
 								<EmailToggle

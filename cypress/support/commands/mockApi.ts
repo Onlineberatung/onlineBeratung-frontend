@@ -50,6 +50,7 @@ const defaultReturns = {
 		]
 	},
 	consultingTypes: [],
+	settings: {},
 	releases: {
 		statusCode: 404
 	},
@@ -262,7 +263,7 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.intercept('POST', endpoints.rejectVideoCall, {}).as('rejectVideoCall');
 
-	cy.intercept('POST', endpoints.attachmentUpload, (req) =>
+	cy.intercept('POST', `${endpoints.attachmentUpload}*`, (req) =>
 		req.reply({
 			...defaultReturns['attachmentUpload'],
 			...(overrides['attachmentUpload'] || {})
@@ -345,6 +346,15 @@ Cypress.Commands.add('mockApi', () => {
 			...(overrides['consultingTypes'] || [])
 		]);
 	}).as('consultingTypeServiceBaseBasic');
+
+	cy.intercept('GET', `${endpoints.serviceSettings}`, (req) => {
+		req.reply(
+			JSON.stringify({
+				...defaultReturns['settings'],
+				...(overrides['settings'] || {})
+			})
+		);
+	}).as('settings');
 
 	cy.intercept('GET', '/releases/*.json**', (req) => {
 		req.reply({

@@ -8,8 +8,7 @@ import {
 	NOTIFICATION_TYPE_SUCCESS,
 	UserDataContext
 } from '../../globalState';
-import { HelpVideoCallConsultant } from './HelpVideoCallConsultant';
-import { HelpVideoCallAsker } from './HelpVideoCallAsker';
+import { HelpVideoCall } from './HelpVideoCall';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 
@@ -39,9 +38,17 @@ export const Help: React.FC<HelpProps> = () => {
 	return (
 		<div className="help">
 			{isConsultant && (
-				<HelpVideoCallConsultant copyLoginLink={copyLoginLink} />
+				<HelpVideoCall
+					copyLoginLink={copyLoginLink}
+					consultant={true}
+				/>
 			)}
-			{isAsker && <HelpVideoCallAsker copyLoginLink={copyLoginLink} />}
+			{isAsker && (
+				<HelpVideoCall
+					copyLoginLink={copyLoginLink}
+					consultant={false}
+				/>
+			)}
 		</div>
 	);
 };

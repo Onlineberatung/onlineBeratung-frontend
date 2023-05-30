@@ -19,7 +19,7 @@ export const config: AppConfigInterface = {
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	multitenancyWithSingleDomainEnabled: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 	useTenantService: false,
-	useApiClusterSettings: false, // Feature flag to enable the cluster use the cluster settings instead of the config file
+	useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
 	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
 	attachmentEncryption: true, // Feature flag for attachment end to end encryption - e2e must also be enabled in rocket.chat
 
@@ -50,7 +50,7 @@ export const config: AppConfigInterface = {
 		 * This must be enabled in jitsi too. (Config value is named equal)
 		 * https://github.com/jitsi/lib-jitsi-meet/blob/afc006e99a42439c305c20faab50a1f786254676/modules/browser/BrowserCapabilities.js#L259
 		 */
-		enableEncodedTransformSupport: false,
+		enableEncodedTransformSupport: true,
 		/**
 		 * Enable the e2ee banner outside the jitsi iframe. Set this to true when video-backend is on the latest develop
 		 * where the e2ee banner is removed inside jitsi and need to be rendered inside the frontend

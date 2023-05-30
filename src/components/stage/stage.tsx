@@ -38,7 +38,7 @@ export const Stage = ({
 	}
 
 	const [ieBanner, setIeBanner] = useState(true);
-	const closeIeBanner = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
+	const closeIeBanner = useCallback((e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		setIeBanner(false);
 	}, []);

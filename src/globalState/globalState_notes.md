@@ -44,11 +44,6 @@ Example json object for userRole consultant
 {
 	"enquiries": [
 		{
-			"monitoring": {
-				"additionalProp1": {},
-				"additionalProp2": {},
-				"additionalProp3": {}
-			},
 			"session": {
 				"id": 153918,
 				"teamSession": true,

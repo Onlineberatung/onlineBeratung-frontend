@@ -41,7 +41,6 @@ export const generateConsultantSession = ({
 			messagesRead: messagesRead === undefined ? true : messagesRead,
 			feedbackRead: true,
 			isTeamSession: true,
-			monitoring: true,
 			attachment: null,
 			registrationType: 'REGISTERED'
 		},
@@ -91,7 +90,6 @@ export const generateAskerSession = ({
 			messagesRead: messagesRead === undefined ? true : messagesRead,
 			feedbackRead: null,
 			isTeamSession: isTeamSession === undefined ? true : isTeamSession,
-			monitoring: true,
 			attachment: null,
 			registrationType: 'REGISTERED'
 		},

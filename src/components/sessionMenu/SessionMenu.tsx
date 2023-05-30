@@ -318,11 +318,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		...(activeSession.item as TReducedSessionItemInterface),
 		subRoute: 'editGroupChat'
 	});
-	const monitoringPath = generatePath(baseUrl, {
-		...(activeSession.item as TReducedSessionItemInterface),
-		subRoute: 'userProfile',
-		extraPath: 'monitoring'
-	});
 	const userProfileLink = generatePath(baseUrl, {
 		...(activeSession.item as TReducedSessionItemInterface),
 		subRoute: 'userProfile'
@@ -594,16 +589,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 								</div>
 							)}
 						</DeleteSession>
-					)}
-
-				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-					type !== SESSION_LIST_TYPES.ENQUIRY &&
-					activeSession.isSession &&
-					!activeSession.isLive &&
-					activeSession.item.monitoring && (
-						<Link className="sessionMenu__item" to={monitoringPath}>
-							{translate('chatFlyout.documentation')}
-						</Link>
 					)}
 
 				{activeSession.isGroup && (

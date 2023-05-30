@@ -36,7 +36,7 @@ export const deInformal = {
 			},
 			teamsession: {
 				'success.copy':
-					'Du hast den Ratsuchenden für Dich und dein Team erfolgreich archiviert.'
+					'Du hast den Ratsuchenden für Dich und Dein Team erfolgreich archiviert.'
 			}
 		},
 		submitInfo: {
@@ -77,6 +77,17 @@ export const deInformal = {
 			info: 'Wir haben Dich gebeten, die Chat-Regeln einzuhalten.<br/><br/>Weil Du heute die Chat-Regeln wiederholt nicht eingehalten hast, haben wir Dich für den heutigen Chat ausgeschlossen.<br/><br/>Mache Dich mit den Chat-Regeln vertraut!</br></br>Wenn Du bereit bist, die Chat-Regeln einzuhalten, bist Du ab morgen wieder im Chat willkommen!'
 		}
 	},
+	termsAndConditionOverlay: {
+		labels: {
+			here: 'hier'
+		},
+		contentLine1: {
+			termsAndCondition:
+				'Wir haben die Nutzungsbedingungen der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Deine Zustimmung.',
+			termsAndConditionAndPrivacy:
+				'Wir haben die Nutzungsbedingungen und Datenschutzerklärung der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Deine Zustimmung.'
+		}
+	},
 	deleteAccount: {
 		confirmOverlay: {
 			'headline': 'Möchtest Du Deinen Account wirklich löschen?',
@@ -90,7 +101,7 @@ export const deInformal = {
 	},
 	deleteSession: {
 		confirmOverlay: {
-			copy: 'Möchtest du den Chat wirklich löschen?',
+			copy: 'Möchtest Du den Chat wirklich löschen?',
 			headline: 'Chat löschen'
 		},
 		errorOverlay: {
@@ -136,7 +147,7 @@ export const deInformal = {
 				headline: 'Hier ist Platz für Deine Anliegen.',
 				copy: {
 					title: 'Vielleicht helfen Dir folgende Punkte bei der Formulierung weiter:',
-					facts: '<ul><li>Was ist passiert?</li><li>Wie ist Deine aktuelle Situation?</li><li>Was beschäftigt Dich?</li><li>Hast Du eine bestimmte Frage oder weißt Du vielleicht selbst noch nicht so genau was Dir helfen könnte?</li></ul>'
+					facts: '<ul><li>Was ist passiert?</li><li>Wie ist Deine aktuelle Situation?</li><li>Was beschäftigt Dich?</li><li>Hast Du eine bestimmte Frage oder weißt Du vielleicht selbst noch nicht so genau, was Dir helfen könnte?</li></ul>'
 				}
 			},
 			overlay: {
@@ -145,7 +156,7 @@ export const deInformal = {
 			}
 		},
 		'language.selection.headline':
-			'Bitte wähle die Sprache in der Du beraten werden willst.'
+			'Bitte wähle die Sprache, in der Du beraten werden willst.'
 	},
 	furtherSteps: {
 		'step1.info': 'Wir haben Deine Nachricht erhalten.',
@@ -153,7 +164,7 @@ export const deInformal = {
 		'step3.info': 'Dein_e Berater_in antwortet innerhalb von 2 Werktagen.',
 		'emailNotification': {
 			infoText:
-				'Wenn Du Deine E-Mail-Adresse angibst (freiwillig)<br><ul><li>erhälst Du eine E-Mail-Benachrichtigung, wenn Dein_e Berater_in Dir geschrieben hat</li><li>kannst Du Dein Passwort zurücksetzen, falls Du es vergessen hast.</li></ul>Deine E-Mail-Adresse kann von den Berater_innen nicht eingesehen werden.'
+				'Wenn Du Deine E-Mail-Adresse angibst (freiwillig)<br><ul><li>erhältst Du eine E-Mail-Benachrichtigung, wenn Dein_e Berater_in Dir geschrieben hat</li><li>kannst Du Dein Passwort zurücksetzen, falls Du es vergessen hast.</li></ul>Deine E-Mail-Adresse kann von den Berater_innen nicht eingesehen werden.'
 		},
 		'email': {
 			'overlay': {
@@ -167,15 +178,6 @@ export const deInformal = {
 			headline: 'Der Schutz Deiner Daten ist uns wichtig',
 			infoText:
 				'Sichere Dein Konto vor einem möglichen unbefugten Zugriff. Nutze einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung.'
-		},
-		'voluntaryInfo': {
-			headline: 'Wir wollen Dich bestmöglichst beraten',
-			infoText:
-				'Dabei hilft es uns, wenn Du weitere freiwillige Angaben zu Dir und Deinem Anliegen machst.',
-			overlay: {
-				'success.headline':
-					'Vielen Dank. Deine freiwilligen Angaben wurden erfolgreich gespeichert.'
-			}
 		}
 	},
 	groupChat: {
@@ -190,7 +192,7 @@ export const deInformal = {
 		},
 		join: {
 			'warning.message':
-				'Dein_e Berater_in/Moderator_in hat den Chat noch nicht gestartet. Sobald dein_e Berater_in/Moderator_in den Chat gestartet hat kannst du mit uns chatten. Bitte habe noch etwas Geduld.'
+				'Dein_e Berater_in/Moderator_in hat den Chat noch nicht gestartet. Sobald Dein_e Berater_in/Moderator_in den Chat gestartet hat, kannst Du mit uns chatten. Bitte habe noch etwas Geduld.'
 		},
 		listItem: {
 			subjectEmpty: {
@@ -208,33 +210,62 @@ export const deInformal = {
 	},
 	help: {
 		videoCall: {
+			waitingRoom: {
+				headline: 'Es liegt nicht an Dir, sondern an Deinem Browser.',
+				infoBox: {
+					headline: 'Dein Browser unterstützt keine Video-Calls.',
+					text: 'Damit Du an Video-Calls teilnehmen kannst, verwende bitte Google Chrome, Microsoft Edge oder Safari.'
+				},
+				subline1:
+					'Hast Du noch keinen Google Chrome, Microsoft Edge oder Safari?',
+				text1: 'Lade einen der Browser herunter.',
+				subline2:
+					'Du hast bereits Google Chrome, Microsoft Edge oder Safari?',
+				text2: 'Öffne nun Deinen Link zur Online-Beratung mit einem der unterstützten Browser.'
+			},
+			banner: {
+				content:
+					'Bitte verwenden Sie einen anderen Browser, damit Video-Calls funktionieren können.',
+				more: 'Mehr erfahren'
+			},
 			asker: {
-				intro: 'Um Ende-zu Ende verschlüsselt zu telefonieren, befolge die folgenden Schritte:',
+				headline: 'Video-Call',
+				intro: 'Damit Du an Video-Calls teilnehmen kannst, musst Du Dich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
-					'headline': {
-						'2': 'Hast Du bereits Google Chrome oder Microsoft Edge?'
+					'1.1': 'Folge dem Link zu ',
+					'1.2': ' oder ',
+					'1.3': ' (nur für macOS und iOS verfügbar)',
+					'2': 'Lade einen der unterstützten Browser herunter.',
+					'3': 'Installiere diesen auf Deinem PC/Laptop/Tablet/Smartphone.',
+					'4': {
+						'1': 'Öffne nun mit diesem Browser die Online-Beratung.',
+						'2': 'Öffne die Online-Beratung mit einem dieser Browser.'
 					},
-					'1': 'Öffne den Link zu Google Chrome oder Microsoft Edge.',
-					'2': 'Lade Dir sich Chrome oder Edge herunter.',
-					'3': 'Installiere Chrome oder Edge auf Deinem PC/Laptop/Tablet/Smartphone.',
-					'4': 'Öffne nun über Chrome oder Edge die Online-Beratung.',
-					'5': 'Melde dich bei der Online-Beratung an.',
-					'6': 'Bitte Deine_n Berater_in dich nochmals anzurufen.'
+					'5': 'Melde Dich bei der Online-Beratung an.',
+					'6': 'Bitte Deine_n Berater_in Dich nochmals anzurufen.',
+					'headline': {
+						'2': 'Du hast bereits Google Chrome, Microsoft Edge oder Safari?'
+					}
 				}
 			},
 			consultant: {
-				intro: 'Um einen Video-Call starten zu können, musst Du Dich über Google Chrome oder Microsoft Edge bei der Online-Beratung anmelden. Somit kann der Video-Call Ende-zu-Ende verschlüsselt werden und Du kannst starten.',
+				headline: 'Video-Call',
+				intro: 'Um einen Video-Call durchführen zu können, musst Du Dich über einen der unterstützten Browser anmelden. Die Chat-Beratung funktioniert weiterhin mit Firefox.',
 				steps: {
-					'headline': {
-						'1': 'So geht&#39;s',
-						'2': 'Hast Du bereits Google Chrome oder Microsoft Edge?'
-					},
 					'1.1': 'Folge dem Link zu ',
-					'2': 'Lade Chrome oder Edge herunter. Dafür brauchst Du möglicherweise die Unterstützung Deiner EDV.',
-					'3': 'Installiere Chrome oder Edge auf Deinem PC/Laptop/Tablet/Smartphone.',
-					'4': 'Öffne nun über Chrome oder Edge die Online-Beratung.',
+					'1.2': ' oder ',
+					'1.3': ' (nur für macOS und iOS verfügbar)',
+					'2': 'Lade einen der unterstützten Browser herunter. Dafür brauchst Du möglicherweise die Unterstützung Deiner EDV.',
+					'3': 'Installiere diesen auf Deinem PC/Laptop/Tablet/Smartphone.',
+					'4': {
+						'1': 'Öffne nun mit diesem Browser die Online-Beratung.',
+						'2': 'Öffne die Online-Beratung mit einem dieser Browser.'
+					},
 					'5': 'Melde Dich bei der Online-Beratung an.',
-					'6': 'Starte den Video-Call.'
+					'6': 'Starte den Video-Call.',
+					'headline': {
+						'2': 'Du hast bereits Google Chrome, Microsoft Edge oder Safari?'
+					}
 				}
 			}
 		}
@@ -251,7 +282,7 @@ export const deInformal = {
 	},
 	notifications: {
 		'message.new': 'Du hast eine neue Nachricht!',
-		'enquiry.new': 'Du hast eine neue Livechat Anfrage!'
+		'enquiry.new': 'Du hast eine neue Live-Chat Anfrage!'
 	},
 	overlay: {
 		timeout: {
@@ -275,7 +306,7 @@ export const deInformal = {
 		liveChat: {
 			title: 'Meine Live-Chat Verfügbarkeit',
 			subtitle:
-				'Aktiviere deine Verfügbarkeit und sehe in den Erstanfragen unter „Live-Chat Anfragen“ die wartenden anoymen Ratsuchenden.',
+				'Aktiviere Deine Verfügbarkeit und sehe in den Erstanfragen unter „Live-Chat Anfragen“ die wartenden anonymen Ratsuchenden.',
 			toggleLabel: 'Bin verfügbar'
 		},
 		functions: {
@@ -306,7 +337,7 @@ export const deInformal = {
 			'spokenLanguages.saveError':
 				'Beim Speichern ist ein Problem aufgetaucht. Bitte versuche es erneut.',
 			'masterKey.saveError':
-				'Beim Passwort Ändern ist ein Problem aufgetaucht. Bitte versuche es erneut.'
+				'Beim Ändern des Passworts ist ein Problem aufgetaucht. Bitte versuche es erneut.'
 		},
 		data: {
 			register: {
@@ -339,7 +370,7 @@ export const deInformal = {
 				public: 'Mit dem Anzeigenamen erscheinst Du bei den Ratsuchenden.'
 			},
 			emailInfo:
-				'Die Angabe deiner E-Mail ist freiwillig und wird ausschließlich verwendet, um dich über neue Antworten deine_r Berater_in zu informieren. Deine E-mail-Adresse ist für Berater_innen nicht sichtbar.'
+				'Die Angabe Deiner E-Mail ist freiwillig und wird ausschließlich verwendet, um Dich über neue Antworten Deine_r Berater_in zu informieren. Deine E-Mail-Adresse ist für Berater_innen nicht sichtbar.'
 		},
 		externalRegistration: {
 			headline:
@@ -363,7 +394,56 @@ export const deInformal = {
 		notifications: {
 			'subtitle': 'Wir benachrichtigen Dich, wenn Du:',
 			'follow.up.email.label':
-				'eine Nachricht von angenommenen Ratsuchenden erhalten hast.'
+				'eine Nachricht von angenommenen Ratsuchenden erhalten hast.',
+			'description':
+				'Wir informieren Dich per E-Mail, wenn Du eine neue Nachricht erhalten hast.',
+			'initialEnquiry': {
+				description:
+					'Wir informieren Dich auch, wenn Du im System angemeldet bist.'
+			},
+			'reassignmentAdviceSeeker': {
+				description:
+					'Dein_e Berater_in hat um Erlaubnis gebeten, Dich einem neuen Berater zuzuweisen.'
+			},
+			'newMessageAdviceSeeker': {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Wir informieren Dich, solange Du nicht im System angemeldet bist.'
+			},
+			'newMessageConsultant': {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Einer der Dir zugewiesenen Ratsuchenden hat Dir geantwortet. Wir informieren Dich, solange Du nicht im System angemeldet bist.'
+			},
+			'reassignmentConsultant': {
+				description:
+					'Kollege_in hat Dir eine_n Ratsuchende_n zugewiesen.'
+			},
+			'toggleError': {
+				description:
+					'Leider können wir Deine Benachrichtigungen zurzeit nicht aktivieren. Bitte versuche es später noch einmal.'
+			},
+			'noEmail': {
+				info: 'Du hast noch keine E-Mail-Adresse hinzugefügt.',
+				modal: {
+					description:
+						'Die Angabe Deiner E-Mail-Adresse ist freiwillig und wird ausschließlich verwendet, um Dich über neue Antworten Deines_r Berater_in zu informieren. Deine E-Mail-Adresse ist für Berater_innen nicht sichtbar.',
+					errorMessage:
+						'Leider können wir Ihre E-Mail-Adresse momentan nicht speichern. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support.'
+				}
+			}
+		},
+		browserNotifications: {
+			description:
+				'Wenn Du online bist, informieren wir Dich in diesem Browser, wenn Du eine neue Nachricht erhalten hast.',
+			newMessage: {
+				description:
+					'Einer der Dir zugewiesenen Ratsuchenden hat Dir geantwortet'
+			},
+			denied: {
+				message:
+					'Du hast den Empfang von Benachrichtigungen für diesen Browser abgelehnt. Um Push-Benachrichtigungen zu aktivieren, musst Du diese zuerst in Deinen Browsereinstellungen zulassen.'
+			}
 		},
 		spokenLanguages: {
 			info: 'Wähle die Sprache(n) aus, in der Du die Ratsuchenden beraten kannst. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden.'
@@ -381,7 +461,7 @@ export const deInformal = {
 		},
 		agency: {
 			overlay: {
-				info: 'Wenn Du den QR-Code mit jemandem teilst, kann diese Person ihn mit der Handykamera scannen, um sich direkt bei der Beratungsstelle {{agency}} zu registrieren. Alternativ kannst du den Code auch herunterladen.'
+				info: 'Wenn Du den QR-Code mit jemandem teilst, kann diese Person ihn mit der Handykamera scannen, um sich direkt bei der Beratungsstelle {{agency}} zu registrieren. Alternativ kannst Du den Code auch herunterladen.'
 			}
 		}
 	},
@@ -394,7 +474,7 @@ export const deInformal = {
 			'Dein vorausgewähltes Themenfeld: ',
 		'user': {
 			infoText:
-				'Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialien zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
+				'Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialen zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 			suitable: 'Dein Benutzername ist geeignet.',
 			unsuitable: 'Dein Benutzername ist zu kurz.'
 		},
@@ -402,7 +482,7 @@ export const deInformal = {
 			intro: {
 				overline:
 					'Warum hilft Dir auch online eine Beratungsstelle in Deiner Nähe?',
-				point3: 'Dich gegebenfalls auch vor Ort beraten kann.'
+				point3: 'Dich gegebenenfalls auch vor Ort beraten kann.'
 			},
 			languages: {
 				info: 'Diese Beratungsstelle berät Dich auf:'
@@ -443,7 +523,7 @@ export const deInformal = {
 		},
 		'mainTopic': {
 			headline:
-				'Welches dieser Problemfelder ist für Dich aktuell am Wichtigsten?',
+				'Welches dieser Problemfelder ist für Dich aktuell am wichtigsten?',
 			noTopics:
 				'Derzeit können leider keine Themen ausgewählt werden. Führe die Anmeldung im nächsten Schritt fort.'
 		},
@@ -476,7 +556,7 @@ export const deInformal = {
 					'2': 'Du hast die Beratung erfolgreich zugewiesen.'
 				},
 				'subtitle.noTeam':
-					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Du hast keinen Zugiff mehr auf die Nachrichten.',
+					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Du hast keinen Zugriff mehr auf die Nachrichten.',
 				'subtitle.team.self':
 					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, findest Du den Chatverlauf in Deinen Nachrichten und nicht mehr unter Teamberatung.',
 				'subtitle.team.other':
@@ -549,9 +629,9 @@ export const deInformal = {
 	},
 	sessionList: {
 		empty: {
-			mySessions: 'Du hast zur Zeit keine aktiven Beratungen',
+			mySessions: 'Du hast zurzeit keine aktiven Beratungen',
 			teamSessions: 'Dein Team hat keine aktiven Beratungen',
-			perSessions: 'Du hast zur Zeit keine aktiven Peer-Beratungen'
+			perSessions: 'Du hast zurzeit keine aktiven Peer-Beratungen'
 		}
 	},
 	statusOverlay: {
@@ -566,8 +646,8 @@ export const deInformal = {
 		activate: {
 			radio: {
 				tooltip: {
-					app: 'Installiere Dir die App. Die App generiert Dir einen Code den Du bei der Anmeldung eingeben musst.',
-					email: 'Du erhälst bei der Anmeldung eine E-mail mit einem Code. Diesen Code musst Du dann eingeben.'
+					app: 'Installiere Dir die App. Die App generiert Dir einen Code, den Du bei der Anmeldung eingeben musst.',
+					email: 'Du erhältst bei der Anmeldung eine E-Mail mit einem Code. Diesen Code musst Du dann eingeben.'
 				}
 			},
 			step1: {
@@ -590,11 +670,11 @@ export const deInformal = {
 			app: {
 				step2: {
 					title: 'Installiere Dir die App',
-					copy: 'Bitte installier Dir auf Deinem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authentificator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.'
+					copy: 'Bitte installiere Dir auf Deinem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authenticator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.'
 				},
 				step3: {
 					'title': 'Für die Online-Beratung zur App hinzu',
-					'copy': 'Du hast zwei Möglichkeiten die Online-Beratung zur App hinzuzufügen:',
+					'copy': 'Du hast zwei Möglichkeiten, die Online-Beratung zur App hinzuzufügen:',
 					'visualisation.label': 'Hinzufügen',
 					'connect': {
 						qrCode: 'Öffne die App und scanne den folgenden QR-Code:',
@@ -619,12 +699,12 @@ export const deInformal = {
 				confirmOverlay: {
 					copy: {
 						'1': 'Du nutzt diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
-						'2': 'Deaktiviere die Zwei-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.'
+						'2': 'Deaktiviere die Zwei-Faktor-Authentifizierung, um die E-Mail-Adresse zu bearbeiten.'
 					},
 					binding: {
 						copy: {
-							'1': 'Du kannst Deine E-Mail Adresse nicht ändern solange Du diese als zweiten Faktor für eine sichere Anmeldung verwendest.',
-							'2': 'Wechsel den zweiten Faktor von "E-Mail Adresse" zu "App". Dann kannst Du Deine E-Mail Adresse ändern.'
+							'1': 'Du kannst Deine E-Mail Adresse nicht ändern, solange Du diese als zweiten Faktor für eine sichere Anmeldung verwendest.',
+							'2': 'Wechsel den zweiten Faktor von "E-Mail-Adresse" zu "App". Dann kannst Du Deine E-Mail-Adresse ändern.'
 						}
 					}
 				}
@@ -632,14 +712,14 @@ export const deInformal = {
 		},
 		nag: {
 			title: 'Schütze Dein Konto',
-			copy: 'Sicher Dein Konto vor einem möglichen unbefugten Zugriff. Nutze einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung.',
+			copy: 'Sicher Dein Konto vor einem möglichen unbefugten Zugriff. Nutze einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Beratung.',
 			obligatory: {
 				moment: {
 					title: 'Schütze Dein Konto bis spätestens {{date}}',
 					copy: 'Du musst bis zum {{date1}} einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Dein Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Achtung: Ohne einen zweiten Faktor darfst Du nach dem {{date2}} nicht mehr online beraten.</b>'
 				},
 				title: 'Schütze nun Dein Konto',
-				copy: 'Du musst jetzt einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Dein Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Ohne einen zweiten Faktor dürfst Du nicht mehr online beraten.</b>'
+				copy: 'Du musst jetzt einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Dein Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Ohne einen zweiten Faktor darfst Du nicht mehr online beraten.</b>'
 			}
 		}
 	},
@@ -652,7 +732,8 @@ export const deInformal = {
 	videoCall: {
 		incomingCall: {
 			unsupported: {
-				hint: 'Durch die technischen Vorraussetzungen ist der Video-Call nicht Ende-zu-Ende verschlüsselt. Jedoch ist der Video-Call transportverschlüsselt. Bitte folge der Hilfe, um Ende-zu-Ende verschlüsselt zu telefonieren.'
+				description: '{{username}} versucht Dich anzurufen',
+				hint: 'Dein Browser erfüllt nicht die notwendigen Sicherheitsanforderungen. Bitte verwende einen anderen Browser, damit Du an Video-Calls teilnehmen kannst.'
 			},
 			ignored: 'hat versucht Dich zu erreichen.',
 			rejected: {
@@ -661,7 +742,7 @@ export const deInformal = {
 		},
 		overlay: {
 			unsupported: {
-				copy: 'Dein Gerät erfüllt nicht alle nötigen technischen Vorgaben für einen Video-Call. Bitte folge dieser Anleitung um einen Video-Call starten zu können. Dafür brauchst Du möglicherweise die Unterstützung Deiner EDV.'
+				copy: 'Dein Gerät erfüllt nicht alle nötigen technischen Vorgaben für einen Video-Call. Bitte folge dieser Anleitung, um einen Video-Call starten zu können. Dafür brauchst Du möglicherweise die Unterstützung Deiner EDV.'
 			}
 		}
 	},
@@ -674,16 +755,16 @@ export const deInformal = {
 			},
 			headline: 'Bitte habe etwas Geduld',
 			subline:
-				'Der Video-Call hat noch nicht begonnen. Du wirst weitergeleitet sobald Dein_e Berater_in den Video-Call startet.',
+				'Der Video-Call hat noch nicht begonnen. Du wirst weitergeleitet, sobald Dein_e Berater_in den Video-Call startet.',
 			paused: {
 				subline:
-					'Der Video-Call wurde beendet. Sollte Dein_e Berater_in nur abwesend sein wirst Du in den Video-Call weitergeleitet sobald Dein_e Berater_in den Video-Call fortsetzt.'
+					'Der Video-Call wurde beendet. Sollte Dein_e Berater_in nur abwesend sein wirst Du in den Video-Call weitergeleitet, sobald Dein_e Berater_in den Video-Call fortsetzt.'
 			},
 			errorPage: {
 				'description':
-					'Zu Deinem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde. Solltest Du weiterhin Probleme haben frage bitte Deine_n Berater_in.',
+					'Zu Deinem Link können wir keinen Video-Call finden, da der Video-Call entweder gelöscht oder bereits beendet wurde. Solltest Du weiterhin Probleme haben frage bitte Deine_n Berater_in.',
 				'consultant.description':
-					'Zu Deinem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde.',
+					'Zu Deinem Link können wir keinen Video-Call finden, da der Video-Call entweder gelöscht oder bereits beendet wurde.',
 				'rejected': {
 					headline: 'Du wurdest nicht zugelassen',
 					description:
@@ -695,10 +776,10 @@ export const deInformal = {
 	walkthrough: {
 		step: {
 			'0': {
-				intro: 'Um Dir die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Dich vorbereitet. <br /><br /> Du kanst ihn jederzeit abbrechen oder in Deinem Profil erneut starten.'
+				intro: 'Um Dir die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Dich vorbereitet. <br /><br /> Du kannst ihn jederzeit abbrechen oder in Deinem Profil erneut starten.'
 			},
 			'1': {
-				intro: "Hier findest Du eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Dein gesamtes Team hat Zugriff auf diese Übersicht.\nDie ältesten Anfragen stehen oben, die neuesten ganz unten, damit Du die zuerst eingegangenen leichter finden kannst.\nIn dem Moment, in dem Du auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in deinen Bereich 'Meine Beratungen' verschoben und die anderen Berater_innen sehen sie nicht mehr."
+				intro: "Hier findest Du eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Dein gesamtes Team hat Zugriff auf diese Übersicht.\nDie ältesten Anfragen stehen oben, die neuesten ganz unten, damit Du die zuerst eingegangenen leichter finden kannst.\nIn dem Moment, in dem Du auf 'Anfrage annehmen' klicken, wird die Anfrage sofort in Deinen Bereich 'Meine Beratungen' verschoben und die anderen Berater_innen sehen sie nicht mehr."
 			},
 			'2': {
 				intro: 'Von hier aus kannst Du einen Chat mit einem/einer Ratsuchenden beginnen, der/die sich gerade im Warteraum befindet. Die Ratsuchenden werden mit einem anonymen Namen gekennzeichnet, wie zum Beispiel "Ratsuchende_r 11". Wenn Du den Chat starten möchtest, klicke auf "Chat starten" und Du kannst das Gespräch unter der Rubrik "Meine Beratungen" fortsetzen.'
@@ -710,7 +791,7 @@ export const deInformal = {
 				intro: 'Damit Du nicht durch nicht aktive Unterhaltungen abgelenkt wirst, kannst Du einige der Unterhaltungen archivieren. Sie werden dann nicht gelöscht, sondern nur in die Registerkarte "Archiv" verschoben. Jedes Mal, wenn Du oder der/die Ratsuchende etwas in eine archivierte Unterhaltung schreiben, wird dieser Nachrichtenverlauf wieder in die Liste der Ratsuchenden eingeordnet.'
 			},
 			'5': {
-				intro: 'In diesem Bereich kannst Du alle aktiven Beratungen, die jemand in deinem Team gerade bearbeitet, einsehen und zu ihnen beitragen.'
+				intro: 'In diesem Bereich kannst Du alle aktiven Beratungen, die jemand in Deinem Team gerade bearbeitet, einsehen und zu ihnen beitragen.'
 			},
 			'6': {
 				intro: 'Im Profilbereich kannst Du persönliche und öffentliche Informationen verwalten, die Abwesenheitsnachricht während Deines Urlaubs aktivieren, Dein Passwort ändern und viele andere Funktionen (wie die Einrichtung der 2-Faktor-Authentifizierung) nutzen.'
