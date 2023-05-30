@@ -30,6 +30,7 @@ import { DevToolbarWrapper } from '../devToolbar/DevToolbar';
 import { PreConditions, preConditionsMet } from './PreConditions';
 import { Loading } from './Loading';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
+import { UrlParamsProvider } from '../../globalState/provider/UrlParamsProvider';
 
 const Login = lazy(() =>
 	import('../login/Login').then((m) => ({ default: m.Login }))
@@ -161,14 +162,16 @@ const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 										'/:consultingTypeSlug/registration'
 									]}
 								>
-									<Registration
-										handleUnmatchConsultingType={() =>
-											history.push('/login')
-										}
-										handleUnmatchConsultant={() =>
-											history.push('/login')
-										}
-									/>
+									<UrlParamsProvider>
+										<Registration
+											handleUnmatchConsultingType={() =>
+												history.push('/login')
+											}
+											handleUnmatchConsultant={() =>
+												history.push('/login')
+											}
+										/>
+									</UrlParamsProvider>
 								</Route>
 
 								<Route path="/:consultingTypeSlug/warteraum">
@@ -183,7 +186,9 @@ const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 								</Route>
 
 								<Route path="/login" exact>
-									<Login />
+									<UrlParamsProvider>
+										<Login />
+									</UrlParamsProvider>
 								</Route>
 								<Route
 									path={settings.urls.videoConference}

@@ -45,6 +45,13 @@ export default function useUrlParamsLoader() {
 					agency = await apiGetAgencyById(agencyId).catch(() => null);
 				}
 
+				if (consultingTypeSlug || agency) {
+					consultingType = await apiGetConsultingType({
+						consultingTypeSlug,
+						consultingTypeId: agency?.consultingType
+					});
+				}
+
 				if (consultantId) {
 					const consultant = await apiGetConsultant(
 						consultantId,
@@ -55,16 +62,35 @@ export default function useUrlParamsLoader() {
 						document.location.href = settings.urls.toRegistration;
 					});
 
-					if (consultant) setConsultant(consultant);
+					if (consultant) {
+						setConsultant(consultant);
+
+						// If the agency does not match the consultant's agency, we'll set the agency to null
+						if (
+							!consultant.agencies.some(
+								(a) => a.id === agency?.id
+							)
+						) {
+							agency = null;
+						}
+
+						// If the consultant agency consulting types does not match the consulting type, we'll set the consulting type to null
+						// If the agency is invalid and set to null already the consulting type was loaded by the agency. If the consultant
+						// has switched to another agency with the same consulting type this will not be catched by this conditions
+						// and the consulting type will be kept and only agencies from the consultant with the same consulting type will be shown
+						// but this should be fine.
+						if (
+							!consultant.agencies.some(
+								(a) =>
+									!consultingType ||
+									a.consultingType === consultingType?.id
+							)
+						) {
+							consultingType = null;
+						}
+					}
 				}
 
-				if (consultingTypeSlug || agency) {
-					consultingType = await apiGetConsultingType({
-						consultingTypeSlug,
-						consultingTypeId: agency?.consultingType
-					});
-					setConsultingType(consultingType);
-				}
 				// When we've the multi tenancy with single domain enabled we'll always have multiple consulting types
 				if (
 					!settings.multitenancyWithSingleDomainEnabled &&
@@ -92,6 +118,7 @@ export default function useUrlParamsLoader() {
 						.catch(() => null);
 				}
 
+				setConsultingType(consultingType);
 				setAgency(agency);
 				setLoaded(true);
 			} catch (error) {

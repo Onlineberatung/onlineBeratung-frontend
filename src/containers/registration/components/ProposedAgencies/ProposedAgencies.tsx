@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useAgenciesForRegistration } from '../../hooks/useAgenciesForRegistration';
 import { NoAgencyFound } from '../NoAgencyFound';
 import { AgencySelection } from '../AgencySelection';
@@ -10,111 +10,158 @@ import { LoadingIndicator } from '../../../../components/loadingIndicator/Loadin
 import {
 	AccordionItemValidity,
 	VALIDITY_VALID,
-	VALIDITY_INITIAL,
 	VALIDITY_INVALID
 } from '../../../../components/registration/registrationHelpers';
-import {
-	ConsultantDataInterface,
-	AgencyDataInterface,
-	ConsultingTypeInterface
-} from '../../../../globalState';
-import { getUrlParameter } from '../../../../utils/getUrlParameter';
+import { AgencyDataInterface } from '../../../../globalState';
 import { LABEL_TYPES, Text } from '../../../../components/text/Text';
 import './proposedAgencies.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { PreselectedAgency } from '../PreSelectedAgency/PreselectedAgency';
+import { FormAccordionData } from '../../../../components/registration/RegistrationForm';
+import { UrlParamsContext } from '../../../../globalState/provider/UrlParamsProvider';
 
 interface ProposedAgenciesProps {
-	consultant: ConsultantDataInterface;
-	preSelectedAgency: AgencyDataInterface;
-	consultingType: ConsultingTypeInterface;
-	mainTopicId: number;
+	formAccordionData: FormAccordionData;
 	agencySelectionNote?: string;
-	handleKeyDown?: (event?: KeyboardEvent) => void;
-	onValidityChange?: (status: AccordionItemValidity) => void;
-	onChange: (agency: AgencyDataInterface) => void;
+	onKeyDown?: (event?: KeyboardEvent) => void;
+	onValidityChange?: (
+		key: 'agency' | 'mainTopic',
+		status: AccordionItemValidity
+	) => void;
+	onChange: (data: Partial<FormAccordionData>) => void;
 }
 
+export const ConsultingTypeRegistrationDefaults = {
+	autoSelectPostcode: true,
+	autoSelectAgency: false
+};
+
 export const ProposedAgencies = ({
-	consultant,
-	preSelectedAgency: propPreselectedAgency,
-	consultingType,
-	mainTopicId,
+	formAccordionData,
 	agencySelectionNote,
-	handleKeyDown,
+	onKeyDown,
 	onValidityChange,
 	onChange
 }: ProposedAgenciesProps) => {
 	const { t } = useTranslation();
-	const initialPostcode = getUrlParameter('postcode');
+
+	const { agency: preSelectedAgency } = useContext(UrlParamsContext);
+
+	const [isTouched, setIsTouched] = useState(false);
+
 	const { autoSelectPostcode, autoSelectAgency } =
-		consultingType?.registration || {
-			autoSelectPostcode: true
-		};
+		formAccordionData.consultingType?.registration ||
+		ConsultingTypeRegistrationDefaults;
 
-	// Set the default selected agency
-	const [isTouched, setIsTouched] = useState<boolean>(false);
-	const [agencySelected, setAgencySelected] = useState<string>();
-	const [selectedConsultingType, selectConsultingType] =
-		useState<string>(null);
-	const [postCodeValue, setPostCode] = useState<string>(initialPostcode);
-
-	const validPostcode = useCallback(
-		() => postCodeValue?.length === VALID_POSTCODE_LENGTH,
-		[postCodeValue]
+	const isPostcodeValid = useCallback(
+		(postcode) => postcode?.length === VALID_POSTCODE_LENGTH,
+		[]
 	);
 
-	const { isLoading, agencies, consultingTypes, preSelectedAgency } =
-		useAgenciesForRegistration({
-			consultant,
-			preSelectedAgency: propPreselectedAgency,
-			consultingType,
-			mainTopicId,
-			postcode: postCodeValue
-		});
-
-	useEffect(() => {
-		if (!isTouched) {
-			setIsTouched(!!preSelectedAgency || !!postCodeValue);
+	const { isLoading, agencies, consultingTypes } = useAgenciesForRegistration(
+		{
+			consultingType: formAccordionData.consultingType,
+			topic: formAccordionData.mainTopic,
+			postcode: formAccordionData.postcode
 		}
-	}, [isTouched, postCodeValue, preSelectedAgency]);
-
-	// Set the agency selection if it was preselected by params
-	useEffect(
-		() => setAgencySelected(preSelectedAgency?.id?.toString()),
-		[preSelectedAgency]
 	);
 
-	// Set the the form item status and set the agency to the form accordion
+	// If options change, check for still valid preselected agency
 	useEffect(() => {
-		const agencyFound = agencies.find(
-			(tmpAgency) => tmpAgency.id.toString() === agencySelected
-		);
-
-		onChange(agencyFound);
-
 		if (
-			isTouched &&
-			(!agencySelected || (!autoSelectPostcode && !validPostcode()))
+			(!autoSelectAgency &&
+				(agencies.length > 1 || agencies.length === 0) &&
+				!formAccordionData.agency) ||
+			(autoSelectAgency &&
+				agencies.length === 0 &&
+				!formAccordionData.agency) ||
+			(formAccordionData.agency &&
+				agencies.some((a) => a.id === formAccordionData.agency.id))
 		) {
-			onValidityChange?.(VALIDITY_INVALID);
-		} else {
-			onValidityChange?.(
-				agencySelected && agencyFound
-					? VALIDITY_VALID
-					: VALIDITY_INITIAL
-			);
+			return;
 		}
+
+		return onChange({
+			agency:
+				(autoSelectAgency && agencies.length > 0) ||
+				agencies.length === 1
+					? agencies[0]
+					: null
+		});
 	}, [
 		agencies,
-		agencySelected,
-		autoSelectPostcode,
-		isLoading,
-		isTouched,
+		autoSelectAgency,
+		formAccordionData.agency,
 		onChange,
-		onValidityChange,
-		validPostcode
+		preSelectedAgency
 	]);
+
+	// If options change, check for still valid consulting type or select first one
+	useEffect(() => {
+		if (
+			(formAccordionData.consultingType &&
+				consultingTypes.some(
+					(ct) => ct.id === formAccordionData.consultingType.id
+				)) ||
+			(!formAccordionData.consultingType && consultingTypes.length === 0)
+		) {
+			return;
+		}
+
+		return onChange({ consultingType: consultingTypes?.[0] || null });
+	}, [consultingTypes, formAccordionData.consultingType, onChange]);
+
+	// Validate form if there are no changeable fields or changeable fields and they are touched
+	useEffect(() => {
+		if (
+			isLoading ||
+			((!autoSelectPostcode ||
+				consultingTypes.length > 1 ||
+				agencies?.length > 1) &&
+				!isTouched)
+		) {
+			return;
+		}
+		const agencyFound = agencies.find(
+			(agency) => agency.id === formAccordionData.agency?.id
+		);
+		onValidityChange?.(
+			'agency',
+			(!autoSelectPostcode &&
+				!isPostcodeValid(formAccordionData.postcode)) ||
+				!agencyFound
+				? VALIDITY_INVALID
+				: VALIDITY_VALID
+		);
+	}, [
+		agencies,
+		autoSelectPostcode,
+		consultingTypes.length,
+		formAccordionData.agency?.id,
+		formAccordionData.postcode,
+		isLoading,
+		isPostcodeValid,
+		isTouched,
+		onValidityChange
+	]);
+
+	const handleChange = useCallback(
+		(data: Partial<FormAccordionData>) => {
+			onChange(data);
+			setIsTouched(true);
+		},
+		[onChange]
+	);
+
+	const handleAgencyChange = (agency: AgencyDataInterface) => {
+		handleChange({
+			agency,
+			consultingType: consultingTypes.find(
+				(ct) => ct.id === agency?.consultingType
+			),
+			...(autoSelectPostcode ? { postcode: agency?.postcode } : {})
+		});
+	};
 
 	return (
 		<div
@@ -124,11 +171,11 @@ export const ProposedAgencies = ({
 		>
 			{!autoSelectPostcode && (
 				<PostCodeSelection
-					value={postCodeValue}
-					onChange={setPostCode}
-					isPreselectedAgency={
-						preSelectedAgency && !autoSelectPostcode
+					value={formAccordionData.postcode}
+					onChange={(postCode) =>
+						handleChange({ postcode: postCode })
 					}
+					isPreselectedAgency={!!preSelectedAgency}
 				/>
 			)}
 			{agencySelectionNote && (
@@ -144,42 +191,53 @@ export const ProposedAgencies = ({
 			{consultingTypes.length > 1 && (
 				<div className="consultingTypeSelection">
 					<ConsultingTypeSelection
-						value={selectedConsultingType}
-						onChange={selectConsultingType}
+						value={
+							formAccordionData.consultingType?.id?.toString() ||
+							null
+						}
+						onChange={(id) =>
+							handleChange({
+								consultingType: consultingTypes.find(
+									(ct) => ct.id.toString() === id
+								)
+							})
+						}
 						consultingTypes={consultingTypes}
 						onKeyDown={onkeydown}
 					/>
 				</div>
 			)}
 
+			{isLoading && <LoadingIndicator />}
+
 			{!agencies?.length &&
-				((!autoSelectPostcode && validPostcode()) ||
-					autoSelectPostcode) &&
+				(autoSelectPostcode ||
+					isPostcodeValid(formAccordionData?.postcode)) &&
 				!isLoading && (
 					<NoAgencyFound
-						handleKeyDown={handleKeyDown}
-						postCode={postCodeValue}
-						consultingType={consultingType}
+						handleKeyDown={onKeyDown}
+						postCode={formAccordionData.postcode}
+						consultingType={formAccordionData.consultingType}
 					/>
 				)}
 
-			{isLoading && <LoadingIndicator />}
+			{!isLoading &&
+				agencies.length === 1 &&
+				formAccordionData.agency && (
+					<PreselectedAgency
+						prefix={t('registration.agency.preselected.prefix')}
+						agencyData={formAccordionData.agency}
+						onKeyDown={onKeyDown}
+					/>
+				)}
 
-			{autoSelectAgency && preSelectedAgency && (
-				<PreselectedAgency
-					prefix={t('registration.agency.preselected.prefix')}
-					agencyData={preSelectedAgency}
-					onKeyDown={handleKeyDown}
-				/>
-			)}
-
-			{agencies?.length > 0 && (!autoSelectAgency || !preSelectedAgency) && (
+			{!isLoading && agencies?.length > 1 && (
 				<div className="agencySelectionContainer">
 					<ProposedAgenciesTitle
-						hasPreselectedAgency={!!propPreselectedAgency}
+						hasPreselectedAgency={!!preSelectedAgency}
 						hasConsultingTypes={consultingTypes.length > 1}
 						hasAutoSelectPostCodeEnabled={autoSelectPostcode}
-						postCodeValue={postCodeValue}
+						postCodeValue={formAccordionData.postcode}
 						agenciesCount={agencies.length}
 					/>
 					<div className="agencySelection">
@@ -187,8 +245,14 @@ export const ProposedAgencies = ({
 							<AgencySelection
 								key={agency.id}
 								agency={agency}
-								checkedValue={agencySelected}
-								onChange={setAgencySelected}
+								checkedValue={formAccordionData.agency?.id.toString()}
+								onChange={(id) =>
+									handleAgencyChange(
+										agencies.find(
+											(a) => a.id.toString() === id
+										)
+									)
+								}
 							/>
 						))}
 					</div>

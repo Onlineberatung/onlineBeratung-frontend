@@ -1,12 +1,17 @@
 import * as React from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+	Dispatch,
+	SetStateAction,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState
+} from 'react';
 import './formAccordion.styles';
 import {
 	RequiredComponentsInterface,
 	RegistrationNotesInterface,
-	ConsultingTypeInterface,
-	ConsultantDataInterface,
-	AgencyDataInterface,
 	useTenant,
 	LegalLinkInterface
 } from '../../globalState';
@@ -18,7 +23,6 @@ import { RegistrationPassword } from '../registration/RegistrationPassword';
 import {
 	AccordionItemValidity,
 	VALIDITY_INITIAL,
-	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import { MainTopicSelection } from '../mainTopicSelection/MainTopicSelection';
@@ -28,37 +32,31 @@ import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { FormAccordionRegistrationText } from './FormAccordionRegistrationText';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { ProposedAgencies } from '../../containers/registration/components/ProposedAgencies/ProposedAgencies';
-import { useConsultingTypeAgencySelection } from '../../containers/registration/hooks/useConsultingTypeAgencySelection';
+import { useConsultantAgenciesAndConsultingTypes } from '../../containers/registration/hooks/useConsultantAgenciesAndConsultingTypes';
+import { FormAccordionData } from '../registration/RegistrationForm';
+import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 
 interface FormAccordionProps {
-	consultingType?: ConsultingTypeInterface;
-	consultant?: ConsultantDataInterface;
+	formAccordionData: FormAccordionData;
 	isUsernameAlreadyInUse: boolean;
-	preselectedAgencyData: any;
-	onChange: Function;
-	onValidation: Function;
+	onChange: (data: Partial<FormAccordionData>) => void;
+	onValidation: Dispatch<SetStateAction<boolean>>;
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
-	mainTopicId?: number;
-	preselectedTopic?: number;
 	legalLinks: Array<LegalLinkInterface>;
 	handleSubmitButtonClick: Function;
 	isSubmitButtonDisabled: boolean;
-	setIsDataProtectionSelected: Function;
+	setIsDataProtectionSelected: Dispatch<SetStateAction<boolean>>;
 	isDataProtectionSelected: boolean;
 }
 
 export const FormAccordion = ({
-	consultingType,
-	consultant,
+	formAccordionData,
 	isUsernameAlreadyInUse,
-	preselectedAgencyData,
-	preselectedTopic,
 	onChange,
 	onValidation,
 	additionalStepsData,
 	registrationNotes,
-	mainTopicId,
 	legalLinks,
 	handleSubmitButtonClick,
 	isSubmitButtonDisabled,
@@ -66,12 +64,19 @@ export const FormAccordion = ({
 	isDataProtectionSelected
 }: FormAccordionProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
-	const [activeItem, setActiveItem] = useState<number>(1);
-	const [agency, setAgency] = useState<AgencyDataInterface>();
 	const tenantData = useTenant();
-	const topicsAreRequired =
-		tenantData?.settings?.topicsInRegistrationEnabled &&
-		tenantData?.settings?.featureTopicsEnabled;
+
+	const { consultingType, consultant } = useContext(UrlParamsContext);
+	const { consultingTypes } = useConsultantAgenciesAndConsultingTypes();
+
+	const [activeItem, setActiveItem] = useState<number>(1);
+
+	const topicsAreRequired = useMemo(
+		() =>
+			tenantData?.settings?.topicsInRegistrationEnabled &&
+			tenantData?.settings?.featureTopicsEnabled,
+		[tenantData?.settings]
+	);
 
 	const buttonItemSubmit: ButtonItem = {
 		label: translate('registration.submitButton.label'),
@@ -93,19 +98,17 @@ export const FormAccordion = ({
 	});
 
 	useEffect(() => {
-		onChange({
-			agencyId: agency?.id,
-			consultingTypeId: agency?.consultingType,
-			postcode: agency?.postcode
-		});
 		// different data protection between agencies
-		agency?.tenantId &&
+		formAccordionData.agency?.tenantId &&
 			setValueInCookie(
 				'tenantId',
-				agency?.tenantId ? agency?.tenantId?.toString() : '0'
+				formAccordionData.agency?.tenantId
+					? formAccordionData.agency?.tenantId?.toString()
+					: '0'
 			);
-		agency?.tenantId && setIsDataProtectionSelected(false);
-	}, [agency]); // eslint-disable-line react-hooks/exhaustive-deps
+		formAccordionData.agency?.tenantId &&
+			setIsDataProtectionSelected(false);
+	}, [formAccordionData.agency, setIsDataProtectionSelected]);
 
 	useEffect(() => {
 		onValidation(
@@ -113,7 +116,7 @@ export const FormAccordion = ({
 				(validity) => validity === VALIDITY_VALID
 			)
 		);
-	}, [validity]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [onValidation, validity]);
 
 	const handleValidity = useCallback((key, value) => {
 		setValidity((prevState) => ({
@@ -133,22 +136,7 @@ export const FormAccordion = ({
 			'dataProtection',
 			isDataProtectionSelected ? VALIDITY_VALID : VALIDITY_INITIAL
 		);
-	}, [isDataProtectionSelected]); // eslint-disable-line react-hooks/exhaustive-deps
-
-	const onChangeAgencyValidity = useCallback(
-		(validity) => {
-			if (
-				topicsAreRequired &&
-				!mainTopicId &&
-				preselectedTopic < 0 &&
-				validity !== VALIDITY_INITIAL
-			) {
-				handleValidity('mainTopic', VALIDITY_INVALID);
-			}
-			handleValidity('agency', validity);
-		},
-		[handleValidity, mainTopicId, preselectedTopic, topicsAreRequired]
-	);
+	}, [handleValidity, isDataProtectionSelected]);
 
 	const handleKeyDown = (e, isLastInput = true, isFirstInput = true) => {
 		if (
@@ -232,8 +220,8 @@ export const FormAccordion = ({
 			nestedComponent: (
 				<MainTopicSelection
 					name="mainTopic"
-					preselectedTopic={preselectedTopic}
-					onChange={(mainTopicId) => onChange({ mainTopicId })}
+					value={formAccordionData.mainTopic}
+					onChange={(topic) => onChange({ mainTopic: topic })}
 					onValidityChange={handleValidity}
 				/>
 			),
@@ -241,30 +229,20 @@ export const FormAccordion = ({
 		});
 	}
 
-	const { consultingTypes: possibleConsultingTypes } =
-		useConsultingTypeAgencySelection(
-			consultant,
-			consultingType,
-			preselectedAgencyData
-		);
-
 	const agencySelectionTitle = useMemo(() => {
+		let key = 'agency';
 		if (consultant) {
-			if (possibleConsultingTypes.length > 1) {
-				return 'registration.consultingTypeAgencySelection.consultingType.headline';
-			} else {
-				return 'registration.consultingTypeAgencySelection.agency.headline';
-			}
+			key =
+				consultingTypes.length > 1
+					? 'consultingTypeAgencySelection.consultingType'
+					: 'consultingTypeAgencySelection.agency';
 		} else if (!consultingType?.registration?.autoSelectPostcode) {
-			if (consultingType?.registration?.autoSelectAgency) {
-				return 'registration.agencyPreselected.headline';
-			} else {
-				return 'registration.agencySelection.headline';
-			}
-		} else {
-			return 'registration.agency.headline';
+			key = consultingType?.registration?.autoSelectAgency
+				? 'agencyPreselected'
+				: 'agencySelection';
 		}
-	}, [consultant, consultingType, possibleConsultingTypes.length]);
+		return `registration.${key}.headline`;
+	}, [consultant, consultingType, consultingTypes.length]);
 
 	if (additionalStepsData?.age?.isEnabled) {
 		accordionItemData.push({
@@ -330,13 +308,11 @@ export const FormAccordion = ({
 		title: translate(agencySelectionTitle),
 		nestedComponent: (
 			<ProposedAgencies
-				consultingType={consultingType}
-				mainTopicId={mainTopicId}
-				consultant={consultant}
-				preSelectedAgency={preselectedAgencyData}
 				agencySelectionNote={registrationNotes?.agencySelection}
-				onValidityChange={onChangeAgencyValidity}
-				onChange={setAgency}
+				onValidityChange={handleValidity}
+				formAccordionData={formAccordionData}
+				onChange={onChange}
+				onKeyDown={handleKeyDown}
 			/>
 		),
 		isValid: validity.agency
@@ -366,7 +342,9 @@ export const FormAccordion = ({
 						}}
 					/>
 				</div>
-				<FormAccordionRegistrationText agency={agency} />
+				<FormAccordionRegistrationText
+					agency={formAccordionData.agency}
+				/>
 				<Button
 					className="registrationForm__submit"
 					item={buttonItemSubmit}
