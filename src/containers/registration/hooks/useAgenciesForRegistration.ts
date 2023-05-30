@@ -107,12 +107,14 @@ export const useAgenciesForRegistration = ({
 		}
 
 		setIsLoading(true);
-		apiAgencySelection({
-			postcode: autoSelectPostcode ? DEFAULT_POSTCODE : postcode,
-			consultingType: consultingType?.id,
-			topicId: topic?.id,
-			signal: abortController.signal
-		})
+		apiAgencySelection(
+			{
+				postcode: autoSelectPostcode ? DEFAULT_POSTCODE : postcode,
+				consultingType: consultingType?.id,
+				topicId: topic?.id
+			},
+			abortController.signal
+		)
 			.then((data) => {
 				setAgencies(data || []);
 			})
