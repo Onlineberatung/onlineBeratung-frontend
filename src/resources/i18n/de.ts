@@ -1570,10 +1570,33 @@ export const de = {
 			dropdown: 'Alter auswählen*',
 			headline: 'Alter angeben'
 		},
+		'stepbar': {
+			step: 'Schritt',
+			of: 'von'
+		},
+		'zipcode': {
+			headline:
+				'Um Sie bestmöglich beraten zu können benötigen wir Ihre Postleitzahl',
+			subline: 'Warum? Weil dann unsere Fachleute:',
+			bullet1: '• die Hilfen rund um Ihren Wohnort kennen',
+			bullet2: '• die Gesetze Ihres Bundeslandes kennen',
+			label: 'Ihre Postleitzahl'
+		},
 		'agency': {
 			'preselected.prefix': 'Ihre vorausgewählte Beratungsstelle: ',
 			'preselected.isTeam': 'Sie werden von einem Team beraten.',
-			'headline': 'Beratungsstelle wählen'
+			'headline': 'Ihre Beratungsstelle wählen',
+			'search': 'Suche nach einer PLZ',
+			'result': {
+				headline: 'Beratungsstellen zur Postleitzahl',
+				external: {
+					headline:
+						'Die gefundene Beratungsstelle nutzt eine andere Anwendung für die Beratung',
+					subline:
+						'Bitte versuchen Sie es mit einer anderen Postleitzahl oder besuchen Sie unsere Website, um eine Beratungsstelle in Ihrer Nähe zu finden.',
+					link: 'Jetzt wechseln'
+				}
+			}
 		},
 		'agencySelection': {
 			headline: 'Beratungsstelle wählen',

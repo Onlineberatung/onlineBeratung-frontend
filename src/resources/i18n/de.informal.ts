@@ -466,9 +466,23 @@ export const deInformal = {
 		}
 	},
 	registration: {
+		'zipcode': {
+			headline:
+				'Um Dich bestmöglich beraten zu können benötigen wir Deine Postleitzahl',
+			bullet1: '• die Hilfen rund um Deinen Wohnort kennen',
+			bullet2: '• die Gesetze Deines Bundeslandes kennen',
+			label: 'Deine Postleitzahl'
+		},
 		'agency': {
 			'preselected.prefix': 'Deine vorausgewählte Beratungsstelle: ',
-			'preselected.isTeam': 'Du wirst von einem Team beraten.'
+			'preselected.isTeam': 'Du wirst von einem Team beraten.',
+			'headline': 'Deine Beratungsstelle wählen',
+			'result': {
+				external: {
+					subline:
+						'Bitte versuchee es mit einer anderen Postleitzahl oder besuche unsere Website, um eine Beratungsstelle in Deiner Nähe zu finden.'
+				}
+			}
 		},
 		'consultingType.preselected.prefix':
 			'Dein vorausgewähltes Themenfeld: ',

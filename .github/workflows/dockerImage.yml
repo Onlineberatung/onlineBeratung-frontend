@@ -55,6 +55,9 @@ jobs:
                   echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
                   echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
                   npm run test
+            - name: Run component tests
+              run: |
+                  npm run test:components
             - name: Run build
               run: |
                   npm run build

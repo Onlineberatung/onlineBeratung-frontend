@@ -1538,10 +1538,33 @@ export const en = {
 			helper: 'Already registered?',
 			label: 'Login'
 		},
+		'stepbar': {
+			step: 'Step',
+			of: 'of'
+		},
+		'zipcode': {
+			headline:
+				'To be able to advise you in the best possible way we need your zip code',
+			subline: 'Why? Because then our professionals:',
+			bullet1: '• know the aids around your place of residence',
+			bullet2: '• know the laws of your state',
+			label: 'Your zipcode'
+		},
 		'agency': {
 			'preselected.prefix': 'Your pre-selected counseling center: ',
 			'preselected.isTeam': 'You will be advised by a team.',
-			'headline': 'Choose consulting center'
+			'headline': 'Choose your consulting center',
+			'search': 'Search for your zipcode',
+			'result': {
+				headline: 'Consulting centers for zipcode',
+				external: {
+					headline:
+						'The found counseling center uses another application for counseling',
+					subline:
+						'Please try a different zip code or visit our website to find a counseling center near you.',
+					link: 'Switch now'
+				}
+			}
 		},
 		'consultingType.preselected.prefix': 'Your pre-selected topic: ',
 		'username.headline': 'Choose username',
