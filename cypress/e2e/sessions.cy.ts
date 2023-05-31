@@ -41,7 +41,10 @@ describe('Sessions', () => {
 			cy.wait('@consultantSessions');
 
 			cy.get('[data-cy=session-list-item]').first().click();
+			// Could take some time because of slow editor load
+			cy.wait('@draftMessages', { timeout: 10000 });
 			cy.wait('@messages');
+			cy.wait('@sessionRooms');
 
 			cy.get('#iconH').click();
 			cy.get('#flyout').should('be.visible');
@@ -49,7 +52,7 @@ describe('Sessions', () => {
 			cy.wait('@agencyConsultants');
 
 			cy.get('#assignSelect').click();
-			cy.get('#react-select-2-option-0').click();
+			cy.get('.select__input__menu-list > div').first().click();
 			cy.get('.overlay').should('exist');
 		});
 
@@ -129,7 +132,7 @@ describe('Sessions', () => {
 
 		describe('Access Token expires while logged in', () => {
 			it('should logout if trying to paginate sessions', () => {
-				generateMultipleConsultantSessions(15);
+				generateMultipleConsultantSessions(16);
 
 				cy.fastLogin({
 					username: USER_CONSULTANT
@@ -139,6 +142,7 @@ describe('Sessions', () => {
 
 				cy.get('a[href="/sessions/consultant/sessionView"]').click();
 				cy.wait('@consultantSessions');
+				cy.get('.sessionsListItem.skeleton').should('not.exist');
 				cy.get('.sessionsListItem').should('exist');
 
 				cy.willReturn('consultantSessions', 401);

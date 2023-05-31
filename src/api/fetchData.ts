@@ -224,6 +224,9 @@ export const fetchData = ({
 				} else if (error.name === 'AbortError') {
 					reqLog.finish(408);
 					reject(new Error(FETCH_ERRORS.TIMEOUT));
+				} else if (signal?.aborted) {
+					reqLog.finish(299);
+					reject(new Error(FETCH_ERRORS.ABORT));
 				} else {
 					reqLog.finish(520);
 					reject(error);
