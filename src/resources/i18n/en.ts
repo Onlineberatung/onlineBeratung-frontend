@@ -1562,7 +1562,14 @@ export const en = {
 						'The found counseling center uses another application for counseling',
 					subline:
 						'Please try a different zip code or visit our website to find a counseling center near you.',
-					link: 'Switch now'
+					link: 'Switch now',
+					languages: 'This counseling center advises you on:'
+				},
+				noresult: {
+					headline: 'No online counseling center found',
+					subline:
+						'Please try a different zip code or visit our website to find a counseling center near you.',
+					label: 'To the advice center search'
 				}
 			}
 		},

@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom';
 import { StageProps } from '../stage/stage';
 import '../../resources/styles/styles';
+import '../../resources/styles/mui-variables-mapping';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
@@ -30,6 +31,8 @@ import { DevToolbarWrapper } from '../devToolbar/DevToolbar';
 import { PreConditions, preConditionsMet } from './PreConditions';
 import { Loading } from './Loading';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
+import theme from '../../theme';
+import { ThemeProvider } from '@mui/material';
 import { UrlParamsProvider } from '../../globalState/provider/UrlParamsProvider';
 
 const Login = lazy(() =>
@@ -83,32 +86,34 @@ export const App = ({
 	// use the authenticated app as a catch-all fallback.
 
 	return (
-		<ErrorBoundary>
-			<AppConfigProvider config={config}>
-				<TenantProvider>
-					<InformalProvider>
-						<LocaleProvider>
-							<LanguagesProvider
-								fixed={fixedLanguages}
-								spoken={spokenLanguages}
-							>
-								<LegalLinksProvider legalLinks={legalLinks}>
-									<GlobalComponentContext.Provider
-										value={{ Stage: stageComponent }}
-									>
-										<RouterWrapper
-											extraRoutes={extraRoutes}
-											entryPoint={entryPoint}
-										/>
-									</GlobalComponentContext.Provider>
-								</LegalLinksProvider>
-							</LanguagesProvider>
-						</LocaleProvider>
-					</InformalProvider>
-				</TenantProvider>
-				<DevToolbarWrapper />
-			</AppConfigProvider>
-		</ErrorBoundary>
+		<ThemeProvider theme={theme}>
+			<ErrorBoundary>
+				<AppConfigProvider config={config}>
+					<TenantProvider>
+						<InformalProvider>
+							<LocaleProvider>
+								<LanguagesProvider
+									fixed={fixedLanguages}
+									spoken={spokenLanguages}
+								>
+									<LegalLinksProvider legalLinks={legalLinks}>
+										<GlobalComponentContext.Provider
+											value={{ Stage: stageComponent }}
+										>
+											<RouterWrapper
+												extraRoutes={extraRoutes}
+												entryPoint={entryPoint}
+											/>
+										</GlobalComponentContext.Provider>
+									</LegalLinksProvider>
+								</LanguagesProvider>
+							</LocaleProvider>
+						</InformalProvider>
+					</TenantProvider>
+					<DevToolbarWrapper />
+				</AppConfigProvider>
+			</ErrorBoundary>
+		</ThemeProvider>
 	);
 };
 

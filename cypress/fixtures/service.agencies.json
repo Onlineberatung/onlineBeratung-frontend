@@ -7,6 +7,9 @@
 		"description": "description",
 		"teamAgency": true,
 		"offline": false,
-		"consultingType": 1
+		"consultingType": 1,
+		"url": "url",
+		"external": "external",
+		"tenantId": "tenantId"
 	}
 ]

@@ -1595,7 +1595,14 @@ export const de = {
 					subline:
 						'Bitte versuchen Sie es mit einer anderen Postleitzahl oder besuchen Sie unsere Website, um eine Beratungsstelle in Ihrer Nähe zu finden.',
 					link: 'Jetzt wechseln'
-				}
+				},
+				languages: 'Diese Beratungsstelle berät Sie auf:'
+			},
+			'noresult': {
+				headline: 'Keine Online-Beratungsstelle gefunden',
+				subline:
+					'Bitte versuchen Sie es mit einer anderen Postleitzahl oder besuchen Sie unsere Website, um eine Beratungsstelle in Ihrer Nähe zu finden.',
+				label: 'Zur Beratungsstellensuche'
 			}
 		},
 		'agencySelection': {

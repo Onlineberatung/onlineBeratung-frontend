@@ -481,7 +481,12 @@ export const deInformal = {
 				external: {
 					subline:
 						'Bitte versuchee es mit einer anderen Postleitzahl oder besuche unsere Website, um eine Beratungsstelle in Deiner Nähe zu finden.'
-				}
+				},
+				languages: 'Diese Beratungsstelle berät Dich auf:'
+			},
+			'noresult': {
+				subline:
+					'Bitte versuche es mit einer anderen Postleitzahl oder besuche unsere Website, um eine Beratungsstelle in Deiner Nähe zu finden.'
 			}
 		},
 		'consultingType.preselected.prefix':

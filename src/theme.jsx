@@ -11,7 +11,8 @@ const theme = createTheme({
 			main: getCssVarValue('--primary')
 		},
 		info: {
-			main: getCssVarValue('--black')
+			main: getCssVarValue('--black'),
+			light: getCssVarValue('--tertiary')
 		}
 	},
 
@@ -83,7 +84,8 @@ const theme = createTheme({
 					'fontFamily': getCssVarValue('--font-family-sans-serif'),
 					'boxShadow': 'none',
 					'&:hover': {
-						boxShadow: 'none'
+						boxShadow: 'none',
+						color: getCssVarValue('--white')
 					}
 				}
 			}
