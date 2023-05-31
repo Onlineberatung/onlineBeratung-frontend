@@ -14,6 +14,8 @@ jobs:
     build:
         name: Build & Release
         if: "!contains(github.event.head_commit.author, 'action@github.com')"
+        permissions:
+            checks: write
         runs-on: ubuntu-latest
         steps:
             - name: set env

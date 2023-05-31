@@ -6,6 +6,7 @@ import {
 } from '../components/error/errorHandling';
 import { logout } from '../components/logout/logout';
 import { appConfig } from '../utils/appConfig';
+import { RequestLog } from '../utils/requestCollector';
 
 const nodeEnv: string = process.env.NODE_ENV as string;
 const isLocalDevelopment = nodeEnv === 'development';
@@ -68,11 +69,23 @@ interface FetchDataProps {
 	signal?: AbortSignal;
 }
 
-export const fetchData = (props: FetchDataProps): Promise<any> =>
+export const fetchData = ({
+	url,
+	method,
+	headersData,
+	rcValidation,
+	bodyData,
+	skipAuth,
+	responseHandling,
+	timeout,
+	signal
+}: FetchDataProps): Promise<any> =>
 	new Promise((resolve, reject) => {
+		const reqLog = new RequestLog(url, method, timeout);
+
 		const accessToken = getValueFromCookie('keycloak');
 		const authorization =
-			!props.skipAuth && accessToken
+			!skipAuth && accessToken
 				? {
 						Authorization: `Bearer ${accessToken}`
 				  }
@@ -80,7 +93,7 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 
 		const csrfToken = generateCsrfToken();
 
-		const rcHeaders = props.rcValidation
+		const rcHeaders = rcValidation
 			? {
 					rcToken: getValueFromCookie('rc_token'),
 					rcUserId: getValueFromCookie('rc_uid')
@@ -96,95 +109,88 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 
 		let controller;
 		controller = new AbortController();
-		if (props.timeout) {
-			setTimeout(() => controller.abort(), props.timeout);
+		if (timeout) {
+			setTimeout(() => controller.abort(), timeout);
 		}
-		if (props.signal) {
-			props.signal.addEventListener('abort', () => controller.abort());
+		if (signal) {
+			signal.addEventListener('abort', () => controller.abort());
 		}
 
-		const req = new Request(props.url, {
-			method: props.method,
+		const req = new Request(url, {
+			method: method,
 			headers: {
 				'Content-Type': 'application/json',
 				'cache-control': 'no-cache',
 				...authorization,
 				'X-CSRF-TOKEN': csrfToken,
-				...props.headersData,
+				...headersData,
 				...rcHeaders,
 				...localDevelopmentHeader
 			},
 			credentials: 'include',
-			body: props.bodyData,
+			body: bodyData,
 			signal: controller.signal
 		});
 
 		fetch(req)
 			.then((response) => {
+				reqLog.finish(response.status);
 				if (response.status === 200 || response.status === 201) {
 					const data =
-						(props.method === FETCH_METHODS.GET &&
-							(!props.headersData ||
-								props.headersData?.['Content-Type'] ===
+						(method === FETCH_METHODS.GET &&
+							(!headersData ||
+								headersData?.['Content-Type'] ===
 									'application/json')) ||
-						(props.responseHandling &&
-							props.responseHandling.includes(
-								FETCH_SUCCESS.CONTENT
-							))
+						(responseHandling &&
+							responseHandling.includes(FETCH_SUCCESS.CONTENT))
 							? response.json()
 							: response;
 					resolve(data);
 				} else if (response.status === 204) {
-					if (props.responseHandling?.includes(FETCH_ERRORS.EMPTY)) {
+					if (responseHandling?.includes(FETCH_ERRORS.EMPTY)) {
 						// treat 204 no content as an error with this response handling type
 						reject(new Error(FETCH_ERRORS.EMPTY));
 					} else {
 						resolve({});
 					}
-				} else if (props.responseHandling) {
+				} else if (responseHandling) {
 					if (
 						response.status === 400 &&
-						props.responseHandling.includes(
-							FETCH_ERRORS.BAD_REQUEST
-						)
+						responseHandling.includes(FETCH_ERRORS.BAD_REQUEST)
 					) {
 						reject(new Error(FETCH_ERRORS.BAD_REQUEST));
 					} else if (
 						response.status === 403 &&
-						props.responseHandling.includes(FETCH_ERRORS.FORBIDDEN)
+						responseHandling.includes(FETCH_ERRORS.FORBIDDEN)
 					) {
 						reject(new Error(FETCH_ERRORS.FORBIDDEN));
 					} else if (
 						response.status === 404 &&
-						props.responseHandling.includes(FETCH_ERRORS.NO_MATCH)
+						responseHandling.includes(FETCH_ERRORS.NO_MATCH)
 					) {
 						reject(new Error(FETCH_ERRORS.NO_MATCH));
 					} else if (
 						response.status === 409 &&
-						(props.responseHandling.includes(
-							FETCH_ERRORS.CONFLICT
-						) ||
-							props.responseHandling.includes(
+						(responseHandling.includes(FETCH_ERRORS.CONFLICT) ||
+							responseHandling.includes(
 								FETCH_ERRORS.CONFLICT_WITH_RESPONSE
 							))
 					) {
 						reject(
-							props.responseHandling.includes(
+							responseHandling.includes(
 								FETCH_ERRORS.CONFLICT_WITH_RESPONSE
 							)
 								? response
 								: new Error(FETCH_ERRORS.CONFLICT)
 						);
 					} else if (
-						props.responseHandling.includes(
-							FETCH_ERRORS.CATCH_ALL
-						) ||
-						props.responseHandling.includes(
+						responseHandling.includes(FETCH_ERRORS.CATCH_ALL) ||
+						responseHandling.includes(
 							FETCH_ERRORS.CATCH_ALL_WITH_RESPONSE
 						)
 					) {
 						reject(
-							props.responseHandling.includes(
+							responseHandling.includes(
 								FETCH_ERRORS.CATCH_ALL_WITH_RESPONSE
 							)
 								? response
@@ -192,14 +198,14 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 						);
 					} else if (
 						response.status === 412 &&
-						props.responseHandling.includes(
+						responseHandling.includes(
 							FETCH_ERRORS.PRECONDITION_FAILED
 						)
 					) {
 						reject(new Error(FETCH_ERRORS.PRECONDITION_FAILED));
 					} else if (
 						response.status === 500 &&
-						props.responseHandling.includes(FETCH_ERRORS.ABORTED)
+						responseHandling.includes(FETCH_ERRORS.ABORTED)
 					) {
 						reject(new Error(FETCH_ERRORS.ABORTED));
 					} else if (response.status === 401) {
@@ -212,11 +218,14 @@ export const fetchData = (props: FetchDataProps): Promise<any> =>
 				}
 			})
 			.catch((error) => {
-				if (props.signal?.aborted && error.name === 'AbortError') {
+				if (signal?.aborted && error.name === 'AbortError') {
+					reqLog.finish(299);
 					reject(new Error(FETCH_ERRORS.ABORT));
 				} else if (error.name === 'AbortError') {
+					reqLog.finish(408);
 					reject(new Error(FETCH_ERRORS.TIMEOUT));
 				} else {
+					reqLog.finish(520);
 					reject(error);
 				}
 			});

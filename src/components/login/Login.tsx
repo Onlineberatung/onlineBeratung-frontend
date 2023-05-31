@@ -31,7 +31,6 @@ import '../../resources/styles/styles';
 import './login.styles';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import { getUrlParameter } from '../../utils/getUrlParameter';
-import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
 import { ConsultingTypeAgencySelection } from '../consultingTypeSelection/ConsultingTypeAgencySelection';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
@@ -56,7 +55,8 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
-import { useConsultingTypeAgencySelection } from '../../containers/registration/hooks/useConsultingTypeAgencySelection';
+import { useConsultantAgenciesAndConsultingTypes } from '../../containers/registration/hooks/useConsultantAgenciesAndConsultingTypes';
+import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 
 const regexAccountDeletedError = /account disabled/i;
 
@@ -79,12 +79,7 @@ export const Login = () => {
 	const hasTenant = tenant != null;
 
 	const consultantId = getUrlParameter('cid');
-	const {
-		agency: preselectedAgency,
-		consultingType,
-		consultant,
-		loaded: isReady
-	} = useUrlParamsLoader();
+	const { consultant, loaded: isReady } = useContext(UrlParamsContext);
 
 	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 	const [username, setUsername] = useState<string>('');
@@ -181,11 +176,7 @@ export const Login = () => {
 	const {
 		agencies: possibleAgencies,
 		consultingTypes: possibleConsultingTypes
-	} = useConsultingTypeAgencySelection(
-		consultant,
-		consultingType,
-		preselectedAgency
-	);
+	} = useConsultantAgenciesAndConsultingTypes();
 
 	const registerOverlay = useMemo(
 		(): OverlayItem => ({
@@ -193,10 +184,7 @@ export const Login = () => {
 			headline: translate('login.consultant.overlay.success.headline'),
 			nestedComponent: (
 				<ConsultingTypeAgencySelection
-					consultant={consultant}
 					agency={agency}
-					preselectedConsultingType={consultingType}
-					preselectedAgency={preselectedAgency}
 					onChange={setAgency}
 					onValidityChange={(validity) => setValidity(validity)}
 				/>
@@ -215,14 +203,7 @@ export const Login = () => {
 				}
 			]
 		}),
-		[
-			agency,
-			consultant,
-			consultingType,
-			preselectedAgency,
-			validity,
-			translate
-		]
+		[agency, validity, translate]
 	);
 
 	const handleRegistration = useCallback(

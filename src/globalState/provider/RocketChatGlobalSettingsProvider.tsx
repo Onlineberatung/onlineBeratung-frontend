@@ -111,8 +111,7 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 
 		if (
 			configuredAttachmentMaxFilesize === 0 ||
-			configuredAttachmentMaxFilesize / 1024 / 1024 <
-				requiredAttachmentMaxSize
+			configuredAttachmentMaxFilesize < requiredAttachmentMaxSize
 		) {
 			console.error(
 				'Max allowed upload filesize is configured too small in RC!'

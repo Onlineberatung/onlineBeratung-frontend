@@ -65,14 +65,14 @@ export const de = {
 				button: 'Ich bin einverstanden',
 				description:
 					'Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.',
-				headline: 'Herzlich Willkommen',
+				headline: 'Herzlich willkommen',
 				subline:
 					'Bitte bestätigen Sie unsere Datenschutzbestimmungen. Danach dürfen unsere Berater_innen einen Chat mit Ihnen starten.'
 			},
 			'errorPage': {
 				button: 'Neu laden',
 				description:
-					'Es tut uns leid da ist wohl etwas schief gelaufen.<br>Versuchen Sie es erneut.',
+					'Es tut uns leid, da ist wohl etwas schiefgelaufen.<br>Versuchen Sie es erneut.',
 				headline: 'Ups!'
 			},
 			'closed': {
@@ -86,7 +86,7 @@ export const de = {
 				'Um Ihre Anonymität zu schützen, löschen wir Ihre Nachrichten spätestens 48 Stunden nachdem der Chat beendet wurde.',
 			'overlay': {
 				acceptance: {
-					headline: 'Herzlich Willkommen!',
+					headline: 'Herzlich willkommen!',
 					copy: 'Sie werden von Ihrer Berater_in im Chat erwartet. Sind Sie bereit?',
 					button: 'Jetzt chatten'
 				},
@@ -301,12 +301,14 @@ export const de = {
 			'location': {
 				IN_PERSON: 'In der Beratungsstelle',
 				PHONE_CALL: 'Telefon-Beratung',
+				USER_PHONE: 'Telefon-Beratung',
 				VIDEO_CALL: 'Videoberatung',
-				CHAT: 'Text-Chat'
+				CHAT: 'Text-Chat',
+				LINK: 'Videoberatung'
 			},
 			'tooltip': {
 				consultant:
-					'Falls Sie den Termin nicht in dem vom Rastsuchenden gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.',
+					'Falls Sie den Termin nicht in dem vom Ratsuchende gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.',
 				adviceSeeker:
 					'Falls Ihr:e Berater:in den Termin nicht in dem von Ihnen gewählten Modus wahrnehmen kann, generieren wir für Sie immer einen Link zum Video-Call als Alternative.'
 			}
@@ -462,23 +464,23 @@ export const de = {
 		attachment: {
 			encrypted: 'Datei für Download entschlüsseln',
 			is_decrypting: 'Datei wird entschlüsselt',
-			decryption_error: 'Fehler beim entschlüsseln',
+			decryption_error: 'Fehler beim Entschlüsseln',
 			save: 'Datei downloaden',
 			error: {
 				title: 'Leider, konnten wir die Datei nicht entschlüsseln und downloaden.',
-				text: 'Bitten Sie den Sender oder die Senderin die Datei erneut zu schicken. Downloaden Sie dann die neue Datei.'
+				text: 'Bitten Sie den Sender oder die Senderin, die Datei erneut zu schicken. Downloaden Sie dann die neue Datei.'
 			}
 		},
 		inProgress: {
 			headline: 'Einen Moment bitte.',
 			copy: 'Ihre Sicherheit ist uns wichtig! Wir verschlüsseln gerade Ihren Chat. Dies kann einen Moment dauern.',
 			confirm:
-				'Bitte warten Sie bis die Verschlüsselung abgeschlossen ist!'
+				'Bitte warten Sie, bis die Verschlüsselung abgeschlossen ist!'
 		},
 		roomNotFound: {
 			'notice.line1': 'Ohh!',
 			'notice.line2':
-				'Es tut uns leid, da ist wohl etwas schief gelaufen.',
+				'Es tut uns leid, da ist wohl etwas schiefgelaufen.',
 			'notice.line3':
 				'Bitte laden Sie die Seite neu und probieren Sie es nochmal.',
 			'notice.link': 'Seite neu laden'
@@ -493,7 +495,7 @@ export const de = {
 			},
 			notice: {
 				link: 'Benachrichtigung schicken',
-				text: 'Da Sie Ihr Passwort zurückgesetzt haben, sind die Nachrichten für Sie momentan nicht lesbar. Sobald ein_e Chat-Teilnehmer_in den Chat wieder öffnet, können Sie die Nachrichten wieder lesen und Neue schreiben.',
+				text: 'Da Sie Ihr Passwort zurückgesetzt haben, sind die Nachrichten für Sie momentan nicht lesbar. Sobald ein_e Chat-Teilnehmer_in den Chat wieder öffnet, können Sie die Nachrichten wieder lesen und neue schreiben.',
 				title: 'Ihre Sicherheit ist uns wichtig!',
 				more: 'Mehr erfahren'
 			},
@@ -516,7 +518,7 @@ export const de = {
 		'write': {
 			infotext: {
 				copy: {
-					facts: '<ul><li>Was ist passiert?</li><li>Wie ist Ihre aktuelle Situation?</li><li>Was beschäftigt Sie?</li><li>Haben Sie eine bestimmte Frage oder wissen Sie vielleicht selbst noch nicht so genau was Ihnen helfen könnte?</li></ul>',
+					facts: '<ul><li>Was ist passiert?</li><li>Wie ist Ihre aktuelle Situation?</li><li>Was beschäftigt Sie?</li><li>Haben Sie eine bestimmte Frage oder wissen Sie vielleicht selbst noch nicht so genau, was Ihnen helfen könnte?</li></ul>',
 					title: 'Vielleicht helfen Ihnen folgende Punkte bei der Formulierung weiter:'
 				},
 				headline: 'Hier ist Platz für Ihre Anliegen.',
@@ -559,12 +561,12 @@ export const de = {
 			},
 			404: {
 				description:
-					'Es tut uns leid da ist wohl etwas schief gelaufen.<br>Wir konnten die gewünschte Seite nicht finden.',
+					'Es tut uns leid, da ist wohl etwas schiefgelaufen.<br>Wir konnten die gewünschte Seite nicht finden.',
 				headline: 'Ohh!'
 			},
 			500: {
 				description:
-					'Wie es aussieht haben wir momentan ein Serverproblem.<br>Versuchen Sie es später noch einmal.',
+					'Wie es aussieht, haben wir momentan ein Serverproblem.<br>Versuchen Sie es später noch einmal.',
 				headline: 'Ups!'
 			}
 		},
@@ -690,7 +692,7 @@ export const de = {
 			},
 			'content.headline': '"Spielregeln" des Chats',
 			'warning.message':
-				'Ihr Berater_in/Moderator_in hat den Chat noch nicht gestartet. Sobald Ihr Berater_in/Moderator_in den Chat gestartet hat können Sie mit uns chatten. Bitte haben Sie noch etwas Geduld.'
+				'Ihr Berater_in/Moderator_in hat den Chat noch nicht gestartet. Sobald Ihr Berater_in/Moderator_in den Chat gestartet hat, können Sie mit uns chatten. Bitte haben Sie noch etwas Geduld.'
 		},
 		'joinError': {
 			overlay: {
@@ -790,7 +792,7 @@ export const de = {
 					'5': 'Melden Sie sich bei der Online-Beratung an.',
 					'6': 'Bitten Sie Ihre_n Berater_in Sie nochmals anzurufen.',
 					'headline': {
-						'1': 'Schritt für Schritt Anleitung',
+						'1': 'Schritt-für-Schritt-Anleitung',
 						'2': 'Sie haben bereits Google Chrome, Microsoft Edge oder Safari?'
 					}
 				}
@@ -811,7 +813,7 @@ export const de = {
 					'5': 'Melden Sie sich bei der Online-Beratung an.',
 					'6': 'Starten Sie den Video-Call.',
 					'headline': {
-						'1': 'Schritt für Schritt Anleitung',
+						'1': 'Schritt-für-Schritt-Anleitung',
 						'2': 'Sie haben bereits Google Chrome, Microsoft Edge oder Safari?'
 					}
 				}
@@ -1134,7 +1136,7 @@ export const de = {
 		'read': 'gelesen',
 		'sent': 'zugestellt',
 		'groupChat': 'Gruppenchat',
-		'liveChat': 'Live Chat',
+		'liveChat': 'Live-Chat',
 		'newEnquiry': 'Neue Anfrage'
 	},
 	navigation: {
@@ -1168,7 +1170,7 @@ export const de = {
 	},
 	notifications: {
 		'message.new': 'Sie haben eine neue Nachricht!',
-		'enquiry.new': 'Sie haben eine neue Livechat Anfrage!',
+		'enquiry.new': 'Sie haben eine neue Live-Chat Anfrage!',
 		'initialRequest.new': 'Sie haben eine neue Erstanfrage!',
 		'warning': 'Warnung',
 		'error': 'Fehlgeschlagen',
@@ -1191,15 +1193,15 @@ export const de = {
 		emptyMessages: 'Du hast alles im Blick, alle Nachrichten sind gelesen!',
 		emptyInitialMessage: 'Sehr gut, alle Erstanfragen sind bearbeitet!',
 		emptyAppointments:
-			'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern',
+			'Heute stehen keine Termine an, Verabrede Dich mit Ratsuchenden um das zu ändern',
 		emptyAppointmentsMobile:
-			'Keine Termine derzeit, Verabrede dich mit Ratsuchenden um das zu ändern',
+			'Keine Termine derzeit, Verabrede Dich mit Ratsuchenden um das zu ändern',
 		viewAll: 'Alle Anzeigen',
 		myMessagesEmpty:
 			'Du hast alles im Blick, alle Nachrichten sind gelesen!',
 		initialInquiriesEmpty: 'Sehr gut, alle Erstanfragen sind bearbeitet!',
 		appointmentsEmpty:
-			'Heute stehen keine Termine an, Verabrede dich mit Ratsuchenden um das zu ändern',
+			'Heute stehen keine Termine an, Verabrede Dich mit Ratsuchenden um das zu ändern',
 		start: 'Starten'
 	},
 	preconditions: {
@@ -1315,7 +1317,7 @@ export const de = {
 					'Deaktivieren Sie Ihre Abwesenheit, um eine Nachricht zu hinterlegen oder sie zu bearbeiten.'
 			},
 			'masterKey.saveError':
-				'Beim Passwort Ändern ist ein Problem aufgetaucht. Bitte versuchen Sie es erneut.',
+				'Beim Passwort ändern ist ein Problem aufgetaucht. Bitte versuchen Sie es erneut.',
 			'password': {
 				reset: {
 					'confirm.label': 'Neues Passwort bestätigen',
@@ -1363,10 +1365,15 @@ export const de = {
 			'initialEnquiry': {
 				title: 'Eine neue Erstanfrage ist eingegangen'
 			},
-			'newMessage': {
+			'newMessageAdviceSeeker': {
 				title: 'Neue Chat-Nachricht',
 				description:
-					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet'
+					'Wir informieren Sie, solange Sie nicht im System angemeldet sind'
+			},
+			'newMessageConsultant': {
+				title: 'Neue Chat-Nachricht',
+				description:
+					'Einer der Ihnen zugewiesenen Ratsuchenden hat Ihnen geantwortet. Wir informieren Sie, solange Sie nicht im System angemeldet sind.'
 			},
 			'reassignmentConsultant': {
 				title: 'Neuzuweisung eines Ratsuchenden',
@@ -1384,14 +1391,14 @@ export const de = {
 					'Ein Termin wurde angesetzt, verschoben oder abgesagt'
 			},
 			'error': {
-				title: 'Etwas ist schief gelaufen.',
+				title: 'Etwas ist schiefgelaufen.',
 				description:
 					'Leider können wir Ihre Einstellungen momentan nicht aktualisieren. Bitte versuchen Sie es später noch einmal.'
 			},
 			'toggleError': {
-				title: 'Etwas ist schief gelaufen.',
+				title: 'Etwas ist schiefgelaufen.',
 				description:
-					'Leider können wir Ihre Benachrichtigungen zur Zeit nicht aktivieren. Bitte versuchen Sie es später noch einmal.'
+					'Leider können wir Ihre Benachrichtigungen zurzeit nicht aktivieren. Bitte versuchen Sie es später noch einmal.'
 			},
 			'noEmail': {
 				info: 'Sie haben noch keine E-Mail-Adresse hinzugefügt.',
@@ -1408,9 +1415,9 @@ export const de = {
 						unavailable:
 							'Diese E-Mail-Adresse ist bereits registriert.'
 					},
-					errorTitle: 'Etwas ist schief gelaufen.',
+					errorTitle: 'Etwas ist schiefgelaufen.',
 					errorMessage:
-						'Leider können wir Ihre E-mail-Adresse momentan nicht speichern. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support.'
+						'Leider können wir Ihre E-Mail-Adresse momentan nicht speichern. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support.'
 				}
 			}
 		},
@@ -1441,7 +1448,7 @@ export const de = {
 		'liveChat': {
 			title: 'Meine Live-Chat Verfügbarkeit',
 			subtitle:
-				'Aktivieren Sie Ihre Verfügbarkeit und sehen Sie in den Erstanfragen unter „Live-Chat Anfragen“ die wartenden anoymen Ratsuchenden.',
+				'Aktivieren Sie Ihre Verfügbarkeit und sehen Sie in den Erstanfragen unter „Live-Chat Anfragen“ die wartenden anonymen Ratsuchenden.',
 			toggleLabel: 'Bin verfügbar'
 		},
 		'routes': {
@@ -1605,7 +1612,7 @@ export const de = {
 					'Warum hilft Ihnen auch online eine Beratungsstelle in Ihrer Nähe?',
 				point1: 'die regionalen Hilfestrukturen kennt,',
 				point2: 'mit den rechtlichen Voraussetzungen vertraut ist,',
-				point3: 'Sie gegebenfalls auch vor Ort beraten kann.',
+				point3: 'Sie gegebenenfalls auch vor Ort beraten kann.',
 				subline: 'Weil dann das Fachpersonal:'
 			},
 			languages: {
@@ -1665,7 +1672,7 @@ export const de = {
 		},
 		'mainTopic': {
 			headline:
-				'Welches dieser Problemfelder ist für Sie aktuell am Wichtigsten?',
+				'Welches dieser Problemfelder ist für Sie aktuell am wichtigsten?',
 			noTopics:
 				'Derzeit können leider keine Themen ausgewählt werden. Führen Sie die Anmeldung im nächsten Schritt fort.'
 		},
@@ -1726,7 +1733,7 @@ export const de = {
 		'user': {
 			label: 'Benutzername',
 			infoText:
-				'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialien zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
+				'Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialen zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.',
 			suitable: 'Ihr Benutzername ist geeignet.',
 			unsuitable: 'Ihr Benutzername ist zu kurz.',
 			unavailable: 'Der Benutzername ist bereits vergeben.'
@@ -1787,10 +1794,10 @@ export const de = {
 		},
 		contentLine2: {
 			termsAndCondition:
-				'Ich habe die Nutzungsbedingungen zur Kenntniss genommen.\n Damit erkläre ich mich einverstanden.',
+				'Ich habe die Nutzungsbedingungen zur Kenntnis genommen.\n Damit erkläre ich mich einverstanden.',
 			termsAndConditionAndPrivacy:
 				'Ich habe die Nutzungsbedingungen und Datenschutzerklärung\n' +
-				'zur Kenntniss genommen. Damit erkläre ich mich einverstanden.'
+				'zur Kenntnis genommen. Damit erkläre ich mich einverstanden.'
 		},
 		buttons: {
 			decline: 'Ablehnen',
@@ -1825,7 +1832,7 @@ export const de = {
 					'2': 'Sie haben die Beratung erfolgreich zugewiesen.'
 				},
 				'subtitle.noTeam':
-					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.',
+					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugriff mehr auf die Nachrichten.',
 				'subtitle.team.self':
 					'{{newConsultant}} ist somit für die_den Ratsuchende_n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, finden Sie den Chatverlauf in Ihren Nachrichten und nicht mehr unter Teamberatung.',
 				'subtitle.team.other':
@@ -1923,14 +1930,14 @@ export const de = {
 			anonymous:
 				'Aktuell warten keine anonymen Ratsuchenden auf einen Live-Chat',
 			known: 'Aktuell liegen keine Erstanfragen vor',
-			mySessions: 'Sie haben zur Zeit keine aktiven Beratungen',
+			mySessions: 'Sie haben zurzeit keine aktiven Beratungen',
 			teamSessions: 'Ihr Team hat keine aktiven Beratungen',
-			peersessions: 'Sie haben zur Zeit keine aktiven Peer-Beratungen',
+			peersessions: 'Sie haben zurzeit keine aktiven Peer-Beratungen',
 			archived: 'Es sind noch keine Beratungen archiviert'
 		},
 		'unavailable': {
 			description:
-				'Aktivieren Sie Ihre Verfügbarkeit und erhalten Sie hier die Live-Chat Anfragen von anoymen Ratsuchenden',
+				'Aktivieren Sie Ihre Verfügbarkeit und erhalten Sie hier die Live-Chat Anfragen von anonymen Ratsuchenden',
 			buttonLabel: 'Verfügbarkeit aktivieren'
 		},
 		'filter': {
@@ -1980,7 +1987,7 @@ export const de = {
 		'shared': 'Mit dem/der Berater/in geteilt',
 		'calendar.title': 'Mein Kalender',
 		'calendar.description':
-			'Tragen Sie Ihre Urlaube oder sonstigen Termine in den Kalender ein, sodass die Ratsuchenden in dieser Zeit keine Termine bei Ihnen buchen können.<br/>Melden Sie sich mit der gleichen E-mail Adresse und Passwort an, das Sie auch hier bei der Online Beratung verwenden.',
+			'Tragen Sie Ihre Urlaube oder sonstigen Termine in den Kalender ein, sodass die Ratsuchenden in dieser Zeit keine Termine bei Ihnen buchen können.<br/>Melden Sie sich mit der gleichen E-Mail-Adresse und Passwort an, das Sie auch hier bei der Online Beratung verwenden.',
 		'calendar.button.label': 'Öffnen'
 	},
 	twoFactorAuth: {
@@ -2042,7 +2049,7 @@ export const de = {
 			app: {
 				step2: {
 					'title': 'Installieren Sie sich die App',
-					'copy': 'Bitte installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authentificator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
+					'copy': 'Bitte installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authenticator App. Beide Apps sind im Google Play oder Apple App Store verfügbar.',
 					'visualisation.label': 'Installation',
 					'tool1': {
 						title: 'FreeOTP App:',
@@ -2065,7 +2072,7 @@ export const de = {
 				},
 				step3: {
 					'title': 'Fügen Sie die Online-Beratung zur App hinzu',
-					'copy': 'Sie haben zwei Möglichkeiten die Online-Beratung zur App hinzuzufügen:',
+					'copy': 'Sie haben zwei Möglichkeiten, die Online-Beratung zur App hinzuzufügen:',
 					'visualisation.label': 'Hinzufügen',
 					'connect': {
 						qrCode: 'Öffnen Sie die App und scannen Sie den folgenden QR-Code:',
@@ -2099,12 +2106,12 @@ export const de = {
 					title: 'E-Mail-Adresse bearbeiten',
 					copy: {
 						'1': 'Sie nutzen diese E-Mail-Adresse als zweiten Faktor für eine sichere Anmeldung.',
-						'2': 'Deaktivieren Sie die Zwei-Faktor-Authentifizierung um die E-Mail-Adresse zu bearbeiten.'
+						'2': 'Deaktivieren Sie die Zwei-Faktor-Authentifizierung, um die E-Mail-Adresse zu bearbeiten.'
 					},
 					binding: {
 						copy: {
-							'1': 'Sie können Ihre E-Mail Adresse nicht ändern solange Sie diese als zweiten Faktor für eine sichere Anmeldung verwenden.',
-							'2': 'Wechseln Sie den zweiten Faktor von "E-Mail Adresse" zu "App". Dann können Sie Ihre E-Mail Adresse ändern.'
+							'1': 'Sie können Ihre E-Mail-Adresse nicht ändern, solange Sie diese als zweiten Faktor für eine sichere Anmeldung verwenden.',
+							'2': 'Wechseln Sie den zweiten Faktor von "E-Mail-Adresse" zu "App". Dann können Sie Ihre E-Mail-Adresse ändern.'
 						}
 					},
 					button: {
@@ -2120,7 +2127,7 @@ export const de = {
 		nag: {
 			'button.later': 'Später erinnern',
 			'button.protect': 'Jetzt schützen',
-			'copy': 'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Bratung.',
+			'copy': 'Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online Beratung.',
 			'obligatory': {
 				moment: {
 					title: 'Schützen Sie Ihr Konto bis spätestens {{date}}',
@@ -2259,7 +2266,7 @@ export const de = {
 			},
 			share: {
 				sharedContent: 'Zu den geteilten Inhalten',
-				title: 'Sehen Sie hier welche Inhalte mit Ihnen geteilt wurden.',
+				title: 'Sehen Sie hier, welche Inhalte mit Ihnen geteilt wurden.',
 				info: 'Nur zugewiesene Berater_innen können die Inhalte der Ratsuchenden einsehen. Wenn Sie aus der Teamberatung auf die Inhalte zugreifen, sind die Ratsuchenden nicht vorausgewählt.'
 			},
 			modal: {
@@ -2316,7 +2323,7 @@ export const de = {
 			unsupported: {
 				'button.close': 'Schließen',
 				'button.manual': 'Zur Anleitung',
-				'copy': 'Ihr Gerät erfüllt nicht alle nötigen technischen Vorgaben für einen Video-Call. Bitte folgen Sie dieser Anleitung um einen Video-Call starten zu können. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
+				'copy': 'Ihr Gerät erfüllt nicht alle nötigen technischen Vorgaben für einen Video-Call. Bitte folgen Sie dieser Anleitung, um einen Video-Call starten zu können. Dafür brauchen Sie möglicherweise die Unterstützung Ihrer EDV.',
 				'headline': 'Der Video-Call kann nicht gestartet werden'
 			}
 		},
@@ -2339,7 +2346,7 @@ export const de = {
 				'button': 'Bestätigen',
 				'description':
 					'Danach dürfen unsere Berater_innen einen Video-Call mit Ihnen starten.',
-				'headline': 'Herzlich Willkommen!',
+				'headline': 'Herzlich willkommen!',
 				'label.text':
 					'Ich habe die {{legal_links}} zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden.',
 				'label.and': 'und',
@@ -2351,18 +2358,18 @@ export const de = {
 			'errorImageTitle': 'Fehlgeschlagen',
 			'headline': 'Bitte haben Sie etwas Geduld',
 			'subline':
-				'Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet sobald Ihr_e Berater_in den Video-Call startet.',
+				'Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet, sobald Ihr_e Berater_in den Video-Call startet.',
 			'paused': {
 				headline: 'Der Video-Call wurde beendet',
 				subline:
-					'Der Video-Call wurde beendet. Sollten Ihr_e Berater_in nur abwesend sein werden Sie in den Video-Call weitergeleitet sobald Ihr_e Berater_in den Video-Call fortsetzt.'
+					'Der Video-Call wurde beendet. Sollten Ihr_e Berater_in nur abwesend sein werden Sie in den Video-Call weitergeleitet, sobald Ihr_e Berater_in den Video-Call fortsetzt.'
 			},
 			'errorPage': {
 				'button': 'Neu laden',
 				'consultant.description':
-					'Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde.',
+					'Zu Ihrem Link können wir keinen Video-Call finden, da der Video-Call entweder gelöscht oder bereits beendet wurde.',
 				'description':
-					'Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde. Sollten Sie weiterhin Probleme haben fragen Sie bitte Ihre_n Berater_in.',
+					'Zu Ihrem Link können wir keinen Video-Call finden, da der Video-Call entweder gelöscht oder bereits beendet wurde. Sollten Sie weiterhin Probleme haben fragen Sie bitte Ihre_n Berater_in.',
 				'headline': 'Der Video-Call wurde nicht gefunden',
 				'rejected': {
 					description:
@@ -2392,7 +2399,7 @@ export const de = {
 			},
 			1: {
 				title: 'Erstanfragen',
-				intro: "Hier finden Sie eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Ihr gesamtes Team hat Zugriff auf diese Übersicht.\n<br /><br /> Die ältesten Anfragen stehen oben, die neuesten ganz unten, damit Sie die zuerst eingegangenen leichter finden können.\n<br /><br /> In dem Moment, in dem Sie auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in Ihren Bereich 'Meine Beratungen' verschoben und die anderen Berater_innen sehen sie nicht mehr."
+				intro: "Hier finden Sie eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Ihr gesamtes Team hat Zugriff auf diese Übersicht.\n<br /><br /> Die ältesten Anfragen stehen oben, die neuesten ganz unten, damit Sie die zuerst eingegangenen leichter finden können.\n<br /><br /> In dem Moment, in dem Sie auf 'Anfrage annehmen' klicken, wird die Anfrage sofort in Ihren Bereich 'Meine Beratungen' verschoben und die anderen Berater_innen sehen sie nicht mehr."
 			},
 			2: {
 				title: 'Live-Chat Anfragen',
