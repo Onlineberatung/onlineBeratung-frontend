@@ -38,6 +38,7 @@ export const useAdviceSeekerJoinVideoCall = () => {
 		const videoCallWindow = window.open('', '_blank');
 		videoCallWindow.location.href = videoUrl;
 		videoCallWindow.focus();
+		setVideoUrl('');
 	}, [videoUrl]);
 
 	return {

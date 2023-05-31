@@ -37,3 +37,11 @@
 .videoCallIcon {
 	min-width: 12px;
 }
+
+.illustration {
+	display: none;
+
+	@include breakpoint($fromLarge) {
+		display: block;
+	}
+}

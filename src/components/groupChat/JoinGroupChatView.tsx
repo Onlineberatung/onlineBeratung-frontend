@@ -315,8 +315,8 @@ export const JoinGroupChatView = ({
 		`consultingType.${consultingType?.id}.groupChatRules.0`,
 		{ ns: 'consultingTypes' }
 	);
-
-	if (hasGroupChatRulesTranslations) {
+	const hasGroupChatRulesTranslationsRule = i18n.exists('groupChat.rules.0');
+	if (hasGroupChatRulesTranslations || hasGroupChatRulesTranslationsRule) {
 		for (let i = 0; i < 10; i++) {
 			if (
 				i18n.exists(
@@ -330,6 +330,8 @@ export const JoinGroupChatView = ({
 						{ ns: 'consultingTypes' }
 					)
 				);
+			} else if (i18n.exists(`groupChat.rules.${i}`)) {
+				groupChatRules.push(translate(`groupChat.rules.${i}`));
 			}
 		}
 	} else {

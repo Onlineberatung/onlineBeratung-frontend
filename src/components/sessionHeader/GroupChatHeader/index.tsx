@@ -15,8 +15,10 @@ import {
 	getViewPathForType,
 	isUserModerator
 } from '../../session/sessionHelpers';
+import { isMobile } from 'react-device-detect';
 import { mobileListView } from '../../app/navigationHandler';
 import { BackIcon, CameraOnIcon } from '../../../resources/img/icons';
+import { ReactComponent as VideoCallIcon } from '../../../resources/img/illustrations/camera.svg';
 import { ActiveSessionContext } from '../../../globalState/provider/ActiveSessionProvider';
 import { SessionMenu } from '../../sessionMenu/SessionMenu';
 import { useTranslation } from 'react-i18next';
@@ -102,17 +104,20 @@ export const GroupChatHeader = ({
 		}
 	};
 
+	const StartButtonIcon = isMobile ? VideoCallIcon : CameraOnIcon;
 	const buttonStartVideoCall: ButtonItem = {
 		type: BUTTON_TYPES.SMALL_ICON,
 		title: t('videoCall.button.startVideoCall'),
-		smallIconBackgroundColor: 'green',
+		smallIconBackgroundColor: isMobile ? 'transparent' : 'green',
 		icon: (
-			<CameraOnIcon
+			<StartButtonIcon
 				title={t('videoCall.button.startVideoCall')}
 				aria-label={t('videoCall.button.startVideoCall')}
+				fillOpacity={isMobile ? 0.9 : 1}
 			/>
 		)
 	};
+
 	return (
 		<div className="sessionInfo">
 			<div className="sessionInfo__headerWrapper">

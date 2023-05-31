@@ -66,7 +66,7 @@ import { apiDeleteMessage } from '../../api/apiDeleteMessage';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { BanUser } from '../banUser/BanUser';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import { VideoChatStarted, VideoChatStartedAlias } from './VideoChatStarted';
+import { VideoChatDetails, VideoChatDetailsAlias } from './VideoChatDetails';
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -106,6 +106,7 @@ export interface MessageItem {
 	file?: MessageService.Schemas.FileDTO;
 	t: null | 'e2e' | 'rm' | 'room-removed-read-only' | 'room-set-read-only';
 	rid: string;
+	isVideoActive?: boolean;
 }
 
 interface MessageItemComponentProps extends MessageItem {
@@ -143,7 +144,8 @@ export const MessageItemComponent = ({
 	rid,
 	handleDecryptionErrors,
 	handleDecryptionSuccess,
-	e2eeParams
+	e2eeParams,
+	isVideoActive
 }: MessageItemComponentProps) => {
 	const { t: translate } = useTranslation();
 	const { activeSession, reloadActiveSession } =
@@ -403,8 +405,13 @@ export const MessageItemComponent = ({
 			case isVideoCallMessage && !videoCallMessage?.eventType:
 				const parsedMessage = JSON.parse(
 					alias.content
-				) as VideoChatStartedAlias;
-				return <VideoChatStarted data={parsedMessage} />;
+				) as VideoChatDetailsAlias;
+				return (
+					<VideoChatDetails
+						data={parsedMessage}
+						isVideoActive={isVideoActive}
+					/>
+				);
 			case isVideoCallMessage &&
 				videoCallMessage?.eventType === 'IGNORED_CALL':
 				return (

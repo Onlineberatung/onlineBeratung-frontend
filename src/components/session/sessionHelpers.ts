@@ -177,8 +177,10 @@ export const scrollToEnd = (timeout: number, animation: boolean = false) => {
 
 export const prepareMessages = (messagesData): MessageItem[] => {
 	let lastDate = '';
-
-	return [...messagesData].map((message) => {
+	const findLastVideoCallIndex = (messagesData as any).findLastIndex(
+		(message) => message?.alias?.messageType === 'VIDEOCALL'
+	);
+	return [...messagesData].map((message, i) => {
 		const date = new Date(message.ts).getTime();
 		const dateFormated = formatToDDMMYYYY(date);
 		let lastDateStr = { str: '', date: null };
@@ -201,7 +203,8 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 			attachments: message.attachments,
 			file: message.file,
 			t: message.t,
-			rid: message.rid
+			rid: message.rid,
+			isVideoActive: i === findLastVideoCallIndex
 		};
 	});
 };
