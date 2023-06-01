@@ -131,9 +131,7 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 			) {
 				sendNotification(translate('notifications.message.new'), {
 					onclick: () => {
-						history.push(
-							`/sessions/consultant/sessionPreview?sessionListTab=${SESSION_LIST_TAB_ANONYMOUS}`
-						);
+						history.push(`/sessions/consultant/sessionView`);
 					}
 				});
 			}
