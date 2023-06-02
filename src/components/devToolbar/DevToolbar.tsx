@@ -14,6 +14,12 @@ import {
 } from '../sessionCookie/accessSessionCookie';
 import { AppConfigInterface } from '../../globalState';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import {
+	REQUEST_COLLECTOR_EVENT,
+	REQUEST_LOGS_LIMIT,
+	requestCollector,
+	RequestLog
+} from '../../utils/requestCollector';
 
 export const STORAGE_KEY_LOCALE = 'locale';
 export const STORAGE_KEY_API = 'devProxy';
@@ -343,6 +349,20 @@ export const DevToolbar = () => {
 		});
 	}, [getDevToolbarOption]);
 
+	const [reqLogs, setReqLogs] = useState<RequestLog[]>(
+		requestCollector.get()
+	);
+	const refreshReqLogs = useCallback(() => {
+		setReqLogs(requestCollector.get());
+	}, []);
+	useEffect(() => {
+		window.addEventListener(REQUEST_COLLECTOR_EVENT, refreshReqLogs);
+
+		return () => {
+			window.removeEventListener(REQUEST_COLLECTOR_EVENT, refreshReqLogs);
+		};
+	}, [refreshReqLogs]);
+
 	const handleChangeLocalStorageSwitch = useCallback(
 		(
 			key,
@@ -417,6 +437,53 @@ export const DevToolbar = () => {
 							localStorageSwitch={localStorageSwitch}
 						/>
 					))}
+				</div>
+				<hr />
+				<div className="devToolbar__reqLogs">
+					<h5>Request Logs</h5>
+					<div
+						className="devToolbar__reqLogs__content"
+						style={{ overflowX: 'scroll' }}
+					>
+						<table
+							style={{
+								whiteSpace: 'nowrap',
+								fontSize: '10px',
+								lineHeight: '12px'
+							}}
+						>
+							<thead style={{ borderBottom: '1px solid #000' }}>
+								<tr>
+									<th>#</th>
+									<th>Method</th>
+									<th>Status</th>
+									<th>Duration</th>
+									<th>URL</th>
+								</tr>
+							</thead>
+							<tbody>
+								{reqLogs.map((reqLog, index) => (
+									<tr
+										key={reqLog.uuid}
+										style={{
+											borderBottom: '1px solid #999'
+										}}
+									>
+										<td>
+											{Math.min(
+												reqLogs.length,
+												REQUEST_LOGS_LIMIT
+											) - index}
+										</td>
+										<td>{reqLog.method}</td>
+										<td>{reqLog.status}</td>
+										<td>{reqLog.duration}ms</td>
+										<td>{reqLog.url}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
 				</div>
 				<hr />
 				<button type="button" onClick={reset} tabIndex={-1}>

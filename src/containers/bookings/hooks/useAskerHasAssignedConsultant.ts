@@ -4,7 +4,6 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	ListItemInterface,
-	SessionsDataContext,
 	UserDataContext
 } from '../../../globalState';
 
@@ -15,11 +14,6 @@ export const useAskerHasAssignedConsultant = () => {
 		userData
 	);
 	const [hasAssignedConsultant, setAssignedConsultant] = useState(false);
-	const { sessions } = useContext(SessionsDataContext);
-	const hasConsultants = !!sessions
-		.filter((session) => session?.agency !== null)
-		.map((consultant) => consultant?.consultant)
-		.filter((el) => el != null).length;
 
 	useEffect(() => {
 		if (isAdviceSeeker) {
@@ -38,7 +32,7 @@ export const useAskerHasAssignedConsultant = () => {
 				);
 			});
 		}
-	}, [userData, isAdviceSeeker, hasConsultants]);
+	}, [isAdviceSeeker]);
 
 	return hasAssignedConsultant;
 };

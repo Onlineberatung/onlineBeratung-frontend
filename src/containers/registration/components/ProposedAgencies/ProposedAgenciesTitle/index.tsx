@@ -18,7 +18,7 @@ export const ProposedAgenciesTitle = ({
 	postCodeValue,
 	agenciesCount
 }: ProposedAgenciesTitleArgs) => {
-	const { t } = useTranslation(['common', 'consultingTypes']);
+	const { t } = useTranslation(['common']);
 
 	if (hasPreselectedAgency || (!hasConsultingTypes && agenciesCount === 1)) {
 		return (

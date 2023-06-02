@@ -1,5 +1,5 @@
 import '../../polyfill';
-import React from 'react';
+import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { ReactComponent as Icon400 } from '../../resources/img/illustrations/bad-request.svg';
 import { ReactComponent as Icon401 } from '../../resources/img/illustrations/unauthorized.svg';
@@ -39,6 +39,10 @@ export const ErrorContent = () => {
 	const settings = useAppConfig();
 	const statusCode = getStatusCode();
 	const { fromL } = useResponsive();
+	const correlationId = useMemo(
+		() => new URLSearchParams(window.location.search).get('correlationId'),
+		[]
+	);
 
 	const buttonHandle = () => {
 		document.location.href = settings.urls.toLogin;
@@ -89,6 +93,11 @@ export const ErrorContent = () => {
 							)
 						}}
 					/>
+					{correlationId && (
+						<div className="text--tertiary">
+							Ref: {correlationId}
+						</div>
+					)}
 					{statusCode !== '400' && (
 						<Button
 							className="errorPage__button"

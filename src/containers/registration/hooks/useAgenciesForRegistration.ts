@@ -1,120 +1,146 @@
-import uniqueBy from 'lodash/unionBy';
-import { useEffect, useMemo, useState } from 'react';
+import unionBy from 'lodash/unionBy';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { apiAgencySelection } from '../../../api';
 import { DEFAULT_POSTCODE } from '../../../components/registration/prefillPostcode';
 import {
 	AgencyDataInterface,
-	ConsultantDataInterface,
 	ConsultingTypeInterface,
 	useTenant
 } from '../../../globalState';
-import { useConsultingTypeAgencySelection } from './useConsultingTypeAgencySelection';
+import { useConsultantAgenciesAndConsultingTypes } from './useConsultantAgenciesAndConsultingTypes';
+import { ConsultingTypeRegistrationDefaults } from '../components/ProposedAgencies/ProposedAgencies';
+import { UrlParamsContext } from '../../../globalState/provider/UrlParamsProvider';
+import { TopicsDataInterface } from '../../../globalState/interfaces/TopicsDataInterface';
 
 interface AgenciesForRegistrationArgs {
-	consultant: ConsultantDataInterface;
 	consultingType: ConsultingTypeInterface;
-	preSelectedAgency: AgencyDataInterface;
 	postcode: string;
-	mainTopicId: number;
+	topic: TopicsDataInterface;
 }
 export const useAgenciesForRegistration = ({
-	consultant,
 	consultingType,
-	preSelectedAgency: propPreSelectedAgency,
 	postcode,
-	mainTopicId
-}: AgenciesForRegistrationArgs) => {
+	topic
+}: AgenciesForRegistrationArgs): {
+	isLoading: boolean;
+	agencies: AgencyDataInterface[];
+	consultingTypes: ConsultingTypeInterface[];
+} => {
 	const tenantData = useTenant();
-	const [isLoading, setIsLoading] = useState(false);
-	const [preSelectedAgency, setPreselectedAgency] =
-		useState<AgencyDataInterface>(propPreSelectedAgency);
-	const { agencies: consultingTypeAgencies, consultingTypes } =
-		useConsultingTypeAgencySelection(
-			consultant,
-			consultingType,
-			preSelectedAgency
-		);
+
+	const {
+		agencies: consultantAgencies,
+		consultingTypes: consultantConsultingTypes
+	} = useConsultantAgenciesAndConsultingTypes();
+
+	const [isLoading, setIsLoading] = useState(true);
 	const [agencies, setAgencies] = useState<AgencyDataInterface[]>([]);
+	const {
+		consultant,
+		agency,
+		consultingType: preselectedConsultingType
+	} = useContext(UrlParamsContext);
+
 	const { autoSelectPostcode, autoSelectAgency } =
-		consultingType?.registration || {};
+		consultingType?.registration || ConsultingTypeRegistrationDefaults;
+
 	const allAgencies = useMemo(() => {
-		const uniqueAgencies = uniqueBy(
-			[
-				propPreSelectedAgency,
-				...agencies,
-				...consultingTypeAgencies
-			].filter(Boolean),
+		// As long as no consulting type is selected we can't show any agencies
+		if (!consultingType) {
+			return [];
+		}
+
+		let uniqueAgencies = unionBy(
+			[agency, ...agencies, ...consultantAgencies].filter(Boolean),
 			'id'
 		);
 
 		if (consultingType && !autoSelectPostcode) {
 			// Hide external agencies in this case
-			return uniqueAgencies.filter((agency) => !agency.external);
+			uniqueAgencies = uniqueAgencies.filter(
+				(agency) => !agency.external
+			);
+		}
+		if (consultingType) {
+			uniqueAgencies = uniqueAgencies.filter(
+				(agency) => agency.consultingType === consultingType.id
+			);
+		}
+		if (autoSelectAgency && uniqueAgencies.length > 0) {
+			uniqueAgencies = [uniqueAgencies[0]];
 		}
 		return uniqueAgencies;
 	}, [
+		agency,
 		agencies,
-		autoSelectPostcode,
+		consultantAgencies,
 		consultingType,
-		consultingTypeAgencies,
-		propPreSelectedAgency
+		autoSelectPostcode,
+		autoSelectAgency
 	]);
+
+	const allConsultingTypes = useMemo(
+		() =>
+			unionBy(
+				[
+					preselectedConsultingType,
+					...consultantConsultingTypes
+				].filter(Boolean),
+				'id'
+			),
+		[preselectedConsultingType, consultantConsultingTypes]
+	);
 
 	// Do the requests depending on the conditions
 	useEffect(() => {
+		const abortController = new AbortController();
 		// if we already have information from consulting types we can ignore the request
 		if (
 			consultant ||
-			propPreSelectedAgency ||
+			agency ||
 			(tenantData?.settings?.featureTopicsEnabled &&
 				tenantData?.settings?.topicsInRegistrationEnabled &&
-				!mainTopicId)
+				topic?.id === undefined)
 		) {
+			setIsLoading(false);
 			return;
 		}
 
 		setIsLoading(true);
-		apiAgencySelection({
-			postcode: autoSelectPostcode ? DEFAULT_POSTCODE : postcode,
-			consultingType: consultingType?.id,
-			topicId: mainTopicId
-		})
+		apiAgencySelection(
+			{
+				postcode: autoSelectPostcode ? DEFAULT_POSTCODE : postcode,
+				consultingType: consultingType?.id,
+				topicId: topic?.id
+			},
+			abortController.signal
+		)
 			.then((data) => {
-				setPreselectedAgency(null);
 				setAgencies(data || []);
 			})
 			.catch(() => {
 				setAgencies([]);
-				setPreselectedAgency(null);
 			})
 			.finally(() => {
 				setIsLoading(false);
 			});
+
+		return () => {
+			abortController?.abort();
+		};
 	}, [
+		agency,
 		autoSelectPostcode,
 		consultant,
 		consultingType?.id,
-		mainTopicId,
+		topic?.id,
 		postcode,
-		propPreSelectedAgency,
 		tenantData?.settings
 	]);
-
-	useEffect(() => {
-		if (
-			(autoSelectAgency &&
-				!propPreSelectedAgency &&
-				allAgencies.length > 0) ||
-			allAgencies.length === 1
-		) {
-			setPreselectedAgency(allAgencies[0]);
-		}
-	}, [allAgencies, autoSelectAgency, propPreSelectedAgency]);
 
 	return {
 		isLoading,
 		agencies: allAgencies,
-		preSelectedAgency,
-		consultingTypes
+		consultingTypes: allConsultingTypes
 	};
 };
