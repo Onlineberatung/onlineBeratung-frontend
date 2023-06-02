@@ -31,6 +31,7 @@ import { BanUser } from '../../banUser/BanUser';
 import { Tag } from '../../tag/Tag';
 import { BUTTON_TYPES, Button, ButtonItem } from '../../button/Button';
 import { useStartVideoCall } from './useStartVideoCall';
+import { useAppConfig } from '../../../hooks/useAppConfig';
 
 interface GroupChatHeaderProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
@@ -43,6 +44,7 @@ export const GroupChatHeader = ({
 	isJoinGroupChatView,
 	bannedUsers
 }: GroupChatHeaderProps) => {
+	const { releaseToggles } = useAppConfig();
 	const [subscriberList, setSubscriberList] = useState([]);
 	const { t } = useTranslation(['common', 'consultingTypes', 'agencies']);
 	const { activeSession } = useContext(ActiveSessionContext);
@@ -143,7 +145,7 @@ export const GroupChatHeader = ({
 					)}
 				</div>
 
-				{isConsultant && (
+				{isConsultant && releaseToggles.featureVideoGroupChatsEnabled && (
 					<div
 						className="sessionInfo__videoCallButtons"
 						data-cy="session-header-video-call-buttons"
