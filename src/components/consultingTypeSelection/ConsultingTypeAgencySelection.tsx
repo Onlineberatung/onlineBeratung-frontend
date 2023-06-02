@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import {
-	AgencyDataInterface,
-	ConsultantDataInterface,
-	ConsultingTypeInterface
-} from '../../globalState';
+import { AgencyDataInterface } from '../../globalState';
 import './consultingTypeAgencySelection.styles';
 import '../profile/profile.styles';
 import { RadioButton } from '../radioButton/RadioButton';
@@ -22,25 +18,19 @@ import { Text } from '../text/Text';
 import { AgencyLanguages } from '../agencySelection/AgencyLanguages';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { useConsultingTypeAgencySelection } from '../../containers/registration/hooks/useConsultingTypeAgencySelection';
+import { useConsultantAgenciesAndConsultingTypes } from '../../containers/registration/hooks/useConsultantAgenciesAndConsultingTypes';
 
 export interface ConsultingTypeAgencySelectionProps {
-	consultant: ConsultantDataInterface;
 	onChange: Function;
 	onValidityChange?: Function;
 	agency?: any;
-	preselectedConsultingType?: ConsultingTypeInterface;
-	preselectedAgency?: any;
 	onKeyDown?: Function;
 }
 
 export const ConsultingTypeAgencySelection = ({
-	consultant,
 	onChange,
 	onValidityChange,
 	agency,
-	preselectedConsultingType,
-	preselectedAgency,
 	onKeyDown
 }: ConsultingTypeAgencySelectionProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
@@ -57,11 +47,7 @@ export const ConsultingTypeAgencySelection = ({
 	const {
 		agencies: possibleAgencies,
 		consultingTypes: possibleConsultingTypes
-	} = useConsultingTypeAgencySelection(
-		consultant,
-		preselectedConsultingType,
-		preselectedAgency
-	);
+	} = useConsultantAgenciesAndConsultingTypes();
 
 	useEffect(() => {
 		const consultingTypeOptions = possibleConsultingTypes.map(

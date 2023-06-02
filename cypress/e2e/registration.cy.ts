@@ -179,4 +179,22 @@ describe('registration', () => {
 			);
 		});
 	});
+
+	// ToDo: More specific tests for the following cases and with check of autoselection of the registration form and automatic validation of the form:
+	// - registration with consultant with single consultingType and single agency
+	// - registration with consultant with single consultingType and single agency and other preselections (aid, postcode, consultingType)
+	// - registration with consultant with single consultingType and single agency and autoSelectPostcode config
+
+	// - registration with consultant with multiple consultingTypes and single agency
+	// - registration with consultant with multiple consultingTypes and single agency and other preselections (aid, postcode, consultingType)
+	// - registration with consultant with multiple consultingTypes and single agency and autoSelectPostcode config
+
+	// - registration with consultant with multiple consultingTypes and multiple agencies
+	// - registration with consultant with multiple consultingTypes and multiple agencies and other preselections (aid, postcode, consultingType)
+	// - registration with consultant with multiple consultingTypes and multiple agencies and autoSelectPostcode config
+
+	// - registration with topic selection (topic with single agency for postcode and topic with multiple agencies for postcode!)
+	// - registration with topic selection and other preselections (aid, postcode, consultingType)
+	// - registration with topic selection and autoSelectPostcode config
+	// - registration with topic selection and autoSelectAgency config
 });

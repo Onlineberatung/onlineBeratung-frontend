@@ -1,5 +1,9 @@
+import { v4 as uuidv4 } from 'uuid';
 import { logout } from '../logout/logout';
 import { appConfig } from '../../utils/appConfig';
+import { apiPostError, ERROR_LEVEL_ERROR } from '../../api/apiPostError';
+import { requestCollector } from '../../utils/requestCollector';
+import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 
 export const ERROR_TYPES = {
 	UNAUTHORIZED: 401,
@@ -18,6 +22,7 @@ export const getErrorCaseForStatus = (status: number) => {
 };
 
 export const redirectToErrorPage = (error: number) => {
+	const correlationId = uuidv4();
 	let redirect;
 	switch (error) {
 		case ERROR_TYPES.UNAUTHORIZED:
@@ -30,5 +35,41 @@ export const redirectToErrorPage = (error: number) => {
 			redirect = appConfig.urls.error404;
 			break;
 	}
-	logout(true, redirect);
+
+	if (redirect) {
+		const token = getValueFromCookie('keycloak');
+		let isConsultant;
+		if (token) {
+			try {
+				isConsultant = JSON.parse(
+					atob(token.split('.')?.[1])
+				)?.realm_access?.roles?.includes('consultant');
+			} catch (e) {
+				isConsultant = false;
+			}
+		}
+
+		if (
+			(isConsultant === true &&
+				appConfig?.requestCollector?.showCorrelationId?.consultant) ||
+			(isConsultant === false &&
+				appConfig?.requestCollector?.showCorrelationId?.user) ||
+			(isConsultant === undefined &&
+				appConfig?.requestCollector?.showCorrelationId?.other)
+		) {
+			redirect += `?correlationId=${correlationId}`;
+		}
+	}
+
+	void apiPostError(
+		{
+			name: `Error page redirect ${error}`,
+			message: `User was redirected to error page ${redirect} because of a ${error} response code`,
+			level: ERROR_LEVEL_ERROR,
+			parsedStack: JSON.stringify(requestCollector.get())
+		},
+		null,
+		correlationId
+	);
+	void logout(true, redirect);
 };

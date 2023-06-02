@@ -86,13 +86,15 @@ export const NavigationBar = ({
 				setSessionId(sessionsData?.sessions?.[0]?.session?.id);
 			});
 		}
+	}, [dispatch, isConsultant]);
 
+	useEffect(() => {
 		if (tenant?.settings?.featureToolsEnabled && !isConsultant) {
 			userHasBudibaseTools(userData.userId).then((resp) =>
 				setHasTools(resp)
 			);
 		}
-	}, [dispatch, isConsultant, tenant, userData]);
+	}, [tenant, userData, isConsultant]);
 
 	const animateNavIconTimeoutRef = useRef(null);
 	useEffect(() => {

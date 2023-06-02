@@ -7,7 +7,6 @@ import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
 import {
 	AgencyDataInterface,
-	ConsultantDataInterface,
 	ConsultingTypeInterface,
 	TenantContext,
 	useLocaleData
@@ -20,43 +19,41 @@ import {
 	redirectToErrorPage
 } from '../error/errorHandling';
 import { useTranslation } from 'react-i18next';
-import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
+import { getUrlParameter } from '../../utils/getUrlParameter';
+import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
+import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
 
-interface RegistrationFormProps {
-	consultingType?: ConsultingTypeInterface;
-	agency?: AgencyDataInterface;
-	consultant?: ConsultantDataInterface;
-	topic?: TopicsDataInterface;
-}
-
-interface FormAccordionData {
+export interface FormAccordionData {
 	username?: string;
 	password?: string;
-	agencyId?: number;
-	mainTopicId?: number;
+	agency?: AgencyDataInterface;
+	consultingType?: ConsultingTypeInterface;
+	mainTopic?: TopicsDataInterface;
 	postcode?: string;
 	state?: string;
 	age?: string;
-	consultingTypeId?: number;
-	mainTopic?: string;
 }
 
-export const RegistrationForm = ({
-	consultingType,
-	agency,
-	topic,
-	consultant
-}: RegistrationFormProps) => {
+export const RegistrationForm = () => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const legalLinks = useContext(LegalLinksContext);
 	const { locale } = useLocaleData();
 	const settings = useAppConfig();
+	const postcode = getUrlParameter('postcode');
+	const { agency, consultingType, consultant, topic } =
+		useContext(UrlParamsContext);
+
 	const [formAccordionData, setFormAccordionData] =
-		useState<FormAccordionData>({});
+		useState<FormAccordionData>({
+			postcode: postcode || null,
+			agency: agency || null,
+			consultingType: consultingType || null,
+			mainTopic: topic || null
+		});
 	const [formAccordionValid, setFormAccordionValid] = useState(false);
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] =
 		useState<boolean>(false);
@@ -72,15 +69,6 @@ export const RegistrationForm = ({
 	useEffect(() => {
 		featureToolsEnabled && budibaseLogout();
 	}, [featureToolsEnabled]);
-
-	useEffect(() => {
-		if (consultingType) {
-			setFormAccordionData({
-				...formAccordionData,
-				consultingTypeId: consultingType.id
-			});
-		}
-	}, [consultingType]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
 		setIsSubmitButtonDisabled(
@@ -114,10 +102,10 @@ export const RegistrationForm = ({
 		const registrationData = {
 			username: formAccordionData.username,
 			password: encodeURIComponent(formAccordionData.password),
-			agencyId: formAccordionData.agencyId?.toString(),
-			mainTopicId: formAccordionData.mainTopicId?.toString(),
+			agencyId: formAccordionData?.agency.id.toString(),
+			mainTopicId: formAccordionData.mainTopic?.id?.toString(),
 			postcode: formAccordionData.postcode,
-			consultingType: formAccordionData.consultingTypeId?.toString(),
+			consultingType: formAccordionData.consultingType?.id?.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
 			preferredLanguage: locale,
 			...(formAccordionData.state && { state: formAccordionData.state }),
@@ -150,7 +138,7 @@ export const RegistrationForm = ({
 	};
 
 	const handleChange = useCallback(
-		(data) => {
+		(data: Partial<FormAccordionData>) => {
 			setFormAccordionData({
 				...formAccordionData,
 				...data
@@ -186,16 +174,12 @@ export const RegistrationForm = ({
 
 				{(consultingType || consultant) && (
 					<FormAccordion
-						consultingType={consultingType}
+						formAccordionData={formAccordionData}
 						isUsernameAlreadyInUse={isUsernameAlreadyInUse}
-						preselectedAgencyData={agency}
 						onChange={handleChange}
 						additionalStepsData={consultingType?.requiredComponents}
 						registrationNotes={consultingType?.registration.notes}
-						consultant={consultant}
 						onValidation={setFormAccordionValid}
-						mainTopicId={topic?.id || formAccordionData.mainTopicId}
-						preselectedTopic={topic?.id}
 						legalLinks={legalLinks}
 						handleSubmitButtonClick={handleSubmitButtonClick}
 						isSubmitButtonDisabled={isSubmitButtonDisabled}

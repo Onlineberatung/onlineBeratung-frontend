@@ -43,7 +43,8 @@ export type ErrorRequestBody = {
 
 export const apiPostError = async (
 	error: TError,
-	info?: ErrorInfo
+	info?: ErrorInfo,
+	correlationId?: string
 ): Promise<ErrorResponse> => {
 	const url = endpoints.error;
 
@@ -81,7 +82,7 @@ export const apiPostError = async (
 
 	const bodyData: ErrorRequestBody = {
 		request: {
-			correlationId: uuidv4(),
+			correlationId: correlationId || uuidv4(),
 			timestamp: new Date().toISOString()
 		},
 		serviceName: 'frontend',
