@@ -66,7 +66,7 @@ export const Banner = ({
 			element.classList.add(className);
 		}
 		element.classList.add('banner__element');
-		bannerContainer.appendChild(element);
+		bannerContainer?.appendChild(element);
 
 		if (style) {
 			Object.keys(style).forEach((s) => {
