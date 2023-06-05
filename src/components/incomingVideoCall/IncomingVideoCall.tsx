@@ -1,23 +1,19 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { isMobile } from 'react-device-detect';
-import { generatePath, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
 import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
 import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import {
-	NotificationType,
-	NotificationsContext,
-	UserDataContext
-} from '../../globalState';
+import { NotificationType, NotificationsContext } from '../../globalState';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { apiRejectVideoCall } from '../../api';
 import './incomingVideoCall.styles';
 import { ReactComponent as CloseIcon } from '../../resources/img/icons/x.svg';
 import { useTranslation } from 'react-i18next';
-import { useAppConfig } from '../../hooks/useAppConfig';
+import { useJoinVideoCall } from '../sessionHeader/GroupChatHeader/useJoinVideoCall';
 
 export interface VideoCallRequestProps {
 	rcGroupId: string;
@@ -52,13 +48,11 @@ const getInitials = (text: string) => {
 };
 
 export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
-	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
 
 	const { removeNotification } = useContext(NotificationsContext);
-	const { userData } = useContext(UserDataContext);
-
+	const { joinVideoCall } = useJoinVideoCall();
 	const decodedUsername = decodeUsername(props.videoCall.initiatorUsername);
 
 	const buttonAnswerCall: ButtonItem = {
@@ -97,23 +91,23 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 		)
 	};
 
-	const handleAnswerVideoCall = (isVideoActivated: boolean = false) => {
-		const url = new URL(props.videoCall.videoCallUrl);
-		window.open(
-			generatePath(settings.urls.videoCall, {
-				domain: url.host,
-				jwt: url.searchParams.get('jwt'),
-				e2e: 0,
-				video: isVideoActivated ? 1 : 0,
-				username: userData.displayName
-					? userData.displayName
-					: userData.userName
-			})
-		);
-		removeIncomingVideoCallNotification();
-	};
+	const removeIncomingVideoCallNotification = React.useCallback(() => {
+		removeNotification(props.videoCall.rcGroupId, NOTIFICATION_TYPE_CALL);
+	}, [props.videoCall.rcGroupId, removeNotification]);
 
-	const handleRejectVideoCall = () => {
+	const handleAnswerVideoCall = React.useCallback(
+		(isVideoActivated: boolean = false) => {
+			joinVideoCall(props.videoCall.videoCallUrl, isVideoActivated);
+			removeIncomingVideoCallNotification();
+		},
+		[
+			joinVideoCall,
+			props.videoCall.videoCallUrl,
+			removeIncomingVideoCallNotification
+		]
+	);
+
+	const handleRejectVideoCall = React.useCallback(() => {
 		apiRejectVideoCall(
 			decodedUsername,
 			props.videoCall.rcGroupId,
@@ -125,11 +119,12 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 			.catch((err) => {
 				console.log(err);
 			});
-	};
-
-	const removeIncomingVideoCallNotification = () => {
-		removeNotification(props.videoCall.rcGroupId, NOTIFICATION_TYPE_CALL);
-	};
+	}, [
+		decodedUsername,
+		props.videoCall.initiatorRcUserId,
+		props.videoCall.rcGroupId,
+		removeIncomingVideoCallNotification
+	]);
 
 	return (
 		<div

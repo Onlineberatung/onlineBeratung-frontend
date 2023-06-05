@@ -175,11 +175,19 @@ export const scrollToEnd = (timeout: number, animation: boolean = false) => {
 	}, timeout);
 };
 
+const findLastVideoCallIndex = (messagesData) =>
+	(messagesData as any).findLastIndex(
+		(message) =>
+			message?.alias?.messageType === 'VIDEOCALL' &&
+			(!message?.alias?.videoCallMessageDTO ||
+				message?.alias?.videoCallMessageDTO?.eventType !==
+					'IGNORED_CALL')
+	);
+
 export const prepareMessages = (messagesData): MessageItem[] => {
 	let lastDate = '';
-	const findLastVideoCallIndex = (messagesData as any).findLastIndex(
-		(message) => message?.alias?.messageType === 'VIDEOCALL'
-	);
+	const lastVideoCallIndex = findLastVideoCallIndex(messagesData);
+
 	return [...messagesData].map((message, i) => {
 		const date = new Date(message.ts).getTime();
 		const dateFormated = formatToDDMMYYYY(date);
@@ -204,7 +212,7 @@ export const prepareMessages = (messagesData): MessageItem[] => {
 			file: message.file,
 			t: message.t,
 			rid: message.rid,
-			isVideoActive: i === findLastVideoCallIndex
+			isVideoActive: i === lastVideoCallIndex
 		};
 	});
 };

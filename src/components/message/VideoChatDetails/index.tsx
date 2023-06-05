@@ -3,7 +3,7 @@ import { ReactComponent as VideoIllustration } from '../../../resources/img/illu
 import { Text } from '../../text/Text';
 import { BUTTON_TYPES, Button } from '../../button/Button';
 import { decodeUsername } from '../../../utils/encryptionHelpers';
-import { useAdviceSeekerJoinVideoCall } from '../../sessionHeader/GroupChatHeader/useAdviceSeekerJoinVideoCall';
+import { useJoinVideoCall } from '../../sessionHeader/GroupChatHeader/useJoinVideoCall';
 import { ReactComponent as VideoCallIcon } from '../../../resources/img/illustrations/camera.svg';
 import { ReactComponent as CameraOffIcon } from '../../../resources/img/illustrations/camera_off.svg';
 import { useTranslation } from 'react-i18next';
@@ -24,13 +24,12 @@ export interface VideoChatDetailsAlias {
 	type: string;
 	eventType: 'CALL_ENDED' | 'CALL_STARTED';
 }
-
 export const VideoChatDetails = ({
 	data,
 	isVideoActive
 }: VideoChatDetailsProps) => {
 	const { t } = useTranslation();
-	const { joinVideoCall } = useAdviceSeekerJoinVideoCall();
+	const { joinVideoCall } = useJoinVideoCall();
 
 	const isCallEnded = data.eventType === 'CALL_ENDED';
 	const Icon = isCallEnded ? CameraOffIcon : VideoCallIcon;
