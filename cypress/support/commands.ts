@@ -27,7 +27,11 @@ declare global {
 			): Chainable<Element>;
 			addMessage(props?: { [key: string]: any }, index?: number);
 			mockApi(): Chainable<Element>;
-			willReturn(name: string, data: any): Chainable<Element>;
+			willReturn(
+				name: string,
+				data: any,
+				extend?: boolean
+			): Chainable<Element>;
 			emitDirectMessage(index?: number): Chainable<Element>;
 			emitVideoCallRequest(): Chainable<Element>;
 			waitForSubscriptions(events: string[]): Chainable<Element>;

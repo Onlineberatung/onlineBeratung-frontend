@@ -47,7 +47,6 @@ describe('release-note', () => {
 		cy.fastLogin({
 			username: USER_CONSULTANT
 		});
-		cy.wait('@consultingTypeServiceBaseBasic');
 		cy.wait('@releases');
 		cy.wait('@releases_markup');
 
@@ -89,7 +88,6 @@ describe('release-note', () => {
 		cy.fastLogin({
 			username: USER_CONSULTANT
 		});
-		cy.wait('@consultingTypeServiceBaseBasic');
 		cy.wait('@releases');
 		cy.wait('@releases_markup');
 
@@ -110,7 +108,6 @@ describe('release-note', () => {
 		cy.fastLogin({
 			username: USER_CONSULTANT
 		});
-		cy.wait('@consultingTypeServiceBaseBasic');
 
 		cy.get('.releaseNote').should('not.exist');
 	});

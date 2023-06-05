@@ -79,220 +79,231 @@ describe('appointments', () => {
 	});
 
 	describe('Video Consultant', () => {
-		beforeEach(() => {
-			cy.fastLogin({
-				username: USER_VIDEO
-			});
-		});
-
-		it('Appointments List without appointments', () => {
-			cy.contains('Video - Termine').should('exist').click();
-			cy.wait('@appointments_get');
-			cy.get('.appointments').contains('Aktuell gibt es keine Termine');
-		});
-
-		it('Add appointment', () => {
-			// Default Meeting Time
-			const dMT = new Date();
-			dMT.setHours(8);
-			dMT.setMinutes(0);
-
-			cy.contains('Video - Termine').click();
-			cy.wait('@appointments_get');
-
-			cy.get('.appointments .box').should('not.exist');
-			cy.get('.appointments__actions .button__wrapper button').click();
-
-			cy.get('#overlay .onlineMeetingForm .react-datepicker--date')
-				.click()
-				.get(
-					'#overlay .onlineMeetingForm .react-datepicker--date .react-datepicker .react-datepicker__day--today'
-				)
-				.get(
-					'#overlay .onlineMeetingForm .react-datepicker--date .react-datepicker .react-datepicker__day--today'
-				)
-				.should('not.have.class', 'react-datepicker__day--disabled')
-				.click()
-				.get(
-					'#overlay .onlineMeetingForm .react-datepicker--time input'
-				)
-				.should(
-					'have.value',
-					`${(dMT.getHours() + 100).toString().substring(1)}:${(
-						dMT.getMinutes() + 100
-					)
-						.toString()
-						.substring(1)}`
-				)
-				.get('#overlay .onlineMeetingForm textarea')
-				.type('Meine Beschreibung')
-				.get('#overlay .overlay__buttons button')
-				.contains('Speichern')
-				.click();
-			cy.wait('@appointments_post');
-
-			cy.get('.appointments .box').should('have.length', 1);
-			cy.get('.appointments .box .appointment__description').should(
-				'contain.text',
-				'Meine Beschreibung'
-			);
-
-			cy.appointments();
-		});
-
-		describe('Appointment actions', () => {
+		describe('Default login', () => {
 			beforeEach(() => {
-				const today = new Date();
-				cy.appointments({
-					id: uuid(),
-					description: 'Mein Termin 1',
-					datetime: today.toISOString()
+				cy.fastLogin({
+					username: USER_VIDEO
 				});
-				today.setDate(today.getDate() + 1);
-				cy.appointments({
-					id: uuid(),
-					description: 'Mein Termin 2',
-					datetime: today.toISOString()
-				});
-				today.setDate(today.getDate() + 1);
-				cy.appointments({
-					id: uuid(),
-					description: 'Mein Termin 3',
-					datetime: today.toISOString()
-				});
+			});
 
-				cy.contains('Video - Termine').click();
+			it('Appointments List without appointments', () => {
+				cy.contains('Video - Termine').should('exist').click();
 				cy.wait('@appointments_get');
-			});
-
-			afterEach(() => {
-				cy.appointments();
-			});
-
-			it('Edit appointment', () => {
-				cy.get('.appointments .box').should('have.length', 3);
-				cy.get('.appointments .box')
-					.eq(0)
-					.find('.appointment__description')
-					.should('contain.text', 'Mein Termin 1');
-				cy.get('.appointments .box')
-					.eq(1)
-					.find('.appointment__description')
-					.should('contain.text', 'Mein Termin 2');
-				cy.get('.appointments .box')
-					.eq(2)
-					.find('.appointment__description')
-					.should('contain.text', 'Mein Termin 3');
-
-				// Edit appointment #1
-				handleUiEdit(cy, 0, ' hat jetzt mehr Inhalt', true);
-				// Edit and cancel appointment #2
-				handleUiEdit(cy, 1, ' wurde geändert aber abgebrochen', false);
-				// Edit appointment #3
-				handleUiEdit(cy, 2, ' hat jetzt noch mehr Inhalt', true);
-
-				// Check list
-				cy.get('.appointments .box')
-					.eq(0)
-					.find('.appointment__description')
-					.should(
-						'contain.text',
-						'Mein Termin 1 hat jetzt mehr Inhalt'
-					);
-				cy.get('.appointments .box')
-					.eq(1)
-					.find('.appointment__description')
-					.should('contain.text', 'Mein Termin 2');
-				cy.get('.appointments .box')
-					.eq(2)
-					.find('.appointment__description')
-					.should(
-						'contain.text',
-						'Mein Termin 3 hat jetzt noch mehr Inhalt'
-					);
-			});
-
-			it('Delete appointment', () => {
-				cy.get('.appointments .box').should('have.length', 3);
-				cy.get('.appointments .box')
-					.eq(0)
-					.find('.appointment__description')
-					.should('contain.text', 'Mein Termin 1');
-				cy.get('.appointments .box')
-					.eq(1)
-					.find('.appointment__description')
-					.should('contain.text', 'Mein Termin 2');
-				cy.get('.appointments .box')
-					.eq(2)
-					.find('.appointment__description')
-					.should('contain.text', 'Mein Termin 3');
-
-				// Press delete and cancel
-				handleUiDelete(cy, 1, false);
-				cy.get('.appointments .box').should('have.length', 3);
-
-				// Press delete and proceed
-				handleUiDelete(cy, 1, true);
-				cy.get('.appointments .box').should('have.length', 2);
-
-				cy.get('.appointments .box')
-					.eq(0)
-					.find('.appointment__description')
-					.should('contain.text', 'Mein Termin 1');
-				cy.get('.appointments .box')
-					.eq(1)
-					.find('.appointment__description')
-					.should('contain.text', 'Mein Termin 3');
-
-				handleUiDelete(cy, 0, true);
-				handleUiDelete(cy, 0, true);
-				cy.get('.appointments .box').should('have.length', 0);
 				cy.get('.appointments').contains(
 					'Aktuell gibt es keine Termine'
 				);
 			});
 
-			it('Copy appointment link', () => {
-				cy.get('.appointments .box').should('have.length', 3);
+			it('Add appointment', () => {
+				// Default Meeting Time
+				const dMT = new Date();
+				dMT.setHours(8);
+				dMT.setMinutes(0);
 
-				cy.get('.appointments .box')
-					.eq(0)
-					.find('[data-cy=appointment_url]')
-					.then(($url) => {
-						const appointmentLink = $url.text();
+				cy.contains('Video - Termine').click();
+				cy.wait('@appointments_get');
 
-						cy.get('.appointments .box')
-							.eq(0)
-							.find('[data-cy=appointment_link] span')
-							.click();
+				cy.get('.appointments .box').should('not.exist');
+				cy.get(
+					'.appointments__actions .button__wrapper button'
+				).click();
 
-						cy.window().then((win) => {
-							if (win.navigator.clipboard) {
-								win.navigator.clipboard
-									.readText()
-									.then((text) => {
-										expect(text).to.eq(appointmentLink);
-									});
-							} else {
-								win.clipboardData
-									.getData('text/plain')
-									.then((text) => {
-										expect(text).to.eq(appointmentLink);
-									});
-							}
-						});
-					});
+				cy.get('#overlay .onlineMeetingForm .react-datepicker--date')
+					.click()
+					.get(
+						'#overlay .onlineMeetingForm .react-datepicker--date .react-datepicker .react-datepicker__day--today'
+					)
+					.get(
+						'#overlay .onlineMeetingForm .react-datepicker--date .react-datepicker .react-datepicker__day--today'
+					)
+					.should('not.have.class', 'react-datepicker__day--disabled')
+					.click()
+					.get(
+						'#overlay .onlineMeetingForm .react-datepicker--time input'
+					)
+					.should(
+						'have.value',
+						`${(dMT.getHours() + 100).toString().substring(1)}:${(
+							dMT.getMinutes() + 100
+						)
+							.toString()
+							.substring(1)}`
+					)
+					.get('#overlay .onlineMeetingForm textarea')
+					.type('Meine Beschreibung')
+					.get('#overlay .overlay__buttons button')
+					.contains('Speichern')
+					.click();
+				cy.wait('@appointments_post');
+
+				cy.get('.appointments .box').should('have.length', 1);
+				cy.get('.appointments .box .appointment__description').should(
+					'contain.text',
+					'Meine Beschreibung'
+				);
+
+				cy.appointments();
 			});
 
-			it('Show appointment qr code', () => {
-				cy.get('.appointments .box').should('have.length', 3);
+			describe('Appointment actions', () => {
+				beforeEach(() => {
+					const today = new Date();
+					cy.appointments({
+						id: uuid(),
+						description: 'Mein Termin 1',
+						datetime: today.toISOString()
+					});
+					today.setDate(today.getDate() + 1);
+					cy.appointments({
+						id: uuid(),
+						description: 'Mein Termin 2',
+						datetime: today.toISOString()
+					});
+					today.setDate(today.getDate() + 1);
+					cy.appointments({
+						id: uuid(),
+						description: 'Mein Termin 3',
+						datetime: today.toISOString()
+					});
 
-				cy.get('.appointments .box')
-					.eq(0)
-					.find('[data-cy=appointment_qr_code] button')
-					.click();
+					cy.contains('Video - Termine').click();
+					cy.wait('@appointments_get');
+				});
 
-				cy.get('#overlay .generateQrCode__overlay').should('exist');
+				afterEach(() => {
+					cy.appointments();
+				});
+
+				it('Edit appointment', () => {
+					cy.get('.appointments .box').should('have.length', 3);
+					cy.get('.appointments .box')
+						.eq(0)
+						.find('.appointment__description')
+						.should('contain.text', 'Mein Termin 1');
+					cy.get('.appointments .box')
+						.eq(1)
+						.find('.appointment__description')
+						.should('contain.text', 'Mein Termin 2');
+					cy.get('.appointments .box')
+						.eq(2)
+						.find('.appointment__description')
+						.should('contain.text', 'Mein Termin 3');
+
+					// Edit appointment #1
+					handleUiEdit(cy, 0, ' hat jetzt mehr Inhalt', true);
+					// Edit and cancel appointment #2
+					handleUiEdit(
+						cy,
+						1,
+						' wurde geändert aber abgebrochen',
+						false
+					);
+					// Edit appointment #3
+					handleUiEdit(cy, 2, ' hat jetzt noch mehr Inhalt', true);
+
+					// Check list
+					cy.get('.appointments .box')
+						.eq(0)
+						.find('.appointment__description')
+						.should(
+							'contain.text',
+							'Mein Termin 1 hat jetzt mehr Inhalt'
+						);
+					cy.get('.appointments .box')
+						.eq(1)
+						.find('.appointment__description')
+						.should('contain.text', 'Mein Termin 2');
+					cy.get('.appointments .box')
+						.eq(2)
+						.find('.appointment__description')
+						.should(
+							'contain.text',
+							'Mein Termin 3 hat jetzt noch mehr Inhalt'
+						);
+				});
+
+				it('Delete appointment', () => {
+					cy.get('.appointments .box').should('have.length', 3);
+					cy.get('.appointments .box')
+						.eq(0)
+						.find('.appointment__description')
+						.should('contain.text', 'Mein Termin 1');
+					cy.get('.appointments .box')
+						.eq(1)
+						.find('.appointment__description')
+						.should('contain.text', 'Mein Termin 2');
+					cy.get('.appointments .box')
+						.eq(2)
+						.find('.appointment__description')
+						.should('contain.text', 'Mein Termin 3');
+
+					// Press delete and cancel
+					handleUiDelete(cy, 1, false);
+					cy.get('.appointments .box').should('have.length', 3);
+
+					// Press delete and proceed
+					handleUiDelete(cy, 1, true);
+					cy.get('.appointments .box').should('have.length', 2);
+
+					cy.get('.appointments .box')
+						.eq(0)
+						.find('.appointment__description')
+						.should('contain.text', 'Mein Termin 1');
+					cy.get('.appointments .box')
+						.eq(1)
+						.find('.appointment__description')
+						.should('contain.text', 'Mein Termin 3');
+
+					handleUiDelete(cy, 0, true);
+					handleUiDelete(cy, 0, true);
+					cy.get('.appointments .box').should('have.length', 0);
+					cy.get('.appointments').contains(
+						'Aktuell gibt es keine Termine'
+					);
+				});
+
+				it('Copy appointment link', () => {
+					cy.get('.appointments .box').should('have.length', 3);
+
+					cy.get('.appointments .box')
+						.eq(0)
+						.find('[data-cy=appointment_url]')
+						.then(($url) => {
+							const appointmentLink = $url.text();
+
+							cy.get('.appointments .box')
+								.eq(0)
+								.find('[data-cy=appointment_link] span')
+								.click();
+
+							cy.window().then((win) => {
+								if (win.navigator.clipboard) {
+									win.navigator.clipboard
+										.readText()
+										.then((text) => {
+											expect(text).to.eq(appointmentLink);
+										});
+								} else {
+									win.clipboardData
+										.getData('text/plain')
+										.then((text) => {
+											expect(text).to.eq(appointmentLink);
+										});
+								}
+							});
+						});
+				});
+
+				it('Show appointment qr code', () => {
+					cy.get('.appointments .box').should('have.length', 3);
+
+					cy.get('.appointments .box')
+						.eq(0)
+						.find('[data-cy=appointment_qr_code] button')
+						.click();
+
+					cy.get('#overlay .generateQrCode__overlay').should('exist');
+				});
 			});
 		});
 

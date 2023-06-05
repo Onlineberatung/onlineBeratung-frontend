@@ -68,7 +68,7 @@ function reducer(
 		case UPDATE_SESSIONS: {
 			const { sessions } = action;
 			const newSessions = [...state.sessions];
-			sessions.forEach((s) => {
+			(sessions ?? []).forEach((s) => {
 				const newChatItem = getChatItemForSession(s);
 				const index = newSessions.findIndex((s) => {
 					const chatItem = getChatItemForSession(s);
@@ -90,7 +90,7 @@ function reducer(
 		case REMOVE_SESSIONS: {
 			const { ids } = action;
 			const newSessions = [...state.sessions];
-			ids.forEach((id) => {
+			(ids ?? []).forEach((id) => {
 				const index = newSessions.findIndex((s) => {
 					const chatItem = getChatItemForSession(s);
 					return chatItem.id === id || chatItem.groupId === id;
