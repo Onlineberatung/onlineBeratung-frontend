@@ -1,5 +1,5 @@
-import { deConsultingTypes } from '../i18n/de.consultingTypes';
-import { deAgency } from '../i18n/de.agency';
+import deAgency from '../i18n/de.agency.json';
+import deConsultingTypes from '../i18n/de.consultingTypes.json';
 import { AppConfigInterface } from '../../globalState/interfaces/AppConfig/AppConfigInterface';
 import {
 	OVERLAY_RELEASE_NOTE,
