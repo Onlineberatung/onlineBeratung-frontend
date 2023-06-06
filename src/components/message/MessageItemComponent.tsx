@@ -66,6 +66,7 @@ import { apiDeleteMessage } from '../../api/apiDeleteMessage';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { BanUser } from '../banUser/BanUser';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { VideoChatDetails, VideoChatDetailsAlias } from './VideoChatDetails';
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -105,6 +106,7 @@ export interface MessageItem {
 	file?: MessageService.Schemas.FileDTO;
 	t: null | 'e2e' | 'rm' | 'room-removed-read-only' | 'room-set-read-only';
 	rid: string;
+	isVideoActive?: boolean;
 }
 
 interface MessageItemComponentProps extends MessageItem {
@@ -142,7 +144,8 @@ export const MessageItemComponent = ({
 	rid,
 	handleDecryptionErrors,
 	handleDecryptionSuccess,
-	e2eeParams
+	e2eeParams,
+	isVideoActive
 }: MessageItemComponentProps) => {
 	const { t: translate } = useTranslation();
 	const { activeSession, reloadActiveSession } =
@@ -300,6 +303,8 @@ export const MessageItemComponent = ({
 		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
 	const isAppointmentDefined =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.INITIAL_APPOINTMENT_DEFINED;
+	const isFullWidthMessage =
+		isVideoCallMessage && !videoCallMessage?.eventType;
 
 	// WORKAROUND for reassignment last message bug
 	// don't show this message in the session view
@@ -397,8 +402,18 @@ export const MessageItemComponent = ({
 						)}
 					</span>
 				);
+			case isVideoCallMessage && !videoCallMessage?.eventType:
+				const parsedMessage = JSON.parse(
+					alias.content
+				) as VideoChatDetailsAlias;
+				return (
+					<VideoChatDetails
+						data={parsedMessage}
+						isVideoActive={isVideoActive}
+					/>
+				);
 			case isVideoCallMessage &&
-				videoCallMessage.eventType === 'IGNORED_CALL':
+				videoCallMessage?.eventType === 'IGNORED_CALL':
 				return (
 					<VideoCallMessage
 						videoCallMessage={videoCallMessage}
@@ -531,7 +546,7 @@ export const MessageItemComponent = ({
 		<div
 			className={`messageItem ${
 				isMyMessage ? 'messageItem--right' : ''
-			} ${
+			} ${isFullWidthMessage ? 'messageItem--full' : ''} ${
 				alias?.messageType &&
 				`${alias?.messageType.toLowerCase()} systemMessage`
 			}`}

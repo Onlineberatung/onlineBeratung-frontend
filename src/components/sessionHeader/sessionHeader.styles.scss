@@ -89,6 +89,7 @@ $iconSize: 24px;
 	&__username {
 		cursor: pointer;
 		overflow: hidden;
+		flex-grow: 1;
 
 		@include breakpoint($fromLarge) {
 			margin: 0;
@@ -117,6 +118,10 @@ $iconSize: 24px;
 				}
 			}
 		}
+	}
+
+	&__videoCallButtons {
+		margin-right: 20px;
 	}
 
 	&__feedbackButton {

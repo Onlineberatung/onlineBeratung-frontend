@@ -90,6 +90,12 @@ $message-attachment-color: $secondary !default;
 		}
 	}
 
+	&--full {
+		.messageItem__messageWrap {
+			max-width: 100%;
+		}
+	}
+
 	&__messageWrap {
 		display: inline-flex;
 		flex-direction: column;
