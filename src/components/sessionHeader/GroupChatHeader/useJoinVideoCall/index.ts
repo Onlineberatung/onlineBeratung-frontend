@@ -39,9 +39,17 @@ export const useJoinVideoCall = () => {
 
 	const onJoinConsultantCall = useCallback(
 		(uuid, videoActivated: boolean) => {
-			apiJoinGroupChat(uuid).then((data) =>
-				openVideoWindow(data.moderatorVideoCallUrl, videoActivated)
-			);
+			apiJoinGroupChat(uuid)
+				.then((data) =>
+					openVideoWindow(data.moderatorVideoCallUrl, videoActivated)
+				)
+				.catch((error) =>
+					console.error(
+						'Unable to join consultant to video chat [roomId]:',
+						uuid,
+						error
+					)
+				);
 		},
 		[openVideoWindow]
 	);
