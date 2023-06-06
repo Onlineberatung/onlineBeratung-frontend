@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, generatePath } from 'react-router-dom';
 import {
 	AUTHORITIES,
+	SessionItemInterface,
 	SessionTypeContext,
 	UserDataContext,
 	getContact,
@@ -17,7 +18,11 @@ import {
 } from '../../session/sessionHelpers';
 import { isMobile } from 'react-device-detect';
 import { mobileListView } from '../../app/navigationHandler';
-import { BackIcon, CameraOnIcon } from '../../../resources/img/icons';
+import {
+	BackIcon,
+	CameraOnIcon,
+	GroupChatInfoIcon
+} from '../../../resources/img/icons';
 import { ReactComponent as VideoCallIcon } from '../../../resources/img/illustrations/camera.svg';
 import { ActiveSessionContext } from '../../../globalState/provider/ActiveSessionProvider';
 import { SessionMenu } from '../../sessionMenu/SessionMenu';
@@ -120,6 +125,18 @@ export const GroupChatHeader = ({
 		)
 	};
 
+	const isActive = activeSession.item.active;
+	const getSessionListTab = () =>
+		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+	const baseUrl = `${listPath}/:groupId/:id/:subRoute?/:extraPath?${getSessionListTab()}`;
+	const groupChatInfoLink = generatePath(baseUrl, {
+		...(activeSession.item as Omit<
+			SessionItemInterface,
+			'attachment' | 'topic' | 'e2eLastMessage' | 'videoCallMessageDTO'
+		>),
+		subRoute: 'groupChatInfo'
+	});
+
 	return (
 		<div className="sessionInfo">
 			<div className="sessionInfo__headerWrapper">
@@ -145,17 +162,35 @@ export const GroupChatHeader = ({
 					)}
 				</div>
 
-				{isConsultant && releaseToggles.featureVideoGroupChatsEnabled && (
-					<div
-						className="sessionInfo__videoCallButtons"
-						data-cy="session-header-video-call-buttons"
-					>
-						<Button
-							buttonHandle={() => startVideoCall()}
-							item={buttonStartVideoCall}
-						/>
-					</div>
-				)}
+				{!isActive &&
+					hasUserAuthority(
+						AUTHORITIES.CONSULTANT_DEFAULT,
+						userData
+					) && (
+						<Link
+							to={groupChatInfoLink}
+							className="sessionMenu__item--desktop sessionMenu__button"
+						>
+							<span className="sessionMenu__icon">
+								<GroupChatInfoIcon />
+								{t('chatFlyout.groupChatInfo')}
+							</span>
+						</Link>
+					)}
+
+				{isActive &&
+					isConsultant &&
+					releaseToggles.featureVideoGroupChatsEnabled && (
+						<div
+							className="sessionInfo__videoCallButtons"
+							data-cy="session-header-video-call-buttons"
+						>
+							<Button
+								buttonHandle={() => startVideoCall()}
+								item={buttonStartVideoCall}
+							/>
+						</div>
+					)}
 
 				<SessionMenu
 					hasUserInitiatedStopOrLeaveRequest={

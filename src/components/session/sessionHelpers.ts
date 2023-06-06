@@ -176,7 +176,7 @@ export const scrollToEnd = (timeout: number, animation: boolean = false) => {
 };
 
 const findLastVideoCallIndex = (messagesData) =>
-	(messagesData as any).findLastIndex(
+	messagesData.findLastIndex(
 		(message) =>
 			message?.alias?.messageType === 'VIDEOCALL' &&
 			(!message?.alias?.videoCallMessageDTO ||
