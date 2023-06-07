@@ -32,6 +32,7 @@ import {
 } from '../../globalState/interfaces/TenantDataInterface';
 import { appConfig } from '../../utils/appConfig';
 import { parseJwt } from '../../utils/parseJWT';
+import { removeRocketChatMasterKeyFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
 
 export interface LoginData {
 	data: {
@@ -201,7 +202,16 @@ export const handleE2EESetup = (
 					privateKey = await decryptPrivateKey(
 						encryptedPrivateKey,
 						persistedMasterKey
-					);
+					).catch(() => {
+						// if decryption fails, remove master key from local storage and try again
+						removeRocketChatMasterKeyFromLocalStorage();
+						return handleE2EESetup(
+							password,
+							rcUserId,
+							autoLoginProps,
+							skipUpdateSubscriptions
+						);
+					});
 					storeKeys(privateKey, publicKey);
 
 					try {
