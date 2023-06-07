@@ -154,7 +154,7 @@ export const SessionListItemComponent = ({
 	}
 
 	const handleOnClick = () => {
-		if (activeSession.item.groupId && activeSession.item.id) {
+		if (activeSession.item.groupId && activeSession.item.id !== undefined) {
 			history.push(
 				`${listPath}/${activeSession.item.groupId}/${
 					activeSession.item.id

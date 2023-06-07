@@ -153,3 +153,19 @@ export const convertUTCDateToLocalDate = (date: Date) => {
 	newDate.setHours(hours - offset);
 	return newDate;
 };
+
+export const getDurationTimeBySeconds = (seconds: number) => {
+	const date = new Date(null);
+	date.setSeconds(seconds);
+	let str = '';
+	if (date.getUTCHours() > 0) {
+		str += date.getUTCHours() + 'h ';
+	}
+	if (date.getMinutes() > 0) {
+		str += date.getMinutes() + 'm ';
+	}
+	if (date.getSeconds() > 0) {
+		str += date.getSeconds() + 's';
+	}
+	return str;
+};

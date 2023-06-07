@@ -450,17 +450,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					</Link>
 				)}
 
-			{activeSession.isGroup && (
-				<SessionMenuGroup
-					activeSession={activeSession}
-					editGroupChatSettingsLink={editGroupChatSettingsLink}
-					groupChatInfoLink={groupChatInfoLink}
-					handleLeaveGroupChat={handleLeaveGroupChat}
-					handleStopGroupChat={handleStopGroupChat}
-					isJoinGroupChatView={props.isJoinGroupChatView}
-				/>
-			)}
-
 			{!activeSession.isEnquiry &&
 				appointmentFeatureEnabled &&
 				!activeSession.isLive && (
@@ -627,94 +616,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	);
 };
 
-const SessionMenuGroup = ({
-	activeSession,
-	groupChatInfoLink,
-	editGroupChatSettingsLink,
-	handleStopGroupChat,
-	handleLeaveGroupChat,
-	isJoinGroupChatView = false
-}: {
-	activeSession: ExtendedSessionInterface;
-	groupChatInfoLink: string;
-	editGroupChatSettingsLink: string;
-	handleStopGroupChat: MouseEventHandler;
-	handleLeaveGroupChat: MouseEventHandler;
-	isJoinGroupChatView?: boolean;
-}) => {
-	const { userData } = useContext(UserDataContext);
-	const { t: translate } = useTranslation();
-
-	return (
-		<>
-			{activeSession.item.subscribed && !isJoinGroupChatView && (
-				<span
-					onClick={handleLeaveGroupChat}
-					className="sessionMenu__item--desktop sessionMenu__button"
-				>
-					<span className="sessionMenu__icon">
-						<LeaveChatIcon
-							title={translate('chatFlyout.leaveGroupChat')}
-							aria-label={translate('chatFlyout.leaveGroupChat')}
-						/>
-						{translate('chatFlyout.leaveGroupChat')}
-					</span>
-				</span>
-			)}
-
-			{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
-				<Link
-					to={groupChatInfoLink}
-					className="sessionMenu__item--desktop sessionMenu__button"
-				>
-					<span className="sessionMenu__icon">
-						<GroupChatInfoIcon />
-						{translate('chatFlyout.groupChatInfo')}
-					</span>
-				</Link>
-			)}
-			{activeSession.item.subscribed &&
-				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
-					<span
-						onClick={handleStopGroupChat}
-						className="sessionMenu__item--desktop sessionMenu__button"
-					>
-						<span className="sessionMenu__icon">
-							<StopGroupChatIcon
-								title={translate('chatFlyout.stopGroupChat')}
-								aria-label={translate(
-									'chatFlyout.stopGroupChat'
-								)}
-							/>
-							{translate('chatFlyout.stopGroupChat')}
-						</span>
-					</span>
-				)}
-
-			{isGroupChatOwner(activeSession, userData) &&
-				!activeSession.item.active && (
-					<Link
-						to={{
-							pathname: editGroupChatSettingsLink,
-							state: { isEditMode: true, prevIsInfoPage: false }
-						}}
-						className="sessionMenu__item--desktop sessionMenu__button"
-					>
-						<span className="sessionMenu__icon">
-							<EditGroupChatIcon
-								title={translate('chatFlyout.editGroupChat')}
-								aria-label={translate(
-									'chatFlyout.editGroupChat'
-								)}
-							/>
-							{translate('chatFlyout.editGroupChat')}
-						</span>
-					</Link>
-				)}
-		</>
-	);
-};
-
 const SessionMenuFlyoutGroup = ({
 	activeSession,
 	groupChatInfoLink,
@@ -736,26 +637,43 @@ const SessionMenuFlyoutGroup = ({
 			{activeSession.item.subscribed && (
 				<div
 					onClick={handleLeaveGroupChat}
-					className="sessionMenu__item sessionMenu__item--mobile"
+					className="sessionMenu__item sessionMenu__button"
 				>
-					{translate('chatFlyout.leaveGroupChat')}
+					<span className="sessionMenu__icon">
+						<LeaveChatIcon
+							title={translate('chatFlyout.leaveGroupChat')}
+							aria-label={translate('chatFlyout.leaveGroupChat')}
+						/>
+						{translate('chatFlyout.leaveGroupChat')}
+					</span>
 				</div>
 			)}
 			{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
 				<Link
 					to={groupChatInfoLink}
-					className="sessionMenu__item sessionMenu__item--mobile"
+					className="sessionMenu__item sessionMenu__button"
 				>
-					{translate('chatFlyout.groupChatInfo')}
+					<span className="sessionMenu__icon">
+						<GroupChatInfoIcon />
+						{translate('chatFlyout.groupChatInfo')}
+					</span>
 				</Link>
 			)}
 			{activeSession.item.subscribed &&
 				hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
 					<div
 						onClick={handleStopGroupChat}
-						className="sessionMenu__item sessionMenu__item--mobile"
+						className="sessionMenu__item sessionMenu__button"
 					>
-						{translate('chatFlyout.stopGroupChat')}
+						<span className="sessionMenu__icon">
+							<StopGroupChatIcon
+								title={translate('chatFlyout.stopGroupChat')}
+								aria-label={translate(
+									'chatFlyout.stopGroupChat'
+								)}
+							/>
+							{translate('chatFlyout.stopGroupChat')}
+						</span>
 					</div>
 				)}
 			{isGroupChatOwner(activeSession, userData) &&
@@ -768,9 +686,17 @@ const SessionMenuFlyoutGroup = ({
 								prevIsInfoPage: false
 							}
 						}}
-						className="sessionMenu__item sessionMenu__item--mobile"
+						className="sessionMenu__item sessionMenu__button"
 					>
-						{translate('chatFlyout.editGroupChat')}
+						<span className="sessionMenu__icon">
+							<EditGroupChatIcon
+								title={translate('chatFlyout.editGroupChat')}
+								aria-label={translate(
+									'chatFlyout.editGroupChat'
+								)}
+							/>
+							{translate('chatFlyout.editGroupChat')}
+						</span>
 					</Link>
 				)}
 		</>
