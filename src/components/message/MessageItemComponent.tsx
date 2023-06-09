@@ -324,6 +324,10 @@ export const MessageItemComponent = ({
 	const isDeleteMessage = t === 'rm';
 	const isRoomRemovedReadOnly = t === 'room-removed-read-only';
 	const isRoomSetReadOnly = t === 'room-set-read-only';
+	const isRejectedCallInGroupChat =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.VIDEOCALL &&
+		videoCallMessage?.eventType === 'IGNORED_CALL' &&
+		activeSession?.isGroup;
 
 	const messageContent = (): JSX.Element => {
 		switch (true) {
@@ -538,7 +542,7 @@ export const MessageItemComponent = ({
 	)
 		return null;
 
-	if (isUpdateSessionDataMessage) {
+	if (isUpdateSessionDataMessage || isRejectedCallInGroupChat) {
 		return null;
 	}
 
