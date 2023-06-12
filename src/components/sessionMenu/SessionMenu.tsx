@@ -452,7 +452,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 			{!activeSession.isEnquiry &&
 				appointmentFeatureEnabled &&
-				!activeSession.isLive && (
+				!activeSession.isLive &&
+				!activeSession.isGroup && (
 					<div
 						className="sessionMenu__icon sessionMenu__icon--booking"
 						onClick={handleBookingButton}
