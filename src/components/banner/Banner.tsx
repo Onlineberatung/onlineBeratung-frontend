@@ -40,7 +40,7 @@ export const Banner = ({
 	const { t: translate } = useTranslation();
 	const getBannersHeight = useCallback(() => {
 		let bannersHeight = 0;
-		const banner = bannerContainer.children;
+		const banner = bannerContainer?.children ?? [];
 		for (let i = 0; i < banner.length; i++) {
 			const style = window.getComputedStyle(banner[i]);
 
