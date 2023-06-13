@@ -21,7 +21,7 @@ import { getValueFromCookie } from '../../../../components/sessionCookie/accessS
 export const getUserEmail = (userData: UserDataInterface) => {
 	return userData.email
 		? userData.email
-		: userData.userName + '@suchtberatung.digital';
+		: userData.userName?.replace(/ /g, '') + '@suchtberatung.digital';
 };
 
 export const Booking = () => {
