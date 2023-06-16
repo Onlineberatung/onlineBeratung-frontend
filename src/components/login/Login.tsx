@@ -15,7 +15,11 @@ import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.s
 import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
 import { ReactComponent as VerifiedIcon } from '../../resources/img/icons/verified.svg';
 import { StageLayout } from '../stageLayout/StageLayout';
-import { apiRegistrationNewConsultingTypes, FETCH_ERRORS } from '../../api';
+import {
+	apiGetUserData,
+	apiRegistrationNewConsultingTypes,
+	FETCH_ERRORS
+} from '../../api';
 import { OTP_LENGTH, TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 import clsx from 'clsx';
 import {
@@ -68,8 +72,10 @@ export const Login = () => {
 	const { locale, initLocale } = useContext(LocaleContext);
 	const { tenant } = useContext(TenantContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
-	const { reloadUserData } = useContext(UserDataContext);
+	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { Stage } = useContext(GlobalComponentContext);
+	const gcid = useSearchParam<string>('gcid');
+	const isFirstVisit = useIsFirstVisit();
 
 	const loginButton: ButtonItem = {
 		label: translate('login.button.label'),
@@ -95,6 +101,15 @@ export const Login = () => {
 	const { featureToolsEnabled } = getTenantSettings();
 
 	useEffect(() => {
+		// If we're authenticated and have a gcid, redirect to app
+		if (gcid && !isFirstVisit) {
+			apiGetUserData([FETCH_ERRORS.CATCH_ALL])
+				.then(() => redirectToApp(gcid))
+				.catch(() => null); // do nothing
+		}
+	}, [consultant, gcid, isFirstVisit, reloadUserData, userData]);
+
+	useEffect(() => {
 		setShowLoginError('');
 		setLabelState(null);
 		if (
@@ -113,8 +128,10 @@ export const Login = () => {
 	}, [username]);
 
 	useEffect(() => {
-		featureToolsEnabled && budibaseLogout();
-	}, [featureToolsEnabled]);
+		if (!gcid && featureToolsEnabled) {
+			budibaseLogout().catch(() => null);
+		}
+	}, [featureToolsEnabled, gcid]);
 
 	const [agency, setAgency] = useState(null);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
@@ -122,8 +139,6 @@ export const Login = () => {
 	const [pwResetOverlayActive, setPwResetOverlayActive] = useState(false);
 
 	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
-	const isFirstVisit = useIsFirstVisit();
-	const gcid = useSearchParam<string>('gcid');
 
 	const inputItemUsername: InputFieldItem = {
 		name: 'username',
