@@ -198,6 +198,7 @@ export const GroupChatHeader = ({
 					}
 					isAskerInfoAvailable={isAskerInfoAvailable()}
 					isJoinGroupChatView={isJoinGroupChatView}
+					bannedUsers={bannedUsers}
 				/>
 			</div>
 			<div className="sessionInfo__metaInfo">
