@@ -210,6 +210,10 @@
 		}
 	},
 	"groupChat": {
+		"qrCode": {
+			"headline": "Dein Gruppenchat QR-Code",
+			"text": "Wenn Du diesen QR-Code mit jemandem teilst, kann diese Person ihn mit der Handykamera scannen, um der Gruppe beizutreten. Du kannst den Code auch herunterladen."
+		},
 		"createSuccess": {
 			"overlay": {
 				"headline": "Du hast erfolgreich einen Chat angelegt."
