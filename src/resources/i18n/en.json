@@ -784,6 +784,9 @@
 				"headline": "Rules of the chat"
 			},
 			"warning": {
+				"consultant": {
+					"message": "Your moderator has not started the chat yet. As soon as your moderator has started the chat, you can chat with us. Please be patient a little longer."
+				},
 				"message": "Your advisor/moderator has not started the chat yet. As soon as your consultant/moderator has started the chat, you can chat with us. Please be patient a little longer."
 			},
 			"chatClosedOverlay": {

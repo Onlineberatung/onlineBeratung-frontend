@@ -232,7 +232,7 @@ export const JoinGroupChatView = ({
 
 	useEffect(() => {
 		if (
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+			hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData) &&
 			!activeSession.item.active
 		) {
 			setButtonItem(startButtonItem);
@@ -242,7 +242,10 @@ export const JoinGroupChatView = ({
 	}, [activeSession.item.active, userData, startButtonItem, joinButtonItem]);
 
 	useEffect(() => {
-		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+		if (
+			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+			!hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData)
+		) {
 			setIsButtonDisabled(
 				!activeSession.item.active ||
 					bannedUsers.includes(userData.userName) ||
@@ -266,7 +269,7 @@ export const JoinGroupChatView = ({
 		}
 		setIsRequestInProgress(true);
 		const groupChatApiCall =
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+			hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData) &&
 			!activeSession.item.active
 				? GROUP_CHAT_API.START
 				: GROUP_CHAT_API.JOIN;
@@ -354,11 +357,18 @@ export const JoinGroupChatView = ({
 				))}
 			</div>
 			<div className="joinChat__button-container">
-				{!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+				{!hasUserAuthority(AUTHORITIES.CREATE_NEW_CHAT, userData) &&
 					!activeSession.item.active && (
 						<p className="joinChat__warning-message">
 							<WarningIcon />
-							{translate('groupChat.join.warning.message')}
+							{translate(
+								hasUserAuthority(
+									AUTHORITIES.ASKER_DEFAULT,
+									userData
+								)
+									? 'groupChat.join.warning.message'
+									: 'groupChat.join.warning.consultant.message'
+							)}
 						</p>
 					)}
 				<Button
