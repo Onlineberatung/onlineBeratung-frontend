@@ -695,6 +695,17 @@
 		}
 	},
 	"groupChat": {
+		"qrCode": {
+			"headline": "Ihr Gruppenchat QR-Code",
+			"text": "Wenn Sie diesen QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um der Gruppe beizutreten. Sie können den Code auch herunterladen.",
+			"download": {
+				"filename": "qr-code-{{filename}}"
+			},
+			"overlay": {
+				"close": "Schließen",
+				"download": "QR-Code als .png herunterladen"
+			}
+		},
 		"active": {
 			"sessionInfo": {
 				"subscriber": "Teilnehmende"
