@@ -686,6 +686,17 @@
 		}
 	},
 	"groupChat": {
+		"qrCode": {
+			"headline": "Your group chat QR code",
+			"text": "If you share this QR code with someone, that person can scan it with their phone camera to join the group. You can also download the code.",
+			"download": {
+				"filename": "qr-code-{{filename}}"
+			},
+			"overlay": {
+				"close": "Close",
+				"download": "Download QR code as .png"
+			}
+		},
 		"active": {
 			"sessionInfo": {
 				"subscriber": "Participants"
@@ -784,6 +795,9 @@
 				"headline": "Rules of the chat"
 			},
 			"warning": {
+				"consultant": {
+					"message": "Your moderator has not started the chat yet. As soon as your moderator has started the chat, you can chat with us. Please be patient a little longer."
+				},
 				"message": "Your advisor/moderator has not started the chat yet. As soon as your consultant/moderator has started the chat, you can chat with us. Please be patient a little longer."
 			},
 			"chatClosedOverlay": {
