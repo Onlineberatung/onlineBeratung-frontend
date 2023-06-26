@@ -52,6 +52,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import {
 	deleteCookieByName,
+	getValueFromCookie,
 	setValueInCookie
 } from '../sessionCookie/accessSessionCookie';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
@@ -102,12 +103,12 @@ export const Login = () => {
 
 	useEffect(() => {
 		// If we're authenticated and have a gcid, redirect to app
-		if (gcid && !isFirstVisit) {
+		if (gcid && getValueFromCookie('keycloak')) {
 			apiGetUserData([FETCH_ERRORS.CATCH_ALL])
 				.then(() => redirectToApp(gcid))
 				.catch(() => null); // do nothing
 		}
-	}, [consultant, gcid, isFirstVisit, reloadUserData, userData]);
+	}, [consultant, gcid, reloadUserData, userData]);
 
 	useEffect(() => {
 		setShowLoginError('');

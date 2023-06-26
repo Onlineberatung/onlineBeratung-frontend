@@ -140,6 +140,16 @@ $session-scroll-to-bottom-radius: $button-border-radius !default;
 	}
 }
 
+// If the banner is open, we need to adjust the height of the session
+.banner-open {
+	.session,
+	.enquiry__wrapper {
+		@include breakpoint($fromLarge) {
+			height: calc(100% - 56px);
+		}
+	}
+}
+
 @keyframes appear-animation {
 	0% {
 		opacity: 0;
