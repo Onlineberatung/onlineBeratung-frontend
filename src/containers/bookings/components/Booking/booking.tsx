@@ -40,9 +40,10 @@ export const Booking = () => {
 
 	useEffect(() => {
 		apiGetAskerSessionList().then(({ sessions }) => {
-			setSession(sessions[0]);
-			const consultant = sessions[0]?.consultant;
-			const agencyId = sessions[0]?.agency?.id;
+			const session = sessions.find((s) => !!s.consultant);
+			setSession(session);
+			const consultant = session?.consultant;
+			const agencyId = session?.agency?.id;
 			if (consultant) {
 				const consultantId = consultant?.consultantId || consultant?.id;
 				getCounselorAppointmentLink(consultantId).then((response) => {
