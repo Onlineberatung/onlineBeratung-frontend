@@ -67,9 +67,15 @@ const defaultReturns = {
 	agencyConsultantsLanguages: ['de']
 };
 
-Cypress.Commands.add('willReturn', (name: string, data: any) => {
-	overrides[name] = data;
-});
+Cypress.Commands.add(
+	'willReturn',
+	(name: string, data: any, extend?: boolean) => {
+		overrides[name] = {
+			...(extend ? overrides[name] : {}),
+			...data
+		};
+	}
+);
 
 let username = null;
 
@@ -207,9 +213,11 @@ Cypress.Commands.add('mockApi', () => {
 		req.reply('{}');
 	}).as('sessionRead');
 
-	cy.intercept('GET', `${endpoints.consultantEnquiriesBase}*`, {}).as(
-		'consultantEnquiriesBase'
-	);
+	cy.intercept(
+		'GET',
+		`${endpoints.consultantEnquiriesBase}*`,
+		JSON.stringify({})
+	).as('consultantEnquiriesBase');
 
 	cy.intercept('POST', endpoints.keycloakLogout, {}).as('authLogout');
 
@@ -244,6 +252,12 @@ Cypress.Commands.add('mockApi', () => {
 	cy.intercept('POST', endpoints.rc.logout, JSON.stringify({})).as(
 		'apiLogout'
 	);
+
+	cy.intercept(
+		'GET',
+		`${endpoints.rc.users.getStatus}*`,
+		JSON.stringify({})
+	).as('rcUsersGetStatus');
 
 	cy.intercept(
 		`${endpoints.liveservice}/**/*`,
@@ -438,6 +452,11 @@ Cypress.Commands.add(
 	) => {
 		username = args.username || USER_ASKER;
 
+		window.sessionStorage.removeItem('public_key');
+		window.sessionStorage.removeItem('private_key');
+		cy.clearCookie('lang');
+		cy.willReturn('userData', { preferredLanguage: null }, true);
+
 		cy.fixture('api.v1.login').then((res) => {
 			if (res.data.authToken) {
 				cy.setCookie('rc_token', res.data.authToken);
@@ -466,10 +485,15 @@ Cypress.Commands.add(
 
 		cy.visit('/app');
 		cy.wait('@usersData');
+		cy.wait('@settings');
+		cy.wait('@consultingTypeServiceBaseBasic');
+		cy.wait('@fetchMyKeys');
 		if (username === USER_ASKER) {
 			cy.wait('@askerSessions');
 		} else {
 			cy.wait('@consultantEnquiriesBase');
 		}
+		// eslint-disable-next-line cypress/no-unnecessary-waiting
+		cy.wait(1000);
 	}
 );

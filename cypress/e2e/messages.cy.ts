@@ -43,7 +43,6 @@ describe('Messages', () => {
 				});
 
 				cy.fastLogin();
-				cy.wait('@consultingTypeServiceBaseBasic');
 
 				cy.get('[data-cy=session-list-item]').click();
 				cy.wait('@messages');
@@ -71,7 +70,6 @@ describe('Messages', () => {
 				});
 
 				cy.fastLogin();
-				cy.wait('@consultingTypeServiceBaseBasic');
 
 				cy.get('[data-cy=session-list-item]').click();
 				cy.wait('@messages');
@@ -91,7 +89,6 @@ describe('Messages', () => {
 			describe('Initially loading the app', () => {
 				it('should not animate the envelope and no dot visible', () => {
 					cy.fastLogin();
-					cy.wait('@consultingTypeServiceBaseBasic');
 
 					cy.get('.navigation__item__count--active').should(
 						'not.exist'
@@ -106,7 +103,6 @@ describe('Messages', () => {
 				describe('New message from Live Service', () => {
 					it.skip('should animate the envelope and initial dot', () => {
 						cy.fastLogin();
-						cy.wait('@consultingTypeServiceBaseBasic');
 
 						cy.get('.cy-socket-connected-stomp');
 						cy.waitForSubscriptions(['/user/events']);
@@ -129,7 +125,6 @@ describe('Messages', () => {
 				describe('New message from Live Service', () => {
 					it.skip('should animate the envelope and initial dot', () => {
 						cy.fastLogin();
-						cy.wait('@consultingTypeServiceBaseBasic');
 						cy.get('.cy-socket-connected-stomp');
 						cy.waitForSubscriptions(['/user/events']);
 
@@ -152,7 +147,6 @@ describe('Messages', () => {
 					// ToDo: Test currenlty skipped because its not working like the test tries
 					it.skip('should animate envelope and initial dot and remove dot after message was read', () => {
 						cy.fastLogin();
-						cy.wait('@consultingTypeServiceBaseBasic');
 						cy.get('.cy-socket-connected-stomp');
 
 						cy.get('.sessionsListItem').first().click({
@@ -197,7 +191,6 @@ describe('Messages', () => {
 					it.skip('should animate the envelope and initial dot', () => {
 						cy.askerSession();
 						cy.fastLogin();
-						cy.wait('@consultingTypeServiceBaseBasic');
 						cy.get('.cy-socket-connected-stomp');
 
 						cy.get('.navigation__item__count--active').should(
@@ -235,7 +228,6 @@ describe('Messages', () => {
 					cy.askerSession({ session: { messagesRead: false } }, 0);
 
 					cy.fastLogin();
-					cy.wait('@consultingTypeServiceBaseBasic');
 
 					cy.get('.navigation__item__count--active').should('exist');
 					cy.get('.navigation__item__count--initial').should('exist');
@@ -251,7 +243,6 @@ describe('Messages', () => {
 						);
 
 						cy.fastLogin();
-						cy.wait('@consultingTypeServiceBaseBasic');
 						cy.get('.cy-socket-connected-stomp');
 						cy.waitForSubscriptions(['/user/events']);
 
@@ -278,7 +269,6 @@ describe('Messages', () => {
 						);
 
 						cy.fastLogin();
-						cy.wait('@consultingTypeServiceBaseBasic');
 						cy.get('.cy-socket-connected-stomp');
 						cy.waitForSubscriptions(['/user/events']);
 
@@ -302,7 +292,6 @@ describe('Messages', () => {
 						cy.askerSession({ session: { messagesRead: false } });
 
 						cy.fastLogin();
-						cy.wait('@consultingTypeServiceBaseBasic');
 						cy.get('.cy-socket-connected-stomp');
 						cy.waitForSubscriptions(['/user/events']);
 
@@ -340,7 +329,6 @@ describe('Messages', () => {
 						cy.askerSession({ session: { messagesRead: false } });
 
 						cy.fastLogin();
-						cy.wait('@consultingTypeServiceBaseBasic');
 						cy.get('.cy-socket-connected-stomp');
 						cy.waitForSubscriptions(['/user/events']);
 
