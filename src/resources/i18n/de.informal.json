@@ -210,6 +210,10 @@
 		}
 	},
 	"groupChat": {
+		"qrCode": {
+			"headline": "Dein Gruppenchat QR-Code",
+			"text": "Wenn Du diesen QR-Code mit jemandem teilst, kann diese Person ihn mit der Handykamera scannen, um der Gruppe beizutreten. Du kannst den Code auch herunterladen."
+		},
 		"createSuccess": {
 			"overlay": {
 				"headline": "Du hast erfolgreich einen Chat angelegt."
@@ -221,6 +225,9 @@
 			}
 		},
 		"join": {
+			"consultant": {
+				"message": "Dein_e Moderator_in hat den Chat noch nicht gestartet. Sobald Dein_e Moderator_in den Chat gestartet hat, kannst Du mit uns chatten. Bitte habe noch etwas Geduld."
+			},
 			"warning": {
 				"message": "Dein_e Berater_in/Moderator_in hat den Chat noch nicht gestartet. Sobald Dein_e Berater_in/Moderator_in den Chat gestartet hat, kannst Du mit uns chatten. Bitte habe noch etwas Geduld."
 			}

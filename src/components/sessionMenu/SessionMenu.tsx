@@ -76,6 +76,7 @@ export interface SessionMenuProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	isAskerInfoAvailable: boolean;
 	isJoinGroupChatView?: boolean;
+	bannedUsers?: string[];
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
@@ -588,6 +589,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						groupChatInfoLink={groupChatInfoLink}
 						handleLeaveGroupChat={handleLeaveGroupChat}
 						handleStopGroupChat={handleStopGroupChat}
+						bannedUsers={props.bannedUsers}
 					/>
 				)}
 
@@ -622,33 +624,38 @@ const SessionMenuFlyoutGroup = ({
 	groupChatInfoLink,
 	editGroupChatSettingsLink,
 	handleLeaveGroupChat,
-	handleStopGroupChat
+	handleStopGroupChat,
+	bannedUsers
 }: {
 	activeSession: ExtendedSessionInterface;
 	groupChatInfoLink: string;
 	editGroupChatSettingsLink: string;
 	handleStopGroupChat: MouseEventHandler;
 	handleLeaveGroupChat: MouseEventHandler;
+	bannedUsers: string[];
 }) => {
 	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
 
 	return (
 		<>
-			{activeSession.item.subscribed && (
-				<div
-					onClick={handleLeaveGroupChat}
-					className="sessionMenu__item sessionMenu__button"
-				>
-					<span className="sessionMenu__icon">
-						<LeaveChatIcon
-							title={translate('chatFlyout.leaveGroupChat')}
-							aria-label={translate('chatFlyout.leaveGroupChat')}
-						/>
-						{translate('chatFlyout.leaveGroupChat')}
-					</span>
-				</div>
-			)}
+			{activeSession.item.subscribed &&
+				!bannedUsers?.includes(userData.userName) && (
+					<div
+						onClick={handleLeaveGroupChat}
+						className="sessionMenu__item sessionMenu__button"
+					>
+						<span className="sessionMenu__icon">
+							<LeaveChatIcon
+								title={translate('chatFlyout.leaveGroupChat')}
+								aria-label={translate(
+									'chatFlyout.leaveGroupChat'
+								)}
+							/>
+							{translate('chatFlyout.leaveGroupChat')}
+						</span>
+					</div>
+				)}
 			{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
 				<Link
 					to={groupChatInfoLink}
