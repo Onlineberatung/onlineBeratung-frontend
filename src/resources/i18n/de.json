@@ -595,7 +595,7 @@
 				"format": "Text formatieren"
 			},
 			"overlay": {
-				"copy": "Innerhalb von zwei Werktagen erhalten Sie eine Antwort von uns.",
+				"copy": "Sobald Berater:innen verfügbar sind, erhalten Sie eine Antwort von uns.",
 				"button": "Zur Nachricht",
 				"headline": "Vielen Dank für Ihre Nachricht!"
 			}
