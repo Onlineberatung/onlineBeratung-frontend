@@ -69,7 +69,7 @@ export const GroupChatInfo = () => {
 		useState<boolean>(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
-	const [isV2GroupChat, setIsV2GroupChat] = useState<boolean>(true);
+	const [isV2GroupChat, setIsV2GroupChat] = useState<boolean>(false);
 
 	const { session: activeSession, ready } = useSession(groupIdFromParam);
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
