@@ -35,11 +35,9 @@ export const BanUser: React.VFC<BanUserProps> = ({
 	};
 
 	return (
-		<>
-			<button className="banUser" onClick={banUser}>
-				{translate('banUser.ban.trigger')}
-			</button>
-		</>
+		<button className="banUser" onClick={banUser}>
+			{translate('banUser.ban.trigger')}
+		</button>
 	);
 };
 
