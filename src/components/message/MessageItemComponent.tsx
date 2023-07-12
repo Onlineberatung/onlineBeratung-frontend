@@ -64,7 +64,7 @@ import { ReactComponent as XIllustration } from '../../resources/img/illustratio
 import { BUTTON_TYPES } from '../button/Button';
 import { apiDeleteMessage } from '../../api/apiDeleteMessage';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
-import { BanUser } from '../banUser/BanUser';
+import { BanUser, BanUserOverlay } from '../banUser/BanUser';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { VideoChatDetails, VideoChatDetailsAlias } from './VideoChatDetails';
 
@@ -602,6 +602,8 @@ const MessageFlyoutMenu = ({
 }) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
+	const [isUserBanOverlayOpen, setIsUserBanOverlayOpen] =
+		useState<boolean>(false);
 
 	const currentUserIsModerator = isUserModerator({
 		chatItem: activeSession.item,
@@ -614,26 +616,40 @@ const MessageFlyoutMenu = ({
 	});
 
 	return (
-		<FlyoutMenu position={isMyMessage ? 'left-top' : 'right-top'}>
-			{currentUserIsModerator &&
-				!subscriberIsModerator &&
-				!isUserBanned && (
-					<BanUser
-						userName={username}
-						rcUserId={userId}
-						chatId={activeSession.item.id}
-					/>
-				)}
+		<>
+			<FlyoutMenu position={isMyMessage ? 'left-top' : 'right-top'}>
+				{currentUserIsModerator &&
+					!subscriberIsModerator &&
+					!isUserBanned && (
+						<BanUser
+							userName={username}
+							rcUserId={userId}
+							chatId={activeSession.item.id}
+							handleUserBan={() => {
+								setIsUserBanOverlayOpen(true);
+							}}
+						/>
+					)}
 
-			{isMyMessage &&
-				!isArchived &&
-				getSetting<IBooleanSetting>(SETTING_MESSAGE_ALLOWDELETING) && (
-					<DeleteMessage
-						messageId={_id}
-						className="flyoutMenu__item--delete"
-					/>
-				)}
-		</FlyoutMenu>
+				{isMyMessage &&
+					!isArchived &&
+					getSetting<IBooleanSetting>(
+						SETTING_MESSAGE_ALLOWDELETING
+					) && (
+						<DeleteMessage
+							messageId={_id}
+							className="flyoutMenu__item--delete"
+						/>
+					)}
+			</FlyoutMenu>
+			<BanUserOverlay
+				overlayActive={isUserBanOverlayOpen}
+				userName={username}
+				handleOverlay={() => {
+					setIsUserBanOverlayOpen(false);
+				}}
+			></BanUserOverlay>
+		</>
 	);
 };
 
