@@ -32,7 +32,7 @@ import { getValueFromCookie } from '../../sessionCookie/accessSessionCookie';
 import { apiGetGroupMembers } from '../../../api';
 import { decodeUsername } from '../../../utils/encryptionHelpers';
 import { FlyoutMenu } from '../../flyoutMenu/FlyoutMenu';
-import { BanUser } from '../../banUser/BanUser';
+import { BanUser, BanUserOverlay } from '../../banUser/BanUser';
 import { Tag } from '../../tag/Tag';
 import { BUTTON_TYPES, Button, ButtonItem } from '../../button/Button';
 import { useStartVideoCall } from './useStartVideoCall';
@@ -51,6 +51,9 @@ export const GroupChatHeader = ({
 }: GroupChatHeaderProps) => {
 	const { releaseToggles } = useAppConfig();
 	const [subscriberList, setSubscriberList] = useState([]);
+
+	const [isUserBanOverlayOpen, setIsUserBanOverlayOpen] =
+		useState<boolean>(false);
 	const { t } = useTranslation(['common', 'consultingTypes', 'agencies']);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -254,40 +257,60 @@ export const GroupChatHeader = ({
 													</span>
 													{isCurrentUserModerator &&
 														!subscriber.isModerator && (
-															<FlyoutMenu
-																isHidden={bannedUsers.includes(
-																	subscriber.username
-																)}
-																position={
-																	window.innerWidth <=
-																	520
-																		? 'left'
-																		: 'right'
-																}
-																isOpen={
-																	flyoutOpenId ===
-																	subscriber._id
-																}
-																handleClose={() =>
-																	setFlyoutOpenId(
-																		null
-																	)
-																}
-															>
-																<BanUser
+															<>
+																<FlyoutMenu
+																	isHidden={bannedUsers.includes(
+																		subscriber.username
+																	)}
+																	position={
+																		window.innerWidth <=
+																		520
+																			? 'left'
+																			: 'right'
+																	}
+																	isOpen={
+																		flyoutOpenId ===
+																		subscriber._id
+																	}
+																	handleClose={() =>
+																		setFlyoutOpenId(
+																			null
+																		)
+																	}
+																>
+																	<BanUser
+																		userName={decodeUsername(
+																			subscriber.username
+																		)}
+																		rcUserId={
+																			subscriber._id
+																		}
+																		chatId={
+																			activeSession
+																				.item
+																				.id
+																		}
+																		handleUserBan={() => {
+																			setIsUserBanOverlayOpen(
+																				true
+																			);
+																		}}
+																	/>
+																</FlyoutMenu>{' '}
+																<BanUserOverlay
+																	overlayActive={
+																		isUserBanOverlayOpen
+																	}
 																	userName={decodeUsername(
 																		subscriber.username
 																	)}
-																	rcUserId={
-																		subscriber._id
-																	}
-																	chatId={
-																		activeSession
-																			.item
-																			.id
-																	}
-																/>
-															</FlyoutMenu>
+																	handleOverlay={() => {
+																		setIsUserBanOverlayOpen(
+																			false
+																		);
+																	}}
+																></BanUserOverlay>
+															</>
 														)}
 													{isCurrentUserModerator &&
 														bannedUsers.includes(
