@@ -287,6 +287,17 @@ $buttonMaxWidth: 400px;
 				}
 			}
 		}
+
+		&--transparent {
+			border-width: 2px;
+			background-color: transparent;
+			border-color: transparent;
+
+			&:hover {
+				background-color: $hover-primary;
+				border-color: $hover-primary;
+			}
+		}
 	}
 
 	&__item--disabled {

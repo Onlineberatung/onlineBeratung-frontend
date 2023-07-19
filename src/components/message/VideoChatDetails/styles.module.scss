@@ -1,0 +1,47 @@
+.container {
+	background-color: rgb(240, 237, 233);
+	width: 100%;
+	display: flex;
+	padding: 32px;
+	margin-left: 31px;
+}
+
+.active {
+	background-color: rgb(97, 159, 102);
+	width: 16px;
+	display: flex;
+	height: 16px;
+	border-radius: 50%;
+	border: 4px solid rgb(195, 213, 190);
+}
+
+.titleContainer {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.button {
+	margin-top: 24px;
+	text-align: left;
+}
+
+.messageTitle {
+	margin-bottom: 16px;
+	display: flex;
+	gap: 19px;
+	align-items: center;
+}
+
+.videoCallIcon {
+	min-width: 12px;
+}
+
+.illustration {
+	display: none;
+
+	@include breakpoint($fromLarge) {
+		display: block;
+	}
+}

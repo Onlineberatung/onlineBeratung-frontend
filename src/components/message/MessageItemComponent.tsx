@@ -64,8 +64,9 @@ import { ReactComponent as XIllustration } from '../../resources/img/illustratio
 import { BUTTON_TYPES } from '../button/Button';
 import { apiDeleteMessage } from '../../api/apiDeleteMessage';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
-import { BanUser } from '../banUser/BanUser';
+import { BanUser, BanUserOverlay } from '../banUser/BanUser';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { VideoChatDetails, VideoChatDetailsAlias } from './VideoChatDetails';
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -105,6 +106,7 @@ export interface MessageItem {
 	file?: MessageService.Schemas.FileDTO;
 	t: null | 'e2e' | 'rm' | 'room-removed-read-only' | 'room-set-read-only';
 	rid: string;
+	isVideoActive?: boolean;
 }
 
 interface MessageItemComponentProps extends MessageItem {
@@ -142,7 +144,8 @@ export const MessageItemComponent = ({
 	rid,
 	handleDecryptionErrors,
 	handleDecryptionSuccess,
-	e2eeParams
+	e2eeParams,
+	isVideoActive
 }: MessageItemComponentProps) => {
 	const { t: translate } = useTranslation();
 	const { activeSession, reloadActiveSession } =
@@ -300,6 +303,8 @@ export const MessageItemComponent = ({
 		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
 	const isAppointmentDefined =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.INITIAL_APPOINTMENT_DEFINED;
+	const isFullWidthMessage =
+		isVideoCallMessage && !videoCallMessage?.eventType;
 
 	// WORKAROUND for reassignment last message bug
 	// don't show this message in the session view
@@ -319,6 +324,10 @@ export const MessageItemComponent = ({
 	const isDeleteMessage = t === 'rm';
 	const isRoomRemovedReadOnly = t === 'room-removed-read-only';
 	const isRoomSetReadOnly = t === 'room-set-read-only';
+	const isRejectedCallInGroupChat =
+		alias?.messageType === ALIAS_MESSAGE_TYPES.VIDEOCALL &&
+		videoCallMessage?.eventType === 'IGNORED_CALL' &&
+		activeSession?.isGroup;
 
 	const messageContent = (): JSX.Element => {
 		switch (true) {
@@ -397,8 +406,18 @@ export const MessageItemComponent = ({
 						)}
 					</span>
 				);
+			case isVideoCallMessage && !videoCallMessage?.eventType:
+				const parsedMessage = JSON.parse(
+					alias.content
+				) as VideoChatDetailsAlias;
+				return (
+					<VideoChatDetails
+						data={parsedMessage}
+						isVideoActive={isVideoActive}
+					/>
+				);
 			case isVideoCallMessage &&
-				videoCallMessage.eventType === 'IGNORED_CALL':
+				videoCallMessage?.eventType === 'IGNORED_CALL':
 				return (
 					<VideoCallMessage
 						videoCallMessage={videoCallMessage}
@@ -523,7 +542,7 @@ export const MessageItemComponent = ({
 	)
 		return null;
 
-	if (isUpdateSessionDataMessage) {
+	if (isUpdateSessionDataMessage || isRejectedCallInGroupChat) {
 		return null;
 	}
 
@@ -531,7 +550,7 @@ export const MessageItemComponent = ({
 		<div
 			className={`messageItem ${
 				isMyMessage ? 'messageItem--right' : ''
-			} ${
+			} ${isFullWidthMessage ? 'messageItem--full' : ''} ${
 				alias?.messageType &&
 				`${alias?.messageType.toLowerCase()} systemMessage`
 			}`}
@@ -583,6 +602,8 @@ const MessageFlyoutMenu = ({
 }) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
+	const [isUserBanOverlayOpen, setIsUserBanOverlayOpen] =
+		useState<boolean>(false);
 
 	const currentUserIsModerator = isUserModerator({
 		chatItem: activeSession.item,
@@ -595,26 +616,40 @@ const MessageFlyoutMenu = ({
 	});
 
 	return (
-		<FlyoutMenu position={isMyMessage ? 'left-top' : 'right-top'}>
-			{currentUserIsModerator &&
-				!subscriberIsModerator &&
-				!isUserBanned && (
-					<BanUser
-						userName={username}
-						rcUserId={userId}
-						chatId={activeSession.item.id}
-					/>
-				)}
+		<>
+			<FlyoutMenu position={isMyMessage ? 'left-top' : 'right-top'}>
+				{currentUserIsModerator &&
+					!subscriberIsModerator &&
+					!isUserBanned && (
+						<BanUser
+							userName={username}
+							rcUserId={userId}
+							chatId={activeSession.item.id}
+							handleUserBan={() => {
+								setIsUserBanOverlayOpen(true);
+							}}
+						/>
+					)}
 
-			{isMyMessage &&
-				!isArchived &&
-				getSetting<IBooleanSetting>(SETTING_MESSAGE_ALLOWDELETING) && (
-					<DeleteMessage
-						messageId={_id}
-						className="flyoutMenu__item--delete"
-					/>
-				)}
-		</FlyoutMenu>
+				{isMyMessage &&
+					!isArchived &&
+					getSetting<IBooleanSetting>(
+						SETTING_MESSAGE_ALLOWDELETING
+					) && (
+						<DeleteMessage
+							messageId={_id}
+							className="flyoutMenu__item--delete"
+						/>
+					)}
+			</FlyoutMenu>
+			<BanUserOverlay
+				overlayActive={isUserBanOverlayOpen}
+				userName={username}
+				handleOverlay={() => {
+					setIsUserBanOverlayOpen(false);
+				}}
+			></BanUserOverlay>
+		</>
 	);
 };
 

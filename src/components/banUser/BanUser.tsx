@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { apiPostBanUser } from '../../api/apiPostBanUser';
 import { BUTTON_TYPES } from '../button/Button';
@@ -14,15 +14,39 @@ interface BanUserProps {
 	handleUserBan?: (username: string) => void;
 }
 
-export const BanUser: React.FC<BanUserProps> = ({
+interface BanUserOverlayProps {
+	overlayActive: boolean;
+	userName: string;
+	handleOverlay?: () => void;
+}
+
+export const BanUser: React.VFC<BanUserProps> = ({
 	rcUserId,
 	chatId,
 	userName,
 	handleUserBan
 }) => {
 	const { t: translate } = useTranslation();
-	const [overlayActive, setOverlayActive] = useState(false);
-	const [overlayItem, setOverlayItem] = useState<OverlayItem>();
+
+	const banUser = () => {
+		apiPostBanUser({ rcUserId, chatId }).then(() => {
+			if (handleUserBan) handleUserBan(userName);
+		});
+	};
+
+	return (
+		<button className="banUser" onClick={banUser}>
+			{translate('banUser.ban.trigger')}
+		</button>
+	);
+};
+
+export const BanUserOverlay: React.VFC<BanUserOverlayProps> = ({
+	overlayActive,
+	userName,
+	handleOverlay
+}) => {
+	const { t: translate } = useTranslation();
 
 	const banSuccessOverlay = (userName): OverlayItem => {
 		const compositeText =
@@ -39,32 +63,21 @@ export const BanUser: React.FC<BanUserProps> = ({
 			),
 			buttonSet: [
 				{
-					type: BUTTON_TYPES.AUTO_CLOSE,
+					type: BUTTON_TYPES.PRIMARY,
 					label: translate('banUser.ban.overlay.close')
 				}
 			]
 		};
 	};
 
-	const banUser = () => {
-		apiPostBanUser({ rcUserId, chatId }).then(() => {
-			setOverlayItem(banSuccessOverlay(userName));
-			setOverlayActive(true);
-			if (handleUserBan) handleUserBan(userName);
-		});
-	};
-
 	return (
 		<>
-			<button className="banUser" onClick={banUser}>
-				{translate('banUser.ban.trigger')}
-			</button>
 			{overlayActive && (
 				<Overlay
 					className="banUser__overlay"
-					item={overlayItem}
-					handleOverlayClose={() => setOverlayActive(false)}
-					handleOverlay={() => setOverlayActive(false)}
+					item={banSuccessOverlay(userName)}
+					handleOverlayClose={handleOverlay}
+					handleOverlay={handleOverlay}
 				/>
 			)}
 		</>
