@@ -1,6 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { UserDataContext } from '../../../globalState';
 import {
 	browserNotificationsSettings,
 	saveBrowserNotificationsSettings
@@ -10,9 +9,10 @@ import { Switch } from '../../Switch';
 import { Text } from '../../text/Text';
 import { NotificationDenied } from './NotificationDenied';
 import styles from './styles.module.scss';
+import useIsFirstVisit from '../../../utils/useIsFirstVisit';
 
 export const BrowserNotification = () => {
-	const { isFirstVisit } = useContext(UserDataContext);
+	const isFirstVisit = useIsFirstVisit();
 	const [localBrowserSettings, setNotificationsSettings] = useState(
 		browserNotificationsSettings()
 	);

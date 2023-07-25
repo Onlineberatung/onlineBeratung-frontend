@@ -7,11 +7,9 @@ $inputSpacing: 32px;
 		flex-direction: column;
 		background-color: $background-light;
 		width: 100vw;
-		height: 100vh;
 
 		@include breakpoint($fromLarge) {
 			width: 100%;
-			height: calc(100vh - 96px);
 		}
 	}
 

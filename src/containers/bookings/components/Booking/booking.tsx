@@ -12,10 +12,6 @@ import {
 } from '../../../../api';
 import Cal from '../Calcom/Cal';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
-import {
-	setBookingWrapperActive,
-	setBookingWrapperInactive
-} from '../../../../components/app/navigationHandler';
 import { getValueFromCookie } from '../../../../components/sessionCookie/accessSessionCookie';
 
 export const getUserEmail = (userData: UserDataInterface) => {
@@ -29,14 +25,6 @@ export const Booking = () => {
 	const [session, setSession] = useState<ListItemInterface>();
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
 	const settings = useAppConfig();
-
-	useEffect(() => {
-		setBookingWrapperActive();
-
-		return () => {
-			setBookingWrapperInactive();
-		};
-	}, []);
 
 	useEffect(() => {
 		apiGetAskerSessionList().then(({ sessions }) => {

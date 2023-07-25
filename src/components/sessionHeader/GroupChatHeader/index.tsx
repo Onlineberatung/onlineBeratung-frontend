@@ -165,21 +165,17 @@ export const GroupChatHeader = ({
 					)}
 				</div>
 
-				{!isActive &&
-					hasUserAuthority(
-						AUTHORITIES.CONSULTANT_DEFAULT,
-						userData
-					) && (
-						<Link
-							to={groupChatInfoLink}
-							className="sessionMenu__item--desktop sessionMenu__button"
-						>
-							<span className="sessionMenu__icon">
-								<GroupChatInfoIcon />
-								{t('chatFlyout.groupChatInfo')}
-							</span>
-						</Link>
-					)}
+				{!isActive && isConsultant && (
+					<Link
+						to={groupChatInfoLink}
+						className="sessionMenu__item--desktop sessionMenu__button"
+					>
+						<span className="sessionMenu__icon">
+							<GroupChatInfoIcon />
+							{t('chatFlyout.groupChatInfo')}
+						</span>
+					</Link>
+				)}
 
 				{isActive &&
 					isConsultant &&

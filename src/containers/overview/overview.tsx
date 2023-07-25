@@ -1,8 +1,4 @@
-import React, { useEffect } from 'react';
-import {
-	setProfileWrapperActive,
-	setProfileWrapperInactive
-} from '../../components/app/navigationHandler';
+import React from 'react';
 import { Page } from '../../components/Page';
 import { SESSION_LIST_TYPES } from '../../components/session/sessionHelpers';
 import { BookingCard } from './components/BookingCard/BookingCard';
@@ -13,13 +9,6 @@ import { useTranslation } from 'react-i18next';
 
 export const OverviewPage = () => {
 	const { t: translate } = useTranslation();
-
-	useEffect(() => {
-		setProfileWrapperActive();
-		return () => {
-			setProfileWrapperInactive();
-		};
-	}, []);
 
 	return (
 		<Page className="overviewPage">

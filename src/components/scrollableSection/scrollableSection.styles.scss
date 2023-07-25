@@ -1,7 +1,17 @@
 .scrollableSection {
-	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: stretch;
+	align-items: stretch;
+	min-height: 0;
+
+	&__header,
+	&__footer {
+		flex: 0;
+	}
 
 	&__body {
+		flex: 1;
 		overflow-y: auto;
 		max-height: 100vh;
 	}

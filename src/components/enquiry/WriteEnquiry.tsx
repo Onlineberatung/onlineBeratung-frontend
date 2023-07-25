@@ -116,10 +116,11 @@ export const WriteEnquiry: React.FC = () => {
 	const activateListView = () => {
 		document
 			.querySelector('.contentWrapper__list')
-			?.setAttribute('style', 'display: block');
+			?.classList.remove('.contentWrapper__list--hidden');
 		document
 			.querySelector('.navigation__wrapper')
 			?.classList.remove('navigation__wrapper--mobileHidden');
+		document.querySelector('.header')?.classList.remove('header--mobile');
 
 		if (window.innerWidth <= 900) {
 			const contentWrapper = document.querySelector(
@@ -134,7 +135,7 @@ export const WriteEnquiry: React.FC = () => {
 	const deactivateListView = () => {
 		document
 			.querySelector('.contentWrapper__list')
-			?.setAttribute('style', 'display: none');
+			?.classList.add('.contentWrapper__list--hidden');
 		document
 			.querySelector('.navigation__wrapper')
 			?.classList.add('navigation__wrapper--mobileHidden');
