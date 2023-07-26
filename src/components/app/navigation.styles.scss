@@ -22,7 +22,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		width: 100%;
 		max-width: calc(#{$grid-base} * 62);
 		padding: $grid-base-two;
-		overflow-y: scroll;
+		overflow-y: auto;
 
 		@include breakpoint($fromLarge) {
 			justify-content: space-between;

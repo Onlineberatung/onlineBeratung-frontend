@@ -54,6 +54,7 @@ $background-circle-size: 1800px !default;
 		min-height: 0;
 		flex: 1;
 		padding: $grid-base-six $grid-base-two $grid-base-twelve;
+		flex-direction: column;
 		overflow: auto;
 		position: relative;
 		display: flex;

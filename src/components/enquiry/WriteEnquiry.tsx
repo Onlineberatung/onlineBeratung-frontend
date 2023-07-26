@@ -116,7 +116,7 @@ export const WriteEnquiry: React.FC = () => {
 	const activateListView = () => {
 		document
 			.querySelector('.contentWrapper__list')
-			?.classList.remove('.contentWrapper__list--hidden');
+			?.classList.remove('contentWrapper__list--hidden');
 		document
 			.querySelector('.navigation__wrapper')
 			?.classList.remove('navigation__wrapper--mobileHidden');
@@ -135,7 +135,7 @@ export const WriteEnquiry: React.FC = () => {
 	const deactivateListView = () => {
 		document
 			.querySelector('.contentWrapper__list')
-			?.classList.add('.contentWrapper__list--hidden');
+			?.classList.add('contentWrapper__list--hidden');
 		document
 			.querySelector('.navigation__wrapper')
 			?.classList.add('navigation__wrapper--mobileHidden');
