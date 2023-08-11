@@ -42,6 +42,7 @@ const VideoConference = () => {
 	const [quitted, setQuitted] = useState(false);
 	const [ready, setReady] = useState(false);
 	const [rejected, setRejected] = useState(false);
+	const [skipAuth, setSkipAuth] = useState(false);
 	const [confirmed, setConfirmed] = useState(status === 'confirmed');
 	const [appointment, setAppointment] =
 		useState<AppointmentsDataInterface>(null);
@@ -61,12 +62,14 @@ const VideoConference = () => {
 	);
 
 	const loadAppointment = useCallback(() => {
-		return appointmentService.getAppointment(appointmentId).then((res) => {
-			if (res.status !== appointment?.status) {
-				setAppointment(res);
-			}
-		});
-	}, [appointment?.status, appointmentId]);
+		return appointmentService
+			.getAppointment(appointmentId, skipAuth)
+			.then((res) => {
+				if (res.status !== appointment?.status) {
+					setAppointment(res);
+				}
+			});
+	}, [appointment?.status, appointmentId, skipAuth]);
 
 	const [startWatcher, stopWatcher, isWatcherRunning] =
 		useWatcher(loadAppointment);
@@ -133,17 +136,25 @@ const VideoConference = () => {
 			setInitialized(true);
 
 			Promise.all([
-				appointmentService.getAppointment(appointmentId),
-				videocallsService.getJwt(appointmentId)
+				appointmentService.getAppointment(appointmentId, skipAuth),
+				videocallsService.getJwt(appointmentId, skipAuth)
 			])
 				.then(([appointment, videoCallJwtData]) => {
 					setAppointment(appointment);
 					setVideoCallJwtData(videoCallJwtData);
+					setReady(true);
 				})
-				.catch((e) => console.error(e))
-				.finally(() => setReady(true));
+				.catch((e) => {
+					if (e?.status === 401 && skipAuth === false) {
+						setSkipAuth(true);
+						setInitialized(false);
+					} else {
+						console.error(e);
+						setReady(true);
+					}
+				});
 		}
-	}, [appointmentId, initialized]);
+	}, [appointmentId, initialized, skipAuth]);
 
 	useEffect(() => {
 		if (appointment?.id && !isModerator() && !isWatcherRunning) {
