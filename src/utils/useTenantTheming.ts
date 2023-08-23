@@ -183,7 +183,7 @@ const getOrCreateHeadNode = (
 
 const applyTheming = (tenant: TenantDataInterface) => {
 	if (tenant.theming) {
-		if (tenant.theming.primaryColor && tenant.theming.secondaryColor) {
+		if (tenant.theming.primaryColor) {
 			injectCss(tenant.theming);
 		}
 
