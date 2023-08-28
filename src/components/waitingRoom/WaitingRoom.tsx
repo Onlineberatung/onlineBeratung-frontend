@@ -44,8 +44,6 @@ import { StageLayout } from '../stageLayout/StageLayout';
 import { appConfig } from '../../utils/appConfig';
 import { Loading } from '../app/Loading';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
-import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
-import { E2EEncryptionSupportHelp } from '../E2EEncryptionSupportHelp/E2EEncryptionSupportHelp';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
@@ -269,9 +267,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 	};
 
 	const getContent = () => {
-		if (!supportsE2EEncryptionVideoCall()) {
-			return <E2EEncryptionSupportHelp />;
-		} else if (isDataProtectionViewActive) {
+		if (isDataProtectionViewActive) {
 			return (
 				<WaitingRoomContent
 					showRegistrationInfo={false}
