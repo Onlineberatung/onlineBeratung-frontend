@@ -183,7 +183,9 @@ const getOrCreateHeadNode = (
 
 const applyTheming = (tenant: TenantDataInterface) => {
 	if (tenant.theming) {
-		injectCss(tenant.theming);
+		if (tenant.theming.primaryColor) {
+			injectCss(tenant.theming);
+		}
 
 		getOrCreateHeadNode('meta', { name: 'theme-color' }).setAttribute(
 			'content',
