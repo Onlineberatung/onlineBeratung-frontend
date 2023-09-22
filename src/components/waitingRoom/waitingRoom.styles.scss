@@ -6,7 +6,7 @@ $waiting-room-subline-opacity: 1 !default;
 .waitingRoom {
 	display: flex;
 	justify-content: center;
-	min-height: 100vh;
+	min-height: 100%;
 	overflow: hidden;
 
 	&__headline {

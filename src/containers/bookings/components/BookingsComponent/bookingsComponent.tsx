@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import {
-	setBookingWrapperActive,
-	setBookingWrapperInactive
-} from '../../../../components/app/navigationHandler';
-import {
 	AUTHORITIES,
 	hasUserAuthority,
 	UserDataContext
@@ -27,14 +23,6 @@ export const BookingsComponent: React.FC<BookingsComponentProps> = ({
 	isLoading,
 	bookingStatus
 }) => {
-	useEffect(() => {
-		setBookingWrapperActive();
-
-		return () => {
-			setBookingWrapperInactive();
-		};
-	}, []);
-
 	const { userData } = useContext(UserDataContext);
 	const [sessions, setSessions] = useState(null);
 

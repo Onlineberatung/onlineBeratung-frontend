@@ -245,7 +245,7 @@ export const AskerInfoToolsOptions = (
 	}, [props.askerId]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
-		<div className="asker-info-tools-options">
+		<div className="askerInfoToolsOptions">
 			<Text text={translate('userProfile.tools.title')} type="divider" />
 			<Text
 				text={translate('userProfile.tools.description')}
@@ -253,7 +253,7 @@ export const AskerInfoToolsOptions = (
 			/>
 			<button
 				type="button"
-				className="asker-info-tools-options__button text--tertiary primary button-as-link"
+				className="askerInfoToolsOptions__button text--tertiary primary button-as-link"
 				onClick={() => setShowModal(true)}
 			>
 				<Info />
@@ -278,7 +278,7 @@ export const AskerInfoToolsOptions = (
 			/>
 			{showModal && overlayContent && (
 				<Overlay
-					className="asker-info-tools-options__overlay"
+					className="askerInfoToolsOptions__overlay"
 					item={overlayContent}
 					handleOverlayClose={() => resetToolsAfterCloseModal()}
 					handleOverlay={handleOverlayAction}

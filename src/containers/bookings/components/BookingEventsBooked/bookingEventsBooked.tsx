@@ -1,9 +1,5 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import {
-	setBookingWrapperActive,
-	setBookingWrapperInactive
-} from '../../../../components/app/navigationHandler';
 import '../booking.styles';
 import {
 	AUTHORITIES,
@@ -21,14 +17,6 @@ import { transformBookingData } from '../../../../utils/transformBookingData';
 import { BookingsComponent } from '../BookingsComponent/bookingsComponent';
 
 export const BookingEventsBooked: React.FC = () => {
-	useEffect(() => {
-		setBookingWrapperActive();
-
-		return () => {
-			setBookingWrapperInactive();
-		};
-	}, []);
-
 	const { userData } = useContext(UserDataContext);
 
 	const [isLoading, setIsLoading] = useState(true);

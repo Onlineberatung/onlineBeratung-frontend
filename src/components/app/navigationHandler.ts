@@ -13,146 +13,73 @@ const activateNavigationItem = (e: Event, navItems) => {
 };
 
 export const desktopView = () => {
-	const contentDetail = document.querySelector('.contentWrapper__detail');
-	contentDetail?.classList.remove('contentWrapper__detail--smallInactive');
-
-	const contentList = document.querySelector('.contentWrapper__list');
-	contentList?.classList.remove('contentWrapper__list--smallInactive');
-
-	const navigation = document.querySelector('.navigation__wrapper');
-	navigation?.classList.remove('navigation__wrapper--inactive');
-
 	const contentWrapper = document.querySelector('.contentWrapper');
+	const contentWrapperDetail = document.querySelector(
+		'.contentWrapper__detail'
+	);
+	const contentWrapperList = document.querySelector('.contentWrapper__list');
+	const navigationWrapper = document.querySelector('.navigation__wrapper');
+	contentWrapperDetail?.classList.remove(
+		'contentWrapper__detail--smallInactive'
+	);
+	contentWrapperList?.classList.remove('contentWrapper__list--smallInactive');
+	navigationWrapper?.classList.remove('navigation__wrapper--inactive');
 	contentWrapper?.classList.remove('contentWrapper--navInactive');
 };
 
 export const mobileListView = () => {
 	if (window.innerWidth <= 900) {
-		const contentDetail = document.querySelector('.contentWrapper__detail');
-		contentDetail?.classList.add('contentWrapper__detail--smallInactive');
-
-		const contentList = document.querySelector('.contentWrapper__list');
-		contentList?.classList.remove('contentWrapper__list--smallInactive');
-
-		const navigation = document.querySelector('.navigation__wrapper');
-		navigation?.classList.remove('navigation__wrapper--inactive');
-
 		const contentWrapper = document.querySelector('.contentWrapper');
+		const contentWrapperDetail = document.querySelector(
+			'.contentWrapper__detail'
+		);
+		const contentWrapperList = document.querySelector(
+			'.contentWrapper__list'
+		);
+		const navigationWrapper = document.querySelector(
+			'.navigation__wrapper'
+		);
+		contentWrapperDetail?.classList.add(
+			'contentWrapper__detail--smallInactive'
+		);
+		contentWrapperList?.classList.remove(
+			'contentWrapper__list--smallInactive'
+		);
+		navigationWrapper?.classList.remove('navigation__wrapper--inactive');
 		contentWrapper?.classList.remove('contentWrapper--navInactive');
 	}
 };
 
 export const mobileDetailView = () => {
 	if (window.innerWidth <= 900) {
-		const contentDetail = document.querySelector('.contentWrapper__detail');
-		contentDetail?.classList.remove(
+		const contentWrapper = document.querySelector('.contentWrapper');
+		const contentWrapperDetail = document.querySelector(
+			'.contentWrapper__detail'
+		);
+		const contentWrapperList = document.querySelector(
+			'.contentWrapper__list'
+		);
+		const navigationWrapper = document.querySelector(
+			'.navigation__wrapper'
+		);
+		contentWrapperDetail?.classList.remove(
 			'contentWrapper__detail--smallInactive'
 		);
-
-		const contentList = document.querySelector('.contentWrapper__list');
-		contentList?.classList.add('contentWrapper__list--smallInactive');
-
-		const navigation = document.querySelector('.navigation__wrapper');
-		navigation?.classList.add('navigation__wrapper--inactive');
-
-		const contentWrapper = document.querySelector('.contentWrapper');
+		contentWrapperList?.classList.add(
+			'contentWrapper__list--smallInactive'
+		);
+		navigationWrapper?.classList.add('navigation__wrapper--inactive');
 		contentWrapper?.classList.add('contentWrapper--navInactive');
 	}
 };
 
-export const setProfileWrapperInactive = () => {
-	document
-		.querySelector('.contentWrapper__list')
-		?.setAttribute('style', 'display: block');
-	document
-		.querySelector('.contentWrapper__detail')
-		?.setAttribute('style', 'display: block');
-	document
-		.querySelector('.contentWrapper__profile')
-		?.setAttribute('style', 'display: none');
-};
-
-export const setProfileWrapperActive = () => {
-	document
-		.querySelector('.contentWrapper__list')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__detail')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__profile')
-		?.setAttribute('style', 'display: block');
-};
-
-export const setBookingWrapperInactive = () => {
-	document
-		.querySelector('.contentWrapper__list')
-		?.setAttribute('style', 'display: block');
-	document
-		.querySelector('.contentWrapper__detail')
-		?.setAttribute('style', 'display: block');
-	document
-		.querySelector('.contentWrapper__profile')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__booking')
-		?.setAttribute('style', 'display: none');
-};
-
-export const setBookingWrapperActive = () => {
-	document
-		.querySelector('.contentWrapper__list')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__detail')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__profile')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__booking')
-		?.setAttribute('style', 'display: block');
-};
-
-export const setToolsWrapperInactive = () => {
-	document
-		.querySelector('.contentWrapper__list')
-		?.setAttribute('style', 'display: block');
-	document
-		.querySelector('.contentWrapper__detail')
-		?.setAttribute('style', 'display: block');
-	document
-		.querySelector('.contentWrapper__profile')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__booking')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__tools')
-		?.setAttribute('style', 'display: none');
-};
-
-export const setToolsWrapperActive = () => {
-	document
-		.querySelector('.contentWrapper__list')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__detail')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__profile')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__booking')
-		?.setAttribute('style', 'display: none');
-	document
-		.querySelector('.contentWrapper__tools')
-		?.setAttribute('style', 'display: block');
-};
-
 export const mobileUserProfileView = () => {
 	if (window.innerWidth <= 900) {
-		const contentList = document.querySelector('.contentWrapper__list');
-		contentList?.classList.add('contentWrapper__list--smallInactive');
+		const contentWrapperList = document.querySelector(
+			'.contentWrapper__list'
+		);
+		contentWrapperList?.classList.add(
+			'contentWrapper__list--smallInactive'
+		);
 	}
 };

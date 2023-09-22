@@ -38,14 +38,14 @@ export const AskerInfoTools = () => {
 		<>
 			<AskerInfoToolsOptions askerId={askerId} />
 			<Text
-				className="asker-info-tools__share-title"
+				className="askerInfoTools__share-title"
 				text={translate('userProfile.tools.share.title')}
 				type="divider"
 			/>
 			<button
 				title={translate('userProfile.tools.share.info')}
 				type="button"
-				className="asker-info-tools__button text--tertiary primary button-as-link"
+				className="askerInfoTools__button text--tertiary primary button-as-link"
 				onClick={openToolsLink}
 				aria-label={translate('userProfile.tools.share.info')}
 			>

@@ -2,7 +2,6 @@ import { createPortal } from 'react-dom';
 import { ReactNode, useEffect, useState, MouseEvent, useCallback } from 'react';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 const fixedStage = document.getElementsByClassName(
 	'stage'
 ) as HTMLCollectionOf<HTMLDivElement>;
@@ -10,18 +9,6 @@ const fixedStageLayout = document.getElementsByClassName(
 	'stageLayout'
 ) as HTMLCollectionOf<HTMLDivElement>;
 const bannerContainer = document.getElementById('banner');
-const appWrapper = document.getElementsByClassName(
-	'app__wrapper'
-) as HTMLCollectionOf<HTMLElement>;
-const app = document.getElementsByClassName(
-	'app'
-) as HTMLCollectionOf<HTMLElement>;
-const sessionsListHeader = document.getElementsByClassName(
-	'sessionsList__header'
-) as HTMLCollectionOf<HTMLElement>;
-const profileHeader = document.getElementsByClassName(
-	'profile__header'
-) as HTMLCollectionOf<HTMLElement>;
 
 export const Banner = ({
 	children,
@@ -35,8 +22,6 @@ export const Banner = ({
 	onClose?: (e: MouseEvent<HTMLButtonElement>) => void;
 }) => {
 	const [element] = useState(() => document.createElement('div'));
-	const [windowWidth, setWindowWidth] = useState(undefined);
-	const location = useLocation();
 	const { t: translate } = useTranslation();
 	const getBannersHeight = useCallback(() => {
 		let bannersHeight = 0;
@@ -49,16 +34,6 @@ export const Banner = ({
 			}
 		}
 		return bannersHeight;
-	}, []);
-
-	useEffect(() => {
-		const handleResize = () => {
-			setWindowWidth(window.innerWidth);
-		};
-
-		window.addEventListener('resize', handleResize);
-		handleResize();
-		return () => window.removeEventListener('resize', handleResize);
 	}, []);
 
 	useEffect(() => {
@@ -77,27 +52,6 @@ export const Banner = ({
 		if (fixedStage?.[0]) {
 			fixedStage[0].style.paddingTop = `${bannerContainer.clientHeight}px`;
 		}
-
-		if (app?.[0] && getBannersHeight() > 0) {
-			app[0].style.overflow = 'hidden';
-		}
-
-		if (sessionsListHeader?.[0]) {
-			const bannersHeight = getBannersHeight();
-			sessionsListHeader[0].style.top = `${bannersHeight}px`;
-		}
-
-		if (profileHeader?.[0]) {
-			const bannersHeight = getBannersHeight();
-			profileHeader[0].style.top = `${bannersHeight}px`;
-		}
-
-		if (appWrapper?.[0]) {
-			const bannersHeight = getBannersHeight();
-			appWrapper[0].style.height = `calc(100vh - ${bannersHeight}px)`;
-			appWrapper[0].style.marginTop = `${bannersHeight}px`;
-		}
-
 		if (fixedStageLayout?.[0]) {
 			const bannersHeight = getBannersHeight();
 			fixedStageLayout[0].style.paddingTop = `${bannersHeight}px`;
@@ -110,31 +64,13 @@ export const Banner = ({
 			if (fixedStage?.[0]) {
 				fixedStage[0].style.paddingTop = `0px`;
 			}
-
-			if (app?.[0]) {
-				app[0].style.removeProperty('overflow');
-			}
-
-			if (sessionsListHeader?.[0]) {
-				sessionsListHeader[0].style.top = '0';
-			}
-
-			if (profileHeader?.[0]) {
-				profileHeader[0].style.top = '0';
-			}
-
-			if (appWrapper?.[0]) {
-				appWrapper[0].style.height = `100vh`;
-				appWrapper[0].style.marginTop = `0px`;
-			}
-
 			if (fixedStageLayout?.[0]) {
 				const bannersHeight = getBannersHeight();
 				fixedStageLayout[0].style.paddingTop = `${bannersHeight}px`;
 				fixedStageLayout[0].style.marginTop = `-${bannersHeight}px`;
 			}
 		};
-	}, [className, element, getBannersHeight, style, windowWidth, location]);
+	}, [className, element, getBannersHeight, style]);
 
 	return createPortal(
 		<>

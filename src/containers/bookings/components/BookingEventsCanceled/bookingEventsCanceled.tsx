@@ -1,9 +1,5 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import {
-	setBookingWrapperActive,
-	setBookingWrapperInactive
-} from '../../../../components/app/navigationHandler';
 import { UserDataContext } from '../../../../globalState';
 import {
 	BookingEventsInterface,
@@ -15,14 +11,6 @@ import { BookingsComponent } from '../BookingsComponent/bookingsComponent';
 import { transformBookingData } from '../../../../utils/transformBookingData';
 
 export const BookingEventsCanceled: React.FC = () => {
-	useEffect(() => {
-		setBookingWrapperActive();
-
-		return () => {
-			setBookingWrapperInactive();
-		};
-	}, []);
-
 	const { userData } = useContext(UserDataContext);
 	const [isLoading, setIsLoading] = useState(true);
 	const [bookingEventsData, setBookingEventsData] = useState<

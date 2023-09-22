@@ -1,10 +1,6 @@
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import {
-	setBookingWrapperActive,
-	setBookingWrapperInactive
-} from '../../../../components/app/navigationHandler';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
@@ -19,13 +15,6 @@ export const BookingReschedule = () => {
 		userData
 	);
 	const settings = useAppConfig();
-	useEffect(() => {
-		setBookingWrapperActive();
-
-		return () => {
-			setBookingWrapperInactive();
-		};
-	}, []);
 
 	const location = useLocation<{
 		askerId: string;

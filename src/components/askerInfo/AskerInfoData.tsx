@@ -26,11 +26,11 @@ export const AskerInfoData = () => {
 	return (
 		<>
 			<Text text={translate('userProfile.data.title')} type="divider" />
-			<div className="profile__data__item">
-				<p className="profile__data__label">
+			<div className="askerInfo__data__item">
+				<p className="askerInfo__data__label">
 					{translate('userProfile.data.resort')}
 				</p>
-				<p className="profile__data__content">
+				<p className="askerInfo__data__content">
 					{consultingType
 						? translate(
 								[
@@ -43,26 +43,26 @@ export const AskerInfoData = () => {
 				</p>
 			</div>
 			{activeSession.item.consultingType === 0 && !activeSession.isLive && (
-				<div className="profile__data__item">
-					<p className="profile__data__label">
+				<div className="askerInfo__data__item">
+					<p className="askerInfo__data__label">
 						{translate('userProfile.data.postcode')}
 					</p>
-					<p className="profile__data__content">
+					<p className="askerInfo__data__content">
 						{activeSession.item.postcode}
 					</p>
 				</div>
 			)}
 			{preparedUserSessionData.map((item, index) =>
 				item.type === 'age' && item.value === 'null' ? null : (
-					<div className="profile__data__item" key={index}>
-						<p className="profile__data__label">
+					<div className="askerInfo__data__item" key={index}>
+						<p className="askerInfo__data__label">
 							{translate('userProfile.data.' + item.type)}
 						</p>
 						<p
 							className={
 								item.value
-									? `profile__data__content`
-									: `profile__data__content profile__data__content--empty`
+									? `askerInfo__data__content`
+									: `askerInfo__data__content askerInfo__data__content--empty`
 							}
 						>
 							{item.value

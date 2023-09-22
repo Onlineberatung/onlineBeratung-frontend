@@ -450,84 +450,87 @@ export const CreateGroupChatView = (props) => {
 					</p>
 				</div>
 			)}
-			<form id="createChatForm" className="createChat__content">
-				<InputField
-					item={chatTopicInputItem}
-					inputHandle={handleChatTopicInput}
-				/>
-				<div className="formWrapper react-datepicker--date">
-					<DatePicker
-						selected={selectedDate}
-						onChange={(date) => handleDatePicker(date)}
-						onFocus={() => setIsDateInputFocus(true)}
-						onBlur={() => setIsDateInputFocus(false)}
-						locale="de"
-						minDate={new Date()}
-						maxDate={new Date(2999, 12, 31)}
-						dateFormat="cccccc, dd. MMMM yyyy"
+			<div id="createChatForm" className="createChat__content">
+				<form>
+					<InputField
+						item={chatTopicInputItem}
+						inputHandle={handleChatTopicInput}
 					/>
-					<span
-						className={
-							isDateInputFocused || selectedDate
-								? `react-datepicker__label react-datepicker__label--active`
-								: `react-datepicker__label`
-						}
-						aria-label="date input label"
-					>
-						{translate('groupChat.create.dateInput.label')}
-					</span>
-				</div>
-				<div className="formWrapper react-datepicker--time">
-					<DatePicker
-						selected={selectedTime}
-						onChange={(time) => handleTimePicker(time)}
-						onFocus={() => setIsTimeInputFocus(true)}
-						onBlur={() => setIsTimeInputFocus(false)}
-						locale="de"
-						showTimeSelect
-						showTimeSelectOnly
-						timeIntervals={15}
-						timeCaption="Uhrzeit"
-						dateFormat="HH:mm"
-					/>
-					<span
-						className={
-							isTimeInputFocused || selectedTime
-								? `react-datepicker__label react-datepicker__label--active`
-								: `react-datepicker__label`
-						}
-						aria-label="time input label"
-					>
-						{translate('groupChat.create.beginDateInput.label')}
-					</span>
-				</div>
-				<SelectDropdown {...durationSelectDropdown} />
-				<Checkbox
-					item={repetitiveCheckboxItem}
-					checkboxHandle={() =>
-						setSelectedRepetitive(!selectedRepetitive)
-					}
-				/>
-				{isEditGroupChatMode ? (
-					<div className="createChat__buttonsWrapper">
-						<Button
-							item={buttonSetCancel}
-							buttonHandle={handleBackButton}
+					<div className="formWrapper react-datepicker--date">
+						<DatePicker
+							selected={selectedDate}
+							onChange={(date) => handleDatePicker(date)}
+							onFocus={() => setIsDateInputFocus(true)}
+							onBlur={() => setIsDateInputFocus(false)}
+							locale="de"
+							minDate={new Date()}
+							maxDate={new Date(2999, 12, 31)}
+							dateFormat="cccccc, dd. MMMM yyyy"
 						/>
-						<Button
-							item={buttonSetSave}
-							buttonHandle={handleCreateAndUpdateButton}
-							disabled={isSaveButtonDisabled}
-						/>
+						<span
+							className={
+								isDateInputFocused || selectedDate
+									? `react-datepicker__label react-datepicker__label--active`
+									: `react-datepicker__label`
+							}
+							aria-label="date input label"
+						>
+							{translate('groupChat.create.dateInput.label')}
+						</span>
 					</div>
-				) : (
-					<Button
-						item={buttonSetCreate}
-						buttonHandle={handleCreateAndUpdateButton}
-						disabled={isCreateButtonDisabled}
+					<div className="formWrapper react-datepicker--time">
+						<DatePicker
+							selected={selectedTime}
+							onChange={(time) => handleTimePicker(time)}
+							onFocus={() => setIsTimeInputFocus(true)}
+							onBlur={() => setIsTimeInputFocus(false)}
+							locale="de"
+							showTimeSelect
+							showTimeSelectOnly
+							timeIntervals={15}
+							timeCaption="Uhrzeit"
+							dateFormat="HH:mm"
+						/>
+						<span
+							className={
+								isTimeInputFocused || selectedTime
+									? `react-datepicker__label react-datepicker__label--active`
+									: `react-datepicker__label`
+							}
+							aria-label="time input label"
+						>
+							{translate('groupChat.create.beginDateInput.label')}
+						</span>
+					</div>
+					<SelectDropdown {...durationSelectDropdown} />
+					<Checkbox
+						item={repetitiveCheckboxItem}
+						checkboxHandle={() =>
+							setSelectedRepetitive(!selectedRepetitive)
+						}
 					/>
-				)}
-			</form>
+					{isEditGroupChatMode ? (
+						<div className="createChat__buttonsWrapper">
+							<Button
+								item={buttonSetCancel}
+								buttonHandle={handleBackButton}
+							/>
+							<Button
+								item={buttonSetSave}
+								buttonHandle={handleCreateAndUpdateButton}
+								disabled={isSaveButtonDisabled}
+							/>
+						</div>
+					) : (
+						<Button
+							item={buttonSetCreate}
+							buttonHandle={handleCreateAndUpdateButton}
+							disabled={isCreateButtonDisabled}
+						/>
+					)}
+				</form>
+			</div>
+
 			{overlayActive && (
 				<Overlay
 					item={overlayItem}
