@@ -66,6 +66,34 @@ export const ProposedAgencies = ({
 		}
 	);
 
+	const handleChange = useCallback(
+		(data: Partial<FormAccordionData>, isTouched = true) => {
+			onChange(data);
+			if (isTouched) {
+				setIsTouched(isTouched);
+			}
+		},
+		[onChange]
+	);
+
+	const handleAgencyChange = useCallback(
+		(agency: AgencyDataInterface, isTouched = true) => {
+			handleChange(
+				{
+					agency,
+					consultingType: consultingTypes.find(
+						(ct) => ct.id === agency?.consultingType
+					),
+					...(autoSelectPostcode
+						? { postcode: agency?.postcode }
+						: {})
+				},
+				isTouched
+			);
+		},
+		[autoSelectPostcode, consultingTypes, handleChange]
+	);
+
 	// If options change, check for still valid preselected agency
 	useEffect(() => {
 		if (
@@ -81,18 +109,18 @@ export const ProposedAgencies = ({
 			return;
 		}
 
-		return onChange({
-			agency:
-				(autoSelectAgency && agencies.length > 0) ||
-				agencies.length === 1
-					? agencies[0]
-					: null
-		});
+		return handleAgencyChange(
+			(autoSelectAgency && agencies.length > 0) || agencies.length === 1
+				? agencies[0]
+				: null,
+			false
+		);
 	}, [
 		agencies,
 		autoSelectAgency,
 		formAccordionData.agency,
 		onChange,
+		handleAgencyChange,
 		preSelectedAgency
 	]);
 
@@ -145,24 +173,6 @@ export const ProposedAgencies = ({
 		isTouched,
 		onValidityChange
 	]);
-
-	const handleChange = useCallback(
-		(data: Partial<FormAccordionData>) => {
-			onChange(data);
-			setIsTouched(true);
-		},
-		[onChange]
-	);
-
-	const handleAgencyChange = (agency: AgencyDataInterface) => {
-		handleChange({
-			agency,
-			consultingType: consultingTypes.find(
-				(ct) => ct.id === agency?.consultingType
-			),
-			...(autoSelectPostcode ? { postcode: agency?.postcode } : {})
-		});
-	};
 
 	return (
 		<div
