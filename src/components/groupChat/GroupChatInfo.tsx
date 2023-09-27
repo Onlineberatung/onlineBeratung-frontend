@@ -32,7 +32,7 @@ import {
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
-import '../profile/profile.styles';
+import './groupChatInfo.styles';
 import { Text } from '../text/Text';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
@@ -226,47 +226,47 @@ export const GroupChatInfo = () => {
 	});
 
 	return (
-		<div className="profile__wrapper">
-			<div className="profile__header">
-				<div className="profile__header__wrapper">
+		<div className="groupChatInfo__wrapper">
+			<div className="groupChatInfo__header">
+				<div className="groupChatInfo__header__wrapper">
 					<Link
 						to={`${listPath}/${activeSession.item.groupId}/${
 							activeSession.item.id
 						}${getSessionListTab()}`}
-						className="profile__header__backButton"
+						className="groupChatInfo__header__backButton"
 					>
 						<BackIcon />
 					</Link>
-					<h3 className="profile__header__title profile__header__title--withBackButton">
+					<h3 className="groupChatInfo__header__title">
 						{translate('groupChat.info.headline')}
 					</h3>
 				</div>
-				<div className="profile__header__metaInfo">
-					<p className="profile__header__username profile__header__username--withBackButton">
+				<div className="groupChatInfo__header__metaInfo">
+					<p className="groupChatInfo__header__username">
 						{activeSession.item.topic}
 					</p>
 				</div>
 			</div>
-			<div className="profile__innerWrapper">
-				<div className="profile__user">
-					<div className="profile__icon">
-						<GroupChatIcon className="profile__icon--chatInfo" />
+			<div className="groupChatInfo__innerWrapper">
+				<div className="groupChatInfo__user">
+					<div className="groupChatInfo__icon">
+						<GroupChatIcon className="groupChatInfo__icon--chatInfo" />
 						{activeSession.item.active ? (
-							<span className="profile__icon--active"></span>
+							<span className="groupChatInfo__icon--active"></span>
 						) : null}
 					</div>
 					<h2>{activeSession.item.topic}</h2>
 				</div>
 				{activeSession.item.active && activeSession.item.subscribed ? (
-					<div className="profile__innerWrapper__stopButton">
+					<div className="groupChatInfo__innerWrapper__stopButton">
 						<Button
 							item={stopChatButtonSet}
 							buttonHandle={handleStopGroupChatButton}
 						/>
 					</div>
 				) : null}
-				<div className="profile__content">
-					<div className="profile__content__item profile__data">
+				<div className="groupChatInfo__content">
+					<div className="groupChatInfo__content__item groupChatInfo__data">
 						<Text
 							text={translate(
 								'groupChat.info.subscribers.headline'
@@ -275,7 +275,7 @@ export const GroupChatInfo = () => {
 						/>
 
 						{featureGroupChatV2Enabled && isV2GroupChat && (
-							<div className="profile__groupChatContainer">
+							<div className="groupChatInfo__groupChatContainer">
 								<GroupChatCopyLinks
 									id={activeSession.item.groupId}
 									groupChatId={activeSession.item.id.toString()}
@@ -285,10 +285,10 @@ export const GroupChatInfo = () => {
 						{subscriberList ? (
 							subscriberList.map((subscriber, index) => (
 								<div
-									className="profile__data__item"
+									className="groupChatInfo__data__item"
 									key={index}
 								>
-									<div className="profile__data__content profile__data__content--subscriber">
+									<div className="groupChatInfo__data__content groupChatInfo__data__content--subscriber">
 										{subscriber.displayName
 											? decodeUsername(
 													subscriber.displayName
@@ -365,8 +365,8 @@ export const GroupChatInfo = () => {
 								</div>
 							))
 						) : (
-							<div className="profile__data__item">
-								<p className="profile__data__content profile__data__content--empty">
+							<div className="groupChatInfo__data__item">
+								<p className="groupChatInfo__data__content groupChatInfo__data__content--empty">
 									{translate(
 										'groupChat.info.subscribers.empty'
 									)}
@@ -375,17 +375,20 @@ export const GroupChatInfo = () => {
 						)}
 					</div>
 
-					<div className="profile__content__item profile__data">
+					<div className="groupChatInfo__content__item groupChatInfo__data">
 						<Text
 							text={translate('groupChat.info.settings.headline')}
 							type="divider"
 						/>
 						{preparedSettings.map((item, index) => (
-							<div className="profile__data__item" key={index}>
-								<p className="profile__data__label">
+							<div
+								className="groupChatInfo__data__item"
+								key={index}
+							>
+								<p className="groupChatInfo__data__label">
 									{item.label}
 								</p>
-								<p className="profile__data__content">
+								<p className="groupChatInfo__data__content">
 									{item.value}
 								</p>
 							</div>
@@ -393,7 +396,7 @@ export const GroupChatInfo = () => {
 						{isGroupChatOwner(activeSession, userData) &&
 						!activeSession.item.active ? (
 							<Link
-								className="profile__innerWrapper__editButton"
+								className="groupChatInfo__innerWrapper__editButton"
 								to={{
 									pathname: `${listPath}/${
 										activeSession.item.groupId

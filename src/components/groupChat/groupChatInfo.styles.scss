@@ -1,0 +1,254 @@
+$iconSize: 24px;
+$groupChatIconSize: 40px;
+$inputMaxWidth: 500px;
+
+.groupChatInfo {
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: stretch;
+		align-items: stretch;
+		height: 100%;
+		background-color: $background-light;
+		width: 100vw;
+
+		@include breakpoint($fromLarge) {
+			width: auto;
+		}
+
+		.button__wrapper {
+			text-align: center;
+		}
+	}
+
+	&__header {
+		flex: 0;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: $grid-base-three $grid-base-two;
+		position: relative;
+		background-color: $background-lighter;
+
+		@include breakpoint($fromMedium) {
+			padding: $grid-base-three;
+		}
+
+		@include breakpoint($fromLarge) {
+			align-items: flex-start;
+			background-color: $background-light;
+		}
+
+		&__backButton {
+			display: block;
+			position: absolute;
+			left: 0;
+			line-height: 32px;
+			cursor: pointer;
+
+			@include breakpoint($fromLarge) {
+				position: static;
+			}
+
+			svg {
+				width: $iconSize;
+				height: $iconSize;
+				fill: var(--skin-color-secondary-contrast-safe, $secondary);
+
+				svg path {
+					fill: var(--skin-color-secondary-contrast-safe, $secondary);
+				}
+
+				&:hover {
+					fill: var(--skin-color-primary, $primary);
+
+					svg path {
+						fill: var(--skin-color-primary, $primary);
+					}
+				}
+			}
+		}
+
+		&__wrapper {
+			display: flex;
+			flex-direction: row;
+			position: relative;
+			width: 100%;
+			flex-wrap: wrap;
+		}
+
+		&__title {
+			margin: 0 auto;
+
+			@include breakpoint($fromLarge) {
+				margin: 0 0 0 $grid-base;
+			}
+		}
+
+		&__username {
+			font-size: $font-size-secondary;
+			line-height: $line-height-secondary;
+			color: $tertiary;
+			margin: 0;
+
+			@include breakpoint($fromLarge) {
+				margin-left: $grid-base-four;
+			}
+		}
+	}
+
+	&__innerWrapper {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		overflow-x: hidden;
+		overflow-y: auto;
+		background-color: $background-light;
+		margin-top: 0;
+
+		&__stopButton {
+			margin-bottom: $grid-base-four;
+		}
+
+		&__editButton {
+			display: block;
+			margin-top: $grid-base-four;
+		}
+	}
+
+	&__user {
+		text-align: center;
+		padding: 0 $grid-base-two $grid-base;
+		margin-top: $grid-base-three;
+
+		@include breakpoint($fromMedium) {
+			padding: 0 $grid-base-three $grid-base;
+		}
+	}
+
+	&__icon {
+		background-color: $white;
+		border-radius: 50%;
+		position: relative;
+		display: flex;
+		margin: 0 auto $grid-base-two;
+		width: 72px;
+		height: 72px;
+
+		&--active {
+			display: block;
+			width: $grid-base-two;
+			height: $grid-base-two;
+			border-radius: 50%;
+			background-color: $upload-progress;
+			position: absolute;
+			right: 0;
+			bottom: 0;
+		}
+
+		&--chatInfo {
+			width: $groupChatIconSize;
+			height: $groupChatIconSize;
+			align-self: center;
+			margin: 0 auto;
+		}
+
+		&--user {
+			width: 72px;
+			height: 72px;
+			align-self: flex-end;
+			margin: 0 auto;
+		}
+	}
+
+	&__content {
+		display: flex;
+		padding: 0 $grid-base-two $grid-base-ten;
+		height: auto;
+		width: 100%;
+		flex-direction: column;
+
+		@include breakpoint($fromMedium) {
+			flex-direction: row;
+		}
+
+		&__item {
+			flex: 1;
+			margin-top: $grid-base-eight;
+
+			@include breakpoint($fromMedium) {
+				padding: 0 $grid-base-three;
+				margin-top: 0;
+			}
+
+			&:first-child {
+				padding-left: 0;
+				margin-top: 0;
+			}
+
+			&:last-child {
+				padding-right: 0;
+			}
+		}
+
+		@include breakpoint($fromMedium) {
+			padding: 0 $grid-base-three $grid-base-ten;
+		}
+
+		@include breakpoint($fromLarge) {
+			padding: 0 $grid-base-three $grid-base-eight;
+		}
+
+		.text__divider {
+			text-align: $profile-divider-text-align;
+			margin-bottom: $grid-base-three;
+		}
+	}
+
+	&__data {
+		> div:first-of-type {
+			margin-top: $grid-base-three;
+		}
+
+		> div:not(:first-of-type) {
+			margin-top: $grid-base-six;
+		}
+
+		&__item {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			min-height: 42px;
+			margin-top: 12px;
+			border-bottom: 1px solid $line-grey;
+		}
+
+		&__label {
+			color: $tertiary;
+			font-size: $font-size-secondary;
+			line-height: $line-height-secondary;
+			margin: 0 0 6px;
+		}
+
+		&__content {
+			margin: 0 0 6px;
+
+			&--empty {
+				color: $tertiary;
+			}
+
+			&--subscriber {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				position: relative;
+			}
+		}
+
+		&__divider {
+			color: $black-25-opacity;
+			margin: 0 5px;
+		}
+	}
+}
