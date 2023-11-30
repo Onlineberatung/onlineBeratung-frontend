@@ -83,12 +83,36 @@
 			"info": "Wir haben Dich gebeten, die Chat-Regeln einzuhalten.<br/><br/>Weil Du heute die Chat-Regeln wiederholt nicht eingehalten hast, haben wir Dich für den heutigen Chat ausgeschlossen.<br/><br/>Mache Dich mit den Chat-Regeln vertraut!</br></br>Wenn Du bereit bist, die Chat-Regeln einzuhalten, bist Du ab morgen wieder im Chat willkommen!"
 		}
 	},
-	"termsAndConditionOverlay": {
-		"labels": {
-			"here": "hier"
+	"booking": {
+		"availability": {
+			"description": "Gib hier Deine allgemeine Verfügbarkeit an, damit Ratsuchende Termine bei Dir buchen können.",
+			"title": "Deine Verfügbarkeit"
 		},
+		"calender": {
+			"synchroniseCalender": {
+				"description": "Synchronisiere Deinen Kalender, den Du in Deiner Beratungsstelle nutzt, mit der Online Beratung. Deine Verfügbarkeit wird dann automatisch angepasst und Terminkonflikte verhindert."
+			}
+		},
+		"event": {
+			"description": "Deine Nachricht zum Termin",
+			"your": {
+				"counselor": "Dein Berater"
+			},
+			"tooltip": {
+				"consultant": "Falls Du den Termin nicht in dem vom Ratsuchenden gewählten Modus wahrnehmen kannst, generieren wir für Dich immer einen Link zum Video-Call als Alternative.",
+				"adviceSeeker": "Falls Dein:e Berater:in den Termin nicht in dem von Dir gewählten Modus wahrnehmen kann, generieren wir für Dich immer einen Link zum Video-Call als Alternative."
+			}
+		},
+		"my": {
+			"booking": {
+				"schedule": "Vereinbare jetzt einen Termin mit"
+			}
+		}
+	},
+	"termsAndConditionOverlay": {
 		"contentLine1": {
 			"termsAndCondition": "Wir haben die Nutzungsbedingungen der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Deine Zustimmung.",
+			"privacy": "Wir haben die Datenschutzerklärung der Online-Beratung aktualisiert. Den aktuellen Stand findest Du hier.",
 			"termsAndConditionAndPrivacy": "Wir haben die Nutzungsbedingungen und Datenschutzerklärung der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Deine Zustimmung."
 		}
 	},
@@ -111,6 +135,9 @@
 		},
 		"errorOverlay": {
 			"headline": "Ups! Wir konnten den Chat gerade nicht löschen. Bitte versuche es erneut."
+		},
+		"successOverlay": {
+			"headline": "Du hast den Chat erfolgreich gelöscht."
 		}
 	},
 	"e2ee": {
@@ -166,6 +193,19 @@
 		"language": {
 			"selection": {
 				"headline": "Bitte wähle die Sprache, in der Du beraten werden willst."
+			}
+		}
+	},
+	"error": {
+		"statusCodes": {
+			"400": {
+				"description": "Die von Dir eingegebene URL ist ungültig."
+			},
+			"401": {
+				"description": "Leider bist Du nicht berechtigt diese Seite einzusehen."
+			},
+			"500": {
+				"description": "Wie es aussieht, haben wir momentan ein Serverproblem.<br>Versuche es später noch einmal."
 			}
 		}
 	},
@@ -229,7 +269,20 @@
 				"message": "Dein_e Moderator_in hat den Chat noch nicht gestartet. Sobald Dein_e Moderator_in den Chat gestartet hat, kannst Du mit uns chatten. Bitte habe noch etwas Geduld."
 			},
 			"warning": {
+				"consultant": {
+					"message": "Dein_e Moderator_in hat den Chat noch nicht gestartet. Sobald Dein_e Moderator_in den Chat gestartet hat, kannst Du mit uns chatten. Bitte habe noch etwas Geduld."
+				},
 				"message": "Dein_e Berater_in/Moderator_in hat den Chat noch nicht gestartet. Sobald Dein_e Berater_in/Moderator_in den Chat gestartet hat, kannst Du mit uns chatten. Bitte habe noch etwas Geduld."
+			}
+		},
+		"joinError": {
+			"overlay": {
+				"headline": "Es ist ein Fehler aufgetreten. Bitte versuche es erneut."
+			}
+		},
+		"leaveChat": {
+			"securityOverlay": {
+				"headline": "Möchtest Du den Chat wirklich verlassen?"
 			}
 		},
 		"listItem": {
@@ -262,7 +315,7 @@
 				"text2": "Öffne nun Deinen Link zur Online-Beratung mit einem der unterstützten Browser."
 			},
 			"banner": {
-				"content": "Bitte verwenden Sie einen anderen Browser, damit Video-Calls funktionieren können.",
+				"content": "Bitte verwende einen anderen Browser, um Video-Calls zu ermöglichen.",
 				"more": "Mehr erfahren"
 			},
 			"asker": {
@@ -312,6 +365,20 @@
 		}
 	},
 	"message": {
+		"appointmentCancelled": {
+			"title": "Dein Termin wurde abgesagt"
+		},
+		"appointmentRescheduled": {
+			"title": "Dein Termin wurde verschoben"
+		},
+		"appointmentSet": {
+			"title": "Dein Termin wurde erstellt"
+		},
+		"submit": {
+			"booking": {
+				"headline": "Oder vereinbaren Sie jetzt einen Termin"
+			}
+		},
 		"delete": {
 			"deleted": {
 				"own": "Du hast diese Nachricht gelöscht."
@@ -319,6 +386,9 @@
 			"overlay": {
 				"copy": "Möchtest Du die Nachricht wirklich löschen?"
 			}
+		},
+		"video": {
+			"description": "Du kannst jetzt an der Videokonferenz teilnehmen"
 		}
 	},
 	"notifications": {
@@ -327,6 +397,9 @@
 		},
 		"enquiry": {
 			"new": "Du hast eine neue Live-Chat Anfrage!"
+		},
+		"initialRequest": {
+			"new": "Du hast eine neue Erstanfrage!"
 		}
 	},
 	"overlay": {
@@ -457,6 +530,9 @@
 			"reassignmentConsultant": {
 				"description": "Kollege_in hat Dir eine_n Ratsuchende_n zugewiesen."
 			},
+			"error": {
+				"description": "Leider können wir Deine Einstellungen momentan nicht aktualisieren. Bitte versuche es später noch einmal."
+			},
 			"toggleError": {
 				"description": "Leider können wir Deine Benachrichtigungen zurzeit nicht aktivieren. Bitte versuche es später noch einmal."
 			},
@@ -464,7 +540,7 @@
 				"info": "Du hast noch keine E-Mail-Adresse hinzugefügt.",
 				"modal": {
 					"description": "Die Angabe Deiner E-Mail-Adresse ist freiwillig und wird ausschließlich verwendet, um Dich über neue Antworten Deines_r Berater_in zu informieren. Deine E-Mail-Adresse ist für Berater_innen nicht sichtbar.",
-					"errorMessage": "Leider können wir Ihre E-Mail-Adresse momentan nicht speichern. Bitte versuchen Sie es später noch einmal oder kontaktieren Sie unseren Support."
+					"errorMessage": "Leider können wir Deine E-Mail-Adresse momentan nicht speichern. Bitte versuche es später noch einmal oder kontaktiere unseren Support."
 				}
 			}
 		},
@@ -477,11 +553,30 @@
 				"message": "Du hast den Empfang von Benachrichtigungen für diesen Browser abgelehnt. Um Push-Benachrichtigungen zu aktivieren, musst Du diese zuerst in Deinen Browsereinstellungen zulassen."
 			}
 		},
+		"documentation": {
+			"description": "Hast Du Fragen? Im Handbuch findest Du detaillierte Informationen zu den wichtigsten Funktionen der Online-Beratungsplattform."
+		},
 		"spokenLanguages": {
 			"info": "Wähle die Sprache(n) aus, in der Du die Ratsuchenden beraten kannst. Deutsch ist als Standardsprache vorausgewählt und kann nicht entfernt werden."
 		},
 		"appLanguage": {
 			"info": "Stelle hier die Sprache der Anwendung ein."
+		},
+		"unsetEmail": {
+			"confirmOverlay": {
+				"benefit": {
+					"1": "erhältst Du keine E-Mail-Benachrichtigung, wenn Dein_e Berater_in Dir geschrieben hat",
+					"2": "kannst Du Dein Passwort nicht zurücksetzen, falls Du es vergessen hast."
+				},
+				"copy": "Wenn Du Deine E-Mail-Adresse löschst:",
+				"headline": "Möchtest Du Deine E-Mail-Adresse wirklich löschen?"
+			},
+			"errorOverlay": {
+				"headline": "Ups! Wir konnten die E-Mail-Adresse gerade nicht löschen. Bitte versuche es noch einmal."
+			},
+			"successOverlay": {
+				"headline": "Du hast Deine E-Mail-Adresse erfolgreich gelöscht."
+			}
 		}
 	},
 	"qrCode": {
@@ -622,7 +717,7 @@
 						"title": "{{oldConsultant}} möchte Dich an {{newConsultant}} übergeben.",
 						"description": {
 							"noTeam": "{{newConsultant}} kann somit den kompletten Nachrichtenverlauf lesen und ist für Dich verantwortlich. {{oldConsultant}} hat keinen Zugriff mehr auf die Nachrichten.",
-							"team": "{{newConsultant}} kann somit den kompletten Nachrichtenverlauf lesen und ist für Sie verantwortlich."
+							"team": "{{newConsultant}} kann somit den kompletten Nachrichtenverlauf lesen und ist für Dich verantwortlich."
 						},
 						"question": "Stimmst Du der Übergabe zu?.",
 						"accepted": {
@@ -673,13 +768,24 @@
 		"empty": {
 			"mySessions": "Du hast zurzeit keine aktiven Beratungen",
 			"teamSessions": "Dein Team hat keine aktiven Beratungen",
-			"perSessions": "Du hast zurzeit keine aktiven Peer-Beratungen"
+			"peerSessions": "Du hast zurzeit keine aktiven Peer-Beratungen"
+		},
+		"unavailable": {
+			"description": "Aktiviere Deine Verfügbarkeit und erhalte hier die Live-Chat Anfragen von anonymen Ratsuchenden"
 		}
 	},
 	"statusOverlay": {
+		"error": {
+			"text": "Es ist ein Problem aufgetreten, bitte versuche es erneut"
+		},
 		"success": {
 			"headline": "Deine Nachricht wurde versendet",
 			"text": "Vielen Dank für Deine Anfrage. Wir antworten Dir werktags innerhalb von 48 Stunden. Wenn Du Deine E-Mail-Adresse angegeben hast, erhältst Du eine Benachrichtigung, sobald unsere Antwort vorliegt."
+		}
+	},
+	"tools": {
+		"calendar": {
+			"description": "Trage Deine Urlaube oder sonstigen Termine in den Kalender ein, sodass die Ratsuchenden in dieser Zeit keine Termine bei Dir buchen können.<br/>Melde Dich mit der gleichen E-Mail-Adresse und Passwort an, das Du auch hier bei der Online Beratung verwendest."
 		}
 	},
 	"twoFactorAuth": {
@@ -695,16 +801,22 @@
 				"copy": "Installiere Dir auf Deinem Smartphone oder Tablet eine passende Authenticator-App. Alternativ kannst Du auch Deine E-Mail-Adresse als zweiten Faktor verwenden."
 			},
 			"email": {
+				"input": {
+					"duplicate": {
+						"info": "Diese E-Mail-Adresse wird bereits von einer anderen Person verwendet. Bitte gib eine andere E-Mail-Adresse an. Oder nutze die App als zweiter Faktor."
+					},
+					"info": "Du kannst nur eine E-Mail-Adresse bei uns hinterlegen. Falls Du die E-Mail-Adresse hier änderst, erhältst Du auf diese E-Mail-Adresse zukünftig auch die Benachrichtigungen."
+				},
+				"resend": {
+					"hint": "Wir haben Dir einen Code an Deine E-Mail-Adresse geschickt. Bitte gib den Code ein."
+				},
+				"step2": {
+					"copy": "Bitte gib hier Deine E-Mail-Adresse an."
+				},
 				"step3": {
 					"copy": {
 						"1": "Wir haben Dir gerade eine E-Mail an",
 						"2": "geschickt. Bitte gib den Code aus der E-Mail hier ein."
-					}
-				},
-				"input": {
-					"info": "Du kannst nur eine E-Mail-Adresse bei uns hinterlegen. Falls Du die E-Mail-Adresse hier änderst, erhältst Du auf diese E-Mail-Adresse zukünftig auch die Benachrichtigungen.",
-					"duplicate": {
-						"info": "Diese E-Mail-Adresse wird bereits von einer anderen Person verwendet. Bitte gib eine andere E-Mail-Adresse an. Oder nutze die App als zweiter Faktor."
 					}
 				}
 			},
@@ -714,18 +826,14 @@
 					"copy": "Bitte installiere Dir auf Deinem Smartphone oder Tablet eine passende Authenticator-App, wie zum Beispiel die FreeOTP oder Google Authenticator App. Beide Apps sind im Google Play oder Apple App Store verfügbar."
 				},
 				"step3": {
-					"title": "Für die Online-Beratung zur App hinzu",
+					"title": "Füge die Online-Beratung zur App hinzu",
 					"copy": "Du hast zwei Möglichkeiten, die Online-Beratung zur App hinzuzufügen:",
-					"visualisation": {
-						"label": "Hinzufügen"
-					},
 					"connect": {
 						"qrCode": "Öffne die App und scanne den folgenden QR-Code:",
 						"key": "Öffne die App und gebe den folgenden 32-stelligen Schlüssel ein:"
 					}
 				},
 				"step4": {
-					"title": "Einmal-Code eingeben",
 					"copy": "Gib den Einmal-Code ein, der von der App generiert wird und klicke auf „Speichern“, um die Einrichtung abzuschließen."
 				}
 			},
@@ -764,11 +872,29 @@
 				"title": "Schütze nun Dein Konto",
 				"copy": "Du musst jetzt einen zweiten Faktor (App oder E-Mail) für die Anmeldung in der Online-Beratung hinterlegen. Das dient der Sicherheit und schützt Dein Konto vor einem möglichen unbefugten Zugriff. <br><br><b>Ohne einen zweiten Faktor darfst Du nicht mehr online beraten.</b>"
 			}
+		},
+		"switch": {
+			"type": {
+				"label": "Dein zweiter Faktor"
+			}
 		}
 	},
 	"userProfile": {
 		"reassign": {
 			"description": "Du kannst die Unterhaltung einem anderen Teammitglied zuweisen. Diese Person ist dann für die_den Ratsuchende_n verantwortlich."
+		},
+		"tools": {
+			"description": "Schalte Tools für die_den Ratsuchende_n frei. ",
+			"options": {
+				"saveError": "Beim Werkzeugwechsel ist ein Problem aufgetreten. Bitte versuche es erneut."
+			},
+			"share": {
+				"title": "Sieh hier, welche Inhalte mit Dir geteilt wurden.",
+				"info": "Nur zugewiesene Berater_innen können die Inhalte der Ratsuchenden einsehen. Wenn Du aus der Teamberatung auf die Inhalte zugreifst, sind die Ratsuchenden nicht vorausgewählt."
+			},
+			"modal": {
+				"description": "Wähle die Tools aus, die Du dem_der Ratsuchenden zur Verfügung stellen möchtest."
+			}
 		}
 	},
 	"videoCall": {
@@ -785,6 +911,16 @@
 		"overlay": {
 			"unsupported": {
 				"copy": "Dein Gerät erfüllt nicht alle nötigen technischen Vorgaben für einen Video-Call. Bitte folge dieser Anleitung, um einen Video-Call starten zu können. Dafür brauchst Du möglicherweise die Unterstützung Deiner EDV."
+			}
+		},
+		"statusPage": {
+			"closed": {
+				"title": "Dein Video-Call wurde erfolgreich beendet.",
+				"action": "Bitte schließe diesen Tab, um zu Beratung & Hilfe zurückzukehren."
+			},
+			"unauthorized": {
+				"reason": "Leider bist Du nicht berechtigt diese Seite einzusehen.",
+				"action": "Bitte schließe diesen Tab, um zu Beratung & Hilfe zurückzukehren."
 			}
 		}
 	},
@@ -812,6 +948,7 @@
 		}
 	},
 	"walkthrough": {
+		"subtitle": "Um Dir die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Dich vorbereitet. <br /> Du kannst ihn jederzeit abbrechen oder in Deinem Profil erneut starten.",
 		"step": {
 			"0": {
 				"intro": "Um Dir die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Dich vorbereitet. <br /><br /> Du kannst ihn jederzeit abbrechen oder in Deinem Profil erneut starten."

@@ -75,29 +75,57 @@ export const init = (config: InitOptions) => {
 					return;
 				}
 
-				const deLanguage = [
-					...Object.keys(
-						flatten(i18n.getDataByLanguage(FALLBACK_LNG).common)
-					)
-				].sort();
+				const deLanguage: { [key: string]: string } = flatten(
+					i18n.getDataByLanguage(FALLBACK_LNG).common
+				);
+				const deLanguageKeys = [...Object.keys(deLanguage)].sort(
+					(a, b) => a.localeCompare(b)
+				);
 
 				const languages = Object.keys(
 					i18n.services.resourceStore.data
 				).filter((lng) => lng !== FALLBACK_LNG);
 
 				languages.forEach((lng) => {
-					const currLanguage = [
-						...Object.keys(
-							flatten(i18n.getDataByLanguage(lng).common)
-						)
-					].sort();
-					const missingKeys = _.xor(deLanguage, currLanguage);
+					const currLanguage: { [key: string]: string } = flatten(
+						i18n.getDataByLanguage(lng).common
+					);
+					const currLanguageKeys = [
+						...Object.keys(currLanguage)
+					].sort((a, b) => a.localeCompare(b));
+
+					if (lng.indexOf('_informal') >= 0) {
+						Object.entries({
+							...deLanguage,
+							...currLanguage
+						}).forEach(([key, text]) => {
+							const formalIndex = text.match(
+								/( Sie|Sie | Ihr|Ihr )/i
+							);
+							if (!formalIndex) return;
+
+							if (currLanguageKeys.includes(key)) {
+								console.error(
+									`[${lng}] has formal language sentence in key "${key}" near "${text.substring(
+										formalIndex.index - 25,
+										formalIndex.index + 25
+									)}"`
+								);
+								return;
+							}
+							console.error(
+								`[${lng}] has no formal language form for key "${key}" ("${text}")`
+							);
+						});
+					}
+
+					const missingKeys = _.xor(deLanguageKeys, currLanguageKeys);
 					if (missingKeys.length <= 0) {
 						return;
 					}
 
 					missingKeys.forEach((missingKey) => {
-						if (!deLanguage.includes(missingKey)) {
+						if (!deLanguageKeys.includes(missingKey)) {
 							console.error(
 								`[${lng}] has key "${missingKey}" but its missing in fallback language "${FALLBACK_LNG}"`
 							);

@@ -340,7 +340,7 @@
 				"LINK": "Videoberatung"
 			},
 			"tooltip": {
-				"consultant": "Falls Sie den Termin nicht in dem vom Ratsuchende gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.",
+				"consultant": "Falls Sie den Termin nicht in dem vom Ratsuchenden gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative.",
 				"adviceSeeker": "Falls Ihr:e Berater:in den Termin nicht in dem von Ihnen gewählten Modus wahrnehmen kann, generieren wir für Sie immer einen Link zum Video-Call als Alternative."
 			}
 		},
@@ -2141,7 +2141,7 @@
 			"known": "Aktuell liegen keine Erstanfragen vor",
 			"mySessions": "Sie haben zurzeit keine aktiven Beratungen",
 			"teamSessions": "Ihr Team hat keine aktiven Beratungen",
-			"peersessions": "Sie haben zurzeit keine aktiven Peer-Beratungen",
+			"peerSessions": "Sie haben zurzeit keine aktiven Peer-Beratungen",
 			"archived": "Es sind noch keine Beratungen archiviert"
 		},
 		"unavailable": {
@@ -2222,17 +2222,8 @@
 		}
 	},
 	"twoFactorAuth": {
+		"subtitle": "Nutzen Sie neben Ihrem Passwort einen zweiten Faktor für die Anmeldung. Dadurch wird Ihr Konto zusätzlich abgesichert.",
 		"activate": {
-			"step1": {
-				"app": "Mit Authenticator Application",
-				"copy": "Installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App. Alternativ können Sie auch Ihre E-Mail-Adresse als zweiten Faktor verwenden.",
-				"email": "Per E-Mail",
-				"title": "Zweiten Faktor wählen",
-				"visualisation": {
-					"label": "Auswahl"
-				},
-				"disable": "Authentifizierung deaktivieren"
-			},
 			"radio": {
 				"label": {
 					"app": "App",
@@ -2242,6 +2233,16 @@
 					"app": "Installieren Sie sich die App. Die App generiert Ihnen einen Code den Sie bei der Anmeldung eingeben müssen.",
 					"email": "Sie erhalten bei der Anmeldung eine E-Mail mit einem Code. Diesen Code müssen Sie dann eingeben."
 				}
+			},
+			"step1": {
+				"app": "Mit Authenticator Application",
+				"copy": "Installieren Sie sich auf Ihrem Smartphone oder Tablet eine passende Authenticator-App. Alternativ können Sie auch Ihre E-Mail-Adresse als zweiten Faktor verwenden.",
+				"email": "Per E-Mail",
+				"title": "Zweiten Faktor wählen",
+				"visualisation": {
+					"label": "Auswahl"
+				},
+				"disable": "Authentifizierung deaktivieren"
 			},
 			"email": {
 				"input": {
@@ -2396,7 +2397,6 @@
 			"next": "Weiter",
 			"save": "Speichern"
 		},
-		"subtitle": "Nutzen Sie neben Ihrem Passwort einen zweiten Faktor für die Anmeldung. Dadurch wird Ihr Konto zusätzlich abgesichert.",
 		"switch": {
 			"active": {
 				"label": "Zwei-Faktor-Authentifizierung aktiviert"
@@ -2531,7 +2531,7 @@
 			"optionsPlaceholder": "Wähle eine Option...",
 			"title": "Tools",
 			"options": {
-				"saveError": "Beim Werkzeugwechsel ist ein Problem aufgetreten. Bitte versuche es erneut."
+				"saveError": "Beim Werkzeugwechsel ist ein Problem aufgetreten. Bitte versuchen Sie es erneut."
 			},
 			"share": {
 				"sharedContent": "Zu den geteilten Inhalten",
