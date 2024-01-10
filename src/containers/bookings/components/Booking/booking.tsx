@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import {
 	ListItemInterface,
+	STATUS_EMPTY,
 	UserDataContext,
 	UserDataInterface
 } from '../../../../globalState';
@@ -45,6 +46,8 @@ export const Booking = () => {
 		});
 	}, [userData]);
 
+	if (!session) return null;
+
 	return (
 		<React.Fragment>
 			{appointmentLink && settings.calcomUrl && (
@@ -58,8 +61,7 @@ export const Booking = () => {
 						'metadata[user]': userData.userId,
 						'metadata[isInitialAppointment]':
 							!session.consultant ||
-							new Date(session.latestMessage).getTime() <
-								new Date(session.session.createDate).getTime(),
+							session.session.status === STATUS_EMPTY,
 						'metadata[sessionId]': session.session.id,
 						'metadata[rcToken]': getValueFromCookie('rc_token'),
 						'metadata[rcUserId]': getValueFromCookie('rc_uid'),

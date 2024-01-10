@@ -8,7 +8,7 @@
 		"registrationDropdown": "Beratung für suizidgefährdete junge Menschen [U25]"
 	},
 	"urls": {
-		"requiredAidMissingRedirectUrl": "https://www.u25.de/helpmail/"
+		"requiredAidMissingRedirectUrl": "https://www.u25-deutschland.de/helpmail/"
 	},
 	"registration": {
 		"minPostcodeSize": 5,

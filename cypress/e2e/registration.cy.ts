@@ -81,6 +81,7 @@ describe('registration', () => {
 			// `Uncaught ReferenceError: setVisitorCookieTimeout is not defined`
 			// and causes Cypress to fail the test.
 			// As this is outside of our control, we ignore this specific error for now.
+			// Update (2024-01-10): The page is now re-redirected to 'https://www.u25-deutschland.de/helpmail/'
 			cy.on('uncaught:exception', (error) => {
 				if (
 					error.message.includes(
@@ -92,7 +93,10 @@ describe('registration', () => {
 			});
 			cy.visit('/u25/registration');
 			cy.wait('@consultingTypeServiceBySlugFull');
-			cy.url().should('be.equal', 'https://www.u25.de/helpmail/');
+			cy.url().should(
+				'be.equal',
+				'https://www.u25-deutschland.de/helpmail/'
+			);
 		});
 
 		it('should have all generic registration page elements', () => {
