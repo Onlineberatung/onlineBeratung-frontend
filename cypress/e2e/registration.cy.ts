@@ -81,6 +81,7 @@ describe('registration', () => {
 			// `Uncaught ReferenceError: setVisitorCookieTimeout is not defined`
 			// and causes Cypress to fail the test.
 			// As this is outside of our control, we ignore this specific error for now.
+			// Update (2024-01-10): The page is now re-redirected to 'https://www.u25-deutschland.de/helpmail/'
 			cy.on('uncaught:exception', (error) => {
 				if (
 					error.message.includes(
