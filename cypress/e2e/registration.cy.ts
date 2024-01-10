@@ -92,7 +92,10 @@ describe('registration', () => {
 			});
 			cy.visit('/u25/registration');
 			cy.wait('@consultingTypeServiceBySlugFull');
-			cy.url().should('be.equal', 'https://www.u25.de/helpmail/');
+			cy.url().should(
+				'be.equal',
+				'https://www.u25-deutschland.de/helpmail/'
+			);
 		});
 
 		it('should have all generic registration page elements', () => {
