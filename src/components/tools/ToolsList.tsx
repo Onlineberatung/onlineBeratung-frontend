@@ -3,10 +3,6 @@ import { useContext, useEffect, useState } from 'react';
 import { apiGetTools } from '../../api/apiGetTools';
 import { UserDataContext } from '../../globalState';
 import { APIToolsInterface } from '../../globalState/interfaces/ToolsInterface';
-import {
-	setToolsWrapperActive,
-	setToolsWrapperInactive
-} from '../app/navigationHandler';
 import { Box } from '../box/Box';
 import { Headline } from '../headline/Headline';
 import { Tool } from './Tool';
@@ -17,14 +13,6 @@ export const ToolsList = () => {
 	const { t: translate } = useTranslation();
 	const [toolList, setToolsList] = useState<APIToolsInterface[]>([]);
 	const { userData } = useContext(UserDataContext);
-
-	useEffect(() => {
-		setToolsWrapperActive();
-
-		return () => {
-			setToolsWrapperInactive();
-		};
-	}, []);
 
 	useEffect(() => {
 		apiGetTools(userData.userId).then((resp: APIToolsInterface[]) =>

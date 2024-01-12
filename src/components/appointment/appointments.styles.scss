@@ -1,7 +1,14 @@
 .appointments {
 	background-color: $background-lighter;
+	display: flex;
+	flex-direction: column;
+	justify-content: stretch;
+	align-items: stretch;
+	min-height: 0;
 
 	.scrollableSection {
+		flex: 1;
+
 		&__header,
 		&__body > div {
 			@include breakpoint($fromLarge) {

@@ -121,7 +121,7 @@ $headerHeight: 80px;
 		flex-direction: column;
 		padding: 0 $grid-base-three;
 		overflow-x: hidden;
-		height: calc(100vh - #{$doubleNavHeight - #{$imprintHeight}});
+		height: 100%;
 
 		&-event {
 			display: grid;
@@ -146,11 +146,7 @@ $headerHeight: 80px;
 			align-items: center;
 			justify-content: center;
 			text-align: center;
-			height: calc(100vh - 275px);
-
-			@include breakpoint($fromLarge) {
-				height: calc(100vh - 300px);
-			}
+			height: 100%;
 
 			&-title {
 				color: $lighter-grey;

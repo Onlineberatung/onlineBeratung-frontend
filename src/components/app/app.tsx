@@ -152,7 +152,14 @@ const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 							<Switch>
 								{extraRoutes.map(
 									({ route, component: Component }) => (
-										<Route {...route}>
+										<Route
+											{...route}
+											key={
+												typeof route.path === 'string'
+													? route.path
+													: route.path.join('-')
+											}
+										>
 											<Component />
 										</Route>
 									)

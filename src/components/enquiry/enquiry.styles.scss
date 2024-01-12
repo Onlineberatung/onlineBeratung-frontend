@@ -5,23 +5,21 @@ $background-circle-size: 1800px !default;
 .enquiry {
 	&__wrapper {
 		background-color: $enquiry-background;
-		min-height: 100vh;
 		position: relative;
 		display: flex;
-		align-items: center;
-		justify-content: center;
+		align-items: stretch;
+		justify-content: stretch;
 		overflow: hidden;
+		min-height: 0;
 
 		@include breakpoint($fromLarge) {
-			min-height: calc(100vh - #{$grid-base-twelve});
-			padding-bottom: 128px;
-
 			&::after {
 				content: '';
 				position: absolute;
 				width: $background-circle-size;
 				height: $background-circle-size;
 				right: calc(100vw * 0.3);
+				top: calc(50vh - 900px);
 				border-radius: 100%;
 				background-color: $enquiry-circle-background;
 				z-index: 1;
@@ -48,24 +46,18 @@ $background-circle-size: 1800px !default;
 		}
 
 		.textarea {
-			position: fixed !important;
 			width: 100% !important;
-			bottom: 0;
-			left: 0;
-
-			@include breakpoint($fromLarge) {
-				position: absolute !important;
-				left: 0;
-			}
 		}
 	}
 
 	&__contentWrapper {
+		min-height: 0;
+		flex: 1;
 		padding: $grid-base-six $grid-base-two $grid-base-twelve;
+		flex-direction: column;
 		overflow: auto;
-		margin-top: $header-height;
-		margin-bottom: $message-wrapper-height;
 		position: relative;
+		display: flex;
 		z-index: 2;
 
 		@include breakpoint($fromMedium) {
@@ -73,7 +65,9 @@ $background-circle-size: 1800px !default;
 		}
 
 		@include breakpoint($fromLarge) {
-			margin: 0 $grid-base-three;
+			align-items: center;
+			justify-content: center;
+			margin: 0 auto;
 			padding: 0;
 			max-width: 900px;
 		}
@@ -91,7 +85,9 @@ $background-circle-size: 1800px !default;
 
 	&__image {
 		width: $enquiry-image-size;
+		min-width: $enquiry-image-size;
 		height: $enquiry-image-size;
+		min-height: $enquiry-image-size;
 		display: block;
 
 		@include breakpoint($fromLarge) {

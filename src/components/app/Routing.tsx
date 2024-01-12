@@ -102,73 +102,96 @@ export const Routing = (props: RoutingProps) => {
 							/>
 							<section className="contentWrapper">
 								<Header />
-								<div className="contentWrapper__list">
+								<div className="contentWrapper__content">
 									<Switch>
-										{routerConfig.listRoutes.map(
-											(route: any): JSX.Element => (
-												<Route
-													exact={route.exact ?? true}
-													key={`list-${route.path}`}
-													path={route.path}
-												>
-													<SessionTypeProvider
-														type={
-															route.type || null
-														}
-													>
-														<route.component
-															sessionTypes={
-																route.sessionTypes
-															}
-														/>
-													</SessionTypeProvider>
-												</Route>
-											)
-										)}
-									</Switch>
-								</div>
-								<div className="contentWrapper__detail">
-									<Suspense fallback={<Loading />}>
-										<Switch>
-											{routerConfig.detailRoutes.map(
-												(route: any): JSX.Element => (
-													<Route
-														exact={
-															route.exact ?? true
-														}
-														key={`detail-${route.path}`}
-														path={route.path}
-														render={(
-															componentProps
-														) => (
-															<SessionTypeProvider
-																type={
-																	route.type ||
-																	null
+										<Route
+											path={[
+												...(routerConfig.listRoutes?.map(
+													(route: any) => route.path
+												) || []),
+												...(routerConfig.detailRoutes?.map(
+													(route: any) => route.path
+												) || [])
+											]}
+										>
+											<div className="contentWrapper__list">
+												<Switch>
+													{routerConfig.listRoutes.map(
+														(
+															route: any
+														): JSX.Element => (
+															<Route
+																exact={
+																	route.exact ??
+																	true
+																}
+																key={`list-${route.path}`}
+																path={
+																	route.path
 																}
 															>
-																<route.component
-																	{...componentProps}
-																	{...props}
+																<SessionTypeProvider
 																	type={
 																		route.type ||
 																		null
 																	}
-																/>
-															</SessionTypeProvider>
-														)}
-													/>
-												)
-											)}
-										</Switch>
-									</Suspense>
-
-									{((hasUserProfileRoutes) => {
-										if (hasUserProfileRoutes) {
-											return (
-												<div className="contentWrapper__userProfile">
+																>
+																	<route.component
+																		sessionTypes={
+																			route.sessionTypes
+																		}
+																	/>
+																</SessionTypeProvider>
+															</Route>
+														)
+													)}
+												</Switch>
+											</div>
+											<div className="contentWrapper__detail">
+												<Suspense
+													fallback={<Loading />}
+												>
 													<Switch>
-														{routerConfig.userProfileRoutes.map(
+														{typeof routerConfig.userProfileRoutes !==
+															'undefined' &&
+															routerConfig.userProfileRoutes.map(
+																(
+																	route: any
+																): JSX.Element => (
+																	<Route
+																		exact={
+																			route.exact ??
+																			true
+																		}
+																		key={`userProfile-${route.path}`}
+																		path={
+																			route.path
+																		}
+																		render={(
+																			props
+																		) => (
+																			<div className="contentWrapper__userProfile">
+																				<SessionTypeProvider
+																					type={
+																						route.type ||
+																						null
+																					}
+																				>
+																					<route.component
+																						{...props}
+																						type={
+																							route.type ||
+																							null
+																						}
+																					/>
+																				</SessionTypeProvider>
+																			</div>
+																		)}
+																	/>
+																)
+															)}
+
+														{routerConfig.detailRoutes.map(
 															(
 																route: any
 															): JSX.Element => (
@@ -177,12 +200,12 @@ export const Routing = (props: RoutingProps) => {
 																		route.exact ??
 																		true
 																	}
-																	key={`userProfile-${route.path}`}
+																	key={`detail-${route.path}`}
 																	path={
 																		route.path
 																	}
 																	render={(
-																		props
+																		componentProps
 																	) => (
 																		<SessionTypeProvider
 																			type={
@@ -191,6 +214,7 @@ export const Routing = (props: RoutingProps) => {
 																			}
 																		>
 																			<route.component
+																				{...componentProps}
 																				{...props}
 																				type={
 																					route.type ||
@@ -203,92 +227,129 @@ export const Routing = (props: RoutingProps) => {
 															)
 														)}
 													</Switch>
-												</div>
-											);
-										}
-									})(
-										typeof routerConfig.userProfileRoutes !==
-											'undefined'
-									)}
-								</div>
-
-								<div className="contentWrapper__profile">
-									<Switch>
-										{routerConfig.profileRoutes
-											?.filter(
-												(route: any) =>
-													!route.condition ||
-													route.condition(
-														userData,
-														consultingTypes
-													)
-											)
-											.map(
-												(route: any): JSX.Element => (
-													<Route
-														exact={
-															route.exact ?? true
-														}
-														key={`profile-${route.path}`}
-														path={route.path}
-														render={() => (
-															<route.component
-																{...props}
-																type={
-																	route.type ||
-																	null
-																}
-															/>
+												</Suspense>
+											</div>
+										</Route>
+										<Route
+											path={
+												routerConfig.profileRoutes?.map(
+													(route: any) => route.path
+												) || []
+											}
+										>
+											<div className="contentWrapper__profile">
+												<Switch>
+													{routerConfig.profileRoutes
+														?.filter(
+															(route: any) =>
+																!route.condition ||
+																route.condition(
+																	userData,
+																	consultingTypes
+																)
+														)
+														.map(
+															(
+																route: any
+															): JSX.Element => (
+																<Route
+																	exact={
+																		route.exact ??
+																		true
+																	}
+																	key={`profile-${route.path}`}
+																	path={
+																		route.path
+																	}
+																	render={() => (
+																		<route.component
+																			{...props}
+																			type={
+																				route.type ||
+																				null
+																			}
+																		/>
+																	)}
+																/>
+															)
 														)}
-													/>
-												)
-											)}
-									</Switch>
-								</div>
-
-								<div className="contentWrapper__booking">
-									<Switch>
-										{routerConfig.appointmentRoutes?.map(
-											(route: any): JSX.Element => (
-												<Route
-													exact={route.exact ?? true}
-													key={`booking-${route.path}`}
-													path={route.path}
-													render={() => (
-														<route.component
-															{...props}
-															type={
-																route.type ||
-																null
-															}
-														/>
+												</Switch>
+											</div>
+										</Route>
+										<Route
+											path={
+												routerConfig.appointmentRoutes?.map(
+													(route: any) => route.path
+												) || []
+											}
+										>
+											<div className="contentWrapper__booking">
+												<Switch>
+													{routerConfig.appointmentRoutes?.map(
+														(
+															route: any
+														): JSX.Element => (
+															<Route
+																exact={
+																	route.exact ??
+																	true
+																}
+																key={`booking-${route.path}`}
+																path={
+																	route.path
+																}
+																render={() => (
+																	<route.component
+																		{...props}
+																		type={
+																			route.type ||
+																			null
+																		}
+																	/>
+																)}
+															/>
+														)
 													)}
-												/>
-											)
-										)}
-									</Switch>
-								</div>
-
-								<div className="contentWrapper__tools">
-									<Switch>
-										{routerConfig.toolsRoutes?.map(
-											(route: any): JSX.Element => (
-												<Route
-													exact={route.exact ?? true}
-													key={`tools-${route.path}`}
-													path={route.path}
-													render={() => (
-														<route.component
-															{...props}
-															type={
-																route.type ||
-																null
-															}
-														/>
+												</Switch>
+											</div>
+										</Route>
+										<Route
+											path={
+												routerConfig.toolsRoutes?.map(
+													(route: any) => route.path
+												) || []
+											}
+										>
+											<div className="contentWrapper__tools">
+												<Switch>
+													{routerConfig.toolsRoutes?.map(
+														(
+															route: any
+														): JSX.Element => (
+															<Route
+																exact={
+																	route.exact ??
+																	true
+																}
+																key={`tools-${route.path}`}
+																path={
+																	route.path
+																}
+																render={() => (
+																	<route.component
+																		{...props}
+																		type={
+																			route.type ||
+																			null
+																		}
+																	/>
+																)}
+															/>
+														)
 													)}
-												/>
-											)
-										)}
+												</Switch>
+											</div>
+										</Route>
 									</Switch>
 								</div>
 							</section>

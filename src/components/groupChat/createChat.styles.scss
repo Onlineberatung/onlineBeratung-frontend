@@ -7,11 +7,10 @@ $inputSpacing: 32px;
 		flex-direction: column;
 		background-color: $background-light;
 		width: 100vw;
-		height: 100vh;
+		height: 100%;
 
 		@include breakpoint($fromLarge) {
 			width: 100%;
-			height: calc(100vh - 96px);
 		}
 	}
 
@@ -116,6 +115,7 @@ $inputSpacing: 32px;
 		align-items: center;
 		height: 100%;
 		margin-top: $grid-base-three;
+		overflow-y: auto;
 
 		.inputField {
 			width: $chat-input-width;

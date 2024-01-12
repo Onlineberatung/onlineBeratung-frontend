@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import {
 	ListItemInterface,
+	STATUS_EMPTY,
 	UserDataContext,
 	UserDataInterface
 } from '../../../../globalState';
@@ -12,10 +13,6 @@ import {
 } from '../../../../api';
 import Cal from '../Calcom/Cal';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
-import {
-	setBookingWrapperActive,
-	setBookingWrapperInactive
-} from '../../../../components/app/navigationHandler';
 import { getValueFromCookie } from '../../../../components/sessionCookie/accessSessionCookie';
 
 export const getUserEmail = (userData: UserDataInterface) => {
@@ -29,14 +26,6 @@ export const Booking = () => {
 	const [session, setSession] = useState<ListItemInterface>();
 	const [appointmentLink, setAppointmentLink] = useState<string | null>(null);
 	const settings = useAppConfig();
-
-	useEffect(() => {
-		setBookingWrapperActive();
-
-		return () => {
-			setBookingWrapperInactive();
-		};
-	}, []);
 
 	useEffect(() => {
 		apiGetAskerSessionList().then(({ sessions }) => {
@@ -57,6 +46,8 @@ export const Booking = () => {
 		});
 	}, [userData]);
 
+	if (!session) return null;
+
 	return (
 		<React.Fragment>
 			{appointmentLink && settings.calcomUrl && (
@@ -70,8 +61,7 @@ export const Booking = () => {
 						'metadata[user]': userData.userId,
 						'metadata[isInitialAppointment]':
 							!session.consultant ||
-							new Date(session.latestMessage).getTime() <
-								new Date(session.session.createDate).getTime(),
+							session.session.status === STATUS_EMPTY,
 						'metadata[sessionId]': session.session.id,
 						'metadata[rcToken]': getValueFromCookie('rc_token'),
 						'metadata[rcUserId]': getValueFromCookie('rc_uid'),

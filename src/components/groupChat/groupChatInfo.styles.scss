@@ -1,27 +1,23 @@
-$doubleNavHeight: 192px;
-$doubleNavHeightSmall: 168px;
-$imprintHeight: 40px;
 $iconSize: 24px;
-$profileIconSize: 40px;
 $groupChatIconSize: 40px;
-$maxFormElementWidth: 320px;
 $inputMaxWidth: 500px;
 
-$profile-content-wrapper-detail-button-text-align: center !default;
-$profile-footer-justify-content: center !default;
-
-.askerInfo {
+.groupChatInfo {
 	&__wrapper {
 		display: flex;
 		flex-direction: column;
 		justify-content: stretch;
 		align-items: stretch;
-		background-color: $background-light;
 		height: 100%;
+		background-color: $background-light;
 		width: 100vw;
 
 		@include breakpoint($fromLarge) {
 			width: auto;
+		}
+
+		.button__wrapper {
+			text-align: center;
 		}
 	}
 
@@ -31,8 +27,8 @@ $profile-footer-justify-content: center !default;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		position: relative;
 		padding: $grid-base-three $grid-base-two;
+		position: relative;
 		background-color: $background-lighter;
 
 		@include breakpoint($fromMedium) {
@@ -42,35 +38,6 @@ $profile-footer-justify-content: center !default;
 		@include breakpoint($fromLarge) {
 			align-items: flex-start;
 			background-color: $background-light;
-		}
-
-		&__wrapper {
-			display: flex;
-			flex-direction: row;
-			position: relative;
-			width: 100%;
-			flex-wrap: wrap;
-		}
-
-		&__title {
-			margin: 0 auto;
-
-			@include breakpoint($fromLarge) {
-				margin: 0 0 0 $grid-base;
-			}
-		}
-
-		&__username {
-			font-size: $font-size-secondary;
-			line-height: $line-height-secondary;
-			color: $tertiary;
-			margin: 0;
-
-			&--withBackButton {
-				@include breakpoint($fromLarge) {
-					margin-left: $grid-base-four;
-				}
-			}
 		}
 
 		&__backButton {
@@ -102,6 +69,33 @@ $profile-footer-justify-content: center !default;
 				}
 			}
 		}
+
+		&__wrapper {
+			display: flex;
+			flex-direction: row;
+			position: relative;
+			width: 100%;
+			flex-wrap: wrap;
+		}
+
+		&__title {
+			margin: 0 auto;
+
+			@include breakpoint($fromLarge) {
+				margin: 0 0 0 $grid-base;
+			}
+		}
+
+		&__username {
+			font-size: $font-size-secondary;
+			line-height: $line-height-secondary;
+			color: $tertiary;
+			margin: 0;
+
+			@include breakpoint($fromLarge) {
+				margin-left: $grid-base-four;
+			}
+		}
 	}
 
 	&__innerWrapper {
@@ -112,6 +106,15 @@ $profile-footer-justify-content: center !default;
 		overflow-y: auto;
 		background-color: $background-light;
 		margin-top: 0;
+
+		&__stopButton {
+			margin-bottom: $grid-base-four;
+		}
+
+		&__editButton {
+			display: block;
+			margin-top: $grid-base-four;
+		}
 	}
 
 	&__user {
@@ -127,11 +130,29 @@ $profile-footer-justify-content: center !default;
 	&__icon {
 		background-color: $white;
 		border-radius: 50%;
-		width: 72px;
-		height: 72px;
-		margin: 0 auto $grid-base-two;
 		position: relative;
 		display: flex;
+		margin: 0 auto $grid-base-two;
+		width: 72px;
+		height: 72px;
+
+		&--active {
+			display: block;
+			width: $grid-base-two;
+			height: $grid-base-two;
+			border-radius: 50%;
+			background-color: $upload-progress;
+			position: absolute;
+			right: 0;
+			bottom: 0;
+		}
+
+		&--chatInfo {
+			width: $groupChatIconSize;
+			height: $groupChatIconSize;
+			align-self: center;
+			margin: 0 auto;
+		}
 
 		&--user {
 			width: 72px;
@@ -143,17 +164,32 @@ $profile-footer-justify-content: center !default;
 
 	&__content {
 		display: flex;
-		flex-direction: column;
 		padding: 0 $grid-base-two $grid-base-ten;
 		height: auto;
-		max-width: 600px;
 		width: 100%;
-		margin: 0 auto;
+		flex-direction: column;
 
-		&:after {
-			display: block;
-			content: '';
-			clear: both;
+		@include breakpoint($fromMedium) {
+			flex-direction: row;
+		}
+
+		&__item {
+			flex: 1;
+			margin-top: $grid-base-eight;
+
+			@include breakpoint($fromMedium) {
+				padding: 0 $grid-base-three;
+				margin-top: 0;
+			}
+
+			&:first-child {
+				padding-left: 0;
+				margin-top: 0;
+			}
+
+			&:last-child {
+				padding-right: 0;
+			}
 		}
 
 		@include breakpoint($fromMedium) {
@@ -164,20 +200,6 @@ $profile-footer-justify-content: center !default;
 			padding: 0 $grid-base-three $grid-base-eight;
 		}
 
-		& > div {
-			&:not(:first-of-type) {
-				margin-top: $grid-base-four;
-			}
-		}
-
-		.box {
-			margin-bottom: 0;
-
-			&:not(:first-of-type) {
-				margin-top: 1rem;
-			}
-		}
-
 		.text__divider {
 			text-align: $profile-divider-text-align;
 			margin-bottom: $grid-base-three;
@@ -185,6 +207,14 @@ $profile-footer-justify-content: center !default;
 	}
 
 	&__data {
+		> div:first-of-type {
+			margin-top: $grid-base-three;
+		}
+
+		> div:not(:first-of-type) {
+			margin-top: $grid-base-six;
+		}
+
 		&__item {
 			display: flex;
 			flex-direction: column;
@@ -192,10 +222,6 @@ $profile-footer-justify-content: center !default;
 			min-height: 42px;
 			margin-top: 12px;
 			border-bottom: 1px solid $line-grey;
-
-			@include breakpoint($fromLarge) {
-				max-width: $inputMaxWidth;
-			}
 		}
 
 		&__label {
@@ -211,6 +237,18 @@ $profile-footer-justify-content: center !default;
 			&--empty {
 				color: $tertiary;
 			}
+
+			&--subscriber {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				position: relative;
+			}
+		}
+
+		&__divider {
+			color: $black-25-opacity;
+			margin: 0 5px;
 		}
 	}
 }

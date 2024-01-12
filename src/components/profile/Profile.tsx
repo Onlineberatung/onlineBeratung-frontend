@@ -9,10 +9,6 @@ import {
 	UserDataContext,
 	useTenant
 } from '../../globalState';
-import {
-	setProfileWrapperActive,
-	setProfileWrapperInactive
-} from '../app/navigationHandler';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
@@ -52,6 +48,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import useIsFirstVisit from '../../utils/useIsFirstVisit';
 
 export const Profile = () => {
 	const settings = useAppConfig();
@@ -59,9 +56,10 @@ export const Profile = () => {
 	const { t: translate } = useTranslation();
 	const location = useLocation();
 	const { fromL } = useResponsive();
+	const isFirstVisit = useIsFirstVisit();
 
 	const legalLinks = useContext(LegalLinksContext);
-	const { userData, isFirstVisit } = useContext(UserDataContext);
+	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const [mobileMenu, setMobileMenu] = useState<
@@ -79,12 +77,6 @@ export const Profile = () => {
 			.querySelector('.navigation__wrapper')
 			?.classList.remove('navigation__wrapper--mobileHidden');
 		document.querySelector('.header')?.classList.remove('header--mobile');
-
-		setProfileWrapperActive();
-
-		return () => {
-			setProfileWrapperInactive();
-		};
 	}, []);
 
 	useEffect(() => {
@@ -473,7 +465,6 @@ export const Profile = () => {
 						/>
 					</Switch>
 				</div>
-
 				<div className="profile__footer">
 					{legalLinks.map((legalLink, index) => (
 						<Fragment key={legalLink.url}>

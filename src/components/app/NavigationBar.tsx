@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import {
+	PropsWithChildren,
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState
+} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
 	UserDataContext,
@@ -24,6 +31,8 @@ import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { userHasBudibaseTools } from '../../api/apiGetTools';
 import { browserNotificationsSettings } from '../../utils/notificationHelpers';
+import useIsFirstVisit from '../../utils/useIsFirstVisit';
+import { useResponsive } from '../../hooks/useResponsive';
 
 export interface NavigationBarProps {
 	onLogout: any;
@@ -36,7 +45,8 @@ export const NavigationBar = ({
 	routerConfig
 }: NavigationBarProps) => {
 	const { t: translate } = useTranslation();
-	const { userData, isFirstVisit } = useContext(UserDataContext);
+	const isFirstVisit = useIsFirstVisit();
+	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions, dispatch } = useContext(SessionsDataContext);
 	const { selectableLocales } = useContext(LocaleContext);
@@ -225,92 +235,98 @@ export const NavigationBar = ({
 	return (
 		<div className="navigation__wrapper">
 			<div className="navigation__itemContainer" role="tablist">
-				{sessions &&
-					routerConfig.navigation
-						.filter(
-							(item: any) =>
-								!item.condition ||
-								item.condition(
-									userData,
-									consultingTypes,
-									sessions,
-									hasTools
-								)
-						)
-						.map((item, index) => {
-							const Icon = item?.icon;
-							const IconFilled = item?.iconFilled;
-							return (
-								<Link
-									key={index}
-									className={`navigation__item ${pathToClassNameInWalkThrough(
-										item.to
-									)} ${
-										location.pathname.indexOf(item.to) !==
-											-1 && 'navigation__item--active'
-									} ${
-										animateNavIcon &&
-										Object.keys(
+				<NavGroup className="navigation__item__top">
+					{sessions &&
+						routerConfig.navigation
+							.filter(
+								(item: any) =>
+									!item.condition ||
+									item.condition(
+										userData,
+										consultingTypes,
+										sessions,
+										hasTools
+									)
+							)
+							.map((item, index) => {
+								const Icon = item?.icon;
+								const IconFilled = item?.iconFilled;
+								return (
+									<Link
+										key={index}
+										className={`navigation__item ${pathToClassNameInWalkThrough(
+											item.to
+										)} ${
+											location.pathname.indexOf(
+												item.to
+											) !== -1 &&
+											'navigation__item--active'
+										} ${
+											animateNavIcon &&
+											Object.keys(
+												pathsToShowUnreadMessageNotification
+											).includes(item.to) &&
+											'navigation__item__count--active'
+										}`}
+										to={item.to}
+										onKeyDown={(e) =>
+											handleKeyDownMenu(e, index)
+										}
+										ref={(el) =>
+											(ref_menu.current[index] = el)
+										}
+										tabIndex={index === 0 ? 0 : -1}
+										role="tab"
+									>
+										<div className="navigation__icon__background">
+											{Icon && (
+												<Icon
+													title={translate(
+														item.titleKeys.large
+													)}
+													aria-label={translate(
+														item.titleKeys.large
+													)}
+													className="navigation__icon__outline"
+												/>
+											)}
+											{IconFilled && (
+												<IconFilled
+													title={translate(
+														item.titleKeys.large
+													)}
+													aria-label={translate(
+														item.titleKeys.large
+													)}
+													className="navigation__icon__filled"
+												/>
+											)}
+										</div>
+
+										{(({ large }) => {
+											return (
+												<>
+													<span className="navigation__title">
+														{translate(large)}
+													</span>
+												</>
+											);
+										})(item.titleKeys)}
+										{Object.keys(
 											pathsToShowUnreadMessageNotification
 										).includes(item.to) &&
-										'navigation__item__count--active'
-									}`}
-									to={item.to}
-									onKeyDown={(e) =>
-										handleKeyDownMenu(e, index)
-									}
-									ref={(el) => (ref_menu.current[index] = el)}
-									tabIndex={index === 0 ? 0 : -1}
-									role="tab"
-								>
-									<div className="navigation__icon__background">
-										{Icon && (
-											<Icon
-												title={translate(
-													item.titleKeys.large
-												)}
-												aria-label={translate(
-													item.titleKeys.large
-												)}
-												className="navigation__icon__outline"
-											/>
-										)}
-										{IconFilled && (
-											<IconFilled
-												title={translate(
-													item.titleKeys.large
-												)}
-												aria-label={translate(
-													item.titleKeys.large
-												)}
-												className="navigation__icon__filled"
-											/>
-										)}
-									</div>
-
-									{(({ large }) => {
-										return (
-											<>
-												<span className="navigation__title">
-													{translate(large)}
-												</span>
-											</>
-										);
-									})(item.titleKeys)}
-									{Object.keys(
-										pathsToShowUnreadMessageNotification
-									).includes(item.to) &&
-										pathsToShowUnreadMessageNotification[
-											item.to
-										] > 0 && (
-											<NavigationUnreadIndicator
-												animate={animateNavIcon}
-											/>
-										)}
-								</Link>
-							);
-						})}
-				<div
+											pathsToShowUnreadMessageNotification[
+												item.to
+											] > 0 && (
+												<NavigationUnreadIndicator
+													animate={animateNavIcon}
+												/>
+											)}
+									</Link>
+								);
+							})}
+				</NavGroup>
+				<NavGroup
 					className={clsx('navigation__item__bottom', {
 						'navigation__item__bottom--consultant':
 							hasUserAuthority(
@@ -363,10 +379,22 @@ export const NavigationBar = ({
 							{translate('app.logout')}
 						</span>
 					</div>
-				</div>
+				</NavGroup>
 			</div>
 		</div>
 	);
+};
+
+const NavGroup = ({
+	children,
+	className
+}: PropsWithChildren<{ className: string }>) => {
+	const { fromL } = useResponsive();
+	if (fromL) {
+		return <div className={className}>{children}</div>;
+	}
+
+	return <>{children}</>;
 };
 
 const NavigationUnreadIndicator = ({ animate }: { animate: boolean }) => {

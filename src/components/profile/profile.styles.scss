@@ -52,26 +52,25 @@ $profile-footer-justify-content: center !default;
 	&__wrapper {
 		display: flex;
 		flex-direction: column;
+		justify-content: stretch;
+		align-items: stretch;
 		background-color: $background-light;
 		height: 100%;
 	}
 
 	&__header {
-		position: fixed;
-		top: 0;
+		flex: 0;
 		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		padding: $grid-base-three $grid-base-two;
-		z-index: 20;
 
 		@include breakpoint($fromMedium) {
 			padding: $grid-base-three;
 		}
 
 		@include breakpoint($fromLarge) {
-			position: static;
 			align-items: flex-start;
 		}
 
@@ -167,12 +166,24 @@ $profile-footer-justify-content: center !default;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		margin: $grid-base-twelve 0 0 0;
 		overflow-x: hidden;
+		overflow-y: auto;
+		margin: 0;
 
 		@include breakpoint($fromLarge) {
-			height: calc(100vh - #{$doubleNavHeight - #{$imprintHeight}});
-			margin: 0;
+			overflow-y: hidden;
+
+			& > div {
+				flex: 1;
+
+				&:first-child {
+					overflow: auto;
+				}
+
+				&.profile__footer {
+					flex: 0;
+				}
+			}
 		}
 
 		&__stopButton {
@@ -468,6 +479,7 @@ $profile-footer-justify-content: center !default;
 	}
 
 	&__footer {
+		flex: 0;
 		display: flex;
 		flex-wrap: wrap;
 		flex-direction: row;
@@ -476,7 +488,6 @@ $profile-footer-justify-content: center !default;
 		margin-top: auto;
 		padding: $grid-base $grid-base-two;
 		background-color: $profile-imprint-background-color;
-		margin-bottom: $grid-base-nine;
 		width: 100%;
 
 		@include breakpoint($fromMedium) {
@@ -485,12 +496,9 @@ $profile-footer-justify-content: center !default;
 
 		@include breakpoint($fromLarge) {
 			min-height: $imprintHeight;
-			position: absolute;
-			bottom: 0;
 			justify-content: flex-end;
 			width: 100%;
 			margin-bottom: unset;
-			z-index: 100;
 		}
 
 		&__item {
@@ -504,118 +512,6 @@ $profile-footer-justify-content: center !default;
 		&__separator {
 			display: inline-block;
 			margin: 0 8px;
-		}
-	}
-}
-
-.contentWrapper__detail {
-	.profile {
-		&__content {
-			display: flex;
-			flex-direction: row;
-
-			&__item {
-				flex: 1;
-				padding: 0 $grid-base-three;
-
-				&:first-child {
-					padding-left: 0;
-				}
-
-				&:last-child {
-					padding-right: 0;
-				}
-			}
-		}
-
-		&__wrapper {
-			background-color: $background-light;
-			height: 100vh;
-			width: 100vw;
-
-			@include breakpoint($fromLarge) {
-				width: auto;
-				height: calc(100vh - #{$grid-base-twelve});
-			}
-
-			.button__wrapper {
-				text-align: $profile-content-wrapper-detail-button-text-align;
-			}
-		}
-
-		&__innerWrapper {
-			// header + footer + additional space
-			height: calc(
-				100% - #{$grid-base-twelve + $grid-base-nine + $grid-base-three}
-			);
-			background-color: $background-light;
-			margin-top: 0;
-
-			@include breakpoint($fromLarge) {
-				height: calc(100% - #{$grid-base-twelve});
-			}
-		}
-
-		&__header {
-			position: relative;
-			background-color: $background-lighter;
-
-			@include breakpoint($fromLarge) {
-				background-color: $background-light;
-			}
-
-			&__backButton {
-				display: block;
-				position: absolute;
-				left: 0;
-				line-height: 32px;
-				cursor: pointer;
-
-				@include breakpoint($fromLarge) {
-					position: static;
-				}
-
-				svg {
-					width: $iconSize;
-					height: $iconSize;
-					fill: var(--skin-color-secondary-contrast-safe, $secondary);
-
-					svg path {
-						fill: var(
-							--skin-color-secondary-contrast-safe,
-							$secondary
-						);
-					}
-
-					&:hover {
-						fill: var(--skin-color-primary, $primary);
-
-						svg path {
-							fill: var(--skin-color-primary, $primary);
-						}
-					}
-				}
-			}
-
-			&__innerWrapper {
-				margin: 0 auto;
-				background-color: $background-light;
-
-				@include breakpoint($fromLarge) {
-					margin: 0 auto 0 $grid-base;
-				}
-			}
-		}
-
-		&__icon {
-			margin: 0 auto $grid-base-two;
-			width: 72px;
-			height: 72px;
-
-			&--user {
-				width: 72px;
-				height: 72px;
-			}
 		}
 	}
 }

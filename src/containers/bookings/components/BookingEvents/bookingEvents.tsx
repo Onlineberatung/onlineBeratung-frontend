@@ -1,11 +1,7 @@
 import * as React from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { NavLink, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-	setBookingWrapperActive,
-	setBookingWrapperInactive
-} from '../../../../components/app/navigationHandler';
 import {
 	Button,
 	BUTTON_TYPES,
@@ -32,14 +28,6 @@ import {
 export const BookingEvents = () => {
 	const { t: translate } = useTranslation();
 	const history = useHistory();
-
-	useEffect(() => {
-		setBookingWrapperActive();
-
-		return () => {
-			setBookingWrapperInactive();
-		};
-	}, []);
 
 	const { userData } = useContext(UserDataContext);
 	const consultingTypes = useConsultingTypes();

@@ -1,9 +1,5 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import {
-	setProfileWrapperActive,
-	setProfileWrapperInactive
-} from '../app/navigationHandler';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import './appointments.styles.scss';
@@ -139,13 +135,6 @@ export const Appointments = () => {
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [onlineMeeting, setOnlineMeeting] =
 		useState<AppointmentsDataInterface>({});
-
-	useEffect(() => {
-		setProfileWrapperActive();
-		return () => {
-			setProfileWrapperInactive();
-		};
-	}, []);
 
 	const handleOverlay = useCallback(
 		(buttonFunction: string) => {

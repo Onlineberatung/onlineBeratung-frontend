@@ -47,7 +47,6 @@ $imprintHeight: 40px;
 		overflow-x: hidden;
 
 		@include breakpoint($fromLarge) {
-			height: calc(100vh - #{$doubleNavHeight - #{$imprintHeight}});
 			margin: 0;
 		}
 	}

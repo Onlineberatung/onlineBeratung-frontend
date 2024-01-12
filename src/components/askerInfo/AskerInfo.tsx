@@ -106,9 +106,9 @@ export const AskerInfo = () => {
 	return (
 		<ActiveSessionContext.Provider value={{ activeSession }}>
 			<RocketChatUsersOfRoomProvider>
-				<div className="profile__wrapper">
-					<div className="profile__header">
-						<div className="profile__header__wrapper">
+				<div className="askerInfo__wrapper">
+					<div className="askerInfo__header">
+						<div className="askerInfo__header__wrapper">
 							<Link
 								to={`${listPath}/${
 									activeSession.item.groupId
@@ -117,28 +117,28 @@ export const AskerInfo = () => {
 										? `?sessionListTab=${sessionListTab}`
 										: ''
 								}`}
-								className="profile__header__backButton"
+								className="askerInfo__header__backButton"
 							>
 								<BackIcon
 									aria-label={translate('app.back')}
 									title={translate('app.back')}
 								/>
 							</Link>
-							<h3 className="profile__header__title profile__header__title--withBackButton">
+							<h3 className="askerInfo__header__title">
 								{translate('profile.header.title')}
 							</h3>
 						</div>
-						<div className="profile__header__metaInfo">
-							<p className="profile__header__username profile__header__username--withBackButton">
+						<div className="askerInfo__header__metaInfo">
+							<p className="askerInfo__header__username askerInfo__header__username--withBackButton">
 								{activeSession.user.username}
 							</p>
 						</div>
 					</div>
-					<div className="profile__innerWrapper">
-						<div className="profile__user">
-							<div className="profile__icon">
+					<div className="askerInfo__innerWrapper">
+						<div className="askerInfo__user">
+							<div className="askerInfo__icon">
 								<PersonIcon
-									className="profile__icon--user"
+									className="askerInfo__icon--user"
 									title={translate(
 										'profile.data.profileIcon'
 									)}
@@ -149,7 +149,7 @@ export const AskerInfo = () => {
 							</div>
 							<h2>{activeSession.user.username}</h2>
 						</div>
-						<div className="profile__content askerInfo__content">
+						<div className="askerInfo__content">
 							<Box>
 								<AskerInfoData />
 							</Box>

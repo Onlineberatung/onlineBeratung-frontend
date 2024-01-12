@@ -89,9 +89,9 @@ $iconSize: 24px;
 	&__username {
 		cursor: pointer;
 		overflow: hidden;
-		flex-grow: 1;
 
 		@include breakpoint($fromLarge) {
+			flex-grow: 1;
 			margin: 0;
 		}
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useContext, useState, useCallback } from 'react';
+import { useEffect, useContext, useState, useCallback, useMemo } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
 	desktopView,
@@ -78,52 +78,67 @@ export const CreateGroupChatView = (props) => {
 	const [activeSession, setActiveSession] =
 		useState<ExtendedSessionInterface | null>(null);
 
-	const updateChatSuccessOverlayItem: OverlayItem = {
-		svg: CheckIcon,
-		headline: translate('groupChat.updateSuccess.overlay.headline'),
-		buttonSet: [
-			{
-				label: translate(
-					'groupChat.updateSuccess.overlay.button1Label'
-				),
-				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.SECONDARY
-			}
-		]
-	};
+	const updateChatSuccessOverlayItem = useMemo<OverlayItem>(
+		() => ({
+			svg: CheckIcon,
+			headline: translate('groupChat.updateSuccess.overlay.headline'),
+			buttonSet: [
+				{
+					label: translate(
+						'groupChat.updateSuccess.overlay.button1Label'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				}
+			]
+		}),
+		[translate]
+	);
 
 	const prevPathIsGroupChatInfo =
 		props.location.state && props.location.state.prevIsInfoPage;
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
-	const createChatSuccessOverlayItem: OverlayItem = {
-		svg: CheckIcon,
-		headline: translate('groupChat.createSuccess.overlay.headline'),
-		buttonSet: [
-			{
-				label: translate('groupChat.createSuccess.overlay.buttonLabel'),
-				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.SECONDARY
-			}
-		]
-	};
+	const createChatSuccessOverlayItem = useMemo<OverlayItem>(
+		() => ({
+			svg: CheckIcon,
+			headline: translate('groupChat.createSuccess.overlay.headline'),
+			buttonSet: [
+				{
+					label: translate(
+						'groupChat.createSuccess.overlay.buttonLabel'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.SECONDARY
+				}
+			]
+		}),
+		[translate]
+	);
 
-	const createChatErrorOverlayItem: OverlayItem = {
-		svg: XIcon,
-		illustrationBackground: 'error',
-		headline: translate('groupChat.createError.overlay.headline'),
-		buttonSet: [
-			{
-				label: translate('groupChat.createError.overlay.buttonLabel'),
-				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.AUTO_CLOSE
-			}
-		]
-	};
+	const createChatErrorOverlayItem = useMemo<OverlayItem>(
+		() => ({
+			svg: XIcon,
+			illustrationBackground: 'error',
+			headline: translate('groupChat.createError.overlay.headline'),
+			buttonSet: [
+				{
+					label: translate(
+						'groupChat.createError.overlay.buttonLabel'
+					),
+					function: OVERLAY_FUNCTIONS.CLOSE,
+					type: BUTTON_TYPES.AUTO_CLOSE
+				}
+			]
+		}),
+		[translate]
+	);
 
-	const getSessionListTab = () =>
-		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
+	const getSessionListTab = useCallback(
+		() => `${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`,
+		[sessionListTab]
+	);
 
 	const { fromL } = useResponsive();
 	useEffect(() => {
@@ -216,7 +231,6 @@ export const CreateGroupChatView = (props) => {
 		selectedDate,
 		selectedTime,
 		selectedDuration,
-		selectedRepetitive,
 		isEditGroupChatMode,
 		arePrefilledValuesChanged
 	]);
@@ -266,7 +280,7 @@ export const CreateGroupChatView = (props) => {
 		setSelectedDuration(selectedOption.value);
 	};
 
-	const getOptionOfSelectedDuration = () => {
+	const getOptionOfSelectedDuration = useCallback(() => {
 		return durationSelectOptionsSet
 			.map((option) => ({ ...option, label: translate(option.label) }))
 			.filter(
@@ -276,142 +290,192 @@ export const CreateGroupChatView = (props) => {
 						? (selectedDuration.toString() as string)
 						: '')
 			)[0];
-	};
+	}, [selectedDuration, translate]);
 
-	const durationSelectDropdown: SelectDropdownItem = {
-		id: 'chatDuration',
-		selectedOptions: durationSelectOptionsSet.map((option) => ({
-			...option,
-			label: translate(option.label)
-		})),
-		handleDropdownSelect: handleDurationSelect,
-		selectInputLabel: translate('groupChat.create.durationSelect.label'),
-		useIconOption: false,
-		isSearchable: false,
-		menuPlacement: 'bottom',
-		defaultValue: getOptionOfSelectedDuration()
-	};
+	const durationSelectDropdown = useMemo<SelectDropdownItem>(
+		() => ({
+			id: 'chatDuration',
+			selectedOptions: durationSelectOptionsSet.map((option) => ({
+				...option,
+				label: translate(option.label)
+			})),
+			handleDropdownSelect: handleDurationSelect,
+			selectInputLabel: translate(
+				'groupChat.create.durationSelect.label'
+			),
+			useIconOption: false,
+			isSearchable: false,
+			menuPlacement: 'bottom',
+			defaultValue: getOptionOfSelectedDuration()
+		}),
+		[getOptionOfSelectedDuration, translate]
+	);
 
-	const repetitiveCheckboxItem: CheckboxItem = {
-		inputId: 'isRepetitiveChat',
-		name: 'isRepetitiveChat',
-		labelId: 'isRepetitiveLabel',
-		label: translate('groupChat.create.repetitiveCheckbox.label'),
-		checked: selectedRepetitive
-	};
+	const repetitiveCheckboxItem = useMemo<CheckboxItem>(
+		() => ({
+			inputId: 'isRepetitiveChat',
+			name: 'isRepetitiveChat',
+			labelId: 'isRepetitiveLabel',
+			label: translate('groupChat.create.repetitiveCheckbox.label'),
+			checked: selectedRepetitive
+		}),
+		[selectedRepetitive, translate]
+	);
 
-	const buttonSetCreate: ButtonItem = {
-		label: translate('groupChat.create.button.label'),
-		function: OVERLAY_FUNCTIONS.CLOSE,
-		type: BUTTON_TYPES.PRIMARY
-	};
+	const buttonSetCreate = useMemo<ButtonItem>(
+		() => ({
+			label: translate('groupChat.create.button.label'),
+			function: OVERLAY_FUNCTIONS.CLOSE,
+			type: BUTTON_TYPES.PRIMARY
+		}),
+		[translate]
+	);
 
-	const buttonSetCancel: ButtonItem = {
-		label: translate('groupChat.cancel.button.label'),
-		function: OVERLAY_FUNCTIONS.CLOSE,
-		type: BUTTON_TYPES.SECONDARY
-	};
+	const buttonSetCancel = useMemo<ButtonItem>(
+		() => ({
+			label: translate('groupChat.cancel.button.label'),
+			function: OVERLAY_FUNCTIONS.CLOSE,
+			type: BUTTON_TYPES.SECONDARY
+		}),
+		[translate]
+	);
 
-	const buttonSetSave: ButtonItem = {
-		label: translate('groupChat.save.button.label'),
-		function: OVERLAY_FUNCTIONS.CLOSE,
-		type: BUTTON_TYPES.PRIMARY
-	};
+	const buttonSetSave = useMemo<ButtonItem>(
+		() => ({
+			label: translate('groupChat.save.button.label'),
+			function: OVERLAY_FUNCTIONS.CLOSE,
+			type: BUTTON_TYPES.PRIMARY
+		}),
+		[translate]
+	);
 
-	const handleCreateAndUpdateButton = () => {
-		const repetitiveCheckbox = document.getElementById(
-			repetitiveCheckboxItem.inputId
-		) as HTMLInputElement;
-		const repetitiveCheckboxChecked =
-			repetitiveCheckbox && repetitiveCheckbox.checked;
+	const createGroupChat = useCallback(
+		(createChatDataItem: groupChatSettings) => {
+			if (isRequestInProgress) {
+				return null;
+			}
+			setIsRequestInProgress(true);
+			apiCreateGroupChat(createChatDataItem)
+				.then((response: chatLinkData) => {
+					apiGetSessionRoomsByGroupIds([response.groupId]).then(
+						({ sessions }) => {
+							dispatch({
+								type: UPDATE_SESSIONS,
+								sessions: sessions
+							});
 
+							setActiveSession(
+								getExtendedSession(response.groupId, sessions)
+							);
+							setOverlayItem(createChatSuccessOverlayItem);
+							setOverlayActive(true);
+						}
+					);
+				})
+				.catch(() => {
+					setOverlayItem(createChatErrorOverlayItem);
+					setOverlayActive(true);
+				});
+		},
+		[
+			createChatErrorOverlayItem,
+			createChatSuccessOverlayItem,
+			dispatch,
+			isRequestInProgress
+		]
+	);
+
+	const updateGroupChatSettings = useCallback(
+		(createChatDataItem: groupChatSettings) => {
+			if (isRequestInProgress) {
+				return null;
+			}
+			setIsRequestInProgress(true);
+			apiUpdateGroupChat(activeSession.item.id, createChatDataItem)
+				.then((response: chatLinkData) => {
+					apiGetSessionRoomsByGroupIds([response.groupId]).then(
+						({ sessions }) => {
+							dispatch({
+								type: UPDATE_SESSIONS,
+								sessions: sessions
+							});
+
+							setOverlayItem(updateChatSuccessOverlayItem);
+							setOverlayActive(true);
+						}
+					);
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+		},
+		[
+			activeSession?.item?.id,
+			dispatch,
+			isRequestInProgress,
+			updateChatSuccessOverlayItem
+		]
+	);
+
+	const handleCreateAndUpdateButton = useCallback(() => {
 		const createChatDataItem: groupChatSettings = {
 			topic: selectedChatTopic,
 			startDate: getValidDateFormatForSelectedDate(selectedDate),
 			startTime: getValidTimeFormatForSelectedTime(selectedTime),
 			duration: parseInt(selectedDuration),
-			repetitive: repetitiveCheckboxChecked,
+			repetitive: selectedRepetitive,
 			featureGroupChatV2Enabled
 		};
 
 		isEditGroupChatMode
 			? updateGroupChatSettings(createChatDataItem)
 			: createGroupChat(createChatDataItem);
-	};
+	}, [
+		createGroupChat,
+		featureGroupChatV2Enabled,
+		isEditGroupChatMode,
+		selectedChatTopic,
+		selectedDate,
+		selectedDuration,
+		selectedRepetitive,
+		selectedTime,
+		updateGroupChatSettings
+	]);
 
-	const createGroupChat = (createChatDataItem: groupChatSettings) => {
-		if (isRequestInProgress) {
-			return null;
-		}
-		setIsRequestInProgress(true);
-		apiCreateGroupChat(createChatDataItem)
-			.then((response: chatLinkData) => {
-				apiGetSessionRoomsByGroupIds([response.groupId]).then(
-					({ sessions }) => {
-						dispatch({
-							type: UPDATE_SESSIONS,
-							sessions: sessions
-						});
-
-						setActiveSession(
-							getExtendedSession(response.groupId, sessions)
-						);
-						setOverlayItem(createChatSuccessOverlayItem);
-						setOverlayActive(true);
-					}
-				);
-			})
-			.catch((error) => {
-				setOverlayItem(createChatErrorOverlayItem);
-				setOverlayActive(true);
-			});
-	};
-
-	const updateGroupChatSettings = (createChatDataItem: groupChatSettings) => {
-		if (isRequestInProgress) {
-			return null;
-		}
-		setIsRequestInProgress(true);
-		apiUpdateGroupChat(activeSession.item.id, createChatDataItem)
-			.then((response: chatLinkData) => {
-				apiGetSessionRoomsByGroupIds([response.groupId]).then(
-					({ sessions }) => {
-						dispatch({
-							type: UPDATE_SESSIONS,
-							sessions: sessions
-						});
-
-						setOverlayItem(updateChatSuccessOverlayItem);
-						setOverlayActive(true);
-					}
-				);
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-	};
-
-	const handleOverlayAction = (buttonFunction: string) => {
-		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
-			if (
-				JSON.stringify(overlayItem) ===
-					JSON.stringify(createChatSuccessOverlayItem) ||
-				JSON.stringify(overlayItem) ===
-					JSON.stringify(updateChatSuccessOverlayItem)
-			) {
-				const pathInfo =
-					(prevPathIsGroupChatInfo ? '/groupChatInfo' : '') +
-					getSessionListTab();
-				history.push(
-					`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}${pathInfo}`
-				);
-			} else {
-				setOverlayActive(false);
-				setOverlayItem({});
+	const handleOverlayAction = useCallback(
+		(buttonFunction: string) => {
+			if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+				if (
+					JSON.stringify(overlayItem) ===
+						JSON.stringify(createChatSuccessOverlayItem) ||
+					JSON.stringify(overlayItem) ===
+						JSON.stringify(updateChatSuccessOverlayItem)
+				) {
+					const pathInfo =
+						(prevPathIsGroupChatInfo ? '/groupChatInfo' : '') +
+						getSessionListTab();
+					history.push(
+						`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}${pathInfo}`
+					);
+				} else {
+					setOverlayActive(false);
+					setOverlayItem({});
+				}
+				setIsRequestInProgress(false);
 			}
-			setIsRequestInProgress(false);
-		}
-	};
+		},
+		[
+			activeSession?.item?.groupId,
+			activeSession?.item?.id,
+			createChatSuccessOverlayItem,
+			getSessionListTab,
+			history,
+			listPath,
+			overlayItem,
+			prevPathIsGroupChatInfo,
+			updateChatSuccessOverlayItem
+		]
+	);
 
 	return (
 		<div className="createChat__wrapper">
@@ -528,6 +592,7 @@ export const CreateGroupChatView = (props) => {
 					/>
 				)}
 			</form>
+
 			{overlayActive && (
 				<Overlay
 					item={overlayItem}
