@@ -9,6 +9,7 @@ export * from './interfaces/LegalLinkInterface';
 export * from './interfaces/ServerAppConfigInterface';
 export * from './interfaces/AppConfig';
 
+export * from './provider/AgencySpecificProvider';
 export * from './provider/AnonymousConversationFinishedProvider';
 export * from './provider/AnonymousEnquiryAcceptedProvider';
 export * from './provider/AnonymousConversationStartedProvider';

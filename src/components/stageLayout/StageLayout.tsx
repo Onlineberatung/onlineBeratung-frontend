@@ -4,7 +4,7 @@ import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
-import { LocaleContext } from '../../globalState';
+import { AgencySpecificContext, LocaleContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
@@ -33,6 +33,7 @@ export const StageLayout = ({
 	const { t: translate } = useTranslation();
 	const legalLinks = useContext(LegalLinksContext);
 	const { selectableLocales } = useContext(LocaleContext);
+	const { specificAgency } = useContext(AgencySpecificContext);
 	const settings = useAppConfig();
 	const { fromL } = useResponsive();
 
@@ -102,7 +103,11 @@ export const StageLayout = ({
 				{showLegalLinks && (
 					<div className={`stageLayout__legalLinks`}>
 						{legalLinks.map((legalLink, index) => (
-							<React.Fragment key={legalLink.url}>
+							<React.Fragment
+								key={legalLink.getUrl({
+									aid: specificAgency?.id
+								})}
+							>
 								{index > 0 && (
 									<Text
 										type="infoSmall"
@@ -113,9 +118,16 @@ export const StageLayout = ({
 								<button
 									type="button"
 									className="button-as-link"
-									data-cy-link={legalLink.url}
+									data-cy-link={legalLink.getUrl({
+										aid: specificAgency?.id
+									})}
 									onClick={() =>
-										window.open(legalLink.url, '_blank')
+										window.open(
+											legalLink.getUrl({
+												aid: specificAgency?.id
+											}),
+											'_blank'
+										)
 									}
 								>
 									<Text

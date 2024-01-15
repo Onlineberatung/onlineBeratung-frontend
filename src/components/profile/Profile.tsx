@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useRef, useContext, useEffect, Fragment } from 'react';
 import { logout } from '../logout/logout';
 import {
+	AgencySpecificContext,
 	AUTHORITIES,
 	ConsultingTypesContext,
 	hasUserAuthority,
@@ -60,6 +61,7 @@ export const Profile = () => {
 
 	const legalLinks = useContext(LegalLinksContext);
 	const { userData } = useContext(UserDataContext);
+	const { specificAgency } = useContext(AgencySpecificContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const [mobileMenu, setMobileMenu] = useState<
@@ -467,7 +469,9 @@ export const Profile = () => {
 				</div>
 				<div className="profile__footer">
 					{legalLinks.map((legalLink, index) => (
-						<Fragment key={legalLink.url}>
+						<Fragment
+							key={legalLink.getUrl({ aid: specificAgency?.id })}
+						>
 							{index > 0 && (
 								<Text
 									type="infoSmall"
@@ -476,8 +480,12 @@ export const Profile = () => {
 								/>
 							)}
 							<a
-								key={legalLink.url}
-								href={legalLink.url}
+								key={legalLink.getUrl({
+									aid: specificAgency?.id
+								})}
+								href={legalLink.getUrl({
+									aid: specificAgency?.id
+								})}
 								target="_blank"
 								rel="noreferrer"
 							>

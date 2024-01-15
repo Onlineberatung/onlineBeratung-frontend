@@ -123,10 +123,10 @@ export const WaitingRoom = ({
 															'registration.dataProtection.label.and'
 													  )
 												: '') +
-											`<a target="_blank" href="${
-												legalLink.url
-											}">${translate(
-												legalLink.label
+											`<a target="_blank" href="${legalLink.getUrl(
+												{ aid: null }
+											)}">${translate(
+												legalLink.getUrl({ aid: null })
 											)}</a>`
 									)
 									.join('')
