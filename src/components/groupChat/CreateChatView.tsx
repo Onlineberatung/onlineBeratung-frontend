@@ -12,7 +12,8 @@ import {
 	getExtendedSession,
 	UPDATE_SESSIONS,
 	SessionTypeContext,
-	useTenant
+	useTenant,
+	UserDataContext
 } from '../../globalState';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
@@ -45,6 +46,7 @@ import { useResponsive } from '../../hooks/useResponsive';
 import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
+import { Textarea } from '../form/textarea';
 
 registerLocale('de', de);
 
@@ -52,6 +54,9 @@ export const CreateGroupChatView = (props) => {
 	const { t: translate } = useTranslation();
 	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 	const history = useHistory();
+	const {
+		userData: { agencies = [] }
+	} = useContext(UserDataContext);
 
 	const { sessions, ready, dispatch } = useContext(SessionsDataContext);
 	const { path: listPath } = useContext(SessionTypeContext);
@@ -59,6 +64,8 @@ export const CreateGroupChatView = (props) => {
 	const [selectedDate, setSelectedDate] = useState('');
 	const [selectedTime, setSelectedTime] = useState('');
 	const [selectedDuration, setSelectedDuration] = useState(null);
+	const [selectedAgency, setSelectedAgency] = useState<number | null>(null);
+	const [hintMessage, setHintMessage] = useState('');
 	const [selectedRepetitive, setSelectedRepetitive] = useState(false);
 	const [isCreateButtonDisabled, setIsCreateButtonDisabled] = useState(true);
 	const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
@@ -174,6 +181,12 @@ export const CreateGroupChatView = (props) => {
 			handleTimePicker(selectedTime);
 			setSelectedDuration(activeSession.item.duration);
 			setSelectedRepetitive(activeSession.item.repetitive);
+			setSelectedAgency(
+				activeSession.item.assignedAgencies.length > 0
+					? activeSession.item.assignedAgencies[0].id
+					: null
+			);
+			setHintMessage(activeSession.item.hintMessage);
 		}
 	}, [groupIdFromParam, props.location.state, ready, sessions]);
 
@@ -192,7 +205,9 @@ export const CreateGroupChatView = (props) => {
 			prefillTime.toLocaleTimeString() !==
 				inputTime.toLocaleTimeString() ||
 			parseInt(selectedDuration) !== activeSession.item.duration ||
-			selectedRepetitive !== activeSession.item.repetitive
+			selectedRepetitive !== activeSession.item.repetitive ||
+			selectedAgency !== activeSession.item.assignedAgencies?.[0]?.id ||
+			hintMessage !== activeSession.item.hintMessage
 		);
 	}, [
 		activeSession?.item.duration,
@@ -200,12 +215,24 @@ export const CreateGroupChatView = (props) => {
 		activeSession?.item.startDate,
 		activeSession?.item.startTime,
 		activeSession?.item.topic,
+		activeSession?.item.assignedAgencies,
+		activeSession?.item.hintMessage,
+		hintMessage,
+		selectedAgency,
 		selectedChatTopic,
 		selectedDate,
 		selectedDuration,
 		selectedRepetitive,
 		selectedTime
 	]);
+
+	useEffect(() => {
+		const onlyOneAgencyAvailable = agencies?.length === 1;
+
+		if (onlyOneAgencyAvailable) {
+			setSelectedAgency(agencies[0].id);
+		}
+	}, [agencies]);
 
 	useEffect(() => {
 		const isChatTopicValid =
@@ -216,7 +243,8 @@ export const CreateGroupChatView = (props) => {
 			isChatTopicValid &&
 			selectedDate &&
 			selectedTime &&
-			selectedDuration
+			selectedDuration &&
+			selectedAgency
 		) {
 			isEditGroupChatMode && arePrefilledValuesChanged()
 				? setIsSaveButtonDisabled(false)
@@ -231,11 +259,12 @@ export const CreateGroupChatView = (props) => {
 		selectedDate,
 		selectedTime,
 		selectedDuration,
+		selectedAgency,
 		isEditGroupChatMode,
 		arePrefilledValuesChanged
 	]);
 
-	const handleBackButton = () => {
+	const handleEditGroupChatBackButton = () => {
 		if (isEditGroupChatMode) {
 			const pathInfo =
 				(prevPathIsGroupChatInfo ? '/groupChatInfo' : '') +
@@ -246,9 +275,15 @@ export const CreateGroupChatView = (props) => {
 		}
 	};
 
+	const handleCreateGroupChatBackButton = () => {
+		if (!isEditGroupChatMode) {
+			history.push('/sessions/consultant/sessionView');
+		}
+	};
+
 	const chatTopicInputItem: InputFieldItem = {
 		name: 'chatTopic',
-		class: 'creatChat__name__input',
+		class: 'createChat__name__input',
 		id: 'chatTopic',
 		type: 'text',
 		label: translate(chatTopicLabel),
@@ -280,6 +315,10 @@ export const CreateGroupChatView = (props) => {
 		setSelectedDuration(selectedOption.value);
 	};
 
+	const handleAgencySelect = (selectedOption) => {
+		setSelectedAgency(parseInt(selectedOption.value));
+	};
+
 	const getOptionOfSelectedDuration = useCallback(() => {
 		return durationSelectOptionsSet
 			.map((option) => ({ ...option, label: translate(option.label) }))
@@ -309,6 +348,32 @@ export const CreateGroupChatView = (props) => {
 			defaultValue: getOptionOfSelectedDuration()
 		}),
 		[getOptionOfSelectedDuration, translate]
+	);
+
+	const getOptionOfSelectedAgency = useCallback(() => {
+		const agency = agencies.find((agency) => agency.id === selectedAgency);
+		return agency
+			? {
+					value: agency.id.toString(),
+					label: agency.name
+			  }
+			: null;
+	}, [agencies, selectedAgency]);
+
+	const agencySelectDropdown = useMemo<SelectDropdownItem>(
+		() => ({
+			id: 'agency',
+			selectedOptions: agencies.map(({ id, name }) => ({
+				value: id.toString(),
+				label: name
+			})),
+			defaultValue: getOptionOfSelectedAgency(),
+			handleDropdownSelect: handleAgencySelect,
+			selectInputLabel: translate('groupChat.create.agencySelect.label'),
+			isSearchable: true,
+			menuPlacement: 'bottom'
+		}),
+		[agencies, getOptionOfSelectedAgency, translate]
 	);
 
 	const repetitiveCheckboxItem = useMemo<CheckboxItem>(
@@ -423,7 +488,9 @@ export const CreateGroupChatView = (props) => {
 			startDate: getValidDateFormatForSelectedDate(selectedDate),
 			startTime: getValidTimeFormatForSelectedTime(selectedTime),
 			duration: parseInt(selectedDuration),
+			agencyId: selectedAgency,
 			repetitive: selectedRepetitive,
+			hintMessage,
 			featureGroupChatV2Enabled
 		};
 
@@ -433,7 +500,9 @@ export const CreateGroupChatView = (props) => {
 	}, [
 		createGroupChat,
 		featureGroupChatV2Enabled,
+		hintMessage,
 		isEditGroupChatMode,
+		selectedAgency,
 		selectedChatTopic,
 		selectedDate,
 		selectedDuration,
@@ -483,7 +552,7 @@ export const CreateGroupChatView = (props) => {
 				<div className="createChat__header createChat__header--edit">
 					<div className="createChat__header__inner">
 						<span
-							onClick={handleBackButton}
+							onClick={handleEditGroupChatBackButton}
 							className="createChat__header__backButton"
 						>
 							<BackIcon />
@@ -500,7 +569,7 @@ export const CreateGroupChatView = (props) => {
 				<div className="createChat__header">
 					<div className="createChat__header__inner">
 						<span
-							onClick={handleBackButton}
+							onClick={handleEditGroupChatBackButton}
 							className="createChat__header__backButton"
 						>
 							<BackIcon />
@@ -514,6 +583,7 @@ export const CreateGroupChatView = (props) => {
 					</p>
 				</div>
 			)}
+
 			<form id="createChatForm" className="createChat__content">
 				<InputField
 					item={chatTopicInputItem}
@@ -541,6 +611,7 @@ export const CreateGroupChatView = (props) => {
 						{translate('groupChat.create.dateInput.label')}
 					</span>
 				</div>
+
 				<div className="formWrapper react-datepicker--time">
 					<DatePicker
 						selected={selectedTime}
@@ -565,32 +636,62 @@ export const CreateGroupChatView = (props) => {
 						{translate('groupChat.create.beginDateInput.label')}
 					</span>
 				</div>
+
 				<SelectDropdown {...durationSelectDropdown} />
+
+				<SelectDropdown {...agencySelectDropdown} />
+
+				<div className="createChat__textareaWrapper">
+					<Textarea
+						id="hintMessage"
+						value={hintMessage}
+						maxLength={300}
+						onChange={({ target: { value } }) =>
+							setHintMessage(value.slice(0, 300))
+						}
+						placeholder={translate(
+							'groupChat.create.hintMessage.label'
+						)}
+					/>
+					<p className="createChat__explanation">
+						{translate('groupChat.create.hintMessage.explanation')}
+					</p>
+				</div>
+
 				<Checkbox
 					item={repetitiveCheckboxItem}
 					checkboxHandle={() =>
 						setSelectedRepetitive(!selectedRepetitive)
 					}
 				/>
-				{isEditGroupChatMode ? (
-					<div className="createChat__buttonsWrapper">
-						<Button
-							item={buttonSetCancel}
-							buttonHandle={handleBackButton}
-						/>
-						<Button
-							item={buttonSetSave}
-							buttonHandle={handleCreateAndUpdateButton}
-							disabled={isSaveButtonDisabled}
-						/>
-					</div>
-				) : (
-					<Button
-						item={buttonSetCreate}
-						buttonHandle={handleCreateAndUpdateButton}
-						disabled={isCreateButtonDisabled}
-					/>
-				)}
+
+				<div className="createChat__buttonsWrapper">
+					{isEditGroupChatMode ? (
+						<>
+							<Button
+								item={buttonSetCancel}
+								buttonHandle={handleEditGroupChatBackButton}
+							/>
+							<Button
+								item={buttonSetSave}
+								buttonHandle={handleCreateAndUpdateButton}
+								disabled={isSaveButtonDisabled}
+							/>
+						</>
+					) : (
+						<>
+							<Button
+								item={buttonSetCancel}
+								buttonHandle={handleCreateGroupChatBackButton}
+							/>
+							<Button
+								item={buttonSetCreate}
+								buttonHandle={handleCreateAndUpdateButton}
+								disabled={isCreateButtonDisabled}
+							/>
+						</>
+					)}
+				</div>
 			</form>
 
 			{overlayActive && (
