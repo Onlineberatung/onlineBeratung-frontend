@@ -135,10 +135,23 @@ $inputSpacing: 32px;
 			}
 		}
 	}
-}
 
-.creatChat__name__input {
-	padding-left: $grid-base-three;
+	&__name__input {
+		padding-left: $grid-base-three;
+	}
+
+	&__textareaWrapper {
+		width: $chat-input-width;
+
+		& > .textarea__wrapper {
+			margin: 0;
+		}
+	}
+
+	&__explanation {
+		font-size: 12px;
+		margin: 0 0 $grid-base-four;
+	}
 }
 
 //overwrite component spacings
