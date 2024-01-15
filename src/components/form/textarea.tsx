@@ -41,13 +41,13 @@ export const Textarea = ({
 						{placeholder}
 					</label>
 				)}
+				{attrs.maxLength && (
+					<div className="textarea__letters">
+						{(attrs?.value?.toString() ?? '').length} /{' '}
+						{attrs.maxLength}
+					</div>
+				)}
 			</div>
-			{attrs.maxLength && (
-				<div className="textarea__letters">
-					{(attrs?.value?.toString() ?? '').length} /{' '}
-					{attrs.maxLength}
-				</div>
-			)}
 		</div>
 	);
 };
