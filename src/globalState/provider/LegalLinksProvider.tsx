@@ -49,7 +49,13 @@ export function LegalLinksProvider({
 					...legalLink,
 					getUrl: (params: {
 						[key: string]: string | number | null | undefined;
-					}) => getUrl(url, params)
+					}) =>
+						getUrl(
+							url.match(/http(s)?:\/\//)
+								? url
+								: `${window.location.origin}${url}`,
+							params
+						)
 				})
 			),
 		[externalLegalLinks, settings.legalLinks, getUrl]
