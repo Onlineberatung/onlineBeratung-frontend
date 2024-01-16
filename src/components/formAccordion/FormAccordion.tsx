@@ -13,7 +13,7 @@ import {
 	RequiredComponentsInterface,
 	RegistrationNotesInterface,
 	useTenant,
-	LegalLinkInterface
+	AgencySpecificContext
 } from '../../globalState';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
@@ -35,6 +35,7 @@ import { ProposedAgencies } from '../../containers/registration/components/Propo
 import { useConsultantAgenciesAndConsultingTypes } from '../../containers/registration/hooks/useConsultantAgenciesAndConsultingTypes';
 import { FormAccordionData } from '../registration/RegistrationForm';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
+import { TProvidedLegalLink } from '../../globalState/provider/LegalLinksProvider';
 
 interface FormAccordionProps {
 	formAccordionData: FormAccordionData;
@@ -43,7 +44,7 @@ interface FormAccordionProps {
 	onValidation: Dispatch<SetStateAction<boolean>>;
 	additionalStepsData?: RequiredComponentsInterface;
 	registrationNotes?: RegistrationNotesInterface;
-	legalLinks: Array<LegalLinkInterface>;
+	legalLinks: TProvidedLegalLink[];
 	handleSubmitButtonClick: Function;
 	isSubmitButtonDisabled: boolean;
 	setIsDataProtectionSelected: Dispatch<SetStateAction<boolean>>;
@@ -67,6 +68,9 @@ export const FormAccordion = ({
 	const tenantData = useTenant();
 
 	const { consultingType, consultant } = useContext(UrlParamsContext);
+	const { setSpecificAgency, specificAgency } = useContext(
+		AgencySpecificContext
+	);
 	const { consultingTypes } = useConsultantAgenciesAndConsultingTypes();
 
 	const [activeItem, setActiveItem] = useState<number>(1);
@@ -108,7 +112,12 @@ export const FormAccordion = ({
 			);
 		formAccordionData.agency?.tenantId &&
 			setIsDataProtectionSelected(false);
-	}, [formAccordionData.agency, setIsDataProtectionSelected]);
+		setSpecificAgency(formAccordionData.agency);
+	}, [
+		formAccordionData.agency,
+		setSpecificAgency,
+		setIsDataProtectionSelected
+	]);
 
 	useEffect(() => {
 		onValidation(
@@ -205,9 +214,9 @@ export const FormAccordion = ({
 										'registration.dataProtection.label.and'
 								  )
 							: '') +
-						`<span><button type="button" class="button-as-link" onclick="window.open('${
-							legalLink.url
-						}')">${translate(legalLink.label)}</button></span>`
+						`<span><button type="button" class="button-as-link" onclick="window.open('${legalLink.getUrl(
+							{ aid: specificAgency?.id }
+						)}')">${translate(legalLink.label)}</button></span>`
 				)
 				.join(''),
 			translate('registration.dataProtection.label.suffix')
