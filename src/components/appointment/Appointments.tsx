@@ -4,6 +4,7 @@ import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import './appointments.styles.scss';
 import {
+	AgencySpecificContext,
 	NOTIFICATION_TYPE_SUCCESS,
 	NotificationsContext
 } from '../../globalState';
@@ -31,6 +32,7 @@ import { ListInfo } from '../listInfo/ListInfo';
 export const Appointments = () => {
 	const { t: translate } = useTranslation();
 	const legalLinks = useContext(LegalLinksContext);
+	const { specificAgency } = useContext(AgencySpecificContext);
 	const { addNotification } = useContext(NotificationsContext);
 
 	const [loading, setLoading] = useState(true);
@@ -310,7 +312,11 @@ export const Appointments = () => {
 				<ScrollableSectionFooter>
 					<div className="profile__footer">
 						{legalLinks.map((legalLink, index) => (
-							<React.Fragment key={legalLink.url}>
+							<React.Fragment
+								key={legalLink.getUrl({
+									aid: specificAgency?.id
+								})}
+							>
 								{index > 0 && (
 									<Text
 										type="infoSmall"
@@ -319,8 +325,12 @@ export const Appointments = () => {
 									/>
 								)}
 								<a
-									key={legalLink.url}
-									href={legalLink.url}
+									key={legalLink.getUrl({
+										aid: specificAgency?.id
+									})}
+									href={legalLink.getUrl({
+										aid: specificAgency?.id
+									})}
 									target="_blank"
 									rel="noreferrer"
 								>

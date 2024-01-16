@@ -596,8 +596,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				<div className="legalInformationLinks--menu">
 					{legalLinks.map((legalLink) => (
 						<a
-							href={legalLink.url}
-							key={legalLink.url}
+							href={legalLink.getUrl({
+								aid: activeSession?.agency?.id
+							})}
+							key={legalLink.getUrl({
+								aid: activeSession?.agency?.id
+							})}
 							target="_blank"
 							rel="noreferrer"
 						>

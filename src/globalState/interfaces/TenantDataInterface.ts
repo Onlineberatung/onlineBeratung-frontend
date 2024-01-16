@@ -14,6 +14,7 @@ export interface TenantDataInterface {
 		claim: string;
 		dataPrivacyConfirmation: string;
 		termsAndConditionsConfirmation: string;
+		renderedPrivacy: string;
 	};
 	settings?: TenantDataSettingsInterface;
 }
