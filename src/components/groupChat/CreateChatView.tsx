@@ -639,7 +639,9 @@ export const CreateGroupChatView = (props) => {
 
 				<SelectDropdown {...durationSelectDropdown} />
 
-				<SelectDropdown {...agencySelectDropdown} />
+				{!isEditGroupChatMode && (
+					<SelectDropdown {...agencySelectDropdown} />
+				)}
 
 				<div className="createChat__textareaWrapper">
 					<Textarea
