@@ -229,7 +229,7 @@ export const GroupChatInfo = () => {
 		},
 		{
 			label: translate('groupChat.info.settings.agency'),
-			value: activeSession.item.assignedAgencies.length
+			value: activeSession.item?.assignedAgencies?.length
 				? activeSession.item.assignedAgencies[0].name
 				: ''
 		}

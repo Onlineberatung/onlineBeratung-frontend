@@ -182,7 +182,7 @@ export const CreateGroupChatView = (props) => {
 			setSelectedDuration(activeSession.item.duration);
 			setSelectedRepetitive(activeSession.item.repetitive);
 			setSelectedAgency(
-				activeSession.item.assignedAgencies.length > 0
+				activeSession.item.assignedAgencies?.length > 0
 					? activeSession.item.assignedAgencies[0].id
 					: null
 			);
