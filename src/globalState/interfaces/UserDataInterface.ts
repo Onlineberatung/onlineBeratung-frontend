@@ -52,6 +52,7 @@ export interface AgencyDataInterface {
 	url?: string;
 	external?: boolean;
 	tenantId?: number;
+	agencySpecificPrivacy?: string;
 }
 
 export interface ConsultingTypeDataInterface {

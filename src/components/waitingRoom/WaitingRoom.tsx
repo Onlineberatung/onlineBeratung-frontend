@@ -301,9 +301,9 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 														'registration.dataProtection.label.and'
 												  )
 											: '') +
-										`<a target="_blank" href="${
-											legalLink.url
-										}">${translate(legalLink.label)}</a>`
+										`<a target="_blank" href="${legalLink.getUrl(
+											{ aid: null }
+										)}">${translate(legalLink.label)}</a>`
 								)
 								.join(''),
 							translate(
