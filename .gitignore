@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/proxy/node_modules
 /.pnp
 .pnp.js
 
@@ -12,6 +13,7 @@
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -22,6 +24,7 @@
 .env.test.local
 .env.production.local
 .idea
+.storage
 
 # cypress
 browserstack.json

@@ -25,11 +25,11 @@ import clsx from 'clsx';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	LocaleContext,
 	RocketChatGlobalSettingsContext,
 	TenantContext,
 	UserDataContext,
-	UserDataInterface
+	UserDataInterface,
+	LocaleContext
 } from '../../globalState';
 import '../../resources/styles/styles';
 import './login.styles';

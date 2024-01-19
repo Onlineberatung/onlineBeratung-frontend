@@ -1,5 +1,7 @@
-import deAgency from '../i18n/de.agency.json';
-import deConsultingTypes from '../i18n/de.consultingTypes.json';
+import deAgency from '../i18n/de/agency.json';
+import deConsultingTypes from '../i18n/de/consultingTypes.json';
+import enLanguages from '../i18n/en/languages.json';
+import enCommon from '../i18n/en/common.json';
 import { AppConfigInterface } from '../../globalState/interfaces/AppConfig/AppConfigInterface';
 import {
 	OVERLAY_RELEASE_NOTE,
@@ -294,6 +296,12 @@ export const config: AppConfigInterface = {
 		'zu'
 	],
 	i18n: {
+		supportedLngs: ['en', 'de@informal', 'de'],
+		preload: ['de', 'de@informal'],
+		fallbackLng: {
+			'en': ['de'],
+			'en@informal': ['en', 'de@informal', 'de']
+		},
 		resources: {
 			de: {
 				consultingTypes: {
@@ -301,6 +309,17 @@ export const config: AppConfigInterface = {
 				},
 				agencies: {
 					...deAgency
+				},
+				languages: {
+					en: '(EN) Englisch'
+				}
+			},
+			en: {
+				common: {
+					...enCommon
+				},
+				languages: {
+					...enLanguages
 				}
 			}
 		}

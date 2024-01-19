@@ -6,9 +6,9 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	hasUserAuthority,
-	LocaleContext,
 	UserDataContext,
-	useTenant
+	useTenant,
+	LocaleContext
 } from '../../globalState';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';

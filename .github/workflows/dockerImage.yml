@@ -21,7 +21,7 @@ jobs:
             FAIL_WEBHOOK_SECRET: ${{ secrets.MS_TEAMS_FAIL_WEBHOOK_URI }}
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
             - name: set env
               run: |
                   RAW=$(git branch -r --contains ${{ github.ref }})
@@ -77,9 +77,6 @@ jobs:
                       - text: View CI
                         url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
     push_to_registry:
-        strategy:
-            matrix:
-                registry: ['docker.pkg.github.com', 'ghcr.io']
         needs: [build]
         name: Push Docker image to GitHub Packages
         runs-on: ubuntu-latest
@@ -87,7 +84,7 @@ jobs:
             IMAGE_WEBHOOK_SECRET: ${{ secrets.MS_TEAMS_IMAGE_WEBHOOK_URI }}
             FAIL_WEBHOOK_SECRET: ${{ secrets.MS_TEAMS_FAIL_WEBHOOK_URI }}
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - name: Download buildfiles artifact
               uses: actions/download-artifact@v2
               with:
@@ -104,8 +101,7 @@ jobs:
                   raw=$(git branch -r --contains ${{ github.ref }})
                   branch=${raw##*/}
                   echo BRANCH_NAME=$(echo -n "${branch}") >> $GITHUB_ENV
-                  echo "MATRIX_REGISTRY=$(echo "${{ matrix.registry }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
-                  echo "DOCKER_REGISTRY=$(echo "${{ matrix.registry }}/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
+                  echo "DOCKER_REGISTRY=$(echo "ghcr.io/${{ github.repository }}" | awk '{print tolower($0)}')" >> $GITHUB_ENV
                   echo "DOCKER_IMAGE=$(echo "${{ github.repository }}" | awk -F / '{print tolower($2)}')" >> $GITHUB_ENV
                   echo "REPO_NAME_WITHOUT_PREFIX"=$(echo "${{ github.repository }}" | sed "s/.*\///" | awk -F / '{print tolower($0)}') >> $GITHUB_ENV
                   echo CLEAN_REF=$(echo "${GITHUB_REF_NAME#refs/heads/}") >> $GITHUB_ENV
@@ -145,7 +141,6 @@ jobs:
                   push: true
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
-                  build_args: DOCKER_MATRIX=${{ env.MATRIX_REGISTRY }}
             - name: Hint about the Docker Image Tag if successfull
               if: ${{ success() }}
               run: |
@@ -160,7 +155,7 @@ jobs:
                   echo "" >> $GITHUB_STEP_SUMMARY
                   echo "- It seems that something has gone wrong" >> $GITHUB_STEP_SUMMARY
             - name: Microsoft Teams Fail Card
-              if: ${{ (env.FAIL_WEBHOOK_SECRET != null) && (env.FAIL_WEBHOOK_SECRET != '') && (matrix.registry == 'ghcr.io') && (failure() || cancelled()) }}
+              if: ${{ (env.FAIL_WEBHOOK_SECRET != null) && (env.FAIL_WEBHOOK_SECRET != '') && (failure() || cancelled()) }}
               uses: toko-bifrost/ms-teams-deploy-card@3.1.2
               with:
                   github-token: ${{ github.token }}
@@ -174,7 +169,7 @@ jobs:
                       - text: View CI
                         url: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             - name: Microsoft Teams Image Card
-              if: ${{ (env.IMAGE_WEBHOOK_SECRET != null) && (env.IMAGE_WEBHOOK_SECRET != '') && (matrix.registry == 'ghcr.io') && success() }}
+              if: ${{ (env.IMAGE_WEBHOOK_SECRET != null) && (env.IMAGE_WEBHOOK_SECRET != '') && success() }}
               uses: toko-bifrost/ms-teams-deploy-card@3.1.2
               with:
                   github-token: ${{ github.token }}

@@ -6,8 +6,8 @@ import IJitsiMeetExternalApi from '@jitsi/react-sdk/lib/types/IJitsiMeetExternal
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	LocaleContext,
-	UserDataContext
+	UserDataContext,
+	LocaleContext
 } from '../../globalState';
 import * as appointmentService from '../../api/appointments';
 import * as videocallsService from '../../api/videocalls';

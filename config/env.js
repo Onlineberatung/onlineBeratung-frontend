@@ -84,14 +84,12 @@ function getClientEnvironment(publicUrl) {
 				// and `sockPort` options in webpack-dev-server.
 				WDS_SOCKET_HOST: process.env.WDS_SOCKET_HOST,
 				WDS_SOCKET_PATH: process.env.WDS_SOCKET_PATH,
-				WDS_SOCKET_PORT: process.env.WDS_SOCKET_PORT,
-				// Whether or not react-refresh is enabled.
-				// It is defined here so it is available in the webpackHotDevClient.
-				FAST_REFRESH: process.env.FAST_REFRESH !== 'false'
+				WDS_SOCKET_PORT: process.env.WDS_SOCKET_PORT
 			}
 		);
 	// Stringify all values so we can feed into webpack DefinePlugin
 	const stringified = {
+		'process': {}, // This is the only line added to the previous method
 		'process.env': Object.keys(raw).reduce((env, key) => {
 			env[key] = JSON.stringify(raw[key]);
 			return env;

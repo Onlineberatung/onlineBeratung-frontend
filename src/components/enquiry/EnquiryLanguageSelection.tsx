@@ -1,7 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiAgencyLanguages } from '../../api/apiAgencyLanguages';
-import { getExtendedSession, SessionsDataContext } from '../../globalState';
+import {
+	getExtendedSession,
+	SessionsDataContext,
+	LocaleContext
+} from '../../globalState';
 import { Headline } from '../headline/Headline';
 import { isUniqueLanguage } from '../profile/profileHelpers';
 
@@ -9,7 +13,6 @@ import './enquiryLanguageSelection.styles';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { LocaleContext } from '../../globalState/provider/LocaleProvider';
 
 interface EnquiryLanguageSelectionProps {
 	className?: string;

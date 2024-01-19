@@ -1,23 +1,14 @@
 import * as React from 'react';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import i18n, { FALLBACK_LNG, init } from '../../i18n';
 import { InformalContext } from './InformalProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { setValueInCookie } from '../../components/sessionCookie/accessSessionCookie';
 import { useTenant } from './TenantProvider';
 import useTenantTheming from '../../utils/useTenantTheming';
+import { LocaleContext, TLocaleContext } from '../context/LocaleContext';
 
 export const STORAGE_KEY_LOCALE = 'locale';
-
-type TLocaleContext = {
-	locale: string;
-	initLocale: string;
-	setLocale: (lng: string) => void;
-	locales: string[];
-	selectableLocales: string[];
-};
-
-export const LocaleContext = createContext<TLocaleContext>(null);
 
 export function LocaleProvider(props) {
 	const settings = useAppConfig();
@@ -26,6 +17,7 @@ export function LocaleProvider(props) {
 	const [initialized, setInitialized] = useState(false);
 	const [initLocale, setInitLocale] = useState(null);
 	const { informal } = useContext(InformalContext);
+	const [locales, setLocales] = useState([]);
 	const [locale, setLocale] = useState(null);
 
 	useEffect(() => {
@@ -35,21 +27,25 @@ export function LocaleProvider(props) {
 			return;
 		}
 
-		init({
-			...settings.i18n,
-			...(tenant?.settings?.activeLanguages && {
-				supportedLngs: [
-					'de_informal',
-					...(tenant?.settings?.activeLanguages || []),
-					// If tenant service has 'de' active add default supported languages 'de' and 'de_informal'
-					// If 'de' is deactivated 'de_informal' should not be available too
-					...(settings.i18n.supportedLngs &&
-					(tenant?.settings?.activeLanguages ?? []).includes('de')
-						? settings.i18n.supportedLngs
-						: [])
-				]
-			})
-		}).then(() => {
+		init(
+			{
+				...settings.i18n,
+				...(tenant?.settings?.activeLanguages && {
+					supportedLngs: [
+						'de@informal',
+						...(tenant?.settings?.activeLanguages || []),
+						// If tenant service has 'de' active add default supported languages 'de' and 'de@informal'
+						// If 'de' is deactivated 'de@informal' should not be available too
+						...(settings.i18n.supportedLngs &&
+						(tenant?.settings?.activeLanguages ?? []).includes('de')
+							? settings.i18n.supportedLngs
+							: [])
+					]
+				})
+			},
+			settings.translation
+		).then((supportedLanguages) => {
+			setLocales(supportedLanguages);
 			setInitLocale(i18n.language);
 			const locale =
 				localStorage.getItem(STORAGE_KEY_LOCALE) ||
@@ -64,33 +60,16 @@ export function LocaleProvider(props) {
 		initialized,
 		isLoading,
 		settings.i18n,
+		settings.translation,
 		settings.useTenantService,
 		tenant?.settings?.activeLanguages
 	]);
-
-	const locales = useMemo(
-		() =>
-			initialized ? Object.keys(i18n.services.resourceStore.data) : [],
-		[initialized]
-	);
 
 	const selectableLocales = useMemo(() => {
-		const resourcesTranslations = initialized
-			? Object.keys(i18n.services.resourceStore.data).filter(
-					(lng) => lng.indexOf('_informal') < 0
-			  )
+		return initialized
+			? locales.filter((lng) => lng.indexOf('@informal') < 0)
 			: [];
-
-		if (initialized && settings.useTenantService) {
-			return tenant?.settings?.activeLanguages || resourcesTranslations;
-		}
-
-		return resourcesTranslations;
-	}, [
-		initialized,
-		settings.useTenantService,
-		tenant?.settings?.activeLanguages
-	]);
+	}, [initialized, locales]);
 
 	useEffect(() => {
 		if (!initialized) {
@@ -98,9 +77,9 @@ export function LocaleProvider(props) {
 		}
 
 		if (locale) {
-			let lngCode = `${locale}${informal ? '_informal' : ''}`;
+			let lngCode = `${locale}${informal ? '@informal' : ''}`;
 			if (!locales.includes(lngCode)) {
-				// If language is x_informal try if only x exists
+				// If language is x@informal try if only x exists
 				lngCode = locale;
 				if (!locales.includes(lngCode)) {
 					// else fallback to default lng
@@ -112,18 +91,15 @@ export function LocaleProvider(props) {
 			document.documentElement.lang = locale;
 			setValueInCookie('lang', locale);
 		}
-	}, [locale, informal, locales, initialized]);
+	}, [locale, informal, locales, initialized, settings.i18n.supportedLngs]);
 
 	const handleOnSetLocale = React.useCallback(
 		(lng) => {
-			if (
-				!settings?.i18n?.supportedLngs ||
-				(settings.i18n.supportedLngs as string[])?.includes?.(lng)
-			) {
+			if (locales?.includes?.(lng)) {
 				setLocale(lng);
 			}
 		},
-		[settings.i18n.supportedLngs]
+		[locales]
 	);
 
 	if (!initialized) {

@@ -21,7 +21,7 @@ import {
 	SESSION_TYPE_SESSION,
 	SESSION_TYPE_TEAMSESSION
 } from '../../components/session/sessionHelpers';
-import { UserDataContext } from './UserDataProvider';
+import { UserDataContext } from '../context/UserDataContext';
 import { AnonymousConversationFinishedContext } from './AnonymousConversationFinishedProvider';
 import { useBrowserNotification } from '../../hooks/useBrowserNotification';
 

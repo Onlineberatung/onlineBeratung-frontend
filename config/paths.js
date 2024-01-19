@@ -72,6 +72,9 @@ module.exports = {
 	appNodeModules: resolveApp('node_modules'),
 	appWebpackCache: resolveApp('node_modules/.cache'),
 	appTsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo'),
+	storagePath: process.env.STORAGE_PATH
+		? resolveApp(process.env.STORAGE_PATH)
+		: null,
 	swSrc: resolveModule(resolveApp, 'src/service-worker'),
 	publicUrlOrPath
 };

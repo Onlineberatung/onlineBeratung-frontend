@@ -64,7 +64,7 @@ $waiting-room-subline-opacity: 1 !default;
 			}
 
 			svg {
-				margin-left: -$grid-base-six;
+				margin-left: (-$grid-base-six);
 			}
 		}
 	}

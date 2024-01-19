@@ -4,7 +4,7 @@ import { ReactComponent as LanguageIconOutline } from '../../resources/img/icons
 import { ReactComponent as LanguageIconFilled } from '../../resources/img/icons/language_filled.svg';
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect, useState } from 'react';
-import { LocaleContext, UserDataContext } from '../../globalState';
+import { UserDataContext, LocaleContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';

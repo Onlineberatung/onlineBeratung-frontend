@@ -329,7 +329,7 @@ $profile-footer-justify-content: center !default;
 
 		@include breakpoint($fromLarge) {
 			width: calc(50% - #{$grid-base-three});
-			margin: 0 $grid-base-three / 2;
+			margin: 0 calc($grid-base-three / 2);
 			float: left;
 
 			&.left {

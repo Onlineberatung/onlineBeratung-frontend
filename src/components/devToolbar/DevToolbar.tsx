@@ -32,6 +32,8 @@ export const STORAGE_KEY_DISABLE_2FA_DUTY = 'disable 2fa_duty';
 export const STORAGE_KEY_RELEASE_NOTES = 'release_notes';
 export const STORAGE_KEY_ERROR_BOUNDARY = 'error_boundary';
 export const STORAGE_KEY_E2EE_DISABLED = 'e2ee_disabled';
+export const STORAGE_KEY_TRANSLATION_DISABLE_CACHE =
+	'translation_disable_cache';
 export const STORAGE_KEY_ENABLE_TRANSLATION_CHECK = 'enable_translation_check';
 export const STORAGE_KEY_ATTACHMENT_ENCRYPTION = 'attachement_encryption';
 
@@ -179,6 +181,18 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 				: '1',
 		description:
 			'Disable the Error Boundary to prevent getting logged out when an error occurs. DEV only'
+	},
+	{
+		label: 'Translation Cache',
+		key: STORAGE_KEY_TRANSLATION_DISABLE_CACHE,
+		type: TOGGLE,
+		choices: { '1': 'Disabled', '0': 'Enabled' },
+		value:
+			process.env.REACT_APP_TRANSLATION_DISABLE_CACHE &&
+			parseInt(process.env.REACT_APP_TRANSLATION_DISABLE_CACHE) === 1
+				? '1'
+				: '0',
+		description: 'Disable the localStorage cache for translations'
 	},
 	{
 		label: 'DEV Translation check',

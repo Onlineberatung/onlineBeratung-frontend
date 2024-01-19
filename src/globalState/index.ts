@@ -29,3 +29,6 @@ export * from './provider/RocketChatGlobalSettingsProvider';
 export * from './provider/InformalProvider';
 export * from './provider/AppConfigProvider';
 export * from './provider/ModalProvider';
+
+export * from './context/LocaleContext';
+export * from './context/UserDataContext';

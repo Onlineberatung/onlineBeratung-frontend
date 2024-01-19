@@ -7,7 +7,7 @@ import {
 	SetStateAction,
 	useEffect
 } from 'react';
-import { UserDataContext } from './UserDataProvider';
+import { UserDataContext } from '../context/UserDataContext';
 import { AgencyDataInterface } from '../interfaces/UserDataInterface';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
 

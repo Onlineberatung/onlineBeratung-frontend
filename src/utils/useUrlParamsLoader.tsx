@@ -4,9 +4,9 @@ import { getUrlParameter } from './getUrlParameter';
 import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
-	ConsultingTypeInterface,
-	LocaleContext
+	ConsultingTypeInterface
 } from '../globalState';
+import { LocaleContext } from '../globalState/context/LocaleContext';
 import { apiGetAgencyById, apiGetConsultingType } from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';

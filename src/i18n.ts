@@ -1,18 +1,27 @@
 import i18n, { InitOptions } from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import ChainedBackend from 'i18next-chained-backend';
+import FetchBackend from 'i18next-fetch-backend';
+import LocalStorageBackend from 'i18next-localstorage-backend';
+import resourcesToBackend from 'i18next-resources-to-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import _ from 'lodash';
 import flatten from 'flat';
 
-import de from './resources/i18n/de.json';
-import deInformal from './resources/i18n/de.informal.json';
-import deLanguages from './resources/i18n/de.languages.json';
-import { STORAGE_KEY_ENABLE_TRANSLATION_CHECK } from './components/devToolbar/DevToolbar';
+import de from './resources/i18n/de/common.json';
+import deInformal from './resources/i18n/de@informal/common.json';
+import deLanguages from './resources/i18n/de/languages.json';
+import {
+	STORAGE_KEY_ENABLE_TRANSLATION_CHECK,
+	STORAGE_KEY_TRANSLATION_DISABLE_CACHE
+} from './components/devToolbar/DevToolbar';
+import { TranslationConfig } from './globalState/interfaces/TranslationConfig';
+import { FETCH_METHODS, FETCH_SUCCESS, fetchData } from './api';
 
 export const FALLBACK_LNG = 'de';
 
-const resources = {
-	de: {
+const defaultResources = {
+	'de': {
 		common: {
 			...de
 		},
@@ -22,15 +31,85 @@ const resources = {
 			...deLanguages
 		}
 	},
-	de_informal: {
+	'de@informal': {
 		common: {
 			...deInformal
 		}
 	}
 };
 
-export const init = (config: InitOptions) => {
+const translationCacheDisabledLocally =
+	localStorage.getItem(STORAGE_KEY_TRANSLATION_DISABLE_CACHE) !== null &&
+	localStorage.getItem(STORAGE_KEY_TRANSLATION_DISABLE_CACHE) === '1';
+
+export const init = async (
+	{ resources, supportedLngs, ...config }: InitOptions,
+	translation: TranslationConfig
+) => {
+	let languageResources = {};
+	if (translation?.weblate.path) {
+		const languagePath = `${translation.weblate.host || ''}${
+			translation.weblate.path
+		}/projects/${translation.weblate.project}/languages/?format=json`;
+		languageResources = await fetchData({
+			url: languagePath,
+			method: FETCH_METHODS.GET,
+			skipAuth: true,
+			responseHandling: [FETCH_SUCCESS.CONTENT]
+		})
+			.then((res) => res.data)
+			.then(Object.values)
+			.then((res) =>
+				res.filter(
+					({ translated_percent, code }) =>
+						code &&
+						(code.indexOf('@informal') !== -1 ||
+							parseInt(translated_percent) >
+								translation.weblate.percentage)
+				)
+			)
+			.then((res) =>
+				res.reduce((acc, { code, name }) => {
+					acc[code] = `(${code.toUpperCase()}) ${name}`;
+					return acc;
+				}, {})
+			)
+			.then((languages) =>
+				Object.keys(languages).reduce((acc, code) => {
+					acc[code] = { languages: languages };
+					return acc;
+				}, {})
+			)
+			.catch(() => ({}));
+	}
+
+	const supportedLanguages = [
+		...new Set(
+			supportedLngs && supportedLngs.length > 0
+				? [...Object.keys(languageResources), ...supportedLngs]
+				: ['de', 'de@informal']
+		)
+	];
+
+	const flattenBaseResource = (resource) => {
+		if (!resource) return {};
+		return Object.keys(resource).reduce((acc, lng) => {
+			acc[lng] = Object.keys(resource[lng]).reduce((acc, ns) => {
+				acc[ns] = flatten(resource[lng][ns]);
+				return acc;
+			}, {});
+			return acc;
+		}, {});
+	};
+
+	const baseResources = _.merge(
+		flattenBaseResource(languageResources),
+		flattenBaseResource(defaultResources),
+		flattenBaseResource(resources)
+	);
+
 	return i18n
+		.use(ChainedBackend)
 		.use(LanguageDetector)
 		.use(initReactI18next)
 		.init(
@@ -41,22 +120,83 @@ export const init = (config: InitOptions) => {
 					 * inside LocaleProvider.tsx to detect if language has been
 					 * changed by the user
 					 */
-					supportedLngs: ['de', 'de_informal'],
+					ns: ['common', 'consultingTypes', 'agencies', 'languages'],
+					supportedLngs: supportedLanguages,
+					preload: ['de', 'de@informal'],
 					detection: {
 						order: ['navigator'],
 						caches: []
 					},
 					defaultNS: 'common',
 					fallbackLng: {
-						de_informal: ['de'],
-						default: [FALLBACK_LNG]
+						'de@informal': ['de'],
+						'default': [FALLBACK_LNG]
 					},
 					returnEmptyString: true,
 					interpolation: {
 						escapeValue: false
 					},
-					resources
+					partialBundledLanguages: true,
+					backend: {
+						backends: [
+							!(translationCacheDisabledLocally === null
+								? translation?.cache?.disabled
+								: translationCacheDisabledLocally) &&
+								LocalStorageBackend,
+							translation?.weblate.path && FetchBackend,
+							resourcesToBackend(baseResources)
+						].filter(Boolean),
+						backendOptions: [
+							!(translationCacheDisabledLocally === null
+								? translation?.cache?.disabled
+								: translationCacheDisabledLocally) && {
+								expirationTime:
+									translation?.cache?.time * 60 * 1000
+							},
+							translation?.weblate.path && {
+								// path where resources get loaded from, or a function
+								// returning a path:
+								// function(lngs, namespaces) { return customPath; }
+								// the returned path will interpolate lng, ns if provided like giving a static path
+								loadPath: `${translation.weblate.host || ''}${
+									translation.weblate.path
+								}/translations/${
+									translation.weblate.project
+								}/{{ns}}/{{lng}}/file.json?format=i18nextv4&q=state%3A%3E%3Dtranslated`,
+								// parse data after it has been fetched
+								// in example use https://www.npmjs.com/package/json5
+								// here it removes the letter a from the json (bad idea)
+								parse: (data: string) => {
+									const {
+										lng,
+										ns,
+										data: apiData
+									} = JSON.parse(data);
+									return _.merge(
+										baseResources?.[lng]?.[ns] || {},
+										flatten(apiData || {})
+									);
+								},
+								// init option for fetch, for example
+								requestOptions: {
+									mode: 'cors',
+									credentials: 'same-origin',
+									cache: 'default',
+									headers: {
+										...(translation?.weblate.key && {
+											Authorization: `Token ${translation?.weblate.key}`
+										})
+									}
+								},
+
+								// define a custom fetch function
+								fetch: fetch
+							},
+							{}
+						].filter(Boolean)
+					}
 				},
+
 				config ?? {}
 			),
 			() => {
@@ -94,7 +234,7 @@ export const init = (config: InitOptions) => {
 						...Object.keys(currLanguage)
 					].sort((a, b) => a.localeCompare(b));
 
-					if (lng.indexOf('_informal') >= 0) {
+					if (lng.indexOf('@informal') >= 0) {
 						Object.entries({
 							...deLanguage,
 							...currLanguage
@@ -129,7 +269,7 @@ export const init = (config: InitOptions) => {
 							console.error(
 								`[${lng}] has key "${missingKey}" but its missing in fallback language "${FALLBACK_LNG}"`
 							);
-						} else if (lng.indexOf('_informal') < 0) {
+						} else if (lng.indexOf('@informal') < 0) {
 							console.error(
 								`[${lng}] has missing key "${missingKey}"`
 							);
@@ -137,7 +277,8 @@ export const init = (config: InitOptions) => {
 					});
 				});
 			}
-		);
+		)
+		.then(() => supportedLanguages);
 };
 
 export default i18n;

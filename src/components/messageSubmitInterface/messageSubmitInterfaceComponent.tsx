@@ -12,7 +12,6 @@ import { useHistory } from 'react-router-dom';
 import { SendMessageButton } from './SendMessageButton';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
-import { UserDataContext } from '../../globalState/provider/UserDataProvider';
 import {
 	AUTHORITIES,
 	getContact,
@@ -24,7 +23,8 @@ import {
 	SessionTypeContext,
 	STATUS_ARCHIVED,
 	STATUS_FINISHED,
-	useTenant
+	useTenant,
+	UserDataContext
 } from '../../globalState';
 import {
 	apiPutDearchive,

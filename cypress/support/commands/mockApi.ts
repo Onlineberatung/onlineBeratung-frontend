@@ -215,6 +215,17 @@ Cypress.Commands.add('mockApi', () => {
 
 	cy.intercept(
 		'GET',
+		`${endpoints.rc.users.getStatus}*`,
+		JSON.stringify({
+			_id: 'HxWJQQtvcYfrdW5FD',
+			connectionStatus: 'online',
+			status: 'busy',
+			success: true
+		})
+	);
+
+	cy.intercept(
+		'GET',
 		`${endpoints.rc.settings.public}*`,
 		JSON.stringify({
 			settings: [

@@ -75,7 +75,7 @@ $select-menu-before-display: block !default;
 		min-width: 220px;
 		height: $input-height;
 		display: block;
-		border-radius: $input-height / 2;
+		border-radius: calc($input-height / 2);
 		font-size: 18px;
 		border: 1px solid $form-primary;
 		color: $form-primary;
