@@ -313,32 +313,15 @@ export const JoinGroupChatView = ({
 		return <Redirect to={listPath + getSessionListTab()} />;
 	}
 
-	let groupChatRules: [string?] = [];
-	const hasGroupChatRulesTranslations = i18n.exists(
-		`consultingType.${consultingType?.id}.groupChatRules.0`,
-		{ ns: 'consultingTypes' }
-	);
-	const hasGroupChatRulesTranslationsRule = i18n.exists('groupChat.rules.0');
-	if (hasGroupChatRulesTranslations || hasGroupChatRulesTranslationsRule) {
-		for (let i = 0; i < 10; i++) {
-			if (
-				i18n.exists(
-					`consultingType.${consultingType?.id}.groupChatRules.${i}`,
-					{ ns: 'consultingTypes' }
-				)
-			) {
-				groupChatRules.push(
-					translate(
-						`consultingType.${consultingType?.id}.groupChatRules.${i}`,
-						{ ns: 'consultingTypes' }
-					)
-				);
-			} else if (i18n.exists(`groupChat.rules.${i}`)) {
-				groupChatRules.push(translate(`groupChat.rules.${i}`));
-			}
-		}
-	} else {
-		groupChatRules = consultingType?.groupChat?.groupChatRules ?? [];
+	let groupChatRules: string[] =
+		consultingType?.groupChat?.groupChatRules ?? [];
+	const transKey = `consultingType.${
+		consultingType?.id ?? 'noConsultingType'
+	}.groupChatRules`;
+	const translatedRules: { [key: string]: string } =
+		i18n.getResource(i18n.language, 'consultingTypes', transKey) || {};
+	if (Object.keys(translatedRules).length > 0) {
+		groupChatRules = Object.values(translatedRules);
 	}
 
 	return (
