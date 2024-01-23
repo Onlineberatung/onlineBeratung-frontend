@@ -44,7 +44,7 @@ export const getConsultingTypesForRegistrationStatus = (
 				? value.data.isRegistered
 				: consultingTypes.find(
 						(cur) => cur.id === parseInt(value.consultingType)
-				  )?.isSubsequentRegistrationAllowed &&
+					)?.isSubsequentRegistrationAllowed &&
 						!value.data.isRegistered;
 		});
 };

@@ -212,7 +212,7 @@ export const FormAccordion = ({
 								? ', '
 								: translate(
 										'registration.dataProtection.label.and'
-								  )
+									)
 							: '') +
 						`<span><button type="button" class="button-as-link" onclick="window.open('${legalLink.getUrl(
 							{ aid: specificAgency?.id }

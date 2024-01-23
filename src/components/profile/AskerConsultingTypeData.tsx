@@ -88,10 +88,10 @@ export const AskerConsultingTypeData = () => {
 																			item
 																		]
 																	)
-															  )
+																)
 															: translate(
 																	'profile.noContent'
-															  )}
+																)}
 													</p>
 												</div>
 											)

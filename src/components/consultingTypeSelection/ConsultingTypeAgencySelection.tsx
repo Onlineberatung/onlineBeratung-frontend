@@ -79,7 +79,7 @@ export const ConsultingTypeAgencySelection = ({
 					(agency) =>
 						agency.consultingType.toString() ===
 						selectedConsultingTypeOption.value
-			  );
+				);
 
 		setAgencyOptions(agencyOptions);
 		if (agencyOptions.length >= 1) {

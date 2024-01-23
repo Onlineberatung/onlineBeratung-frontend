@@ -47,13 +47,13 @@ export const AppConfigProvider = ({
 										key === 'releaseToggles'
 											? transformReleaseToggles(
 													serverSettings[key]
-											  )
+												)
 											: serverSettings[key]?.value;
 									return current;
 								},
 								config
 							)
-					  )
+						)
 					: config
 			)
 			.then(setAppConfig);

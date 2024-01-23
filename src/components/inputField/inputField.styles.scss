@@ -44,7 +44,9 @@
 		&:not(:placeholder-shown) + label {
 			font-size: 12px;
 			top: 3px;
-			transition: font-size 0.5s, top 0.5s;
+			transition:
+				font-size 0.5s,
+				top 0.5s;
 			color: $text-low-emphasis;
 		}
 
@@ -98,7 +100,9 @@
 		position: absolute;
 		top: 15px;
 		left: $grid-base-three;
-		transition: font-size 0.5s, top 0.5s;
+		transition:
+			font-size 0.5s,
+			top 0.5s;
 		color: $text-low-emphasis;
 		line-height: 18px;
 	}

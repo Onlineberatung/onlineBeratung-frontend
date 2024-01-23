@@ -32,9 +32,9 @@ jobs:
                   else
                     echo ENV_NAME="prod" >> $GITHUB_ENV
                   fi
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v4
               with:
-                  node-version: 14
+                  node-version: 18
                   cache: 'npm'
             - name: Load .env file
               uses: xom9ikk/dotenv@v2
@@ -42,7 +42,7 @@ jobs:
                   mode: ${{ env.ENV_NAME }}
             - run: npm ci
             - name: Run linters
-              uses: wearerequired/lint-action@v1
+              uses: wearerequired/lint-action@v2
               with:
                   github_token: ${{ secrets.github_token }}
                   eslint: true
@@ -50,14 +50,14 @@ jobs:
                   eslint_extensions: js,ts,tsx
                   prettier: true
                   prettier_dir: ./src
+            - name: Run build
+              run: |
+                  npm run build
             - name: Run tests
               run: |
                   echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
                   echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
-                  npm run test
-            - name: Run build
-              run: |
-                  npm run build
+                  npm run test:build
             - uses: actions/upload-artifact@v2
               with:
                   name: buildfiles

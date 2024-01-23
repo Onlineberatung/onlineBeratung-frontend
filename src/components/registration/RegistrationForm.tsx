@@ -231,7 +231,7 @@ export const RegistrationForm = () => {
 									consultingType.titles.long
 								],
 								{ ns: 'consultingTypes' }
-						  )
+							)
 						: translate('registration.overline')}
 				</h3>
 				<h2 className="registrationForm__headline">

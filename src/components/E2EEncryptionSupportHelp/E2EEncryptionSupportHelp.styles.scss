@@ -76,6 +76,7 @@
 			img {
 				width: $grid-base-six;
 				margin-right: $grid-base-two;
+
 				@include breakpoint($fromMedium) {
 					margin: 0;
 					margin-bottom: $grid-base-two;

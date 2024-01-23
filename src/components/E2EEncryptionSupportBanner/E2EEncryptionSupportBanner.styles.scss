@@ -3,12 +3,14 @@
 	display: flex;
 	justify-content: center;
 	padding: $grid-base-two $grid-base-three;
+
 	@include breakpoint($fromLarge) {
 		padding: $grid-base-two 96px $grid-base-two $grid-base-eight;
 	}
 	p {
 		margin: 0;
 		padding-right: $grid-base-four;
+
 		@include breakpoint($fromLarge) {
 			padding: 0;
 		}
@@ -24,6 +26,7 @@
 		height: 20px;
 		min-width: 20px;
 		position: static;
+
 		@include breakpoint($fromLarge) {
 			transform: unset;
 		}

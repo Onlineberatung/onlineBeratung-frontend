@@ -48,10 +48,10 @@ export const Appointments = () => {
 				headline: onlineMeeting.id
 					? translate(
 							'appointments.onlineMeeting.overlay.edit.headline'
-					  )
+						)
 					: translate(
 							'appointments.onlineMeeting.overlay.add.headline'
-					  ),
+						),
 				nestedComponent: (
 					<OnlineMeetingForm
 						onChange={onChange}

@@ -64,7 +64,7 @@ $waiting-room-subline-opacity: 1 !default;
 			}
 
 			svg {
-				margin-left: (-$grid-base-six);
+				margin-left: #{-$grid-base-six};
 			}
 		}
 	}
@@ -201,7 +201,7 @@ $waiting-room-subline-opacity: 1 !default;
 }
 
 @keyframes fadeSteam {
-	from {
+	0% {
 		opacity: 0;
 	}
 
@@ -209,14 +209,14 @@ $waiting-room-subline-opacity: 1 !default;
 		opacity: 1;
 	}
 
-	to {
+	100% {
 		opacity: 0;
 		transform: translateY(-4px);
 	}
 }
 
 @keyframes moveFoot {
-	from {
+	0% {
 		transform: rotate(-10deg);
 	}
 
@@ -224,7 +224,7 @@ $waiting-room-subline-opacity: 1 !default;
 		transform: rotate(20deg);
 	}
 
-	to {
+	100% {
 		transform: rotate(-10deg);
 	}
 }

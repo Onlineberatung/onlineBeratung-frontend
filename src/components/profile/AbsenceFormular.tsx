@@ -82,7 +82,7 @@ export const AbsenceFormular = () => {
 						isAbsent
 							? translate(
 									'profile.functions.absence.activated.label'
-							  )
+								)
 							: translate('profile.functions.absence.label')
 					}
 					disabled={isAbsent}

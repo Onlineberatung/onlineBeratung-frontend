@@ -37,6 +37,7 @@
 	&__headline {
 		display: inline-flex;
 		align-self: center;
+
 		@include breakpoint($fromLarge) {
 			justify-content: center;
 		}

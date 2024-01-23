@@ -40,6 +40,7 @@ $arrow-icon-size: 14px;
 		width: 100%;
 		font-size: $font-size-tertiary;
 		border: 1px solid #c4bfc4;
+
 		@include rounded-drop-shadow;
 
 		&--time-only {
@@ -61,7 +62,8 @@ $arrow-icon-size: 14px;
 			color: $tertiary;
 			z-index: 2;
 			pointer-events: none;
-			transition: font-size $label-transition-duration,
+			transition:
+				font-size $label-transition-duration,
 				top $label-transition-duration;
 
 			&--active {

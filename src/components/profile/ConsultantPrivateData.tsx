@@ -120,10 +120,10 @@ export const ConsultantPrivateData = () => {
 						isTwoFactorBinding
 							? translate(
 									'twoFactorAuth.email.change.confirmOverlay.binding.copy.1'
-							  )
+								)
 							: translate(
 									'twoFactorAuth.email.change.confirmOverlay.copy.1'
-							  )
+								)
 					}
 					type="infoLargeStandard"
 				/>
@@ -132,10 +132,10 @@ export const ConsultantPrivateData = () => {
 						isTwoFactorBinding
 							? translate(
 									'twoFactorAuth.email.change.confirmOverlay.binding.copy.2'
-							  )
+								)
 							: translate(
 									'twoFactorAuth.email.change.confirmOverlay.copy.2'
-							  )
+								)
 					}
 					type="infoLargeStandard"
 				/>
@@ -271,10 +271,10 @@ export const ConsultantPrivateData = () => {
 									label: isTwoFactorBinding
 										? translate(
 												'twoFactorAuth.email.change.confirmOverlay.button.edit'
-										  )
+											)
 										: translate(
 												'twoFactorAuth.email.change.confirmOverlay.button.confirm'
-										  )
+											)
 								}
 							],
 							handleOverlay: handleOverlayAction

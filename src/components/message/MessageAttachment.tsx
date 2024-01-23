@@ -188,13 +188,13 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 															100) /
 															2 -
 															VECTOR_LENGTH * 2
-												  ) * 1000
+													) * 1000
 												: props.attachment.image_size *
 														1000
 										) / 1000
 									).toFixed(2) +
 									translate('attachments.type.label.mb')
-							  }`
+								}`
 							: null}
 					</p>
 				</span>

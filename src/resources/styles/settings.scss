@@ -248,7 +248,7 @@ $notice-padding: $grid-base-two;
 $overlay-text-align: center;
 $overlay-list-align: left;
 $overlay-input-field-margin: $grid-base-three auto;
-$overlay-button-margin: $grid-base-two auto 0 (-$grid-base);
+$overlay-button-margin: $grid-base-two auto #{-$grid-base};
 $overlay-stepped-text-align: left;
 $overlay-stepped-input-field-margin: $grid-base-three 0;
 $two-factor-qr-code-width: 100px;

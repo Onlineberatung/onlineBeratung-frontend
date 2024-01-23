@@ -136,7 +136,7 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 								function: OVERLAY_FUNCTIONS.REDIRECT,
 								type: BUTTON_TYPES.PRIMARY
 							}
-					  ]
+						]
 					: [
 							{
 								label: translate(
@@ -145,7 +145,7 @@ export const TwoFactorNag: React.FC<TwoFactorNagProps> = () => {
 								function: OVERLAY_FUNCTIONS.REDIRECT,
 								type: BUTTON_TYPES.PRIMARY
 							}
-					  ]
+						]
 			}}
 		/>
 	);

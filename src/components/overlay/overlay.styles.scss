@@ -28,6 +28,7 @@ $overlay-illustration-size-large: 160px;
 		left: 0;
 
 		animation: fadeIn linear 0.5s;
+
 		@keyframes fadeIn {
 			from {
 				opacity: 0;
@@ -83,6 +84,7 @@ $overlay-illustration-size-large: 160px;
 		}
 
 		animation: fadeIn linear 0.8s;
+
 		@keyframes fadeIn {
 			0% {
 				opacity: 0;
@@ -318,15 +320,15 @@ $overlay-illustration-size-large: 160px;
 	&__illustrationWrapper--large {
 		height: 250px;
 		background-color: #faf6f3;
-		margin: (-$grid-base-six);
-		margin-top: (-$grid-base-nine);
+		margin: #{-$grid-base-six};
+		margin-top: #{-$grid-base-nine};
 		margin-bottom: $grid-base-four;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 
 		@include breakpoint($fromLarge) {
-			margin: (-$grid-base-six);
+			margin: #{-$grid-base-six};
 			margin-bottom: $grid-base-four;
 		}
 
@@ -372,17 +374,19 @@ $overlay-illustration-size-large: 160px;
 	&--illustration {
 		.overlay__wrapper {
 			@include breakpoint($fromLarge) {
-				padding-top: calc($overlay-illustration-size-from-large / 2) +
-					$grid-base-four;
+				padding-top: calc(
+					$overlay-illustration-size-from-large / 2 + $grid-base-four
+				);
 			}
 		}
 
 		.overlay__content {
-			padding-top: calc($overlay-illustration-size / 2) + $grid-base;
+			padding-top: calc($overlay-illustration-size / 2 + $grid-base);
 
 			@include breakpoint($fromLarge) {
-				padding-top: calc($overlay-illustration-size-from-large / 2) +
-					$grid-base;
+				padding-top: calc(
+					$overlay-illustration-size-from-large / 2 + $grid-base
+				);
 			}
 		}
 	}

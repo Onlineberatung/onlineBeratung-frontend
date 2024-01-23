@@ -6,8 +6,7 @@ const dotenv = require('dotenv');
 const dotenvExpand = require('dotenv-expand').expand;
 dotenvExpand(dotenv.config());
 
-process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY =
-	process.env.CSRF_WHITELIST_HEADER_FOR_LOCAL_DEVELOPMENT;
+app.disable('x-powered-by');
 
 process.on('unhandledRejection', (err) => {
 	throw err;
@@ -32,17 +31,29 @@ const createServer = async () => {
 			.catch(() => fs.promises.mkdir(storagePath, { recursive: true }));
 	}
 
-	const buildPath = resolveApp('build');
-	await fs.promises.access(buildPath);
+	let buildPath = resolveApp('build');
+	try {
+		await fs.promises.access(buildPath);
+	} catch {
+		// Try fallback build directory next to proxy directory
+		buildPath = resolveApp('../build');
+		await fs.promises.access(buildPath);
+	}
 
 	app.use((await import('compression')).default());
-	app.use(
-		(await import('serve-static')).default(buildPath, {
-			index: 'beratung-hilfe.html'
-		})
-	);
 
-	const middlewareConfigs = require(resolveApp('./routes'))(storagePath);
+	const serveStatic = await import('serve-static');
+	app.get(
+		/\.(?:css|js|jpe?g|png|gif|ico|cur|heic|webp|tiff?|mp[34eg]|a(?:ac|vi)|o(?:gg|gv)|flv|wmv)$/,
+		serveStatic.default(buildPath, { maxAge: '1d' })
+	);
+	app.get(
+		/.(?:svgz?|ttf|ttc|otf|eot|woff2?)$/,
+		serveStatic.default(buildPath, { maxAge: '1d' })
+	);
+	app.use(serveStatic.default(buildPath, { index: 'beratung-hilfe.html' }));
+
+	const middlewareConfigs = require('./routes')(storagePath);
 	middlewareConfigs.forEach(
 		({ method, middleware: callback, path: route }) => {
 			const middleware = [];

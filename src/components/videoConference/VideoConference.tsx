@@ -313,7 +313,7 @@ const VideoConference = () => {
 										: userData.userName,
 									email: ''
 								}
-						  }
+							}
 						: {})}
 					configOverwrite={{
 						defaultLanguage: locale

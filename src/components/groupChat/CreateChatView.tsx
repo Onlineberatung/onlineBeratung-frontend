@@ -352,7 +352,7 @@ export const CreateGroupChatView = (props) => {
 			? {
 					value: agency.id.toString(),
 					label: agency.name
-			  }
+				}
 			: null;
 	}, [agencies, selectedAgency]);
 

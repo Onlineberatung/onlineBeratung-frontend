@@ -30,6 +30,7 @@ $select-menu-before-display: block !default;
 
 		&__menu {
 			border-top: 1px solid rgba($black, 0.1);
+
 			@include rounded-drop-shadow;
 
 			&::before {
@@ -67,7 +68,9 @@ $select-menu-before-display: block !default;
 		z-index: 11;
 		opacity: 0;
 		visibility: hidden;
-		transition: opacity 0.25s ease, visibility 0.25s ease;
+		transition:
+			opacity 0.25s ease,
+			visibility 0.25s ease;
 	}
 
 	.custom-select-opener {
@@ -82,7 +85,9 @@ $select-menu-before-display: block !default;
 		cursor: pointer;
 		outline: 0;
 		padding: 13px 19px 0;
-		box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2), 0 3px 0 0 rgba(0, 0, 0, 0.1);
+		box-shadow:
+			0 2px 0 0 rgba(0, 0, 0, 0.2),
+			0 3px 0 0 rgba(0, 0, 0, 0.1);
 		-moz-appearance: none;
 		-webkit-appearance: none;
 		-ms-progress-appearance: none;
@@ -117,8 +122,11 @@ $select-menu-before-display: block !default;
 		background: $white;
 		width: 100%;
 		border: 1px solid $form-disabled;
+
 		@include rounded-drop-shadow;
-		transition: opacity 0.25s ease, visibility 0.25s ease;
+		transition:
+			opacity 0.25s ease,
+			visibility 0.25s ease;
 
 		.custom-select-option {
 			text-align: left;

@@ -26,10 +26,10 @@ jobs:
                   else
                     echo ENV_NAME="prod" >> $GITHUB_ENV
                   fi
-            - uses: actions/checkout@v2.3.4
-            - uses: actions/setup-node@v3
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
               with:
-                  node-version: 14
+                  node-version: 18
                   registry-url: 'https://npm.pkg.github.com'
                   cache: 'npm'
             - name: Load .env file
@@ -38,7 +38,7 @@ jobs:
                   mode: ${{ env.ENV_NAME }}
             - run: npm ci
             - name: Run linters
-              uses: wearerequired/lint-action@v1
+              uses: wearerequired/lint-action@v2
               with:
                   github_token: ${{ secrets.github_token }}
                   eslint: true
@@ -48,14 +48,14 @@ jobs:
                   stylelint_dir: ./src
                   stylelint_extensions: scss
                   prettier: true
+            - name: Run build
+              run: |
+                  npm run build
             - name: Run tests
               run: |
                   echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
                   echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
-                  npm run test
-            - name: Run build
-              run: |
-                  npm run build
+                  npm run test:build
             - name: Bump version
               if: startsWith(env.BRANCH,'release') == true
               run: |

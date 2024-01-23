@@ -30,10 +30,10 @@ import {
 let overrides = {};
 
 const defaultReturns = {
-	attachmentUpload: {
+	'attachmentUpload': {
 		statusCode: 201
 	},
-	userData: {
+	'userData': {
 		emailToggles: [
 			{
 				name: 'DAILY_ENQUIRY',
@@ -49,22 +49,23 @@ const defaultReturns = {
 			}
 		]
 	},
-	consultingTypes: [],
-	settings: {},
-	releases: {
+	'consultingTypes': [],
+	'settings': {},
+	'releases': {
 		statusCode: 404
 	},
-	releases_markup: {
+	'releases_markup': {
 		statusCode: 404
 	},
-	sessionRooms: {
+	'sessionRooms': {
 		statusCode: 200,
 		body: {
 			sessions: []
 		}
 	},
-	agencyConsultants: [],
-	agencyConsultantsLanguages: ['de']
+	'frontend.settings': {},
+	'agencyConsultants': [],
+	'agencyConsultantsLanguages': ['de']
 };
 
 Cypress.Commands.add('willReturn', (name: string, data: any) => {
@@ -222,6 +223,15 @@ Cypress.Commands.add('mockApi', () => {
 			status: 'busy',
 			success: true
 		})
+	);
+
+	cy.intercept('GET', endpoints.frontend.settings, (req) =>
+		req.reply(
+			JSON.stringify({
+				...defaultReturns['frontend.settings'],
+				...(overrides['frontend.settings'] || {})
+			})
+		)
 	);
 
 	cy.intercept(

@@ -46,9 +46,8 @@ export const Registration = ({
 		.map(([key, value]) => `${key}=${value}`)
 		.join('&');
 
-	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(
-		!postcodeParameter
-	);
+	const [showWelcomeScreen, setShowWelcomeScreen] =
+		useState<boolean>(!postcodeParameter);
 
 	const [isReady, setIsReady] = useState(false);
 
@@ -110,7 +109,7 @@ export const Registration = ({
 							? `Unknown consulting type with agency ${translate(
 									[`agency.${agency.id}.name`, agency.name],
 									{ ns: 'agencies' }
-							  )}`
+								)}`
 							: `Unknown consulting type with slug ${consultingTypeSlug}`
 					);
 				}
@@ -175,7 +174,7 @@ export const Registration = ({
 											consultingType?.titles.welcome
 										],
 										{ ns: 'consultingTypes' }
-								  )
+									)
 								: translate('registration.overline')
 						}
 						handleForwardToRegistration={
@@ -192,7 +191,7 @@ export const Registration = ({
 											consultingType?.titles.long
 										],
 										{ ns: 'consultingTypes' }
-								  )
+									)
 								: null
 						}
 					/>

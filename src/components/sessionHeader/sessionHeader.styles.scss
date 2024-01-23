@@ -208,6 +208,7 @@ $iconSize: 24px;
 			max-height: 40vh;
 			z-index: 1;
 			border: 1px solid $line-grey;
+
 			@include rounded-drop-shadow;
 			cursor: default;
 

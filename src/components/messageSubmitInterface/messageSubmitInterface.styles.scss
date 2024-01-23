@@ -152,6 +152,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 					animation: sendButton 1s ease forwards;
 				}
 			}
+
 			@keyframes sendButtonHover {
 				0% {
 					transform: translate(0);
@@ -160,6 +161,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 					transform: translate(10px);
 				}
 			}
+
 			@keyframes sendButton {
 				0% {
 					transform: translate(0px);

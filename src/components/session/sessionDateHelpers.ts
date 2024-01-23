@@ -30,7 +30,7 @@ export const getGroupChatDate = (
 					year: '2-digit',
 					month: '2-digit',
 					day: '2-digit'
-			  };
+				};
 	const newStartDate = chatDate.toLocaleDateString(
 		'de-DE',
 		startDateFormatOptions as any

@@ -84,6 +84,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 			margin: $grid-base-three;
 
 			animation: fadeIn linear 0.5s;
+
 			@keyframes fadeIn {
 				from {
 					opacity: 0;
@@ -121,7 +122,7 @@ $error-page-background: rgba($form-medium, 0.08) !default;
 		align-self: center;
 		margin-top: 0;
 
-		@media (min-width: 700px) {
+		@media (width >= 700px) {
 			width: 650px;
 		}
 

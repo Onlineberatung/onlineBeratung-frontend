@@ -1,7 +1,7 @@
-ARG NODE_VERSION=14.21.1
+ARG NODE_VERSION=18.16.1
 ARG PORT=80
 
-FROM node:$NODE_VERSION as proxyBuild
+FROM node:$NODE_VERSION AS proxyBuild
 
 USER node
 WORKDIR /app
@@ -32,6 +32,8 @@ ENV PORT=$PORT
 # Prod build
 FROM node:$NODE_VERSION
 
+ARG PORT=80
+
 USER node
 WORKDIR /app
 EXPOSE $PORT
@@ -41,6 +43,6 @@ COPY build /app/build
 ENV NODE_ENV=production
 ENV PORT=$PORT
 
-RUN npm install --ignore-scripts
+RUN npm ci --ignore-scripts
 
 CMD ["npm", "run", "start"]

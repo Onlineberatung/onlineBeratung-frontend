@@ -213,7 +213,7 @@ export const AskerRegistration: React.FC = () => {
 				userData,
 				consultingTypes,
 				REGISTRATION_STATUS_KEYS.REGISTERED
-		  )
+			)
 		: null;
 	const isOnlyRegisteredForGroupChats =
 		registeredConsultingTypes?.length === 1 &&
