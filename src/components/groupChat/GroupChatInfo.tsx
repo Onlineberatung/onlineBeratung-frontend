@@ -2,8 +2,10 @@ import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
 import { Link, Redirect, useParams, useHistory } from 'react-router-dom';
 import {
+	AUTHORITIES,
 	SessionTypeContext,
 	UserDataContext,
+	hasUserAuthority,
 	useTenant
 } from '../../globalState';
 import { isUserModerator, SESSION_LIST_TAB } from '../session/sessionHelpers';
@@ -189,10 +191,6 @@ export const GroupChatInfo = () => {
 		rcUserId: getValueFromCookie('rc_uid')
 	});
 
-	const isCurrentUserConsultant = userData?.userRoles?.includes(
-		'group-chat-consultant'
-	);
-
 	const preparedSettings: Array<{ label: string; value: string }> = [
 		{
 			label: translate('groupChat.info.settings.topic'),
@@ -235,7 +233,10 @@ export const GroupChatInfo = () => {
 		}
 	];
 
-	if (isCurrentUserConsultant && activeSession.item.hintMessage) {
+	if (
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+		activeSession.item.hintMessage
+	) {
 		preparedSettings.push({
 			label: translate('groupChat.info.settings.hintMessage'),
 			value: activeSession.item.hintMessage

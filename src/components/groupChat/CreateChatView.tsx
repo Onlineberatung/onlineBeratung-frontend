@@ -264,7 +264,7 @@ export const CreateGroupChatView = (props) => {
 		arePrefilledValuesChanged
 	]);
 
-	const handleEditGroupChatBackButton = () => {
+	const handleBackButton = () => {
 		if (isEditGroupChatMode) {
 			const pathInfo =
 				(prevPathIsGroupChatInfo ? '/groupChatInfo' : '') +
@@ -272,11 +272,7 @@ export const CreateGroupChatView = (props) => {
 			history.push(
 				`${listPath}/${activeSession.item.groupId}/${activeSession.item.id}${pathInfo}`
 			);
-		}
-	};
-
-	const handleCreateGroupChatBackButton = () => {
-		if (!isEditGroupChatMode) {
+		} else {
 			history.push('/sessions/consultant/sessionView');
 		}
 	};
@@ -552,7 +548,7 @@ export const CreateGroupChatView = (props) => {
 				<div className="createChat__header createChat__header--edit">
 					<div className="createChat__header__inner">
 						<span
-							onClick={handleEditGroupChatBackButton}
+							onClick={handleBackButton}
 							className="createChat__header__backButton"
 						>
 							<BackIcon />
@@ -569,7 +565,7 @@ export const CreateGroupChatView = (props) => {
 				<div className="createChat__header">
 					<div className="createChat__header__inner">
 						<span
-							onClick={handleEditGroupChatBackButton}
+							onClick={handleBackButton}
 							className="createChat__header__backButton"
 						>
 							<BackIcon />
@@ -672,7 +668,7 @@ export const CreateGroupChatView = (props) => {
 						<>
 							<Button
 								item={buttonSetCancel}
-								buttonHandle={handleEditGroupChatBackButton}
+								buttonHandle={handleBackButton}
 							/>
 							<Button
 								item={buttonSetSave}
@@ -684,7 +680,7 @@ export const CreateGroupChatView = (props) => {
 						<>
 							<Button
 								item={buttonSetCancel}
-								buttonHandle={handleCreateGroupChatBackButton}
+								buttonHandle={handleBackButton}
 							/>
 							<Button
 								item={buttonSetCreate}
