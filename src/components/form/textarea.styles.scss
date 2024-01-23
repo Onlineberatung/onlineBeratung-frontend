@@ -12,7 +12,11 @@
 	}
 
 	&__letters {
-		text-align: right;
+		position: absolute;
+		top: 4px;
+		right: 20px;
+		font-size: 12px;
+		color: $tertiary;
 	}
 
 	textarea {
@@ -23,6 +27,7 @@
 		border-radius: $input-field-border-radius;
 		outline: 0;
 		box-shadow: $input-field-box-shadow;
+		vertical-align: top;
 
 		&:hover {
 			border: 1px solid $form-active;

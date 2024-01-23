@@ -7,6 +7,8 @@ export interface groupChatSettings {
 	startDate: string;
 	startTime: string;
 	duration: number;
+	agencyId: number;
+	hintMessage: string;
 	repetitive: boolean;
 	featureGroupChatV2Enabled?: boolean;
 }

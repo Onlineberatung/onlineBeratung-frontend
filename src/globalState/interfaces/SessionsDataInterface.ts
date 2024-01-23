@@ -103,10 +103,12 @@ export interface SessionItemInterface {
 
 export interface GroupChatItemInterface {
 	active: boolean;
+	assignedAgencies: AgencyService.Schemas.AgencyResponseDTO[];
 	attachment: UserService.Schemas.SessionAttachmentDTO;
 	consultingType: number;
 	duration: number;
 	groupId: string;
+	hintMessage: string;
 	id: number;
 	lastMessage: string;
 	lastMessageType?: string;

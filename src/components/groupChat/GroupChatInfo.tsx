@@ -2,8 +2,10 @@ import * as React from 'react';
 import { useEffect, useContext, useState, useCallback } from 'react';
 import { Link, Redirect, useParams, useHistory } from 'react-router-dom';
 import {
+	AUTHORITIES,
 	SessionTypeContext,
 	UserDataContext,
+	hasUserAuthority,
 	useTenant
 } from '../../globalState';
 import { isUserModerator, SESSION_LIST_TAB } from '../session/sessionHelpers';
@@ -180,10 +182,19 @@ export const GroupChatInfo = () => {
 
 	if (!activeSession) return null;
 
-	const preparedSettings: Array<{ label; value }> = [
+	if (redirectToSessionsList) {
+		return <Redirect to={listPath + getSessionListTab()} />;
+	}
+
+	const isCurrentUserModerator = isUserModerator({
+		chatItem: activeSession.item,
+		rcUserId: getValueFromCookie('rc_uid')
+	});
+
+	const preparedSettings: Array<{ label: string; value: string }> = [
 		{
 			label: translate('groupChat.info.settings.topic'),
-			value: activeSession.item.topic
+			value: activeSession.item.topic as string
 		},
 		{
 			label: translate('groupChat.info.settings.startDate'),
@@ -213,17 +224,24 @@ export const GroupChatInfo = () => {
 			value: activeSession.item.repetitive
 				? translate('groupChat.info.settings.repetition.weekly')
 				: translate('groupChat.info.settings.repetition.single')
+		},
+		{
+			label: translate('groupChat.info.settings.agency'),
+			value: activeSession.item?.assignedAgencies?.length
+				? activeSession.item.assignedAgencies[0].name
+				: ''
 		}
 	];
 
-	if (redirectToSessionsList) {
-		return <Redirect to={listPath + getSessionListTab()} />;
+	if (
+		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
+		activeSession.item.hintMessage
+	) {
+		preparedSettings.push({
+			label: translate('groupChat.info.settings.hintMessage'),
+			value: activeSession.item.hintMessage
+		});
 	}
-
-	const isCurrentUserModerator = isUserModerator({
-		chatItem: activeSession.item,
-		rcUserId: getValueFromCookie('rc_uid')
-	});
 
 	return (
 		<div className="groupChatInfo__wrapper">
