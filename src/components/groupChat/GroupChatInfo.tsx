@@ -310,10 +310,10 @@ export const GroupChatInfo = () => {
 										{subscriber.displayName
 											? decodeUsername(
 													subscriber.displayName
-											  )
+												)
 											: decodeUsername(
 													subscriber.username
-											  )}
+												)}
 										{isCurrentUserModerator &&
 											!subscriber.isModerator && (
 												<>

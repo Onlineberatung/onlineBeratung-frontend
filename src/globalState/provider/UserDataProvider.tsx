@@ -1,15 +1,8 @@
 import * as React from 'react';
-import { createContext, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { UserDataInterface } from '../interfaces/UserDataInterface';
 import { apiGetUserData } from '../../api';
-
-type TUserDataContext = {
-	userData: UserDataInterface;
-	setUserData: (userData: UserDataInterface) => void;
-	reloadUserData: () => Promise<UserDataInterface>;
-};
-
-export const UserDataContext = createContext<TUserDataContext>(null);
+import { UserDataContext } from '../context/UserDataContext';
 
 export function UserDataProvider(props) {
 	const [userData, setUserData] = useState(null);

@@ -55,8 +55,10 @@ export const TWO_FACTOR_TYPES = {
 
 export const TwoFactorAuth = () => {
 	const { t: translate } = useTranslation();
-	const location =
-		useLocation<{ openTwoFactor?: boolean; isEditMode?: boolean }>();
+	const location = useLocation<{
+		openTwoFactor?: boolean;
+		isEditMode?: boolean;
+	}>();
 
 	const { userData, reloadUserData } = useContext(UserDataContext);
 
@@ -468,7 +470,7 @@ export const TwoFactorAuth = () => {
 								? encode(userData.twoFactorAuth.secret).replace(
 										/={1,8}$/,
 										''
-								  )
+									)
 								: ''
 						}
 						type="standard"
@@ -900,7 +902,7 @@ export const TwoFactorAuth = () => {
 								? translate('twoFactorAuth.switch.active.label')
 								: translate(
 										'twoFactorAuth.switch.deactive.label'
-								  )
+									)
 						}
 						type="standard"
 					/>

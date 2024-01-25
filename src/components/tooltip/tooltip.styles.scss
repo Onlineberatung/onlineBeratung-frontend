@@ -22,6 +22,7 @@ $tooltipWidth: 266px;
 		background: $white;
 		padding: $grid-base-two 20px;
 		border: 1px solid $form-disabled;
+
 		@include rounded-drop-shadow;
 		opacity: 0;
 

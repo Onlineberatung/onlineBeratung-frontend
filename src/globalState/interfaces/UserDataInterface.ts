@@ -67,7 +67,7 @@ export interface TwoFactorAuthInterface {
 	secret: string;
 	qrCode: string;
 	isShown: boolean;
-	type?: typeof TWO_FACTOR_TYPES[keyof typeof TWO_FACTOR_TYPES];
+	type?: (typeof TWO_FACTOR_TYPES)[keyof typeof TWO_FACTOR_TYPES];
 }
 
 export interface AgencyLanguagesInterface {

@@ -55,6 +55,7 @@
 			&:last-child {
 				padding-bottom: $grid-base-three;
 				text-align: end;
+
 				@include breakpoint($fromLarge) {
 					padding-bottom: 0;
 				}

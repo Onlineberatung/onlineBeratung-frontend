@@ -126,9 +126,8 @@ const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
 		useState<boolean>(false);
-	const [failedPreCondition, setFailedPreCondition] = useState(
-		preConditionsMet()
-	);
+	const [failedPreCondition, setFailedPreCondition] =
+		useState(preConditionsMet());
 
 	if (failedPreCondition) {
 		return <PreConditions onPreConditionsMet={setFailedPreCondition} />;

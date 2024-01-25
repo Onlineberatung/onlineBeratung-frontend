@@ -29,7 +29,7 @@ const handleICSAppointment = (appointmentInfo: AppointmentInfoICS) => {
 	const duration = appointmentInfo.duration.split('-').length
 		? appointmentInfo.duration
 		: (Math.abs(timeEnd.getTime() - timeStart.getTime()) / (1000 * 60)) %
-		  60;
+			60;
 
 	const icsMSG =
 		'BEGIN:VCALENDAR\n' +

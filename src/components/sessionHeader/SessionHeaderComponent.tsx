@@ -211,7 +211,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 											consultingType.titles.short
 										],
 										{ ns: 'consultingTypes' }
-								  )
+									)
 								: ''}
 						</div>
 					) : null}
@@ -234,7 +234,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 										)}
 									</div>
 								) : null
-						  )
+							)
 						: null}
 					{activeSession.agency?.name && (
 						<div className="sessionInfo__metaInfo__content">

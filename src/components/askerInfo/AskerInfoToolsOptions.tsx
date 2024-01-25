@@ -43,7 +43,7 @@ export const AskerInfoToolsOptions = (
 								...tool,
 								sharedWithAdviceSeeker:
 									!tool.sharedWithAdviceSeeker
-						  }
+							}
 						: tool
 				);
 			} else {
@@ -52,11 +52,11 @@ export const AskerInfoToolsOptions = (
 						? {
 								...tool,
 								sharedWithAdviceSeeker: true
-						  }
+							}
 						: {
 								...tool,
 								sharedWithAdviceSeeker: false
-						  }
+							}
 				);
 			}
 			setInfoAboutToolsModal(updatedToolsModal);
@@ -164,11 +164,11 @@ export const AskerInfoToolsOptions = (
 				? {
 						...tool,
 						sharedWithAdviceSeeker: true
-				  }
+					}
 				: {
 						...tool,
 						sharedWithAdviceSeeker: false
-				  };
+					};
 		});
 		setInfoAboutToolsModal(resetTools);
 		setShowModal(false);

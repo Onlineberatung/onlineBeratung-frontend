@@ -130,11 +130,11 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 				? adjustHSLColor({
 						color: primaryHSL,
 						adjust: primaryHSL.l + 10
-				  }) // lighter
+					}) // lighter
 				: adjustHSLColor({
 						color: primaryHSL,
 						adjust: primaryHSL.l - 1
-				  }) // darker
+					}) // darker
 		};
 		--skin-color-secondary: ${secondaryColor || ''};
 		--skin-color-secondary-light: ${
@@ -142,7 +142,7 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 				? adjustHSLColor({
 						color: secondaryHSL,
 						adjust: 90
-				  })
+					})
 				: ''
 		};
 		--skin-color-secondary-contrast-safe: ${secondaryColorContrastSafe || ''};

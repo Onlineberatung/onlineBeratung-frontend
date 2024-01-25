@@ -108,13 +108,13 @@ const colourStyles = (
 			? {
 					...styles,
 					...(input?.(styles, state) ?? {})
-			  }
+				}
 			: {
 					...styles,
 					paddingTop: '12px',
 					cursor: 'pointer',
 					...(input?.(styles, state) ?? {})
-			  };
+				};
 	},
 	option: (styles, state) => {
 		return {
@@ -152,7 +152,7 @@ const colourStyles = (
 					marginLeft: '16px',
 					marginBottom: 0,
 					width: 'auto'
-			  }
+				}
 			: {}),
 		'boxShadow': undefined,
 		'&:after, &:before': {
@@ -180,7 +180,7 @@ const colourStyles = (
 						height: '12px',
 						width: '12px'
 						//borderTop: 'none'
-				  }
+					}
 				: {})
 		},
 		'&:before': {
@@ -204,7 +204,7 @@ const colourStyles = (
 						borderBottom: '10px solid transparent',
 						borderLeft: 'none',
 						borderRight: '10px solid rgba(0,0,0,0.1)'
-				  }
+					}
 				: {})
 		},
 		...(menu?.(styles, state) ?? {})
@@ -227,13 +227,13 @@ const colourStyles = (
 						}
 					},
 					...(multiValue?.(styles, state) ?? {})
-			  } // important is needed for fixed option to overwrite color from scss
+				} // important is needed for fixed option to overwrite color from scss
 			: {
 					...styles,
 					...common,
 					border: '1px solid transparent',
 					...(multiValue?.(styles, state) ?? {})
-			  };
+				};
 	},
 	multiValueLabel: (styles, state) => {
 		const common = {
@@ -252,14 +252,14 @@ const colourStyles = (
 					},
 					'cursor': 'pointer',
 					...(multiValueLabel?.(styles, state) ?? {})
-			  } // important is needed for fixed option to overwrite color from scss
+				} // important is needed for fixed option to overwrite color from scss
 			: {
 					...styles,
 					...common,
 					paddingRight: '4px',
 					cursor: 'pointer',
 					...(multiValueLabel?.(styles, state) ?? {})
-			  };
+				};
 	},
 	multiValueRemove: (styles, state) => {
 		return state.data.isFixed
@@ -267,7 +267,7 @@ const colourStyles = (
 					...styles,
 					display: 'none',
 					...(multiValueRemove?.(styles, state) ?? {})
-			  }
+				}
 			: {
 					...styles,
 					'paddingRight': '8px',
@@ -278,7 +278,7 @@ const colourStyles = (
 						backgroundColor: 'transparent'
 					},
 					...(multiValueRemove?.(styles, state) ?? {})
-			  };
+				};
 	},
 	indicatorSeparator: (styles, state) => {
 		return {

@@ -127,7 +127,7 @@ export const SessionStream = ({
 										message.t
 									)
 							)
-					  )
+						)
 					: null
 			);
 		});

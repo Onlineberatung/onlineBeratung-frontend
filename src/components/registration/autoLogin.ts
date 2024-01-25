@@ -195,9 +195,8 @@ export const handleE2EESetup = (
 						return;
 					}
 				} else {
-					const persistedMasterKey = await importRawEncryptionKey(
-						persistedArrayBuffer
-					);
+					const persistedMasterKey =
+						await importRawEncryptionKey(persistedArrayBuffer);
 
 					privateKey = await decryptPrivateKey(
 						encryptedPrivateKey,

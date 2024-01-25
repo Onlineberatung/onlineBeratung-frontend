@@ -39,12 +39,12 @@ export const PostCodeSelection = ({
 		? [
 				'registration.agencyPreselected.intro.point1',
 				'registration.agencyPreselected.intro.point2'
-		  ]
+			]
 		: [
 				'registration.agencySelection.intro.point1',
 				'registration.agencySelection.intro.point2',
 				'registration.agencySelection.intro.point3'
-		  ];
+			];
 
 	return (
 		<div className={'postCodeContainer'}>
@@ -54,10 +54,10 @@ export const PostCodeSelection = ({
 						isPreselectedAgency
 							? translate(
 									'registration.agencyPreselected.intro.overline'
-							  )
+								)
 							: translate(
 									'registration.agencySelection.intro.overline'
-							  )
+								)
 					}
 					type="standard"
 				/>
@@ -67,10 +67,10 @@ export const PostCodeSelection = ({
 							isPreselectedAgency
 								? translate(
 										'registration.agencyPreselected.intro.subline'
-								  )
+									)
 								: translate(
 										'registration.agencySelection.intro.subline'
-								  )
+									)
 						}
 						type="standard"
 					/>

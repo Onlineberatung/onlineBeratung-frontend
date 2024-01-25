@@ -179,7 +179,7 @@ const VideoCall = () => {
 								displayName: username,
 								email: ''
 							}
-					  }
+						}
 					: {})}
 			/>
 		</div>

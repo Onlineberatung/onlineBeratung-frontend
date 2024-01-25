@@ -2,22 +2,20 @@ import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { apiServerSettings } from '../../api/apiServerSettings';
 import { AppConfigInterface } from '../interfaces/AppConfig';
 import { setAppConfig as setAppConfigGlobal } from '../../utils/appConfig';
+import { apiFrontendSettings } from '../../api/apiFrontendSettings';
 
 export const AppConfigContext = createContext<AppConfigInterface>(null);
 
 const transformReleaseToggles = (
 	releaseToggles: Record<string, string>
 ): Record<string, Record<string, boolean>> => {
-	return {
-		releaseToggles: Object.entries(releaseToggles).reduce(
-			(current, [toggleKey, value]) => ({
-				...current,
-				[toggleKey]:
-					typeof value === 'string' ? value === 'true' : value
-			}),
-			{}
-		)
-	};
+	return Object.entries(releaseToggles).reduce(
+		(current, [toggleKey, value]) => ({
+			...current,
+			[toggleKey]: typeof value === 'string' ? value === 'true' : value
+		}),
+		{}
+	);
 };
 
 export const AppConfigProvider = ({
@@ -27,41 +25,41 @@ export const AppConfigProvider = ({
 	children: ReactNode;
 	config: AppConfigInterface;
 }) => {
-	const [appConfig, setAppConfig] = useState<AppConfigInterface>(config);
-	const [loading, setLoading] = useState(config.useApiClusterSettings);
+	const [appConfig, setAppConfig] = useState<AppConfigInterface>();
 
 	useEffect(() => {
 		setAppConfigGlobal(appConfig);
 	}, [appConfig]);
 
 	useEffect(() => {
-		config.useApiClusterSettings &&
-			apiServerSettings().then((serverSettings) => {
-				setAppConfig((appConfig) => {
-					return Object.keys(serverSettings ?? {}).reduce(
-						(current, key) => {
-							if (key === 'releaseToggles') {
-								return {
-									...current,
-									...transformReleaseToggles(
-										serverSettings[key]
-									)
-								};
-							}
+		apiFrontendSettings()
+			.then((frontendSettings) => ({
+				...config,
+				...frontendSettings
+			}))
+			.catch(() => config)
+			.then((config) =>
+				config.useApiClusterSettings
+					? apiServerSettings().then((serverSettings) =>
+							Object.keys(serverSettings ?? {}).reduce(
+								(current, key) => {
+									current[key] =
+										key === 'releaseToggles'
+											? transformReleaseToggles(
+													serverSettings[key]
+												)
+											: serverSettings[key]?.value;
+									return current;
+								},
+								config
+							)
+						)
+					: config
+			)
+			.then(setAppConfig);
+	}, [config]);
 
-							return {
-								...current,
-								[key]: serverSettings[key]?.value
-							};
-						},
-						appConfig
-					);
-				});
-				setLoading(false);
-			});
-	}, [config.useApiClusterSettings]);
-
-	if (loading) {
+	if (!appConfig) {
 		return null;
 	}
 

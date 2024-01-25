@@ -131,6 +131,9 @@ export const endpoints = {
 		apiUrl + `/service/users/consultants/sessions/${sessionId}`,
 	userSessionsListView: '/sessions/user/view',
 	serviceSettings: apiUrl + '/service/settings',
+	frontend: {
+		settings: '/p/api/settings'
+	},
 	setAppointmentSuccessMessage:
 		apiUrl + '/service/messages/aliasWithContent/new',
 	userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',

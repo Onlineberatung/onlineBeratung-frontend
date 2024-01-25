@@ -217,12 +217,12 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		? [
 				'registration.agencyPreselected.intro.point1',
 				'registration.agencyPreselected.intro.point2'
-		  ]
+			]
 		: [
 				'registration.agencySelection.intro.point1',
 				'registration.agencySelection.intro.point2',
 				'registration.agencySelection.intro.point3'
-		  ];
+			];
 
 	return (
 		<div className="agencySelection">
@@ -244,10 +244,10 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 								showPreselectedAgency
 									? translate(
 											'registration.agencyPreselected.headline'
-									  )
+										)
 									: translate(
 											'registration.agencySelection.headline'
-									  )
+										)
 							}
 						/>
 					)}
@@ -257,10 +257,10 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 								showPreselectedAgency
 									? translate(
 											'registration.agencyPreselected.intro.overline'
-									  )
+										)
 									: translate(
 											'registration.agencySelection.intro.overline'
-									  )
+										)
 							}
 							type="standard"
 						/>
@@ -270,10 +270,10 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 									showPreselectedAgency
 										? translate(
 												'registration.agencyPreselected.intro.subline'
-										  )
+											)
 										: translate(
 												'registration.agencySelection.intro.subline'
-										  )
+											)
 								}
 								type="standard"
 							/>

@@ -8,6 +8,7 @@ $icon-size-small: 16px;
 	transition: all 0.6s ease;
 	animation: appearSessionListItem 300ms ease forwards;
 	opacity: 0;
+
 	@for $i from 1 through 15 {
 		&:nth-child(#{$i}) {
 			animation-delay: $i * 50ms;
@@ -42,6 +43,7 @@ $icon-size-small: 16px;
 			top: 0;
 			animation: afterSessionsListItemWidth 200ms ease forwards;
 		}
+
 		@keyframes afterSessionsListItemWidth {
 			0% {
 				left: calc(100% - 80px);

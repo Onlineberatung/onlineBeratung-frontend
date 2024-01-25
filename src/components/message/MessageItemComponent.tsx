@@ -213,7 +213,7 @@ export const MessageItemComponent = ({
 				? sanitizeHtml(
 						urlifyLinksInText(stateToHTML(contentStateMessage)),
 						sanitizeHtmlDefaultOptions
-				  )
+					)
 				: ''
 		);
 	}, [decryptedMessage]);
@@ -480,8 +480,8 @@ export const MessageItemComponent = ({
 								isMyMessage && !alias
 									? `messageItem__message messageItem__message--myMessage`
 									: alias
-									? `messageItem__message messageItem__message--forwarded`
-									: `messageItem__message`
+										? `messageItem__message messageItem__message--forwarded`
+										: `messageItem__message`
 							}
 						>
 							<span

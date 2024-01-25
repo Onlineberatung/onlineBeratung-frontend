@@ -12,7 +12,6 @@ import { useHistory } from 'react-router-dom';
 import { SendMessageButton } from './SendMessageButton';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
-import { UserDataContext } from '../../globalState/provider/UserDataProvider';
 import {
 	AUTHORITIES,
 	getContact,
@@ -24,7 +23,8 @@ import {
 	SessionTypeContext,
 	STATUS_ARCHIVED,
 	STATUS_FINISHED,
-	useTenant
+	useTenant,
+	UserDataContext
 } from '../../globalState';
 import {
 	apiPutDearchive,
@@ -469,11 +469,11 @@ export const MessageSubmitInterfaceComponent = ({
 		let textInputStyles = `min-height: ${currentInputHeight}px; ${currentOverflow} ${textInputMarginTop} ${textInputMarginBottom}`;
 		textInputStyles = isRichtextActive
 			? textInputStyles +
-			  `border-top: none; border-top-right-radius: 0; box-shadow: none;`
+				`border-top: none; border-top-right-radius: 0; box-shadow: none;`
 			: textInputStyles;
 		textInputStyles = attachmentSelected
 			? textInputStyles +
-			  `border-bottom: none; border-bottom-right-radius: 0;`
+				`border-bottom: none; border-bottom-right-radius: 0;`
 			: textInputStyles;
 		textInput?.setAttribute('style', textInputStyles);
 
@@ -1049,7 +1049,7 @@ export const MessageSubmitInterfaceComponent = ({
 											requestFeedbackCheckboxChecked
 												? translate(
 														'enquiry.write.input.placeholder.feedback.peer'
-												  )
+													)
 												: placeholder
 										}
 										stripPastedStyles={true}

@@ -7,6 +7,7 @@ $message-attachment-color: $secondary !default;
 	margin-bottom: $grid-base-two;
 	opacity: 0;
 	animation: appearMessageItem 500ms ease forwards;
+
 	@for $i from 1 through 50 {
 		&:nth-last-child(#{$i}) {
 			animation-delay: $i * 50ms;

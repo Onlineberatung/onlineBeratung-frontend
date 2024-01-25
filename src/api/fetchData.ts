@@ -88,7 +88,7 @@ export const fetchData = ({
 			!skipAuth && accessToken
 				? {
 						Authorization: `Bearer ${accessToken}`
-				  }
+					}
 				: null;
 
 		const csrfToken = generateCsrfToken();
@@ -97,14 +97,14 @@ export const fetchData = ({
 			? {
 					rcToken: getValueFromCookie('rc_token'),
 					rcUserId: getValueFromCookie('rc_uid')
-			  }
+				}
 			: null;
 
 		const localDevelopmentHeader = isLocalDevelopment
 			? {
 					[process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY]:
 						csrfToken
-			  }
+				}
 			: null;
 
 		let controller;

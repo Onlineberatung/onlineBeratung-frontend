@@ -130,8 +130,8 @@ export const Button = (props: ButtonProps) => {
 					${
 						item.type === BUTTON_TYPES.SMALL_ICON
 							? getButtonClassName(item.type) +
-							  '--' +
-							  item.smallIconBackgroundColor
+								'--' +
+								item.smallIconBackgroundColor
 							: ''
 					}
 					${

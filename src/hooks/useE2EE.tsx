@@ -147,9 +147,8 @@ export const useE2EE = (
 					total: filteredMembers.length
 				});
 
-			const { users } = await apiRocketChatGetUsersOfRoomWithoutKey(
-				roomId
-			);
+			const { users } =
+				await apiRocketChatGetUsersOfRoomWithoutKey(roomId);
 
 			if (users.length <= 0) {
 				onStateChange &&
@@ -308,9 +307,8 @@ export const useE2EE = (
 					return;
 				}
 
-				const [members, unhandled] = await encryptMembers(
-					onStateChange
-				);
+				const [members, unhandled] =
+					await encryptMembers(onStateChange);
 
 				onStateChange &&
 					onStateChange({

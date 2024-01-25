@@ -123,7 +123,7 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 						? 0
 						: Math.ceil(
 								configuredAttachmentMaxFilesize / 1024 / 1024
-						  )
+							)
 				} Required: ${Math.ceil(
 					requiredAttachmentMaxSize / 1024 / 1024
 				)}`,
