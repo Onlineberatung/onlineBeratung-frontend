@@ -21,6 +21,8 @@ if (!command) {
 command = command.trim();
 
 if (command === 'start') {
+	require('./proxy/server.js');
+} else if (command === 'dev') {
 	require('./scripts/start');
 } else if (command === 'build') {
 	require('./scripts/build');
