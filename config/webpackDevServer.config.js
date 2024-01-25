@@ -17,7 +17,7 @@ function disableHostCheck(proxy) {
 	return !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true';
 }
 
-function getDevServerConfig(allowedHost, disableFirewall) {
+function getDevServerConfig(proxy, allowedHost, disableFirewall) {
 	return {
 		// WebpackDevServer 2.4.3 introduced a security fix that prevents remote
 		// websites from potentially accessing local content through DNS rebinding:
@@ -138,7 +138,7 @@ module.exports = function (proxy, allowedHost) {
 
 	return {
 		devServer: {
-			...getDevServerConfig(allowedHost, disableFirewall),
+			...getDevServerConfig(proxy, allowedHost, disableFirewall),
 			setupMiddlewares: (middlewares, devServer) => {
 				if (!devServer) {
 					throw new Error('webpack-dev-server is not defined');
