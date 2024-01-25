@@ -13,9 +13,11 @@ const sockHost = process.env.WDS_SOCKET_HOST;
 const sockPath = process.env.WDS_SOCKET_PATH; // default: '/ws'
 const sockPort = process.env.WDS_SOCKET_PORT;
 
-module.exports = function (proxy, allowedHost) {
-	const disableFirewall =
-		!proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true';
+function disableHostCheck(proxy) {
+	return !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true';
+}
+
+function getDevServerConfig(allowedHost, disableFirewall) {
 	return {
 		// WebpackDevServer 2.4.3 introduced a security fix that prevents remote
 		// websites from potentially accessing local content through DNS rebinding:
@@ -90,7 +92,6 @@ module.exports = function (proxy, allowedHost) {
 			// remove last slash so user can land on `/test` instead of `/test/`
 			publicPath: paths.publicUrlOrPath.slice(0, -1)
 		},
-
 		https: getHttpsConfig(),
 		host,
 		historyApiFallback: {
@@ -104,30 +105,72 @@ module.exports = function (proxy, allowedHost) {
 			]
 		},
 		// `proxy` is run between `before` and `after` `webpack-dev-server` hooks
-		proxy,
-		onBeforeSetupMiddleware(devServer) {
-			// Keep `evalSourceMapMiddleware`
-			// middlewares before `redirectServedPath` otherwise will not have any effect
-			// This lets us fetch source contents from webpack for the error overlay
-			devServer.app.use(evalSourceMapMiddleware(devServer));
+		proxy
+	};
+}
 
-			if (fs.existsSync(paths.proxySetup)) {
-				// This registers user provided middleware for proxy reasons
-				require(paths.proxySetup)(devServer.app);
+function registerUserMiddlewares(middlewares) {
+	if (fs.existsSync(paths.proxySetup)) {
+		const middlewareConfigs = require(paths.proxySetup)(paths.storagePath);
+		middlewareConfigs
+			.reverse()
+			.forEach(({ method, middleware: callback, name, path: route }) => {
+				let middleware = callback;
+
+				if (method) {
+					middleware = (req, res, next) => {
+						if (req.method !== method) return next();
+						callback(req, res, next);
+					};
+				}
+
+				middlewares.unshift({
+					name,
+					path: route || undefined,
+					middleware
+				});
+			});
+	}
+}
+
+module.exports = function (proxy, allowedHost) {
+	const disableFirewall = disableHostCheck(proxy);
+
+	return {
+		devServer: {
+			...getDevServerConfig(allowedHost, disableFirewall),
+			setupMiddlewares: (middlewares, devServer) => {
+				if (!devServer) {
+					throw new Error('webpack-dev-server is not defined');
+				}
+
+				registerUserMiddlewares(middlewares);
+
+				middlewares.unshift({
+					name: 'eval-source-map-middleware',
+					middleware: evalSourceMapMiddleware(devServer)
+				});
+
+				// Redirect to `PUBLIC_URL` or `homepage` from `package.json` if url not match
+				middlewares.push({
+					name: 'redirect-served-path',
+					middleware: redirectServedPath(paths.publicUrlOrPath)
+				});
+
+				// This service worker file is effectively a 'no-op' that will reset any
+				// previous service worker registered for the same host:port combination.
+				// We do this in development to avoid hitting the production cache if
+				// it used the same host and port.
+				// https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
+				middlewares.push({
+					name: 'noop-service-worker-middlewar',
+					middleware: noopServiceWorkerMiddleware(
+						paths.publicUrlOrPath
+					)
+				});
+
+				return middlewares;
 			}
-		},
-		onAfterSetupMiddleware(devServer) {
-			// Redirect to `PUBLIC_URL` or `homepage` from `package.json` if url not match
-			devServer.app.use(redirectServedPath(paths.publicUrlOrPath));
-
-			// This service worker file is effectively a 'no-op' that will reset any
-			// previous service worker registered for the same host:port combination.
-			// We do this in development to avoid hitting the production cache if
-			// it used the same host and port.
-			// https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
-			devServer.app.use(
-				noopServiceWorkerMiddleware(paths.publicUrlOrPath)
-			);
 		}
 	};
 };

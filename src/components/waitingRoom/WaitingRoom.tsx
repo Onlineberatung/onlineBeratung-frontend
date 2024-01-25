@@ -169,7 +169,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 				? username
 				: `<span class="waitingRoom__username--loading">${translate(
 						'anonymous.waitingroom.username.loading'
-				  )}</span>`
+					)}</span>`
 		}
 		</div>
 		`;
@@ -196,9 +196,15 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					retryCount.current += 1;
 					return new Promise<AnonymousRegistrationResponse>(
 						(resolve) => {
-							setTimeout(() => {
-								resolve(registerAnonymous());
-							}, Math.ceil(retryCount.current / USERNAME_CONFLICT_RETRY_SLOWDOWN) * 500);
+							setTimeout(
+								() => {
+									resolve(registerAnonymous());
+								},
+								Math.ceil(
+									retryCount.current /
+										USERNAME_CONFLICT_RETRY_SLOWDOWN
+								) * 500
+							);
 						}
 					);
 				} else {
@@ -299,7 +305,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 												? ', '
 												: translate(
 														'registration.dataProtection.label.and'
-												  )
+													)
 											: '') +
 										`<a target="_blank" href="${legalLink.getUrl(
 											{ aid: null }

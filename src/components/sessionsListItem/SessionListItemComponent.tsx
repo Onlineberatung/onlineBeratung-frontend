@@ -58,8 +58,10 @@ export const SessionListItemComponent = ({
 }: SessionListItemProps) => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const tenantData = useTenant();
-	const { sessionId, rcGroupId: groupIdFromParam } =
-		useParams<{ rcGroupId: string; sessionId: string }>();
+	const { sessionId, rcGroupId: groupIdFromParam } = useParams<{
+		rcGroupId: string;
+		sessionId: string;
+	}>();
 	const sessionIdFromParam = sessionId ? parseInt(sessionId) : null;
 	const history = useHistory();
 
@@ -224,8 +226,8 @@ export const SessionListItemComponent = ({
 		return isLiveChat
 			? prettyPrintTimeDifference(newestDate, Date.now())
 			: prettyDate.str
-			? translate(prettyDate.str)
-			: prettyDate.date;
+				? translate(prettyDate.str)
+				: prettyDate.date;
 	};
 
 	// Hide sessions if consultingType has been switched to group chat.
@@ -270,7 +272,7 @@ export const SessionListItemComponent = ({
 											consultingType.titles.default
 										],
 										{ ns: 'consultingTypes' }
-								  )
+									)
 								: ''}
 						</div>
 						<div className="sessionsListItem__date">
@@ -385,7 +387,7 @@ export const SessionListItemComponent = ({
 											consultingType.titles.default
 										],
 										{ ns: 'consultingTypes' }
-								  ) + ' '
+									) + ' '
 								: ''}
 							{activeSession.item.consultingType !== 1 &&
 							!isAsker &&

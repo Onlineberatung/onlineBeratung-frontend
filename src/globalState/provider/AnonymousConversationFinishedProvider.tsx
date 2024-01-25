@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { createContext, useCallback, useContext, useState } from 'react';
-import { UserDataContext } from './UserDataProvider';
+import { UserDataContext } from '../context/UserDataContext';
 import { AUTHORITIES, hasUserAuthority } from '../helpers/stateHelpers';
 import useUpdatingRef from '../../hooks/useUpdatingRef';
 

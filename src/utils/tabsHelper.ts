@@ -48,7 +48,7 @@ export const solveGroupConditions = (
 	return isValidToShow && isTabGroup(element)
 		? element.elements.some((elem) =>
 				solveCondition(elem.condition, ...params)
-		  )
+			)
 		: isValidToShow;
 };
 

@@ -91,6 +91,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		color: $form-error;
 		width: 280px;
 		margin-bottom: $grid-base-four;
+
 		@include breakpoint($fromLarge) {
 			width: 320px;
 		}

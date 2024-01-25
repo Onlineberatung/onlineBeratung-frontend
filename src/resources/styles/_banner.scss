@@ -36,6 +36,7 @@
 			height: $grid-base-three;
 			left: $grid-base-two;
 			position: absolute;
+
 			@include breakpoint($fromLarge) {
 				left: $grid-base-three;
 				top: 50%;
@@ -49,6 +50,7 @@
 			position: absolute;
 			top: $grid-base-two;
 			right: $grid-base-two;
+
 			@include breakpoint($fromLarge) {
 				top: 50%;
 				transform: translate(0, -50%);

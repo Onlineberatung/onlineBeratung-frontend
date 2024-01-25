@@ -1,7 +1,8 @@
 @mixin setup-fonts {
 	@font-face {
 		font-family: Roboto;
-		src: url('../fonts/roboto-v18-latin-regular.woff2') format('woff2'),
+		src:
+			url('../fonts/roboto-v18-latin-regular.woff2') format('woff2'),
 			url('../fonts/roboto-v18-latin-regular.woff') format('woff');
 		font-weight: $font-weight-regular;
 		font-style: normal;
@@ -9,7 +10,8 @@
 
 	@font-face {
 		font-family: Roboto;
-		src: url('../fonts/roboto-v18-latin-300.woff2') format('woff2'),
+		src:
+			url('../fonts/roboto-v18-latin-300.woff2') format('woff2'),
 			url('../fonts/roboto-v18-latin-300.woff') format('woff');
 		font-weight: $font-weight-light;
 		font-style: normal;
@@ -17,7 +19,8 @@
 
 	@font-face {
 		font-family: Roboto;
-		src: url('../fonts/roboto-v18-latin-500.woff2') format('woff2'),
+		src:
+			url('../fonts/roboto-v18-latin-500.woff2') format('woff2'),
 			url('../fonts/roboto-v18-latin-500.woff') format('woff');
 		font-weight: $font-weight-medium;
 		font-style: normal;
@@ -25,7 +28,8 @@
 
 	@font-face {
 		font-family: Roboto;
-		src: url('../fonts/roboto-v18-latin-700.woff2') format('woff2'),
+		src:
+			url('../fonts/roboto-v18-latin-700.woff2') format('woff2'),
 			url('../fonts/roboto-v18-latin-700.woff') format('woff');
 		font-weight: $font-weight-bold;
 		font-style: normal;
@@ -33,7 +37,8 @@
 
 	@font-face {
 		font-family: RobotoSlab;
-		src: url('../fonts/robotoSlab/RobotoSlab-Regular.woff2') format('woff2'),
+		src:
+			url('../fonts/robotoSlab/RobotoSlab-Regular.woff2') format('woff2'),
 			url('../fonts/robotoSlab/RobotoSlab-Regular.woff') format('woff');
 		font-weight: $font-weight-regular;
 		font-style: normal;

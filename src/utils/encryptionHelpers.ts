@@ -652,9 +652,8 @@ export const loadKeysFromRocketChat = async () => {
 	const rcUserId = getValueFromCookie('rc_uid');
 	const persistedArrayBuffer = readMasterKeyFromLocalStorage(rcUserId);
 
-	const persistedMasterKey = await importRawEncryptionKey(
-		persistedArrayBuffer
-	);
+	const persistedMasterKey =
+		await importRawEncryptionKey(persistedArrayBuffer);
 
 	const privateKey = await decryptPrivateKey(
 		encryptedPrivateKey,

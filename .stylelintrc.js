@@ -1,18 +1,10 @@
-const defaultConfig = require('@biotope/quality-gate/config/.stylelintrc');
-
 module.exports = {
-	...defaultConfig,
-	extends: [
-		// TODO: From the admin app. Probably a good idea to enable.
-		// 'stylelint-config-idiomatic-order',
-
-		// The config from quality-gate isn't compatible with stylelint@^14,
-		// therefore merge it with working alternatives.
-		'stylelint-config-standard-scss',
-		'stylelint-config-prettier'
-	],
+	plugins: ['stylelint-scss', 'stylelint-no-unsupported-browser-features'],
+	extends: ['stylelint-config-standard', 'stylelint-config-standard-scss'],
 	rules: {
-		...defaultConfig.rules,
+		'selector-max-id': 0,
+		'scss/dollar-variable-colon-space-after': 'always-single-line',
+		'scss/dollar-variable-colon-space-before': 'never',
 		'plugin/no-unsupported-browser-features': [
 			true,
 			{
@@ -35,16 +27,11 @@ module.exports = {
 					'outline',
 					'css3-cursors',
 					'css-resize',
-					'intrinsic-width'
+					'intrinsic-width',
+					'css-nesting',
+					'css-when-else',
+					'css-selection'
 				]
-			}
-		],
-
-		// From admin app
-		'max-empty-lines': [
-			2,
-			{
-				ignore: ['comments']
 			}
 		],
 		'rule-empty-line-before': [
@@ -56,7 +43,6 @@ module.exports = {
 
 		// Defaults are not good
 		'alpha-value-notation': 'number',
-		'number-leading-zero': 'always',
 		'color-function-notation': 'legacy',
 		'value-keyword-case': null, // Requires e.g. "robotoslab" instead of "RobotoSlab"
 		'scss/operator-no-unspaced': null, // Has false positives

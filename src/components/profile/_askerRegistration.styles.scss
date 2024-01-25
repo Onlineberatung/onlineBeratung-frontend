@@ -28,6 +28,7 @@
 			padding: 0;
 			text-align: center;
 			max-width: none;
+
 			@include breakpoint($fromLarge) {
 				text-align: right;
 			}

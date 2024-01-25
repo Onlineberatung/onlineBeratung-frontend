@@ -7,7 +7,7 @@ import {
 	useState
 } from 'react';
 import { SESSION_LIST_TYPES } from '../../components/session/sessionHelpers';
-import { UserDataContext } from './UserDataProvider';
+import { UserDataContext } from '../context/UserDataContext';
 import { AUTHORITIES, hasUserAuthority } from '../helpers/stateHelpers';
 
 type SessionTypeProviderProps = {

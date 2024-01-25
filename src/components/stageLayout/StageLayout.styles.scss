@@ -8,6 +8,7 @@
 	&__footer {
 		flex: 0;
 		padding: 0 $grid-base-two $grid-base-four;
+
 		@include breakpoint($fromLarge) {
 			padding: 0 $grid-base-three $grid-base-four;
 		}
@@ -69,10 +70,12 @@
 	&__toLogin {
 		&__text {
 			display: none;
-			@media screen and (min-width: 768px) and (max-width: 900px) {
+
+			@media screen and (width >= 768px) and (width <= 900px) {
 				display: inline-block;
 			}
-			@media screen and (min-width: 1200px) {
+
+			@media screen and (width >= 1200px) {
 				display: inline-block;
 			}
 		}

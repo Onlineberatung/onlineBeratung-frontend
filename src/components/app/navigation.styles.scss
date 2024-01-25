@@ -114,6 +114,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
 		&__language {
 			display: none;
+
 			@include breakpoint($fromLarge) {
 				display: block;
 			}

@@ -38,20 +38,21 @@ export const AskerInfoData = () => {
 									consultingType.titles.default
 								],
 								{ ns: 'consultingTypes' }
-						  )
+							)
 						: ''}
 				</p>
 			</div>
-			{activeSession.item.consultingType === 0 && !activeSession.isLive && (
-				<div className="askerInfo__data__item">
-					<p className="askerInfo__data__label">
-						{translate('userProfile.data.postcode')}
-					</p>
-					<p className="askerInfo__data__content">
-						{activeSession.item.postcode}
-					</p>
-				</div>
-			)}
+			{activeSession.item.consultingType === 0 &&
+				!activeSession.isLive && (
+					<div className="askerInfo__data__item">
+						<p className="askerInfo__data__label">
+							{translate('userProfile.data.postcode')}
+						</p>
+						<p className="askerInfo__data__content">
+							{activeSession.item.postcode}
+						</p>
+					</div>
+				)}
 			{preparedUserSessionData.map((item, index) =>
 				item.type === 'age' && item.value === 'null' ? null : (
 					<div className="askerInfo__data__item" key={index}>
@@ -75,7 +76,7 @@ export const AskerInfoData = () => {
 											item.type,
 											item.value
 										)
-								  )
+									)
 								: translate('profile.noContent')}
 						</p>
 					</div>

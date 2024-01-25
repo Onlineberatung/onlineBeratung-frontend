@@ -6,9 +6,9 @@ import {
 	AUTHORITIES,
 	ConsultingTypesContext,
 	hasUserAuthority,
-	LocaleContext,
 	UserDataContext,
-	useTenant
+	useTenant,
+	LocaleContext
 } from '../../globalState';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
@@ -101,12 +101,12 @@ export const Profile = () => {
 											element,
 											userData,
 											consultingTypes ?? []
-									  )
+										)
 									: solveCondition(
 											element.condition,
 											userData,
 											consultingTypes ?? []
-									  )
+										)
 							)
 							.map((element) =>
 								isTabGroup(element)
@@ -120,10 +120,10 @@ export const Profile = () => {
 												element as unknown as TabType
 											)?.notificationBubble,
 											externalLink: element.externalLink
-									  }
+										}
 									: {
 											component: <element.component />
-									  }
+										}
 							)
 					})
 				)
@@ -154,12 +154,12 @@ export const Profile = () => {
 														? {
 																title: c.title,
 																url: c.url
-														  }
+															}
 														: null
 												)
 												.filter(Boolean)
 										: { title: curr.title, url: curr.url }
-							  ),
+								),
 					[]
 				)
 				.find(({ url }) => url === location.pathname)
@@ -263,7 +263,7 @@ export const Profile = () => {
 									tenant,
 									selectableLocales,
 									isFirstVisit
-							  )
+								)
 									.filter((tab) =>
 										solveTabConditions(
 											tab,
@@ -302,7 +302,7 @@ export const Profile = () => {
 									<div className="title text--nowrap text--bold text--center flex__col--50p">
 										{subpage?.title}
 									</div>
-							  )}
+								)}
 					</div>
 					<div
 						className={`profile__header__actions flex flex--ai-c flex--jc-fe ${
@@ -514,8 +514,8 @@ const ProfileItem = ({
 			element.fullWidth
 				? 'full'
 				: element.column === COLUMN_LEFT
-				? 'left'
-				: 'right'
+					? 'left'
+					: 'right'
 		}`}
 	>
 		{element.boxed === false ? (

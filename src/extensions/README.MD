@@ -6,7 +6,7 @@ If you wan't to override a file from the src folder just create the same folder 
 
 Example:
 
-To override the Login.tsx file create a file in: 
+To override the Login.tsx file create a file in:
 
 `/src/extensions/components/login/Login.tsx`
 
@@ -16,7 +16,7 @@ This will override the file in:
 
 ### Attention!
 
-Please handle this feature with care. 
+Please handle this feature with care.
 If you override larger files you won't get any updates if the overwritten has been changed.
 
 #### Best practice

@@ -41,7 +41,7 @@
 
 	@for $i from 0 through 12 {
 		@include margin-variant($bpKey, $i, $i * $grid-base);
-		@include margin-variant($bpKey, '-#{$i}', $i * -$grid-base);
+		@include margin-variant($bpKey, '-#{$i}', $i * ($grid-base * -1));
 	}
 }
 

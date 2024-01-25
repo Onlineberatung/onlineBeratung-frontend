@@ -6,7 +6,7 @@ const audio =
 		? new Audio(
 				process.env.AUDIO_FILE_INCOMING_NOTIFICATION ??
 					incomingNotification
-		  )
+			)
 		: null;
 
 type ExtraNotificationOptions = {
