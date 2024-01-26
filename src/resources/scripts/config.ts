@@ -52,6 +52,12 @@ export const config: AppConfigInterface = {
 		videoCall: '/videoanruf/:domain/:jwt/:video?/:username?/:e2e?',
 		videoConference: '/videoberatung/:type/:appointmentId'
 	},
+	groupChat: {
+		info: {
+			showCreator: false,
+			showCreationDate: false
+		}
+	},
 	postcodeFallbackUrl: '{url}',
 	jitsi: {
 		/**

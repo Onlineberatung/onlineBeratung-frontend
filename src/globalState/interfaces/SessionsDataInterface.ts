@@ -124,6 +124,7 @@ export interface GroupChatItemInterface {
 	startTime: string;
 	subscribed: boolean;
 	topic: string;
+	createdAt: string;
 }
 
 export interface SessionUserInterface {

@@ -7,6 +7,7 @@ import { LegalLinkInterface } from '../LegalLinkInterface';
 import { InitOptions } from 'i18next';
 import { OverlaysConfigInterface } from './OverlaysConfigInterface';
 import { TranslationConfig } from '../TranslationConfig';
+import { GroupChatConfig } from '../GroupChatConfig';
 
 export interface AppConfigInterface extends AppSettingsInterface {
 	urls: AppConfigUrlsInterface;
@@ -28,6 +29,7 @@ export interface AppConfigInterface extends AppSettingsInterface {
 			other?: boolean;
 		};
 	};
+	groupChat?: GroupChatConfig;
 }
 
 interface ReleaseToggles {

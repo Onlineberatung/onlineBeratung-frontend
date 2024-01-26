@@ -215,13 +215,30 @@ $inputMaxWidth: 500px;
 			margin-top: $grid-base-six;
 		}
 
-		&__item {
+		&__item,
+		&__group {
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-end;
+		}
+
+		&__item {
+			border-bottom: 1px solid $line-grey;
 			min-height: 42px;
 			margin-top: 12px;
-			border-bottom: 1px solid $line-grey;
+		}
+
+		&__group {
+			flex-direction: row;
+		}
+
+		&__group &__item {
+			flex: 1;
+			margin-right: 20px;
+
+			&:last-child {
+				margin-right: 0;
+			}
 		}
 
 		&__label {

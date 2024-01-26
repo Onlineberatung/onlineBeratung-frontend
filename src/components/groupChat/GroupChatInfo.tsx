@@ -44,9 +44,12 @@ import { Tag } from '../tag/Tag';
 import { useSession } from '../../hooks/useSession';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { GroupChatCopyLinks } from './GroupChatCopyLinks';
+import { useAppConfig } from '../../hooks/useAppConfig';
 import { useTranslation } from 'react-i18next';
+import { getPrettyDateFromMessageDate } from '../../utils/dateHelpers';
 
 export const GroupChatInfo = () => {
+	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
 	const tenantData = useTenant();
@@ -180,11 +183,30 @@ export const GroupChatInfo = () => {
 		[activeSession?.item.duration, translate]
 	);
 
+	const getCreationDate = useCallback(
+		(date: Date) => {
+			const prettyDate = getPrettyDateFromMessageDate(
+				date.getTime() / 1000,
+				true,
+				true
+			);
+			return `${prettyDate.date ? prettyDate.date : translate(prettyDate.str)} - ${date.getHours()}:${date.getMinutes()}`;
+		},
+		[translate]
+	);
+
 	if (!activeSession) return null;
 
 	if (redirectToSessionsList) {
 		return <Redirect to={listPath + getSessionListTab()} />;
 	}
+
+	const showCreator =
+		settings.groupChat?.info?.showCreator &&
+		activeSession?.consultant?.displayName;
+	const showCreateDate =
+		settings.groupChat?.info?.showCreationDate &&
+		activeSession?.item?.createdAt;
 
 	const isCurrentUserModerator = isUserModerator({
 		chatItem: activeSession.item,
@@ -398,6 +420,42 @@ export const GroupChatInfo = () => {
 							text={translate('groupChat.info.settings.headline')}
 							type="divider"
 						/>
+
+						{(showCreator || showCreateDate) && (
+							<div className="groupChatInfo__data__group">
+								{showCreator && (
+									<div className="groupChatInfo__data__item">
+										<p className="groupChatInfo__data__label">
+											{translate(
+												'groupChat.info.settings.creator'
+											)}
+										</p>
+										<p className="groupChatInfo__data__content">
+											{
+												activeSession.consultant
+													.displayName
+											}
+										</p>
+									</div>
+								)}
+								{showCreateDate && (
+									<div className="groupChatInfo__data__item">
+										<p className="groupChatInfo__data__label">
+											{translate(
+												'groupChat.info.settings.createDate'
+											)}
+										</p>
+										<p className="groupChatInfo__data__content">
+											{getCreationDate(
+												new Date(
+													activeSession.item.createdAt
+												)
+											)}
+										</p>
+									</div>
+								)}
+							</div>
+						)}
 						{preparedSettings.map((item, index) => (
 							<div
 								className="groupChatInfo__data__item"
