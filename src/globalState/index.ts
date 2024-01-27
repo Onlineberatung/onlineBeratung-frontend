@@ -7,6 +7,8 @@ export * from './interfaces/UserDataInterface';
 export * from './interfaces/ConsultingTypeInterface';
 export * from './interfaces/LegalLinkInterface';
 export * from './interfaces/ServerAppConfigInterface';
+export * from './interfaces/TranslationConfig';
+export * from './interfaces/GroupChatConfig';
 export * from './interfaces/AppConfig';
 
 export * from './provider/AgencySpecificProvider';
