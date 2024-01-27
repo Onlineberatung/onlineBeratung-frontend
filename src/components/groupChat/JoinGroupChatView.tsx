@@ -6,7 +6,8 @@ import {
 	hasUserAuthority,
 	SessionTypeContext,
 	useConsultingType,
-	UserDataContext
+	UserDataContext,
+	ActiveSessionContext
 } from '../../globalState';
 import { mobileListView } from '../app/navigationHandler';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
@@ -25,7 +26,6 @@ import { ReactComponent as WarningIcon } from '../../resources/img/icons/i.svg';
 import './joinChat.styles';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
 import { useE2EE } from '../../hooks/useE2EE';
 import { encryptForParticipant } from '../../utils/encryptionHelpers';
@@ -319,7 +319,13 @@ export const JoinGroupChatView = ({
 		consultingType?.id ?? 'noConsultingType'
 	}.groupChatRules`;
 	const translatedRules: { [key: string]: string } =
-		i18n.getResource(i18n.language, 'consultingTypes', transKey) || {};
+		i18n.getResource(i18n.language, 'consultingTypes', transKey) ||
+		i18n.getResource(
+			i18n.language,
+			'consultingTypes',
+			`consultingType.fallback.groupChatRules`
+		) ||
+		{};
 	if (Object.keys(translatedRules).length > 0) {
 		groupChatRules = Object.values(translatedRules);
 	}

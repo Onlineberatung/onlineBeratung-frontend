@@ -1,5 +1,5 @@
 import { endpoints } from '../resources/scripts/endpoints';
-import { UserDataInterface } from '../globalState';
+import { UserDataInterface } from '../globalState/interfaces';
 import { fetchData, FETCH_METHODS } from './fetchData';
 
 export const apiGetUserData = async (

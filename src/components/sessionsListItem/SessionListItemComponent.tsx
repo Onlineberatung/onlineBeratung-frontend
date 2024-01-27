@@ -17,12 +17,15 @@ import {
 	E2EEContext,
 	hasUserAuthority,
 	SessionTypeContext,
-	STATUS_FINISHED,
-	TopicSessionInterface,
 	useConsultingType,
 	UserDataContext,
-	useTenant
+	useTenant,
+	ActiveSessionContext
 } from '../../globalState';
+import {
+	STATUS_FINISHED,
+	TopicSessionInterface
+} from '../../globalState/interfaces';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
@@ -41,7 +44,6 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { SessionListItemLastMessage } from './SessionListItemLastMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 
 interface SessionListItemProps {
 	defaultLanguage: string;
@@ -269,6 +271,7 @@ export const SessionListItemComponent = ({
 								? translate(
 										[
 											`consultingType.${consultingType.id}.titles.default`,
+											`consultingType.fallback.titles.default`,
 											consultingType.titles.default
 										],
 										{ ns: 'consultingTypes' }
@@ -384,6 +387,7 @@ export const SessionListItemComponent = ({
 								? translate(
 										[
 											`consultingType.${consultingType.id}.titles.default`,
+											`consultingType.fallback.titles.default`,
 											consultingType.titles.default
 										],
 										{ ns: 'consultingTypes' }

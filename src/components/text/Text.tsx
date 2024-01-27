@@ -39,6 +39,9 @@ export const Text = (props: TextProps) => {
 		return labelContent;
 	};
 
+	// Do not render text component if content is empty
+	if (!props.title && !props.text) return null;
+
 	return (
 		<p
 			className={`text text__${props.type} ${

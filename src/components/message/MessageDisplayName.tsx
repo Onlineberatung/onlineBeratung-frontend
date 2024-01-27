@@ -7,7 +7,7 @@ import {
 } from '../../utils/dateHelpers';
 import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
 import { ForwardMessageDTO } from './MessageItemComponent';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { ActiveSessionContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 
 interface MessageDisplayNameProps {

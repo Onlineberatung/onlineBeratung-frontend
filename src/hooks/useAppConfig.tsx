@@ -1,4 +1,5 @@
-import { AppConfigContext, AppConfigInterface } from '../globalState';
+import { AppConfigContext } from '../globalState';
+import { AppConfigInterface } from '../globalState/interfaces';
 import React from 'react';
 
 export const useAppConfig = (): AppConfigInterface => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useContext, useState } from 'react';
 import { Button, BUTTON_TYPES } from '../button/Button';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { ActiveSessionContext } from '../../globalState';
 import {
 	ALIAS_MESSAGE_TYPES,
 	apiSendAliasMessage

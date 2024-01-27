@@ -1,6 +1,6 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
-import { ServerAppConfigInterface } from '../globalState';
+import { ServerAppConfigInterface } from '../globalState/interfaces';
 
 export const apiServerSettings = async (): Promise<ServerAppConfigInterface> =>
 	fetchData({

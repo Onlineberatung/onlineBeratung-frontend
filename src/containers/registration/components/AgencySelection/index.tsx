@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { AgencyInfo } from '../../../../components/agencySelection/AgencyInfo';
 import { AgencyLanguages } from '../../../../components/agencySelection/AgencyLanguages';
 import { RadioButton } from '../../../../components/radioButton/RadioButton';
-import { AgencyDataInterface } from '../../../../globalState';
+import { AgencyDataInterface } from '../../../../globalState/interfaces';
 
 interface AgencySelectionArgs {
 	checkedValue: string;

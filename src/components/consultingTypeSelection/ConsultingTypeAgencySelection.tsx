@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { AgencyDataInterface } from '../../globalState';
+import { AgencyDataInterface } from '../../globalState/interfaces';
 import './consultingTypeAgencySelection.styles';
 import '../profile/profile.styles';
 import { RadioButton } from '../radioButton/RadioButton';
@@ -56,6 +56,7 @@ export const ConsultingTypeAgencySelection = ({
 				label: translate(
 					[
 						`consultingType.${consultingType.id}.titles.long`,
+						`consultingType.fallback.titles.long`,
 						consultingType.titles.long
 					],
 					{ ns: 'consultingTypes' }

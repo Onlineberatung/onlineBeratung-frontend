@@ -1,8 +1,5 @@
-import {
-	hasUserAuthority,
-	AUTHORITIES,
-	AppConfigInterface
-} from '../../globalState';
+import { hasUserAuthority, AUTHORITIES } from '../../globalState';
+import { AppConfigInterface } from '../../globalState/interfaces';
 import {
 	COLUMN_LEFT,
 	COLUMN_RIGHT,

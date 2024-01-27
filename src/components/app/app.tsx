@@ -17,14 +17,16 @@ import ErrorBoundary from './ErrorBoundary';
 import { LanguagesProvider } from '../../globalState/provider/LanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
 import {
-	AppConfigInterface,
 	AppConfigProvider,
 	InformalProvider,
-	LegalLinkInterface,
 	LocaleProvider,
 	NotificationsContext,
 	TenantProvider
 } from '../../globalState';
+import {
+	AppConfigInterface,
+	LegalLinkInterface
+} from '../../globalState/interfaces';
 import { LegalLinksProvider } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { DevToolbarWrapper } from '../devToolbar/DevToolbar';

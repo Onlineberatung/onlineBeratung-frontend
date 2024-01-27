@@ -4,7 +4,7 @@ import {
 	SESSION_LIST_TAB_ARCHIVE,
 	SESSION_LIST_TYPES
 } from '../components/session/sessionHelpers';
-import { ListItemsResponseInterface } from '../globalState';
+import { ListItemsResponseInterface } from '../globalState/interfaces';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
 
 export const INITIAL_FILTER: string = 'all';

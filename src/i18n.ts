@@ -15,7 +15,7 @@ import {
 	STORAGE_KEY_ENABLE_TRANSLATION_CHECK,
 	STORAGE_KEY_TRANSLATION_DISABLE_CACHE
 } from './components/devToolbar/DevToolbar';
-import { TranslationConfig } from './globalState/interfaces/TranslationConfig';
+import { TranslationConfig } from './globalState/interfaces';
 import { FETCH_METHODS, FETCH_SUCCESS, fetchData } from './api';
 
 export const FALLBACK_LNG = 'de';

@@ -16,7 +16,6 @@ export * from './apiGetAppointmentServiceTeam';
 export * from './apiGetApiAppointmentServiceEventTypes';
 export * from './apiGetAppointmentsServiceBookingEventsByUserId';
 export * from './apiGetGroupChatInfo';
-export * from './apiGetGroupMembers';
 export * from './apiGetSessionData';
 export * from './apiGetUserData';
 export * from './apiGroupChatSettings';

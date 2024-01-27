@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { useLocaleData, useTenant } from '../../globalState';
 import {
 	AgencyDataInterface,
-	ConsultingTypeBasicInterface,
-	useLocaleData,
-	useTenant
-} from '../../globalState';
+	ConsultingTypeBasicInterface
+} from '../../globalState/interfaces';
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { VALID_POSTCODE_LENGTH } from './agencySelectionHelpers';
@@ -41,6 +40,8 @@ export interface AgencySelectionProps {
 	initialPostcode?: string;
 	hideExternalAgencies?: boolean;
 	onKeyDown?: Function;
+	age?: number;
+	gender?: string;
 }
 
 export const AgencySelection = (props: AgencySelectionProps) => {
@@ -86,7 +87,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					const response = await apiAgencySelection({
 						postcode: DEFAULT_POSTCODE,
 						consultingType: props.consultingType.id,
-						topicId: props?.mainTopicId
+						topicId: props?.mainTopicId,
+						age: props?.age,
+						gender: props?.gender
 					});
 
 					const defaultAgency = response[0];
@@ -101,7 +104,14 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		})();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [autoSelectAgency, props.consultingType.id, props?.mainTopicId, locale]);
+	}, [
+		autoSelectAgency,
+		props.consultingType.id,
+		props?.mainTopicId,
+		props?.age,
+		props?.gender,
+		locale
+	]);
 
 	useEffect(() => {
 		if (isSelectedAgencyValidated()) {
@@ -150,7 +160,9 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							await apiAgencySelection({
 								postcode: selectedPostcode,
 								consultingType: props.consultingType.id,
-								topicId: props?.mainTopicId
+								topicId: props?.mainTopicId,
+								age: props?.age,
+								gender: props?.gender
 							}).finally(() => setIsLoading(false))
 						).filter(
 							(agency) =>
@@ -163,23 +175,21 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 						setProposedAgencies(null);
 					}
 				} catch (err: any) {
-					if (
-						err.message === FETCH_ERRORS.EMPTY &&
-						props.consultingType.id !== null
-					) {
+					if (err.message === FETCH_ERRORS.EMPTY) {
 						setProposedAgencies(null);
-						setPostcodeFallbackLink(
-							parsePlaceholderString(
-								settings.postcodeFallbackUrl,
-								{
-									url: props.consultingType.urls
-										.registrationPostcodeFallbackUrl,
-									postcode: selectedPostcode
-								}
-							)
-						);
+						if (props.consultingType.id !== null) {
+							setPostcodeFallbackLink(
+								parsePlaceholderString(
+									settings.postcodeFallbackUrl,
+									{
+										url: props.consultingType.urls
+											.registrationPostcodeFallbackUrl,
+										postcode: selectedPostcode
+									}
+								)
+							);
+						}
 					}
-					return;
 				}
 			})();
 		} else if (
@@ -194,7 +204,13 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedPostcode, props.consultingType.id, props?.mainTopicId]);
+	}, [
+		selectedPostcode,
+		props.consultingType.id,
+		props?.mainTopicId,
+		props?.age,
+		props?.gender
+	]);
 
 	const postcodeInputItem: InputFieldItem = {
 		name: 'postcode',

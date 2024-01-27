@@ -6,7 +6,7 @@ import {
 	mockWebSocket,
 	startWebSocketServer
 } from '../support/websocket';
-import { AppointmentsDataInterface } from '../../src/globalState/interfaces/AppointmentsDataInterface';
+import { AppointmentsDataInterface } from '../../src/globalState/interfaces';
 
 class FakeJitsiMeetExternalAPI {
 	private _handler: {

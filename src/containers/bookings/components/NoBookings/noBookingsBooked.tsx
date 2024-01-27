@@ -15,9 +15,9 @@ import { Box } from '../../../../components/box/Box';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	ListItemInterface,
 	UserDataContext
 } from '../../../../globalState';
+import { ListItemInterface } from '../../../../globalState/interfaces';
 
 interface NoBookings {
 	sessions: ListItemInterface[];
@@ -60,8 +60,9 @@ export const NoBookingsBooked: React.FC<NoBookings> = ({ sessions }) => {
                             ${sessions
 								?.filter((session) => session.agency !== null)
 								?.map(
-									(consultant) =>
-										consultant.consultant.username
+									({ consultant }) =>
+										consultant.displayName ||
+										consultant.username
 								)}</b>:`}
 							type="standard"
 						/>

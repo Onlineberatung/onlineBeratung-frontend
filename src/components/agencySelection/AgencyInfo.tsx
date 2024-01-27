@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { AgencyDataInterface } from '../../globalState';
+import { AgencyDataInterface } from '../../globalState/interfaces';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import { isMobile } from 'react-device-detect';
 import { Text } from '../text/Text';

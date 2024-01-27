@@ -3,7 +3,7 @@ import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import { ServiceExplanation } from '../serviceExplanation/ServiceExplanation';
-import { RegistrationWelcomeScreenInterface } from '../../globalState';
+import { RegistrationWelcomeScreenInterface } from '../../globalState/interfaces';
 import './welcomeScreen.styles';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';

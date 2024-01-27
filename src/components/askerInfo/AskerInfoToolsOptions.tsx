@@ -246,7 +246,6 @@ export const AskerInfoToolsOptions = (
 
 	return (
 		<div className="askerInfoToolsOptions">
-			<Text text={translate('userProfile.tools.title')} type="divider" />
 			<Text
 				text={translate('userProfile.tools.description')}
 				type="infoSmall"

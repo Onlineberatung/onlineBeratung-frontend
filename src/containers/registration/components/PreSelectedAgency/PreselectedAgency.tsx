@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { AgencyDataInterface } from '../../../../globalState';
+import { AgencyDataInterface } from '../../../../globalState/interfaces';
 import { Headline } from '../../../../components/headline/Headline';
 import { RadioButton } from '../../../../components/radioButton/RadioButton';
 import { AgencyInfo } from '../../../../components/agencySelection/AgencyInfo';

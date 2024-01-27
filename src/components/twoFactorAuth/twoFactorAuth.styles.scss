@@ -49,13 +49,15 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 			}
 		}
 
-		.inputField__infoText {
-			color: $form-error;
-			text-align: left;
-		}
+		.inputField {
+			&__infoText {
+				color: $form-error;
+				text-align: left;
+			}
 
-		.inputField__input {
-			padding: 12px $grid-base-five 0 $grid-base-three;
+			&__input {
+				padding: 12px $grid-base-five 0 $grid-base-three;
+			}
 		}
 	}
 

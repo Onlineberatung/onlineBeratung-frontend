@@ -91,26 +91,6 @@ const getTemplate = (templatePath) => {
 	return path.resolve(paths.appSrc, templatePath);
 };
 
-const localAliases = (paths) =>
-	paths
-		// Remove paths which are not overridden
-		.filter((localPath) => {
-			const fullPath = path.resolve(process.cwd(), `./${localPath}`);
-			try {
-				fs.statSync(fullPath);
-				return true;
-			} catch (error) {
-				return false;
-			}
-		})
-		.map(
-			(localPath) =>
-				new webpack.NormalModuleReplacementPlugin(
-					new RegExp(localPath),
-					path.resolve(process.cwd(), `./${localPath}`)
-				)
-		);
-
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function (webpackEnv) {
@@ -845,34 +825,51 @@ module.exports = function (webpackEnv) {
 						fs.existsSync(`${newPath}${originalExt}`) &&
 						!fs.lstatSync(`${newPath}${originalExt}`).isDirectory()
 					) {
-						console.log(
-							`Overwritten ${originalPath} -> ${newPath}${originalExt}`
-						);
+						// Skip override logic if issuer is itself
+						if (
+							result.contextInfo.issuer ===
+							`${newPath}${originalExt}`
+						) {
+							console.log(
+								`Self reference ${originalPath} -> ${newPath}${originalExt}`
+							);
+							return;
+						}
 
 						if (result.createData) {
-							result.createData.resource = `${newPath}${originalExt}`;
-							result.createData.context = path.dirname(
-								`${newPath}.${originalExt}`
+							console.log(
+								`Overwritten ${originalPath} -> ${newPath}${originalExt}`
+							);
+							result.request = result.request.replace(
+								originalPath,
+								`${newPath}${originalExt}`
+							);
+							result.context = path.dirname(
+								`${newPath}${originalExt}`
+							);
+							if (result.createData.request) {
+								result.createData.resource =
+									result.createData.resource.replace(
+										paths.appSrc,
+										paths.appExtensions
+									);
+								result.createData.request =
+									result.createData.request.replace(
+										originalPath,
+										`${newPath}`
+									);
+								result.createData.context = path.dirname(
+									`${newPath}${originalExt}`
+								);
+							}
+						} else {
+							console.log(
+								`No createData ${originalPath} -> ${newPath}${originalExt}`
 							);
 						}
 					}
 				}
-			),
-			...localAliases([
-				'src/resources/img/illustrations/answer.svg',
-				'src/resources/img/illustrations/arrow.svg',
-				'src/resources/img/illustrations/bad-request.svg',
-				'src/resources/img/illustrations/check.svg',
-				'src/resources/img/illustrations/consultant.svg',
-				'src/resources/img/illustrations/envelope-check.svg',
-				'src/resources/img/illustrations/internal-server-error.svg',
-				'src/resources/img/illustrations/not-found.svg',
-				'src/resources/img/illustrations/unauthorized.svg',
-				'src/resources/img/illustrations/waiting.svg',
-				'src/resources/img/illustrations/waving.svg',
-				'src/resources/img/illustrations/welcome.svg',
-				'src/resources/img/illustrations/x.svg'
-			])
+			)
 		].filter(Boolean),
 		// Turn off performance processing because we utilize
 		// our own hints via the FileSizeReporter

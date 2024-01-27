@@ -9,12 +9,11 @@ import {
 	useState
 } from 'react';
 import './formAccordion.styles';
+import { useTenant, AgencySpecificContext } from '../../globalState';
 import {
 	RequiredComponentsInterface,
-	RegistrationNotesInterface,
-	useTenant,
-	AgencySpecificContext
-} from '../../globalState';
+	RegistrationNotesInterface
+} from '../../globalState/interfaces';
 import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
 import { RegistrationAge } from '../registration/RegistrationAge';
@@ -266,6 +265,7 @@ export const FormAccordion = ({
 								label: translate(
 									[
 										`consultingType.${consultingType.id}.requiredComponents.age.${option.value}`,
+										`consultingType.fallback.requiredComponents.age.${option.value}`,
 										option.label
 									],
 									{ ns: 'consultingTypes' }

@@ -3,11 +3,11 @@ import { useContext } from 'react';
 import {
 	UserDataContext,
 	hasUserAuthority,
-	AUTHORITIES
+	AUTHORITIES,
+	ActiveSessionContext
 } from '../../globalState';
 import { formatToHHMM } from '../../utils/dateHelpers';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useTranslation } from 'react-i18next';
 
 interface MessageMetaDataProps {

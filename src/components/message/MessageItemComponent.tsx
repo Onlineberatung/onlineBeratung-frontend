@@ -6,12 +6,15 @@ import {
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	ConsultingTypeInterface,
-	STATUS_ARCHIVED,
 	E2EEContext,
 	SessionTypeContext,
-	RocketChatGlobalSettingsContext
+	RocketChatGlobalSettingsContext,
+	ActiveSessionContext
 } from '../../globalState';
+import {
+	ConsultingTypeInterface,
+	STATUS_ARCHIVED
+} from '../../globalState/interfaces';
 import { isUserModerator, SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
@@ -30,7 +33,6 @@ import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import { Text } from '../text/Text';
 import './message.styles';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Appointment } from './Appointment';
 import { decryptText, MissingKeyError } from '../../utils/encryptionHelpers';
 import { e2eeParams } from '../../hooks/useE2EE';

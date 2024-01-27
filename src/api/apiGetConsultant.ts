@@ -1,6 +1,6 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
-import { ConsultantDataInterface } from '../globalState';
+import { ConsultantDataInterface } from '../globalState/interfaces';
 import { apiGetConsultingType } from './apiGetConsultingType';
 import { apiGetConsultingTypes } from './apiGetConsultingTypes';
 

@@ -46,6 +46,7 @@
 		"bytebuffer": "^5.0.1",
 		"caniuse-lite": "^1.0.30001579",
 		"case-sensitive-paths-webpack-plugin": "^2.4.0",
+		"classnames": "^2.5.1",
 		"clsx": "^1.1.1",
 		"copy-webpack-plugin": "^12.0.2",
 		"core-js": "^3.35.1",
@@ -77,6 +78,7 @@
 		"fs-extra": "^11.2.0",
 		"get-contrast": "^3.0.0",
 		"hi-base32": "0.5.1",
+		"html-react-parser": "^1.4.14",
 		"html-webpack-plugin": "^5.6.0",
 		"i18next": "^21.8.16",
 		"i18next-browser-languagedetector": "^6.1.5",
@@ -170,10 +172,10 @@
 	"scripts": {
 		"start": "node proxy/server.js",
 		"dev": "node scripts/start.js",
-		"dev:server": "nodemon --watch scripts --watch config --watch src/setupProxy.js --watch proxy --exec \"npm run dev\"",
+		"dev:server": "nodemon",
 		"build": "node scripts/build.js",
-		"test": "cross-env BROWSER=none REACT_APP_API_URL=http://127.0.0.1:9001 HTTPS=0 PORT=9001 WDS_SOCKET_PORT=9001 concurrently --kill-others --success first \"npm run dev\" \"wait-on http://127.0.0.1:9001 && cypress run\"",
-		"test:build": "cross-env BROWSER=none PORT=9001 CYPRESS_WS_URL=http://127.0.0.1:9002 REACT_APP_API_URL=http://127.0.0.1:9001 concurrently --kill-others --success first \"npm run start\" \"wait-on http://127.0.0.1:9001 && cypress run\"",
+		"test": "cross-env FAST_REFRESH=false BROWSER=none REACT_APP_API_URL=http://127.0.0.1:9001 HTTPS=0 PORT=9001 WDS_SOCKET_PORT=9001 concurrently --kill-others --success first \"npm run dev\" \"wait-on http://127.0.0.1:9001 && cypress run\"",
+		"test:build": "cross-env FAST_REFRESH=false BROWSER=none PORT=9001 CYPRESS_WS_URL=http://127.0.0.1:9002 REACT_APP_API_URL=http://127.0.0.1:9001 concurrently --kill-others --success first \"npm run start\" \"wait-on http://127.0.0.1:9001 && cypress run\"",
 		"release": "standard-version",
 		"lint": "npm run lint:scripts && npm run lint:style",
 		"lint:scripts": "eslint src && tsc",
@@ -251,5 +253,14 @@
 		"extends": [
 			"@commitlint/config-conventional"
 		]
+	},
+	"nodemonConfig": {
+		"exec": "npm run dev",
+		"watch": [
+			"scripts/",
+			"config/",
+			"proxy/"
+		],
+		"delay": 2500
 	}
 }

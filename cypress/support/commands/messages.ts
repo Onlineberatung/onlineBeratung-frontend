@@ -35,7 +35,7 @@ export const addMessage = (
 Cypress.Commands.add(
 	'addMessage',
 	(props: { [key: string]: any } = {}, index?: number) =>
-		new Promise((resolve) => {
+		new Cypress.Promise((resolve) => {
 			addMessage(props, index);
 			resolve(undefined);
 		})

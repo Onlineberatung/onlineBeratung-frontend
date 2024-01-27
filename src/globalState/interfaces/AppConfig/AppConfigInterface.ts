@@ -8,6 +8,7 @@ import { InitOptions } from 'i18next';
 import { OverlaysConfigInterface } from './OverlaysConfigInterface';
 import { TranslationConfig } from '../TranslationConfig';
 import { GroupChatConfig } from '../GroupChatConfig';
+import { SessionUserDataInterface } from '../SessionsDataInterface';
 
 export interface AppConfigInterface extends AppSettingsInterface {
 	urls: AppConfigUrlsInterface;
@@ -35,6 +36,13 @@ export interface AppConfigInterface extends AppSettingsInterface {
 			fallbackLoader?: {
 				enabled?: boolean;
 			};
+		};
+	};
+	user?: {
+		profile?: {
+			visibleOnEnquiry:
+				| boolean
+				| ((sessionUserData: SessionUserDataInterface) => boolean);
 		};
 	};
 }

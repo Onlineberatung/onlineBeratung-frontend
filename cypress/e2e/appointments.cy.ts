@@ -7,7 +7,7 @@ import {
 } from '../support/websocket';
 
 const handleUiEdit = (cy, index, text, proceed = false) => {
-	cy.get('.appointments .box')
+	cy.get('.appointments *[class^="box_"]')
 		.eq(index)
 		.find('.appointment__actions')
 		.eq(1)
@@ -26,7 +26,7 @@ const handleUiEdit = (cy, index, text, proceed = false) => {
 };
 
 const handleUiDelete = (cy, index, proceed = false) => {
-	cy.get('.appointments .box')
+	cy.get('.appointments *[class^="box_"]')
 		.eq(index)
 		.find('.appointment__actions')
 		.eq(1)
@@ -100,42 +100,39 @@ describe('appointments', () => {
 			cy.contains('Video - Termine').click();
 			cy.wait('@appointments_get');
 
-			cy.get('.appointments .box').should('not.exist');
+			cy.get('.appointments *[class^="box_"]').should('not.exist');
 			cy.get('.appointments__actions .button__wrapper button').click();
 
-			cy.get('#overlay .onlineMeetingForm .react-datepicker--date')
-				.click()
-				.get(
-					'#overlay .onlineMeetingForm .react-datepicker--date .react-datepicker .react-datepicker__day--today'
-				)
-				.get(
-					'#overlay .onlineMeetingForm .react-datepicker--date .react-datepicker .react-datepicker__day--today'
-				)
+			cy.get(
+				'#overlay .onlineMeetingForm .react-datepicker--date'
+			).click();
+			cy.get(
+				'#overlay .onlineMeetingForm .react-datepicker--date .react-datepicker .react-datepicker__day--today'
+			)
 				.should('not.have.class', 'react-datepicker__day--disabled')
-				.click()
-				.get(
-					'#overlay .onlineMeetingForm .react-datepicker--time input'
+				.click();
+			cy.get(
+				'#overlay .onlineMeetingForm .react-datepicker--time input'
+			).should(
+				'have.value',
+				`${(dMT.getHours() + 100).toString().substring(1)}:${(
+					dMT.getMinutes() + 100
 				)
-				.should(
-					'have.value',
-					`${(dMT.getHours() + 100).toString().substring(1)}:${(
-						dMT.getMinutes() + 100
-					)
-						.toString()
-						.substring(1)}`
-				)
-				.get('#overlay .onlineMeetingForm textarea')
-				.type('Meine Beschreibung')
-				.get('#overlay .overlay__buttons button')
+					.toString()
+					.substring(1)}`
+			);
+			cy.get('#overlay .onlineMeetingForm textarea').type(
+				'Meine Beschreibung'
+			);
+			cy.get('#overlay .overlay__buttons button')
 				.contains('Speichern')
 				.click();
 			cy.wait('@appointments_post');
 
-			cy.get('.appointments .box').should('have.length', 1);
-			cy.get('.appointments .box .appointment__description').should(
-				'contain.text',
-				'Meine Beschreibung'
-			);
+			cy.get('.appointments *[class^="box_"]').should('have.length', 1);
+			cy.get(
+				'.appointments *[class^="box_"] .appointment__description'
+			).should('contain.text', 'Meine Beschreibung');
 
 			cy.appointments();
 		});
@@ -170,16 +167,19 @@ describe('appointments', () => {
 			});
 
 			it('Edit appointment', () => {
-				cy.get('.appointments .box').should('have.length', 3);
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]').should(
+					'have.length',
+					3
+				);
+				cy.get('.appointments *[class^="box_"]')
 					.eq(0)
 					.find('.appointment__description')
 					.should('contain.text', 'Mein Termin 1');
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(1)
 					.find('.appointment__description')
 					.should('contain.text', 'Mein Termin 2');
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(2)
 					.find('.appointment__description')
 					.should('contain.text', 'Mein Termin 3');
@@ -192,18 +192,18 @@ describe('appointments', () => {
 				handleUiEdit(cy, 2, ' hat jetzt noch mehr Inhalt', true);
 
 				// Check list
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(0)
 					.find('.appointment__description')
 					.should(
 						'contain.text',
 						'Mein Termin 1 hat jetzt mehr Inhalt'
 					);
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(1)
 					.find('.appointment__description')
 					.should('contain.text', 'Mein Termin 2');
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(2)
 					.find('.appointment__description')
 					.should(
@@ -213,55 +213,70 @@ describe('appointments', () => {
 			});
 
 			it('Delete appointment', () => {
-				cy.get('.appointments .box').should('have.length', 3);
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]').should(
+					'have.length',
+					3
+				);
+				cy.get('.appointments *[class^="box_"]')
 					.eq(0)
 					.find('.appointment__description')
 					.should('contain.text', 'Mein Termin 1');
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(1)
 					.find('.appointment__description')
 					.should('contain.text', 'Mein Termin 2');
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(2)
 					.find('.appointment__description')
 					.should('contain.text', 'Mein Termin 3');
 
 				// Press delete and cancel
 				handleUiDelete(cy, 1, false);
-				cy.get('.appointments .box').should('have.length', 3);
+				cy.get('.appointments *[class^="box_"]').should(
+					'have.length',
+					3
+				);
 
 				// Press delete and proceed
 				handleUiDelete(cy, 1, true);
-				cy.get('.appointments .box').should('have.length', 2);
+				cy.get('.appointments *[class^="box_"]').should(
+					'have.length',
+					2
+				);
 
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(0)
 					.find('.appointment__description')
 					.should('contain.text', 'Mein Termin 1');
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(1)
 					.find('.appointment__description')
 					.should('contain.text', 'Mein Termin 3');
 
 				handleUiDelete(cy, 0, true);
 				handleUiDelete(cy, 0, true);
-				cy.get('.appointments .box').should('have.length', 0);
+				cy.get('.appointments *[class^="box_"]').should(
+					'have.length',
+					0
+				);
 				cy.get('.appointments').contains(
 					'Aktuell gibt es keine Termine'
 				);
 			});
 
 			it('Copy appointment link', () => {
-				cy.get('.appointments .box').should('have.length', 3);
+				cy.get('.appointments *[class^="box_"]').should(
+					'have.length',
+					3
+				);
 
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(0)
 					.find('[data-cy=appointment_url]')
 					.then(($url) => {
 						const appointmentLink = $url.text();
 
-						cy.get('.appointments .box')
+						cy.get('.appointments *[class^="box_"]')
 							.eq(0)
 							.find('[data-cy=appointment_link] span')
 							.click();
@@ -285,9 +300,12 @@ describe('appointments', () => {
 			});
 
 			it('Show appointment qr code', () => {
-				cy.get('.appointments .box').should('have.length', 3);
+				cy.get('.appointments *[class^="box_"]').should(
+					'have.length',
+					3
+				);
 
-				cy.get('.appointments .box')
+				cy.get('.appointments *[class^="box_"]')
 					.eq(0)
 					.find('[data-cy=appointment_qr_code] button')
 					.click();
@@ -337,13 +355,16 @@ describe('appointments', () => {
 				});
 
 				it('Enabled - E2EE not supported', () => {
-					cy.get('.appointments .box').should('have.length', 3);
+					cy.get('.appointments *[class^="box_"]').should(
+						'have.length',
+						3
+					);
 
 					cy.window().then((window) => {
 						cy.stub(window, 'RTCRtpSender').returns(undefined);
 					});
 
-					cy.get('.appointments .box')
+					cy.get('.appointments *[class^="box_"]')
 						.eq(0)
 						.find('[data-cy=appointment_start] button')
 						.click();
@@ -363,13 +384,16 @@ describe('appointments', () => {
 				});
 
 				it('Enabled - E2EE supported', () => {
-					cy.get('.appointments .box').should('have.length', 3);
+					cy.get('.appointments *[class^="box_"]').should(
+						'have.length',
+						3
+					);
 
 					cy.window().then((window) => {
 						cy.stub(window, 'open').as('windowOpen');
 					});
 
-					cy.get('.appointments .box')
+					cy.get('.appointments *[class^="box_"]')
 						.eq(0)
 						.find('[data-cy=appointment_start] button')
 						.click();
@@ -404,14 +428,17 @@ describe('appointments', () => {
 				});
 
 				it('Disabled - E2EE not supported', () => {
-					cy.get('.appointments .box').should('have.length', 3);
+					cy.get('.appointments *[class^="box_"]').should(
+						'have.length',
+						3
+					);
 
 					cy.window().then((window) => {
 						cy.stub(window, 'open').as('windowOpen');
 						cy.stub(window, 'RTCRtpSender').returns(undefined);
 					});
 
-					cy.get('.appointments .box')
+					cy.get('.appointments *[class^="box_"]')
 						.eq(0)
 						.find('[data-cy=appointment_start] button')
 						.click();
@@ -431,13 +458,16 @@ describe('appointments', () => {
 				});
 
 				it('Disabled - E2EE supported', () => {
-					cy.get('.appointments .box').should('have.length', 3);
+					cy.get('.appointments *[class^="box_"]').should(
+						'have.length',
+						3
+					);
 
 					cy.window().then((window) => {
 						cy.stub(window, 'open').as('windowOpen');
 					});
 
-					cy.get('.appointments .box')
+					cy.get('.appointments *[class^="box_"]')
 						.eq(0)
 						.find('[data-cy=appointment_start] button')
 						.click();

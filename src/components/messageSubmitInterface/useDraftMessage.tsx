@@ -7,9 +7,8 @@ import {
 } from '../../api';
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
-import { E2EEContext } from '../../globalState';
+import { E2EEContext, ActiveSessionContext } from '../../globalState';
 import { convertFromRaw, EditorState } from 'draft-js';
 import { markdownToDraft } from 'markdown-draft-js';
 import { EVENT_PRE_LOGOUT } from '../logout/logout';

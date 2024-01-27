@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { ListItemInterface } from '../globalState';
+import { ListItemInterface } from '../globalState/interfaces';
 import {
 	isBrowserNotificationTypeEnabled,
 	sendNotification

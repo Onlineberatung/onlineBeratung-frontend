@@ -96,6 +96,7 @@ export const Registration = ({
 					)} ${translate(
 						[
 							`consultingType.${consultant.agencies[0].consultingTypeRel.id}.titles.long`,
+							`consultingType.fallback.titles.long`,
 							consultant.agencies[0].consultingTypeRel.titles.long
 						],
 						{ ns: 'consultingTypes' }
@@ -131,6 +132,7 @@ export const Registration = ({
 				)} ${translate(
 					[
 						`consultingType.${consultingType.id}.titles.long`,
+						`consultingType.fallback.titles.long`,
 						consultingType.titles.long
 					],
 					{ ns: 'consultingTypes' }
@@ -171,6 +173,7 @@ export const Registration = ({
 								? translate(
 										[
 											`consultingType.${consultingType?.id}.titles.welcome`,
+											`consultingType.fallback.titles.welcome`,
 											consultingType?.titles.welcome
 										],
 										{ ns: 'consultingTypes' }
@@ -188,6 +191,7 @@ export const Registration = ({
 								? translate(
 										[
 											`consultingType.${consultingType?.id}.titles.long`,
+											`consultingType.fallback.titles.long`,
 											consultingType?.titles.long
 										],
 										{ ns: 'consultingTypes' }

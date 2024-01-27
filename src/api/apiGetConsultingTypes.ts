@@ -1,4 +1,4 @@
-import { ConsultingTypeBasicInterface } from '../globalState';
+import { ConsultingTypeBasicInterface } from '../globalState/interfaces';
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS } from './fetchData';
 

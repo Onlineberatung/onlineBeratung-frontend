@@ -15,17 +15,15 @@ import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
 import {
 	AUTHORITIES,
 	getContact,
-	hasUserAuthority
-} from '../../globalState/helpers/stateHelpers';
-import {
+	hasUserAuthority,
 	AnonymousConversationFinishedContext,
 	E2EEContext,
 	SessionTypeContext,
-	STATUS_ARCHIVED,
-	STATUS_FINISHED,
 	useTenant,
-	UserDataContext
+	UserDataContext,
+	ActiveSessionContext
 } from '../../globalState';
+import { STATUS_ARCHIVED, STATUS_FINISHED } from '../../globalState/interfaces';
 import {
 	apiPutDearchive,
 	apiSendEnquiry,
@@ -74,7 +72,6 @@ import './messageSubmitInterface.styles';
 import './messageSubmitInterface.yellowTheme.styles';
 import clsx from 'clsx';
 import { mobileListView } from '../app/navigationHandler';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { useTranslation } from 'react-i18next';
@@ -856,17 +853,13 @@ export const MessageSubmitInterfaceComponent = ({
 	const getMessageSubmitInfo = useCallback((): MessageSubmitInfoInterface => {
 		let infoData;
 		if (activeInfo === INFO_TYPES.ABSENT) {
+			const contact = getContact(activeSession);
 			infoData = {
 				isInfo: true,
 				infoHeadline: `${
-					getContact(
-						activeSession,
-						translate('sessionList.user.consultantUnknown')
-					).displayName ||
-					getContact(
-						activeSession,
-						translate('sessionList.user.consultantUnknown')
-					).username
+					contact?.displayName ||
+					contact?.username ||
+					translate('sessionList.user.consultantUnknown')
 				} ${translate('consultant.absent.message')} `,
 				infoMessage: activeSession.consultant.absenceMessage
 			};
