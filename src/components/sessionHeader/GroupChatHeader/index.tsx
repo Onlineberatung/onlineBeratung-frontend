@@ -165,7 +165,7 @@ export const GroupChatHeader = ({
 					)}
 				</div>
 
-				{!isActive && isConsultant && (
+				{(!isActive || isJoinGroupChatView) && isConsultant && (
 					<Link
 						to={groupChatInfoLink}
 						className="sessionMenu__item--desktop sessionMenu__button"
@@ -178,6 +178,7 @@ export const GroupChatHeader = ({
 				)}
 
 				{isActive &&
+					!isJoinGroupChatView &&
 					isConsultant &&
 					releaseToggles.featureVideoGroupChatsEnabled && (
 						<div
