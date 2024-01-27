@@ -1,0 +1,15 @@
+.messageItem__message__attachment__download:hover {
+	p,
+	svg * {
+		fill: var(--text-color-contrast-switch, $white);
+		color: var(--text-color-contrast-switch, $white);
+		opacity: 0.8;
+	}
+}
+
+.sessionsListItem {
+	&__topic {
+		background-color: var(--skin-color-primary, $primary);
+		color: var(--text-color-contrast-switch, $white);
+	}
+}
