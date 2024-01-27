@@ -1,6 +1,6 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
-import { AgencyDataInterface } from '../globalState';
+import { AgencyDataInterface } from '../globalState/interfaces';
 
 export const apiGetAgencyById = async (
 	agencyId: any

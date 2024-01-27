@@ -1,13 +1,16 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { VALID_POSTCODE_LENGTH } from '../components/agencySelection/agencySelectionHelpers';
-import { AgencyDataInterface } from '../globalState';
+import { AgencyDataInterface } from '../globalState/interfaces';
 
 export const apiAgencySelection = async (
 	params: {
 		postcode: string;
 		consultingType: number | undefined;
 		topicId?: number;
+		age?: number;
+		gender?: string;
+		counsellingRelation?: string;
 	},
 	signal?: AbortSignal
 ): Promise<Array<AgencyDataInterface> | null> => {

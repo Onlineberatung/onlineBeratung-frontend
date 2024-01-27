@@ -21,19 +21,19 @@ import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { apiGetConsultingType } from '../../api';
 import {
 	AUTHORITIES,
-	ConsultingTypeInterface,
 	getContact,
 	hasUserAuthority,
 	UserDataContext,
 	SessionTypeContext,
-	useTenant
+	useTenant,
+	ActiveSessionContext
 } from '../../globalState';
+import { ConsultingTypeInterface } from '../../globalState/interfaces';
 import './session.styles';
 import './session.yellowTheme.styles';
 import { useDebouncedCallback } from 'use-debounce';
 import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
 import smoothScroll from './smoothScrollHelper';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
 import { AcceptAssign } from './AcceptAssign';
@@ -394,12 +394,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							<React.Fragment key={`${message._id}-${index}`}>
 								<MessageItemComponent
 									clientName={
-										getContact(
-											activeSession,
-											translate(
-												'sessionList.user.consultantUnknown'
-											)
-										).username
+										getContact(activeSession)?.username ||
+										translate(
+											'sessionList.user.consultantUnknown'
+										)
 									}
 									askerRcId={activeSession.item.askerRcId}
 									isOnlyEnquiry={isOnlyEnquiry}

@@ -114,6 +114,7 @@ export const AskerRegistration: React.FC = () => {
 				label: translate(
 					[
 						`consultingType.${option.id}.titles.registrationDropdown`,
+						`consultingType.fallback.titles.registrationDropdown`,
 						option.label
 					],
 					{ ns: 'consultingTypes' }

@@ -1,8 +1,4 @@
-import {
-	AppConfigInterface,
-	AUTHORITIES,
-	hasUserAuthority
-} from '../../globalState';
+import { AUTHORITIES, hasUserAuthority } from '../../globalState';
 import { ConsultantInformation } from './ConsultantInformation';
 import { ConsultantSpokenLanguages } from './ConsultantSpokenLanguages';
 import { ConsultantAgencies } from './ConsultantAgencies';
@@ -21,7 +17,10 @@ import { OverviewSessions } from './OverviewMobile/Sessions';
 import { profileRoutesSettings } from './profileSettings.routes';
 import { profileRoutesHelp } from './profileHelp.routes';
 import { ConsultantLiveChatAvailability } from './ConsultantLiveChatAvailability';
-import { TenantDataInterface } from '../../globalState/interfaces/TenantDataInterface';
+import {
+	TenantDataInterface,
+	AppConfigInterface
+} from '../../globalState/interfaces';
 import { EmailNotification } from './EmailNotifications';
 import { BrowserNotification } from './BrowserNotifications';
 import { browserNotificationsSettings } from '../../utils/notificationHelpers';

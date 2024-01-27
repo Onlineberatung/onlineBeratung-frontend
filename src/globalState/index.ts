@@ -1,16 +1,6 @@
 export * from './helpers/stateHelpers';
-export * from './interfaces/AppConfig';
 
-export * from './interfaces/AuthDataInterface';
-export * from './interfaces/SessionsDataInterface';
-export * from './interfaces/UserDataInterface';
-export * from './interfaces/ConsultingTypeInterface';
-export * from './interfaces/LegalLinkInterface';
-export * from './interfaces/ServerAppConfigInterface';
-export * from './interfaces/TranslationConfig';
-export * from './interfaces/GroupChatConfig';
-export * from './interfaces/AppConfig';
-
+export * from './provider/ActiveSessionProvider';
 export * from './provider/AgencySpecificProvider';
 export * from './provider/AnonymousConversationFinishedProvider';
 export * from './provider/AnonymousEnquiryAcceptedProvider';

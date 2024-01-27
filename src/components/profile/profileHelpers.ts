@@ -1,8 +1,8 @@
+import { getConsultingType } from '../../globalState';
 import {
 	UserDataInterface,
-	ConsultingTypeBasicInterface,
-	getConsultingType
-} from '../../globalState';
+	ConsultingTypeBasicInterface
+} from '../../globalState/interfaces';
 
 export const convertUserDataObjectToArray = (object) => {
 	const array = [];

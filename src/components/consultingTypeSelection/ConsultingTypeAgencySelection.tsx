@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { AgencyDataInterface } from '../../globalState';
+import { AgencyDataInterface } from '../../globalState/interfaces';
 import './consultingTypeAgencySelection.styles';
 import '../profile/profile.styles';
 import { RadioButton } from '../radioButton/RadioButton';
-import { AgencyInfo } from '../agencySelection/AgencyInfo';
+import { InfoTooltip } from '../infoTooltip/InfoTooltip';
 import {
 	VALIDITY_INVALID,
 	VALIDITY_VALID
@@ -56,6 +56,7 @@ export const ConsultingTypeAgencySelection = ({
 				label: translate(
 					[
 						`consultingType.${consultingType.id}.titles.long`,
+						`consultingType.fallback.titles.long`,
 						consultingType.titles.long
 					],
 					{ ns: 'consultingTypes' }
@@ -184,13 +185,21 @@ const AgencySelection = ({
 								agency.id === selectedAgency.id
 							}
 							inputId={agency.id.toString()}
-							label={translate(
+							onKeyDown={onKeyDown}
+						>
+							{translate(
 								[`agency.${agency.id}.name`, agency.name],
 								{ ns: 'agencies' }
 							)}
-							onKeyDown={onKeyDown}
+						</RadioButton>
+						<InfoTooltip
+							translation={{
+								ns: 'agencies',
+								prefix: 'agency'
+							}}
+							info={agency}
+							showTeamAgencyInfo={agency.teamAgency}
 						/>
-						<AgencyInfo agency={agency} />
 					</div>
 					<AgencyLanguages agencyId={agency.id} />
 				</div>

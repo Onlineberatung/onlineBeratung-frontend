@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { deepMerge } from '../helpers';
-import { AppointmentsDataInterface } from '../../../src/globalState/interfaces/AppointmentsDataInterface';
+import { AppointmentsDataInterface } from '../../../src/globalState/interfaces';
 
 export let appointments: AppointmentsDataInterface[] = [];
 
@@ -31,7 +31,7 @@ export const updateAppointment = (
 Cypress.Commands.add(
 	'appointments',
 	(props?: { [key: string]: any }, index?: number) =>
-		new Promise((resolve) => {
+		new Cypress.Promise((resolve) => {
 			let appointment = undefined;
 			if (!props) {
 				setAppointments([]);

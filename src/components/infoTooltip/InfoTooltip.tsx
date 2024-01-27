@@ -1,112 +1,126 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { AgencyDataInterface } from '../../globalState';
 import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
 import { isMobile } from 'react-device-detect';
 import { Text } from '../text/Text';
-import './agencyInfo.styles';
+import './infoTooltip.styles';
 import { useTranslation } from 'react-i18next';
 
-export interface DisplayAgencyInfoProps {
-	agency: AgencyDataInterface;
-	isProfileView?: boolean;
+interface InfoInterface {
+	id: number;
+	name: string;
+	description: string;
 }
 
-export const AgencyInfo = (props: DisplayAgencyInfoProps) => {
-	const { t: translate } = useTranslation(['common', 'agencies']);
+export interface DisplayInfoProps {
+	info: InfoInterface;
+	translation: {
+		prefix: string;
+		ns: string;
+	};
+	isProfileView?: boolean;
+	showTeamAgencyInfo?: boolean;
+}
+
+export const InfoTooltip = ({
+	translation,
+	isProfileView,
+	showTeamAgencyInfo,
+	info
+}: DisplayInfoProps) => {
+	const { t: translate } = useTranslation(['common', translation.ns]);
 	const agencyInfoRef = React.useRef<HTMLDivElement>(null);
-	const [displayAgencyInfo, setDisplayAgencyInfo] =
-		useState<AgencyDataInterface>(null);
+	const [displayInfo, setDisplayInfo] = useState<InfoInterface>(null);
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (
 				!agencyInfoRef.current?.contains(event.target) &&
-				!event.target.getAttribute('data-agency-info-id') &&
-				!event.target.closest('[data-agency-info-id]')
+				!event.target.getAttribute('data-info-id') &&
+				!event.target.closest('[data-info-id]')
 			) {
-				setDisplayAgencyInfo(null);
+				setDisplayInfo(null);
 			}
 		};
 		document.addEventListener('click', handleClickOutside);
 		return () => {
 			document.removeEventListener('click', handleClickOutside);
 		};
-	}, [displayAgencyInfo]);
+	}, [displayInfo]);
 
 	return (
 		<div className="agencyInfo__wrapper">
 			<InfoIcon
-				data-agency-info-id={props.agency.id}
+				data-info-id={info.id}
 				onClick={() =>
-					displayAgencyInfo?.id === props.agency.id
-						? setDisplayAgencyInfo(null)
-						: setDisplayAgencyInfo(props.agency)
+					displayInfo?.id === info.id
+						? setDisplayInfo(null)
+						: setDisplayInfo(info)
 				}
 				onMouseEnter={() => {
 					if (!isMobile) {
-						setDisplayAgencyInfo(props.agency);
+						setDisplayInfo(info);
 					}
 				}}
 				onMouseLeave={() => {
 					if (!isMobile) {
-						setDisplayAgencyInfo(null);
+						setDisplayInfo(null);
 					}
 				}}
 				onFocus={() => {
 					if (!isMobile) {
-						setDisplayAgencyInfo(props.agency);
+						setDisplayInfo(info);
 					}
 				}}
 				onBlur={() => {
 					if (!isMobile) {
-						setDisplayAgencyInfo(null);
+						setDisplayInfo(null);
 					}
 				}}
 				tabIndex={0}
 				title={translate('notifications.info')}
 				aria-label={translate('notifications.info')}
 			/>
-			{displayAgencyInfo && displayAgencyInfo?.id === props.agency.id && (
+			{displayInfo && displayInfo?.id === info.id && (
 				<div
 					className={`agencyInfo ${
-						props.isProfileView ? 'agencyInfo--above' : ''
+						isProfileView ? 'agencyInfo--above' : ''
 					}`}
 					ref={agencyInfoRef}
 				>
-					{displayAgencyInfo.teamAgency && (
+					{showTeamAgencyInfo && (
 						<div className="agencyInfo__teamAgency">
 							<InfoIcon aria-hidden="true" focusable="false" />
 							<Text
 								text={translate(
-									'registration.agency.preselected.isTeam'
+									`registration.${translation.prefix}.preselected.isTeam`
 								)}
 								type="standard"
 							/>
 						</div>
 					)}
-					{displayAgencyInfo.name && (
+					{displayInfo.name && (
 						<Text
 							className="agencyInfo__name"
 							text={translate(
 								[
-									`agency.${displayAgencyInfo.id}.name`,
-									displayAgencyInfo.name
+									`${translation.prefix}.${displayInfo.id}.name`,
+									displayInfo.name
 								],
-								{ ns: 'agencies' }
+								{ ns: translation.ns }
 							)}
 							type="standard"
 						/>
 					)}
-					{displayAgencyInfo.description && (
+					{displayInfo.description && (
 						<Text
 							className="agencyInfo__description"
 							text={translate(
 								[
-									`agency.${displayAgencyInfo.id}.description`,
-									displayAgencyInfo.description
+									`${translation.prefix}.${displayInfo.id}.description`,
+									displayInfo.description
 								],
-								{ ns: 'agencies' }
+								{ ns: translation.ns }
 							)}
 							type="infoSmall"
 						/>

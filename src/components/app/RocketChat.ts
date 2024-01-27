@@ -43,6 +43,7 @@ type filter = {
 
 export type UserResponse = {
 	name: string | null;
+	displayName: string | null;
 	status: Status;
 	username: string;
 	_id: string;

@@ -1,8 +1,25 @@
-import { createContext } from 'react';
+import * as React from 'react';
+import { createContext, useMemo } from 'react';
 import { ExtendedSessionInterface } from '..';
 
-export const ActiveSessionContext = createContext<{
+type ActiveSessionContextProps = {
 	activeSession: ExtendedSessionInterface | null;
 	reloadActiveSession?: () => void;
 	readActiveSession?: () => void;
-}>(null);
+};
+
+export const ActiveSessionContext =
+	createContext<ActiveSessionContextProps>(null);
+
+export const ActiveSessionProvider: React.FC<ActiveSessionContextProps> = ({
+	children,
+	...params
+}) => {
+	const contextValue = useMemo(() => params, [params]);
+
+	return (
+		<ActiveSessionContext.Provider value={contextValue}>
+			{children}
+		</ActiveSessionContext.Provider>
+	);
+};

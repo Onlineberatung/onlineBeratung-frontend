@@ -12,8 +12,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { endpoints } from '../../resources/scripts/endpoints';
-import { buildExtendedSession, STATUS_EMPTY } from '../../globalState';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { buildExtendedSession, ActiveSessionProvider } from '../../globalState';
+import { STATUS_EMPTY } from '../../globalState/interfaces';
 
 import {
 	desktopView,
@@ -219,7 +219,7 @@ export const WriteEnquiry: React.FC = () => {
 					/>
 				)}
 			</div>
-			<ActiveSessionContext.Provider value={{ activeSession }}>
+			<ActiveSessionProvider activeSession={activeSession}>
 				<RocketChatUsersOfRoomProvider>
 					<Suspense
 						fallback={
@@ -239,7 +239,7 @@ export const WriteEnquiry: React.FC = () => {
 						/>
 					</Suspense>
 				</RocketChatUsersOfRoomProvider>
-			</ActiveSessionContext.Provider>
+			</ActiveSessionProvider>
 			{overlayActive && (
 				<Overlay
 					item={overlayItem}

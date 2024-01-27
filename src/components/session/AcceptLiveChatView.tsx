@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { getContact } from '../../globalState';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { getContact, ActiveSessionContext } from '../../globalState';
 import './session.styles';
 import { FETCH_ERRORS } from '../../api';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
@@ -78,10 +77,8 @@ export const AcceptLiveChatView = ({
 						text={`${translate(
 							'enquiry.anonymous.infoLabel.start'
 						)}${
-							getContact(
-								activeSession,
-								translate('sessionList.user.consultantUnknown')
-							).username
+							getContact(activeSession)?.username ||
+							translate('sessionList.user.consultantUnknown')
 						}${translate('enquiry.anonymous.infoLabel.end')}`}
 					/>
 				</div>

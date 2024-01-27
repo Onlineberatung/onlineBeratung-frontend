@@ -1,3 +1,4 @@
+import merge from 'lodash.merge';
 import {
 	generateAskerSession,
 	generateConsultantSession,
@@ -26,6 +27,7 @@ import {
 	SETTING_FILEUPLOAD_MAXFILESIZE,
 	SETTING_MESSAGE_MAXALLOWEDSIZE
 } from '../../../src/api/apiRocketChatSettingsPublic';
+import { config } from '../../../src/resources/scripts/config';
 
 let overrides = {};
 
@@ -51,6 +53,7 @@ const defaultReturns = {
 	},
 	'consultingTypes': [],
 	'settings': {},
+	'service.tenant.public': {},
 	'releases': {
 		statusCode: 404
 	},
@@ -63,7 +66,7 @@ const defaultReturns = {
 			sessions: []
 		}
 	},
-	'frontend.settings': {},
+	'frontend.settings': config,
 	'agencyConsultants': [],
 	'agencyConsultantsLanguages': ['de']
 };
@@ -71,6 +74,10 @@ const defaultReturns = {
 Cypress.Commands.add('willReturn', (name: string, data: any) => {
 	overrides[name] = data;
 });
+
+const getOverwriteableResponse = (name: string) => {
+	return merge(defaultReturns[name], overrides[name]);
+};
 
 let username = null;
 
@@ -226,12 +233,7 @@ Cypress.Commands.add('mockApi', () => {
 	);
 
 	cy.intercept('GET', endpoints.frontend.settings, (req) =>
-		req.reply(
-			JSON.stringify({
-				...defaultReturns['frontend.settings'],
-				...(overrides['frontend.settings'] || {})
-			})
-		)
+		req.reply(JSON.stringify(getOverwriteableResponse('frontend.settings')))
 	);
 
 	cy.intercept(
@@ -285,17 +287,11 @@ Cypress.Commands.add('mockApi', () => {
 	cy.intercept('POST', endpoints.rejectVideoCall, {}).as('rejectVideoCall');
 
 	cy.intercept('POST', `${endpoints.attachmentUpload}*`, (req) =>
-		req.reply({
-			...defaultReturns['attachmentUpload'],
-			...(overrides['attachmentUpload'] || {})
-		})
+		req.reply(getOverwriteableResponse('attachmentUpload'))
 	).as('attachmentUpload');
 
 	cy.intercept('POST', endpoints.keycloakAccessToken, (req) => {
-		req.reply({
-			...defaultReturns['auth'],
-			...(overrides['auth'] || {})
-		});
+		req.reply(getOverwriteableResponse('auth'));
 	}).as('authToken');
 
 	cy.intercept('PATCH', endpoints.userData, (req) => {
@@ -323,17 +319,11 @@ Cypress.Commands.add('mockApi', () => {
 	}).as('usersData');
 
 	cy.intercept('GET', endpoints.consultantsLanguages, (req) => {
-		req.reply([
-			...defaultReturns['agencyConsultantsLanguages'],
-			...(overrides['agencyConsultantsLanguages'] || [])
-		]);
+		req.reply(getOverwriteableResponse('agencyConsultantsLanguages'));
 	}).as('agencyConsultants');
 
 	cy.intercept('GET', `${endpoints.agencyConsultants}*`, (req) => {
-		req.reply(
-			...defaultReturns['agencyConsultants'],
-			...(overrides['agencyConsultants'] || [])
-		);
+		req.reply(...getOverwriteableResponse('agencyConsultants'));
 	}).as('agencyConsultants');
 
 	cy.intercept(
@@ -344,7 +334,9 @@ Cypress.Commands.add('mockApi', () => {
 			req.reply({
 				...(defaultReturns['consultingTypes'].find(
 					(consultingType) => consultingType.slug === slug
-				) || {}),
+				) ||
+					defaultReturns['consultingTypes']?.[0] ||
+					{}),
 				...(overrides['consultingType'] || {})
 			});
 		}
@@ -362,33 +354,25 @@ Cypress.Commands.add('mockApi', () => {
 	}).as('consultingTypeServiceBaseFull');
 
 	cy.intercept(`${endpoints.consultingTypeServiceBase}/basic`, (req) => {
-		req.reply([
-			...defaultReturns['consultingTypes'],
-			...(overrides['consultingTypes'] || [])
-		]);
+		req.reply(getOverwriteableResponse('consultingTypes'));
 	}).as('consultingTypeServiceBaseBasic');
 
 	cy.intercept('GET', `${endpoints.serviceSettings}`, (req) => {
-		req.reply(
-			JSON.stringify({
-				...defaultReturns['settings'],
-				...(overrides['settings'] || {})
-			})
-		);
+		req.reply(JSON.stringify(getOverwriteableResponse('settings')));
 	}).as('settings');
 
+	cy.intercept('GET', `${endpoints.tenantServiceBase}/public/`, (req) => {
+		req.reply(
+			JSON.stringify(getOverwriteableResponse('service.tenant.public'))
+		);
+	}).as('service.tenant.public');
+
 	cy.intercept('GET', '/releases/*.json**', (req) => {
-		req.reply({
-			...defaultReturns['releases'],
-			...(overrides['releases'] || {})
-		});
+		req.reply(getOverwriteableResponse('releases'));
 	}).as('releases');
 
 	cy.intercept('GET', '/releases/*.md**', (req) => {
-		req.reply({
-			...defaultReturns['releases_markup'],
-			...(overrides['releases_markup'] || {})
-		});
+		req.reply(getOverwriteableResponse('releases_markup'));
 	}).as('releases_markup');
 
 	apiAppointments(cy);

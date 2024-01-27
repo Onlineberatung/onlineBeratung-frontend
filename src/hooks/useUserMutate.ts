@@ -1,7 +1,8 @@
 import { useCallback, useContext, useState } from 'react';
 import { apiPutEmail } from '../api';
 import { apiPatchUserData } from '../api/apiPatchUserData';
-import { UserDataContext, UserDataInterface } from '../globalState';
+import { UserDataContext } from '../globalState';
+import { UserDataInterface } from '../globalState/interfaces';
 
 interface UserMutateOptions {
 	onSuccess?: () => void;

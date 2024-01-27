@@ -5,7 +5,8 @@ import { Loading } from '../app/Loading';
 import {
 	RocketChatContext,
 	SessionTypeContext,
-	UserDataContext
+	UserDataContext,
+	ActiveSessionProvider
 } from '../../globalState';
 import {
 	desktopView,
@@ -15,7 +16,6 @@ import {
 import { apiGetGroupChatInfo } from '../../api';
 import { SESSION_LIST_TAB, SESSION_LIST_TYPES } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { useResponsive } from '../../hooks/useResponsive';
 import './session.styles';
@@ -155,16 +155,17 @@ export const SessionView = () => {
 			bannedUsers.includes(userData.userName))
 	) {
 		return (
-			<ActiveSessionContext.Provider
-				value={{ activeSession, reloadActiveSession }}
+			<ActiveSessionProvider
+				activeSession={activeSession}
+				reloadActiveSession={reloadActiveSession}
 			>
-				<RocketChatUsersOfRoomProvider>
+				<RocketChatUsersOfRoomProvider watch>
 					<JoinGroupChatView
 						forceBannedOverlay={forceBannedOverlay}
 						bannedUsers={bannedUsers}
 					/>
 				</RocketChatUsersOfRoomProvider>
-			</ActiveSessionContext.Provider>
+			</ActiveSessionProvider>
 		);
 	}
 
@@ -174,27 +175,30 @@ export const SessionView = () => {
 		activeSession.isLive
 	) {
 		return (
-			<ActiveSessionContext.Provider
-				value={{ activeSession, reloadActiveSession }}
+			<ActiveSessionProvider
+				activeSession={activeSession}
+				reloadActiveSession={reloadActiveSession}
 			>
-				<RocketChatUsersOfRoomProvider>
+				<RocketChatUsersOfRoomProvider watch>
 					<AcceptLiveChatView bannedUsers={bannedUsers} />
 				</RocketChatUsersOfRoomProvider>
-			</ActiveSessionContext.Provider>
+			</ActiveSessionProvider>
 		);
 	}
 
 	return (
-		<ActiveSessionContext.Provider
-			value={{ activeSession, reloadActiveSession, readActiveSession }}
+		<ActiveSessionProvider
+			activeSession={activeSession}
+			readActiveSession={readActiveSession}
+			reloadActiveSession={reloadActiveSession}
 		>
-			<RocketChatUsersOfRoomProvider>
+			<RocketChatUsersOfRoomProvider watch>
 				<SessionStream
 					readonly={readonly}
 					checkMutedUserForThisSession={checkMutedUserForThisSession}
 					bannedUsers={bannedUsers}
 				/>
 			</RocketChatUsersOfRoomProvider>
-		</ActiveSessionContext.Provider>
+		</ActiveSessionProvider>
 	);
 };

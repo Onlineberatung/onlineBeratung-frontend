@@ -1,16 +1,16 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { getUrlParameter } from './getUrlParameter';
+import { LocaleContext } from '../globalState';
 import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
-	ConsultingTypeInterface
-} from '../globalState';
-import { LocaleContext } from '../globalState/context/LocaleContext';
+	ConsultingTypeInterface,
+	TopicsDataInterface
+} from '../globalState/interfaces';
 import { apiGetAgencyById, apiGetConsultingType } from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
-import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
 import { apiGetTopicById } from '../api/apiGetTopicId';
 import { useAppConfig } from '../hooks/useAppConfig';
 import { isString } from 'lodash';

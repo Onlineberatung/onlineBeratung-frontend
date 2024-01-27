@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { SESSION_LIST_TYPES } from '../../src/components/session/sessionHelpers';
-import { SessionUserDataInterface } from '../../src/globalState';
+import { SessionUserDataInterface } from '../../src/globalState/interfaces';
 
 export const generateConsultantSession = ({
 	type,

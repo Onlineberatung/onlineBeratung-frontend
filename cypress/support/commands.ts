@@ -6,7 +6,7 @@ import './commands/mockApi';
 import './commands/socket';
 
 import { LoginArgs } from './commands/login';
-import { AppointmentsDataInterface } from '../../src/globalState/interfaces/AppointmentsDataInterface';
+import { AppointmentsDataInterface } from '../../src/globalState/interfaces';
 
 declare global {
 	namespace Cypress {

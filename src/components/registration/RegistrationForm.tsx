@@ -6,13 +6,16 @@ import { endpoints } from '../../resources/scripts/endpoints';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { redirectToApp } from './autoLogin';
 import {
-	AgencyDataInterface,
-	ConsultingTypeInterface,
 	NOTIFICATION_TYPE_ERROR,
 	NotificationsContext,
 	TenantContext,
 	useLocaleData
 } from '../../globalState';
+import {
+	AgencyDataInterface,
+	ConsultingTypeInterface,
+	TopicsDataInterface
+} from '../../globalState/interfaces';
 import { FormAccordion } from '../formAccordion/FormAccordion';
 import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
 import './registrationForm.styles';
@@ -27,7 +30,6 @@ import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
-import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
 import { ConsultingTypeRegistrationDefaults } from '../../containers/registration/components/ProposedAgencies/ProposedAgencies';
 import { apiPostError, ERROR_LEVEL_ERROR } from '../../api/apiPostError';
 
@@ -228,6 +230,7 @@ export const RegistrationForm = () => {
 						? translate(
 								[
 									`consultingType.${consultingType.id}.titles.long`,
+									`consultingType.fallback.titles.long`,
 									consultingType.titles.long
 								],
 								{ ns: 'consultingTypes' }

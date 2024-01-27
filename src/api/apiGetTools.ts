@@ -1,4 +1,4 @@
-import { APIToolsInterface } from '../globalState/interfaces/ToolsInterface';
+import { APIToolsInterface } from '../globalState/interfaces';
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
 

@@ -16,7 +16,7 @@ import {
 	UserDataContext
 } from '../../globalState';
 import { InputField, InputFieldItem } from '../inputField/InputField';
-import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
+import { Checkbox } from '../checkbox/Checkbox';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import {
 	TOPIC_LENGTHS,
@@ -372,17 +372,6 @@ export const CreateGroupChatView = (props) => {
 		[agencies, getOptionOfSelectedAgency, translate]
 	);
 
-	const repetitiveCheckboxItem = useMemo<CheckboxItem>(
-		() => ({
-			inputId: 'isRepetitiveChat',
-			name: 'isRepetitiveChat',
-			labelId: 'isRepetitiveLabel',
-			label: translate('groupChat.create.repetitiveCheckbox.label'),
-			checked: selectedRepetitive
-		}),
-		[selectedRepetitive, translate]
-	);
-
 	const buttonSetCreate = useMemo<ButtonItem>(
 		() => ({
 			label: translate('groupChat.create.button.label'),
@@ -657,7 +646,13 @@ export const CreateGroupChatView = (props) => {
 				</div>
 
 				<Checkbox
-					item={repetitiveCheckboxItem}
+					inputId={'isRepetitiveChat'}
+					name={'isRepetitiveChat'}
+					labelId={'isRepetitiveLabel'}
+					label={translate(
+						'groupChat.create.repetitiveCheckbox.label'
+					)}
+					checked={selectedRepetitive}
 					checkboxHandle={() =>
 						setSelectedRepetitive(!selectedRepetitive)
 					}

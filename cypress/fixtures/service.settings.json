@@ -1,0 +1,59 @@
+{
+	"multitenancyWithSingleDomainEnabled": {
+		"value": true,
+		"readOnly": true
+	},
+	"multitenancyEnabled": {
+		"value": false,
+		"readOnly": true
+	},
+	"useTenantService": {
+		"value": false,
+		"readOnly": false
+	},
+	"useConsultingTypesForAgencies": null,
+	"enableWalkthrough": {
+		"value": false,
+		"readOnly": false
+	},
+	"disableVideoAppointments": {
+		"value": false,
+		"readOnly": false
+	},
+	"mainTenantSubdomainForSingleDomainMultitenancy": {
+		"value": "app",
+		"readOnly": false
+	},
+	"useOverviewPage": {
+		"value": false,
+		"readOnly": false
+	},
+	"calcomUrl": {
+		"value": "calcomUrl",
+		"readOnly": false
+	},
+	"budibaseAuthClientId": {
+		"value": "budibaseAuthClientId",
+		"readOnly": false
+	},
+	"budibaseUrl": {
+		"value": "budibaseUrl",
+		"readOnly": false
+	},
+	"calendarAppUrl": {
+		"value": "calendarAppUrl",
+		"readOnly": false
+	},
+	"legalContentChangesBySingleTenantAdminsAllowed": {
+		"value": false,
+		"readOnly": null
+	},
+	"documentationEnabled": {
+		"value": false,
+		"readOnly": false
+	},
+	"releaseToggles": {
+		"enableNewNotifications": false,
+		"featureVideoGroupChatsEnabled": false
+	}
+}

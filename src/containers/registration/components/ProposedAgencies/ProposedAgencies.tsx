@@ -12,7 +12,7 @@ import {
 	VALIDITY_VALID,
 	VALIDITY_INVALID
 } from '../../../../components/registration/registrationHelpers';
-import { AgencyDataInterface } from '../../../../globalState';
+import { AgencyDataInterface } from '../../../../globalState/interfaces';
 import { LABEL_TYPES, Text } from '../../../../components/text/Text';
 import './proposedAgencies.styles.scss';
 import { useTranslation } from 'react-i18next';

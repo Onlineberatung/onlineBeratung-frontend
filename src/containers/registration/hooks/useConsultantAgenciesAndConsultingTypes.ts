@@ -4,7 +4,7 @@ import unionBy from 'lodash/unionBy';
 import {
 	ConsultingTypeInterface,
 	AgencyDataInterface
-} from '../../../globalState';
+} from '../../../globalState/interfaces';
 import { useAppConfig } from '../../../hooks/useAppConfig';
 import { UrlParamsContext } from '../../../globalState/provider/UrlParamsProvider';
 

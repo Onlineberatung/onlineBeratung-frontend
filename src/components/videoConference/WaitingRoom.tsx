@@ -8,7 +8,7 @@ import {
 	STATUS_CREATED,
 	STATUS_PAUSED,
 	STATUS_STARTED
-} from '../../globalState/interfaces/AppointmentsDataInterface';
+} from '../../globalState/interfaces';
 import { useTranslation } from 'react-i18next';
 import { StageLayout } from '../stageLayout/StageLayout';
 import { WaitingRoomContent } from '../waitingRoom/WaitingRoomContent';
@@ -18,6 +18,8 @@ import { Text } from '../text/Text';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import { E2EEncryptionSupportHelp } from '../E2EEncryptionSupportHelp/E2EEncryptionSupportHelp';
+import LegalLinks from '../legalLinks/LegalLinks';
+import { renderToString } from 'react-dom/server';
 
 export interface WaitingRoomProps {
 	confirmed: boolean;
@@ -110,26 +112,15 @@ export const WaitingRoom = ({
 						text={translate(
 							'videoConference.waitingroom.dataProtection.label.text',
 							{
-								legal_links: legalLinks
-									.filter(
-										(legalLink) => legalLink.registration
-									)
-									.map(
-										(legalLink, index, { length }) =>
-											(index > 0
-												? index < length - 1
-													? ', '
-													: translate(
-															'registration.dataProtection.label.and'
-														)
-												: '') +
-											`<a target="_blank" href="${legalLink.getUrl(
-												{ aid: null }
-											)}">${translate(
-												legalLink.getUrl({ aid: null })
-											)}</a>`
-									)
-									.join('')
+								interpolation: { escapeValue: false },
+								legal_links: renderToString(
+									<LegalLinks
+										legalLinks={legalLinks}
+										filter={(legalLink) =>
+											legalLink.registration
+										}
+									/>
+								)
 							}
 						)}
 					/>

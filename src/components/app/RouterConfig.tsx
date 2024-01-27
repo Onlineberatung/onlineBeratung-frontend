@@ -19,11 +19,8 @@ import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
 import { Appointments } from '../appointment/Appointments';
 import VideoConference from '../videoConference/VideoConference';
-import {
-	AppConfigInterface,
-	AUTHORITIES,
-	hasUserAuthority
-} from '../../globalState';
+import { AUTHORITIES, hasUserAuthority } from '../../globalState';
+import { AppConfigInterface } from '../../globalState/interfaces';
 
 import { ReactComponent as OverviewIconOutline } from '../../resources/img/icons/overview_outline.svg';
 import { ReactComponent as OverviewIconFilled } from '../../resources/img/icons/overview_filled.svg';
