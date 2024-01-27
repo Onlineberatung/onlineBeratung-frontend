@@ -1,0 +1,31 @@
+.button-as-link-registration {
+	border: none;
+	background: none;
+	padding: 0;
+
+	color: $link-color;
+	text-decoration: $link-text-decoration;
+	font-weight: $link-font-weight;
+
+	&:hover {
+		color: $link-color-hover;
+		text-decoration: $link-text-decoration-hover;
+		cursor: pointer;
+	}
+
+	&:focus {
+		outline: $focus-outline;
+		outline-offset: 4px;
+		border-radius: 4px;
+	}
+
+	&:focus:not(:focus-visible) {
+		outline: none;
+	}
+}
+
+.registrationForm__dataProtection {
+	.checkbox__wrapper {
+		justify-content: start;
+	}
+}

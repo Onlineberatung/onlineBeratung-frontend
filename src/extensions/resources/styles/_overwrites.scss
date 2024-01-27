@@ -1,0 +1,160 @@
+.sessionsListItem {
+	&__topic {
+		background-color: var(--skin-color-primary, $primary);
+		color: var(--text-color-contrast-switch, $white);
+		border-radius: $default-border-radius;
+	}
+
+	&__content {
+		border-radius: $default-border-radius;
+	}
+}
+
+.button {
+	&__item {
+		letter-spacing: 0.2px;
+		text-transform: none;
+
+		&--disabled {
+			box-shadow: none;
+			background-color: rgba(0, 0, 0, 0.05) !important;
+			color: rgba(0, 0, 0, 0.4) !important;
+			cursor: not-allowed;
+
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.05) !important;
+			}
+		}
+	}
+
+	&__primary {
+		background-color: $primary;
+		color: #ffffff;
+	}
+}
+
+.stageLayout {
+	&__content {
+		& .loginForm {
+			& a {
+				margin-left: $grid-base-four;
+			}
+		}
+	}
+
+	&__legalLinks {
+		a p {
+			text-transform: none;
+			letter-spacing: 0.2px;
+		}
+	}
+}
+
+.overlay {
+	&__stepContent {
+		& .text {
+			text-transform: none;
+		}
+	}
+
+	&__content {
+		> svg {
+			border: 1px solid black;
+			padding: 3px;
+		}
+	}
+}
+
+.introjs {
+	&-skipbutton {
+		border: 1px solid black;
+		padding: 3px;
+	}
+
+	&-tooltipbuttons a {
+		text-transform: none !important;
+
+		&:hover {
+			text-transform: none !important;
+		}
+	}
+
+	&-tooltip-title {
+		font-weight: $font-weight-medium;
+	}
+}
+
+.select__input {
+	&__single-value {
+		top: 50%;
+	}
+
+	&__multi-value {
+		border-radius: $default-border-radius !important;
+	}
+
+	&__menu {
+		border-radius: $default-border-radius !important;
+	}
+}
+
+.messageItem__message {
+	&__attachment {
+		border-radius: $default-border-radius;
+
+		&__download {
+			p {
+				color: black;
+			}
+
+			svg {
+				path {
+					fill: black;
+				}
+			}
+
+			&:hover {
+				p {
+					color: black;
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+	&--myMessage {
+		a:hover {
+			p {
+				color: white;
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+.sessionMenu__content {
+	&--open {
+		border: 2px solid #969696 !important;
+		box-shadow: 8px 8px 0px rgba(105, 105, 105, 0.25);
+	}
+}
+
+.profile {
+	&__item {
+		& .box {
+			border-radius: $default-border-radius;
+		}
+	}
+}
+
+.twoFactorAuth__radioWrapper {
+	border-radius: $default-border-radius;
+}
+
+.formAccordionItem {
+	&--active & {
+		&__index {
+			background: var(--skin-color-primary, $primary) !important;
+		}
+	}
+}

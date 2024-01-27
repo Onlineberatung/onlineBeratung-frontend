@@ -1,0 +1,269 @@
+{
+	"anonymous": {
+		"waitingroom": {
+			"dataProtection": {
+				"description": "Danach dürfen unsere Berater:innen einen Chat mit Ihnen starten."
+			},
+			"redirect": {
+				"subline": "Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns so schnell wie möglich bei Ihnen. <b>Gehen Sie <a href=\"registration\">zur Registrierung</a></b>"
+			},
+			"overlay": {
+				"rejection": {
+					"rejection": "Leider konnten wir innerhalb der Chat-Zeit nicht auf Ihr Anliegen eingehen. Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns so schnell wie möglich bei Ihnen."
+				},
+				"acceptance": {
+					"copy": "Sie werden von Ihrer Berater:in im Chat erwartet. Sind Sie bereit?"
+				}
+			},
+			"subline": "Derzeit sind alle Berater:innen im Gespräch. Wir sind schnellstmöglich für Sie da."
+		},
+		"overlay": {
+			"chatWasFinished": {
+				"headline": "Ihr:e Berater:in hat den Chat beendet.",
+				"button": "Zur Startseite"
+			},
+			"finishChat": {
+				"success": {
+					"button": "Zur Startseite"
+				}
+			}
+		}
+	},
+	"attachments": {
+		"download": {
+			"label": "Download"
+		}
+	},
+	"app": {
+		"stage": {
+			"title": "Sozialplattform"
+		}
+	},
+	"appointments": {
+		"onlineMeeting": {
+			"overlay": {
+				"start": {
+					"copy": "Sie starten jetzt den Video-Call. Eingeladene Teilnehmer:innen können ab sofort mit dem Einladungslink beitreten."
+				}
+			}
+		}
+	},
+	"consultant": {
+		"jobTitle": "Berater:in"
+	},
+	"deleteAccount": {
+		"successOverlay": {
+			"headline": "Sie haben Ihren Account bei der Online-Beratung & Hilfe erfolgreich gelöscht."
+		}
+	},
+	"enquiry": {
+		"write": {
+			"overlayCopy": "Wir melden uns so schnell wie möglich bei Ihnen.",
+			"infotext": {
+				"copy": {
+					"title": "Vielleicht hilft Ihnen einer der folgenden Punkte bei der Formulierung weiter:",
+					"facts": "<ul><li>Zu welchem Thema wünschen Sie sich mehr Informationen oder Beratung?</li><li>Wie ist Ihre aktuelle Situation?</li><li>Was beschäftigt Sie?</li><li>Haben Sie eine bestimmte Frage oder wissen Sie vielleicht selbst noch nicht so genau was Ihnen helfen könnte?</li></ul>"
+				}
+			},
+			"input": {
+				"placeholder": {
+					"consultant": "Nachricht an Klient:in schreiben",
+					"feedback": {
+						"peer": "Nachricht an Teamleiter:in schreiben"
+					}
+				}
+			},
+			"overlay": {
+				"copy": "Sobald Berater:innen verfügbar sind, erhalten Sie eine Antwort von uns."
+			}
+		}
+	},
+	"error": {
+		"statusCodes": {
+			"400": {
+				"description": "Da ist etwas schiefgelaufen. Bitte überprüfe noch einmal deine URL, sie sollte so aussehen:<br /><br/><strong>[beratungsstelle].onlineberatung.net</strong>"
+			}
+		}
+	},
+	"e2ee": {
+		"subscriptionKeyLost": {
+			"message": {
+				"primary": "Ein:e Chat-Teilnehmer:in hat keinen Zugriff mehr auf den Nachrichtenverlauf.",
+				"secondary": "Ein:e Chat-Teilnehmer:in hatte zwischenzeitlich keinen Zugriff mehr auf den Nachrichtenverlauf. Nun können alle Chat-Teilnehmer wieder auf den Nachrichtenverlauf zugreifen."
+			},
+			"notice": {
+				"text": "Da Sie Ihr Passwort zurückgesetzt haben, sind die Nachrichten für Sie momentan nicht lesbar. Sobald ein:e Chat-Teilnehmer:in den Chat wieder öffnet, können Sie die Nachrichten wieder lesen und Neue schreiben."
+			},
+			"overlay": {
+				"copy": "Ihre Nachrichten sind aus Sicherheitsgründen Ende-zu-Ende verschlüsselt. Das bedeutet, niemand außerhalb dieses Chats kann die Nachrichten lesen. Nicht einmal die Online-Beratungs-Plattform.<br/><br/>Wenn das Passwort zurückgesetzt wird, sind die Nachrichten vorübergehend nicht lesbar. Sobald ein:e weitere_r Chat-Teilnehmer:in den Chat wieder öffnet, können die Nachrichten neu verschlüsselt werden. Somit können wieder allen Chat-Teilnehmer:innen Nachrichten lesen und schreiben."
+			}
+		}
+	},
+	"furtherSteps": {
+		"step2": {
+			"info": "Jetzt finden wir eine:n passende:n Berater:in für Sie."
+		},
+		"step3": {
+			"info": "Ihr:e Berater:in antwortet innerhalb von 2 Werktagen."
+		},
+		"emailNotification": {
+			"infoText": "Wenn Sie Ihre E-Mail-Adresse angeben (freiwillig)<br><ul><li>erhalten Sie eine E-Mail-Benachrichtigung, wenn Ihr:e Berater:in Ihnen geschrieben hat</li><li>können Sie Ihr Passwort zurücksetzen, falls Sie es vergessen haben.</li></ul>Ihre E-Mail-Adresse kann von den Berater:innen nicht eingesehen werden."
+		}
+	},
+	"groupChat": {
+		"join": {
+			"warning": {
+				"message": "Ihr:e Berater:in/Moderator:in hat den Chat noch nicht gestartet. Sobald Ihr:e Berater:in/Moderator:in den Chat gestartet hat können Sie mit uns chatten. Bitte haben Sie noch etwas Geduld."
+			}
+		}
+	},
+	"help": {
+		"videoCall": {
+			"asker": {
+				"steps": {
+					"6": "Bitten Sie Ihre:n Berater:in Sie nochmals anzurufen."
+				}
+			}
+		}
+	},
+	"legal": {
+		"termsAndConditions": {
+			"label": "Nutzungsbedingungen"
+		}
+	},
+	"login": {
+		"register": {
+			"linkLabel": "Registrieren"
+		}
+	},
+	"monitoring": {
+		"monitoringU25": {
+			"deceaseLovedOne": "Tod eines_r Nahestehende:n",
+			"concernLovedOne": "Sorge um Nahestehende:n",
+			"relationshipRelative": "Beziehungssituation mit Angehörige:n",
+			"noAnswer": "Klient:in hat sich nicht mehr gemeldet",
+			"partnerLivingCommunity": "mit Partner:in in WG",
+			"concern": "Sorge um Suizidgefährdete:n",
+			"noFirstAnswer": "Klient:in hat auf Erstmail nicht reagiert",
+			"helpfulness": "Wie hilfreich war der Kontakt für Klient:in?"
+		}
+	},
+	"profile": {
+		"data": {
+			"register": {
+				"consultingModeInfo": {
+					"groupChats": "In der Selbsthilfe tauschen sich Betroffene über ein Thema oder ein Anliegen miteinander aus. Die Betroffenen sprechen über ihre Probleme, Gefühle und Hoffnungen und erfahren so, wie andere Probleme bewältigt haben. Die Gruppen werden von Moderator:innen geleitet."
+				}
+			}
+		},
+		"unsetEmail": {
+			"confirmOverlay": {
+				"benefit": {
+					"1": "erhalten Sie keine E-Mail-Benachrichtigung, wenn Ihr:e Berater:in Ihnen geschrieben hat"
+				}
+			}
+		}
+	},
+	"registration": {
+		"overlay": {
+			"success": {
+				"headline": "Herzlich willkommen<br>bei der Sozialplattform."
+			}
+		},
+		"welcomeScreen": {
+			"subline": "Wie läuft die Beratung & Hilfe ab?",
+			"info2": {
+				"text": "Schicken Sie Ihre Nachricht an unsere Berater_innen"
+			},
+			"info3": {
+				"text": "Wir melden uns so schnell wie möglich bei Ihnen"
+			}
+		},
+		"tsys": {
+			"prefix": "Die Verarbeitung Ihrer personenbezogenen Daten erfolgt wie in dieser ",
+			"button": "Datenschutzerklärung",
+			"sufix": " beschrieben."
+		},
+		"dataProtection": {
+			"label": {
+				"prefix": "Ich bin mit der Geltung der ",
+				"and": " und ",
+				"suffix": " einverstanden."
+			}
+		},
+		"mainTopic": {
+			"headline": "Zu welchem Problem suchen Sie Hilfe?"
+		},
+		"consultingTypeAgencySelection": {
+			"consultingType": {
+				"infoText": "Ihr:e Berater:in ist in mehreren Themenfeldern tätig. Bitte wählen Sie Ihr gewünschtes Themenfeld."
+			},
+			"agency": {
+				"infoText": "Ihr:e Berater:in ist in mehreren Beratungsstellen tätig. Bitte wählen Sie Ihre gewünschte Beratungsstelle."
+			}
+		}
+	},
+	"session": {
+		"assignOther": {
+			"overlay": {
+				"subtitle": {
+					"noTeam": "{{newConsultant}} ist somit für die_den Ratsuchende:n verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Sie haben keinen Zugiff mehr auf die Nachrichten.",
+					"team": {
+						"self": "{{newConsultant}} ist somit für die_den Ratsuchende:n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, finden Sie den Chatverlauf in Ihren Nachrichten und nicht mehr unter Teamberatung.",
+						"other": "{{newConsultant}} ist somit für die_den Ratsuchende:n verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, finden Sie den Chatverlauf unter Teamberatung und nicht mehr in Ihren Nachrichten."
+					}
+				}
+			}
+		},
+		"consultant": {
+			"prefix": "Berater:in - "
+		},
+		"groupChat": {
+			"consultant": {
+				"prefix": "Moderator:in - "
+			}
+		}
+	},
+	"sessionList": {
+		"user": {
+			"consultantUnknown": "Berater:innen-Suche läuft"
+		}
+	},
+	"twoFactorAuth": {
+		"subtitle": "Nutzen Sie eine weitere App für die Anmeldung mit Ihrem Online-Beratung & Hilfe Konto. Dadurch ist Ihr Konto sicherer vor einem möglichen unbefugtem Zugriff."
+	},
+	"typingIndicator": {
+		"multipleUsers": {
+			"typing": "Teilnehmer:innen schreiben"
+		}
+	},
+	"userProfile": {
+		"reassign": {
+			"description": "Sie können die Unterhaltung einem anderen Teammitglied zuweisen. Diese Person ist dann für die_den Ratsuchende:n verantwortlich."
+		}
+	},
+	"videoConference": {
+		"waitingroom": {
+			"dataProtection": {
+				"description": "Danach dürfen unsere Berater:innen einen Video-Call mit Ihnen starten."
+			},
+			"subline": "Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet sobald Ihr:e Berater:in den Video-Call startet.",
+			"paused": {
+				"subline": "Der Video-Call wurde beendet. Sollten Ihr:e Berater:in nur abwesend sein werden Sie in den Video-Call weitergeleitet sobald Ihr:e Berater:in den Video-Call fortsetzt."
+			},
+			"errorPage": {
+				"description": "Zu Ihrem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde. Sollten Sie weiterhin Probleme haben fragen Sie bitte Ihre:n Berater:in.",
+				"rejected": {
+					"description": "Sie wurden nicht zugelassen. Leider können Sie an diesem Video-Call nicht teilnehmen, da Ihr:e Berater:in Sie nicht zugelassen hat."
+				}
+			}
+		}
+	},
+	"walkthrough": {
+		"step": {
+			"1": {
+				"intro": "Hier finden Sie eine Übersicht über alle offenen Anfragen, die noch keinem Berater zugeordnet sind. Ihr gesamtes Team hat Zugriff auf diese Übersicht.\n<br /><br /> Die ältesten Anfragen stehen oben, die neuesten ganz unten, damit Sie die zuerst eingegangenen leichter finden können.\n<br /><br /> In dem Moment, in dem Sie auf 'Anfrage Annehmen' klicken, wird die Anfrage sofort in Ihren Bereich 'Meine Beratungen' verschoben und die anderen Berater:innen sehen sie nicht mehr."
+			}
+		}
+	}
+}

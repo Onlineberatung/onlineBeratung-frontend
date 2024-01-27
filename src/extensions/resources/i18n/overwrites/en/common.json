@@ -1,0 +1,106 @@
+{
+	"anonymous": {
+		"overlay": {
+			"finishChat": {
+				"success": {
+					"button": "Home page"
+				}
+			},
+			"chatWasFinished": {
+				"button": "Home page"
+			}
+		},
+		"waitingroom": {
+			"redirect": {
+				"subline": "Register and leave us your message. We will get back to you as soon as possible. <b>Go <a href=\"registration\">to registration</a></b>"
+			},
+			"overlay": {
+				"rejection": {
+					"rejection": "Sorry, we could not respond to your request within the chat time. Please register and leave us your message. We will get back to you as soon as possible."
+				}
+			}
+		}
+	},
+	"attachments": {
+		"download": {
+			"label": "Download"
+		}
+	},
+	"app": {
+		"stage": {
+			"title": "Social platform"
+		}
+	},
+	"deleteAccount": {
+		"successOverlay": {
+			"headline": "You have successfully deleted your account from Online Advice & Help."
+		}
+	},
+	"enquiry": {
+		"write": {
+			"overlayCopy": "We will get back to you as soon as possible.",
+			"infotext": {
+				"copy": {
+					"title": "Perhaps one of the following points will help you with the wording:",
+					"facts": "<ul><li>On which topic would you like more information or advice?</li><li>What is your current situation?</li><li>What's on your mind?</li><li>Do you have a specific question or maybe you don't know exactly what could help you yourself?</li></ul>"
+				}
+			}
+		}
+	},
+	"error": {
+		"statusCodes": {
+			"400": {
+				"description": "Something went wrong. Please check your URL again, it should look like this:<br /><br/><strong>[beratungsstelle].onlineberatung.net</strong>"
+			}
+		}
+	},
+	"furtherSteps": {
+		"step3": {
+			"info": "Your advisor will respond as soon as possible."
+		}
+	},
+	"legal": {
+		"termsAndConditions": {
+			"label": "Terms of use"
+		}
+	},
+	"login": {
+		"register": {
+			"linkLabel": "Registration"
+		}
+	},
+	"registration": {
+		"overlay": {
+			"success": {
+				"headline": "Welcome<br>to the social platform."
+			}
+		},
+		"welcomeScreen": {
+			"subline": "How does the consultation & help work?",
+			"info2": {
+				"text": "Send your message to our consultants"
+			},
+			"info3": {
+				"text": "We will get back to you as soon as possible"
+			}
+		},
+		"tsys": {
+			"prefix": "Your personal data will be processed as described in this ",
+			"button": "privacy policy",
+			"sufix": "."
+		},
+		"dataProtection": {
+			"label": {
+				"prefix": "I agree to the validity of the ",
+				"and": " and ",
+				"suffix": " agree."
+			}
+		},
+		"mainTopic": {
+			"headline": "What problem are you looking for help with?"
+		}
+	},
+	"twoFactorAuth": {
+		"subtitle": "Use another app to log in with your Online Advice & Help account. This will make your account more secure from possible unauthorized access."
+	}
+}

@@ -1,0 +1,126 @@
+// FONTS
+$font-family-sans-serif: 'Atkinson Hyperlegible', sans-serif;
+$font-family-divider: $font-family-sans-serif;
+$body-font-family: $font-family-sans-serif;
+$font-weight-light: 400;
+$font-weight-medium: 600;
+
+// COLORS
+$primary: #c33218;
+$secondary: black;
+$hover-primary: darken($primary, 10%);
+$background-accent: #eaeaea;
+$background-light: #f9f6f2;
+$hover-select: $background-accent;
+$sessions-list-background-color-primary: #f2efea;
+$sessions-list-background-color-secondary: #f9f6f2;
+
+// COMPONENTS
+$asker-info-assign-description-text-align: left;
+$button-auto-close-color: $hover-primary;
+$body-font-color: #3f373f;
+$button-border-radius: 2px;
+$button-box-shadow-default: none;
+$button-small-icon-background-color-default: var(
+	--skin-color-secondary,
+	$secondary
+);
+$button-box-shadow-grey: none;
+$button-small-icon-border-radius: 50%;
+$default-border-radius: 2px;
+$enquiry-input-border-radius: 2px;
+$enquiry-image-size-large: 100% !default;
+$error-illustration-background-neutral: transparent;
+$error-illustration-width: 100%;
+$error-page-background: $background-light;
+$form-accordion-index-background-active: var(--skin-color-primary, $primary);
+$form-accordion-item-title-color: $black;
+$form-accordion-index-background-active: // A light variant of the primary color, since we can't apply opacity directly
+	linear-gradient(
+		to right,
+		rgba(255, 255, 255, 0.9),
+		rgba(255, 255, 255, 0.9)
+	),
+	linear-gradient(
+		to right,
+		var(--skin-color-primary, $primary),
+		var(--skin-color-primary, $primary)
+	);
+$form-accordion-item-input-margin-left: 12px;
+$form-accordion-item-input-margin-right: 0;
+$form-accordion-title-font-weight: $font-weight-bold;
+$further-steps-illustration-height-large: 120px;
+$headline-1-font-weight: $font-weight-bold;
+$headline-2-font-weight: $font-weight-bold;
+$illustration-background-error: transparent;
+$illustration-background-info: transparent;
+$illustration-background-neutral: transparent;
+$input-field-border-radius: 2px;
+$input-field-box-shadow: none;
+$legal-information-links-left-large: -110px;
+$legal-information-links-left-medium: $grid-base-five;
+$link-color: $black;
+$link-color-hover: $link-color;
+$link-text-decoration-hover: none;
+$link-font-weight: $font-weight-bold;
+$link-hover-color-default: $black;
+$link-hover-text-decoration: none;
+$link-text-decoration: underline;
+$login-align-items: flex-start;
+$login-button-width-large: 290px;
+$login-icon-transform: 0;
+$login-password-reset-text-decoration: underline;
+$login-text-align: left;
+$message-attachment-color: $text-color-standard;
+$message-background: $primary;
+$message-name-user: $black;
+$message-submit-interface-textarea-background-color-yellow: $dark-grey;
+$message-submit-interface-textarea-background-color: #ece7df;
+$message-submit-interface-textarea-box-shadow: none;
+$message-submit-interface-textarea-placeholder-color: $line-grey;
+$message-submit-interface-textarea-shadow-color: transparent;
+$overlay-icon-size-large: 140px;
+$overlay-icon-size: 120px;
+$overlay-illustration-size-large: 160px;
+$profile-content-wrapper-detail-button-text-align: left;
+$profile-divider-text-align: left;
+$profile-imprint-background-color-desktop: $sessions-list-background-color-primary;
+$profile-legal-link-color: $black;
+$profile-select-margin-left: 0;
+$profile-select-padding-left: 0;
+$radio-button-input-checked-shadow: inset 0 0 0 5px $white;
+$radio-button-input-shadow: transparent;
+$registration-form-headline-margin-bottom: 10px;
+$registration-form-margin-left: 44px;
+$registration-form-max-width: auto;
+$registration-form-overline-display: none;
+$registration-text-align: left;
+$select-dropdown-border-radius: 2px;
+$select-focus-background-color: $background-accent;
+$select-menu-before-display: none;
+$selection-focus-color: var(--skin-color-default, $primary);
+$session-background-color: $sessions-list-background-color-secondary;
+$session-content-background-color: $sessions-list-background-color-secondary;
+$session-header-background-color-large: $sessions-list-background-color-secondary;
+$session-list-item-background-active: $sessions-list-background-color-secondary;
+$sessions-list-background-color-secondary: $sessions-list-background-color-primary;
+$session-menu-border: none;
+$session-menu-legal-links-color: $black;
+$statistics-highlight-color: $black;
+$tab-background-color-selected: $white;
+$tab-background-color-selected-hover: $white;
+$text-color-info-large-standard: $body-font-color;
+$text-color-standard: $body-font-color;
+$text-divider-font-weight: $font-weight-bold;
+$text-divider-text-transform: uppercase;
+$two-factor-auth-overlay-buttons-margin-right: 0;
+$waiting-room-illustration-background-neutral: transparent;
+$waiting-room-illustration-width: 100%;
+$waiting-room-subline-opacity: 0.8;
+$welcome-screen-button-text-align: left;
+$welcome-screen-icon-background: $black;
+
+@mixin rounded-drop-shadow {
+	border-radius: 2px;
+	box-shadow: 8px 8px 0 rgba(105, 105, 105, 0.25);
+}
