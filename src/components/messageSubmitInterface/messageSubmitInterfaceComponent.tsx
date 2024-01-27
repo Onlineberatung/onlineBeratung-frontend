@@ -12,11 +12,7 @@ import { useHistory } from 'react-router-dom';
 import { SendMessageButton } from './SendMessageButton';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
-import {
-	AUTHORITIES,
-	getContact,
-	hasUserAuthority
-} from '../../globalState/helpers/stateHelpers';
+import { AUTHORITIES, getContact, hasUserAuthority } from '../../globalState';
 import {
 	AnonymousConversationFinishedContext,
 	E2EEContext,
@@ -856,17 +852,13 @@ export const MessageSubmitInterfaceComponent = ({
 	const getMessageSubmitInfo = useCallback((): MessageSubmitInfoInterface => {
 		let infoData;
 		if (activeInfo === INFO_TYPES.ABSENT) {
+			const contact = getContact(activeSession);
 			infoData = {
 				isInfo: true,
 				infoHeadline: `${
-					getContact(
-						activeSession,
-						translate('sessionList.user.consultantUnknown')
-					).displayName ||
-					getContact(
-						activeSession,
-						translate('sessionList.user.consultantUnknown')
-					).username
+					contact?.displayName ||
+					contact?.username ||
+					translate('sessionList.user.consultantUnknown')
 				} ${translate('consultant.absent.message')} `,
 				infoMessage: activeSession.consultant.absenceMessage
 			};

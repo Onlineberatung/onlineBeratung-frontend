@@ -319,7 +319,13 @@ export const JoinGroupChatView = ({
 		consultingType?.id ?? 'noConsultingType'
 	}.groupChatRules`;
 	const translatedRules: { [key: string]: string } =
-		i18n.getResource(i18n.language, 'consultingTypes', transKey) || {};
+		i18n.getResource(i18n.language, 'consultingTypes', transKey) ||
+		i18n.getResource(
+			i18n.language,
+			'consultingTypes',
+			`consultingType.fallback.groupChatRules`
+		) ||
+		{};
 	if (Object.keys(translatedRules).length > 0) {
 		groupChatRules = Object.values(translatedRules);
 	}

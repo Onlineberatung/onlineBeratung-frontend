@@ -8,6 +8,7 @@ export interface CheckboxItem {
 	labelId: string;
 	labelClass?: string;
 	label: string;
+	value?: string;
 	description?: string;
 	checked: boolean;
 }
@@ -24,6 +25,7 @@ export const Checkbox = (props) => {
 				className="checkbox__input"
 				type="checkbox"
 				name={checkboxItem.name}
+				value={checkboxItem.value}
 				defaultChecked={checkboxItem.checked}
 			/>
 			{checkboxItem.checked && (

@@ -1,5 +1,6 @@
 .box {
 	background: rgba(255, 255, 255, 0.7);
+	border: 1px solid rgba(255, 255, 255, 0.7);
 	padding: $grid-base-two;
 	margin-bottom: $grid-base;
 	border-radius: $box-border-radius;
@@ -7,5 +8,29 @@
 	@include breakpoint($fromMedium) {
 		padding: $grid-base-three;
 		margin-bottom: $grid-base-two;
+	}
+
+	&--info {
+		border-color: $form-medium;
+		color: $form-medium;
+	}
+
+	&--error {
+		background-color: $form-error;
+		color: $form-error;
+	}
+
+	&--success {
+		background-color: $form-success;
+		color: $form-success;
+	}
+
+	&__title {
+		font-style: normal;
+		font-weight: 700;
+		font-size: 16px;
+		line-height: 24px;
+		color: rgba(0, 0, 0, 0.87);
+		margin-bottom: 16px;
 	}
 }

@@ -8,6 +8,9 @@ export const apiAgencySelection = async (
 		postcode: string;
 		consultingType: number | undefined;
 		topicId?: number;
+		age?: number;
+		gender?: string;
+		counsellingRelation?: string;
 	},
 	signal?: AbortSignal
 ): Promise<Array<AgencyDataInterface> | null> => {

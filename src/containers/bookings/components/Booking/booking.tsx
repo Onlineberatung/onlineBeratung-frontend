@@ -29,7 +29,7 @@ export const Booking = () => {
 
 	useEffect(() => {
 		apiGetAskerSessionList().then(({ sessions }) => {
-			const session = sessions.find((s) => !!s.consultant);
+			const session = sessions.find((s) => !!s.agency);
 			setSession(session);
 			const consultant = session?.consultant;
 			const agencyId = session?.agency?.id;

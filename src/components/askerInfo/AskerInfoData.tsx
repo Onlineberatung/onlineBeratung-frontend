@@ -16,10 +16,7 @@ export const AskerInfoData = () => {
 
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
-	const userSessionData = getContact(
-		activeSession,
-		translate('sessionList.user.consultantUnknown')
-	).sessionData;
+	const userSessionData = getContact(activeSession).sessionData;
 	const preparedUserSessionData =
 		convertUserDataObjectToArray(userSessionData);
 
@@ -35,6 +32,7 @@ export const AskerInfoData = () => {
 						? translate(
 								[
 									`consultingType.${consultingType.id}.titles.default`,
+									`consultingType.fallback.titles.default`,
 									consultingType.titles.default
 								],
 								{ ns: 'consultingTypes' }

@@ -4,6 +4,7 @@ export * from './interfaces/AppConfig';
 export * from './interfaces/AuthDataInterface';
 export * from './interfaces/SessionsDataInterface';
 export * from './interfaces/UserDataInterface';
+export * from './interfaces/ConsultingSessionDataInterface';
 export * from './interfaces/ConsultingTypeInterface';
 export * from './interfaces/LegalLinkInterface';
 export * from './interfaces/ServerAppConfigInterface';

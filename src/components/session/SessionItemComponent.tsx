@@ -394,12 +394,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 							<React.Fragment key={`${message._id}-${index}`}>
 								<MessageItemComponent
 									clientName={
-										getContact(
-											activeSession,
-											translate(
-												'sessionList.user.consultantUnknown'
-											)
-										).username
+										getContact(activeSession)?.username ||
+										translate(
+											'sessionList.user.consultantUnknown'
+										)
 									}
 									askerRcId={activeSession.item.askerRcId}
 									isOnlyEnquiry={isOnlyEnquiry}

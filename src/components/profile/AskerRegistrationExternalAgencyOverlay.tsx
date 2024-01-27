@@ -35,6 +35,7 @@ export const AskerRegistrationExternalAgencyOverlay = ({
 					translate(
 						[
 							`consultingType.${consultingType.id}.titles.default`,
+							`consultingType.fallback.titles.default`,
 							consultingType.titles.default
 						],
 						{ ns: 'consultingTypes' }

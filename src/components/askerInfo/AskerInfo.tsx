@@ -1,23 +1,11 @@
 import * as React from 'react';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
-import {
-	SESSION_LIST_TAB,
-	SESSION_LIST_TYPES
-} from '../session/sessionHelpers';
-import {
-	AUTHORITIES,
-	hasUserAuthority,
-	SessionTypeContext,
-	TenantContext,
-	UserDataContext
-} from '../../globalState';
+import { SESSION_LIST_TAB } from '../session/sessionHelpers';
+import { SessionTypeContext } from '../../globalState';
 import { Loading } from '../app/Loading';
-import { AskerInfoData } from './AskerInfoData';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
-import { AskerInfoAssign } from './AskerInfoAssign';
-import '../profile/profile.styles';
 import './askerInfo.styles';
 import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useSearchParam } from '../../hooks/useSearchParams';
@@ -29,38 +17,29 @@ import {
 	mobileUserProfileView
 } from '../app/navigationHandler';
 import { useTranslation } from 'react-i18next';
-import { AskerInfoTools } from './AskerInfoTools';
-import { Box } from '../box/Box';
 import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import { AskerInfoContent } from './AskerInfoContent';
 
 export const AskerInfo = () => {
 	const { t: translate } = useTranslation();
-	const { tenant } = useContext(TenantContext);
 	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 	const history = useHistory();
 
-	const { userData } = useContext(UserDataContext);
-	const { type, path: listPath } = useContext(SessionTypeContext);
+	const { path: listPath } = useContext(SessionTypeContext);
 
 	const { session: activeSession, ready } = useSession(groupIdFromParam);
-	const [isPeerChat, setIsPeerChat] = useState(false);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
 	useEffect(() => {
-		if (!ready) {
+		if (!ready || activeSession) {
 			return;
 		}
 
-		if (!activeSession) {
-			history.push(
-				listPath +
-					(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
-			);
-			return;
-		}
-
-		setIsPeerChat(activeSession.item.isPeerChat);
+		history.push(
+			listPath +
+				(sessionListTab ? `?sessionListTab=${sessionListTab}` : '')
+		);
 	}, [activeSession, history, listPath, ready, sessionListTab]);
 
 	const { fromL } = useResponsive();
@@ -74,33 +53,8 @@ export const AskerInfo = () => {
 		desktopView();
 	}, [fromL]);
 
-	const isSessionAssignAvailable = useCallback(
-		() =>
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-			!activeSession.isLive &&
-			!activeSession.isGroup &&
-			((type === SESSION_LIST_TYPES.ENQUIRY &&
-				hasUserAuthority(
-					AUTHORITIES.ASSIGN_CONSULTANT_TO_ENQUIRY,
-					userData
-				) &&
-				isPeerChat) ||
-				(type !== SESSION_LIST_TYPES.ENQUIRY &&
-					((isPeerChat &&
-						hasUserAuthority(
-							AUTHORITIES.ASSIGN_CONSULTANT_TO_PEER_SESSION,
-							userData
-						)) ||
-						(!isPeerChat &&
-							hasUserAuthority(
-								AUTHORITIES.ASSIGN_CONSULTANT_TO_SESSION,
-								userData
-							))))),
-		[activeSession, isPeerChat, type, userData]
-	);
-
 	if (!activeSession) {
-		return <Loading></Loading>;
+		return <Loading />;
 	}
 
 	return (
@@ -150,21 +104,7 @@ export const AskerInfo = () => {
 							<h2>{activeSession.user.username}</h2>
 						</div>
 						<div className="askerInfo__content">
-							<Box>
-								<AskerInfoData />
-							</Box>
-							{tenant?.settings?.featureToolsEnabled && (
-								<Box>
-									<AskerInfoTools />
-								</Box>
-							)}
-							{isSessionAssignAvailable() && (
-								<Box>
-									<div className="askerInfo__assign">
-										<AskerInfoAssign />
-									</div>
-								</Box>
-							)}
+							<AskerInfoContent />
 						</div>
 					</div>
 				</div>

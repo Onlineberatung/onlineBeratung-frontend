@@ -10,7 +10,6 @@ import { generatePath, Link, Redirect, useHistory } from 'react-router-dom';
 import {
 	AnonymousConversationFinishedContext,
 	AUTHORITIES,
-	ExtendedSessionInterface,
 	hasUserAuthority,
 	SessionItemInterface,
 	SessionTypeContext,
@@ -66,6 +65,7 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { RocketChatUsersOfRoomContext } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 
 type TReducedSessionItemInterface = Omit<
 	SessionItemInterface,
@@ -77,6 +77,7 @@ export interface SessionMenuProps {
 	isAskerInfoAvailable: boolean;
 	isJoinGroupChatView?: boolean;
 	bannedUsers?: string[];
+	subscribers?: any[];
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
@@ -584,7 +585,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 				{activeSession.isGroup && (
 					<SessionMenuFlyoutGroup
-						activeSession={activeSession}
 						editGroupChatSettingsLink={editGroupChatSettingsLink}
 						groupChatInfoLink={groupChatInfoLink}
 						handleLeaveGroupChat={handleLeaveGroupChat}
@@ -624,14 +624,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 };
 
 const SessionMenuFlyoutGroup = ({
-	activeSession,
 	groupChatInfoLink,
 	editGroupChatSettingsLink,
 	handleLeaveGroupChat,
 	handleStopGroupChat,
 	bannedUsers
 }: {
-	activeSession: ExtendedSessionInterface;
 	groupChatInfoLink: string;
 	editGroupChatSettingsLink: string;
 	handleStopGroupChat: MouseEventHandler;
@@ -640,11 +638,14 @@ const SessionMenuFlyoutGroup = ({
 }) => {
 	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
+	const { activeSession } = useContext(ActiveSessionContext);
+	const { moderators } = useContext(RocketChatUsersOfRoomContext);
 
 	return (
 		<>
 			{activeSession.item.subscribed &&
-				!bannedUsers?.includes(userData.userName) && (
+				!bannedUsers?.includes(userData.userName) &&
+				moderators.length > 1 && (
 					<div
 						onClick={handleLeaveGroupChat}
 						className="sessionMenu__item sessionMenu__button"

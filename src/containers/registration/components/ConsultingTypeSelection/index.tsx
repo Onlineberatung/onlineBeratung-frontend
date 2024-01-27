@@ -29,6 +29,7 @@ export const ConsultingTypeSelection = ({
 				label: t(
 					[
 						`consultingType.${consultingType.id}.titles.long`,
+						`consultingType.fallback.titles.long`,
 						consultingType.titles.long
 					],
 					{ ns: 'consultingTypes' }

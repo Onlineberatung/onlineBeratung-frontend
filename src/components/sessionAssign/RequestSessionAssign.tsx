@@ -212,6 +212,8 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 	return (
 		<div className="assign__wrapper">
 			<SelectDropdown
+				menuShouldBlockScroll
+				menuPosition="fixed"
 				{...prepareSelectDropdown({
 					consultantList,
 					handleDatalistSelect,

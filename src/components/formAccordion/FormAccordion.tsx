@@ -266,6 +266,7 @@ export const FormAccordion = ({
 								label: translate(
 									[
 										`consultingType.${consultingType.id}.requiredComponents.age.${option.value}`,
+										`consultingType.fallback.requiredComponents.age.${option.value}`,
 										option.label
 									],
 									{ ns: 'consultingTypes' }

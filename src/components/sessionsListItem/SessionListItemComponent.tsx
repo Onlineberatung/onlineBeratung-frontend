@@ -269,6 +269,7 @@ export const SessionListItemComponent = ({
 								? translate(
 										[
 											`consultingType.${consultingType.id}.titles.default`,
+											`consultingType.fallback.titles.default`,
 											consultingType.titles.default
 										],
 										{ ns: 'consultingTypes' }
@@ -384,6 +385,7 @@ export const SessionListItemComponent = ({
 								? translate(
 										[
 											`consultingType.${consultingType.id}.titles.default`,
+											`consultingType.fallback.titles.default`,
 											consultingType.titles.default
 										],
 										{ ns: 'consultingTypes' }

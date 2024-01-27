@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 export const AskerInfoTools = () => {
 	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
-	const [askerId, setAskerId] = useState();
+	const [askerId, setAskerId] = useState<string>();
 
 	const openToolsLink = () => {
 		refreshKeycloakAccessToken().then((resp) => {

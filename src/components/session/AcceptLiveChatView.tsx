@@ -78,10 +78,8 @@ export const AcceptLiveChatView = ({
 						text={`${translate(
 							'enquiry.anonymous.infoLabel.start'
 						)}${
-							getContact(
-								activeSession,
-								translate('sessionList.user.consultantUnknown')
-							).username
+							getContact(activeSession)?.username ||
+							translate('sessionList.user.consultantUnknown')
 						}${translate('enquiry.anonymous.infoLabel.end')}`}
 					/>
 				</div>

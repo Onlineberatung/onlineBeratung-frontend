@@ -158,7 +158,7 @@ export const SessionView = () => {
 			<ActiveSessionContext.Provider
 				value={{ activeSession, reloadActiveSession }}
 			>
-				<RocketChatUsersOfRoomProvider>
+				<RocketChatUsersOfRoomProvider watch>
 					<JoinGroupChatView
 						forceBannedOverlay={forceBannedOverlay}
 						bannedUsers={bannedUsers}
@@ -177,7 +177,7 @@ export const SessionView = () => {
 			<ActiveSessionContext.Provider
 				value={{ activeSession, reloadActiveSession }}
 			>
-				<RocketChatUsersOfRoomProvider>
+				<RocketChatUsersOfRoomProvider watch>
 					<AcceptLiveChatView bannedUsers={bannedUsers} />
 				</RocketChatUsersOfRoomProvider>
 			</ActiveSessionContext.Provider>
@@ -188,7 +188,7 @@ export const SessionView = () => {
 		<ActiveSessionContext.Provider
 			value={{ activeSession, reloadActiveSession, readActiveSession }}
 		>
-			<RocketChatUsersOfRoomProvider>
+			<RocketChatUsersOfRoomProvider watch>
 				<SessionStream
 					readonly={readonly}
 					checkMutedUserForThisSession={checkMutedUserForThisSession}

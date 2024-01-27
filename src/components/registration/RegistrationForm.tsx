@@ -228,6 +228,7 @@ export const RegistrationForm = () => {
 						? translate(
 								[
 									`consultingType.${consultingType.id}.titles.long`,
+									`consultingType.fallback.titles.long`,
 									consultingType.titles.long
 								],
 								{ ns: 'consultingTypes' }
