@@ -12,5 +12,16 @@ module.exports = {
 			disabled: process.env.FRONTEND_TRANSLATION_CACHE_DISABLED || true,
 			time: process.env.FRONTEND_TRANSLATION_CACHE_TIME || 30
 		}
+	},
+	registration: {
+		directlink: {
+			fallbackLoader: {
+				enabled: !!parseInt(
+					process.env
+						.FRONTEND_REGISTRATION_DIRECTLINK_FALLBACKLOADER_ENABLED ||
+						'1'
+				)
+			}
+		}
 	}
 };
