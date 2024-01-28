@@ -87,6 +87,32 @@ export default function useUrlParamsLoader() {
 							)
 						) {
 							consultingType = null;
+
+							// Fallback logic for special client because slug is not unique. So try reversed logicc
+							if (
+								settings?.registration?.directlink
+									?.fallbackLoader?.enabled &&
+								consultingTypeSlug
+							) {
+								const loadConsultingType = async (id) => {
+									const ct = await apiGetConsultingType({
+										consultingTypeId: id
+									});
+									return ct.slug === consultingTypeSlug
+										? ct
+										: null;
+								};
+
+								for (const {
+									consultingType: ctId
+								} of consultant.agencies) {
+									const res = await loadConsultingType(ctId);
+									if (res) {
+										consultingType = res;
+										break;
+									}
+								}
+							}
 						}
 					}
 				}
@@ -131,7 +157,8 @@ export default function useUrlParamsLoader() {
 		consultantId,
 		topicIdOrName,
 		settings.multitenancyWithSingleDomainEnabled,
-		settings.urls.toRegistration
+		settings.urls.toRegistration,
+		settings?.registration?.directlink?.fallbackLoader?.enabled
 	]);
 
 	useEffect(() => {
