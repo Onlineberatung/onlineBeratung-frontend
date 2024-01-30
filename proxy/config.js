@@ -14,11 +14,11 @@ module.exports = {
 		}
 	},
 	registration: {
-		directlink: {
-			fallbackLoader: {
+		consultingType: {
+			slugLoader: {
 				enabled: !!parseInt(
 					process.env
-						.FRONTEND_REGISTRATION_DIRECTLINK_FALLBACKLOADER_ENABLED ||
+						.FRONTEND_REGISTRATION_CONSULTINGTYPE_SLUGLOADER_ENABLED ||
 						'1'
 				)
 			}

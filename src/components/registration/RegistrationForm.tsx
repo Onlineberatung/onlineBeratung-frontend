@@ -49,7 +49,7 @@ export const RegistrationForm = () => {
 	const { locale } = useLocaleData();
 	const settings = useAppConfig();
 	const postcode = getUrlParameter('postcode');
-	const { agency, consultingType, consultant, topic } =
+	const { agency, consultingType, consultant, topic, slugFallback } =
 		useContext(UrlParamsContext);
 
 	const [formAccordionData, setFormAccordionData] =
@@ -118,6 +118,10 @@ export const RegistrationForm = () => {
 		setIsUsernameAlreadyInUse(false);
 		setIsSubmitButtonDisabled(true);
 
+		const { autoSelectPostcode } =
+			formAccordionData.consultingType?.registration ||
+			ConsultingTypeRegistrationDefaults;
+
 		const registrationData = {
 			username: formAccordionData.username,
 			password: encodeURIComponent(formAccordionData.password),
@@ -129,7 +133,14 @@ export const RegistrationForm = () => {
 			preferredLanguage: locale,
 			...(formAccordionData.state && { state: formAccordionData.state }),
 			...(formAccordionData.age && { age: formAccordionData.age }),
-			...(consultant && { consultantId: consultant.consultantId })
+			...(consultant && { consultantId: consultant.consultantId }),
+			...(slugFallback && {
+				consultingType:
+					formAccordionData.agency.consultingTypeRel?.id?.toString(),
+				postcode: autoSelectPostcode
+					? formAccordionData.agency.postcode
+					: formAccordionData.postcode
+			})
 		};
 
 		const missingFields = [

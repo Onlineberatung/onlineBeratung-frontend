@@ -38,7 +38,8 @@ export const useAgenciesForRegistration = ({
 	const {
 		consultant,
 		agency,
-		consultingType: preselectedConsultingType
+		consultingType: preselectedConsultingType,
+		slugFallback
 	} = useContext(UrlParamsContext);
 
 	const { autoSelectPostcode, autoSelectAgency } =
@@ -62,8 +63,10 @@ export const useAgenciesForRegistration = ({
 			);
 		}
 		if (consultingType) {
-			uniqueAgencies = uniqueAgencies.filter(
-				(agency) => agency.consultingType === consultingType.id
+			uniqueAgencies = uniqueAgencies.filter((agency) =>
+				slugFallback
+					? agency.consultingTypeRel?.slug === slugFallback
+					: agency.consultingType === consultingType.id
 			);
 		}
 		if (autoSelectAgency && uniqueAgencies.length > 0) {
@@ -76,7 +79,8 @@ export const useAgenciesForRegistration = ({
 		consultantAgencies,
 		consultingType,
 		autoSelectPostcode,
-		autoSelectAgency
+		autoSelectAgency,
+		slugFallback
 	]);
 
 	const allConsultingTypes = useMemo(
@@ -107,14 +111,41 @@ export const useAgenciesForRegistration = ({
 		}
 
 		setIsLoading(true);
-		apiAgencySelection(
-			{
-				postcode: autoSelectPostcode ? DEFAULT_POSTCODE : postcode,
-				consultingType: consultingType?.id,
-				topicId: topic?.id
-			},
-			abortController.signal
-		)
+		let promise: Promise<AgencyDataInterface[]>;
+		if (slugFallback) {
+			promise = Promise.all(
+				allConsultingTypes.map((consultingType) =>
+					apiAgencySelection(
+						{
+							postcode: autoSelectPostcode
+								? DEFAULT_POSTCODE
+								: postcode,
+							consultingType: consultingType?.id,
+							topicId: topic?.id,
+							fetchConsultingTypes: true,
+							consultingTypeDetail: 'full'
+						},
+						abortController.signal
+					)
+				)
+			).then((agencyGroups) =>
+				agencyGroups.reduce(
+					(curr, agencies) => curr.concat(agencies),
+					[]
+				)
+			);
+		} else {
+			promise = apiAgencySelection(
+				{
+					postcode: autoSelectPostcode ? DEFAULT_POSTCODE : postcode,
+					consultingType: consultingType?.id,
+					topicId: topic?.id
+				},
+				abortController.signal
+			);
+		}
+
+		promise
 			.then((data) => {
 				setAgencies(data || []);
 			})
@@ -135,7 +166,9 @@ export const useAgenciesForRegistration = ({
 		consultingType?.id,
 		topic?.id,
 		postcode,
-		tenantData?.settings
+		tenantData?.settings,
+		slugFallback,
+		allConsultingTypes
 	]);
 
 	return {

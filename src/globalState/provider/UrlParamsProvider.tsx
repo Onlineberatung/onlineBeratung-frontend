@@ -13,21 +13,30 @@ export const UrlParamsContext = createContext<{
 	consultant: ConsultantDataInterface | null;
 	topic: TopicsDataInterface | null;
 	loaded: boolean;
+	slugFallback: string;
 }>({
 	agency: null,
 	consultingType: null,
 	consultant: null,
 	topic: null,
-	loaded: false
+	loaded: false,
+	slugFallback: undefined
 });
 
 export const UrlParamsProvider: FC = ({ children }) => {
-	const { agency, consultingType, consultant, topic, loaded } =
+	const { agency, consultingType, consultant, topic, loaded, slugFallback } =
 		useUrlParamsLoader();
 
 	return (
 		<UrlParamsContext.Provider
-			value={{ agency, consultingType, consultant, topic, loaded }}
+			value={{
+				agency,
+				consultingType,
+				consultant,
+				topic,
+				loaded,
+				slugFallback
+			}}
 		>
 			{children}
 		</UrlParamsContext.Provider>

@@ -44,7 +44,7 @@ export const ServiceExplanation = ({
 			title: translate(
 				[
 					`consultingType.${consultingTypeId}.welcomeScreen.anonymous.title`,
-					welcomeScreenConfig?.anonymous.title ??
+					welcomeScreenConfig?.anonymous.title ||
 						'registration.welcomeScreen.info4.title'
 				],
 				{ ns: ['consultingTypes', 'common'] }
@@ -52,7 +52,7 @@ export const ServiceExplanation = ({
 			text: translate(
 				[
 					`consultingType.${consultingTypeId}.welcomeScreen.anonymous.text`,
-					welcomeScreenConfig?.anonymous.text ??
+					welcomeScreenConfig?.anonymous.text ||
 						'registration.welcomeScreen.info4.text'
 				],
 				{ ns: ['consultingTypes', 'common'] }

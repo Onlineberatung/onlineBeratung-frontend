@@ -4,10 +4,14 @@ import { getUrlParameter } from './getUrlParameter';
 import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
-	ConsultingTypeInterface
+	ConsultingTypeInterface,
+	LocaleContext
 } from '../globalState';
-import { LocaleContext } from '../globalState/context/LocaleContext';
-import { apiGetAgencyById, apiGetConsultingType } from '../api';
+import {
+	apiGetAgencyById,
+	apiGetConsultingType,
+	apiGetConsultingTypes
+} from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
 import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
@@ -35,6 +39,9 @@ export default function useUrlParamsLoader() {
 	const [loaded, setLoaded] = useState<boolean>(false);
 	const [topic, setTopic] = useState<TopicsDataInterface | null>(null);
 
+	const [slugFallback, setSlugFallback] = useState<string>();
+
+	console.log('BBB');
 	useEffect(() => {
 		(async () => {
 			try {
@@ -42,7 +49,11 @@ export default function useUrlParamsLoader() {
 					consultingType = null;
 
 				if (isNumber(agencyId)) {
-					agency = await apiGetAgencyById(agencyId).catch(() => null);
+					agency = await apiGetAgencyById(
+						agencyId,
+						true,
+						'full'
+					).catch(() => null);
 				}
 
 				if (consultingTypeSlug || agency) {
@@ -50,13 +61,37 @@ export default function useUrlParamsLoader() {
 						consultingTypeSlug,
 						consultingTypeId: agency?.consultingType
 					});
+
+					// Fallback logic for special client because slug is not unique. So try reversed logic
+					if (
+						settings?.registration?.consultingType?.slugLoader
+							?.enabled &&
+						consultingTypeSlug &&
+						consultingType
+					) {
+						const consultingTypes = (
+							await apiGetConsultingTypes()
+						).filter((ct) => ct.id !== consultingType.id);
+						for (const consultingType of consultingTypes) {
+							const otherConsultingType =
+								await apiGetConsultingType({
+									consultingTypeId: consultingType.id
+								});
+							if (
+								otherConsultingType.slug === consultingTypeSlug
+							) {
+								setSlugFallback(consultingTypeSlug);
+								break;
+							}
+						}
+					}
 				}
 
 				if (consultantId) {
 					const consultant = await apiGetConsultant(
 						consultantId,
 						true,
-						'basic'
+						'full'
 					).catch(() => {
 						// consultant not found -> go to registration
 						document.location.href = settings.urls.toRegistration;
@@ -88,29 +123,21 @@ export default function useUrlParamsLoader() {
 						) {
 							consultingType = null;
 
-							// Fallback logic for special client because slug is not unique. So try reversed logicc
+							// Fallback logic for special client because slug is not unique. So try reversed logic
 							if (
-								settings?.registration?.directlink
-									?.fallbackLoader?.enabled &&
+								settings?.registration?.consultingType
+									?.slugLoader?.enabled &&
 								consultingTypeSlug
 							) {
-								const loadConsultingType = async (id) => {
-									const ct = await apiGetConsultingType({
-										consultingTypeId: id
-									});
-									return ct.slug === consultingTypeSlug
-										? ct
-										: null;
-								};
-
-								for (const {
-									consultingType: ctId
-								} of consultant.agencies) {
-									const res = await loadConsultingType(ctId);
-									if (res) {
-										consultingType = res;
-										break;
-									}
+								setSlugFallback(consultingTypeSlug);
+								const slugAgencies = consultant.agencies.filter(
+									(a) =>
+										a.consultingTypeRel.slug ===
+										consultingTypeSlug
+								);
+								if (slugAgencies.length > 0) {
+									consultingType =
+										slugAgencies[0].consultingTypeRel;
 								}
 							}
 						}
@@ -158,7 +185,7 @@ export default function useUrlParamsLoader() {
 		topicIdOrName,
 		settings.multitenancyWithSingleDomainEnabled,
 		settings.urls.toRegistration,
-		settings?.registration?.directlink?.fallbackLoader?.enabled
+		settings?.registration?.consultingType?.slugLoader?.enabled
 	]);
 
 	useEffect(() => {
@@ -167,5 +194,5 @@ export default function useUrlParamsLoader() {
 		}
 	}, [language, setLocale]);
 
-	return { agency, consultant, consultingType, loaded, topic };
+	return { agency, consultant, consultingType, loaded, topic, slugFallback };
 }

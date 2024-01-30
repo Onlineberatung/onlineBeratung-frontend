@@ -31,8 +31,8 @@ export interface AppConfigInterface extends AppSettingsInterface {
 	};
 	groupChat?: GroupChatConfig;
 	registration?: {
-		directlink?: {
-			fallbackLoader?: {
+		consultingType?: {
+			slugLoader?: {
 				enabled?: boolean;
 			};
 		};

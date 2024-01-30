@@ -7,10 +7,15 @@ import {
 } from '../../../globalState';
 import { useAppConfig } from '../../../hooks/useAppConfig';
 import { UrlParamsContext } from '../../../globalState/provider/UrlParamsProvider';
+import { useParams } from 'react-router-dom';
 
 export const useConsultantAgenciesAndConsultingTypes = () => {
 	const settings = useAppConfig();
-	const { consultingType, consultant, agency } = useContext(UrlParamsContext);
+	const { consultingTypeSlug } = useParams<{
+		consultingTypeSlug: string;
+	}>();
+	const { consultingType, consultant, agency, slugFallback } =
+		useContext(UrlParamsContext);
 
 	const [consultingTypes, setConsultingTypes] = useState<
 		ConsultingTypeInterface[]
@@ -23,18 +28,6 @@ export const useConsultantAgenciesAndConsultingTypes = () => {
 			return;
 		}
 
-		// When we've the multi tenancy with single domain we can simply ignore the
-		// consulting types because we'll get agencies across tenants
-		// ToDo: This logic breaks consultant direct links with multiple consulting types
-		if (
-			settings.multitenancyWithSingleDomainEnabled &&
-			consultant?.agencies?.length > 0
-		) {
-			setAgencies(consultant?.agencies);
-			setConsultingTypes([consultingType]);
-			return;
-		}
-
 		const consultingTypes =
 			// Remove consultingType duplicates
 			unionBy(
@@ -44,7 +37,13 @@ export const useConsultantAgenciesAndConsultingTypes = () => {
 				'id'
 			)
 				// If consultingType was preselected by url slug
-				.filter((c) => !consultingType || c.id === consultingType.id);
+				.filter(
+					(c) =>
+						!consultingType ||
+						(slugFallback
+							? c.slug === consultingTypeSlug
+							: c.id === consultingType.id)
+				);
 
 		if (agency) {
 			const consultingTypeIds = consultingTypes.map((c) => c.id);
@@ -72,7 +71,9 @@ export const useConsultantAgenciesAndConsultingTypes = () => {
 		consultant,
 		consultingType,
 		agency,
-		settings.multitenancyWithSingleDomainEnabled
+		settings.multitenancyWithSingleDomainEnabled,
+		consultingTypeSlug,
+		slugFallback
 	]);
 
 	return { agencies, consultingTypes };
