@@ -28,6 +28,7 @@ export const FETCH_ERRORS = {
 	CONFLICT: 'CONFLICT',
 	CONFLICT_WITH_RESPONSE: 'CONFLICT_WITH_RESPONSE',
 	EMPTY: 'EMPTY',
+	FAILED_DEPENDENCY: 'FAILED_DEPENDENCY',
 	FORBIDDEN: 'FORBIDDEN',
 	NO_MATCH: 'NO_MATCH',
 	TIMEOUT: 'TIMEOUT',
@@ -184,8 +185,17 @@ export const fetchData = ({
 								: new Error(FETCH_ERRORS.CONFLICT)
 						);
 					} else if (
-						responseHandling.includes(FETCH_ERRORS.CATCH_ALL) ||
-						responseHandling.includes(
+						response.status === 424 &&
+						props.responseHandling.includes(
+							FETCH_ERRORS.FAILED_DEPENDENCY
+						)
+					) {
+						reject(new Error(FETCH_ERRORS.FAILED_DEPENDENCY));
+					} else if (
+						props.responseHandling.includes(
+							FETCH_ERRORS.CATCH_ALL
+						) ||
+						props.responseHandling.includes(
 							FETCH_ERRORS.CATCH_ALL_WITH_RESPONSE
 						)
 					) {

@@ -321,7 +321,7 @@ export const Login = () => {
 				}
 
 				if (Object.keys(patchedUserData).length > 0) {
-					await apiPatchUserData(patchedUserData);
+					await apiPatchUserData(patchedUserData).catch(console.log);
 					await reloadUserData().catch(console.log);
 				}
 
