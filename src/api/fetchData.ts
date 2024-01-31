@@ -186,16 +186,14 @@ export const fetchData = ({
 						);
 					} else if (
 						response.status === 424 &&
-						props.responseHandling.includes(
+						responseHandling.includes(
 							FETCH_ERRORS.FAILED_DEPENDENCY
 						)
 					) {
 						reject(new Error(FETCH_ERRORS.FAILED_DEPENDENCY));
 					} else if (
-						props.responseHandling.includes(
-							FETCH_ERRORS.CATCH_ALL
-						) ||
-						props.responseHandling.includes(
+						responseHandling.includes(FETCH_ERRORS.CATCH_ALL) ||
+						responseHandling.includes(
 							FETCH_ERRORS.CATCH_ALL_WITH_RESPONSE
 						)
 					) {
