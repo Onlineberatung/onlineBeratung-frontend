@@ -179,9 +179,11 @@ export const TermsAndConditions = () => {
 				userData,
 				'dataPrivacyConfirmation'
 			)
-		}).then(() => {
-			setViewState({ ...viewState, showOverlay: false });
-		});
+		})
+			.then(() => {
+				setViewState({ ...viewState, showOverlay: false });
+			})
+			.catch(console.log);
 	};
 
 	return (
