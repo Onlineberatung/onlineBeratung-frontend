@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <rect width="100%" height="100%" fill="#fff" />
+    <g id="Digisucht-Logo_Favicon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="scale(0.75,0.75) translate(170,170)" >
+        <g id="digisucht-logo" transform="translate(52.080160, 12.000000)" fill-rule="nonzero">
+            <polyline id="Path" fill="#F77D28" points="225.348697 861.749499 0 861.749499 0 136.787575 455.877756 136.787575 678.006012 0 566.869739 212.783567 76.0140281 212.783567 76.0140281 785.759519 265.340681 785.759519 225.348697 861.749499"></polyline>
+            <polyline id="Path" fill="#225E65" points="240.188377 998.531062 351.328657 785.747495 842.184369 785.747495 842.184369 212.773547 652.857715 212.773547 692.845691 136.787575 918.194389 136.787575 918.194389 861.749499 462.314629 861.749499 240.188377 998.531062"></polyline>
+        </g>
+    </g>
+</svg>

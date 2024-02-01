@@ -1,0 +1,6 @@
+{
+	"e2e": {
+		"excludeSpecPattern": ["cypress/e2e/**/registration.cy.ts"],
+		"specPattern": ["src/extensions/cypress/e2e/**/*.cy.ts"]
+	}
+}
