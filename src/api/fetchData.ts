@@ -219,9 +219,7 @@ export const fetchData = ({
 						reject(new Error(FETCH_ERRORS.ABORTED));
 					} else if (
 						response.status === 504 &&
-						props.responseHandling.includes(
-							FETCH_ERRORS.GATEWAY_TIMEOUT
-						)
+						responseHandling.includes(FETCH_ERRORS.GATEWAY_TIMEOUT)
 					) {
 						reject(new Error(FETCH_ERRORS.GATEWAY_TIMEOUT));
 					} else if (response.status === 401) {
