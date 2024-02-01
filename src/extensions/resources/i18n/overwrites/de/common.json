@@ -1,0 +1,288 @@
+{
+	"anonymous": {
+		"overlay": {
+			"chatWasFinished": {
+				"button": "Zur Startseite"
+			},
+			"finishChat": {
+				"success": {
+					"headline": "Der Chat wurde erfolgreich beendet.",
+					"button": "Zur Startseite"
+				}
+			}
+		},
+		"waitingroom": {
+			"redirect": {
+				"subline": "Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns so schnell wie möglich bei Ihnen. <b>Gehen Sie <a href=\"registration\">zur Registrierung</a></b>"
+			},
+			"overlay": {
+				"rejection": {
+					"copy": "Leider konnten wir innerhalb der Chat-Zeit nicht auf Ihr Anliegen eingehen. Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns so schnell wie möglich bei Ihnen."
+				}
+			},
+			"subline": "Die zuständige Beraterin / Der zuständige Berater wurde über Ihre Anfrage zur Gesprächsteilnahme informiert. Wir warten auf die Freigabe Ihres Zugangs zum Gespräch."
+		}
+	},
+	"app": {
+		"title": "DigiSucht",
+		"stage": {
+			"title": "DigiSucht"
+		}
+	},
+	"banUser": {
+		"banned": {
+			"headline": "Sie wurden aus dem Gruppenchat entfernt.",
+			"info": "Ein Admin der Gruppe hat Sie aus dem Chat entfernt. Eine Teilnahme an diesem Gruppenchat ist für Sie aktuell nicht mehr möglich.<br/><br/>Bei Fragen zum Gruppenchat kontaktieren Sie bitte Ihre Beraterin, Ihren Berater oder die Gruppenleitung."
+		}
+	},
+	"deleteAccount": {
+		"successOverlay": {
+			"headline": "Sie haben Ihren Account bei der DigiSucht Online-Beratung & Hilfe erfolgreich gelöscht."
+		}
+	},
+	"error": {
+		"statusCodes": {
+			"400": {
+				"description": "Da ist etwas schiefgelaufen. Bitte überprüfe noch einmal deine URL, sie sollte so aussehen:<br /><br/><strong>[beratungsstelle].onlineberatung.net</strong>"
+			}
+		}
+	},
+	"enquiry": {
+		"write": {
+			"infotext": {
+				"copy": {
+					"facts": "<ul><li>Wie ist Ihre aktuelle Situation?</li><li>Was beschäftigt Sie?</li><li>Was möchten Sie von uns wissen?</li></ul>",
+					"title": "<span></span>"
+				},
+				"headline": "Hier ist Raum für Ihre Fragen und Anliegen."
+			},
+			"overlay": {
+				"copy": "Wir melden uns so schnell wie möglich bei Ihnen."
+			}
+		}
+	},
+	"furtherSteps": {
+		"emailNotification": {
+			"button": "E-Mail-Adresse angeben",
+			"headline": "Dürfen wir mit Ihnen in Kontakt treten?",
+			"infoText": "Sie können (freiwillig) Ihre E-Mail-Adresse angeben, um<br><ul><li>Benachrichtigungen zu erhalten, wenn Ihre Beraterin / Ihr Berater Ihnen schreibt</li><li>Terminerinnerungen zu erhalten</li><li>Ihr Passwort zurückzusetzen, falls Sie es vergessen sollten</li></ul>Ihre E-Mail-Adresse kann von den Beraterinnen und Beratern nicht eingesehen werden."
+		},
+		"headline": "Vielen Dank für Ihre Nachricht!",
+		"step1": {
+			"info": "Ihre Anfrage ist bei Ihrer Beratungsstelle eingegangen."
+		},
+		"step2": {
+			"info": "Wir finden eine passende Beraterin oder einen passenden Berater für Sie."
+		},
+		"step3": {
+			"info": "Ihr Berater / Ihre Beraterin meldet sich so schnell wie möglich."
+		},
+		"twoFactorAuth": {
+			"headline": "Der Schutz Ihrer Daten ist uns wichtig!",
+			"infoText": "Sichern Sie Ihr Konto vor einem möglichen unbefugten Zugriff. Nutzen Sie einen zweiten Faktor (App oder E-Mail) für die Anmeldung auf der DigiSucht Plattform."
+		}
+	},
+	"groupChat": {
+		"qrCode": {
+			"headline": "Ihr Gruppenchat QR-Code",
+			"text": "Wenn Sie diesen QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um der Gruppe beizutreten. Sie können den Code auch herunterladen.",
+			"download": {
+				"filename": "qr-code-{{filename}}"
+			},
+			"overlay": {
+				"close": "Schließen",
+				"download": "QR-Code als .png herunterladen"
+			}
+		},
+		"create": {
+			"button.label": "Chat erstellen"
+		},
+		"join": {
+			"content": {
+				"headline": "Informationen zum Gruppenchat"
+			}
+		}
+	},
+	"login": {
+		"register": {
+			"linkLabel": "Registrieren"
+		},
+		"legal": {
+			"infoText": {
+				"dataprotection": "Datenschutzerklärung"
+			}
+		}
+	},
+	"legal": {
+		"termsAndConditions": {
+			"label": "Nutzungsbedingungen"
+		}
+	},
+	"message": {
+		"submit": {
+			"booking": {
+				"buttonLabel": "Beratungstermin vereinbaren",
+				"headline": "Oder vereinbaren Sie jetzt einen Termin"
+			}
+		}
+	},
+	"registration": {
+		"overline": "Herzlich willkommen!",
+		"welcomeScreen": {
+			"info1": {
+				"text": "Finden Sie eine passende Beratungsstelle"
+			},
+			"info2": {
+				"title": "Nehmen Sie Kontakt auf",
+				"text": "Schreiben Sie eine Nachricht oder vereinbaren Sie einen Termin"
+			},
+			"subline": "So funktioniert die Beratung auf der DigiSucht Plattform:",
+			"info3": {
+				"text": "Je nach Verfügbarkeit per Nachricht, im Textchat, im Videochat oder vor Ort"
+			},
+			"info4": {
+				"text": "Sie bleiben auf Wunsch anonym und werden kostenfrei beraten"
+			}
+		},
+		"overlay": {
+			"success": {
+				"button": "Weiter",
+				"headline": "Herzlich willkommen<br> auf der DigiSucht Plattform!"
+			}
+		},
+		"confirmOverlay": {
+			"copy": "Möchten Sie den Chat wirklich löschen?",
+			"headline": "Chat löschen"
+		},
+		"errorOverlay": {
+			"headline": "Ups! Wir konnten den Chat gerade nicht löschen. Bitte versuchen Sie es noch einmal."
+		},
+		"successOverlay": {
+			"headline": "Sie haben den Chat erfolgreich gelöscht."
+		}
+	},
+	"registrationDigi": {
+		"accordion.step1.title": "Ihr Beratungsanliegen",
+		"accordion.step2.title": "Ihre Beratungsstelle in der Nähe",
+		"accordion.step3.title": "Ihr Account",
+		"age.headline": "Wie alt sind Sie?",
+		"age.label": "Jahre",
+		"ageAndGender.step.title": "Bitte machen Sie Angaben über sich",
+		"agency.error.title": "Keine Beratungsstelle in der Nähe gefunden",
+		"agency.fullFillAllFields": "Leider konnten wir keine Beratungsstelle in Ihrer Nähe finden. Sie können auch eine Postleitzahl in der Nähe Ihres Wohnortes angeben.<br/><br/>Suchtberatung in ihrer Nähe finden Sie auch im Einrichtungsverzeichnis der Deutschen Hauptstelle für Suchtfragen (<a target=\"_blank\" href=\"https://www.dhs.de/service/suchthilfeverzeichnis\">https://www.dhs.de/service/suchthilfeverzeichnis</a>).",
+		"agency.noAgencyFound": "Leider können wir dir derzeit keine passende Online-Beratungsstelle in deiner Nähe anbieten.",
+		"counsellingRelation": {
+			"options": {
+				"parental_counselling": "Ich bin Elternteil von jemandem mit Suchtproblemen.",
+				"relative_counselling": "Ich bin Angehörige/r von jemandem mit Suchtproblemen.",
+				"self_counselling": "Ich bin selbst von Suchtproblemen betroffen."
+			}
+		},
+		"counsellingRelation.step.title": "Was ist der Grund für Ihr Anliegen?",
+		"gender": {
+			"options": {
+				"diverse": "Divers",
+				"female": "Weiblich",
+				"male": "Männlich",
+				"not_provided": "Keine Angabe"
+			}
+		},
+		"gender.headline": "Was ist Ihr Geschlecht?",
+		"headline": "Registrierung",
+		"mainTopics.selectAtLestOneTopic": "Bisher haben Sie keine Problemfelder ausgewählt. Um ihre Registrierung zu vervollständigen, müssen sie mindestens ein Problem ausgewählt haben.",
+		"mainTopics.step.title": "Welches dieser Problemfelder ist für Sie aktuell am Wichtigsten?",
+		"overline": "Herzlich willkommen",
+		"password.step.title": "Bitte wählen Sie Ihr Passwort",
+		"teaser.consultant": "Bitte registrieren Sie sich, um mit Ihrer Beraterin / Ihrem Berater in Kontakt zu kommen",
+		"topics.step.title": "Welche Probleme liegen Ihrer Meinung nach vor?",
+		"username.step.title": "Bitte wählen Sie Ihren Benutzernamen",
+		"welcomeScreen": {
+			"info1": {
+				"text": "Finden Sie eine passende Beratungsstelle"
+			},
+			"info2": {
+				"title": "Nehmen Sie Kontakt auf",
+				"text": "Schreiben Sie eine Nachricht oder vereinbaren Sie einen Termin"
+			},
+			"info4": {
+				"text": "Schreiben Sie eine Nachricht oder vereinbaren Sie einen Termin"
+			}
+		},
+		"overlay": {
+			"success": {
+				"copy": "Sie haben sich erfolgreich registriert.<br>Sie können nun direkt eine Nachricht verfassen oder je nach Verfügbarkeit einen Beratungstermin vereinbaren."
+			}
+		}
+	},
+	"sessionList": {
+		"createChat.buttonTitle": "Chat erstellen"
+	},
+	"twoFactorAuth": {
+		"activate": {
+			"email": {
+				"step2": {
+					"copy": "An die folgende E-Mail-Adresse wird zukünftig der Zwei-Faktor-Zugangscode geschickt:",
+					"title": "E-Mail-Adresse bestätigen / eintragen"
+				},
+				"input": {
+					"info": "Achtung: Sie können auf der Plattform lediglich eine E-Mail-Adresse hinterlegen. Wenn Sie die hier angegebene E-Mail-Adresse ändern, wird Ihre bereits für Ihr Nutzerkonto hinterlegte E-Mail-Adresse ersetzt."
+				}
+			}
+		},
+		"subtitle": "Nutzen Sie eine weitere App für die Anmeldung mit Ihrem DigiSucht-Konto. Dadurch ist Ihr Konto sicherer vor einem möglichen unbefugten Zugriff."
+	},
+	"userProfile": {
+		"tools": {
+			"description": "Schalten Sie Tools für die ratsuchende Person frei.",
+			"share": {
+				"sharedContent": "zu den geteilten Tools",
+				"title": "Hier gelangen Sie zu den Tools, die die ratsuchende Person mit Ihnen geteilt hat."
+			},
+			"documentation": {
+				"btn": "zur Dokumentation",
+				"info": "Nur zugewiesene Berater_innen können die Inhalte der Ratsuchenden einsehen. Wenn Sie aus der Teamberatung auf die Inhalte zugreifen, sind die Ratsuchenden nicht vorausgewählt.",
+				"text": "Dokumentieren Sie Ihre Beratungsvorgänge"
+			}
+		}
+	},
+	"profile": {
+		"age": "Alter",
+		"counsellingRelation": {
+			"parental_counselling": "Elternteil",
+			"relative_counselling": "Angehörige_r",
+			"self_counselling": "Betroffene_r"
+		},
+		"data": {
+			"emailInfo": "Die Angabe Ihrer E-Mail ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer Beraterin / Ihres Beraters zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar."
+		},
+		"enquiry": {
+			"notice": "Die Profil Informationen können erst nach Annahme der Anfrage vollständig angezeigt werden."
+		},
+		"gender": {
+			"title": "Geschlecht",
+			"options": {
+				"diverse": "Divers",
+				"female": "Weiblich",
+				"male": "Männlich",
+				"not_provided": "Keine Angabe"
+			}
+		},
+		"mainTopic": "Hauptthema",
+		"notifications": {
+			"noEmail": {
+				"modal": {
+					"description": "Die Angabe Ihrer E-Mail-Adresse ist freiwillig und wird ausschließlich verwendet, um Sie über neue Antworten Ihrer Beraterin / Ihres Beraters zu informieren. Ihre E-Mail-Adresse ist für Berater_innen nicht sichtbar."
+				}
+			}
+		},
+		"postalCode": "Postleitzahl",
+		"profilInformation": "Profil Informationen",
+		"selectedTopics": "Ausgewählte Themen",
+		"status": "Grund des Anliegens",
+		"tools": {
+			"documentation": "Dokumentation",
+			"tools": "Tools"
+		},
+		"topic": "Themen"
+	}
+}

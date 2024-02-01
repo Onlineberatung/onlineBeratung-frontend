@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 566.93 566.93">
+    <defs>
+        <clipPath id="ff8cb287-30df-4aaa-aec3-c39f3ff9e9b0">
+            <circle cx="283.47" cy="-369.23" r="283.46" style="fill:none"/>
+        </clipPath>
+        <clipPath id="ffcef8d7-02c2-4d97-b59d-cb170843e3a1">
+            <circle cx="-420.29" cy="275.23" r="282.91" style="fill:none"/>
+        </clipPath>
+    </defs>
+    <g id="bda83577-95b0-40c4-a19f-e430feea0880" data-name="Copy">
+        <g style="clip-path:url(#ffcef8d7-02c2-4d97-b59d-cb170843e3a1)">
+            <rect x="-600.6" y="206.52" width="1428.69" height="99.03" rx="16.47" style="fill:#fff"/>
+        </g>
+        <g style="opacity:0.05">
+            <circle cx="283.46" cy="283.46" r="283.46"/>
+        </g>
+        <g style="opacity:0.05">
+            <circle cx="283.46" cy="283.46" r="165.27"/>
+        </g>
+        <circle cx="283.46" cy="283.46" r="110.18" style="fill:#d30041"/>
+        <path d="M297.79,283.46,326.3,255A10.13,10.13,0,0,0,312,240.63l-28.51,28.51L255,240.63A10.13,10.13,0,0,0,240.63,255l28.51,28.5L240.63,312A10.13,10.13,0,0,0,255,326.3l28.5-28.51L312,326.3A10.13,10.13,0,0,0,326.3,312Z" style="fill:#fff"/>
+    </g>
+</svg>

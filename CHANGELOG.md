@@ -2,6 +2,173 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 2.14.0 (2024-01-26)
+
+
+### Features
+
+* show group creator and date ([3f27e0d](https://github.com/onlineberatung/onlineberatung-frontend/commit/3f27e0d60227c94853457e7778537f18be3e6c62))
+
+### 2.13.31 (2024-01-26)
+
+
+### Bug Fixes
+
+* updated review comments ([b90b0a1](https://github.com/onlineberatung/onlineberatung-frontend/commit/b90b0a1ed92ea09cc6a16b586c72f1a8c0e703e7))
+
+### 2.13.30 (2024-01-17)
+
+### 2.13.29 (2024-01-16)
+
+### 2.13.28 (2024-01-16)
+
+### 2.13.27 (2024-01-16)
+
+### 2.13.26 (2024-01-16)
+
+### 2.13.25 (2024-01-10)
+
+### 2.13.24 (2023-11-29)
+
+### 2.13.23 (2023-11-29)
+
+### 2.13.22 (2023-11-23)
+
+### 2.13.21 (2023-10-04)
+
+### 2.13.20 (2023-09-27)
+
+### 2.13.19 (2023-09-25)
+
+### 2.13.18 (2023-09-25)
+
+### 2.13.17 (2023-09-12)
+
+### 2.13.16 (2023-09-11)
+
+### 2.13.15 (2023-09-11)
+
+### 2.13.14 (2023-09-11)
+
+### 2.13.13 (2023-08-21)
+
+### 2.13.12 (2023-08-16)
+
+### 2.13.11 (2023-08-10)
+
+### 2.13.10 (2023-08-09)
+
+### 2.13.9 (2023-08-08)
+
+### 2.13.8 (2023-08-07)
+
+### 2.13.7 (2023-08-07)
+
+### 2.13.6 (2023-07-26)
+
+### 2.13.5 (2023-07-26)
+
+### 2.13.4 (2023-07-13)
+
+### 2.13.3 (2023-07-12)
+
+
+### Bug Fixes
+
+* **ban user:** dont close overlay on state change ([01dc7a3](https://github.com/onlineberatung/onlineberatung-frontend/commit/01dc7a349ad6a8a7d41acd28b4dc633f54dcf662))
+
+### 2.13.2 (2023-06-27)
+
+
+### Bug Fixes
+
+* change to use agency instead of consultant ([a287580](https://github.com/onlineberatung/onlineberatung-frontend/commit/a287580425bc7bcbadd91e5e9a12dd30a3c7a22e))
+
+### 2.13.1 (2023-06-26)
+
+
+### Bug Fixes
+
+* when group chat is first position OB-5233 ([b8fb517](https://github.com/onlineberatung/onlineberatung-frontend/commit/b8fb51743f033719aea3bd8eaf00fad862e341bf))
+
+## 2.13.0 (2023-06-22)
+
+
+### Features
+
+* adding the OB-5223 ([eda96f2](https://github.com/onlineberatung/onlineberatung-frontend/commit/eda96f2906e46b639d27774e1419de08f9607a4a))
+
+### 2.12.2 (2023-06-21)
+
+
+### Bug Fixes
+
+* adding the digital and live OB-5221 ([8f9376a](https://github.com/onlineberatung/onlineberatung-frontend/commit/8f9376aa958d5b0fd5e665cbd2a69b4eb8f00bc6))
+
+### 2.12.1 (2023-06-21)
+
+
+### Bug Fixes
+
+* remove leave chat if user is banned OB-5219 ([9c6d9e2](https://github.com/onlineberatung/onlineberatung-frontend/commit/9c6d9e2e494f88a942859d19134f5cb9a192dc59))
+
+## 2.12.0 (2023-06-21)
+
+
+### Features
+
+* remove unused code ([f73c16c](https://github.com/onlineberatung/onlineberatung-frontend/commit/f73c16cc38d5475ec48db269691af4ee5c989a8e))
+
+### 2.11.1 (2023-05-22)
+
+
+### Bug Fixes
+
+* another typos OB-4989, OB-4869 ([682e2ee](https://github.com/onlineberatung/onlineberatung-frontend/commit/682e2ee4b4449d41435252318b885e1f19d6da40))
+
+## 2.11.0 (2023-05-22)
+
+
+### Features
+
+* adding the new descriptions OB-4989 and new translations provided by Niklas ([a808ec4](https://github.com/onlineberatung/onlineberatung-frontend/commit/a808ec4430eebdb9adca2c647841e7728f18d174))
+
+## 2.10.0 (2023-05-19)
+
+
+### Features
+
+* adding the informal language for terms and conditions OB-4869 ([f7215d9](https://github.com/onlineberatung/onlineberatung-frontend/commit/f7215d94772b9cc66dad4d31a4f8ab6a0565389a))
+
+### 2.9.21 (2023-05-17)
+
+
+### Bug Fixes
+
+* revert team beratung descriptions OB-4646 ([bc11377](https://github.com/onlineberatung/onlineberatung-frontend/commit/bc11377a521edd7287b2231121c821519133cbf3))
+
+### 2.9.20 (2023-05-16)
+
+
+### Bug Fixes
+
+* overview available to AS OB-4851 ([15f97f1](https://github.com/onlineberatung/onlineberatung-frontend/commit/15f97f1c972ee26b70ac13a1561078e986ea55b6))
+
+### 2.9.19 (2023-05-05)
+
+### 2.9.18 (2023-05-04)
+
+### 2.9.17 (2023-05-03)
+
+### 2.9.16 (2023-04-27)
+
+### 2.9.15 (2023-01-04)
+
+
+### Bug Fixes
+
+* issue when changing the translation ([f75dfd6](https://github.com/onlineberatung/onlineberatung-frontend/commit/f75dfd626af738e94d2bb1ef532a95b5c2f1baf8))
+
 ### 2.9.14 (2022-03-08)
 
 ### 2.9.13 (2022-02-28)

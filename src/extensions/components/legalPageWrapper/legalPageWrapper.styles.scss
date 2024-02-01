@@ -1,0 +1,42 @@
+.legalPageWrapper {
+	@include breakpoint($fromLarge) {
+		.stage {
+			display: flex;
+		}
+	}
+
+	.template {
+		h2 + p,
+		h3 + p,
+		h4 + p {
+			margin-top: 0.3rem;
+		}
+		ol {
+			counter-reset: item;
+			li {
+				display: block;
+			}
+
+			li::before {
+				content: counters(item, '.') '. ';
+				counter-increment: item;
+				font-weight: bold;
+			}
+
+			ol {
+				counter-reset: item;
+			}
+		}
+	}
+
+	.stageLayout__content {
+		align-items: flex-start;
+		justify-content: flex-start;
+		padding-top: 120px;
+
+		@include breakpoint($fromLarge) {
+			width: calc(60vw - 160px);
+			left: calc(40vw + 80px);
+		}
+	}
+}

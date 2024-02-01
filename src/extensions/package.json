@@ -1,0 +1,14 @@
+{
+	"name": "@onlineberatung/onlineberatung-frontend-extensions",
+	"version": "1.0.0",
+	"description": "For easier extending/overriding small components this directory reflects the structure of the src folder.",
+	"main": "",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"rc-field-form": "^1.41.0"
+	},
+	"author": "",
+	"license": "ISC"
+}

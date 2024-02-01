@@ -1,0 +1,153 @@
+$loginOverlayDelayDesktop: 1s;
+$loginOverlayDelayMobile: 2.5s;
+$transitionDuration: 1.4s;
+$transitionCurve: ease;
+$iconSize: 55px;
+$gridSpacing: $grid-base-four;
+
+.stage {
+	background-color: var(--skin-color-primary, $primary);
+	color: var(--text-color-contrast-switch, $white);
+	flex-direction: column;
+	padding: $grid-base-four $grid-base-four $grid-base-eight;
+	display: none;
+
+	@include breakpoint($fromXLarge) {
+		display: flex;
+		padding: 60px $grid-base-ten $grid-base-ten;
+	}
+
+	&__headline {
+		margin-top: auto;
+		word-break: normal;
+		text-align: left;
+
+		h1 {
+			margin-bottom: $grid-base;
+			font-size: 32px;
+			font-weight: $font-weight-bold;
+
+			@include breakpoint($fromXLarge) {
+				margin-bottom: $grid-base-three;
+				font-size: 40px;
+				line-height: 50px;
+			}
+		}
+
+		h4 {
+			margin: 0;
+			text-align: left;
+			font-size: $font-size-primary;
+			font-weight: $font-weight-regular;
+
+			@include breakpoint($fromXLarge) {
+				font-size: 24px;
+				line-height: 32px;
+			}
+		}
+	}
+
+	&--animated {
+		display: flex;
+		width: 100vw;
+
+		&.stage--animation-done {
+			display: none;
+
+			@include breakpoint($fromXLarge) {
+				display: flex;
+			}
+		}
+
+		h1 {
+			@include breakpoint($fromXLarge) {
+				transform: scale(1.5);
+				transform-origin: bottom left;
+
+				@keyframes headlineAnimation {
+					from {
+						transform: scale(1.5);
+					}
+					to {
+						transform: none;
+					}
+				}
+
+				animation: headlineAnimation 1s $loginOverlayDelayDesktop
+					$transitionCurve forwards;
+			}
+		}
+
+		&.stage--ready {
+			animation: overlayAnimation $transitionDuration
+				$loginOverlayDelayMobile $transitionCurve forwards;
+		}
+
+		@keyframes overlayAnimation {
+			from {
+				left: 0;
+			}
+			to {
+				left: -100vw;
+			}
+		}
+
+		@include breakpoint($fromXLarge) {
+			&.stage--ready {
+				animation: overlayAnimation 1s $loginOverlayDelayDesktop
+					$transitionCurve forwards;
+			}
+
+			@keyframes overlayAnimation {
+				from {
+					width: 100vw;
+				}
+				to {
+					width: 40vw;
+				}
+			}
+		}
+	}
+
+	&__spinner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		animation: hideSpinner 4s 2s ease forwards;
+
+		&.spinner * {
+			background-color: var(--skin-color-secondary, #{$white});
+		}
+
+		@include breakpoint($fromXLarge) {
+			animation-duration: 2s;
+			top: auto;
+			left: auto;
+			right: 114px;
+			bottom: 114px;
+		}
+
+		@keyframes hideSpinner {
+			from {
+				opacity: 1;
+			}
+			to {
+				opacity: 0;
+			}
+		}
+	}
+
+	&__logo {
+		width: 200px;
+		height: 200px;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: top left;
+
+		@include breakpoint($fromXXLarge) {
+			width: 225px;
+			height: 225px;
+		}
+	}
+}
