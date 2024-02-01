@@ -11,7 +11,8 @@ export const apiPatchUserData = async (data): Promise<any> => {
 		rcValidation: true,
 		responseHandling: [
 			FETCH_ERRORS.BAD_REQUEST,
-			FETCH_ERRORS.FAILED_DEPENDENCY
+			FETCH_ERRORS.FAILED_DEPENDENCY,
+			FETCH_ERRORS.GATEWAY_TIMEOUT
 		]
 	});
 };

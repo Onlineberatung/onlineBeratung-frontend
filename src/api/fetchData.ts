@@ -30,6 +30,7 @@ export const FETCH_ERRORS = {
 	EMPTY: 'EMPTY',
 	FAILED_DEPENDENCY: 'FAILED_DEPENDENCY',
 	FORBIDDEN: 'FORBIDDEN',
+	GATEWAY_TIMEOUT: 'GATEWAY_TIMEOUT',
 	NO_MATCH: 'NO_MATCH',
 	TIMEOUT: 'TIMEOUT',
 	UNAUTHORIZED: 'UNAUTHORIZED',
@@ -216,6 +217,11 @@ export const fetchData = ({
 						responseHandling.includes(FETCH_ERRORS.ABORTED)
 					) {
 						reject(new Error(FETCH_ERRORS.ABORTED));
+					} else if (
+						response.status === 504 &&
+						responseHandling.includes(FETCH_ERRORS.GATEWAY_TIMEOUT)
+					) {
+						reject(new Error(FETCH_ERRORS.GATEWAY_TIMEOUT));
 					} else if (response.status === 401) {
 						logout(true, appConfig.urls.toLogin);
 					}
