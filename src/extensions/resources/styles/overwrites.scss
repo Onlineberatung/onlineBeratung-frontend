@@ -1,0 +1,193 @@
+.messageItem {
+	&__message {
+		&__attachment {
+			&__download {
+				p {
+					color: $body-font-color;
+				}
+
+				p:hover {
+					color: darken($body-font-color, 10%);
+				}
+
+				svg * {
+					fill: $body-font-color;
+				}
+			}
+		}
+	}
+}
+
+.messageItem__message__attachment__download:hover {
+	p {
+		color: darken($body-font-color, 10%);
+	}
+}
+
+.sessionsListItem__topic {
+	background-color: var(--skin-color-primary, $primary);
+	color: var(--text-color-contrast-switch, $white);
+}
+
+.button__smallIcon {
+	&--green {
+		background-color: #5c5953;
+	}
+
+	&--alternate {
+		background-color: #5c5953;
+	}
+
+	&--secondary {
+		border-radius: 4px;
+	}
+}
+
+.sessionInfo {
+	background-color: #f2f3f5;
+}
+
+.session__content {
+	background-color: #f2f3f5;
+}
+
+.button__primary {
+	color: #fff;
+}
+
+.contentWrapper__detail {
+	background-color: #f2f3f5 !important;
+}
+
+.navigation__item {
+	svg {
+		fill: #fff;
+	}
+	color: #fff;
+
+	&:hover {
+		color: #fff;
+	}
+}
+
+.profile__footer {
+	background-color: #e4e5e7;
+}
+
+@media screen and (min-height: 700px) and (max-height: 800px) {
+	.enquiry {
+		&__image {
+			max-width: 200px;
+		}
+	}
+}
+
+@media screen and (min-height: 600px) and (max-height: 700px) {
+	.enquiry {
+		&__image {
+			max-width: 100px;
+		}
+	}
+}
+
+@media screen and (max-height: 600px) {
+	.enquiry {
+		&__image {
+			display: none;
+		}
+	}
+}
+
+.registrationFormDigi {
+	.inputField--withIcon {
+		margin-left: 0;
+
+		input {
+			padding-left: 47px;
+		}
+	}
+
+	.preselectedAgency__item__container {
+		.radioButton {
+			margin-bottom: 0px;
+		}
+	}
+
+	.agencySelection {
+		&__proposedAgency {
+			margin-bottom: 24px;
+			.radioButton {
+				margin-bottom: 0px;
+			}
+		}
+		.agencyInfo__wrapper {
+			display: initial;
+		}
+
+		&__proposedAgencies {
+			margin-top: 28px;
+			text-align: left;
+
+			h3 {
+				color: var(--skin-color-primary-contrast-safe, $black);
+				font-size: 16px;
+				line-height: 24px;
+				margin-bottom: 12px;
+				text-align: left;
+			}
+		}
+
+		&__proposedAgency {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+
+			.agencyInfo__wrapper {
+				text-align: right;
+			}
+
+			.agencyLanguages {
+				grid-column-start: 1;
+				grid-column-end: 3;
+			}
+		}
+	}
+}
+
+.stageLayout__header.mobile {
+	justify-content: space-between;
+
+	.login__tenantRegistration > .text__infoSmall {
+		text-align: center;
+	}
+}
+
+.stageLayout__toLogin {
+	margin-right: 10px;
+}
+
+.stageLayout__toLogin .button__tertiary,
+.login__tenantRegistration .button__tertiary {
+	height: auto;
+}
+
+.registrationWelcome__buttonsWrapper {
+	border: none;
+}
+
+.askerInfo {
+	&__content {
+		padding-left: 20px;
+		padding-bottom: 58px;
+		background-color: $background-light;
+		max-width: none;
+
+		@include breakpoint($fromLarge) {
+			padding-bottom: 0;
+		}
+
+		&__container {
+			display: flex;
+			flex-wrap: wrap;
+		}
+	}
+}

@@ -1,7 +1,7 @@
 {
 	"name": "@onlineberatung/onlineberatung-frontend",
 	"title": "Online-Beratung",
-	"version": "2.9.14",
+	"version": "2.14.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/onlineberatung/onlineberatung-frontend.git"
@@ -104,6 +104,7 @@
 		"postcss-safe-parser": "^6.0.0",
 		"prompts": "^2.4.2",
 		"qrcode": "^1.5.0",
+		"rc-field-form": "^1.27.1",
 		"react": "^17.0.2",
 		"react-app-polyfill": "^3.0.0",
 		"react-csv": "^2.2.2",

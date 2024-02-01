@@ -1,0 +1,132 @@
+{
+	"anonymous": {
+		"waitingroom": {
+			"redirect": {
+				"subline": "Registriere Dich und hinterlasse uns eine Nachricht. Wir melden uns so schnell wie möglich bei Dir. <b>Gehe <a href=\"registration\">zur Registrierung</a></b>"
+			},
+			"overlay": {
+				"rejection": {
+					"copy": "Leider konnten wir innerhalb der Chat-Zeit nicht auf Dein Anliegen eingehen. Registrieren Dich und hinterlasse uns eine Nachricht. Wir melden uns so schnell wie möglich bei Dir."
+				}
+			},
+			"subline": "Die zuständige Beraterin / Der zuständige Berater wurde über Deine Anfrage zur Gesprächsteilnahme informiert. Wir warten auf die Freigabe Deines Zugangs zum Gespräch.",
+			"headline": "Bitte habe etwas Geduld"
+		}
+	},
+	"groupChat": {
+		"qrCode": {
+			"headline": "Dein Gruppenchat QR-Code",
+			"text": "Wenn Du diesen QR-Code mit jemandem teilst, kann diese Person ihn mit der Handykamera scannen, um der Gruppe beizutreten. Du kannst den Code auch herunterladen."
+		},
+		"rules": {
+			"0": "Du hast eine Einladung zur Teilnahme an diesem Gruppenchat erhalten. Sobald der Chatraum aktiv ist, kannst Du diesem mit einem Klick auf den „Teilnehmen“-Button beitreten.",
+			"2": "Bei Fragen zum Gruppenchat kontaktiere bitte Deine Beraterin, Deinen Berater oder die Gruppenleitung."
+		}
+	},
+	"deleteAccount": {
+		"successOverlay": {
+			"headline": "Du hast Deinen Account bei der DigiSucht Online-Beratung & Hilfe erfolgreich gelöscht."
+		},
+		"confirmOverlay": {
+			"copy": "Wenn Du die Beratung löschst, wird das Konto der ratsuchenden Person gelöscht und sie kann sich nicht mehr auf der Beratungsplattform anmelden."
+		},
+		"errorOverlay": {
+			"headline": "Ups! Wir konnten die Beratung gerade nicht löschen. Bitte versuche es erneut."
+		}
+	},
+	"enquiry": {
+		"write": {
+			"overlay": {
+				"copy": "Wir melden uns so schnell wie möglich bei Dir."
+			},
+			"infotext": {
+				"copy": {
+					"facts": "<ul><li>Wie ist Deine aktuelle Situation?</li><li>Was beschäftigt Dich?</li><li>Was möchtest Du von uns wissen?</li></ul>"
+				},
+				"headline": "Hier ist Raum für deine Fragen und Anliegen."
+			}
+		}
+	},
+	"registration": {
+		"overline": "Herzlich willkommen!",
+		"welcomeScreen": {
+			"info1": {
+				"text": "Finde eine passende Beratungsstelle"
+			},
+			"info2": {
+				"title": "Nimm Kontakt auf",
+				"text": "Schreibe eine Nachricht oder vereinbare einen Termin"
+			},
+			"subline": "So funktioniert die Beratung auf der DigiSucht Plattform:",
+			"info3": {
+				"text": "Je nach Verfügbarkeit per Nachricht, im Textchat, im Videochat oder vor Ort"
+			},
+			"info4": {
+				"text": "Bleib auf Wunsch anonym und werde kostenfrei beraten!"
+			}
+		},
+		"overlay": {
+			"success": {
+				"copy": "Du hast dich erfolgreich registriert.<br>Du kannst nun direkt eine Nachricht verfassen, oder je nach Verfügbarkeit einen Beratungstermin reservieren."
+			}
+		}
+	},
+	"furtherSteps": {
+		"headline": "Vielen Dank für Deine Nachricht!",
+		"step1.info": "Deine Anfrage ist bei Deiner Beratungsstelle eingegangen.",
+		"step2.info": "Wir finden eine passende Beraterin oder einen passenden Berater für dich.",
+		"step3.info": "Dein Berater / Deine Beraterin meldet sich so schnell wie möglich.",
+		"emailNotification": {
+			"headline": "Dürfen wir mit dir in Kontakt treten?",
+			"infoText": "Du kannst (freiwillig) Deine E-Mail-Adresse angeben, um<br><ul><li>Benachrichtigungen zu erhalten, wenn Deine Beraterin / Dein Berater dir schreibt</li><li>Terminerinnerungen zu erhalten</li><li>Dein Passwort zurückzusetzen, falls Du es vergessen solltest.</li></ul>Deine E-Mail-Adresse kann von den Beraterinnen und Beratern nicht eingesehen werden."
+		},
+		"twoFactorAuth": {
+			"headline": "Der Schutz Deiner Daten ist uns wichtig!",
+			"infoText": "Sichern Dein Konto vor einem möglichen unbefugten Zugriff. Nutzen einen zweiten Faktor (App oder E-Mail) für die Anmeldung auf der DigiSucht Plattform."
+		}
+	},
+	"twoFactorAuth": {
+		"activate": {
+			"email": {
+				"input": {
+					"info": "Achtung: Du kannst auf der Plattform lediglich eine E-Mail-Adresse hinterlegen. Wenn Du die hier angegebene E-Mail-Adresse änderst, wird deine bereits für dein Nutzerkonto hinterlegte E-Mail-Adresse ersetzt."
+				}
+			}
+		},
+		"subtitle": "Nutze eine weitere App für die Anmeldung mit Deinem DigiSucht-Konto. Dadurch ist Dein Konto sicherer vor einem möglichen unbefugtem Zugriff."
+	},
+	"videoConference": {
+		"waitingroom.headline": "Bitte habe etwas Geduld"
+	},
+	"error": {
+		"statusCodes": {
+			"401": {
+				"description": "Leider bist Du nicht berechtigt, diese Seite einzusehen.<br>Bitte melde dich an."
+			},
+			"500": {
+				"description": "Wie es aussieht haben wir momentan ein Serverproblem.<br>Versuche es später noch einmal."
+			}
+		}
+	},
+	"message": {
+		"submit": {
+			"booking": {
+				"headline": "Oder vereinbare jetzt einen Termin"
+			}
+		}
+	},
+	"banUser": {
+		"banned": {
+			"headline": "Du wurdest aus dem Gruppenchat entfernt.",
+			"info": "Ein Admin der Gruppe hat Dich aus dem Chat entfernt. Eine Teilnahme an diesem Gruppenchat ist für Dich aktuell nicht mehr möglich.<br/><br/>Bei Fragen zum Gruppenchat kontaktiere bitte Deine Beraterin, Deinen Berater oder die Gruppenleitung."
+		}
+	},
+	"userProfile": {
+		"tools": {
+			"documentation": {
+				"text": "Dokumentiere Deine Beratungsvorgänge",
+				"info": "Nur zugewiesene Berater_innen können die Inhalte der Ratsuchenden einsehen. Wenn Du aus der Teamberatung auf die Inhalte zugreifst, sind die Ratsuchenden nicht vorausgewählt."
+			}
+		}
+	}
+}
