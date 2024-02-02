@@ -73,7 +73,7 @@ module.exports = (storagePath) => {
 		fs.promises
 			.writeFile(
 				localeFilePath,
-				JSON.stringify({ ts: new Date().getTime(), ...data })
+				JSON.stringify({ ...data, ts: new Date().getTime() })
 			)
 			.then(() => {
 				console.log(`Translation ${cacheFile} renewed`);
@@ -186,7 +186,10 @@ module.exports = (storagePath) => {
 
 						// Save the new loaded data to file system and reset require cache
 						try {
-							saveFilesystem(`${ns}.${lng}.json`, data);
+							saveFilesystem(
+								`${ns}.${lng}.json`,
+								translationData
+							);
 						} catch {
 							// Do nothing we already show an error on loading
 						}

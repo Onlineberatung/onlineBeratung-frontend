@@ -9,6 +9,10 @@ export const apiPatchUserData = async (data): Promise<any> => {
 		method: FETCH_METHODS.PATCH,
 		bodyData: JSON.stringify({ ...data }),
 		rcValidation: true,
-		responseHandling: [FETCH_ERRORS.BAD_REQUEST]
+		responseHandling: [
+			FETCH_ERRORS.BAD_REQUEST,
+			FETCH_ERRORS.FAILED_DEPENDENCY,
+			FETCH_ERRORS.GATEWAY_TIMEOUT
+		]
 	});
 };
