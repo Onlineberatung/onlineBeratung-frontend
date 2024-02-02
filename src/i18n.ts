@@ -209,6 +209,10 @@ export const init = async (
 				config ?? {}
 			),
 			() => {
+				if ((window as any).Cypress) {
+					(window as any).i18n = i18n;
+				}
+
 				if (
 					(localStorage.getItem(
 						STORAGE_KEY_ENABLE_TRANSLATION_CHECK

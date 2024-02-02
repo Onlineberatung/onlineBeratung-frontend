@@ -91,7 +91,7 @@ export function LocaleProvider(props) {
 			document.documentElement.lang = locale;
 			setValueInCookie('lang', locale);
 		}
-	}, [locale, informal, locales, initialized, settings.i18n.supportedLngs]);
+	}, [locale, informal, locales, initialized]);
 
 	const handleOnSetLocale = React.useCallback(
 		(lng) => {

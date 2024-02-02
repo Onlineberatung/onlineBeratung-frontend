@@ -43,7 +43,6 @@ describe('videoconference', () => {
 	});
 
 	beforeEach(() => {
-		cy.mockApi();
 		mockWebSocket();
 
 		const today = new Date();

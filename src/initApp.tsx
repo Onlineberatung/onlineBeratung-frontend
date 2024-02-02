@@ -5,6 +5,6 @@ import { Stage } from './components/stage/stage';
 import { config } from './resources/scripts/config';
 
 ReactDOM.render(
-	<App entryPoint="/login" config={config} stageComponent={Stage} />,
+	<App config={config} stageComponent={Stage} />,
 	document.getElementById('appRoot')
 );

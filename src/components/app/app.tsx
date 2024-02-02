@@ -65,7 +65,6 @@ type TExtraRoute = {
 interface AppProps {
 	stageComponent: ComponentType<StageProps>;
 	legalLinks?: Array<LegalLinkInterface>;
-	entryPoint: string;
 	extraRoutes?: TExtraRoute[];
 	spokenLanguages?: string[];
 	fixedLanguages?: string[];
@@ -75,7 +74,6 @@ interface AppProps {
 export const App = ({
 	stageComponent,
 	legalLinks,
-	entryPoint,
 	extraRoutes = [],
 	spokenLanguages = null,
 	fixedLanguages = ['de'],
@@ -102,7 +100,6 @@ export const App = ({
 									>
 										<RouterWrapper
 											extraRoutes={extraRoutes}
-											entryPoint={entryPoint}
 										/>
 									</GlobalComponentContext.Provider>
 								</LegalLinksProvider>
@@ -117,11 +114,10 @@ export const App = ({
 };
 
 interface RouterWrapperProps {
-	entryPoint: string;
 	extraRoutes?: TExtraRoute[];
 }
 
-const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
+const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 	const history = useHistory();
 	const settings = useAppConfig();
 
@@ -138,8 +134,8 @@ const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 	return (
 		<Router>
 			<Switch>
-				{entryPoint !== '/' && (
-					<Redirect from="/" to={entryPoint} exact />
+				{settings.urls.lp !== '/' && (
+					<Redirect from="/" to={settings.urls.lp} exact />
 				)}
 				<Route>
 					<ContextProvider>

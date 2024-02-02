@@ -23,7 +23,6 @@ describe('Sessions', () => {
 	});
 
 	beforeEach(() => {
-		cy.mockApi();
 		mockWebSocket();
 	});
 

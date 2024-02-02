@@ -15,7 +15,6 @@ describe('Messages', () => {
 	});
 
 	beforeEach(() => {
-		cy.mockApi();
 		mockWebSocket();
 	});
 
@@ -53,7 +52,12 @@ describe('Messages', () => {
 
 				cy.wait('@attachmentUpload');
 
-				cy.contains('Sie haben das Limit zum Hochladen erreicht.');
+				cy.window()
+					.its('i18n')
+					.then((i18n) => {
+						i18n.changeLanguage('cimode');
+						cy.contains('attachments.error.quota.headline');
+					});
 			});
 		});
 
@@ -81,7 +85,12 @@ describe('Messages', () => {
 
 				cy.wait('@attachmentUpload');
 
-				cy.contains('Du hast das Limit zum Hochladen erreicht.');
+				cy.window()
+					.its('i18n')
+					.then((i18n) => {
+						i18n.changeLanguage('cimode');
+						cy.contains('attachments.error.quota.headline');
+					});
 			});
 		});
 	});

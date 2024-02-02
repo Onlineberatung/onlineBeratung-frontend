@@ -19,7 +19,6 @@ xdescribe('Video calls', () => {
 	});
 
 	beforeEach(() => {
-		cy.mockApi();
 		mockWebSocket();
 	});
 

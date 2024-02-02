@@ -6,6 +6,7 @@ export interface AppConfigUrlsInterface {
 	error500: string;
 	finishedAnonymousChatRedirect: string;
 	home: string;
+	lp: string;
 	releases: string;
 	redirectToApp: string;
 	registration: string;
