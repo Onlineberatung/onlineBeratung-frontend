@@ -25,6 +25,7 @@
 		"@jitsi/react-sdk": "^1.0.2",
 		"@juggle/resize-observer": "^3.4.0",
 		"@mui/material": "^5.12.1",
+		"@onlineberatung/onlineberatung-frontend-extensions": "file:src/extensions",
 		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
 		"@stomp/stompjs": "^6.1.2",
 		"@svgr/webpack": "^6.2.0",
