@@ -5,7 +5,7 @@ import { BUTTON_TYPES } from '../button/Button';
 import { markdownToDraft } from 'markdown-draft-js';
 import { Headline } from '../headline/Headline';
 import { ReactComponent as newIllustration } from '../../resources/img/illustrations/new.svg';
-import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
+import { Checkbox } from '../checkbox/Checkbox';
 import { Text } from '../text/Text';
 import { convertFromRaw } from 'draft-js';
 import sanitizeHtml from 'sanitize-html';
@@ -126,14 +126,6 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 		);
 	};
 
-	const checkboxItem: CheckboxItem = {
-		checked: checkboxChecked,
-		inputId: 'seen',
-		label: translate('releaseNote.content.checkbox'),
-		labelId: 'seen_label',
-		name: 'seen'
-	};
-
 	if (!showReleaseNote) {
 		return null;
 	}
@@ -172,7 +164,13 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 						<div className="releaseNote__footer">
 							<Checkbox
 								checkboxHandle={changeHasSeenReleaseNote}
-								item={checkboxItem}
+								checked={checkboxChecked}
+								inputId={'seen'}
+								label={translate(
+									'releaseNote.content.checkbox'
+								)}
+								labelId={'seen_label'}
+								name={'seen'}
 								onKeyPress={(event) => {
 									if (event.key === 'Enter') {
 										changeHasSeenReleaseNote();

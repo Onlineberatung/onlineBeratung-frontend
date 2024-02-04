@@ -11,7 +11,7 @@ import {
 	TenantDataInterface,
 	UserDataInterface
 } from '../../globalState/interfaces';
-import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
+import { Checkbox } from '../checkbox/Checkbox';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { logout } from '../logout/logout';
 
@@ -154,14 +154,6 @@ export const TermsAndConditions = () => {
 		return null;
 	}
 
-	const checkboxItemDataProtection: CheckboxItem = {
-		inputId: 'dataProtectionCheckbox',
-		name: 'dataProtectionCheckbox',
-		labelId: 'dataProtectionLabel',
-		checked: viewState.userConfirmed,
-		label: viewState.checkboxText
-	};
-
 	const handleOverlay = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			logout();
@@ -213,7 +205,11 @@ export const TermsAndConditions = () => {
 							>
 								{viewState.checkboxText && (
 									<Checkbox
-										item={checkboxItemDataProtection}
+										inputId={'dataProtectionCheckbox'}
+										name={'dataProtectionCheckbox'}
+										labelId={'dataProtectionLabel'}
+										checked={viewState.userConfirmed}
+										label={viewState.checkboxText}
 										checkboxHandle={() =>
 											setViewState({
 												...viewState,

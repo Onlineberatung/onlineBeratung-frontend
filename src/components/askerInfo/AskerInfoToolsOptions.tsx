@@ -195,15 +195,12 @@ export const AskerInfoToolsOptions = (
 				{infoAboutToolsModal.map((tool: APIToolsInterface) => (
 					<Checkbox
 						key={tool.title}
-						className="textarea__checkbox"
-						item={{
-							inputId: tool.toolId,
-							name: tool.title,
-							labelId: tool.title,
-							label: tool.title,
-							description: tool.description,
-							checked: !!tool.sharedWithAdviceSeeker
-						}}
+						inputId={tool.toolId}
+						name={tool.title}
+						labelId={tool.title}
+						label={tool.title}
+						description={tool.description}
+						checked={!!tool.sharedWithAdviceSeeker}
 						checkboxHandle={(e) =>
 							updateSharedToolsModal(e.target, true)
 						}

@@ -84,6 +84,11 @@ export const config: AppConfigInterface = {
 			registration: true
 		}
 	],
+	welcomeScreen: {
+		consultingType: {
+			hidden: false
+		}
+	},
 	emails: {
 		notifications: [
 			{

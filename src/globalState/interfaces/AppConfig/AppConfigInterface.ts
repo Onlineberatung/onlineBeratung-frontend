@@ -45,6 +45,11 @@ export interface AppConfigInterface extends AppSettingsInterface {
 				| ((sessionUserData: SessionUserDataInterface) => boolean);
 		};
 	};
+	welcomeScreen: {
+		consultingType: {
+			hidden: boolean;
+		};
+	};
 }
 
 interface ReleaseToggles {

@@ -26,7 +26,7 @@ import {
 } from '../registration/registrationHelpers';
 import { MainTopicSelection } from '../mainTopicSelection/MainTopicSelection';
 import { useTranslation } from 'react-i18next';
-import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
+import { Checkbox } from '../checkbox/Checkbox';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { FormAccordionRegistrationText } from './FormAccordionRegistrationText';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
@@ -35,6 +35,7 @@ import { useConsultantAgenciesAndConsultingTypes } from '../../containers/regist
 import { FormAccordionData } from '../registration/RegistrationForm';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { TProvidedLegalLink } from '../../globalState/provider/LegalLinksProvider';
+import LegalLinks from '../legalLinks/LegalLinks';
 
 interface FormAccordionProps {
 	formAccordionData: FormAccordionData;
@@ -195,33 +196,6 @@ export const FormAccordion = ({
 		}
 	];
 
-	const checkboxItemDataProtection: CheckboxItem = {
-		inputId: 'dataProtectionCheckbox',
-		name: 'dataProtectionCheckbox',
-		labelId: 'dataProtectionLabel',
-		checked: isDataProtectionSelected,
-		label: [
-			translate('registration.dataProtection.label.prefix'),
-			legalLinks
-				.filter((legalLink) => legalLink.registration)
-				.map(
-					(legalLink, index, { length }) =>
-						(index > 0
-							? index < length - 1
-								? ', '
-								: translate(
-										'registration.dataProtection.label.and'
-									)
-							: '') +
-						`<span><button type="button" class="button-as-link" onclick="window.open('${legalLink.getUrl(
-							{ aid: specificAgency?.id }
-						)}')">${translate(legalLink.label)}</button></span>`
-				)
-				.join(''),
-			translate('registration.dataProtection.label.suffix')
-		].join(' ')
-	};
-
 	if (topicsAreRequired) {
 		accordionItemData.push({
 			title: translate('registration.mainTopic.headline'),
@@ -336,7 +310,6 @@ export const FormAccordion = ({
 					onKeyDown={handleKeyDown}
 				>
 					<Checkbox
-						item={checkboxItemDataProtection}
 						checkboxHandle={() =>
 							setIsDataProtectionSelected(
 								!isDataProtectionSelected
@@ -349,7 +322,39 @@ export const FormAccordion = ({
 								);
 							}
 						}}
-					/>
+						inputId={'dataProtectionCheckbox'}
+						name={'dataProtectionCheckbox'}
+						labelId={'dataProtectionLabel'}
+						checked={isDataProtectionSelected}
+					>
+						<LegalLinks
+							prefix={translate(
+								'registration.dataProtection.label.prefix'
+							)}
+							delimiter={', '}
+							lastDelimiter={translate(
+								'registration.dataProtection.label.and'
+							)}
+							suffix={translate(
+								'registration.dataProtection.label.suffix'
+							)}
+							filter={(legalLink) => legalLink.registration}
+							legalLinks={legalLinks}
+							params={{ aid: specificAgency?.id }}
+						>
+							{(label, url) => (
+								<span>
+									<button
+										type="button"
+										className="button-as-link"
+										onClick={() => window.open(url)}
+									>
+										${label}
+									</button>
+								</span>
+							)}
+						</LegalLinks>
+					</Checkbox>
 				</div>
 				<FormAccordionRegistrationText
 					agency={formAccordionData.agency}

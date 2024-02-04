@@ -4,7 +4,7 @@ import { AgencyDataInterface } from '../../globalState/interfaces';
 import './consultingTypeAgencySelection.styles';
 import '../profile/profile.styles';
 import { RadioButton } from '../radioButton/RadioButton';
-import { AgencyInfo } from '../agencySelection/AgencyInfo';
+import { InfoTooltip } from '../infoTooltip/InfoTooltip';
 import {
 	VALIDITY_INVALID,
 	VALIDITY_VALID
@@ -185,13 +185,21 @@ const AgencySelection = ({
 								agency.id === selectedAgency.id
 							}
 							inputId={agency.id.toString()}
-							label={translate(
+							onKeyDown={onKeyDown}
+						>
+							{translate(
 								[`agency.${agency.id}.name`, agency.name],
 								{ ns: 'agencies' }
 							)}
-							onKeyDown={onKeyDown}
+						</RadioButton>
+						<InfoTooltip
+							translation={{
+								ns: 'agencies',
+								prefix: 'agency'
+							}}
+							info={agency}
+							showTeamAgencyInfo={agency.teamAgency}
 						/>
-						<AgencyInfo agency={agency} />
 					</div>
 					<AgencyLanguages agencyId={agency.id} />
 				</div>

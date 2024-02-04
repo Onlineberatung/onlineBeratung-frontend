@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { AgencyDataInterface } from '../../../../globalState/interfaces';
 import { Headline } from '../../../../components/headline/Headline';
 import { RadioButton } from '../../../../components/radioButton/RadioButton';
-import { AgencyInfo } from '../../../../components/agencySelection/AgencyInfo';
+import { InfoTooltip } from '../../../../components/infoTooltip/InfoTooltip';
 import { AgencyLanguages } from '../../../../components/agencySelection/AgencyLanguages';
 import './preselectedAgency.styles';
 
@@ -34,20 +34,26 @@ export const PreselectedAgency = (props: PreselectedAgencyProps) => {
 						value={props.agencyData.id.toString()}
 						checked
 						inputId={props.agencyData.id.toString()}
-						label={translate(
+						handleRadioButton={() => void 0}
+						onKeyDown={(e) =>
+							props.onKeyDown ? props.onKeyDown(e) : null
+						}
+					>
+						{translate(
 							[
 								`agency.${props.agencyData.id}.name`,
 								props.agencyData.name
 							],
 							{ ns: 'agencies' }
 						)}
-						handleRadioButton={() => void 0}
-						onKeyDown={(e) =>
-							props.onKeyDown ? props.onKeyDown(e) : null
-						}
-					/>
-					<AgencyInfo
-						agency={props.agencyData}
+					</RadioButton>
+					<InfoTooltip
+						translation={{
+							ns: 'agencies',
+							prefix: 'agency'
+						}}
+						info={props.agencyData}
+						showTeamAgencyInfo={props.agencyData.teamAgency}
 						isProfileView={props.isProfileView}
 					/>
 				</div>

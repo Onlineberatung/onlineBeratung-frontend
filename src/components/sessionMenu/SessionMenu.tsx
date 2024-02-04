@@ -68,6 +68,7 @@ import { useAppConfig } from '../../hooks/useAppConfig';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { RocketChatUsersOfRoomContext } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import LegalLinks from '../legalLinks/LegalLinks';
 
 type TReducedSessionItemInterface = Omit<
 	SessionItemInterface,
@@ -595,23 +596,19 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				)}
 
 				<div className="legalInformationLinks--menu">
-					{legalLinks.map((legalLink) => (
-						<a
-							href={legalLink.getUrl({
-								aid: activeSession?.agency?.id
-							})}
-							key={legalLink.getUrl({
-								aid: activeSession?.agency?.id
-							})}
-							target="_blank"
-							rel="noreferrer"
-						>
-							<Text
-								type="infoLargeAlternative"
-								text={translate(legalLink.label)}
-							/>
-						</a>
-					))}
+					<LegalLinks
+						legalLinks={legalLinks}
+						params={{ aid: activeSession?.agency?.id }}
+					>
+						{(label, url) => (
+							<a href={url} target="_blank" rel="noreferrer">
+								<Text
+									type="infoLargeAlternative"
+									text={label}
+								/>
+							</a>
+						)}
+					</LegalLinks>
 				</div>
 			</div>
 			{overlayActive && (

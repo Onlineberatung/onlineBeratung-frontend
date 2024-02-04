@@ -12,6 +12,6 @@ export const budibaseLogout = () => {
 			},
 			method: 'POST',
 			credentials: 'include'
-		})
+		}).catch(console.error)
 	);
 };

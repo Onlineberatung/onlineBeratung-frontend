@@ -14,7 +14,7 @@ import { DEFAULT_POSTCODE } from '../registration/prefillPostcode';
 import { RadioButton } from '../radioButton/RadioButton';
 import { Loading } from '../app/Loading';
 import { Text, LABEL_TYPES } from '../text/Text';
-import { AgencyInfo } from './AgencyInfo';
+import { InfoTooltip } from '../infoTooltip/InfoTooltip';
 import { PreselectedAgency } from '../../containers/registration/components/PreSelectedAgency/PreselectedAgency';
 import { Headline } from '../headline/Headline';
 import { parsePlaceholderString } from '../../utils/parsePlaceholderString';
@@ -390,16 +390,24 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 													value={agency.id.toString()}
 													checked={index === 0}
 													inputId={agency.id.toString()}
-													label={translate(
+												>
+													{translate(
 														[
 															`agency.${agency.id}.name`,
 															agency.name
 														],
 														{ ns: 'agencies' }
 													)}
-												/>
-												<AgencyInfo
-													agency={agency}
+												</RadioButton>
+												<InfoTooltip
+													translation={{
+														ns: 'agencies',
+														prefix: 'agency'
+													}}
+													info={agency}
+													showTeamAgencyInfo={
+														agency.teamAgency
+													}
 													isProfileView={
 														props.isProfileView
 													}

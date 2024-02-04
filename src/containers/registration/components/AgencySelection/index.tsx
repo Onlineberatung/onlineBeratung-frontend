@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { AgencyInfo } from '../../../../components/agencySelection/AgencyInfo';
+import { InfoTooltip } from '../../../../components/infoTooltip/InfoTooltip';
 import { AgencyLanguages } from '../../../../components/agencySelection/AgencyLanguages';
 import { RadioButton } from '../../../../components/radioButton/RadioButton';
 import { AgencyDataInterface } from '../../../../globalState/interfaces';
@@ -30,11 +30,20 @@ export const AgencySelection = ({
 					value={agencyId}
 					checked={agencyId === checkedValue}
 					inputId={inputId}
-					label={t([`agency.${agency.id}.name`, agency.name], {
+				>
+					{t([`agency.${agency.id}.name`, agency.name], {
 						ns: 'agencies'
 					})}
+				</RadioButton>
+				<InfoTooltip
+					translation={{
+						ns: 'agencies',
+						prefix: 'agency'
+					}}
+					info={agency}
+					showTeamAgencyInfo={agency.teamAgency}
+					isProfileView={false}
 				/>
-				<AgencyInfo agency={agency} isProfileView={false} />
 			</div>
 			<AgencyLanguages agencyId={agency.id} />
 		</div>

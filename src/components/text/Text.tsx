@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import './text.styles';
+import { FC } from 'react';
 
 export type TextTypeOptions =
 	| 'standard'
@@ -11,7 +12,7 @@ export type TextTypeOptions =
 	| 'divider';
 
 export interface TextProps {
-	text: string;
+	text?: string;
 	title?: boolean;
 	labelType?: LABEL_TYPES;
 	className?: string;
@@ -22,7 +23,7 @@ export enum LABEL_TYPES {
 	NOTICE = 'NOTICE'
 }
 
-export const Text = (props: TextProps) => {
+export const Text: FC<TextProps> = (props) => {
 	const { t: translate } = useTranslation();
 
 	const getLabelContent = (type: string) => {
@@ -40,7 +41,7 @@ export const Text = (props: TextProps) => {
 	};
 
 	// Do not render text component if content is empty
-	if (!props.title && !props.text) return null;
+	if (!props.title && !props.text && !props.children) return null;
 
 	return (
 		<p
@@ -60,10 +61,14 @@ export const Text = (props: TextProps) => {
 			)}
 			<span
 				title={props.title && props.text}
-				dangerouslySetInnerHTML={{
-					__html: props.text
-				}}
-			></span>
+				dangerouslySetInnerHTML={
+					props.text && {
+						__html: props.text
+					}
+				}
+			>
+				{!props.text ? props.children : null}
+			</span>
 		</p>
 	);
 };

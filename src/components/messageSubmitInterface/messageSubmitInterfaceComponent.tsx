@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 
 import { SendMessageButton } from './SendMessageButton';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
-import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
+import { Checkbox } from '../checkbox/Checkbox';
 import {
 	AUTHORITIES,
 	getContact,
@@ -97,6 +97,7 @@ import {
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 import { getIconForAttachmentType } from '../message/messageHelpers';
+import classNames from 'classnames';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -253,18 +254,6 @@ export const MessageSubmitInterfaceComponent = ({
 			null,
 			5000
 		);
-
-	const checkboxItem: CheckboxItem = useMemo(
-		() => ({
-			inputId: 'requestFeedback',
-			name: 'requestFeedback',
-			labelId: 'requestFeedbackLabel',
-			labelClass: 'requestFeedbackLabel',
-			label: translate('message.write.peer.checkbox.label'),
-			checked: requestFeedbackCheckboxChecked
-		}),
-		[requestFeedbackCheckboxChecked, translate]
-	);
 
 	useEffect(() => {
 		setIsConsultantAbsent(
@@ -793,15 +782,10 @@ export const MessageSubmitInterfaceComponent = ({
 		userData
 	]);
 
-	const handleRequestFeedbackCheckbox = useCallback((e) => {
-		setRequestFeedbackCheckboxChecked((requestFeedbackCheckboxChecked) => {
-			const textarea = document.querySelector('.textarea');
-			textarea?.classList.toggle(
-				'textarea--yellowTheme',
-				!requestFeedbackCheckboxChecked
-			);
-			return !requestFeedbackCheckboxChecked;
-		});
+	const handleRequestFeedbackCheckbox = useCallback(() => {
+		setRequestFeedbackCheckboxChecked(
+			(requestFeedbackCheckboxChecked) => !requestFeedbackCheckboxChecked
+		);
 	}, []);
 
 	const handleAttachmentSelect = useCallback(() => {
@@ -969,16 +953,21 @@ export const MessageSubmitInterfaceComponent = ({
 			{activeInfo && <MessageSubmitInfo {...getMessageSubmitInfo()} />}
 			{!isLiveChatFinished && (
 				<form
-					className={
-						hasRequestFeedbackCheckbox
-							? 'textarea textarea--large'
-							: 'textarea'
-					}
+					className={classNames('textarea', {
+						'textarea--yellowTheme': requestFeedbackCheckboxChecked,
+						'textarea--large': hasRequestFeedbackCheckbox
+					})}
 				>
 					{hasRequestFeedbackCheckbox && (
 						<Checkbox
-							className="textarea__checkbox"
-							item={checkboxItem}
+							inputId={'requestFeedback'}
+							name={'requestFeedback'}
+							labelId={'requestFeedbackLabel'}
+							labelClass={'requestFeedbackLabel'}
+							label={translate(
+								'message.write.peer.checkbox.label'
+							)}
+							checked={requestFeedbackCheckboxChecked}
 							checkboxHandle={handleRequestFeedbackCheckbox}
 						/>
 					)}
