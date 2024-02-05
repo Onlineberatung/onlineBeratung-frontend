@@ -7,7 +7,7 @@ export interface RadioButtonItem {
 	type: 'default' | 'box' | 'smaller';
 	className?: string;
 	inputId: string;
-	handleRadioButton: Function;
+	handleRadioButton: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	name: string;
 	value: string;
 	checked?: boolean;
