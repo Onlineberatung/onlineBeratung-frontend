@@ -52,10 +52,7 @@ export const JoinGroupChatView = ({
 	forceBannedOverlay = false,
 	bannedUsers = []
 }: JoinGroupChatViewProps) => {
-	const { t: translate, i18n } = useTranslation([
-		'common',
-		'consultingTypes'
-	]);
+	const { t: translate } = useTranslation(['common', 'consultingTypes']);
 	const { activeSession, reloadActiveSession } =
 		useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
@@ -329,7 +326,7 @@ export const JoinGroupChatView = ({
 		// Then translate every rule by its own translation
 		return groupChatRuleKeys.map((key) =>
 			translate(
-				transKeys.map((transKey) => `${transKey}${key}`),
+				transKeys.map((transKey) => `${transKey}.${key}`),
 				{ ns: 'consultingTypes' }
 			)
 		);
