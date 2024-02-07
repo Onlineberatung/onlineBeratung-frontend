@@ -96,6 +96,7 @@ export const RocketChatUsersOfRoomProvider = ({
 						)
 				)
 				.map((user) => ({ ...user, displayName: user.name }));
+
 			setUsers(users);
 			setTotal(res?.total || 0);
 			return users;
@@ -135,7 +136,12 @@ export const RocketChatUsersOfRoomProvider = ({
 					onUsersChangeRef
 				);
 			}
-		} else if (!activeSession?.rid && activeSession.isEmptyEnquiry) {
+		} else if (
+			(!activeSession?.rid && activeSession.isEmptyEnquiry) ||
+			(activeSession?.item &&
+				!activeSession.item.active &&
+				activeSession.isGroup)
+		) {
 			setReady(true);
 		}
 
@@ -154,6 +160,8 @@ export const RocketChatUsersOfRoomProvider = ({
 		};
 	}, [
 		activeSession?.rid,
+		activeSession?.item,
+		activeSession?.isGroup,
 		socketReady,
 		load,
 		activeSession?.isEmptyEnquiry,

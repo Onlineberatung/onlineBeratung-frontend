@@ -41,6 +41,7 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { OVERLAY_REQUEST } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { FALLBACK_LNG } from '../../i18n';
 
 interface JoinGroupChatViewProps {
 	forceBannedOverlay?: boolean;
@@ -308,26 +309,39 @@ export const JoinGroupChatView = ({
 		}
 	}, [forceBannedOverlay, bannedUserOverlay]);
 
+	const groupChatRules = useMemo(() => {
+		const transKeys = [
+			`consultingType.${consultingType?.id ?? 'noConsultingType'}.groupChatRules`,
+			`consultingType.fallback.groupChatRules`
+		];
+
+		// Get groupChat rules from fallback_lng to get the count and make i18n
+		// fallback chain working for non translated rules (de -> de@informal)
+		const groupChatRuleKeys = Object.keys(
+			translate(transKeys, {
+				returnObjects: true,
+				defaultValue: consultingType?.groupChat?.groupChatRules || [],
+				lng: FALLBACK_LNG,
+				ns: 'consultingTypes'
+			})
+		);
+
+		// Then translate every rule by its own translation
+		return groupChatRuleKeys.map((key) =>
+			translate(
+				transKeys.map((transKey) => `${transKey}${key}`),
+				{ ns: 'consultingTypes' }
+			)
+		);
+	}, [
+		consultingType?.groupChat?.groupChatRules,
+		consultingType?.id,
+		translate
+	]);
+
 	if (redirectToSessionsList) {
 		mobileListView();
 		return <Redirect to={listPath + getSessionListTab()} />;
-	}
-
-	let groupChatRules: string[] =
-		consultingType?.groupChat?.groupChatRules ?? [];
-	const transKey = `consultingType.${
-		consultingType?.id ?? 'noConsultingType'
-	}.groupChatRules`;
-	const translatedRules: { [key: string]: string } =
-		i18n.getResource(i18n.language, 'consultingTypes', transKey) ||
-		i18n.getResource(
-			i18n.language,
-			'consultingTypes',
-			`consultingType.fallback.groupChatRules`
-		) ||
-		{};
-	if (Object.keys(translatedRules).length > 0) {
-		groupChatRules = Object.values(translatedRules);
 	}
 
 	return (
