@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useCallback, useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import {
 	AUTHORITIES,
@@ -23,29 +23,32 @@ export const AskerInfoContent = () => {
 
 	const { type } = useContext(SessionTypeContext);
 
-	const isSessionAssignAvailable = useCallback(() => {
+	const isSessionAssignAvailable = useMemo(() => {
 		const isPeerChat = activeSession.item.isPeerChat;
-		return (
-			!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-			!activeSession.isLive &&
-			!activeSession.isGroup &&
-			((type === SESSION_LIST_TYPES.ENQUIRY &&
+		const isLiveChat = activeSession.isLive;
+		const isGroupChat = activeSession.isGroup;
+		const isEnquiryListView = type === SESSION_LIST_TYPES.ENQUIRY;
+		const isAsker = hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData);
+
+		if (isAsker || isLiveChat || isGroupChat) {
+			return false;
+		}
+
+		if (isEnquiryListView) {
+			return (
+				isPeerChat &&
 				hasUserAuthority(
 					AUTHORITIES.ASSIGN_CONSULTANT_TO_ENQUIRY,
 					userData
-				) &&
-				isPeerChat) ||
-				(type !== SESSION_LIST_TYPES.ENQUIRY &&
-					((isPeerChat &&
-						hasUserAuthority(
-							AUTHORITIES.ASSIGN_CONSULTANT_TO_PEER_SESSION,
-							userData
-						)) ||
-						(!isPeerChat &&
-							hasUserAuthority(
-								AUTHORITIES.ASSIGN_CONSULTANT_TO_SESSION,
-								userData
-							)))))
+				)
+			);
+		}
+
+		return hasUserAuthority(
+			isPeerChat
+				? AUTHORITIES.ASSIGN_CONSULTANT_TO_PEER_SESSION
+				: AUTHORITIES.ASSIGN_CONSULTANT_TO_SESSION,
+			userData
 		);
 	}, [activeSession, type, userData]);
 
@@ -59,7 +62,7 @@ export const AskerInfoContent = () => {
 					<AskerInfoTools />
 				</Box>
 			)}
-			{isSessionAssignAvailable() && (
+			{isSessionAssignAvailable && (
 				<Box>
 					<div className="askerInfo__assign">
 						<AskerInfoAssign />

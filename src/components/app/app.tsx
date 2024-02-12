@@ -134,8 +134,8 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 	return (
 		<Router>
 			<Switch>
-				{settings.urls.lp !== '/' && (
-					<Redirect from="/" to={settings.urls.lp} exact />
+				{settings.urls.landingpage !== '/' && (
+					<Redirect from="/" to={settings.urls.landingpage} exact />
 				)}
 				<Route>
 					<ContextProvider>

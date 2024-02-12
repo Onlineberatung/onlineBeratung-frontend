@@ -41,7 +41,7 @@ export const config: AppConfigInterface = {
 		finishedAnonymousChatRedirect:
 			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
 		home: 'https://www.caritas.de',
-		lp: '/login',
+		landingpage: '/login',
 		releases: uiUrl + '/releases',
 		redirectToApp: uiUrl + '/' + APP_PATH,
 		registration: uiUrl + '/registration',
