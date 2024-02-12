@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
 import './checkbox.styles';
-import { MouseEvent, KeyboardEvent, FC } from 'react';
+import { MouseEvent, KeyboardEvent, PropsWithChildren } from 'react';
 
 export interface CheckboxItem {
 	inputId: string;
@@ -20,7 +20,7 @@ export interface CheckboxItem {
 	onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
-export const Checkbox: FC<CheckboxItem> = ({
+export const Checkbox = ({
 	checkboxHandle,
 	onKeyPress,
 	checked,
@@ -32,7 +32,7 @@ export const Checkbox: FC<CheckboxItem> = ({
 	labelClass,
 	description,
 	children
-}) => (
+}: PropsWithChildren<CheckboxItem>) => (
 	<div className="checkbox__wrapper formWrapper__inputRow">
 		<div className="checkbox__icon__container">
 			{checked && (

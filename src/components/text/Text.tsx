@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import './text.styles';
-import { FC } from 'react';
+import { PropsWithChildren } from 'react';
 
 export type TextTypeOptions =
 	| 'standard'
@@ -23,7 +23,7 @@ export enum LABEL_TYPES {
 	NOTICE = 'NOTICE'
 }
 
-export const Text: FC<TextProps> = (props) => {
+export const Text = (props: PropsWithChildren<TextProps>) => {
 	const { t: translate } = useTranslation();
 
 	const getLabelContent = (type: string) => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import './radioButton.styles';
-import { FC } from 'react';
+import { PropsWithChildren } from 'react';
 
 export interface RadioButtonItem {
 	type: 'default' | 'box' | 'smaller';
@@ -14,7 +14,7 @@ export interface RadioButtonItem {
 	onKeyDown?: Function;
 }
 
-export const RadioButton: FC<RadioButtonItem> = ({
+export const RadioButton = ({
 	type,
 	className,
 	inputId,
@@ -24,7 +24,7 @@ export const RadioButton: FC<RadioButtonItem> = ({
 	checked,
 	onKeyDown,
 	children
-}) => {
+}: PropsWithChildren<RadioButtonItem>) => {
 	return (
 		<div
 			className={classNames(
