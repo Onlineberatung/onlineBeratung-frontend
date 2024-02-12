@@ -1,6 +1,6 @@
 import { autoLogin } from '../components/registration/autoLogin';
 import { removeAllCookies } from '../components/sessionCookie/accessSessionCookie';
-import { TenantDataInterface } from '../globalState/interfaces/TenantDataInterface';
+import { TenantDataInterface } from '../globalState/interfaces';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
 import { COOKIE_KEY } from '../globalState';
 

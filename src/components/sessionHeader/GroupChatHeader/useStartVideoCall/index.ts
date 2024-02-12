@@ -1,7 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { apiStartVideoCall } from '../../../../api';
-import { UserDataContext } from '../../../../globalState';
-import { ActiveSessionContext } from '../../../../globalState/provider/ActiveSessionProvider';
+import { UserDataContext, ActiveSessionContext } from '../../../../globalState';
 import { generatePath } from 'react-router-dom';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
 

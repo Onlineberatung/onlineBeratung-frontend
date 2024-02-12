@@ -1,7 +1,7 @@
 import {
 	BookingEventUiInterface,
 	BookingEventsInterface
-} from '../globalState/interfaces/BookingsInterface';
+} from '../globalState/interfaces';
 import { addMissingZero, convertUTCDateToLocalDate } from './dateHelpers';
 
 export const transformBookingData = (bookings: BookingEventsInterface[]) => {

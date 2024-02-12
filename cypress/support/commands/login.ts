@@ -1,4 +1,4 @@
-import { UserDataInterface } from '../../../src/globalState';
+import { UserDataInterface } from '../../../src/globalState/interfaces';
 import { CyHttpMessages, RouteHandler } from 'cypress/types/net-stubbing';
 
 export const USER_ASKER = 'asker';

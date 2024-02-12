@@ -26,7 +26,7 @@ export const updateConsultantSession = (
 Cypress.Commands.add(
 	'consultantSession',
 	(props: { [key: string]: any } = {}, index?: number) =>
-		new Promise((resolve) => {
+		new Cypress.Promise((resolve) => {
 			updateConsultantSession(props, index);
 			resolve(undefined);
 		})

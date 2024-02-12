@@ -1,4 +1,4 @@
-import i18n, { InitOptions } from 'i18next';
+import i18n, { InitOptions, Resource } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import ChainedBackend from 'i18next-chained-backend';
 import FetchBackend from 'i18next-fetch-backend';
@@ -6,7 +6,7 @@ import LocalStorageBackend from 'i18next-localstorage-backend';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import _ from 'lodash';
-import flatten from 'flat';
+import { flatten, unflatten } from 'flat';
 
 import de from './resources/i18n/de/common.json';
 import deInformal from './resources/i18n/de@informal/common.json';
@@ -15,7 +15,7 @@ import {
 	STORAGE_KEY_ENABLE_TRANSLATION_CHECK,
 	STORAGE_KEY_TRANSLATION_DISABLE_CACHE
 } from './components/devToolbar/DevToolbar';
-import { TranslationConfig } from './globalState/interfaces/TranslationConfig';
+import { TranslationConfig } from './globalState/interfaces';
 import { FETCH_METHODS, FETCH_SUCCESS, fetchData } from './api';
 
 export const FALLBACK_LNG = 'de';
@@ -141,7 +141,7 @@ export const init = async (
 					// ToDo: Temp fix for cypress because it has problems with using backend with cy.clock()
 					...((window as any).Cypress
 						? {
-								resources: baseResources
+								resources: unflatten(baseResources) as Resource
 							}
 						: {}),
 					backend: {
@@ -152,7 +152,7 @@ export const init = async (
 							) && LocalStorageBackend,
 
 							translation?.weblate.path && FetchBackend,
-							resourcesToBackend(baseResources)
+							resourcesToBackend(unflatten(baseResources))
 						].filter(Boolean),
 						backendOptions: [
 							!(
@@ -181,9 +181,11 @@ export const init = async (
 										ns,
 										data: apiData
 									} = JSON.parse(data);
-									return _.merge(
-										baseResources?.[lng]?.[ns] || {},
-										flatten(apiData || {})
+									return unflatten(
+										_.merge(
+											baseResources?.[lng]?.[ns] || {},
+											flatten(apiData || {})
+										)
 									);
 								},
 								// init option for fetch, for example
@@ -209,6 +211,10 @@ export const init = async (
 				config ?? {}
 			),
 			() => {
+				if ((window as any).Cypress) {
+					(window as any).i18n = i18n;
+				}
+
 				if (
 					(localStorage.getItem(
 						STORAGE_KEY_ENABLE_TRANSLATION_CHECK

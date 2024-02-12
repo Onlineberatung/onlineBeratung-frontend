@@ -30,7 +30,6 @@ describe('registration', () => {
 	});
 
 	beforeEach(() => {
-		cy.mockApi();
 		mockWebSocket();
 
 		cy.fixture('service.agencies.json').then((data) => {

@@ -208,29 +208,26 @@ export const startWebSocketServer = () => {
 								JSON.stringify({
 									id: parsedMessage.id,
 									msg: 'result',
-									result: {
-										total: 2,
-										records: [
-											{
-												_id: 'asker1',
-												username: 'asker1',
-												status: 'busy',
-												_updatedAt: {
-													$date: 1677018431963
-												},
-												name: null
+									result: [
+										{
+											_id: 'asker1',
+											username: 'asker1',
+											status: 'busy',
+											_updatedAt: {
+												$date: 1677018431963
 											},
-											{
-												_id: 'consultant1',
-												username: 'consultant1',
-												status: 'offline',
-												name: 'consultant1',
-												_updatedAt: {
-													$date: 1677016800740
-												}
+											name: null
+										},
+										{
+											_id: 'consultant1',
+											username: 'consultant1',
+											status: 'offline',
+											name: 'consultant1',
+											_updatedAt: {
+												$date: 1677016800740
 											}
-										]
-									}
+										}
+									]
 								})
 							);
 							break;

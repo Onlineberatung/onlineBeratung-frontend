@@ -1,4 +1,4 @@
-import { TenantDataSettingsInterface } from '../globalState/interfaces/TenantDataInterface';
+import { TenantDataSettingsInterface } from '../globalState/interfaces';
 
 // Make tenant available globally to be used on other files that are just js context
 const tenantSettings: Partial<TenantDataSettingsInterface> = {};

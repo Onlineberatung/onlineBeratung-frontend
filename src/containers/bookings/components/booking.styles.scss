@@ -25,6 +25,7 @@ $headerHeight: 80px;
 
 	&__header {
 		display: flex;
+		flex: 0;
 		align-items: center;
 		justify-content: space-between;
 		padding: $grid-base-three;
@@ -116,12 +117,17 @@ $headerHeight: 80px;
 		}
 	}
 
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
 	&__innerWrapper {
 		display: flex;
+		flex: 1;
 		flex-direction: column;
 		padding: 0 $grid-base-three;
 		overflow-x: hidden;
-		height: 100%;
 
 		&-event {
 			display: grid;
@@ -217,6 +223,7 @@ $headerHeight: 80px;
 		}
 
 		p {
+			word-break: normal;
 			margin-left: 0.5rem;
 		}
 	}
@@ -276,6 +283,7 @@ $headerHeight: 80px;
 			margin-bottom: 0.5rem;
 
 			p {
+				word-break: normal;
 				margin-left: 0.5rem;
 			}
 		}
@@ -372,9 +380,33 @@ $headerHeight: 80px;
 
 	&__video-link-grid {
 		display: none;
-		grid-template-columns: 0.465fr 1fr 0.42fr;
+		grid-template-columns: 0.29fr 1fr 0.42fr;
 		min-height: 32px;
 		align-items: flex-end;
+
+		@media only screen and (width >= 950px) {
+			grid-template-columns: 0.33fr 1fr 0.42fr;
+		}
+
+		@media only screen and (width >= 1010px) {
+			grid-template-columns: 0.35fr 1fr 0.42fr;
+		}
+
+		@media only screen and (width >= 1050px) {
+			grid-template-columns: 0.37fr 1fr 0.42fr;
+		}
+
+		@media only screen and (width >= 1075px) {
+			grid-template-columns: 0.43fr 1fr 0.42fr;
+		}
+
+		@media only screen and (width >= 1095px) {
+			grid-template-columns: 0.44fr 1fr 0.42fr;
+		}
+
+		@media only screen and (width >= 1200px) {
+			grid-template-columns: 0.465fr 1fr 0.42fr;
+		}
 
 		@include breakpoint($fromXXLarge) {
 			grid-template-columns: 0.48fr 1fr 0.405fr;
@@ -393,15 +425,28 @@ $headerHeight: 80px;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				display: -webkit-box;
+				position: relative;
+				left: 20px;
+
+				@media only screen and (width >= 1077px) {
+					position: initial;
+					left: 0;
+				}
 			}
 
 			@include breakpoint($fromLarge) {
-				word-break: keep-all;
 				display: flex;
 				align-items: center;
 
 				svg {
-					margin-left: 0.75rem;
+					position: relative;
+					right: -50px;
+
+					@media only screen and (width >= 1077px) {
+						position: initial;
+						right: 0;
+						margin-left: 0.75rem;
+					}
 				}
 			}
 		}

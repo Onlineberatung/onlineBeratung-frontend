@@ -5,7 +5,7 @@ import {
 	SelectDropdown,
 	SelectDropdownItem
 } from '../../../../components/select/SelectDropdown';
-import { ConsultingTypeInterface } from '../../../../globalState';
+import { ConsultingTypeInterface } from '../../../../globalState/interfaces';
 
 interface ConsultingTypeSelectionArgs {
 	value: string;
@@ -29,6 +29,7 @@ export const ConsultingTypeSelection = ({
 				label: t(
 					[
 						`consultingType.${consultingType.id}.titles.long`,
+						`consultingType.fallback.titles.long`,
 						consultingType.titles.long
 					],
 					{ ns: 'consultingTypes' }

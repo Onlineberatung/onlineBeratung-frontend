@@ -5,5 +5,9 @@
 		"types": ["cypress"],
 		"moduleResolution": "node"
 	},
-	"include": ["**/*.ts", "../src/generated/**/*.ts"]
+	"include": [
+		"**/*.ts",
+		"../src/generated/**/*.ts",
+		"../src/extensions/**/*.cy.ts"
+	]
 }

@@ -13,7 +13,7 @@ import {
 	METHOD_STREAM_NOTIFY_ROOM,
 	SUB_STREAM_NOTIFY_ROOM
 } from '../components/app/RocketChat';
-import { RocketChatContext } from '../globalState/provider/RocketChatProvider';
+import { RocketChatContext } from '../globalState';
 import useUpdatingRef from '../hooks/useUpdatingRef';
 
 const TYPING_TIMEOUT_MS = 4000;

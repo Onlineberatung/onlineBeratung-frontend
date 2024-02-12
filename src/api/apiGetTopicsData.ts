@@ -1,6 +1,6 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_ERRORS, FETCH_METHODS } from './fetchData';
-import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
+import { TopicsDataInterface } from '../globalState/interfaces';
 
 export const apiGetTopicsData = async (): Promise<TopicsDataInterface[]> => {
 	const url = endpoints.topicsData;

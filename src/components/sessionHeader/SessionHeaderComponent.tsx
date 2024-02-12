@@ -8,25 +8,29 @@ import {
 	AUTHORITIES,
 	getContact,
 	hasUserAuthority,
-	SessionConsultantInterface,
 	SessionTypeContext,
 	useConsultingType,
-	UserDataContext
+	UserDataContext,
+	ActiveSessionContext
 } from '../../globalState';
+import { SessionConsultantInterface } from '../../globalState/interfaces';
 import {
 	getViewPathForType,
 	SESSION_LIST_TAB,
 	SESSION_LIST_TYPES
 } from '../session/sessionHelpers';
 import { SessionMenu } from '../sessionMenu/SessionMenu';
-import { convertUserDataObjectToArray } from '../profile/profileHelpers';
+import {
+	convertUserDataObjectToArray,
+	getUserDataTranslateBase
+} from '../profile/profileHelpers';
 import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import './sessionHeader.styles';
 import './sessionHeader.yellowTheme.styles';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { GroupChatHeader } from './GroupChatHeader';
+import { useAppConfig } from '../../hooks/useAppConfig';
 
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
@@ -44,29 +48,20 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 	const consultingType = useConsultingType(activeSession.item.consultingType);
+	const settings = useAppConfig();
 
-	const username = getContact(
-		activeSession,
-		translate('sessionList.user.consultantUnknown')
-	).username;
-	const displayName = getContact(
-		activeSession,
-		translate('sessionList.user.consultantUnknown')
-	).displayName;
-	const userSessionData = getContact(
-		activeSession,
-		translate('sessionList.user.consultantUnknown')
-	).sessionData;
+	const contact = getContact(activeSession);
+	const userSessionData = contact?.sessionData;
+
 	const preparedUserSessionData =
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 		userSessionData &&
 		!activeSession.isLive
 			? convertUserDataObjectToArray(userSessionData)
 			: null;
-	const translateBase =
-		activeSession.item.consultingType === 0
-			? 'user.userAddiction'
-			: 'user.userU25';
+	const translateBase = getUserDataTranslateBase(
+		activeSession.item.consultingType
+	);
 
 	const [isSubscriberFlyoutOpen, setIsSubscriberFlyoutOpen] = useState(false);
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
@@ -104,13 +99,17 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		}
 	};
 
+	const enquiryUserProfileCondition =
+		typeof settings?.user?.profile?.visibleOnEnquiry === 'function'
+			? settings.user.profile.visibleOnEnquiry(userSessionData ?? {})
+			: settings?.user?.profile?.visibleOnEnquiry;
+
 	const isAskerInfoAvailable = () =>
 		!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 		consultingType?.showAskerProfile &&
 		activeSession.isSession &&
 		!activeSession.isLive &&
-		((type === SESSION_LIST_TYPES.ENQUIRY &&
-			Object.entries(userSessionData).length !== 0) ||
+		((type === SESSION_LIST_TYPES.ENQUIRY && enquiryUserProfileCondition) ||
 			SESSION_LIST_TYPES.ENQUIRY !== type);
 
 	if (activeSession.isGroup) {
@@ -170,8 +169,16 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 							!isAskerInfoAvailable()
 					})}
 				>
-					{hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) && (
-						<h3>{displayName || username}</h3>
+					{(hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
+						hasUserAuthority(
+							AUTHORITIES.ANONYMOUS_DEFAULT,
+							userData
+						)) && (
+						<h3>
+							{contact?.displayName ||
+								contact?.username ||
+								translate('sessionList.user.consultantUnknown')}
+						</h3>
 					)}
 					{hasUserAuthority(
 						AUTHORITIES.CONSULTANT_DEFAULT,
@@ -179,16 +186,22 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					) ? (
 						isAskerInfoAvailable() ? (
 							<Link to={userProfileLink}>
-								<h3>{username}</h3>
+								<h3>
+									{contact?.username ||
+										translate(
+											'sessionList.user.consultantUnknown'
+										)}
+								</h3>
 							</Link>
 						) : (
-							<h3>{username}</h3>
+							<h3>
+								{contact?.username ||
+									translate(
+										'sessionList.user.consultantUnknown'
+									)}
+							</h3>
 						)
 					) : null}
-					{hasUserAuthority(
-						AUTHORITIES.ANONYMOUS_DEFAULT,
-						userData
-					) && <h3>{displayName || username}</h3>}
 				</div>
 				<SessionMenu
 					hasUserInitiatedStopOrLeaveRequest={
@@ -208,6 +221,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 								? translate(
 										[
 											`consultingType.${consultingType.id}.titles.short`,
+											`consultingType.fallback.titles.short`,
 											consultingType.titles.short
 										],
 										{ ns: 'consultingTypes' }

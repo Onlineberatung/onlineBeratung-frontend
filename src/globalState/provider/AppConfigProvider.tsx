@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { apiServerSettings } from '../../api/apiServerSettings';
-import { AppConfigInterface } from '../interfaces/AppConfig';
+import { AppConfigInterface } from '../interfaces';
 import { setAppConfig as setAppConfigGlobal } from '../../utils/appConfig';
 import { apiFrontendSettings } from '../../api/apiFrontendSettings';
 

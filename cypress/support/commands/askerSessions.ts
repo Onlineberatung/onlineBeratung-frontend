@@ -20,7 +20,7 @@ export const updateAskerSession = (
 Cypress.Commands.add(
 	'askerSession',
 	(props: { [key: string]: any } = {}, index?: number) =>
-		new Promise((resolve) => {
+		new Cypress.Promise((resolve) => {
 			updateAskerSession(props, index);
 			resolve(undefined);
 		})

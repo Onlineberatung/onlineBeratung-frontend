@@ -103,21 +103,16 @@ export const getExtendedSession = (
 	return buildExtendedSession(session, sessionGroupId);
 };
 
-export const getContact = (
-	activeSession: ListItemInterface,
-	unknownTranslation: string
-): any => {
-	if (activeSession && activeSession.user) {
+export const getContact = (activeSession: ListItemInterface): any => {
+	if (activeSession?.user) {
 		return activeSession.user;
 	}
 
-	if (activeSession && activeSession.consultant) {
+	if (activeSession?.consultant) {
 		return activeSession.consultant;
 	}
 
-	return {
-		username: unknownTranslation
-	};
+	return null;
 };
 
 export const getSessionsDataKeyForSessionType = (sessionType) => {

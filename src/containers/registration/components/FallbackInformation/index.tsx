@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Notice } from '../../../../components/notice/Notice';
 import { Text } from '../../../../components/text/Text';
-import { ConsultingTypeBasicInterface } from '../../../../globalState';
+import { ConsultingTypeBasicInterface } from '../../../../globalState/interfaces';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
 import { parsePlaceholderString } from '../../../../utils/parsePlaceholderString';
 

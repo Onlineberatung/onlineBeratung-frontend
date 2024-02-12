@@ -15,7 +15,6 @@ describe('release-note', () => {
 	});
 
 	beforeEach(() => {
-		cy.mockApi();
 		mockWebSocket();
 	});
 

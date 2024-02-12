@@ -2,15 +2,15 @@ import unionBy from 'lodash/unionBy';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { apiAgencySelection } from '../../../api';
 import { DEFAULT_POSTCODE } from '../../../components/registration/prefillPostcode';
+import { useTenant } from '../../../globalState';
 import {
 	AgencyDataInterface,
 	ConsultingTypeInterface,
-	useTenant
-} from '../../../globalState';
+	TopicsDataInterface
+} from '../../../globalState/interfaces';
 import { useConsultantAgenciesAndConsultingTypes } from './useConsultantAgenciesAndConsultingTypes';
 import { ConsultingTypeRegistrationDefaults } from '../components/ProposedAgencies/ProposedAgencies';
 import { UrlParamsContext } from '../../../globalState/provider/UrlParamsProvider';
-import { TopicsDataInterface } from '../../../globalState/interfaces/TopicsDataInterface';
 
 interface AgenciesForRegistrationArgs {
 	consultingType: ConsultingTypeInterface;

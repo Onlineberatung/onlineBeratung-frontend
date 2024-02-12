@@ -28,16 +28,16 @@ import {
 	getExtendedSession,
 	hasUserAuthority,
 	isAnonymousSession,
-	ListItemInterface,
 	REMOVE_SESSIONS,
 	RocketChatContext,
 	SessionsDataContext,
 	SessionTypeContext,
 	SET_SESSIONS,
-	STATUS_EMPTY,
 	UPDATE_SESSIONS,
-	UserDataContext
+	UserDataContext,
+	ActiveSessionProvider
 } from '../../globalState';
+import { ListItemInterface, STATUS_EMPTY } from '../../globalState/interfaces';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import { SessionListItemComponent } from '../sessionsListItem/SessionListItemComponent';
@@ -77,7 +77,6 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as LiveChatAvailableIllustration } from '../../resources/img/illustrations/live-chat-available.svg';
 import { ListInfo } from '../listInfo/ListInfo';
 import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 import { EmptyListItem } from './EmptyListItem';
 
@@ -979,9 +978,9 @@ export const SessionsList = ({
 									activeSession: ExtendedSessionInterface,
 									index
 								) => (
-									<ActiveSessionContext.Provider
+									<ActiveSessionProvider
 										key={activeSession.item.id}
-										value={{ activeSession }}
+										activeSession={activeSession}
 									>
 										<RocketChatUsersOfRoomProvider>
 											<SessionListItemComponent
@@ -1004,7 +1003,7 @@ export const SessionsList = ({
 												index={index}
 											/>
 										</RocketChatUsersOfRoomProvider>
-									</ActiveSessionContext.Provider>
+									</ActiveSessionProvider>
 								)
 							)}
 

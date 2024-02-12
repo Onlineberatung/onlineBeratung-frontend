@@ -1,4 +1,4 @@
-import { AgencyDataInterface } from '../../globalState';
+import { AgencyDataInterface } from '../../globalState/interfaces';
 import './formAccordionRegistrationText.styles';
 
 interface FormAccordionRegistrationTextProps {

@@ -17,14 +17,16 @@ import ErrorBoundary from './ErrorBoundary';
 import { LanguagesProvider } from '../../globalState/provider/LanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
 import {
-	AppConfigInterface,
 	AppConfigProvider,
 	InformalProvider,
-	LegalLinkInterface,
 	LocaleProvider,
 	NotificationsContext,
 	TenantProvider
 } from '../../globalState';
+import {
+	AppConfigInterface,
+	LegalLinkInterface
+} from '../../globalState/interfaces';
 import { LegalLinksProvider } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { DevToolbarWrapper } from '../devToolbar/DevToolbar';
@@ -63,7 +65,6 @@ type TExtraRoute = {
 interface AppProps {
 	stageComponent: ComponentType<StageProps>;
 	legalLinks?: Array<LegalLinkInterface>;
-	entryPoint: string;
 	extraRoutes?: TExtraRoute[];
 	spokenLanguages?: string[];
 	fixedLanguages?: string[];
@@ -73,7 +74,6 @@ interface AppProps {
 export const App = ({
 	stageComponent,
 	legalLinks,
-	entryPoint,
 	extraRoutes = [],
 	spokenLanguages = null,
 	fixedLanguages = ['de'],
@@ -100,7 +100,6 @@ export const App = ({
 									>
 										<RouterWrapper
 											extraRoutes={extraRoutes}
-											entryPoint={entryPoint}
 										/>
 									</GlobalComponentContext.Provider>
 								</LegalLinksProvider>
@@ -115,11 +114,10 @@ export const App = ({
 };
 
 interface RouterWrapperProps {
-	entryPoint: string;
 	extraRoutes?: TExtraRoute[];
 }
 
-const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
+const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 	const history = useHistory();
 	const settings = useAppConfig();
 
@@ -136,8 +134,8 @@ const RouterWrapper = ({ extraRoutes, entryPoint }: RouterWrapperProps) => {
 	return (
 		<Router>
 			<Switch>
-				{entryPoint !== '/' && (
-					<Redirect from="/" to={entryPoint} exact />
+				{settings.urls.landingpage !== '/' && (
+					<Redirect from="/" to={settings.urls.landingpage} exact />
 				)}
 				<Route>
 					<ContextProvider>

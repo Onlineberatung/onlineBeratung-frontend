@@ -1,0 +1,32 @@
+{
+	"id": 1,
+	"name": "Name 1",
+	"subdomain": "app",
+	"theming": {
+		"logo": "",
+		"primaryColor": "#00ff00",
+		"secondaryColor": "#0000ff"
+	},
+	"content": {
+		"impressum": "",
+		"claim": "Claim",
+		"privacy": "",
+		"renderedPrivacy": "",
+		"termsAndConditionsConfirmation": "",
+		"dataPrivacyConfirmation": "",
+		"dataProtectionContactTemplate": {
+			"agencyContext": {
+				"responsibleContact": "",
+				"dataProtectionOfficer": {
+					"agencyResponsibleContact": "",
+					"alternativeRepresentativeContact": "",
+					"dataProtectionOfficerContact": ""
+				}
+			},
+			"noAgencyContext": {
+				"responsibleContact": "",
+				"dataProtectionOfficerContact": ""
+			}
+		}
+	}
+}

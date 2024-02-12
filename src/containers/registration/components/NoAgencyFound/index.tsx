@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text } from '../../../../components/text/Text';
-import { ConsultingTypeBasicInterface } from '../../../../globalState';
+import { ConsultingTypeBasicInterface } from '../../../../globalState/interfaces';
 import { FallbackInformation } from '../FallbackInformation';
 
 interface NoAgencyFoundArgs {

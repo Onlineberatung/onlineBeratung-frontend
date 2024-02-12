@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { UserDataContext } from '../../../../globalState';
 import {
 	ListItemInterface,
 	STATUS_EMPTY,
-	UserDataContext,
 	UserDataInterface
-} from '../../../../globalState';
+} from '../../../../globalState/interfaces';
 import {
 	apiGetAskerSessionList,
 	getCounselorAppointmentLink,
@@ -29,7 +29,7 @@ export const Booking = () => {
 
 	useEffect(() => {
 		apiGetAskerSessionList().then(({ sessions }) => {
-			const session = sessions.find((s) => !!s.consultant);
+			const session = sessions.find((s) => !!s.agency);
 			setSession(session);
 			const consultant = session?.consultant;
 			const agencyId = session?.agency?.id;

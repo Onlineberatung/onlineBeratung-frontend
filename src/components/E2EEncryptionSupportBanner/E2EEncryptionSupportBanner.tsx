@@ -12,9 +12,9 @@ import {
 	ConsultingTypesContext,
 	hasUserAuthority,
 	SessionsDataContext,
-	STATUS_EMPTY,
 	UserDataContext
 } from '../../globalState';
+import { STATUS_EMPTY } from '../../globalState/interfaces';
 import { Link } from 'react-router-dom';
 
 export const E2EEncryptionSupportBanner = () => {

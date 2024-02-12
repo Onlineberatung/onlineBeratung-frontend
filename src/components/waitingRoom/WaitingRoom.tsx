@@ -44,6 +44,7 @@ import { StageLayout } from '../stageLayout/StageLayout';
 import { appConfig } from '../../utils/appConfig';
 import { Loading } from '../app/Loading';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
+import LegalLinks from '../legalLinks/LegalLinks';
 export interface WaitingRoomProps {
 	consultingTypeSlug: string;
 	consultingTypeId: number;
@@ -290,33 +291,35 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 						/>
 					}
 				>
-					<Text
-						type="standard"
-						text={[
-							translate(
+					<Text type="standard">
+						<LegalLinks
+							prefix={translate(
 								'registration.dataProtection.label.prefix'
-							),
-							legalLinks
-								.filter((legalLink) => legalLink.registration)
-								.map(
-									(legalLink, index, { length }) =>
-										(index > 0
-											? index < length - 1
-												? ', '
-												: translate(
-														'registration.dataProtection.label.and'
-													)
-											: '') +
-										`<a target="_blank" href="${legalLink.getUrl(
-											{ aid: null }
-										)}">${translate(legalLink.label)}</a>`
-								)
-								.join(''),
-							translate(
+							)}
+							lastDelimiter={translate(
+								'registration.dataProtection.label.and'
+							)}
+							suffix={translate(
 								'registration.dataProtection.label.suffix'
-							)
-						].join(' ')}
-					/>
+							)}
+							delimiter={', '}
+							filter={(legalLink) => legalLink.registration}
+							legalLinks={legalLinks}
+							params={{ aid: null }}
+						>
+							{(label, url) => (
+								<span>
+									<button
+										type="button"
+										className="button-as-link"
+										onClick={() => window.open(url)}
+									>
+										${label}
+									</button>
+								</span>
+							)}
+						</LegalLinks>
+					</Text>
 					<Button
 						className="waitingRoom__button"
 						buttonHandle={handleConfirmButton}

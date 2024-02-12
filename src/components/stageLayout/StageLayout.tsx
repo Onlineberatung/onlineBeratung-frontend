@@ -10,6 +10,7 @@ import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useResponsive } from '../../hooks/useResponsive';
+import LegalLinks from '../legalLinks/LegalLinks';
 
 interface StageLayoutProps {
 	className?: string;
@@ -102,42 +103,32 @@ export const StageLayout = ({
 			<div className="stageLayout__footer">
 				{showLegalLinks && (
 					<div className={`stageLayout__legalLinks`}>
-						{legalLinks.map((legalLink, index) => (
-							<React.Fragment
-								key={legalLink.getUrl({
-									aid: specificAgency?.id
-								})}
-							>
-								{index > 0 && (
-									<Text
-										type="infoSmall"
-										className="stageLayout__legalLinksSeparator"
-										text=" | "
-									/>
-								)}
+						<LegalLinks
+							delimiter={
+								<Text
+									type="infoSmall"
+									className="stageLayout__legalLinksSeparator"
+									text=" | "
+								/>
+							}
+							params={{ aid: specificAgency?.id }}
+							legalLinks={legalLinks}
+						>
+							{(label, url) => (
 								<button
 									type="button"
 									className="button-as-link"
-									data-cy-link={legalLink.getUrl({
-										aid: specificAgency?.id
-									})}
-									onClick={() =>
-										window.open(
-											legalLink.getUrl({
-												aid: specificAgency?.id
-											}),
-											'_blank'
-										)
-									}
+									data-cy-link={url}
+									onClick={() => window.open(url, '_blank')}
 								>
 									<Text
 										className="stageLayout__legalLinksItem"
 										type="infoSmall"
-										text={translate(legalLink.label)}
+										text={label}
 									/>
 								</button>
-							</React.Fragment>
-						))}
+							)}
+						</LegalLinks>
 					</div>
 				)}
 			</div>

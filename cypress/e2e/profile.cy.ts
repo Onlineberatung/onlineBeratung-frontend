@@ -16,7 +16,6 @@ describe('profile', () => {
 	});
 
 	beforeEach(() => {
-		cy.mockApi();
 		mockWebSocket();
 	});
 
