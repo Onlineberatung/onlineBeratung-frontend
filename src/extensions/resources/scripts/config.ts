@@ -11,9 +11,6 @@ import { config as baseConfig, uiUrl } from '../../../resources/scripts/config';
 
 export { uiUrl, APP_PATH } from '../../../resources/scripts/config';
 
-/*
- * routes
- */
 export const routePathNames = {
 	root: '/',
 	login: '/login',
