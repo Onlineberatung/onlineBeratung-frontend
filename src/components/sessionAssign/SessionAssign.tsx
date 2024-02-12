@@ -13,11 +13,11 @@ import {
 	UserDataContext,
 	ConsultantListContext,
 	E2EEContext,
-	SessionTypeContext
+	SessionTypeContext,
+	ActiveSessionContext
 } from '../../globalState';
 import { SelectDropdown } from '../select/SelectDropdown';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';

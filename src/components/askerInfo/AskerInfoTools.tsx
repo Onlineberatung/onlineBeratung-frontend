@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { ActiveSessionContext } from '../../globalState';
 import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { refreshKeycloakAccessToken } from '../sessionCookie/refreshKeycloakAccessToken';
@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 export const AskerInfoTools = () => {
 	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
-	const [askerId, setAskerId] = useState();
+	const [askerId, setAskerId] = useState<string>();
 
 	const openToolsLink = () => {
 		refreshKeycloakAccessToken().then((resp) => {

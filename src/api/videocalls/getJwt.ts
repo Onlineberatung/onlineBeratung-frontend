@@ -1,4 +1,4 @@
-import { VideoCallJwtDataInterface } from '../../globalState/interfaces/VideoCallDataInterface';
+import { VideoCallJwtDataInterface } from '../../globalState/interfaces';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from '../fetchData';
 

@@ -1,7 +1,7 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_SUCCESS } from './fetchData';
 
-import { AgencyLanguagesInterface } from '../globalState';
+import { AgencyLanguagesInterface } from '../globalState/interfaces';
 
 export const apiAgencyLanguages = async (
 	agencyId: number,

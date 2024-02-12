@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as ArrowIcon } from '../../resources/img/illustrations/arrow.svg';
 import { BUTTON_TYPES } from '../button/Button';
-import { ConsultingTypeBasicInterface } from '../../globalState';
+import { ConsultingTypeBasicInterface } from '../../globalState/interfaces';
 import { useTranslation } from 'react-i18next';
 
 interface AskerRegistrationExternalAgencyOverlayProps {
@@ -35,6 +35,7 @@ export const AskerRegistrationExternalAgencyOverlay = ({
 					translate(
 						[
 							`consultingType.${consultingType.id}.titles.default`,
+							`consultingType.fallback.titles.default`,
 							consultingType.titles.default
 						],
 						{ ns: 'consultingTypes' }

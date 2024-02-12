@@ -28,9 +28,9 @@ import {
 	RocketChatGlobalSettingsContext,
 	TenantContext,
 	UserDataContext,
-	UserDataInterface,
 	LocaleContext
 } from '../../globalState';
+import { UserDataInterface } from '../../globalState/interfaces';
 import '../../resources/styles/styles';
 import './login.styles';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';

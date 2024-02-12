@@ -19,9 +19,10 @@ import {
 	RocketChatContext,
 	RocketChatGlobalSettingsContext,
 	SessionTypeContext,
-	STATUS_FINISHED,
-	UserDataContext
+	UserDataContext,
+	ActiveSessionContext
 } from '../../globalState';
+import { STATUS_FINISHED } from '../../globalState/interfaces';
 import {
 	apiGetAgencyConsultantList,
 	apiGetSessionData,
@@ -37,7 +38,6 @@ import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
 import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import useTyping from '../../utils/useTyping';
 import './session.styles';
 import { useE2EE } from '../../hooks/useE2EE';

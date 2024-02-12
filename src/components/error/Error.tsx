@@ -11,9 +11,9 @@ import '../../resources/styles/styles';
 import './error.styles';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
-import { AppConfigProvider } from '../../globalState/provider/AppConfigProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { AppConfigInterface, LocaleProvider } from '../../globalState';
+import { LocaleProvider, AppConfigProvider } from '../../globalState';
+import { AppConfigInterface } from '../../globalState/interfaces';
 import { useResponsive } from '../../hooks/useResponsive';
 
 const getStatusCode = () => {

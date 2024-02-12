@@ -1,4 +1,4 @@
-import { TopicsDataInterface } from '../globalState/interfaces/TopicsDataInterface';
+import { TopicsDataInterface } from '../globalState/interfaces';
 import { apiGetTopicsData } from './apiGetTopicsData';
 
 export const apiGetTopicById = async (

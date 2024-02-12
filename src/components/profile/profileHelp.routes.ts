@@ -1,4 +1,4 @@
-import { AppSettingsInterface } from '../../globalState';
+import { AppSettingsInterface } from '../../globalState/interfaces';
 import {
 	COLUMN_LEFT,
 	SingleComponentType,

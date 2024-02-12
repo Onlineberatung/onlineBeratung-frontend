@@ -28,6 +28,7 @@ import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { ListInfo } from '../listInfo/ListInfo';
+import LegalLinks from '../legalLinks/LegalLinks';
 
 export const Appointments = () => {
 	const { t: translate } = useTranslation();
@@ -311,37 +312,27 @@ export const Appointments = () => {
 				</ScrollableSectionBody>
 				<ScrollableSectionFooter>
 					<div className="profile__footer">
-						{legalLinks.map((legalLink, index) => (
-							<React.Fragment
-								key={legalLink.getUrl({
-									aid: specificAgency?.id
-								})}
-							>
-								{index > 0 && (
-									<Text
-										type="infoSmall"
-										className="profile__footer__separator"
-										text=" | "
-									/>
-								)}
-								<a
-									key={legalLink.getUrl({
-										aid: specificAgency?.id
-									})}
-									href={legalLink.getUrl({
-										aid: specificAgency?.id
-									})}
-									target="_blank"
-									rel="noreferrer"
-								>
+						<LegalLinks
+							legalLinks={legalLinks}
+							params={{ aid: specificAgency?.id }}
+							delimiter={
+								<Text
+									type="infoSmall"
+									className="profile__footer__separator"
+									text=" | "
+								/>
+							}
+						>
+							{(label, url) => (
+								<a href={url} target="_blank" rel="noreferrer">
 									<Text
 										className="profile__footer__item"
 										type="infoSmall"
-										text={translate(legalLink.label)}
+										text={label}
 									/>
 								</a>
-							</React.Fragment>
-						))}
+							)}
+						</LegalLinks>
 					</div>
 				</ScrollableSectionFooter>
 			</ScrollableSection>

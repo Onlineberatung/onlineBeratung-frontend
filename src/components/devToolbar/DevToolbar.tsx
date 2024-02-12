@@ -12,7 +12,7 @@ import {
 	getValueFromCookie,
 	setValueInCookie
 } from '../sessionCookie/accessSessionCookie';
-import { AppConfigInterface } from '../../globalState';
+import { AppConfigInterface } from '../../globalState/interfaces';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import {
 	REQUEST_COLLECTOR_EVENT,

@@ -8,7 +8,7 @@ import {
 	useState
 } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
+import { ActiveSessionContext } from '../../globalState';
 import './session.styles';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { useSearchParam } from '../../hooks/useSearchParams';

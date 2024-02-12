@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import './MainTopicSelection.styles';
 import { apiGetTopicsData } from '../../api/apiGetTopicsData';
 import { RadioButton } from '../radioButton/RadioButton';
-import { AgencyInfo } from '../agencySelection/AgencyInfo';
+import { InfoTooltip } from '../infoTooltip/InfoTooltip';
 import {
 	VALIDITY_VALID,
 	VALIDITY_INVALID
@@ -76,9 +76,16 @@ export const MainTopicSelection = ({
 							inputId={`${name
 								.toLowerCase()
 								.replace(' ', '-')}-${id}`}
-							label={name}
+						>
+							{name}
+						</RadioButton>
+						<InfoTooltip
+							translation={{
+								ns: 'topics',
+								prefix: 'topic'
+							}}
+							info={topic}
 						/>
-						<AgencyInfo agency={topic} />
 					</div>
 				);
 			})}

@@ -15,10 +15,10 @@ import {
 	E2EEContext,
 	SessionTypeContext,
 	UserDataContext,
-	UserDataInterface
+	ActiveSessionContext
 } from '../../globalState';
+import { UserDataInterface } from '../../globalState/interfaces';
 import { SelectDropdown } from '../select/SelectDropdown';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useE2EE } from '../../hooks/useE2EE';
 import {
 	ALIAS_MESSAGE_TYPES,
@@ -212,6 +212,8 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 	return (
 		<div className="assign__wrapper">
 			<SelectDropdown
+				menuShouldBlockScroll
+				menuPosition="fixed"
 				{...prepareSelectDropdown({
 					consultantList,
 					handleDatalistSelect,

@@ -1,6 +1,6 @@
 import { endpoints } from '../../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './../fetchData';
-import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
+import { AppointmentsDataInterface } from '../../globalState/interfaces';
 
 export const putAppointment = async (
 	appointmentId: string,

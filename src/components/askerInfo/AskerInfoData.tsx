@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { handleNumericTranslation } from '../../utils/translate';
-import { getContact, useConsultingType } from '../../globalState';
+import {
+	getContact,
+	useConsultingType,
+	ActiveSessionContext
+} from '../../globalState';
 import {
 	convertUserDataObjectToArray,
 	getUserDataTranslateBase
 } from '../profile/profileHelpers';
 import { Text } from '../text/Text';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { useTranslation } from 'react-i18next';
 
 export const AskerInfoData = () => {
@@ -16,10 +19,7 @@ export const AskerInfoData = () => {
 
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
-	const userSessionData = getContact(
-		activeSession,
-		translate('sessionList.user.consultantUnknown')
-	).sessionData;
+	const userSessionData = getContact(activeSession).sessionData;
 	const preparedUserSessionData =
 		convertUserDataObjectToArray(userSessionData);
 
@@ -35,6 +35,7 @@ export const AskerInfoData = () => {
 						? translate(
 								[
 									`consultingType.${consultingType.id}.titles.default`,
+									`consultingType.fallback.titles.default`,
 									consultingType.titles.default
 								],
 								{ ns: 'consultingTypes' }

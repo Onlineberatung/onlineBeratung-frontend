@@ -3,14 +3,14 @@ import { SESSION_LIST_TYPES } from '../../../../components/session/sessionHelper
 import { SessionListItemComponent } from '../../../../components/sessionsListItem/SessionListItemComponent';
 import {
 	buildExtendedSession,
-	SessionTypeProvider
+	SessionTypeProvider,
+	ActiveSessionProvider
 } from '../../../../globalState';
 import { useConsultantData } from '../../hooks/useConsultantData';
 import { EmptyType } from '../EmptyState';
 import { OverviewCard } from '../OverviewCard/OverviewCard';
 import './sessionCard.styles.scss';
 import { LanguagesContext } from '../../../../globalState/provider/LanguagesProvider';
-import { ActiveSessionContext } from '../../../../globalState/provider/ActiveSessionProvider';
 import { RocketChatUsersOfRoomProvider } from '../../../../globalState/provider/RocketChatUsersOfRoomProvider';
 
 interface SessionCardProps {
@@ -46,9 +46,9 @@ export const SessionCard = ({
 					?.slice(0, 9)
 					.map((session) => buildExtendedSession(session, ''))
 					.map((activeSession, index) => (
-						<ActiveSessionContext.Provider
+						<ActiveSessionProvider
 							key={activeSession.item.id}
-							value={{ activeSession }}
+							activeSession={activeSession}
 						>
 							<RocketChatUsersOfRoomProvider>
 								<SessionListItemComponent
@@ -56,7 +56,7 @@ export const SessionCard = ({
 									index={index}
 								/>
 							</RocketChatUsersOfRoomProvider>
-						</ActiveSessionContext.Provider>
+						</ActiveSessionProvider>
 					))}
 			</SessionTypeProvider>
 		</OverviewCard>

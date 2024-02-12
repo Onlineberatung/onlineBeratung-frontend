@@ -10,14 +10,16 @@ import { generatePath, Link, Redirect, useHistory } from 'react-router-dom';
 import {
 	AnonymousConversationFinishedContext,
 	AUTHORITIES,
-	ExtendedSessionInterface,
 	hasUserAuthority,
-	SessionItemInterface,
 	SessionTypeContext,
-	STATUS_FINISHED,
 	useConsultingType,
-	UserDataContext
+	UserDataContext,
+	ActiveSessionContext
 } from '../../globalState';
+import {
+	SessionItemInterface,
+	STATUS_FINISHED
+} from '../../globalState/interfaces';
 import {
 	SESSION_LIST_TAB,
 	SESSION_LIST_TAB_ARCHIVE,
@@ -60,12 +62,13 @@ import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera
 import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
 import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 import DeleteSession from '../session/DeleteSession';
-import { ActiveSessionContext } from '../../globalState/provider/ActiveSessionProvider';
 import { Text } from '../text/Text';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { RocketChatUsersOfRoomContext } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import LegalLinks from '../legalLinks/LegalLinks';
 
 type TReducedSessionItemInterface = Omit<
 	SessionItemInterface,
@@ -584,7 +587,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 				{activeSession.isGroup && (
 					<SessionMenuFlyoutGroup
-						activeSession={activeSession}
 						editGroupChatSettingsLink={editGroupChatSettingsLink}
 						groupChatInfoLink={groupChatInfoLink}
 						handleLeaveGroupChat={handleLeaveGroupChat}
@@ -594,23 +596,19 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				)}
 
 				<div className="legalInformationLinks--menu">
-					{legalLinks.map((legalLink) => (
-						<a
-							href={legalLink.getUrl({
-								aid: activeSession?.agency?.id
-							})}
-							key={legalLink.getUrl({
-								aid: activeSession?.agency?.id
-							})}
-							target="_blank"
-							rel="noreferrer"
-						>
-							<Text
-								type="infoLargeAlternative"
-								text={translate(legalLink.label)}
-							/>
-						</a>
-					))}
+					<LegalLinks
+						legalLinks={legalLinks}
+						params={{ aid: activeSession?.agency?.id }}
+					>
+						{(label, url) => (
+							<a href={url} target="_blank" rel="noreferrer">
+								<Text
+									type="infoLargeAlternative"
+									text={label}
+								/>
+							</a>
+						)}
+					</LegalLinks>
 				</div>
 			</div>
 			{overlayActive && (
@@ -624,14 +622,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 };
 
 const SessionMenuFlyoutGroup = ({
-	activeSession,
 	groupChatInfoLink,
 	editGroupChatSettingsLink,
 	handleLeaveGroupChat,
 	handleStopGroupChat,
 	bannedUsers
 }: {
-	activeSession: ExtendedSessionInterface;
 	groupChatInfoLink: string;
 	editGroupChatSettingsLink: string;
 	handleStopGroupChat: MouseEventHandler;
@@ -640,11 +636,14 @@ const SessionMenuFlyoutGroup = ({
 }) => {
 	const { t: translate } = useTranslation();
 	const { userData } = useContext(UserDataContext);
+	const { activeSession } = useContext(ActiveSessionContext);
+	const { moderators } = useContext(RocketChatUsersOfRoomContext);
 
 	return (
 		<>
 			{activeSession.item.subscribed &&
-				!bannedUsers?.includes(userData.userName) && (
+				!bannedUsers?.includes(userData.userName) &&
+				moderators.length > 1 && (
 					<div
 						onClick={handleLeaveGroupChat}
 						className="sessionMenu__item sessionMenu__button"

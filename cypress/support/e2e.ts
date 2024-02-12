@@ -5,6 +5,14 @@ beforeEach(() => {
 	window.localStorage.setItem('locale', 'de');
 	window.localStorage.setItem('showDevTools', '0');
 	window.localStorage.setItem('e2ee_disabled', '1');
+
+	cy.mockApi();
+	cy.fixture('service.settings.json').then((content) => {
+		cy.willReturn('settings', content);
+	});
+	cy.fixture('service.tenant.public.json').then((content) => {
+		cy.willReturn('service.tenant.public', content);
+	});
 });
 
 afterEach(() => {

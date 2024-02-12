@@ -6,7 +6,7 @@ import {
 	STATUS_ARCHIVED,
 	STATUS_EMPTY,
 	STATUS_ENQUIRY
-} from '../../globalState/interfaces/SessionsDataInterface';
+} from '../../globalState/interfaces';
 
 import { MessageItem } from '../message/MessageItemComponent';
 import {

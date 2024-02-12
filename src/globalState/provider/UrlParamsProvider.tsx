@@ -1,11 +1,11 @@
-import React, { createContext, FC } from 'react';
+import React, { createContext, PropsWithChildren } from 'react';
 import {
 	AgencyDataInterface,
 	ConsultantDataInterface,
-	ConsultingTypeInterface
-} from '..';
+	ConsultingTypeInterface,
+	TopicsDataInterface
+} from '../interfaces';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
-import { TopicsDataInterface } from '../interfaces/TopicsDataInterface';
 
 export const UrlParamsContext = createContext<{
 	agency: AgencyDataInterface | null;
@@ -21,7 +21,7 @@ export const UrlParamsContext = createContext<{
 	loaded: false
 });
 
-export const UrlParamsProvider: FC = ({ children }) => {
+export const UrlParamsProvider = ({ children }: PropsWithChildren<{}>) => {
 	const { agency, consultingType, consultant, topic, loaded } =
 		useUrlParamsLoader();
 

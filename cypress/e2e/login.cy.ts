@@ -14,7 +14,6 @@ describe('Login', () => {
 	});
 
 	beforeEach(() => {
-		cy.mockApi();
 		mockWebSocket();
 	});
 

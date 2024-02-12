@@ -3,7 +3,7 @@ import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './../fetchData';
 import {
 	AppointmentsDataInterface,
 	STATUS_CREATED
-} from '../../globalState/interfaces/AppointmentsDataInterface';
+} from '../../globalState/interfaces';
 
 export const postAppointments = async (
 	data: Partial<AppointmentsDataInterface>

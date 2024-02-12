@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { RegistrationWelcomeScreenInterface } from '../../globalState';
+import { RegistrationWelcomeScreenInterface } from '../../globalState/interfaces';
 import {
 	EnvelopeIcon,
 	LockIcon,
@@ -44,6 +44,7 @@ export const ServiceExplanation = ({
 			title: translate(
 				[
 					`consultingType.${consultingTypeId}.welcomeScreen.anonymous.title`,
+					`consultingType.fallback.welcomeScreen.anonymous.title`,
 					welcomeScreenConfig?.anonymous.title ??
 						'registration.welcomeScreen.info4.title'
 				],
@@ -52,6 +53,7 @@ export const ServiceExplanation = ({
 			text: translate(
 				[
 					`consultingType.${consultingTypeId}.welcomeScreen.anonymous.text`,
+					`consultingType.fallback.welcomeScreen.anonymous.text`,
 					welcomeScreenConfig?.anonymous.text ??
 						'registration.welcomeScreen.info4.text'
 				],

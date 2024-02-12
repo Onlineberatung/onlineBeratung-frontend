@@ -1,6 +1,6 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
-import { ListItemInterface } from '../globalState';
+import { ListItemInterface } from '../globalState/interfaces';
 
 export const apiGetSessionRoomsByGroupIds = async (
 	rcGroupIds: string[],

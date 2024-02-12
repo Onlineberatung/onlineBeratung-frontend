@@ -6,13 +6,12 @@ import { Headline } from '../headline/Headline';
 import './termsandconfitions.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { OVERLAY_TERMS_AND_CONDITION } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { UserDataContext, useTenant } from '../../globalState';
 import {
-	UserDataContext,
-	UserDataInterface,
-	useTenant
-} from '../../globalState';
-import { TenantDataInterface } from '../../globalState/interfaces/TenantDataInterface';
-import { Checkbox, CheckboxItem } from '../checkbox/Checkbox';
+	TenantDataInterface,
+	UserDataInterface
+} from '../../globalState/interfaces';
+import { Checkbox } from '../checkbox/Checkbox';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { logout } from '../logout/logout';
 
@@ -155,14 +154,6 @@ export const TermsAndConditions = () => {
 		return null;
 	}
 
-	const checkboxItemDataProtection: CheckboxItem = {
-		inputId: 'dataProtectionCheckbox',
-		name: 'dataProtectionCheckbox',
-		labelId: 'dataProtectionLabel',
-		checked: viewState.userConfirmed,
-		label: viewState.checkboxText
-	};
-
 	const handleOverlay = (buttonFunction: string) => {
 		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
 			logout();
@@ -214,7 +205,11 @@ export const TermsAndConditions = () => {
 							>
 								{viewState.checkboxText && (
 									<Checkbox
-										item={checkboxItemDataProtection}
+										inputId={'dataProtectionCheckbox'}
+										name={'dataProtectionCheckbox'}
+										labelId={'dataProtectionLabel'}
+										checked={viewState.userConfirmed}
+										label={viewState.checkboxText}
 										checkboxHandle={() =>
 											setViewState({
 												...viewState,
