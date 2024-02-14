@@ -1,9 +1,10 @@
-export const getUrlParameter = (name: string) => {
+export const getUrlParameter = (
+	name: string,
+	fallback: string = null
+): string => {
 	name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
-	let regex = new RegExp('[\\?&]' + name + '=([^&#]*)', 'i');
-	// eslint-disable-next-line no-restricted-globals
-	let results = regex.exec(location.search);
-	return results === null
-		? ''
-		: decodeURIComponent(results[1].replace(/\+/g, ' '));
+	const url = new URL(window.location.href);
+	return url.searchParams.has(name)
+		? decodeURIComponent(url.searchParams.get(name).replace(/\+/g, ' '))
+		: fallback;
 };

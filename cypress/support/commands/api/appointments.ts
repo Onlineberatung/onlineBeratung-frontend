@@ -3,7 +3,7 @@ import {
 	getAppointments,
 	setAppointments,
 	updateAppointment
-} from '../appointments';
+} from '../helper/appointments';
 
 const appointmentsApi = (cy) => {
 	cy.intercept('GET', `${endpoints.appointmentsServiceBase}/*`, (req) => {

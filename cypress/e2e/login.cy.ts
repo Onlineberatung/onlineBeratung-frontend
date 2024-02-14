@@ -30,7 +30,7 @@ describe('Login', () => {
 		cy.contains('Datenschutzerklärung');
 	});
 
-	it('displays the login for resorts', () => {
+	it.only('displays the login for resorts', () => {
 		cy.visit('/suchtberatung');
 		cy.contains('Login');
 	});

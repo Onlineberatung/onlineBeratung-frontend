@@ -45,7 +45,8 @@ export const ProposedAgencies = ({
 }: ProposedAgenciesProps) => {
 	const { t } = useTranslation();
 
-	const { agency: preSelectedAgency } = useContext(UrlParamsContext);
+	const { agency: preSelectedAgency, slugFallback } =
+		useContext(UrlParamsContext);
 
 	const [isTouched, setIsTouched] = useState(false);
 
@@ -79,19 +80,21 @@ export const ProposedAgencies = ({
 	const handleAgencyChange = useCallback(
 		(agency: AgencyDataInterface, isTouched = true) => {
 			handleChange(
-				{
-					agency,
-					consultingType: consultingTypes.find(
-						(ct) => ct.id === agency?.consultingType
-					),
-					...(autoSelectPostcode
-						? { postcode: agency?.postcode }
-						: {})
-				},
+				slugFallback
+					? {
+							agency
+						}
+					: {
+							agency,
+							consultingType: agency?.consultingTypeRel,
+							...(autoSelectPostcode
+								? { postcode: agency?.postcode }
+								: {})
+						},
 				isTouched
 			);
 		},
-		[autoSelectPostcode, consultingTypes, handleChange]
+		[autoSelectPostcode, handleChange, slugFallback]
 	);
 
 	// If options change, check for still valid preselected agency
@@ -119,14 +122,13 @@ export const ProposedAgencies = ({
 		agencies,
 		autoSelectAgency,
 		formAccordionData.agency,
-		onChange,
-		handleAgencyChange,
-		preSelectedAgency
+		handleAgencyChange
 	]);
 
 	// If options change, check for still valid consulting type or select first one
 	useEffect(() => {
 		if (
+			slugFallback ||
 			(formAccordionData.consultingType &&
 				consultingTypes.some(
 					(ct) => ct.id === formAccordionData.consultingType.id
@@ -137,7 +139,12 @@ export const ProposedAgencies = ({
 		}
 
 		return onChange({ consultingType: consultingTypes?.[0] || null });
-	}, [consultingTypes, formAccordionData.consultingType, onChange]);
+	}, [
+		consultingTypes,
+		formAccordionData.consultingType,
+		onChange,
+		slugFallback
+	]);
 
 	// Validate form if there are no changeable fields or changeable fields and they are touched
 	useEffect(() => {

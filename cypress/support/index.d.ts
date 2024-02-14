@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { LoginArgs } from './commands/login';
+import { LoginArgs } from './commands/mockApi';
 import { AppointmentsDataInterface } from '../../src/globalState/interfaces';
 import * as Bluebird from 'cypress/types/bluebird';
 
@@ -33,7 +33,12 @@ declare global {
 
 			mockApi(): Chainable<Element>;
 
-			willReturn(name: string, data: any): Chainable<Element>;
+			willReturn(
+				name: string,
+				data: any,
+				mergeData?: boolean
+			): Chainable<undefined>;
+			willReturn(name: string): Chainable<any>;
 
 			emitDirectMessage(index?: number): Chainable<Element>;
 

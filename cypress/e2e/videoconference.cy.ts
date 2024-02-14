@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { config } from '../../src/resources/scripts/config';
-import { USER_CONSULTANT, USER_VIDEO } from '../support/commands/login';
+import { USER_CONSULTANT, USER_VIDEO } from '../support/commands/mockApi';
 import {
 	closeWebSocketServer,
 	mockWebSocket,
@@ -163,7 +163,7 @@ describe('videoconference', () => {
 	describe('Consultant', () => {
 		beforeEach(() => {
 			cy.fastLogin({
-				username: USER_CONSULTANT
+				userId: USER_CONSULTANT
 			});
 		});
 
@@ -269,7 +269,7 @@ describe('videoconference', () => {
 	describe('Video Consultant', () => {
 		beforeEach(() => {
 			cy.fastLogin({
-				username: USER_VIDEO
+				userId: USER_VIDEO
 			});
 		});
 

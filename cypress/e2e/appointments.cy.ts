@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { USER_CONSULTANT, USER_VIDEO } from '../support/commands/login';
+import { USER_CONSULTANT, USER_VIDEO } from '../support/commands/mockApi';
 import {
 	closeWebSocketServer,
 	mockWebSocket,
@@ -78,7 +78,7 @@ describe('appointments', () => {
 		describe('Consultant', () => {
 			beforeEach(() => {
 				cy.fastLogin({
-					username: USER_CONSULTANT
+					userId: USER_CONSULTANT
 				});
 			});
 
@@ -90,7 +90,7 @@ describe('appointments', () => {
 		describe('Video Consultant', () => {
 			beforeEach(() => {
 				cy.fastLogin({
-					username: USER_VIDEO
+					userId: USER_VIDEO
 				});
 			});
 
@@ -123,7 +123,7 @@ describe('appointments', () => {
 		describe('Consultant', () => {
 			beforeEach(() => {
 				cy.fastLogin({
-					username: USER_CONSULTANT
+					userId: USER_CONSULTANT
 				});
 			});
 
@@ -135,7 +135,7 @@ describe('appointments', () => {
 		describe('Video Consultant', () => {
 			beforeEach(() => {
 				cy.fastLogin({
-					username: USER_VIDEO
+					userId: USER_VIDEO
 				});
 			});
 
@@ -408,12 +408,16 @@ describe('appointments', () => {
 
 				describe('E2EE check enabled', () => {
 					beforeEach(() => {
-						cy.willReturn('userData', {
-							e2eEncryptionEnabled: true
-						});
+						cy.willReturn(
+							'userData',
+							{
+								e2eEncryptionEnabled: true
+							},
+							true
+						);
 
 						cy.fastLogin({
-							username: USER_VIDEO
+							userId: USER_VIDEO
 						});
 
 						cy.contains('Video - Termine').click();
@@ -483,12 +487,16 @@ describe('appointments', () => {
 
 				describe('E2EE check disabled', () => {
 					beforeEach(() => {
-						cy.willReturn('userData', {
-							e2eEncryptionEnabled: false
-						});
+						cy.willReturn(
+							'userData',
+							{
+								e2eEncryptionEnabled: false
+							},
+							true
+						);
 
 						cy.fastLogin({
-							username: USER_VIDEO
+							userId: USER_VIDEO
 						});
 
 						cy.contains('Video - Termine').click();

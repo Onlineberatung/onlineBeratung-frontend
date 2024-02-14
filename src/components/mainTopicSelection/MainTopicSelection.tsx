@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { useEffect, useState } from 'react';
 import './MainTopicSelection.styles';
 import { apiGetTopicsData } from '../../api/apiGetTopicsData';
@@ -9,7 +9,8 @@ import {
 	VALIDITY_INVALID
 } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';
-import { TopicsDataInterface } from '../../globalState/interfaces/TopicsDataInterface';
+import { TopicsDataInterface } from '../../globalState/interfaces';
+import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 
 export interface MainTopicSelectionProps {
 	name: string;
@@ -26,12 +27,33 @@ export const MainTopicSelection = ({
 }: MainTopicSelectionProps) => {
 	const { t: translate } = useTranslation();
 
-	const [topics, setTopics] = useState([]);
+	const { agency, consultant, topic } = useContext(UrlParamsContext);
+
+	const [loadedTopics, setLoadedTopics] = useState([]);
 	const [isTouched, setIsTouched] = useState(false);
 
 	useEffect(() => {
-		apiGetTopicsData().then((data) => setTopics(data));
+		apiGetTopicsData().then(setLoadedTopics);
 	}, []);
+
+	/* Handle url parameter preselection logic */
+	const topics = useMemo(
+		() =>
+			loadedTopics
+				// Filter topic by preselected topic
+				.filter((t) => !topic || t.id === topic?.id)
+				// Filter topics by consultant topics
+				.filter(
+					(t) =>
+						!consultant ||
+						consultant.agencies.some((a) =>
+							a.topicIds?.includes(t.id)
+						)
+				)
+				// Filter topics by preselected agency
+				.filter((t) => !agency || agency.topicIds?.includes(t.id)),
+		[loadedTopics, topic, consultant, agency]
+	);
 
 	useEffect(() => {
 		if (!isTouched) return;
@@ -46,6 +68,15 @@ export const MainTopicSelection = ({
 		},
 		[onChange]
 	);
+
+	useEffect(() => {
+		if (
+			topics.length === 1 &&
+			(!value || !topics.some((t) => t.id === value.id))
+		) {
+			handleChange(topics[0]);
+		}
+	}, [topics, handleChange, value]);
 
 	// If options change, check for still valid preselected topic
 	useEffect(() => {

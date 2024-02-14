@@ -8,7 +8,7 @@ import {
 	useEffect
 } from 'react';
 import { UserDataContext } from '../context/UserDataContext';
-import { AgencyDataInterface } from '../interfaces/UserDataInterface';
+import { AgencyDataInterface } from '../interfaces';
 import useUrlParamsLoader from '../../utils/useUrlParamsLoader';
 
 export const AgencySpecificContext = createContext<{

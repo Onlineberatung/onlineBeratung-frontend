@@ -11,7 +11,7 @@ import {
 	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
 	SCROLL_PAGINATE_THRESHOLD
 } from '../../src/components/sessionsList/sessionsListConfig';
-import { USER_CONSULTANT } from '../support/commands/login';
+import { USER_CONSULTANT } from '../support/commands/mockApi';
 
 describe('Sessions', () => {
 	before(() => {
@@ -31,7 +31,7 @@ describe('Sessions', () => {
 			generateMultipleConsultantSessions(5);
 
 			cy.fastLogin({
-				username: USER_CONSULTANT
+				userId: USER_CONSULTANT
 			});
 			cy.wait('@consultingTypeServiceBaseBasic');
 
@@ -59,7 +59,7 @@ describe('Sessions', () => {
 			generateMultipleConsultantSessions(3);
 
 			cy.fastLogin({
-				username: USER_CONSULTANT
+				userId: USER_CONSULTANT
 			});
 			cy.wait('@consultingTypeServiceBaseBasic');
 
@@ -71,7 +71,7 @@ describe('Sessions', () => {
 			generateMultipleConsultantSessions(100);
 
 			cy.fastLogin({
-				username: USER_CONSULTANT
+				userId: USER_CONSULTANT
 			});
 			cy.wait('@consultingTypeServiceBaseBasic');
 
@@ -100,7 +100,7 @@ describe('Sessions', () => {
 			generateMultipleConsultantSessions(100);
 
 			cy.fastLogin({
-				username: USER_CONSULTANT
+				userId: USER_CONSULTANT
 			});
 			cy.wait('@consultingTypeServiceBaseBasic');
 
@@ -134,7 +134,7 @@ describe('Sessions', () => {
 				generateMultipleConsultantSessions(16);
 
 				cy.fastLogin({
-					username: USER_CONSULTANT
+					userId: USER_CONSULTANT
 				});
 				cy.wait('@rcSettingsPublic');
 				cy.wait('@consultingTypeServiceBaseBasic');
@@ -144,7 +144,9 @@ describe('Sessions', () => {
 				cy.get('.sessionsListItem.skeleton').should('not.exist');
 				cy.get('.sessionsListItem').should('exist');
 
-				cy.willReturn('consultantSessions', 401);
+				cy.willReturn('consultantSessions', {
+					statusCode: 401
+				});
 
 				cy.get('.sessionsList__scrollContainer').scrollTo('bottom');
 				cy.wait('@consultantSessions');
