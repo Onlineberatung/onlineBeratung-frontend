@@ -23,7 +23,9 @@ export const Stage = ({
 	const rootNodeRef = useRef();
 	const tenant = useTenant();
 	const [isAnimationDone, setIsAnimationDone] = useState(false);
-	const isTenantLoaded = tenant != null;
+	const isTenantLoaded = tenant !== null;
+	const hasAssociationLogo =
+		isTenantLoaded && tenant?.theming.associationLogo;
 
 	function onAnimationEnd(event) {
 		// Ignore animations of children
@@ -44,6 +46,7 @@ export const Stage = ({
 			})}
 		>
 			{hasAnimation ? <Spinner className="stage__spinner" /> : null}
+
 			<Link
 				to={config.urls.home}
 				className="stage__logo"
@@ -53,10 +56,22 @@ export const Stage = ({
 					})`
 				}}
 			></Link>
+
 			<div className="stage__headline">
 				<h1>{tenant?.name || t('app.stage.title')}</h1>
 				<h4>{tenant?.content.claim || t('app.claim')}</h4>
 			</div>
+
+			{hasAssociationLogo && (
+				<div className="stage__associationLogoWrapper">
+					<div
+						className="stage__associationLogo"
+						style={{
+							backgroundImage: `url(${tenant.theming.associationLogo})`
+						}}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };
