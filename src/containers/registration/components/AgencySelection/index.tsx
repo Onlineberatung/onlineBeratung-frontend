@@ -35,6 +35,7 @@ export const AgencySelection = ({
 						ns: 'agencies'
 					})}
 				</RadioButton>
+
 				<InfoTooltip
 					translation={{
 						ns: 'agencies',
@@ -45,7 +46,19 @@ export const AgencySelection = ({
 					isProfileView={false}
 				/>
 			</div>
-			<AgencyLanguages agencyId={agency.id} />
+
+			<div className="agencySelection__proposedAgency__content">
+				{agency.agencyLogo && (
+					<img
+						className="agencySelection__proposedAgency__logo"
+						src={agency.agencyLogo}
+						alt={t([`agency.${agency.id}.name`, agency.name], {
+							ns: 'agencies'
+						})}
+					/>
+				)}
+				<AgencyLanguages agencyId={agency.id} />
+			</div>
 		</div>
 	);
 };
