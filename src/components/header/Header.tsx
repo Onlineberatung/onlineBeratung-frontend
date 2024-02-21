@@ -10,6 +10,9 @@ import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 export const Header = ({ showLocaleSwitch = false }) => {
 	const { t: translate } = useTranslation();
 	const { tenant } = useContext(TenantContext);
+	const hasAssociationLogo = !!tenant?.theming.associationLogo;
+
+	console.log({ tenant });
 
 	return (
 		<header className="header">
@@ -18,10 +21,18 @@ export const Header = ({ showLocaleSwitch = false }) => {
 				text={tenant?.name || translate('app.title')}
 			/>
 			<div className="header__right">
-				<Text
-					type="standard"
-					text={tenant?.content?.claim || translate('app.claim')}
-				/>
+				{hasAssociationLogo ? (
+					<img
+						src={tenant?.theming.associationLogo}
+						className="header__logo"
+						alt={`Logo ${tenant?.name}`}
+					/>
+				) : (
+					<Text
+						type="standard"
+						text={tenant?.content?.claim || translate('app.claim')}
+					/>
+				)}
 				{showLocaleSwitch && <LocaleSwitch />}
 			</div>
 		</header>
