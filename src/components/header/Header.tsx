@@ -12,8 +12,6 @@ export const Header = ({ showLocaleSwitch = false }) => {
 	const { tenant } = useContext(TenantContext);
 	const hasAssociationLogo = !!tenant?.theming.associationLogo;
 
-	console.log({ tenant });
-
 	return (
 		<header className="header">
 			<Headline
