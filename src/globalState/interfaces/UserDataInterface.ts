@@ -53,6 +53,7 @@ export interface AgencyDataInterface {
 	agencySpecificPrivacy?: string;
 	consultingTypeRel?: ConsultingTypeInterface;
 	topicIds?: number[];
+	agencyLogo?: string | null;
 }
 
 export interface ConsultingTypeDataInterface {
