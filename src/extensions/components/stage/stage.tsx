@@ -24,8 +24,7 @@ export const Stage = ({
 	const tenant = useTenant();
 	const [isAnimationDone, setIsAnimationDone] = useState(false);
 	const isTenantLoaded = tenant !== null;
-	const hasAssociationLogo =
-		isTenantLoaded && tenant?.theming.associationLogo;
+	const hasAssociationLogo = !!tenant?.theming.associationLogo;
 
 	function onAnimationEnd(event) {
 		// Ignore animations of children
