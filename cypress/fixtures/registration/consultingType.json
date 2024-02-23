@@ -1,0 +1,70 @@
+{
+	"id": 0,
+	"titles": {
+		"default": "Suchtberatung",
+		"short": "Sucht",
+		"long": "Suchtberatung",
+		"welcome": "Willkommen bei der Suchtberatung!",
+		"registrationDropdown": "Suchtberatung"
+	},
+	"urls": {},
+	"registration": {
+		"minPostcodeSize": 5,
+		"autoSelectAgency": false,
+		"autoSelectPostcode": false,
+		"notes": {},
+		"mandatoryFields": {
+			"age": false,
+			"state": false
+		}
+	},
+	"isSubsequentRegistrationAllowed": true,
+	"isAnonymousConversationAllowed": true,
+	"isSetEmailAllowed": true,
+	"slug": "suchtberatung",
+	"languageFormal": true,
+	"lockedAgencies": false,
+	"excludeNonMainConsultantsFromTeamSessions": false,
+	"whiteSpot": {
+		"whiteSpotAgencyAssigned": true,
+		"whiteSpotAgencyId": 100
+	},
+	"groupChat": {
+		"isGroupChat": false,
+		"groupChatRules": []
+	},
+	"consultantBoundedToConsultingType": false,
+	"welcomeMessage": {
+		"sendWelcomeMessage": false
+	},
+	"sendFurtherStepsMessage": true,
+	"sendSaveSessionDataMessage": true,
+	"sessionDataInitializing": {
+		"addictiveDrugs": true,
+		"age": true,
+		"gender": true,
+		"relation": true,
+		"state": false
+	},
+	"initializeFeedbackChat": false,
+	"roles": {
+		"consultant": {
+			"main": ["consultant"],
+			"peer": ["consultant"]
+		}
+	},
+	"notifications": {
+		"teamSessions": {
+			"newMessage": {
+				"allTeamConsultants": false
+			}
+		}
+	},
+	"showAskerProfile": true,
+	"welcomeScreen": {
+		"anonymous": {
+			"title": "Anonym und kostenfrei",
+			"text": "Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+		}
+	}
+}

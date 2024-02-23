@@ -1,5 +1,5 @@
-import { deepMerge } from '../helpers';
-import { generateAskerSession } from '../sessions';
+import { deepMerge } from '../../helpers';
+import { generateAskerSession } from '../../sessions';
 
 export let askerSessions: UserService.Schemas.UserSessionResponseDTO[] = [];
 
@@ -17,11 +17,15 @@ export const updateAskerSession = (
 	}
 };
 
-Cypress.Commands.add(
-	'askerSession',
-	(props: { [key: string]: any } = {}, index?: number) =>
-		new Cypress.Promise((resolve) => {
-			updateAskerSession(props, index);
-			resolve(undefined);
-		})
-);
+const askersSessionsCommand = (getWillReturn, setWillReturn) =>
+	Cypress.Commands.add(
+		'askerSession',
+		(props: { [key: string]: any } = {}, index?: number) =>
+			new Cypress.Promise((resolve) => {
+				updateAskerSession(props, index);
+				setWillReturn('askerSessions', askerSessions);
+				resolve(undefined);
+			})
+	);
+
+export default askersSessionsCommand;

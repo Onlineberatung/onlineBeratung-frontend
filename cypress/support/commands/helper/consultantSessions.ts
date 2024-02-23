@@ -1,5 +1,5 @@
-import { deepMerge } from '../helpers';
-import { generateConsultantSession } from '../sessions';
+import { deepMerge } from '../../helpers';
+import { generateConsultantSession } from '../../sessions';
 
 let consultantSessions: UserService.Schemas.ConsultantSessionResponseDTO[] = [];
 
@@ -23,11 +23,14 @@ export const updateConsultantSession = (
 	}
 };
 
-Cypress.Commands.add(
-	'consultantSession',
-	(props: { [key: string]: any } = {}, index?: number) =>
-		new Cypress.Promise((resolve) => {
-			updateConsultantSession(props, index);
-			resolve(undefined);
-		})
-);
+const consultantSessionsCommand = (getWillReturn, setWillReturn) =>
+	Cypress.Commands.add(
+		'consultantSession',
+		(props: { [key: string]: any } = {}, index?: number) =>
+			new Cypress.Promise((resolve) => {
+				updateConsultantSession(props, index);
+				setWillReturn('consultantSessions', consultantSessions);
+				resolve(undefined);
+			})
+	);
+export default consultantSessionsCommand;

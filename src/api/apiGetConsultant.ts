@@ -1,13 +1,11 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { ConsultantDataInterface } from '../globalState/interfaces';
-import { apiGetConsultingType } from './apiGetConsultingType';
-import { apiGetConsultingTypes } from './apiGetConsultingTypes';
+import { loadConsultingTypeForAgency } from '../utils/loadConsultingTypeForAgency';
 
 export const apiGetConsultant = async (
-	consultantId: any,
-	fetchConsultingTypes?: boolean,
-	consultingTypeDetail: 'full' | 'basic' = 'full'
+	consultantId: string,
+	fetchConsultingTypeDetails?: boolean
 ): Promise<ConsultantDataInterface> => {
 	const url = endpoints.agencyConsultants + '/' + consultantId;
 
@@ -15,45 +13,21 @@ export const apiGetConsultant = async (
 		url: url,
 		method: FETCH_METHODS.GET,
 		skipAuth: true,
-		responseHandling: [FETCH_ERRORS.EMPTY, FETCH_ERRORS.NO_MATCH]
+		responseHandling: [FETCH_ERRORS.CATCH_ALL]
 	}).then((user) => {
-		if (!fetchConsultingTypes) {
+		if (!fetchConsultingTypeDetails) {
 			return user;
 		}
 
-		if (consultingTypeDetail === 'full') {
-			return Promise.all(
-				user.agencies.map(async (agency) => ({
-					...agency,
-					consultingTypeRel: await apiGetConsultingType({
-						consultingTypeId: agency?.consultingType
-					})
-				}))
-			).then((agencies): ConsultantDataInterface => {
-				return {
-					...user,
-					agencies
-				};
-			});
-		}
-
-		if (consultingTypeDetail === 'basic') {
-			return apiGetConsultingTypes().then((consultingTypes) => {
-				const mappedUserAgencies = user.agencies.map((agency) => {
-					const consultingTypeRel = consultingTypes.filter(
-						(type) => type.id === agency.consultingType
-					)[0];
-					return {
-						...agency,
-						consultingTypeRel: { ...consultingTypeRel }
-					};
-				});
-
-				return {
-					...user,
-					agencies: mappedUserAgencies
-				};
-			});
-		}
+		return Promise.all(
+			user.agencies.map(
+				async (agency) => await loadConsultingTypeForAgency(agency)
+			)
+		).then(
+			(agencies): ConsultantDataInterface => ({
+				...user,
+				agencies
+			})
+		);
 	});
 };

@@ -4,7 +4,7 @@ import {
 	mockWebSocket,
 	startWebSocketServer
 } from '../support/websocket';
-import { USER_CONSULTANT } from '../support/commands/login';
+import { USER_CONSULTANT } from '../support/commands/mockApi';
 
 describe('profile', () => {
 	before(() => {
@@ -116,7 +116,7 @@ describe('profile', () => {
 	describe('consultant absence', () => {
 		beforeEach(() => {
 			cy.fastLogin({
-				username: USER_CONSULTANT
+				userId: USER_CONSULTANT
 			});
 		});
 
@@ -126,9 +126,6 @@ describe('profile', () => {
 			cy.contains('Meine Aktivitäten').click();
 			cy.contains('Hinterlegen Sie eine Abwesenheitsnachricht');
 
-			cy.willReturn('userData', {
-				absent: true
-			});
 			cy.get('#absenceForm .mr--1').click();
 			cy.get('.button__autoClose').click();
 			cy.contains(
@@ -137,10 +134,6 @@ describe('profile', () => {
 			cy.get('#absenceForm .generalInformation textarea').should(
 				'be.disabled'
 			);
-
-			cy.willReturn('userData', {
-				absent: false
-			});
 
 			cy.get('#absenceForm .mr--1').click();
 			cy.get('.button__autoClose').click();
@@ -156,12 +149,10 @@ describe('profile', () => {
 			cy.contains('Meine Aktivitäten').click();
 			cy.contains('Hinterlegen Sie eine Abwesenheitsnachricht');
 
-			cy.get('#absenceForm .generalInformation textarea')
-				.type(
-					'Liebe Ratsuchende, ich bin im Urlaub vom 23.05.2022 bis 05.06.2022.'
-				)
-				.get('#absenceForm .mr--1')
-				.click();
+			cy.get('#absenceForm .generalInformation textarea').type(
+				'Liebe Ratsuchende, ich bin im Urlaub vom 23.05.2022 bis 05.06.2022.'
+			);
+			cy.get('#absenceForm .mr--1').click();
 			cy.get('.button__autoClose').click();
 			cy.contains(
 				'Deaktivieren Sie Ihre Abwesenheit, um eine Nachricht zu hinterlegen oder sie zu bearbeiten.'
@@ -182,7 +173,7 @@ describe('profile', () => {
 	describe('consultant email notification', () => {
 		beforeEach(() => {
 			cy.fastLogin({
-				username: USER_CONSULTANT
+				userId: USER_CONSULTANT
 			});
 		});
 
