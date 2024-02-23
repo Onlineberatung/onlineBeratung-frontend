@@ -213,25 +213,25 @@ export const PasswordReset = () => {
 			apiUpdatePassword(oldPassword, newPassword)
 				.then(async () => {
 					try {
-						if (isE2eeEnabled) {
-							// create new masterkey from newPassword
-							const newMasterKey =
-								await deriveMasterKeyFromPassword(
-									rcUid,
-									newPassword
-								);
-							// encrypt private key with new masterkey
-							const encryptedPrivateKey = await encryptPrivateKey(
-								sessionStorage.getItem('private_key'),
-								newMasterKey
-							);
-							// save with rocket chat
-							await apiRocketChatSetUserKeys(
-								sessionStorage.getItem('public_key'),
-								encryptedPrivateKey
-							);
-						}
-						// TODO Update masterkey in localstorage same logic as autoLogin
+						// always execute reset logic to ensure master key is updated even if E2ee is enabled or not
+
+						// create new masterkey from newPassword
+						const newMasterKey = await deriveMasterKeyFromPassword(
+							rcUid,
+							newPassword
+						);
+
+						// encrypt private key with new masterkey
+						const encryptedPrivateKey = await encryptPrivateKey(
+							sessionStorage.getItem('private_key'),
+							newMasterKey
+						);
+
+						// save with rocket chat
+						await apiRocketChatSetUserKeys(
+							sessionStorage.getItem('public_key'),
+							encryptedPrivateKey
+						);
 
 						isConsultant &&
 							featureAppointmentsEnabled &&
@@ -244,17 +244,14 @@ export const PasswordReset = () => {
 						setIsRequestInProgress(false);
 						logout(false, settings.urls.toLogin);
 					} catch (e) {
-						if (isE2eeEnabled) {
-							// rechange password to the old password
-							await apiUpdatePassword(
-								newPassword,
-								oldPassword
-							).catch(() => {
+						// rechange password to the old password
+						await apiUpdatePassword(newPassword, oldPassword).catch(
+							() => {
 								// if an error happens here we keep the newPassword but don't upgrade the masterKey
 								// and hope it works next login attempt
-							});
-							setHasMasterKeyError(true);
-						}
+							}
+						);
+						setHasMasterKeyError(true);
 
 						featureAppointmentsEnabled &&
 							apiUpdatePasswordAppointments(
