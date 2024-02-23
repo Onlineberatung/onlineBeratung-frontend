@@ -21,7 +21,6 @@ import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
 	AUTHORITIES,
-	E2EEContext,
 	hasUserAuthority,
 	UserDataContext
 } from '../../globalState';
@@ -59,8 +58,6 @@ export const PasswordReset = () => {
 
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-
-	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const overlayItem: OverlayItem = {
 		svg: CheckIcon,
@@ -331,7 +328,7 @@ export const PasswordReset = () => {
 					</div>
 				</div>
 
-				{isE2eeEnabled && hasMasterKeyError && (
+				{hasMasterKeyError && (
 					<div className="passwordReset__error">
 						{translate('profile.functions.masterKey.saveError')}
 					</div>
