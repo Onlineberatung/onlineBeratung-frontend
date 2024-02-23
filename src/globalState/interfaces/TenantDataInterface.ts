@@ -3,6 +3,7 @@ export interface TenantDataInterface {
 	name: string;
 	theming: {
 		logo: string;
+		associationLogo: string | null;
 		favicon: string;
 		primaryColor: string;
 		secondaryColor: string;
