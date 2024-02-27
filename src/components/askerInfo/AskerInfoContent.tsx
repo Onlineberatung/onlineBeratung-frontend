@@ -5,9 +5,9 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	SessionTypeContext,
-	TenantContext,
 	UserDataContext,
-	ActiveSessionContext
+	ActiveSessionContext,
+	useTenant
 } from '../../globalState';
 import { AskerInfoData } from './AskerInfoData';
 import { AskerInfoAssign } from './AskerInfoAssign';
@@ -17,7 +17,7 @@ import { AskerInfoTools } from './AskerInfoTools';
 import { Box } from '../box/Box';
 
 export const AskerInfoContent = () => {
-	const { tenant } = useContext(TenantContext);
+	const tenant = useTenant();
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 
