@@ -871,22 +871,19 @@ describe('Registration', () => {
 
 					cy.get('.agencySelection__proposedAgency').should(
 						'have.length',
-						5
+						2
 					);
 					cy.get(
 						'.agencySelection__proposedAgency .radioButton__input#agency-11'
-					).should('exist');
+					).should('not.exist');
 					cy.get(
 						'.agencySelection__proposedAgency .radioButton__input#agency-13'
-					).should('exist');
+					).should('not.exist');
 					cy.get(
 						'.agencySelection__proposedAgency .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
 						'.agencySelection__proposedAgency .radioButton__input#agency-22'
-					).should('exist');
-					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-23'
 					).should('exist');
 				});
 			});
@@ -1080,22 +1077,19 @@ describe('Registration', () => {
 
 					cy.get('.agencySelection__proposedAgency').should(
 						'have.length',
-						5
+						2
 					);
 					cy.get(
 						'.agencySelection__proposedAgency .radioButton__input#agency-11'
-					).should('exist');
+					).should('not.exist');
 					cy.get(
 						'.agencySelection__proposedAgency .radioButton__input#agency-13'
-					).should('exist');
+					).should('not.exist');
 					cy.get(
 						'.agencySelection__proposedAgency .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
 						'.agencySelection__proposedAgency .radioButton__input#agency-22'
-					).should('exist');
-					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-23'
 					).should('exist');
 				});
 			});

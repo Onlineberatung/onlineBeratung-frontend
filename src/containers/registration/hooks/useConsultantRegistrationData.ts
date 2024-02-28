@@ -8,7 +8,15 @@ import {
 import { useAppConfig } from '../../../hooks/useAppConfig';
 import { UrlParamsContext } from '../../../globalState/provider/UrlParamsProvider';
 
-export const useConsultantRegistrationData = () => {
+interface ConsultantRegistrationDataArgs {
+	consultingTypeId?: number;
+	topicId?: number;
+}
+
+export const useConsultantRegistrationData = ({
+	consultingTypeId,
+	topicId
+}: ConsultantRegistrationDataArgs) => {
 	const settings = useAppConfig();
 	const {
 		consultingType: preselectedConsultingType,
@@ -89,12 +97,21 @@ export const useConsultantRegistrationData = () => {
 			.filter((agency) =>
 				consultingTypeIds.includes(agency.consultingType)
 			)
+			// Filter agencies by selected topic
+			.filter(
+				(a) =>
+					slugFallback ||
+					!consultingTypeId ||
+					a.consultingType === consultingTypeId
+			)
 			// Filter agencies by preselected topic
 			.filter(
 				(a) =>
 					!preselectedTopic ||
 					a.topicIds?.includes(preselectedTopic?.id)
 			)
+			// Filter agencies by selected topic
+			.filter((a) => !topicId || a.topicIds?.includes(topicId))
 			// Filter agencies by preselected agency
 			.filter((a) => !preselectedAgency || preselectedAgency.id === a.id);
 		setAgencies(possibleAgencies);
@@ -106,6 +123,8 @@ export const useConsultantRegistrationData = () => {
 				: consultingTypes
 		);
 	}, [
+		topicId,
+		consultingTypeId,
 		consultant,
 		preselectedConsultingType,
 		preselectedAgency,

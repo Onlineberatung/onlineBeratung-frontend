@@ -10,7 +10,6 @@ import { InputField, InputFieldItem } from '../inputField/InputField';
 import { VALID_POSTCODE_LENGTH } from './agencySelectionHelpers';
 import './agencySelection.styles';
 import '../profile/profile.styles';
-import { DEFAULT_POSTCODE } from '../registration/prefillPostcode';
 import { RadioButton } from '../radioButton/RadioButton';
 import { Loading } from '../app/Loading';
 import { Text, LABEL_TYPES } from '../text/Text';
@@ -85,7 +84,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 			try {
 				if (autoSelectAgency) {
 					const response = await apiAgencySelection({
-						postcode: DEFAULT_POSTCODE,
 						consultingType: props.consultingType.id,
 						topicId: props?.mainTopicId,
 						age: props?.age,

@@ -1,7 +1,7 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { AgencyDataInterface } from '../globalState/interfaces';
-import { loadConsultingTypeForAgency } from '../utils/loadConsultingTypeForAgency';
+import { apiGetConsultingType } from './apiGetConsultingType';
 
 export const apiGetAgencyById = async (
 	agencyId: number,
@@ -21,6 +21,11 @@ export const apiGetAgencyById = async (
 				return agency;
 			}
 
-			return await loadConsultingTypeForAgency(agency);
+			return {
+				...agency,
+				consultingTypeRel: await apiGetConsultingType({
+					consultingTypeId: agency?.consultingType
+				})
+			};
 		});
 };
