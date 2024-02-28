@@ -2,15 +2,20 @@ import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { VALID_POSTCODE_LENGTH } from '../components/agencySelection/agencySelectionHelpers';
 import { AgencyDataInterface } from '../globalState/interfaces';
+import { loadConsultingTypeForAgency } from '../utils/loadConsultingTypeForAgency';
 
 export const apiAgencySelection = async (
-	params: {
+	{
+		fetchConsultingTypeDetails,
+		...params
+	}: {
 		postcode: string;
 		consultingType: number | undefined;
 		topicId?: number;
 		age?: number;
 		gender?: string;
 		counsellingRelation?: string;
+		fetchConsultingTypeDetails?: boolean;
 	},
 	signal?: AbortSignal
 ): Promise<Array<AgencyDataInterface> | null> => {
@@ -27,22 +32,35 @@ export const apiAgencySelection = async (
 			skipAuth: true,
 			responseHandling: [FETCH_ERRORS.EMPTY],
 			...(signal && { signal: signal })
-		}).then((result) => {
-			if (result) {
-				// External agencies should only be returned
-				// if there are no internal ones.
-				const internalAgencies = result.filter(
-					(agency) => !agency.external
-				);
-				if (internalAgencies.length > 0) {
-					return internalAgencies;
+		})
+			.then((result) => {
+				if (result) {
+					// External agencies should only be returned
+					// if there are no internal ones.
+					const internalAgencies = result.filter(
+						(agency) => !agency.external
+					);
+					if (internalAgencies.length > 0) {
+						return internalAgencies;
+					} else {
+						return result;
+					}
 				} else {
 					return result;
 				}
-			} else {
-				return result;
-			}
-		});
+			})
+			.then((agencies) => {
+				if (!fetchConsultingTypeDetails) {
+					return agencies;
+				}
+
+				return Promise.all(
+					agencies.map(
+						async (agency) =>
+							await loadConsultingTypeForAgency(agency)
+					)
+				);
+			});
 	} else {
 		return null;
 	}

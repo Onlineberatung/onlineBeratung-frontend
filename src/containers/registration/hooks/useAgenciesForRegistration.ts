@@ -8,7 +8,7 @@ import {
 	ConsultingTypeInterface,
 	TopicsDataInterface
 } from '../../../globalState/interfaces';
-import { useConsultantAgenciesAndConsultingTypes } from './useConsultantAgenciesAndConsultingTypes';
+import { useConsultantRegistrationData } from './useConsultantRegistrationData';
 import { ConsultingTypeRegistrationDefaults } from '../components/ProposedAgencies/ProposedAgencies';
 import { UrlParamsContext } from '../../../globalState/provider/UrlParamsProvider';
 
@@ -29,29 +29,41 @@ export const useAgenciesForRegistration = ({
 	const tenantData = useTenant();
 
 	const {
+		consultant,
+		agency: preselectedAgency,
+		consultingType: preselectedConsultingType,
+		slugFallback
+	} = useContext(UrlParamsContext);
+
+	const {
 		agencies: consultantAgencies,
 		consultingTypes: consultantConsultingTypes
-	} = useConsultantAgenciesAndConsultingTypes();
+	} = useConsultantRegistrationData();
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [agencies, setAgencies] = useState<AgencyDataInterface[]>([]);
-	const {
-		consultant,
-		agency,
-		consultingType: preselectedConsultingType
-	} = useContext(UrlParamsContext);
 
 	const { autoSelectPostcode, autoSelectAgency } =
 		consultingType?.registration || ConsultingTypeRegistrationDefaults;
 
+	const topicsEnabledAndUnSelected = useMemo(
+		() =>
+			tenantData?.settings?.featureTopicsEnabled &&
+			tenantData?.settings?.topicsInRegistrationEnabled &&
+			topic?.id === undefined,
+		[tenantData?.settings, topic?.id]
+	);
+
 	const allAgencies = useMemo(() => {
-		// As long as no consulting type is selected we can't show any agencies
-		if (!consultingType) {
+		// As long as no consulting type or topic is selected we can't show any agencies
+		if (!consultingType || topicsEnabledAndUnSelected) {
 			return [];
 		}
 
 		let uniqueAgencies = unionBy(
-			[agency, ...agencies, ...consultantAgencies].filter(Boolean),
+			[preselectedAgency, ...agencies, ...consultantAgencies].filter(
+				Boolean
+			),
 			'id'
 		);
 
@@ -61,22 +73,31 @@ export const useAgenciesForRegistration = ({
 				(agency) => !agency.external
 			);
 		}
-		if (consultingType) {
-			uniqueAgencies = uniqueAgencies.filter(
-				(agency) => agency.consultingType === consultingType.id
+
+		uniqueAgencies = uniqueAgencies
+			// Filter by preselected agency
+
+			// Filter by consultingType
+			.filter(
+				(agency) =>
+					slugFallback ||
+					!consultingType ||
+					agency.consultingType === consultingType.id
 			);
-		}
+
 		if (autoSelectAgency && uniqueAgencies.length > 0) {
 			uniqueAgencies = [uniqueAgencies[0]];
 		}
 		return uniqueAgencies;
 	}, [
-		agency,
+		preselectedAgency,
+		topicsEnabledAndUnSelected,
 		agencies,
 		consultantAgencies,
 		consultingType,
 		autoSelectPostcode,
-		autoSelectAgency
+		autoSelectAgency,
+		slugFallback
 	]);
 
 	const allConsultingTypes = useMemo(
@@ -95,13 +116,7 @@ export const useAgenciesForRegistration = ({
 	useEffect(() => {
 		const abortController = new AbortController();
 		// if we already have information from consulting types we can ignore the request
-		if (
-			consultant ||
-			agency ||
-			(tenantData?.settings?.featureTopicsEnabled &&
-				tenantData?.settings?.topicsInRegistrationEnabled &&
-				topic?.id === undefined)
-		) {
+		if (consultant || preselectedAgency || topicsEnabledAndUnSelected) {
 			setIsLoading(false);
 			return;
 		}
@@ -111,7 +126,8 @@ export const useAgenciesForRegistration = ({
 			{
 				postcode: autoSelectPostcode ? DEFAULT_POSTCODE : postcode,
 				consultingType: consultingType?.id,
-				topicId: topic?.id
+				topicId: topic?.id,
+				fetchConsultingTypeDetails: true
 			},
 			abortController.signal
 		)
@@ -129,13 +145,13 @@ export const useAgenciesForRegistration = ({
 			abortController?.abort();
 		};
 	}, [
-		agency,
+		preselectedAgency,
 		autoSelectPostcode,
 		consultant,
 		consultingType?.id,
 		topic?.id,
 		postcode,
-		tenantData?.settings
+		topicsEnabledAndUnSelected
 	]);
 
 	return {

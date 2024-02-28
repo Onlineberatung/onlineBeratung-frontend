@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createContext, useState, useContext, useCallback } from 'react';
 import { setTenantSettings } from '../../utils/tenantSettingsHelper';
-import { TenantDataInterface } from '../interfaces/TenantDataInterface';
+import { TenantDataInterface } from '../interfaces';
 
 export const TenantContext = createContext<{
 	tenant: TenantDataInterface;

@@ -31,7 +31,7 @@ import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { FormAccordionRegistrationText } from './FormAccordionRegistrationText';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 import { ProposedAgencies } from '../../containers/registration/components/ProposedAgencies/ProposedAgencies';
-import { useConsultantAgenciesAndConsultingTypes } from '../../containers/registration/hooks/useConsultantAgenciesAndConsultingTypes';
+import { useConsultantRegistrationData } from '../../containers/registration/hooks/useConsultantRegistrationData';
 import { FormAccordionData } from '../registration/RegistrationForm';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { TProvidedLegalLink } from '../../globalState/provider/LegalLinksProvider';
@@ -71,7 +71,7 @@ export const FormAccordion = ({
 	const { setSpecificAgency, specificAgency } = useContext(
 		AgencySpecificContext
 	);
-	const { consultingTypes } = useConsultantAgenciesAndConsultingTypes();
+	const { consultingTypes } = useConsultantRegistrationData();
 
 	const [activeItem, setActiveItem] = useState<number>(1);
 

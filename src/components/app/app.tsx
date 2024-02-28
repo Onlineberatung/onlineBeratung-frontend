@@ -1,6 +1,5 @@
 import '../../polyfill';
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
 import { ComponentType, useState, lazy, Suspense, useContext } from 'react';
 import {
 	BrowserRouter as Router,
@@ -118,7 +117,6 @@ interface RouterWrapperProps {
 }
 
 const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
-	const history = useHistory();
 	const settings = useAppConfig();
 
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
@@ -169,22 +167,12 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 									]}
 								>
 									<UrlParamsProvider>
-										<Registration
-											handleUnmatchConsultingType={() =>
-												history.push('/login')
-											}
-											handleUnmatchConsultant={() =>
-												history.push('/login')
-											}
-										/>
+										<Registration />
 									</UrlParamsProvider>
 								</Route>
 
 								<Route path="/:consultingTypeSlug/warteraum">
 									<WaitingRoomLoader
-										handleUnmatch={() =>
-											history.push('/login')
-										}
 										onAnonymousRegistration={() =>
 											setStartWebsocket(true)
 										}
