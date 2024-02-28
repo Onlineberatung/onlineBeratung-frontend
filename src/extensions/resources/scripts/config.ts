@@ -83,10 +83,7 @@ export const config: AppConfigInterface = {
 				consultingTypes: {}
 			},
 			en: {
-				common: {
-					...en,
-					...enOverwrites
-				},
+				common: [en, enOverwrites],
 				consultingTypes: {
 					...enConsultingTypes
 				},
