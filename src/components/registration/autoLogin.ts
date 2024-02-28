@@ -29,7 +29,7 @@ import { getBudibaseAccessToken } from '../sessionCookie/getBudibaseAccessToken'
 import {
 	TenantDataInterface,
 	TenantDataSettingsInterface
-} from '../../globalState/interfaces/TenantDataInterface';
+} from '../../globalState/interfaces';
 import { appConfig } from '../../utils/appConfig';
 import { parseJwt } from '../../utils/parseJWT';
 import { removeRocketChatMasterKeyFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
@@ -53,95 +53,94 @@ interface AutoLoginProps {
 	tenantData?: TenantDataInterface;
 }
 
-export const autoLogin = (autoLoginProps: AutoLoginProps): Promise<any> =>
-	new Promise((resolve, reject) => {
-		const tenantSettings = (autoLoginProps?.tenantData?.settings ||
-			{}) as TenantDataSettingsInterface;
-		const userHash = autoLoginProps.useOldUser
-			? autoLoginProps.username
-			: encodeUsername(autoLoginProps.username);
-		const username = autoLoginProps.useOldUser
-			? encodeURIComponent(userHash)
-			: userHash;
+const loginKeycloak = async (
+	username: string,
+	password: string,
+	otp?: string
+) => {
+	const keycloakRes = await getKeycloakAccessToken(
+		username,
+		encodeURIComponent(password),
+		otp || null
+	);
 
-		getKeycloakAccessToken(
+	setTokens(
+		keycloakRes.access_token,
+		keycloakRes.expires_in,
+		keycloakRes.refresh_token,
+		keycloakRes.refresh_expires_in
+	);
+
+	return keycloakRes;
+};
+
+const loginRocketChat = async (userHash: string, password: string) => {
+	const { data } = await getRocketchatAccessToken(userHash, password);
+
+	if (data.authToken) {
+		setValueInCookie('rc_token', data.authToken);
+	}
+	if (data.userId) {
+		setValueInCookie('rc_uid', data.userId);
+	}
+
+	//generate new csrf token for current session
+	generateCsrfToken(true);
+
+	// e2ee
+	await handleE2EESetup(password, data.userId, () =>
+		loginRocketChat(userHash, password)
+	);
+};
+
+export const autoLogin = async ({
+	password,
+	...autoLoginProps
+}: AutoLoginProps): Promise<any> => {
+	const tenantSettings = (autoLoginProps?.tenantData?.settings ||
+		{}) as TenantDataSettingsInterface;
+
+	let userHash = encodeUsername(autoLoginProps.username);
+	let username = userHash;
+	let keycloakRes;
+
+	// Login with enc username and fallback to unencrypted username
+	try {
+		keycloakRes = await loginKeycloak(
 			username,
-			encodeURIComponent(autoLoginProps.password),
-			autoLoginProps.otp ? autoLoginProps.otp : null
-		)
-			.then((response) => {
-				setTokens(
-					response.access_token,
-					response.expires_in,
-					response.refresh_token,
-					response.refresh_expires_in
-				);
+			password,
+			autoLoginProps.otp
+		);
+	} catch (e: any) {
+		if (e.message === FETCH_ERRORS.UNAUTHORIZED) {
+			userHash = autoLoginProps.username;
+			username = encodeURIComponent(userHash);
+			keycloakRes = await loginKeycloak(
+				username,
+				password,
+				autoLoginProps.otp
+			);
+		} else {
+			throw e;
+		}
+	}
 
-				if (
-					appConfig.useTenantService &&
-					!appConfig.multitenancyWithSingleDomainEnabled
-				) {
-					const { tenantId } = parseJwt(response.access_token);
-					if (tenantId !== autoLoginProps.tenantData.id) {
-						return reject(new Error(FETCH_ERRORS.UNAUTHORIZED));
-					}
-				}
+	if (
+		appConfig.useTenantService &&
+		!appConfig.multitenancyWithSingleDomainEnabled
+	) {
+		const { tenantId } = parseJwt(keycloakRes.access_token);
+		if (tenantId !== autoLoginProps.tenantData.id) {
+			throw new Error(FETCH_ERRORS.UNAUTHORIZED);
+		}
+	}
 
-				getRocketchatAccessToken(userHash, autoLoginProps.password)
-					.then(async (accesTokenResponse) => {
-						const data = accesTokenResponse.data;
-						if (data.authToken) {
-							setValueInCookie('rc_token', data.authToken);
-						}
-						if (data.userId) {
-							setValueInCookie('rc_uid', data.userId);
-						}
+	await loginRocketChat(userHash, password);
 
-						//generate new csrf token for current session
-						generateCsrfToken(true);
-
-						// e2ee
-						await handleE2EESetup(
-							autoLoginProps.password,
-							data.userId,
-							autoLoginProps
-						);
-
-						if (tenantSettings?.featureToolsEnabled) {
-							getBudibaseAccessToken(
-								username,
-								autoLoginProps.password,
-								tenantSettings
-							).then(() => {
-								resolve(undefined);
-							});
-						} else {
-							resolve(undefined);
-						}
-					})
-					.catch((error) => {
-						reject(error);
-					});
-			})
-			.catch((error) => {
-				if (
-					!autoLoginProps.useOldUser &&
-					error.message === FETCH_ERRORS.UNAUTHORIZED
-				) {
-					autoLogin({
-						username: autoLoginProps.username,
-						password: autoLoginProps.password,
-						otp: autoLoginProps.otp,
-						useOldUser: true,
-						tenantData: autoLoginProps.tenantData
-					})
-						.then(() => resolve(undefined))
-						.catch((autoLoginError) => reject(autoLoginError));
-				} else {
-					reject(error);
-				}
-			});
-	});
+	if (tenantSettings?.featureToolsEnabled) {
+		await getBudibaseAccessToken(username, password, tenantSettings);
+	}
+};
 
 export const redirectToApp = (gcid?: string) => {
 	const params = gcid ? `?gcid=${gcid}` : '';
@@ -151,7 +150,7 @@ export const redirectToApp = (gcid?: string) => {
 export const handleE2EESetup = (
 	password: string,
 	rcUserId: string,
-	autoLoginProps?: AutoLoginProps,
+	reloginCallback?: () => Promise<any>,
 	skipUpdateSubscriptions?: boolean
 ): Promise<any> => {
 	return new Promise(async (resolve, reject) => {
@@ -185,13 +184,11 @@ export const handleE2EESetup = (
 				if (!persistedArrayBuffer) {
 					console.error('master key not persisted - reset e2e key');
 					await apiRocketChatResetE2EKey();
-					if (!autoLoginProps) {
+					if (!reloginCallback) {
 						console.error('could not re-login after e2e key reset');
 					} else {
 						await writeMasterKeyToLocalStorage(masterKey, rcUserId);
-						await autoLogin(autoLoginProps)
-							.then(resolve)
-							.catch(reject);
+						await reloginCallback().then(resolve).catch(reject);
 						return;
 					}
 				} else {
@@ -207,7 +204,7 @@ export const handleE2EESetup = (
 						return handleE2EESetup(
 							password,
 							rcUserId,
-							autoLoginProps,
+							reloginCallback,
 							skipUpdateSubscriptions
 						);
 					});
