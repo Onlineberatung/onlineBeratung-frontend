@@ -100,7 +100,9 @@ export const useConsultantRegistrationData = ({
 			// Filter agencies by selected topic
 			.filter(
 				(a) =>
-					!consultingTypeId || a.consultingType === consultingTypeId
+					slugFallback ||
+					!consultingTypeId ||
+					a.consultingType === consultingTypeId
 			)
 			// Filter agencies by preselected topic
 			.filter(
