@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { PreselectedAgency } from '../PreSelectedAgency/PreselectedAgency';
 import { FormAccordionData } from '../../../../components/registration/RegistrationForm';
 import { UrlParamsContext } from '../../../../globalState/provider/UrlParamsProvider';
+import clsx from 'clsx';
 
 interface ProposedAgenciesProps {
 	formAccordionData: FormAccordionData;
@@ -183,9 +184,9 @@ export const ProposedAgencies = ({
 
 	return (
 		<div
-			className={`agencySelectionWrapper ${
-				isLoading ? 'loading-agencies' : ''
-			}`.trim()}
+			className={clsx('agencySelectionWrapper', {
+				'loading-agencies': isLoading
+			})}
 		>
 			{!autoSelectPostcode && (
 				<PostCodeSelection
@@ -196,6 +197,7 @@ export const ProposedAgencies = ({
 					isPreselectedAgency={!!preSelectedAgency}
 				/>
 			)}
+
 			{agencySelectionNote && (
 				<div data-cy="registration-agency-selection-note">
 					<Text
@@ -206,6 +208,7 @@ export const ProposedAgencies = ({
 					/>
 				</div>
 			)}
+
 			{consultingTypes.length > 1 && (
 				<div className="consultingTypeSelection">
 					<ConsultingTypeSelection
