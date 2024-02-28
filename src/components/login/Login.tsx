@@ -26,7 +26,6 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	RocketChatGlobalSettingsContext,
-	TenantContext,
 	UserDataContext,
 	LocaleContext,
 	useTenant
@@ -76,7 +75,7 @@ export const Login = () => {
 	const tenantData = useTenant();
 
 	const { locale, initLocale } = useContext(LocaleContext);
-	const { tenant } = useContext(TenantContext);
+	const tenant = useTenant();
 	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
 	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { Stage } = useContext(GlobalComponentContext);

@@ -14,7 +14,6 @@ import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LanguagesProvider } from '../../globalState/provider/LanguagesProvider';
-import { TenantThemingLoader } from './TenantThemingLoader';
 import {
 	AppConfigProvider,
 	InformalProvider,
@@ -137,7 +136,6 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 				)}
 				<Route>
 					<ContextProvider>
-						<TenantThemingLoader />
 						{startWebsocket && (
 							<WebsocketHandler
 								disconnect={disconnectWebsocket}

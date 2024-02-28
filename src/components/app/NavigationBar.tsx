@@ -15,8 +15,8 @@ import {
 	ConsultingTypesContext,
 	SessionsDataContext,
 	SET_SESSIONS,
-	TenantContext,
-	LocaleContext
+	LocaleContext,
+	useTenant
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import { ReactComponent as LogoutIconOutline } from '../../resources/img/icons/logout_outline.svg';
@@ -62,7 +62,7 @@ export const NavigationBar = ({
 		group: unreadGroup,
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
-	const { tenant } = useContext(TenantContext);
+	const tenant = useTenant();
 
 	const ref_menu = useRef<any>([]);
 	const ref_local = useRef<any>();

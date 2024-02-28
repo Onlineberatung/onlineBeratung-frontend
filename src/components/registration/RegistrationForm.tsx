@@ -8,8 +8,8 @@ import { redirectToApp } from './autoLogin';
 import {
 	NOTIFICATION_TYPE_ERROR,
 	NotificationsContext,
-	TenantContext,
-	useLocaleData
+	useLocaleData,
+	useTenant
 } from '../../globalState';
 import {
 	AgencyDataInterface,
@@ -88,7 +88,7 @@ export const RegistrationForm = () => {
 		string[]
 	>([]);
 
-	const { tenant } = useContext(TenantContext);
+	const tenant = useTenant();
 	const { featureToolsEnabled } = getTenantSettings();
 
 	// Logout from budibase

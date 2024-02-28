@@ -5,14 +5,12 @@ import { InformalContext } from './InformalProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { setValueInCookie } from '../../components/sessionCookie/accessSessionCookie';
 import { useTenant } from './TenantProvider';
-import useTenantTheming from '../../utils/useTenantTheming';
 import { LocaleContext, TLocaleContext } from '../context/LocaleContext';
 
 export const STORAGE_KEY_LOCALE = 'locale';
 
 export function LocaleProvider(props) {
 	const settings = useAppConfig();
-	const isLoading = useTenantTheming();
 	const tenant = useTenant();
 	const [initialized, setInitialized] = useState(false);
 	const [initLocale, setInitLocale] = useState(null);
@@ -23,7 +21,7 @@ export function LocaleProvider(props) {
 	useEffect(() => {
 		// If using the tenant service we should load first the tenant because we need the
 		// active languages from the server to apply it on loading
-		if ((settings.useTenantService && isLoading) || initialized) {
+		if (initialized) {
 			return;
 		}
 
@@ -58,7 +56,6 @@ export function LocaleProvider(props) {
 		});
 	}, [
 		initialized,
-		isLoading,
 		settings.i18n,
 		settings.translation,
 		settings.useTenantService,
