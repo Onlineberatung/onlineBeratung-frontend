@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { deepMerge } from '../helpers';
-import { AppointmentsDataInterface } from '../../../src/globalState/interfaces';
+import { deepMerge } from '../../helpers';
+import { AppointmentsDataInterface } from '../../../../src/globalState/interfaces';
 
 export let appointments: AppointmentsDataInterface[] = [];
 

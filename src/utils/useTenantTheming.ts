@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { apiGetTenantTheming } from '../api/apiGetTenantTheming';
 import { TenantContext, useLocaleData } from '../globalState';
 import { TenantDataInterface } from '../globalState/interfaces';
@@ -227,9 +227,14 @@ const useTenantTheming = () => {
 		settings.useTenantService
 	);
 
+	const cypressTenantEnabled = useMemo(
+		() => (window as any).Cypress?.env('TENANT_ENABLED'),
+		[]
+	);
+
 	const onTenantServiceResponse = useCallback(
 		(tenant: TenantDataInterface) => {
-			if (!subdomain) {
+			if (!subdomain && cypressTenantEnabled !== '1') {
 				tenantContext?.setTenant({ settings } as any);
 			} else {
 				// ToDo: See VIC-428 + VIC-427
@@ -250,7 +255,7 @@ const useTenantTheming = () => {
 			}
 			return;
 		},
-		[settings, subdomain, tenantContext]
+		[settings, subdomain, tenantContext, cypressTenantEnabled]
 	);
 
 	useEffect(() => {
