@@ -1,7 +1,7 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { AgencyDataInterface } from '../globalState/interfaces';
-import { apiGetConsultingType } from './apiGetConsultingType';
+import { loadConsultingTypesForAgencies } from '../utils/loadConsultingTypesForAgencies';
 
 export const apiAgencySelection = async (
 	{
@@ -52,26 +52,6 @@ export const apiAgencySelection = async (
 				return agencies;
 			}
 
-			// Get unique consultingTypes to prevent multiple requests to api
-			const uniqueConsultingTypeIds = [
-				...new Set(
-					agencies.map((a) => a?.consultingType).filter(Boolean)
-				)
-			];
-
-			return Promise.all(
-				uniqueConsultingTypeIds.map((consultingTypeId) =>
-					apiGetConsultingType({
-						consultingTypeId
-					})
-				)
-			).then((consultingTypes) =>
-				agencies.map((a) => ({
-					...a,
-					consultingTypeRel: consultingTypes.find(
-						(c) => c.id === a.consultingType
-					)
-				}))
-			);
+			return loadConsultingTypesForAgencies(agencies);
 		});
 };

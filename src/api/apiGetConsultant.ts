@@ -1,7 +1,7 @@
 import { endpoints } from '../resources/scripts/endpoints';
 import { fetchData, FETCH_METHODS, FETCH_ERRORS } from './fetchData';
 import { ConsultantDataInterface } from '../globalState/interfaces';
-import { apiGetConsultingType } from './apiGetConsultingType';
+import { loadConsultingTypesForAgencies } from '../utils/loadConsultingTypesForAgencies';
 
 export const apiGetConsultant = async (
 	consultantId: string,
@@ -14,32 +14,14 @@ export const apiGetConsultant = async (
 		method: FETCH_METHODS.GET,
 		skipAuth: true,
 		responseHandling: [FETCH_ERRORS.CATCH_ALL]
-	}).then((user: ConsultantDataInterface) => {
+	}).then(async (user: ConsultantDataInterface) => {
 		if (!fetchConsultingTypeDetails) {
 			return user;
 		}
 
-		// Get unique consultingTypes to prevent multiple requests to api
-		const uniqueConsultingTypeIds = [
-			...new Set(
-				user.agencies.map((a) => a?.consultingType).filter(Boolean)
-			)
-		];
-
-		return Promise.all(
-			uniqueConsultingTypeIds.map((consultingTypeId) =>
-				apiGetConsultingType({
-					consultingTypeId
-				})
-			)
-		).then((consultingTypes) => ({
+		return {
 			...user,
-			agencies: user.agencies.map((a) => ({
-				...a,
-				consultingTypeRel: consultingTypes.find(
-					(c) => c.id === a.consultingType
-				)
-			}))
-		}));
+			agencies: await loadConsultingTypesForAgencies(user.agencies)
+		};
 	});
 };
