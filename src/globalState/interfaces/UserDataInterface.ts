@@ -35,9 +35,7 @@ export interface UserDataInterface {
 export interface ConsultantDataInterface
 	extends Omit<UserDataInterface, 'userId'> {
 	consultantId: string;
-	agencies: (AgencyDataInterface & {
-		consultingTypeRel?: ConsultingTypeInterface;
-	})[];
+	agencies: AgencyDataInterface[];
 }
 
 export interface AgencyDataInterface {
@@ -53,6 +51,9 @@ export interface AgencyDataInterface {
 	external?: boolean;
 	tenantId?: number;
 	agencySpecificPrivacy?: string;
+	consultingTypeRel?: ConsultingTypeInterface;
+	topicIds?: number[];
+	agencyLogo?: string | null;
 }
 
 export interface ConsultingTypeDataInterface {

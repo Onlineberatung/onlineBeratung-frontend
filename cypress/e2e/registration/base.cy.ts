@@ -1,9 +1,9 @@
-import { endpoints } from '../../src/resources/scripts/endpoints';
+import { endpoints } from '../../../src/resources/scripts/endpoints';
 import {
 	closeWebSocketServer,
 	mockWebSocket,
 	startWebSocketServer
-} from '../support/websocket';
+} from '../../support/websocket';
 
 const checkForGenericRegistrationElements = () => {
 	cy.get('#loginLogoWrapper').should('exist');

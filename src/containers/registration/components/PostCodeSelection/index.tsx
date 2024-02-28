@@ -88,11 +88,13 @@ export const PostCodeSelection = ({
 					</ul>
 				</div>
 			</div>
-			<InputField
-				item={postcodeInputItem}
-				inputHandle={(e) => onChange(e.target.value)}
-				onKeyDown={(e) => onKeyDown?.(e)}
-			/>
+			<div className="agencySelection__inputContainer">
+				<InputField
+					item={postcodeInputItem}
+					inputHandle={(e) => onChange(e.target.value)}
+					onKeyDown={(e) => onKeyDown?.(e)}
+				/>
+			</div>
 		</div>
 	);
 };

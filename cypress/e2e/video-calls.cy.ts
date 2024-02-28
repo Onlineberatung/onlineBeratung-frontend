@@ -7,7 +7,7 @@ import {
 	generateMultipleAskerSessions,
 	generateMultipleConsultantSessions
 } from '../support/sessions';
-import { USER_VIDEO } from '../support/commands/login';
+import { USER_VIDEO } from '../support/commands/mockApi';
 
 xdescribe('Video calls', () => {
 	before(() => {
@@ -384,7 +384,7 @@ xdescribe('Video calls', () => {
 					});
 
 					cy.fastLogin({
-						username: USER_VIDEO
+						userId: USER_VIDEO
 					});
 					cy.wait('@consultingTypeServiceBaseBasic');
 
@@ -510,7 +510,7 @@ xdescribe('Video calls', () => {
 					});
 
 					cy.fastLogin({
-						username: USER_VIDEO
+						userId: USER_VIDEO
 					});
 					cy.wait('@consultingTypeServiceBaseBasic');
 

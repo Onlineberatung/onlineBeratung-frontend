@@ -1,0 +1,11 @@
+{
+	"id": 1,
+	"name": "name",
+	"postcode": "postcode",
+	"city": "city",
+	"description": "description",
+	"teamAgency": true,
+	"offline": false,
+	"consultingType": 1,
+	"topicIds": null
+}

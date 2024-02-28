@@ -14,14 +14,8 @@ module.exports = {
 		}
 	},
 	registration: {
-		directlink: {
-			fallbackLoader: {
-				enabled: !!parseInt(
-					process.env
-						.FRONTEND_REGISTRATION_DIRECTLINK_FALLBACKLOADER_ENABLED ||
-						'1'
-				)
-			}
-		}
+		useConsultingTypeSlug: !!parseInt(
+			process.env.FRONTEND_REGISTRATION_USE_CONSULTINGTYPE_SLUG || '0'
+		)
 	}
 };

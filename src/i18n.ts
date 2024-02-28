@@ -92,11 +92,17 @@ export const init = async (
 		)
 	];
 
+	const mergeAndFlattenNamespace = (namespace) => {
+		if (Array.isArray(namespace)) {
+			return _.merge({}, ...namespace.map((ns) => flatten(ns)));
+		}
+		return flatten(namespace);
+	};
 	const flattenBaseResource = (resource) => {
 		if (!resource) return {};
 		return Object.keys(resource).reduce((acc, lng) => {
 			acc[lng] = Object.keys(resource[lng]).reduce((acc, ns) => {
-				acc[ns] = flatten(resource[lng][ns]);
+				acc[ns] = mergeAndFlattenNamespace(resource[lng][ns]);
 				return acc;
 			}, {});
 			return acc;

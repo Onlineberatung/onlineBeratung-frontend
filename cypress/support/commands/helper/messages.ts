@@ -1,5 +1,5 @@
-import { generateMessage } from '../sessions';
-import { getAskerSessions } from './askerSessions';
+import { generateMessage } from '../../sessions';
+import { askerSessions, getAskerSessions } from './askerSessions';
 import { getConsultantSessions } from './consultantSessions';
 
 export let messages = [];
@@ -32,11 +32,14 @@ export const addMessage = (
 	}
 };
 
-Cypress.Commands.add(
-	'addMessage',
-	(props: { [key: string]: any } = {}, index?: number) =>
-		new Cypress.Promise((resolve) => {
-			addMessage(props, index);
-			resolve(undefined);
-		})
-);
+const messageCommand = (getWillReturn, setWillReturn) =>
+	Cypress.Commands.add(
+		'addMessage',
+		(props: { [key: string]: any } = {}, index?: number) =>
+			new Cypress.Promise((resolve) => {
+				addMessage(props, index);
+				setWillReturn('messages', messages);
+				resolve(undefined);
+			})
+	);
+export default messageCommand;

@@ -35,6 +35,7 @@ describe('Keycloak Tokens', () => {
 
 	it('should get and store tokens and expiry time on login', () => {
 		cy.login();
+
 		cy.wait('@usersData');
 		cy.wait('@askerSessions');
 
@@ -109,11 +110,14 @@ describe('Keycloak Tokens', () => {
 		cy.get('#appRoot');
 		waitForTokenProcessing();
 
-		cy.tick(1000); // logout() call uses setTimeout
+		cy.wait('@apiLogout');
+		cy.wait('@authLogout');
+		// Wait to get cookies processed and timeout is started
+		cy.wait(100); // eslint-disable-line cypress/no-unnecessary-waiting
+		cy.tick(2000); // logout() call uses setTimeout
 		cy.get('.loginForm').should('exist');
 	});
 
-	//TODO: inspect this test, as there seems to be a race condition
 	it('should logout if refresh token is expired while the app is loaded', () => {
 		cy.clock();
 		cy.login();
@@ -125,7 +129,11 @@ describe('Keycloak Tokens', () => {
 		cy.tick(authTokenJson.refresh_expires_in * 1000 + 1);
 		waitForTokenProcessing();
 
-		cy.tick(1000); // logout() call uses setTimeout
+		cy.wait('@apiLogout');
+		cy.wait('@authLogout');
+		// Wait to get cookies processed and timeout is started
+		cy.wait(100); // eslint-disable-line cypress/no-unnecessary-waiting
+		cy.tick(2000); // logout() call uses setTimeout
 		cy.get('.loginForm').should('exist');
 	});
 

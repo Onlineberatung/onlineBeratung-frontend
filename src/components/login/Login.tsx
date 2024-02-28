@@ -28,9 +28,13 @@ import {
 	RocketChatGlobalSettingsContext,
 	TenantContext,
 	UserDataContext,
-	LocaleContext
+	LocaleContext,
+	useTenant
 } from '../../globalState';
-import { UserDataInterface } from '../../globalState/interfaces';
+import {
+	AgencyDataInterface,
+	UserDataInterface
+} from '../../globalState/interfaces';
 import '../../resources/styles/styles';
 import './login.styles';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
@@ -60,7 +64,7 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
-import { useConsultantAgenciesAndConsultingTypes } from '../../containers/registration/hooks/useConsultantAgenciesAndConsultingTypes';
+import { useConsultantRegistrationData } from '../../containers/registration/hooks/useConsultantRegistrationData';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 
 const regexAccountDeletedError = /account disabled/i;
@@ -69,6 +73,7 @@ export const Login = () => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
+	const tenantData = useTenant();
 
 	const { locale, initLocale } = useContext(LocaleContext);
 	const { tenant } = useContext(TenantContext);
@@ -134,7 +139,7 @@ export const Login = () => {
 		}
 	}, [featureToolsEnabled, gcid]);
 
-	const [agency, setAgency] = useState(null);
+	const [agency, setAgency] = useState<AgencyDataInterface>(null);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);
 	const [registerOverlayActive, setRegisterOverlayActive] = useState(false);
 	const [pwResetOverlayActive, setPwResetOverlayActive] = useState(false);
@@ -191,8 +196,9 @@ export const Login = () => {
 
 	const {
 		agencies: possibleAgencies,
-		consultingTypes: possibleConsultingTypes
-	} = useConsultantAgenciesAndConsultingTypes();
+		consultingTypes: possibleConsultingTypes,
+		topicIds: possibleTopicIds
+	} = useConsultantRegistrationData();
 
 	const registerOverlay = useMemo(
 		(): OverlayItem => ({
@@ -229,7 +235,8 @@ export const Login = () => {
 					agency.consultingTypeRel.id,
 					agency.id,
 					agency.postcode,
-					consultantId
+					consultantId,
+					agency.topicIds
 				)
 					.catch((response) => response.json())
 					.then((response) => {
@@ -288,15 +295,31 @@ export const Login = () => {
 		[locale]
 	);
 
+	const topicsAreRequired = useMemo(
+		() =>
+			tenantData?.settings?.topicsInRegistrationEnabled &&
+			tenantData?.settings?.featureTopicsEnabled,
+		[
+			tenantData?.settings?.topicsInRegistrationEnabled,
+			tenantData?.settings?.featureTopicsEnabled
+		]
+	);
+
 	useEffect(() => {
 		if (
 			possibleAgencies.length === 1 &&
-			possibleConsultingTypes.length === 1
+			possibleConsultingTypes.length === 1 &&
+			(!topicsAreRequired || possibleTopicIds.length === 1)
 		) {
 			setAgency(possibleAgencies[0]);
 			setValidity(VALIDITY_VALID);
 		}
-	}, [possibleAgencies, possibleConsultingTypes]);
+	}, [
+		possibleAgencies,
+		possibleConsultingTypes,
+		possibleTopicIds.length,
+		topicsAreRequired
+	]);
 
 	useEffect(() => {
 		deleteCookieByName('tenantId');
@@ -334,22 +357,28 @@ export const Login = () => {
 
 				if (
 					possibleAgencies.length === 1 &&
-					possibleConsultingTypes.length === 1
+					possibleConsultingTypes.length === 1 &&
+					(!topicsAreRequired || possibleTopicIds.length === 1)
 				) {
-					handleRegistration(possibleAgencies[0]);
+					handleRegistration({
+						...possibleAgencies[0],
+						topicIds: possibleTopicIds
+					});
 				} else {
 					setRegisterOverlayActive(true);
 				}
 			}),
 		[
+			reloadUserData,
 			locale,
 			initLocale,
 			consultant,
 			possibleAgencies,
 			possibleConsultingTypes.length,
-			reloadUserData,
-			handleRegistration,
-			gcid
+			topicsAreRequired,
+			possibleTopicIds,
+			gcid,
+			handleRegistration
 		]
 	);
 
