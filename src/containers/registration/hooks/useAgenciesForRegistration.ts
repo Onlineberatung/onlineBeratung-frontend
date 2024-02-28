@@ -1,7 +1,6 @@
 import unionBy from 'lodash/unionBy';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { apiAgencySelection } from '../../../api';
-import { DEFAULT_POSTCODE } from '../../../components/registration/prefillPostcode';
 import { useTenant } from '../../../globalState';
 import {
 	AgencyDataInterface,
@@ -11,6 +10,7 @@ import {
 import { useConsultantRegistrationData } from './useConsultantRegistrationData';
 import { ConsultingTypeRegistrationDefaults } from '../components/ProposedAgencies/ProposedAgencies';
 import { UrlParamsContext } from '../../../globalState/provider/UrlParamsProvider';
+import { VALID_POSTCODE_LENGTH } from '../../../components/agencySelection/agencySelectionHelpers';
 
 interface AgenciesForRegistrationArgs {
 	consultingType: ConsultingTypeInterface;
@@ -78,8 +78,6 @@ export const useAgenciesForRegistration = ({
 		}
 
 		uniqueAgencies = uniqueAgencies
-			// Filter by preselected agency
-
 			// Filter by consultingType
 			.filter(
 				(agency) =>
@@ -119,7 +117,12 @@ export const useAgenciesForRegistration = ({
 	useEffect(() => {
 		const abortController = new AbortController();
 		// if we already have information from consulting types we can ignore the request
-		if (consultant || preselectedAgency || topicsEnabledAndUnSelected) {
+		if (
+			consultant ||
+			preselectedAgency ||
+			topicsEnabledAndUnSelected ||
+			(!autoSelectPostcode && postcode?.length !== VALID_POSTCODE_LENGTH)
+		) {
 			setIsLoading(false);
 			return;
 		}
@@ -127,7 +130,7 @@ export const useAgenciesForRegistration = ({
 		setIsLoading(true);
 		apiAgencySelection(
 			{
-				postcode: autoSelectPostcode ? DEFAULT_POSTCODE : postcode,
+				...(autoSelectPostcode ? {} : { postcode }),
 				consultingType: consultingType?.id,
 				topicId: topic?.id,
 				fetchConsultingTypeDetails: true
