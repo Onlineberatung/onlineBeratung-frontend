@@ -239,6 +239,9 @@ const useTenantTheming = () => {
 				const decodedTenant = JSON.parse(JSON.stringify(tenant));
 
 				decodedTenant.theming.logo = decodeHTML(tenant.theming.logo);
+				decodedTenant.theming.associationLogo = decodeHTML(
+					tenant.theming.associationLogo
+				);
 				decodedTenant.theming.favicon = decodeHTML(
 					tenant.theming.favicon
 				);
