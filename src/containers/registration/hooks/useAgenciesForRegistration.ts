@@ -38,7 +38,10 @@ export const useAgenciesForRegistration = ({
 	const {
 		agencies: consultantAgencies,
 		consultingTypes: consultantConsultingTypes
-	} = useConsultantRegistrationData();
+	} = useConsultantRegistrationData({
+		topicId: topic?.id,
+		consultingTypeId: consultingType?.id
+	});
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [agencies, setAgencies] = useState<AgencyDataInterface[]>([]);

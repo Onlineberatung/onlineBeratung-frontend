@@ -71,7 +71,7 @@ export const FormAccordion = ({
 	const { setSpecificAgency, specificAgency } = useContext(
 		AgencySpecificContext
 	);
-	const { consultingTypes } = useConsultantRegistrationData();
+	const { consultingTypes } = useConsultantRegistrationData({});
 
 	const [activeItem, setActiveItem] = useState<number>(1);
 

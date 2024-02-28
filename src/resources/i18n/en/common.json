@@ -1789,6 +1789,11 @@
 				"headline": "Please select a topic",
 				"infoText": "Your consultant is active in several subject areas. Please select your desired subject area.",
 				"select.label": "Topic"
+			},
+			"topic": {
+				"headline": "Please select a topic",
+				"infoText": "Your consultant is active in several subject areas. Please select your desired subject area.",
+				"select.label": "Topic"
 			}
 		},
 		"dataProtection": {

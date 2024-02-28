@@ -66,7 +66,13 @@ export const ConsultingTypeAgencySelection = ({
 		agencies: possibleAgencies,
 		consultingTypes: possibleConsultingTypes,
 		topicIds: possibleTopicIds
-	} = useConsultantRegistrationData();
+	} = useConsultantRegistrationData({
+		consultingTypeId:
+			selectedConsultingTypeOption?.value &&
+			parseInt(selectedConsultingTypeOption.value),
+		topicId:
+			selectedTopicOption?.value && parseInt(selectedTopicOption.value)
+	});
 
 	useEffect(() => {
 		apiGetTopicsData()
@@ -185,7 +191,11 @@ export const ConsultingTypeAgencySelection = ({
 		defaultValue: selectedTopicOption
 	};
 
-	if (possibleAgencies.length <= 1 && possibleConsultingTypes.length <= 1) {
+	if (
+		possibleAgencies.length <= 1 &&
+		possibleConsultingTypes.length <= 1 &&
+		possibleTopicIds.length <= 1
+	) {
 		return null;
 	}
 
@@ -218,23 +228,24 @@ export const ConsultingTypeAgencySelection = ({
 				</div>
 			)}
 
-			{selectedConsultingTypeOption && agencyOptions.length > 1 && (
-				<div className="agencySelection">
-					{consultingTypeOptions.length <= 1 && (
-						<Text
-							text={translate(
-								'registration.consultingTypeAgencySelection.agency.infoText'
-							)}
-							type="standard"
+			{(selectedConsultingTypeOption || selectedTopicOption) &&
+				agencyOptions.length > 1 && (
+					<div className="agencySelection">
+						{consultingTypeOptions.length <= 1 && (
+							<Text
+								text={translate(
+									'registration.consultingTypeAgencySelection.agency.infoText'
+								)}
+								type="standard"
+							/>
+						)}
+						<AgencySelection
+							agencies={agencyOptions}
+							onChange={handleChange}
+							selectedAgency={agency}
 						/>
-					)}
-					<AgencySelection
-						agencies={agencyOptions}
-						onChange={handleChange}
-						selectedAgency={agency}
-					/>
-				</div>
-			)}
+					</div>
+				)}
 		</div>
 	);
 };
