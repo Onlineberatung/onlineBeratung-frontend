@@ -46,6 +46,12 @@ $infoIconSize: 16px;
 
 	.inputField {
 		margin-top: $grid-base-three;
+		margin-left: 12px;
+
+		.inputField {
+			margin-top: 0;
+			margin-left: 0;
+		}
 	}
 
 	&__note {
