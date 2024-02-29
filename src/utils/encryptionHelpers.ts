@@ -48,7 +48,14 @@ export function toArrayBuffer(thing: any): ArrayBuffer {
 		);
 	}
 
-	return ByteBuffer.wrap(thing, 'binary').toArrayBuffer();
+	try {
+		return ByteBuffer.wrap(thing, 'binary').toArrayBuffer();
+	} catch {
+		return ByteBuffer.wrap(
+			new TextEncoder().encode(thing),
+			'binary'
+		).toArrayBuffer();
+	}
 }
 
 export function typedArrayToBuffer(array: Uint8Array): ArrayBuffer {
@@ -243,7 +250,7 @@ export const decryptAttachment = async (
 ): Promise<File> => {
 	// error if key is missing
 	if (!roomKeyID || !groupKey) {
-		throw new MissingKeyError('e2ee.message.encryption');
+		throw new MissingKeyError('e2ee.message.encryption.text');
 	}
 
 	// keyId
@@ -396,7 +403,7 @@ export const decryptText = async (
 	}
 
 	if (!roomKeyID || !groupKey) {
-		throw new MissingKeyError('e2ee.message.encryption');
+		throw new MissingKeyError('e2ee.message.encryption.text');
 	}
 
 	const keyID = message.slice(
