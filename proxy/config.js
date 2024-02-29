@@ -15,7 +15,7 @@ module.exports = {
 	},
 	registration: {
 		useConsultingTypeSlug: !!parseInt(
-			process.env.FRONTEND_REGISTRATION_USE_CONSULTINGTYPE_SLUG || '0'
+			process.env.FRONTEND_REGISTRATION_USE_CONSULTINGTYPE_SLUG || '1'
 		)
 	}
 };
