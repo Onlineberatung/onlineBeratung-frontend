@@ -3,8 +3,6 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AgencyDataInterface } from '../../globalState/interfaces';
 import './consultingTypeAgencySelection.styles';
 import '../profile/profile.styles';
-import { RadioButton } from '../radioButton/RadioButton';
-import { InfoTooltip } from '../infoTooltip/InfoTooltip';
 import {
 	VALIDITY_INVALID,
 	VALIDITY_VALID
@@ -15,18 +13,18 @@ import {
 	SelectOption
 } from '../select/SelectDropdown';
 import { Text } from '../text/Text';
-import { AgencyLanguages } from '../agencySelection/AgencyLanguages';
 import { useTranslation } from 'react-i18next';
 import { useConsultantRegistrationData } from '../../containers/registration/hooks/useConsultantRegistrationData';
 import { apiGetTopicsData } from '../../api/apiGetTopicsData';
 import { useTenant } from '../../globalState';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
+import { AgencyRadioSelect } from '../agencyRadioSelect/AgencyRadioSelect';
 
 export interface ConsultingTypeAgencySelectionProps {
-	onChange: Function;
+	onChange: (agency: AgencyDataInterface) => void;
 	onValidityChange?: Function;
 	agency?: any;
-	onKeyDown?: Function;
+	onKeyDown?: (event: KeyboardEvent) => void;
 }
 
 export const ConsultingTypeAgencySelection = ({
@@ -239,68 +237,21 @@ export const ConsultingTypeAgencySelection = ({
 								type="standard"
 							/>
 						)}
-						<AgencySelection
-							agencies={agencyOptions}
-							onChange={handleChange}
-							selectedAgency={agency}
-						/>
+						<div>
+							{agencyOptions.map(
+								(agencyOption: AgencyDataInterface) => (
+									<AgencyRadioSelect
+										key={`agency-${agencyOption.id}`}
+										agency={agencyOption}
+										checkedValue={agency?.id?.toString()}
+										onChange={handleChange}
+										onKeyDown={onKeyDown}
+									/>
+								)
+							)}
+						</div>
 					</div>
 				)}
-		</div>
-	);
-};
-
-type AgencySelectionProps = {
-	agencies: AgencyDataInterface[];
-	selectedAgency?: AgencyDataInterface;
-	onChange: Function;
-	onKeyDown?: Function;
-};
-
-const AgencySelection = ({
-	agencies,
-	onChange,
-	selectedAgency,
-	onKeyDown
-}: AgencySelectionProps) => {
-	const { t: translate } = useTranslation(['agencies']);
-	return (
-		<div>
-			{agencies.map((agency: AgencyDataInterface) => (
-				<div
-					key={agency.id}
-					className="agencySelection__proposedAgency"
-				>
-					<div className="agencySelection__proposedAgency__container">
-						<RadioButton
-							name="agencySelection"
-							handleRadioButton={() => onChange(agency)}
-							type="default"
-							value={agency.id.toString()}
-							checked={
-								selectedAgency &&
-								agency.id === selectedAgency.id
-							}
-							inputId={agency.id.toString()}
-							onKeyDown={onKeyDown}
-						>
-							{translate(
-								[`agency.${agency.id}.name`, agency.name],
-								{ ns: 'agencies' }
-							)}
-						</RadioButton>
-						<InfoTooltip
-							translation={{
-								ns: 'agencies',
-								prefix: 'agency'
-							}}
-							info={agency}
-							showTeamAgencyInfo={agency.teamAgency}
-						/>
-					</div>
-					<AgencyLanguages agencyId={agency.id} />
-				</div>
-			))}
 		</div>
 	);
 };

@@ -36,6 +36,8 @@ $input-size: 24px;
 		color: var(--skin-color-primary-contrast-safe, $primary);
 		text-decoration: underline;
 		cursor: pointer;
+		background: none;
+		border: none;
 
 		&:focus {
 			outline: $focus-outline;

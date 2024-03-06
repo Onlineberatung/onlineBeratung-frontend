@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useAgenciesForRegistration } from '../../hooks/useAgenciesForRegistration';
 import { NoAgencyFound } from '../NoAgencyFound';
-import { AgencySelection } from '../AgencySelection';
 import { ConsultingTypeSelection } from '../ConsultingTypeSelection';
 import { PostCodeSelection } from '../PostCodeSelection';
 import { ProposedAgenciesTitle } from './ProposedAgenciesTitle';
@@ -14,12 +13,13 @@ import {
 } from '../../../../components/registration/registrationHelpers';
 import { AgencyDataInterface } from '../../../../globalState/interfaces';
 import { LABEL_TYPES, Text } from '../../../../components/text/Text';
-import './proposedAgencies.styles.scss';
 import { useTranslation } from 'react-i18next';
-import { PreselectedAgency } from '../PreSelectedAgency/PreselectedAgency';
 import { FormAccordionData } from '../../../../components/registration/RegistrationForm';
 import { UrlParamsContext } from '../../../../globalState/provider/UrlParamsProvider';
 import clsx from 'clsx';
+import { AgencyRadioSelect } from '../../../../components/agencyRadioSelect/AgencyRadioSelect';
+
+import './proposedAgencies.styles.scss';
 
 interface ProposedAgenciesProps {
 	formAccordionData: FormAccordionData;
@@ -197,7 +197,6 @@ export const ProposedAgencies = ({
 					isPreselectedAgency={!!preSelectedAgency}
 				/>
 			)}
-
 			{agencySelectionNote && (
 				<div data-cy="registration-agency-selection-note">
 					<Text
@@ -208,7 +207,6 @@ export const ProposedAgencies = ({
 					/>
 				</div>
 			)}
-
 			{consultingTypes.length > 1 && (
 				<div className="consultingTypeSelection">
 					<ConsultingTypeSelection
@@ -228,9 +226,7 @@ export const ProposedAgencies = ({
 					/>
 				</div>
 			)}
-
 			{isLoading && <LoadingIndicator />}
-
 			{!agencies?.length &&
 				(autoSelectPostcode ||
 					isPostcodeValid(formAccordionData?.postcode)) &&
@@ -241,17 +237,16 @@ export const ProposedAgencies = ({
 						consultingType={formAccordionData.consultingType}
 					/>
 				)}
-
 			{!isLoading &&
 				agencies.length === 1 &&
 				formAccordionData.agency && (
-					<PreselectedAgency
+					<AgencyRadioSelect
 						prefix={t('registration.agency.preselected.prefix')}
-						agencyData={formAccordionData.agency}
+						agency={formAccordionData.agency}
+						checkedValue={formAccordionData.agency.id.toString()}
 						onKeyDown={onKeyDown}
 					/>
 				)}
-
 			{!isLoading && agencies?.length > 1 && (
 				<div className="agencySelectionContainer">
 					<ProposedAgenciesTitle
@@ -263,15 +258,13 @@ export const ProposedAgencies = ({
 					/>
 					<div className="agencySelection">
 						{agencies.map((agency) => (
-							<AgencySelection
-								key={agency.id}
+							<AgencyRadioSelect
+								key={`agency-${agency.id}`}
 								agency={agency}
 								checkedValue={formAccordionData.agency?.id.toString()}
-								onChange={(id) =>
+								onChange={({ id }) =>
 									handleAgencyChange(
-										agencies.find(
-											(a) => a.id.toString() === id
-										)
+										agencies.find((a) => a.id === id)
 									)
 								}
 							/>
