@@ -10,15 +10,11 @@ import { InputField, InputFieldItem } from '../inputField/InputField';
 import { VALID_POSTCODE_LENGTH } from './agencySelectionHelpers';
 import './agencySelection.styles';
 import '../profile/profile.styles';
-import { RadioButton } from '../radioButton/RadioButton';
 import { Loading } from '../app/Loading';
 import { Text, LABEL_TYPES } from '../text/Text';
-import { InfoTooltip } from '../infoTooltip/InfoTooltip';
-import { PreselectedAgency } from '../../containers/registration/components/PreSelectedAgency/PreselectedAgency';
 import { Headline } from '../headline/Headline';
 import { parsePlaceholderString } from '../../utils/parsePlaceholderString';
 import { Notice } from '../notice/Notice';
-import { AgencyLanguages } from './AgencyLanguages';
 import {
 	VALIDITY_INITIAL,
 	VALIDITY_INVALID,
@@ -26,6 +22,7 @@ import {
 } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { AgencyRadioSelect } from '../agencyRadioSelect/AgencyRadioSelect';
 
 export interface AgencySelectionProps {
 	consultingType: ConsultingTypeBasicInterface;
@@ -307,13 +304,15 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							</ul>
 						</div>
 					</div>
+
 					<InputField
 						item={postcodeInputItem}
 						inputHandle={(e) => handlePostcodeInput(e)}
 						onKeyDown={(e) =>
 							props.onKeyDown ? props.onKeyDown(e, false) : null
 						}
-					></InputField>
+					/>
+
 					{props.agencySelectionNote && (
 						<div data-cy="registration-agency-selection-note">
 							<Text
@@ -324,6 +323,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 							/>
 						</div>
 					)}
+
 					{validPostcode() && !preselectedAgency && (
 						<div className="agencySelection__proposedAgencies">
 							<h3>
@@ -335,6 +335,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 									'registration.agencySelection.title.end'
 								)}
 							</h3>
+							<div>WTF</div>
 							{!proposedAgencies ? (
 								postcodeFallbackLink ? (
 									<Notice
@@ -371,50 +372,20 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 								)
 							) : (
 								proposedAgencies?.map(
-									(agency: AgencyDataInterface, index) => (
-										<div
-											key={index}
-											className="agencySelection__proposedAgency"
-										>
-											<div className="agencySelection__proposedAgency__container">
-												<RadioButton
-													name="agencySelection"
-													handleRadioButton={() =>
-														setSelectedAgency(
-															agency
-														)
-													}
-													type="smaller"
-													value={agency.id.toString()}
-													checked={index === 0}
-													inputId={agency.id.toString()}
-												>
-													{translate(
-														[
-															`agency.${agency.id}.name`,
-															agency.name
-														],
-														{ ns: 'agencies' }
-													)}
-												</RadioButton>
-												<InfoTooltip
-													translation={{
-														ns: 'agencies',
-														prefix: 'agency'
-													}}
-													info={agency}
-													showTeamAgencyInfo={
-														agency.teamAgency
-													}
-													isProfileView={
-														props.isProfileView
-													}
-												/>
-											</div>
-											<AgencyLanguages
-												agencyId={agency.id}
-											/>
-										</div>
+									(proposedAgency: AgencyDataInterface) => (
+										<AgencyRadioSelect
+											key={`agency-${proposedAgency.id}`}
+											agency={proposedAgency}
+											checkedValue={proposedAgencies[0].id.toString()}
+											showTooltipAbove={
+												props.isProfileView
+											}
+											onChange={() =>
+												setSelectedAgency(
+													proposedAgency
+												)
+											}
+										/>
 									)
 								)
 							)}
@@ -423,10 +394,11 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 				</>
 			)}
 			{showPreselectedAgency && (
-				<PreselectedAgency
+				<AgencyRadioSelect
+					agency={preselectedAgency}
+					checkedValue={preselectedAgency.id.toString()}
 					prefix={translate('registration.agency.preselected.prefix')}
-					agencyData={preselectedAgency}
-					isProfileView={props.isProfileView}
+					showTooltipAbove={props.isProfileView}
 				/>
 			)}
 		</div>

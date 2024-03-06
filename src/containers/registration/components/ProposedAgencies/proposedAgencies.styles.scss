@@ -94,50 +94,6 @@ $infoIconSize: 16px;
 		}
 	}
 
-	&__proposedAgency {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		padding: 12px 0;
-
-		.radioButton {
-			flex-basis: calc(100% - #{$infoIconSize + 1px});
-			min-height: unset;
-			padding: 4px 0 4px 4px;
-
-			&__label {
-				font-size: 16px;
-			}
-
-			&__contentWrapper {
-				align-items: center;
-			}
-		}
-
-		&:not(:last-of-type) {
-			border-bottom: 1px solid $black-10-opacity;
-		}
-
-		&__container {
-			display: flex;
-		}
-
-		&__content {
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-start;
-			margin-left: 44px;
-		}
-
-		&__logo {
-			max-width: 60px;
-			max-height: 60px;
-			margin-right: 16px;
-			object-fit: contain;
-			object-position: center left;
-		}
-	}
-
 	h5 {
 		margin-bottom: 12px;
 	}

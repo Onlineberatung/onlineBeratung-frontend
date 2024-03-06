@@ -10,18 +10,16 @@ interface AgencyLanguagesProps {
 	agencyId: number;
 }
 
-export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
-	agencyId
-}) => {
+export const AgencyLanguages = ({ agencyId }: AgencyLanguagesProps) => {
 	const { t: translate } = useTranslation();
-
 	const { fixed: fixedLanguages } = useContext(LanguagesContext);
 	const settings = useAppConfig();
 	const [isAllShown, setIsAllShown] = useState(false);
 	const [languages, setLanguages] = useState<string[]>([...fixedLanguages]);
+	const languagesSelection = languages.slice(0, 2);
+	const difference = languages.length - languagesSelection.length;
 
 	useEffect(() => {
-		// async wrapper
 		const getLanguagesFromApi = async () => {
 			const response = await apiAgencyLanguages(
 				agencyId,
@@ -46,47 +44,40 @@ export const AgencyLanguages: React.FC<AgencyLanguagesProps> = ({
 		settings?.multitenancyWithSingleDomainEnabled
 	]);
 
-	const languagesSelection = languages.slice(0, 2);
-	const difference = languages.length - languagesSelection.length;
-
 	const mapLanguages = (isoCode) => (
 		<span key={isoCode}>
 			{translate(`languages.${isoCode}`)} ({isoCode.toUpperCase()})
 		</span>
 	);
 
-	if (languages.length > 0) {
-		return (
-			<div className="agencyLanguages">
-				<p>
-					{translate('registration.agencySelection.languages.info')}
-				</p>
-				{isAllShown || difference < 1 ? (
-					<div>{languages.map(mapLanguages)}</div>
-				) : (
-					<div>
-						{languagesSelection.map(mapLanguages)}
-						<span
-							className="agencyLanguages__more"
-							onClick={() => {
+	if (!languages.length) return null;
+
+	return (
+		<div className="agencyLanguages">
+			<p>{translate('registration.agencySelection.languages.info')}</p>
+			{isAllShown || difference < 1 ? (
+				<div>{languages.map(mapLanguages)}</div>
+			) : (
+				<div>
+					{languagesSelection.map(mapLanguages)}
+					<span
+						className="agencyLanguages__more"
+						onClick={() => {
+							setIsAllShown(true);
+						}}
+						tabIndex={0}
+						onKeyDown={(event) => {
+							if (event.key === 'Enter') {
 								setIsAllShown(true);
-							}}
-							tabIndex={0}
-							onKeyDown={(event) => {
-								if (event.key === 'Enter') {
-									setIsAllShown(true);
-								}
-							}}
-						>
-							{`+${difference} ${translate(
-								'registration.agencySelection.languages.more'
-							)}`}
-						</span>
-					</div>
-				)}
-			</div>
-		);
-	} else {
-		return <></>;
-	}
+							}
+						}}
+					>
+						{`+${difference} ${translate(
+							'registration.agencySelection.languages.more'
+						)}`}
+					</span>
+				</div>
+			)}
+		</div>
+	);
 };
