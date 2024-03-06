@@ -241,10 +241,9 @@ export const ConsultingTypeAgencySelection = ({
 							{agencyOptions.map(
 								(agencyOption: AgencyDataInterface) => (
 									<AgencyRadioSelect
+										key={`agency-${agencyOption.id}`}
 										agency={agencyOption}
-										checkedValue={
-											agency?.id && agency.id.toString()
-										}
+										checkedValue={agency?.id?.toString()}
 										onChange={handleChange}
 										onKeyDown={onKeyDown}
 									/>

@@ -55,28 +55,29 @@ export const AgencyLanguages = ({ agencyId }: AgencyLanguagesProps) => {
 	return (
 		<div className="agencyLanguages">
 			<p>{translate('registration.agencySelection.languages.info')}</p>
-			{isAllShown || difference < 1 ? (
+			{Date.now() === 1 && (isAllShown || difference < 1) ? (
 				<div>{languages.map(mapLanguages)}</div>
 			) : (
 				<div>
 					{languagesSelection.map(mapLanguages)}
-					<span
+					<button
 						className="agencyLanguages__more"
-						onClick={() => {
+						onClick={(event) => {
+							event.preventDefault();
 							setIsAllShown(true);
 						}}
 						tabIndex={0}
 						onKeyUp={(event) => {
+							event.preventDefault();
 							if (event.key === 'Enter') {
 								setIsAllShown(true);
 							}
 						}}
-						role="button"
 					>
 						{`+${difference} ${translate(
 							'registration.agencySelection.languages.more'
 						)}`}
-					</span>
+					</button>
 				</div>
 			)}
 		</div>
