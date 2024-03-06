@@ -55,7 +55,7 @@ export const AgencyLanguages = ({ agencyId }: AgencyLanguagesProps) => {
 	return (
 		<div className="agencyLanguages">
 			<p>{translate('registration.agencySelection.languages.info')}</p>
-			{Date.now() === 1 && (isAllShown || difference < 1) ? (
+			{isAllShown || difference < 1 ? (
 				<div>{languages.map(mapLanguages)}</div>
 			) : (
 				<div>
