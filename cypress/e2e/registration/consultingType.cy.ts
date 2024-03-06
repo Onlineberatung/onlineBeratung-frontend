@@ -147,21 +147,21 @@ describe('Registration', () => {
 					cy.get('input#postcode').type('12345', { force: true });
 					cy.wait('@service.agencies');
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					// Check if external agency from consultingType1 is hidden
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-12'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-12'
 					).should('not.exist');
 					// Check if one agency from other consultingType is hidden
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('not.exist');
 				});
 			});
@@ -183,10 +183,13 @@ describe('Registration', () => {
 
 				it('should show preselected agency', () => {
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -208,26 +211,26 @@ describe('Registration', () => {
 
 				it('should find agencies for consultingType', () => {
 					// Check if no agency are preselected
-					cy.get('.preselectedAgency__item').should('not.exist');
+					cy.get('.agencyRadioSelect__wrapper').should('not.exist');
 					// Check if search for agencies is working
 					cy.get('input#postcode').type('12345', { force: true });
 					cy.wait('@service.agencies');
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					// Check if external agency from consultingType1 is hidden
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-12'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-12'
 					).should('not.exist');
 					// Check if one agency from other consultingType is hidden
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('not.exist');
 				});
 			});
@@ -249,26 +252,26 @@ describe('Registration', () => {
 
 				it('should find agencies for consultingType', () => {
 					// Check if no agency are preselected
-					cy.get('.preselectedAgency__item').should('not.exist');
+					cy.get('.agencyRadioSelect__wrapper').should('not.exist');
 					// Check if search for agencies is working
 					cy.get('input#postcode').type('12345', { force: true });
 					cy.wait('@service.agencies');
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					// Check if external agency from consultingType1 is hidden
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-12'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-12'
 					).should('not.exist');
 					// Check if one agency from other consultingType is hidden
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('not.exist');
 				});
 			});
@@ -319,10 +322,13 @@ describe('Registration', () => {
 
 				it('should show preselected agency', () => {
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -341,10 +347,13 @@ describe('Registration', () => {
 
 				it('should show preselected agency', () => {
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -363,10 +372,13 @@ describe('Registration', () => {
 
 				it('should show all consultant agencies', () => {
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -385,10 +397,13 @@ describe('Registration', () => {
 
 				it('should find agencies for consultingType', () => {
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 				});
 			});
@@ -406,10 +421,13 @@ describe('Registration', () => {
 
 				it('should find agencies for consultingType', () => {
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -445,15 +463,15 @@ describe('Registration', () => {
 				});
 
 				it('should show preselected agency', () => {
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('exist');
 				});
 			});
@@ -472,10 +490,13 @@ describe('Registration', () => {
 
 				it('should show preselected agency', () => {
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -493,15 +514,15 @@ describe('Registration', () => {
 				});
 
 				it('should show all consultant agencies', () => {
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('exist');
 				});
 			});
@@ -519,15 +540,15 @@ describe('Registration', () => {
 				});
 
 				it('should find agencies for consultingType', () => {
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-22'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-22'
 					).should('exist');
 				});
 			});
@@ -544,15 +565,15 @@ describe('Registration', () => {
 				});
 
 				it('should find agencies for consultingType', () => {
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('exist');
 				});
 			});
@@ -586,30 +607,30 @@ describe('Registration', () => {
 
 				it('should show agencies with consultingtype dropdown', () => {
 					cy.get('#consultingTypeSelection').should('exist');
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('exist');
 
 					cy.get('#consultingTypeSelection').click();
 					cy.get('#consultingTypeSelection .select__input__option')
 						.eq(1)
 						.click();
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-22'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-22'
 					).should('exist');
 				});
 			});
@@ -626,15 +647,15 @@ describe('Registration', () => {
 				});
 
 				it('should show preselected agency', () => {
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('exist');
 				});
 			});
@@ -654,10 +675,13 @@ describe('Registration', () => {
 				it('should show preselected agency', () => {
 					cy.get('#consultingTypeSelection').should('not.exist');
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -676,15 +700,15 @@ describe('Registration', () => {
 
 				it('should show all consultant agencies', () => {
 					cy.get('#consultingTypeSelection').should('not.exist');
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('exist');
 				});
 			});
@@ -702,15 +726,15 @@ describe('Registration', () => {
 
 				it('should find agencies for consultingType', () => {
 					cy.get('#consultingTypeSelection').should('not.exist');
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-22'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-22'
 					).should('exist');
 				});
 			});
@@ -728,30 +752,30 @@ describe('Registration', () => {
 
 				it('should find agencies for consultingType', () => {
 					cy.get('#consultingTypeSelection').should('exist');
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('exist');
 
 					cy.get('#consultingTypeSelection').click();
 					cy.get('#consultingTypeSelection .select__input__option')
 						.eq(1)
 						.click();
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-22'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-22'
 					).should('exist');
 				});
 			});
@@ -770,26 +794,23 @@ describe('Registration', () => {
 
 			it('should find agencies for consultingType', () => {
 				// Check if no agency are preselected
-				cy.get('.preselectedAgency__item').should('not.exist');
+				cy.get('.agencyRadioSelect__wrapper').should('not.exist');
 				// Check if search for agencies is working
 				cy.get('input#postcode').type('12345', { force: true });
 				cy.wait('@service.agencies');
 				// Check if both agencies from consultingType2 are listed
-				cy.get('.agencySelection__proposedAgency').should(
-					'have.length',
-					2
-				);
+				cy.get('.agencyRadioSelect__wrapper').should('have.length', 2);
 				// Check if one agency from consultingType1 is visible
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-11'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 				).should('exist');
 				// Check if external agency from consultingType1 is hidden
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-13'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 				).should('exist');
 				// Check if one agency from other consultingType is hidden
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-21'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 				).should('not.exist');
 			});
 		});
@@ -812,10 +833,13 @@ describe('Registration', () => {
 
 				it('should find agencies for consultingType', () => {
 					// Check if both agencies from consultingType2 are listed
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					// Check if one agency from consultingType1 is visible
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -856,10 +880,10 @@ describe('Registration', () => {
 					'not.exist'
 				);
 				// Check if both agencies from consultingType2 are listed
-				cy.get('.preselectedAgency__item').should('have.length', 1);
+				cy.get('.agencyRadioSelect__wrapper').should('have.length', 1);
 				// Check if one agency from consultingType1 is visible
 				cy.get(
-					'.preselectedAgency__item .radioButton__input#41'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-41'
 				).should('exist');
 			});
 		});
@@ -899,10 +923,10 @@ describe('Registration', () => {
 					'not.exist'
 				);
 				// Check if both agencies from consultingType2 are listed
-				cy.get('.preselectedAgency__item').should('have.length', 1);
+				cy.get('.agencyRadioSelect__wrapper').should('have.length', 1);
 				// Check if one agency from consultingType1 is visible
 				cy.get(
-					'.preselectedAgency__item .radioButton__input#41'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-41'
 				).should('exist');
 			});
 		});

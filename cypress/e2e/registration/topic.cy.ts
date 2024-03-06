@@ -257,19 +257,19 @@ describe('Registration', () => {
 					cy.wait('@service.agencies');
 
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-22'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-22'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-23'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-23'
 					).should('not.exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-24'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-24'
 					).should('not.exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('not.exist');
 				});
 			});
@@ -306,10 +306,10 @@ describe('Registration', () => {
 				cy.get('.formAccordionItem').eq(3).click();
 
 				// Check if both agencies from consultingType2 are listed
-				cy.get('.preselectedAgency__item').should('have.length', 1);
+				cy.get('.agencyRadioSelect__wrapper').should('have.length', 1);
 				// Check if one agency from consultingType1 is visible
 				cy.get(
-					'.preselectedAgency__item .radioButton__input#11'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 				).should('exist');
 			});
 		});
@@ -345,9 +345,9 @@ describe('Registration', () => {
 				).click();
 				cy.get('.formAccordionItem').eq(3).click();
 
-				cy.get('.preselectedAgency__item').should('have.length', 1);
+				cy.get('.agencyRadioSelect__wrapper').should('have.length', 1);
 				cy.get(
-					'.preselectedAgency__item .radioButton__input#13'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 				).should('exist');
 			});
 		});
@@ -393,19 +393,19 @@ describe('Registration', () => {
 				cy.wait('@service.agencies');
 
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-21'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 				).should('exist');
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-22'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-22'
 				).should('exist');
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-23'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-23'
 				).should('not.exist');
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-24'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-24'
 				).should('not.exist');
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-11'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 				).should('not.exist');
 			});
 		});
@@ -466,9 +466,12 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -493,9 +496,12 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -521,9 +527,12 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -559,9 +568,12 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 				});
 			});
@@ -589,9 +601,12 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -646,13 +661,13 @@ describe('Registration', () => {
 					cy.get('.formAccordionItem').eq(3).click();
 
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-22'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-22'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('not.exist');
 				});
 			});
@@ -684,9 +699,12 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 				});
 			});
@@ -718,15 +736,15 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-22'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-22'
 					).should('exist');
 				});
 			});
@@ -761,18 +779,18 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-23'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-23'
 					).should('not.exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('not.exist');
 				});
 			});
@@ -807,18 +825,18 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-23'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-23'
 					).should('not.exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('not.exist');
 				});
 			});
@@ -869,21 +887,21 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('not.exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('not.exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-22'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-22'
 					).should('exist');
 				});
 			});
@@ -917,18 +935,18 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('not.exist');
 				});
 			});
@@ -959,9 +977,12 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.preselectedAgency__item').should('have.length', 1);
+					cy.get('.agencyRadioSelect__wrapper').should(
+						'have.length',
+						1
+					);
 					cy.get(
-						'.preselectedAgency__item .radioButton__input#11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 				});
 			});
@@ -993,15 +1014,15 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('exist');
 				});
 			});
@@ -1032,15 +1053,15 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('exist');
 				});
 			});
@@ -1075,21 +1096,21 @@ describe('Registration', () => {
 
 					cy.get('.formAccordionItem').eq(3).click();
 
-					cy.get('.agencySelection__proposedAgency').should(
+					cy.get('.agencyRadioSelect__wrapper').should(
 						'have.length',
 						2
 					);
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-11'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 					).should('not.exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-13'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 					).should('not.exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-21'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 					).should('exist');
 					cy.get(
-						'.agencySelection__proposedAgency .radioButton__input#agency-22'
+						'.agencyRadioSelect__wrapper .radioButton__input#agency-22'
 					).should('exist');
 				});
 			});
@@ -1125,15 +1146,12 @@ describe('Registration', () => {
 				cy.get('input#postcode').type('12345', { force: true });
 				cy.wait('@service.agencies');
 
-				cy.get('.agencySelection__proposedAgency').should(
-					'have.length',
-					2
-				);
+				cy.get('.agencyRadioSelect__wrapper').should('have.length', 2);
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-11'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 				).should('exist');
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-13'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 				).should('exist');
 			});
 		});
@@ -1166,9 +1184,9 @@ describe('Registration', () => {
 
 				cy.get('.formAccordionItem').eq(3).click();
 
-				cy.get('.preselectedAgency__item').should('have.length', 1);
+				cy.get('.agencyRadioSelect__wrapper').should('have.length', 1);
 				cy.get(
-					'.preselectedAgency__item .radioButton__input#11'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 				).should('exist');
 			});
 		});
@@ -1202,15 +1220,12 @@ describe('Registration', () => {
 				cy.get('input#postcode').type('12345', { force: true });
 				cy.wait('@service.agencies');
 
-				cy.get('.agencySelection__proposedAgency').should(
-					'have.length',
-					2
-				);
+				cy.get('.agencyRadioSelect__wrapper').should('have.length', 2);
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-11'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 				).should('exist');
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-13'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 				).should('exist');
 			});
 		});
@@ -1252,7 +1267,7 @@ describe('Registration', () => {
 				cy.get('input#postcode').should('not.exist');
 
 				cy.get(
-					'.preselectedAgency__item .radioButton__input#41'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-41'
 				).should('exist');
 			});
 		});
@@ -1283,22 +1298,19 @@ describe('Registration', () => {
 				cy.get('input#postcode').type('12345', { force: true });
 				cy.wait('@service.agencies');
 
-				cy.get('.agencySelection__proposedAgency').should(
-					'have.length',
-					2
-				);
+				cy.get('.agencyRadioSelect__wrapper').should('have.length', 2);
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-11'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 				).should('exist');
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-13'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 				).should('exist');
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-12'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-12'
 				).should('not.exist');
 
 				cy.get(
-					'.preselectedAgency__item .radioButton__input#12'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-12'
 				).should('not.exist');
 			});
 		});
@@ -1329,22 +1341,19 @@ describe('Registration', () => {
 				cy.get('input#postcode').type('12345', { force: true });
 				cy.wait('@service.agencies');
 
-				cy.get('.agencySelection__proposedAgency').should(
-					'have.length',
-					2
-				);
+				cy.get('.agencyRadioSelect__wrapper').should('have.length', 2);
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-11'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-11'
 				).should('exist');
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-13'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-13'
 				).should('exist');
 				cy.get(
-					'.agencySelection__proposedAgency .radioButton__input#agency-21'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 				).should('not.exist');
 
 				cy.get(
-					'.preselectedAgency__item .radioButton__input#21'
+					'.agencyRadioSelect__wrapper .radioButton__input#agency-21'
 				).should('not.exist');
 			});
 		});
