@@ -66,11 +66,12 @@ export const AgencyLanguages = ({ agencyId }: AgencyLanguagesProps) => {
 							setIsAllShown(true);
 						}}
 						tabIndex={0}
-						onKeyDown={(event) => {
+						onKeyUp={(event) => {
 							if (event.key === 'Enter') {
 								setIsAllShown(true);
 							}
 						}}
+						role="button"
 					>
 						{`+${difference} ${translate(
 							'registration.agencySelection.languages.more'
