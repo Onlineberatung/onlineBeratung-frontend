@@ -114,6 +114,9 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 			)
 		},
 		styleOverrides: {
+			menu: () => ({
+				width: 'auto'
+			}),
 			control: () => ({
 				//'padding': '8px 12px',
 				'height': 'auto',
