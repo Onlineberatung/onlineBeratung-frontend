@@ -141,29 +141,24 @@ const colourStyles = (
 	}),
 	menu: (styles, state) => ({
 		...styles,
-		'marginBottom': state.menuPlacement === 'top' ? '16px' : '0',
 		'marginTop': state.menuPlacement === 'top' ? '0' : '16px',
 		'fontWeight': 'normal',
 		...(menuPlacement === 'right'
 			? {
-					bottom: 'auto',
-					top: '100%',
+					bottom: '0',
 					left: '100%',
+					top: 'auto',
 					marginLeft: '16px',
 					marginBottom: 0,
 					width: 'auto'
 				}
-			: {}),
+			: {
+					marginBottom: state.menuPlacement === 'top' ? '16px' : '0'
+				}),
 		'boxShadow': undefined,
 		'&:after, &:before': {
 			content: `''`,
 			position: 'absolute',
-			borderLeft: '10px solid transparent',
-			borderRight: '10px solid transparent',
-			borderTop:
-				state.menuPlacement === 'top' ? '10px solid #fff' : 'none',
-			borderBottom:
-				state.menuPlacement === 'top' ? 'none' : '10px solid #fff',
 			marginTop: '-1px',
 			marginLeft: '-12px',
 			bottom: state.menuPlacement === 'top' ? '-9px' : 'auto',
@@ -172,40 +167,54 @@ const colourStyles = (
 			...(menuPlacement === 'right'
 				? {
 						left: '0',
-						top: '10%',
+						bottom: '5%',
+						top: 'auto',
 						borderTop: '10px solid transparent',
 						borderBottom: '10px solid transparent',
 						borderLeft: 'none',
 						borderRight: '10px solid #fff',
 						height: '12px',
 						width: '12px'
-						//borderTop: 'none'
 					}
-				: {})
+				: {
+						borderLeft: '10px solid transparent',
+						borderRight: '10px solid transparent',
+						borderTop:
+							state.menuPlacement === 'top'
+								? '10px solid #fff'
+								: 'none',
+						borderBottom:
+							state.menuPlacement === 'top'
+								? 'none'
+								: '10px solid #fff'
+					})
 		},
 		'&:before': {
-			left: '50%',
-			borderTop:
-				state.menuPlacement === 'top'
-					? '10px solid rgba(0,0,0,0.1)'
-					: 'none',
-			borderBottom:
-				state.menuPlacement === 'top'
-					? 'none'
-					: '10px solid rgba(0,0,0,0.1)',
-			bottom: state.menuPlacement === 'top' ? '-14px' : 'auto',
-			top: state.menuPlacement === 'top' ? 'auto' : '-10px',
 			zIndex: 1,
 			...(menuPlacement === 'right'
 				? {
 						left: '0',
-						top: '10%',
+						bottom: '5%',
+						top: 'auto',
 						borderTop: '10px solid transparent',
 						borderBottom: '10px solid transparent',
 						borderLeft: 'none',
 						borderRight: '10px solid rgba(0,0,0,0.1)'
 					}
-				: {})
+				: {
+						left: '50%',
+						bottom:
+							state.menuPlacement === 'top' ? '-14px' : 'auto',
+						top: state.menuPlacement === 'top' ? 'auto' : '-10px',
+						borderTop:
+							state.menuPlacement === 'top'
+								? '10px solid rgba(0,0,0,0.1)'
+								: 'none',
+						borderBottom:
+							state.menuPlacement === 'top'
+								? 'none'
+								: '10px solid rgba(0,0,0,0.1)'
+					})
 		},
 		...(menu?.(styles, state) ?? {})
 	}),
@@ -217,6 +226,7 @@ const colourStyles = (
 			? {
 					...styles,
 					...common,
+					// important is needed for fixed option to overwrite color from scss
 					'border': '1px solid rgba(0,0,0,0.2) !important',
 					'backgroundColor': 'transparent !important',
 					'&:hover': {
@@ -227,7 +237,7 @@ const colourStyles = (
 						}
 					},
 					...(multiValue?.(styles, state) ?? {})
-				} // important is needed for fixed option to overwrite color from scss
+				}
 			: {
 					...styles,
 					...common,
@@ -244,6 +254,7 @@ const colourStyles = (
 		};
 		return state.data.isFixed
 			? {
+					// important is needed for fixed option to overwrite color from scss
 					...styles,
 					...common,
 					'color': 'rgba(0,0,0,0.8) !important',
@@ -252,7 +263,7 @@ const colourStyles = (
 					},
 					'cursor': 'pointer',
 					...(multiValueLabel?.(styles, state) ?? {})
-				} // important is needed for fixed option to overwrite color from scss
+				}
 			: {
 					...styles,
 					...common,
@@ -261,8 +272,8 @@ const colourStyles = (
 					...(multiValueLabel?.(styles, state) ?? {})
 				};
 	},
-	multiValueRemove: (styles, state) => {
-		return state.data.isFixed
+	multiValueRemove: (styles, state) =>
+		state.data.isFixed
 			? {
 					...styles,
 					display: 'none',
@@ -278,16 +289,13 @@ const colourStyles = (
 						backgroundColor: 'transparent'
 					},
 					...(multiValueRemove?.(styles, state) ?? {})
-				};
-	},
-	indicatorSeparator: (styles, state) => {
-		return {
-			...styles,
-			display: 'none',
-			cursor: 'pointer',
-			...(indicatorSeparator?.(styles, state) ?? {})
-		};
-	},
+				},
+	indicatorSeparator: (styles, state) => ({
+		...styles,
+		display: 'none',
+		cursor: 'pointer',
+		...(indicatorSeparator?.(styles, state) ?? {})
+	}),
 	...overrides
 });
 
@@ -373,7 +381,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				menuShouldBlockScroll={props.menuShouldBlockScroll}
 				menuPlacement={
 					props.menuPlacement === 'right'
-						? 'top'
+						? 'bottom'
 						: props.menuPlacement
 				}
 				placeholder={props.placeholder ? props.placeholder : ''}
