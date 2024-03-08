@@ -13,7 +13,7 @@ import {
 	mobileDetailView,
 	mobileListView
 } from '../app/navigationHandler';
-import { apiGetGroupChatInfo } from '../../api';
+import { apiGetAgencyById, apiGetGroupChatInfo } from '../../api';
 import { SESSION_LIST_TAB, SESSION_LIST_TYPES } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { decodeUsername } from '../../utils/encryptionHelpers';
@@ -25,6 +25,8 @@ import { useSession } from '../../hooks/useSession';
 import { SessionStream } from './SessionStream';
 import { AcceptLiveChatView } from './AcceptLiveChatView';
 import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import { useSetAtom } from 'jotai';
+import { agencyLogoAtom } from '../../store/agencyLogoAtom';
 
 export const SessionView = () => {
 	const { rcGroupId: groupIdFromParam, sessionId: sessionIdFromParam } =
@@ -42,6 +44,7 @@ export const SessionView = () => {
 	const [readonly, setReadonly] = useState(true);
 	const [forceBannedOverlay, setForceBannedOverlay] = useState(false);
 	const [bannedUsers, setBannedUsers] = useState<string[]>([]);
+	const setAgencyLogo = useSetAtom(agencyLogoAtom);
 
 	const {
 		session: activeSession,
@@ -144,6 +147,26 @@ export const SessionView = () => {
 		listPath,
 		history
 	]);
+
+	useEffect(() => {
+		let isCanceled = false;
+		const agencyId = activeSession?.item?.agencyId;
+		if (!agencyId) return;
+
+		(async () => {
+			// TODO: move this to global jotai atom family
+			const { agencyLogo } = await apiGetAgencyById(agencyId);
+
+			if (agencyLogo && !isCanceled) {
+				setAgencyLogo(agencyLogo);
+			}
+		})();
+
+		return () => {
+			isCanceled = true;
+			setAgencyLogo('');
+		};
+	}, [activeSession?.item?.agencyId, setAgencyLogo]);
 
 	if (loading || !activeSession) {
 		return <Loading />;
