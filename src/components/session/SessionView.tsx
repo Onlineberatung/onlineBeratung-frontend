@@ -155,10 +155,10 @@ export const SessionView = () => {
 
 		(async () => {
 			// TODO: move this to global jotai atom family
-			const { agencyLogo } = await apiGetAgencyById(agencyId);
+			const agency = await apiGetAgencyById(agencyId);
 
-			if (agencyLogo && !isCanceled) {
-				setAgencyLogo(agencyLogo);
+			if (agency?.agencyLogo && !isCanceled) {
+				setAgencyLogo(agency.agencyLogo);
 			}
 		})();
 
