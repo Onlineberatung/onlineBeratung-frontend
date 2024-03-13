@@ -33,6 +33,7 @@ import { userHasBudibaseTools } from '../../api/apiGetTools';
 import { browserNotificationsSettings } from '../../utils/notificationHelpers';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import { useResponsive } from '../../hooks/useResponsive';
+import { MENUPLACEMENT_RIGHT } from '../select/SelectDropdown';
 
 export interface NavigationBarProps {
 	onLogout: any;
@@ -351,7 +352,7 @@ export const NavigationBar = ({
 								vertical
 								iconSize={32}
 								label={translate('navigation.language')}
-								menuPlacement="right"
+								menuPlacement={MENUPLACEMENT_RIGHT}
 								selectRef={(el) => (ref_select.current = el)}
 								isInsideMenu={true}
 							/>

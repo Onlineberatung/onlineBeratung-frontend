@@ -5,11 +5,10 @@ import { useContext } from 'react';
 import { TenantContext } from '../../globalState';
 import './header.styles';
 import { useTranslation } from 'react-i18next';
-import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { useAtomValue } from 'jotai';
 import { agencyLogoAtom } from '../../store/agencyLogoAtom';
 
-export const Header = ({ showLocaleSwitch = false }) => {
+export const Header = () => {
 	const { t: translate } = useTranslation();
 	const { tenant } = useContext(TenantContext);
 	const agencyLogo = useAtomValue(agencyLogoAtom);
@@ -29,7 +28,6 @@ export const Header = ({ showLocaleSwitch = false }) => {
 						text={tenant?.content?.claim || translate('app.claim')}
 					/>
 				)}
-				{showLocaleSwitch && <LocaleSwitch />}
 			</div>
 		</header>
 	);

@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import Select, { defaultStyles } from 'react-select';
+import Select, { defaultStyles, MenuPlacement } from 'react-select';
 import { components } from 'react-select';
 import { CloseCircle } from '../../resources/img/icons';
 import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down-light.svg';
@@ -10,7 +10,7 @@ import './select.react.styles';
 import './select.styles';
 import { useResponsive } from '../../hooks/useResponsive';
 import { useTranslation } from 'react-i18next';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
 
 export interface SelectOption {
 	value: string;
@@ -26,6 +26,17 @@ export interface SelectOptionsMulti {
 	option?: SelectOption;
 }
 
+export const MENUPLACEMENT_TOP = 'top';
+export const MENUPLACEMENT_BOTTOM = 'bottom';
+export const MENUPLACEMENT_RIGHT = 'right';
+export const MENUPLACEMENT_BOTTOM_LEFT = 'bottomLeft';
+
+export type MENUPLACEMENT =
+	| typeof MENUPLACEMENT_TOP
+	| typeof MENUPLACEMENT_BOTTOM
+	| typeof MENUPLACEMENT_RIGHT
+	| typeof MENUPLACEMENT_BOTTOM_LEFT;
+
 export interface SelectDropdownItem {
 	className?: string;
 	id: string;
@@ -37,7 +48,7 @@ export interface SelectDropdownItem {
 	isSearchable?: boolean;
 	isMulti?: boolean;
 	isClearable?: boolean;
-	menuPlacement: 'top' | 'bottom' | 'right';
+	menuPlacement: MENUPLACEMENT;
 	menuPosition?: 'absolute' | 'fixed';
 	defaultValue?: SelectOption | SelectOption[];
 	hasError?: boolean;
@@ -51,7 +62,7 @@ export interface SelectDropdownItem {
 
 const colourStyles = (
 	fromL,
-	menuPlacement,
+	menuPlacement: MENUPLACEMENT,
 	{
 		control,
 		singleValue,
@@ -141,9 +152,9 @@ const colourStyles = (
 	}),
 	menu: (styles, state) => ({
 		...styles,
-		'marginTop': state.menuPlacement === 'top' ? '0' : '16px',
+		'marginTop': state.menuPlacement === MENUPLACEMENT_TOP ? '0' : '16px',
 		'fontWeight': 'normal',
-		...(menuPlacement === 'right'
+		...(menuPlacement === MENUPLACEMENT_RIGHT
 			? {
 					bottom: '0',
 					left: '100%',
@@ -153,7 +164,12 @@ const colourStyles = (
 					width: 'auto'
 				}
 			: {
-					marginBottom: state.menuPlacement === 'top' ? '16px' : '0'
+					marginBottom:
+						state.menuPlacement === MENUPLACEMENT_TOP
+							? '16px'
+							: '0',
+					right:
+						menuPlacement === MENUPLACEMENT_BOTTOM_LEFT ? 0 : 'auto'
 				}),
 		'boxShadow': undefined,
 		'&:after, &:before': {
@@ -161,10 +177,8 @@ const colourStyles = (
 			position: 'absolute',
 			marginTop: '-1px',
 			marginLeft: '-12px',
-			bottom: state.menuPlacement === 'top' ? '-9px' : 'auto',
-			top: state.menuPlacement === 'top' ? 'auto' : '-8px',
 			zIndex: 2,
-			...(menuPlacement === 'right'
+			...(menuPlacement === MENUPLACEMENT_RIGHT
 				? {
 						left: '0',
 						bottom: '5%',
@@ -177,21 +191,33 @@ const colourStyles = (
 						width: '12px'
 					}
 				: {
+						left:
+							menuPlacement === MENUPLACEMENT_BOTTOM_LEFT
+								? '75%'
+								: '50%',
+						bottom:
+							state.menuPlacement === MENUPLACEMENT_TOP
+								? '-9px'
+								: 'auto',
+						top:
+							state.menuPlacement === MENUPLACEMENT_TOP
+								? 'auto'
+								: '-8px',
 						borderLeft: '10px solid transparent',
 						borderRight: '10px solid transparent',
 						borderTop:
-							state.menuPlacement === 'top'
+							state.menuPlacement === MENUPLACEMENT_TOP
 								? '10px solid #fff'
 								: 'none',
 						borderBottom:
-							state.menuPlacement === 'top'
+							state.menuPlacement === MENUPLACEMENT_TOP
 								? 'none'
 								: '10px solid #fff'
 					})
 		},
 		'&:before': {
 			zIndex: 1,
-			...(menuPlacement === 'right'
+			...(menuPlacement === MENUPLACEMENT_RIGHT
 				? {
 						left: '0',
 						bottom: '5%',
@@ -202,16 +228,20 @@ const colourStyles = (
 						borderRight: '10px solid rgba(0,0,0,0.1)'
 					}
 				: {
-						left: '50%',
 						bottom:
-							state.menuPlacement === 'top' ? '-14px' : 'auto',
-						top: state.menuPlacement === 'top' ? 'auto' : '-10px',
+							state.menuPlacement === MENUPLACEMENT_TOP
+								? '-14px'
+								: 'auto',
+						top:
+							state.menuPlacement === MENUPLACEMENT_TOP
+								? 'auto'
+								: '-10px',
 						borderTop:
-							state.menuPlacement === 'top'
+							state.menuPlacement === MENUPLACEMENT_TOP
 								? '10px solid rgba(0,0,0,0.1)'
 								: 'none',
 						borderBottom:
-							state.menuPlacement === 'top'
+							state.menuPlacement === MENUPLACEMENT_TOP
 								? 'none'
 								: '10px solid rgba(0,0,0,0.1)'
 					})
@@ -351,6 +381,16 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 		);
 	};
 
+	const menuPlacement = useMemo<MenuPlacement>(() => {
+		switch (props.menuPlacement) {
+			case MENUPLACEMENT_BOTTOM_LEFT:
+			case MENUPLACEMENT_RIGHT:
+				return MENUPLACEMENT_BOTTOM;
+			default:
+				return props.menuPlacement;
+		}
+	}, [props.menuPlacement]);
+
 	return (
 		<div className={clsx(props.className, 'select__wrapper')}>
 			<Select
@@ -379,11 +419,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 				noOptionsMessage={() => null}
 				menuPosition={props.menuPosition}
 				menuShouldBlockScroll={props.menuShouldBlockScroll}
-				menuPlacement={
-					props.menuPlacement === 'right'
-						? 'bottom'
-						: props.menuPlacement
-				}
+				menuPlacement={menuPlacement}
 				placeholder={props.placeholder ? props.placeholder : ''}
 				isClearable={props.isClearable}
 				isSearchable={props.isSearchable}

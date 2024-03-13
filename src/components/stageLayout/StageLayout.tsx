@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Children, ReactNode, ReactElement, useContext } from 'react';
+import { Children, ReactElement, ReactNode, useContext } from 'react';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
@@ -11,6 +11,7 @@ import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useResponsive } from '../../hooks/useResponsive';
 import LegalLinks from '../legalLinks/LegalLinks';
+import { MENUPLACEMENT_BOTTOM_LEFT } from '../select/SelectDropdown';
 
 interface StageLayoutProps {
 	className?: string;
@@ -46,7 +47,9 @@ export const StageLayout = ({
 			<div className={`stageLayout__header ${!fromL ? 'mobile' : ''}`}>
 				{selectableLocales.length > 1 && (
 					<div>
-						<LocaleSwitch />
+						<LocaleSwitch
+							menuPlacement={MENUPLACEMENT_BOTTOM_LEFT}
+						/>
 					</div>
 				)}
 				{showLoginLink && (
