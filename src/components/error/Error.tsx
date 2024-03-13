@@ -15,6 +15,7 @@ import { useAppConfig } from '../../hooks/useAppConfig';
 import { LocaleProvider, AppConfigProvider } from '../../globalState';
 import { AppConfigInterface } from '../../globalState/interfaces';
 import { useResponsive } from '../../hooks/useResponsive';
+import { MENUPLACEMENT_BOTTOM_LEFT } from '../select/SelectDropdown';
 
 const getStatusCode = () => {
 	const errorRoot = document.getElementById('errorRoot');
@@ -72,7 +73,7 @@ export const ErrorContent = () => {
 	return (
 		<div className={clsx('errorPage', `errorPage--${type}`)}>
 			<header className={`errorPage__header ${!fromL ? 'mobile' : ''}`}>
-				<LocaleSwitch />
+				<LocaleSwitch menuPlacement={MENUPLACEMENT_BOTTOM_LEFT} />
 			</header>
 			<div className="errorPage__main">
 				<span className="errorPage__illustrationWrapper">

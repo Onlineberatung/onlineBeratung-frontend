@@ -6,7 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useEffect, useState } from 'react';
 import { UserDataContext, LocaleContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
-import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
+import {
+	MENUPLACEMENT,
+	MENUPLACEMENT_BOTTOM,
+	SelectDropdown,
+	SelectDropdownItem
+} from '../select/SelectDropdown';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 
 export interface LocaleSwitchProp {
@@ -16,7 +21,7 @@ export interface LocaleSwitchProp {
 	className?: string;
 	iconSize?: number;
 	label?: string;
-	menuPlacement?: 'top' | 'bottom' | 'right';
+	menuPlacement?: MENUPLACEMENT;
 	selectRef?: any;
 	isInsideMenu?: boolean;
 }
@@ -27,7 +32,7 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 	showIcon = true,
 	vertical,
 	iconSize = 20,
-	menuPlacement = 'bottom',
+	menuPlacement = MENUPLACEMENT_BOTTOM,
 	label,
 	selectRef,
 	isInsideMenu = false
