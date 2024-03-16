@@ -17,6 +17,12 @@ const fastLoginCommand = (getWillReturn, setWillReturn) =>
 				cy.setCookie('cy_userId', userData.userId);
 			});
 
+			// ToDo: Required?
+			window.sessionStorage.removeItem('public_key');
+			window.sessionStorage.removeItem('private_key');
+			cy.clearCookie('lang');
+			cy.willReturn('userData', { preferredLanguage: null }, true);
+
 			cy.window().then((window) => {
 				cy.fixture('api.v1.login').then((res) => {
 					if (res.data.authToken) {
@@ -46,6 +52,10 @@ const fastLoginCommand = (getWillReturn, setWillReturn) =>
 
 				cy.visit('/app');
 				cy.wait('@usersData');
+				cy.wait('@settings');
+				cy.wait('@consultingTypeServiceBaseBasic');
+				cy.wait('@patchUsersData');
+				cy.wait('@fetchMyKeys');
 				if (userId === USER_ASKER) {
 					cy.wait('@askerSessions');
 				} else {

@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-
+import { mount } from 'cypress/react';
 import { LoginArgs } from './commands/mockApi';
 import { AppointmentsDataInterface } from '../../src/globalState/interfaces';
 import * as Bluebird from 'cypress/types/bluebird';
@@ -45,6 +45,8 @@ declare global {
 			emitVideoCallRequest(): Chainable<Element>;
 
 			waitForSubscriptions(events: string[]): Chainable<Element>;
+
+			mount: typeof mount;
 		}
 	}
 }

@@ -5,7 +5,8 @@ import { loadConsultingTypesForAgencies } from '../utils/loadConsultingTypesForA
 
 export const apiGetConsultant = async (
 	consultantId: string,
-	fetchConsultingTypeDetails?: boolean
+	fetchConsultingTypeDetails?: boolean,
+	catchAllErrors?: boolean
 ): Promise<ConsultantDataInterface> => {
 	const url = endpoints.agencyConsultants + '/' + consultantId;
 
@@ -13,7 +14,11 @@ export const apiGetConsultant = async (
 		url: url,
 		method: FETCH_METHODS.GET,
 		skipAuth: true,
-		responseHandling: [FETCH_ERRORS.CATCH_ALL]
+		responseHandling: [
+			FETCH_ERRORS.EMPTY,
+			FETCH_ERRORS.NO_MATCH,
+			catchAllErrors && FETCH_ERRORS.CATCH_ALL
+		]
 	}).then(async (user: ConsultantDataInterface) => {
 		if (!fetchConsultingTypeDetails) {
 			return user;

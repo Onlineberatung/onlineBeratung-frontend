@@ -9,7 +9,6 @@ import {
 	useState
 } from 'react';
 import { getValueFromCookie } from '../../components/sessionCookie/accessSessionCookie';
-import { RocketChatContext } from '../index';
 import {
 	EVENT_NOTIFICATION,
 	EVENT_ROOMS_CHANGED,
@@ -23,6 +22,7 @@ import { ISubscriptions } from '../../types/rc/Subscriptions';
 import { IRoom } from '../../types/rc/Room';
 import useDebounceCallback from '../../hooks/useDebounceCallback';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
+import { RocketChatContext } from './RocketChatProvider';
 
 type RocketChatSubscriptionsContextProps = {
 	subscriptionsReady: boolean;

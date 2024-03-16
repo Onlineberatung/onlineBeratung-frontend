@@ -1,15 +1,15 @@
-const hasNumber = (value: string) => {
+export const hasNumber = (value: string) => {
 	return new RegExp(/[0-9]/).test(value);
 };
 
-const hasMixedLetters = (value: string) => {
+export const hasMixedLetters = (value: string) => {
 	return (
 		new RegExp(/[a-zßäöü]/).test(value) &&
 		new RegExp(/[A-ZÄÖÜ]/).test(value)
 	);
 };
 
-const hasSpecialChar = (value: string) => {
+export const hasSpecialChar = (value: string) => {
 	return new RegExp(/[^a-zßäöüA-ZÄÖÜ0-9]/).test(value);
 };
 

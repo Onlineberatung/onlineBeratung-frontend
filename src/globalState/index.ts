@@ -9,6 +9,7 @@ export * from './provider/ConsultantListProvider';
 export * from './provider/ConsultingTypesProvider';
 export * from './provider/E2EEProvider';
 export * from './provider/LocaleProvider';
+export * from './provider/RegistrationProvider';
 export * from './provider/NotificationsProvider';
 export * from './provider/SessionsDataProvider';
 export * from './provider/SessionTypeProvider';

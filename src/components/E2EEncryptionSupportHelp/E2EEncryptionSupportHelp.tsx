@@ -83,7 +83,7 @@ export const E2EEncryptionSupportHelp = () => {
 				<Text
 					className="encryption-support__divider"
 					type="infoSmall"
-					text="oder"
+					text={translate('app.or')}
 				></Text>
 			</Divider>
 			<Headline

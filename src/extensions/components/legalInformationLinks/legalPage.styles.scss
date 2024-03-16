@@ -1,0 +1,50 @@
+.legalPageWrapper {
+	.stageLayout__content {
+		padding-top: $grid-base-six;
+
+		& > * {
+			width: 100%;
+			text-align: left;
+		}
+	}
+
+	.headline--3,
+	.text {
+		margin-bottom: $grid-base-four;
+	}
+
+	.headline--4 {
+		margin-bottom: $grid-base-three;
+	}
+
+	.text {
+		margin-top: 16px;
+	}
+
+	.legalInformation__logos {
+		svg {
+			width: 100%;
+		}
+	}
+
+	ol,
+	ul {
+		li {
+			margin-top: $grid-base;
+		}
+	}
+
+	.headline--5 + .headline--5 {
+		margin-top: 22px;
+	}
+
+	table {
+		tr {
+			th,
+			td {
+				border: 1px solid $grey-light;
+				padding: $grid-base $grid-base-three $grid-base 10px;
+			}
+		}
+	}
+}

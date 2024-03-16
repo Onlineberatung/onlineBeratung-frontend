@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { defineConfig } = require('cypress');
+const webpackConfig = require('./config/webpack.config')('development');
 
 // @ts-ignore
 const wp = require('@cypress/webpack-preprocessor');
@@ -33,12 +34,20 @@ module.exports = defineConfig(
 	_.mergeWith(
 		{
 			e2e: {
+				testIsolation: true,
 				baseUrl: 'http://localhost:9001',
 				supportFile: 'cypress/support/e2e.{js,jsx,ts,tsx}',
 				setupNodeEvents(on, config) {
 					on('file:preprocessor', wp(options));
 				},
 				specPattern: ['cypress/e2e/**/*.cy.ts']
+			},
+			component: {
+				devServer: {
+					framework: 'react',
+					bundler: 'webpack',
+					webpackConfig
+				}
 			},
 			env: {
 				CYPRESS_WS_URL:
@@ -47,6 +56,8 @@ module.exports = defineConfig(
 			retries: {
 				runMode: 2
 			},
+			experimentalMemoryManagement: true,
+			numTestsKeptInMemory: 20,
 			video: false,
 			chromeWebSecurity: false,
 			viewportWidth: 1200,

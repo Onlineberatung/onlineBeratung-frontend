@@ -272,7 +272,7 @@ export const SessionListItemComponent = ({
 										[
 											`consultingType.${consultingType.id}.titles.default`,
 											`consultingType.fallback.titles.default`,
-											consultingType.titles.default
+											consultingType.titles?.default
 										],
 										{ ns: 'consultingTypes' }
 									)
@@ -383,7 +383,9 @@ export const SessionListItemComponent = ({
 						</div>
 					) : (
 						<div className="sessionsListItem__consultingType">
-							{showConsultingType
+							{showConsultingType &&
+							consultingType?.id &&
+							consultingType.titles?.default
 								? translate(
 										[
 											`consultingType.${consultingType.id}.titles.default`,

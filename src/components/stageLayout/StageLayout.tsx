@@ -9,9 +9,20 @@ import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { useResponsive } from '../../hooks/useResponsive';
 import LegalLinks from '../legalLinks/LegalLinks';
 import { MENUPLACEMENT_BOTTOM_LEFT } from '../select/SelectDropdown';
+import {
+	AppBar,
+	Box,
+	Divider,
+	IconButton,
+	Slide,
+	Toolbar,
+	Typography,
+	useScrollTrigger
+} from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
+import { InfoDrawer } from '../../extensions/components/registration/infoDrawer/InfoDrawer';
 
 interface StageLayoutProps {
 	className?: string;
@@ -21,6 +32,7 @@ interface StageLayoutProps {
 	showLoginLink?: boolean;
 	showRegistrationLink?: boolean;
 	loginParams?: string;
+	showRegistrationInfoDrawer?: boolean;
 }
 
 export const StageLayout = ({
@@ -30,21 +42,80 @@ export const StageLayout = ({
 	showLegalLinks,
 	showLoginLink,
 	showRegistrationLink,
-	loginParams
+	loginParams,
+	showRegistrationInfoDrawer
 }: StageLayoutProps) => {
+	const trigger = useScrollTrigger();
 	const { t: translate } = useTranslation();
 	const legalLinks = useContext(LegalLinksContext);
 	const { selectableLocales } = useContext(LocaleContext);
 	const { specificAgency } = useContext(AgencySpecificContext);
 	const settings = useAppConfig();
-	const { fromL } = useResponsive();
 
 	return (
 		<div className={clsx('stageLayout', className)}>
+			<Slide appear={false} direction="down" in={!trigger}>
+				<AppBar
+					elevation={0}
+					sx={{
+						display: { md: 'none' },
+						zIndex: (theme) => theme.zIndex.drawer + 1
+					}}
+				>
+					<Toolbar variant="dense">
+						<Typography
+							variant="h6"
+							color="inherit"
+							component="div"
+						>
+							{translate('app.stage.title')}
+						</Typography>
+						<Box sx={{ flexGrow: 1 }} />
+						<Box sx={{ display: 'flex' }}>
+							{selectableLocales.length > 1 && (
+								<LocaleSwitch
+									iconOnly={true}
+									color="var(--white)"
+									colorHover="var(--white)"
+								/>
+							)}
+
+							{showLoginLink && (
+								<IconButton
+									href={`${settings.urls.toLogin}${
+										loginParams ? `?${loginParams}` : ''
+									}`}
+									edge="start"
+									color="inherit"
+									aria-label="menu"
+									sx={{ ml: '4px' }}
+								>
+									<LoginIcon color="inherit" />
+								</IconButton>
+							)}
+						</Box>
+					</Toolbar>
+
+					<Divider
+						sx={{ borderColor: 'white', borderWidth: '0.5px' }}
+					></Divider>
+				</AppBar>
+			</Slide>
+			{showRegistrationInfoDrawer && (
+				<InfoDrawer trigger={trigger}></InfoDrawer>
+			)}
 			{React.cloneElement(Children.only(stage as ReactElement), {
 				className: 'stageLayout__stage'
 			})}
-			<div className={`stageLayout__header ${!fromL ? 'mobile' : ''}`}>
+			<Box
+				className={`stageLayout__header`}
+				sx={{
+					display: {
+						xs: 'none',
+						md: 'flex'
+					}
+				}}
+			>
 				{selectableLocales.length > 1 && (
 					<div>
 						<LocaleSwitch
@@ -99,9 +170,19 @@ export const StageLayout = ({
 						</a>
 					</div>
 				)}
-			</div>
+			</Box>
 
-			<div className="stageLayout__content">{children}</div>
+			<Box
+				sx={{
+					mt: {
+						xs: showRegistrationInfoDrawer ? '96px' : '48px',
+						md: '0'
+					}
+				}}
+				className="stageLayout__content"
+			>
+				{children}
+			</Box>
 
 			<div className="stageLayout__footer">
 				{showLegalLinks && (

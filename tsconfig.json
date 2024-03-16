@@ -21,7 +21,7 @@
 		"downlevelIteration": true,
 		"typeRoots": ["node_modules/@types"]
 	},
-	"include": ["src"],
+	"include": ["src", "cypress/support", ".storybook"],
 	"exclude": ["node_modules", "src/extensions/cypress/**/*.cy.ts"],
 	"ts-node": {
 		"compilerOptions": {

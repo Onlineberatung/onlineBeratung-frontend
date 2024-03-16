@@ -1,0 +1,166 @@
+{
+	"appointments": {
+		"onlineMeeting": {
+			"overlay": {
+				"start": {
+					"copy": "Du startest jetzt den Video-Call. Eingeladene Teilnehmerinnen oder Teilnehmer können ab sofort mit dem Einladungslink beitreten."
+				}
+			}
+		}
+	},
+	"deleteAccount": {
+		"successOverlay": {
+			"headline": "Du hast Deinen Account bei der Diakonie Beratung erfolgreich gelöscht."
+		}
+	},
+	"enquiry": {
+		"write": {
+			"overlay": {
+				"copy": "Innerhalb von 2 Arbeitstagen erhältst Du eine Antwort von uns."
+			}
+		}
+	},
+	"furtherSteps": {
+		"step2": {
+			"info": "Jetzt finden wir eine Beraterin oder einen Berater für Dich."
+		},
+		"step3": {
+			"info": "Deine Beraterin oder Dein Berater antwortet innerhalb von 2 Arbeitstagen."
+		},
+		"emailNotification": {
+			"infoText": "Wenn Du Deine E-Mail-Adresse angibst (freiwillig)<br><ul><li>erhälst Du eine E-Mail-Benachrichtigung, wenn Deine Beraterin oder Dein Berater Dir geschrieben hat</li><li>kannst Du Dein Passwort zurücksetzen, falls Du es vergessen hast.</li></ul>Deine E-Mail-Adresse kann von den Beraterinnen und Beratern nicht eingesehen werden."
+		}
+	},
+	"groupChat": {
+		"join": {
+			"warning": {
+				"message": "Deine Beraterin/Moderatorin oder Dein Berater/Moderator hat den Chat noch nicht gestartet. Sobald Deine Beraterin/Moderatorin oder Dein Berater/Moderator den Chat gestartet hat kannst du mit uns chatten. Bitte habe noch etwas Geduld."
+			}
+		}
+	},
+	"profile": {
+		"notifications": {
+			"follow": {
+				"up": {
+					"email": {
+						"label": "eine Nachricht von einem oder einer angenommenen Ratsuchenden erhalten hast."
+					}
+				}
+			}
+		},
+		"data": {
+			"emailInfo": "Die Angabe deiner E-Mail ist freiwillig und wird ausschließlich verwendet, um dich über neue Antworten deiner Beraterin oder deines Beraters zu informieren. Deine E-mail-Adresse ist für Beraterinnen und Berater nicht sichtbar."
+		}
+	},
+	"registration": {
+		"welcomeScreen": {
+			"info3": {
+				"text": "Innerhalb von 2 Arbeitstagen bekommst Du eine Antwort"
+			}
+		},
+		"consultingTypeAgencySelection": {
+			"consultingType": {
+				"infoText": "Deine Beraterin oder Dein Berater ist in mehreren Themenfeldern tätig. Bitte wähle Dein gewünschtes Themenfeld."
+			},
+			"agency": {
+				"infoText": "Deine Beraterin oder Dein Berater ist in mehreren Beratungsstellen tätig. Bitte wähle Deine gewünschte Beratungsstelle."
+			}
+		},
+		"account": {
+			"repeatPassword": {
+				"error": "Dein Passwort ist nicht identisch",
+				"success": "Dein Passwort ist identisch"
+			},
+			"subline": "Um Deine Anonymität zu schützen, raten wir Dir, nicht Deinen tatsächlichen Namen oder Initialen zu verwenden.",
+			"username": {
+				"error": {
+					"available": "Dein Benutzername ist zu kurz."
+				},
+				"success": "Dein Benutzername ist geeignet."
+			}
+		},
+		"agency": {
+			"consultantheadline": "Deine Beratungsstelle",
+			"headline": "Deine Beratungsstelle wählen",
+			"noresult": {
+				"subline": "Bitte versuche es mit einer anderen Postleitzahl oder besuche unsere Website, um eine Beratungsstelle in Deiner Nähe zu finden."
+			},
+			"preselected": {
+				"isTeam": "Du wirst von einem Team beraten.",
+				"prefix": "Deine vorausgewählte Beratungsstelle: "
+			},
+			"result": {
+				"external": {
+					"subline": "Bitte versuche es mit einer anderen Postleitzahl oder besuche unsere Website, um eine Beratungsstelle in Deiner Nähe zu finden."
+				},
+				"languages": "Diese Beratungsstelle berät Dich auf:"
+			},
+			"summary": "Deine Beratungsstelle"
+		},
+		"topic": {
+			"headline": "Zu welchem Thema suchst Du Beratung?",
+			"subline": "Wähle ein Thema aus unserem Beratungsangebot aus.",
+			"summary": "Dein Thema:"
+		},
+		"zipcode": {
+			"bullet1": "• die Hilfen rund um Deinen Wohnort kennen",
+			"bullet2": "• die Gesetze Deines Bundeslandes kennen",
+			"headline": "Um Dich bestmöglich beraten zu können benötigen wir Deine Postleitzahl",
+			"label": "Deine Postleitzahl"
+		}
+	},
+	"session": {
+		"acceptance": {
+			"overlay": {
+				"headline": "Du hast die Erstanfrage erfolgreich angenommen und findest diese nun unter „Meine Beratungen."
+			}
+		},
+		"assignSelf": {
+			"overlay": {
+				"headline1": "Du hast die Beratung erfolgreich angenommen. Sie wurde in Meine Beratungen verschoben."
+			}
+		},
+		"assignOther": {
+			"overlay": {
+				"subtitle": {
+					"noTeam": "{{newConsultant}} ist somit für die Ratsuchende oder den Ratsuchenden verantwortlich und kann den kompletten Nachrichtenverlauf lesen. Du hast keinen Zugiff mehr auf die Nachrichten.",
+					"team": {
+						"self": "{{newConsultant}} ist somit für die Ratsuchende oder den Ratsuchenden verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, findest Du den Chatverlauf in Deinen Nachrichten und nicht mehr unter Teamberatung.",
+						"other": "{{newConsultant}} ist somit für die Ratsuchende oder den Ratsuchenden verantwortlich. Stimmt {{toAskerName}} der Zuweisung zu, findest Du den Chatverlauf unter Teamberatung und nicht mehr in Deinen Nachrichten."
+					}
+				}
+			}
+		}
+	},
+	"twoFactorAuth": {
+		"activate": {
+			"app": {
+				"step3": {
+					"title": "Verknüpfe die App mit Deinem Account"
+				}
+			}
+		}
+	},
+	"userProfile": {
+		"reassign": {
+			"description": "Du kannst die Unterhaltung einem anderen Teammitglied zuweisen. Diese Person ist dann für die Ratsuchende oder den Ratsuchenden verantwortlich."
+		}
+	},
+	"videoConference": {
+		"waitingroom": {
+			"dataProtection": {
+				"description": "Danach dürfen unsere Beraterinnen oder Berater einen Video-Call mit Dir starten."
+			},
+			"subline": "Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet sobald Deine Beraterin oder Dein Berater den Video-Call startet.",
+			"paused": {
+				"subline": "Der Video-Call wurde beendet. Sollte Deine Beraterin oder Dein Berater nur abwesend sein wirst Du in den Video-Call weitergeleitet sobald Deine Beraterin oder Dein Berater den Video-Call fortsetzt."
+			},
+			"errorPage": {
+				"description": "Zu Deinem Link können wir keinen Video-Call finden da der Video-Call entweder gelöscht oder bereits beendet wurde. Solltest Du weiterhin Probleme haben frage bitte Deinen Beraterin oder Dein Berater.",
+				"rejected": {
+					"description": "Leider kannst Du an diesem Video-Call nicht teilnehmen, da Deine Beraterin oder Dein Berater Dich abgelehnt hat."
+				}
+			}
+		}
+	}
+}

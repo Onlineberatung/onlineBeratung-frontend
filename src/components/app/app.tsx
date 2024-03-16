@@ -42,9 +42,11 @@ const AuthenticatedApp = lazy(() =>
 	import('./AuthenticatedApp').then((m) => ({ default: m.AuthenticatedApp }))
 );
 const Registration = lazy(() =>
-	import('../registration/Registration').then((m) => ({
-		default: m.Registration
-	}))
+	import('../../extensions/components/registration/Registration').then(
+		(m) => ({
+			default: m.Registration
+		})
+	)
 );
 const WaitingRoomLoader = lazy(() =>
 	import('../waitingRoom/WaitingRoomLoader').then((m) => ({
@@ -61,7 +63,7 @@ type TExtraRoute = {
 	component: ComponentType;
 };
 
-interface AppProps {
+export interface AppProps {
 	stageComponent: ComponentType<StageProps>;
 	legalLinks?: Array<LegalLinkInterface>;
 	extraRoutes?: TExtraRoute[];

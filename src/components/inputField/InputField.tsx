@@ -43,6 +43,7 @@ export interface GeneratedInputs {
 	state?: string;
 }
 
+// LEGACY COMPONENT, use "Input" instead
 export const InputField = (props: InputFieldProps) => {
 	const inputItem = props.item;
 	const { t: translate } = useTranslation();

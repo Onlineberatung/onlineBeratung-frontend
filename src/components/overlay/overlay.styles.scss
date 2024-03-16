@@ -5,7 +5,8 @@ $overlay-icon-size: 56px !default;
 $overlay-icon-size-large: 48px !default;
 $overlay-illustration-size: 120px !default;
 $overlay-illustration-size-from-large: 80px !default;
-$overlay-illustration-size-large: 160px;
+$overlay-illustration-width-large: auto;
+$overlay-illustration-height-large: 100%;
 
 .overlay {
 	display: flex;
@@ -296,23 +297,13 @@ $overlay-illustration-size-large: 160px;
 
 		&--large {
 			background-color: #fff;
-			height: $overlay-illustration-size-large;
-			width: $overlay-illustration-size-large;
-
-			@include breakpoint($fromLarge) {
-				width: $overlay-illustration-size-from-large;
-				height: $overlay-illustration-size-from-large;
-			}
+			height: $overlay-illustration-height-large;
+			width: $overlay-illustration-width-large;
 
 			& > svg {
-				width: $overlay-illustration-size-large;
-				height: $overlay-illustration-size-large;
+				width: $overlay-illustration-width-large;
+				height: $overlay-illustration-height-large;
 				align-self: center;
-
-				@include breakpoint($fromLarge) {
-					width: $overlay-illustration-size-from-large;
-					height: $overlay-illustration-size-from-large;
-				}
 			}
 		}
 	}
@@ -335,12 +326,12 @@ $overlay-illustration-size-large: 160px;
 		.overlay__illustration {
 			background-color: transparent;
 			margin-top: $grid-base-six;
-			height: $overlay-illustration-size-large;
-			width: $overlay-illustration-size-large;
+			height: $overlay-illustration-height-large;
+			width: $overlay-illustration-width-large;
 
 			& > svg {
-				width: $overlay-illustration-size-large;
-				height: $overlay-illustration-size-large;
+				width: $overlay-illustration-width-large;
+				height: $overlay-illustration-height-large;
 				align-self: center;
 			}
 		}

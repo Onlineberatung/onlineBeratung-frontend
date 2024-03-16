@@ -1,0 +1,87 @@
+{
+	"app": {
+		"info": "information",
+		"or": "or"
+	},
+	"registration": {
+		"account": {
+			"headline": "Enter login data",
+			"password": {
+				"criteria1": "at least 9 characters",
+				"criteria2": "at least one number",
+				"criteria3": "upper/lower case",
+				"criteria4": "at least one special character",
+				"label": "Password"
+			},
+			"repeatPassword": {
+				"error": "Your password is not identical.",
+				"label": "Repeat password",
+				"success": "Your password is identical."
+			},
+			"subline": "To protect your anonymity, we advise you not to use your real name or initials.",
+			"username": {
+				"error": {
+					"available": "Your username is too short.",
+					"unavailable": "The username is already taken."
+				},
+				"info": "5 or more characters",
+				"label": "Username",
+				"success": "Your username is suitable."
+			}
+		},
+		"agency": {
+			"headline": "Choose your consulting center",
+			"result": {
+				"external": {
+					"headline": "The found counseling center uses another application for counseling",
+					"languages": "This counseling center advises you on:",
+					"link": "Switch now",
+					"subline": "Please try a different zip code or visit our website to find a counseling center near you."
+				},
+				"headline": "Consulting centers for zipcode",
+				"noresult": {
+					"headline": "No online counseling center found",
+					"label": "To the advice center search",
+					"subline": "Please try a different zip code or visit our website to find a counseling center near you."
+				}
+			},
+			"search": "Search for your zipcode",
+			"summary": "Your agency:"
+		},
+		"consultantlink": "Your advisor has invited you to online consulting! Please register to get in touch with your advisor.",
+		"errors": {
+			"aid": "Unfortunately, the consulting center you selected could not be found. Please select a consulting center again during registration.",
+			"cid": "Unfortunately, we could not find your advisor. Please contact your counseling person to get a new link or register here at your desired counseling center.",
+			"tid": "Sorry, the topic you selected could not be found. Please select a suitable topic again during registration."
+		},
+		"infoOverlay": {
+			"backButtonLabel": "Choose another topic",
+			"nextButtonLabel": "Choose topic and continue"
+		},
+		"stepbar": {
+			"of": "of",
+			"step": "Step"
+		},
+		"topic": {
+			"headline": "On what topic are you looking for advice?",
+			"subline": "Select a topic from our consulting offer.",
+			"summary": "Your topic:"
+		},
+		"welcomeScreen": {
+			"login": {
+				"buttonLabel": "Login",
+				"helperText": "Already registered?"
+			},
+			"register": {
+				"helperText": "New with online consulting?"
+			}
+		},
+		"zipcode": {
+			"bullet1": "• know the aids around your place of residence",
+			"bullet2": "• know the laws of your state",
+			"headline": "To be able to advise you in the best possible way we need your zip code",
+			"label": "Your zipcode",
+			"subline": "Why? Because then our professionals:"
+		}
+	}
+}

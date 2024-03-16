@@ -106,6 +106,7 @@ export const endpoints = {
 	registerAnonymousAsker:
 		apiUrl + '/service/conversations/askers/anonymous/new',
 	registerAsker: apiUrl + '/service/users/askers/new',
+	baseUserService: apiUrl + '/service/users',
 	registerAskerNewConsultingType:
 		apiUrl + '/service/users/askers/consultingType/new',
 	rejectVideoCall: apiUrl + '/service/videocalls/reject',
@@ -121,6 +122,7 @@ export const endpoints = {
 	teamSessionsBase:
 		apiUrl + '/service/conversations/consultants/teamsessions/',
 	tenantServiceBase: apiUrl + '/service/tenant',
+	topicGroups: apiUrl + '/service/topic-groups/',
 	topicsData: apiUrl + '/service/topic/public/',
 	twoFactorAuth: apiUrl + '/service/users/2fa',
 	twoFactorAuthApp: apiUrl + '/service/users/2fa/app',

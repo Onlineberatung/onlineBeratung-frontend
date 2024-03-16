@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html class="no-js" lang="de">
+	<head>
+		<meta charset="utf-8" />
+
+		<title><%= htmlWebpackPlugin.options.title %></title>
+		<meta
+			name="description"
+			content="Beratung & Hilfe – Online. Anonym. Sicher."
+		/>
+		<meta name="referrer" content="same-origin" />
+
+		<meta
+			property="og:title"
+			content="<%= htmlWebpackPlugin.options.title %>"
+		/>
+		<meta
+			property="og:description"
+			content="Beratung & Hilfe – Online. Anonym. Sicher."
+		/>
+		<meta property="og:type" content="website" />
+
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no"
+		/>
+		<meta name="theme-color" content="#5a2572" />
+
+		<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+		<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+		<!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
+
+		<!--
+		Notice the use of %PUBLIC_URL% in the tags above.
+		It will be replaced with the URL of the `public` folder during the build.
+		Only files inside the `public` folder can be referenced from the HTML.
+
+		Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+		work correctly both with client-side routing and a non-root public URL.
+		Learn how to configure a non-root public URL by running `npm run build`.
+	-->
+	</head>
+
+	<body role="document">
+		<div id="banner" class="banner"></div>
+
+		<% if(type==='error' ) { %>
+		<main
+			data-errortype="<%= errorType %>"
+			class="app"
+			id="errorRoot"
+		></main>
+		<% } else { %>
+		<main class="app" id="<%= type %>Root"></main>
+		<% } %>
+
+		<div id="overlay"></div>
+	</body>
+</html>

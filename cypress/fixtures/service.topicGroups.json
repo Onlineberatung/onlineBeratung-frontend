@@ -1,0 +1,21 @@
+{
+	"data": {
+		"items": [
+			{
+				"id": 1,
+				"name": "Alter",
+				"topicIds": [1]
+			},
+			{
+				"id": 3,
+				"name": "Existenzsicherung",
+				"topicIds": [4]
+			},
+			{
+				"id": 2,
+				"name": "Besondere Lebenssituationen und Krisen",
+				"topicIds": [3, 2]
+			}
+		]
+	}
+}

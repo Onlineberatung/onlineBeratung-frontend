@@ -33,7 +33,6 @@ describe('Sessions', () => {
 			cy.fastLogin({
 				userId: USER_CONSULTANT
 			});
-			cy.wait('@consultingTypeServiceBaseBasic');
 
 			cy.get('a[href="/sessions/consultant/sessionView"]').click();
 			cy.get('.sessionsListItem').should('exist');
@@ -61,7 +60,6 @@ describe('Sessions', () => {
 			cy.fastLogin({
 				userId: USER_CONSULTANT
 			});
-			cy.wait('@consultingTypeServiceBaseBasic');
 
 			cy.get('a[href="/sessions/consultant/sessionView"]').click();
 			cy.get('.sessionsListItem').should('have.length', 6);
@@ -73,7 +71,6 @@ describe('Sessions', () => {
 			cy.fastLogin({
 				userId: USER_CONSULTANT
 			});
-			cy.wait('@consultingTypeServiceBaseBasic');
 
 			cy.get('a[href="/sessions/consultant/sessionView"]').click();
 			cy.wait('@consultantSessions');
@@ -102,7 +99,6 @@ describe('Sessions', () => {
 			cy.fastLogin({
 				userId: USER_CONSULTANT
 			});
-			cy.wait('@consultingTypeServiceBaseBasic');
 
 			cy.get('a[href="/sessions/consultant/sessionView"]').click();
 			cy.get('.sessionsListItem').should('exist');
@@ -137,10 +133,11 @@ describe('Sessions', () => {
 					userId: USER_CONSULTANT
 				});
 				cy.wait('@rcSettingsPublic');
-				cy.wait('@consultingTypeServiceBaseBasic');
 
 				cy.get('a[href="/sessions/consultant/sessionView"]').click();
-				cy.wait('@consultantSessions');
+				cy.wait('@consultantSessions')
+					.its('response.statusCode')
+					.should('eq', 200);
 				cy.get('.sessionsListItem.skeleton').should('not.exist');
 				cy.get('.sessionsListItem').should('exist');
 
@@ -159,14 +156,12 @@ describe('Sessions', () => {
 		it('should list my sessions', () => {
 			generateMultipleAskerSessions(3);
 			cy.fastLogin();
-			cy.wait('@consultingTypeServiceBaseBasic');
 
 			cy.get('.sessionsListItem').should('have.length', 4);
 		});
 
 		it('should show a header with headline', () => {
 			cy.fastLogin();
-			cy.wait('@consultingTypeServiceBaseBasic');
 			cy.get('[data-cy=session-list-header]').should('exist');
 			cy.get('[data-cy=session-list-headline]').contains(
 				'Meine Beratungen'
@@ -180,7 +175,6 @@ describe('Sessions', () => {
 					MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION - 1
 				);
 				cy.fastLogin();
-				cy.wait('@consultingTypeServiceBaseBasic');
 
 				cy.get('[data-cy=session-list-welcome-illustration]').should(
 					'exist'
@@ -192,7 +186,6 @@ describe('Sessions', () => {
 					MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION
 				);
 				cy.fastLogin();
-				cy.wait('@consultingTypeServiceBaseBasic');
 
 				cy.get('[data-cy=session-list-welcome-illustration]').should(
 					'not.exist'

@@ -58,6 +58,9 @@ jobs:
                   echo "127.0.0.1 localhost" | sudo tee -a /etc/hosts
                   echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
                   npm run test:build
+            - name: Run component tests
+              run: |
+                npm run test:components
             - uses: actions/upload-artifact@v2
               with:
                   name: buildfiles

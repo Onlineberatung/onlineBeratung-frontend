@@ -24,6 +24,7 @@
 .env.test.local
 .env.production.local
 .idea
+storybook-static
 .storage
 
 # cypress

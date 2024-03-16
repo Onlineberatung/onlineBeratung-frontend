@@ -12,6 +12,7 @@ export * from './SessionsDataInterface';
 export * from './TenantDataInterface';
 export * from './ToolsInterface';
 export * from './TopicsDataInterface';
+export * from './TopicGroups';
 export * from './TranslationConfig';
 export * from './UserDataInterface';
 export * from './VideoCallDataInterface';

@@ -14,6 +14,10 @@
 		}
 	}
 
+	.stageLayout__header > * {
+		padding: 0 8px;
+	}
+
 	&__content {
 		flex: 1;
 	}

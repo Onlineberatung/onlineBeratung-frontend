@@ -1,6 +1,6 @@
 {
-	"short_name": "Online-Beratung",
-	"name": "Caritas Online-Beratung – Online. Anonym. Sicher.",
+	"short_name": "Diakonie Online-Beratung",
+	"name": "Diakonie Online-Beratung – Online. Anonym. Sicher.",
 	"icons": [
 		{
 			"src": "favicon.ico",
@@ -20,6 +20,6 @@
 	],
 	"start_url": ".",
 	"display": "standalone",
-	"theme_color": "#cc1e1c",
+	"theme_color": "#5a2572",
 	"background_color": "#ffffff"
 }

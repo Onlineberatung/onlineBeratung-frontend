@@ -28,7 +28,7 @@ export const updateAppointment = (
 	return appointment;
 };
 
-Cypress.Commands.add(
+Cypress.Commands.add<any>(
 	'appointments',
 	(props?: { [key: string]: any }, index?: number) =>
 		new Cypress.Promise((resolve) => {
