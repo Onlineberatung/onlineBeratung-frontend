@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const { defineConfig } = require('cypress');
-const webpackConfig = require('./config/webpack.config')('development');
 
 // @ts-ignore
 const wp = require('@cypress/webpack-preprocessor');
@@ -41,13 +40,6 @@ module.exports = defineConfig(
 					on('file:preprocessor', wp(options));
 				},
 				specPattern: ['cypress/e2e/**/*.cy.ts']
-			},
-			component: {
-				devServer: {
-					framework: 'react',
-					bundler: 'webpack',
-					webpackConfig
-				}
 			},
 			env: {
 				CYPRESS_WS_URL:

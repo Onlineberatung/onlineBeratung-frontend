@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
-import { TextField, Typography } from '@mui/material';
+import { InputBaseComponentProps, TextField, Typography } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +22,7 @@ export interface InputProps {
 	endAdornment?: JSX.Element;
 	isValueValid?(value: string): Promise<boolean>;
 	inputType?: 'number' | 'tel' | 'text' | 'password';
+	inputProps?: InputBaseComponentProps;
 	info?: string;
 	autoComplete?: string;
 	errorMessage?: string;
@@ -40,6 +41,7 @@ export const Input = ({
 	endAdornment,
 	isValueValid,
 	inputType,
+	inputProps,
 	info,
 	inputMode,
 	errorMessage,
@@ -143,19 +145,20 @@ export const Input = ({
 				label={label}
 				autoComplete={autoComplete}
 				inputProps={{
-					inputMode: inputMode
+					inputMode: inputMode,
+					...inputProps
 				}}
 				sx={{
 					'&[type=number]': {
-						'-moz-appearance': 'textfield'
+						MozAppearance: 'textfield'
 					},
 					'&::-webkit-outer-spin-button': {
-						'-webkit-appearance': 'none',
-						'margin': 0
+						WebkitAppearance: 'none',
+						margin: 0
 					},
 					'&::-webkit-inner-spin-button': {
-						'-webkit-appearance': 'none',
-						'margin': 0
+						WebkitAppearance: 'none',
+						margin: 0
 					},
 					'mt': '24px',
 					'& legend': {
@@ -205,7 +208,7 @@ export const Input = ({
 					setShrink(true);
 				}}
 				onBlur={handleBlur}
-			></TextField>
+			/>
 			{info && !inputError && !showSuccessMessage && (
 				<Typography
 					variant="body2"
@@ -245,26 +248,23 @@ export const Input = ({
 					{successMesssage}
 				</Typography>
 			)}
-			{multipleCriteria &&
-				multipleCriteria.map((criteria) => {
-					return (
-						<Typography
-							variant="body2"
-							sx={{
-								mt: '8px',
-								fontSize: '16px',
-								lineHeight: '16px',
-								color: getMultipleCriteriaDesign(criteria)
-									.color,
-								display: 'flex',
-								alignItems: 'center'
-							}}
-						>
-							{getMultipleCriteriaDesign(criteria).icon}{' '}
-							{t(criteria.info)}
-						</Typography>
-					);
-				})}
+			{multipleCriteria?.map((criteria) => (
+				<Typography
+					key={criteria.info}
+					variant="body2"
+					sx={{
+						mt: '8px',
+						fontSize: '16px',
+						lineHeight: '16px',
+						color: getMultipleCriteriaDesign(criteria).color,
+						display: 'flex',
+						alignItems: 'center'
+					}}
+				>
+					{getMultipleCriteriaDesign(criteria).icon}{' '}
+					{t(criteria.info)}
+				</Typography>
+			))}
 		</>
 	);
 };

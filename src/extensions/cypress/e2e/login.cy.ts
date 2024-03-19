@@ -2,7 +2,8 @@ import {
 	closeWebSocketServer,
 	mockWebSocket,
 	startWebSocketServer
-} from '../support/websocket';
+} from '../../../../cypress/support/websocket';
+import { config } from '../../resources/scripts/config';
 
 describe('Login', () => {
 	before(() => {
@@ -14,6 +15,7 @@ describe('Login', () => {
 	});
 
 	beforeEach(() => {
+		cy.willReturn('frontend.settings', config);
 		mockWebSocket();
 	});
 
@@ -23,11 +25,9 @@ describe('Login', () => {
 		cy.get('#appRoot').should('exist');
 	});
 
-	it('displays the login at the root', () => {
+	it('displays the consultingtype page at the root', () => {
 		cy.visit('/');
-		cy.contains('Login');
-		cy.contains('Impressum');
-		cy.contains('Datenschutzerklärung');
+		cy.contains('Willkommen bei der Online-Beratung');
 	});
 
 	it('displays the login for resorts', () => {

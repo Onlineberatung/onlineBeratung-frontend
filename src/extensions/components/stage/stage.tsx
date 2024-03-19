@@ -52,7 +52,7 @@ export const Stage = ({
 			className={clsx(className, 'stage', {
 				'stage--no-animation': !hasAnimation,
 				'stage--open': isOpen || !hasAnimation,
-				'stage--animation-finished': hasAnimationFinished
+				'stage--ready': hasAnimationFinished
 			})}
 			data-cy="stage"
 		>

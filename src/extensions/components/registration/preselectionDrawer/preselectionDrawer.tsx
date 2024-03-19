@@ -1,29 +1,51 @@
 import * as React from 'react';
-import { useState, VFC, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Box, Drawer, Typography, Button } from '@mui/material';
 import { ReactComponent as Loader } from './loader.svg';
 import { ReactComponent as Logo } from './logo.svg';
 import { useTranslation } from 'react-i18next';
 import { PreselectionError } from '../preselectionError/PreselectionError';
 import { RegistrationContext } from '../../../../globalState';
+import { UrlParamsContext } from '../../../../globalState/provider/UrlParamsProvider';
 
-export const PreselectionDrawer: VFC<{
-	topicName: string;
-	agencyName: string;
-}> = ({ topicName, agencyName }) => {
-	const {
-		hasTopicError,
-		hasAgencyError,
-		hasConsultantError,
-		isConsultantLink
-	} = useContext(RegistrationContext);
+const ConsultantPreslection = ({ hasError }) => {
 	const { t } = useTranslation();
-	const [loading, isLoading] = useState<boolean>(true);
+
+	if (hasError) {
+		return (
+			<PreselectionError errorMessage={t('registration.errors.cid')} />
+		);
+	}
+
+	return (
+		<Typography
+			sx={{
+				color: 'white',
+				mt: '24px'
+			}}
+		>
+			{t('registration.consultantlink')}
+		</Typography>
+	);
+};
+
+export const PreselectionDrawer = () => {
+	const { t } = useTranslation();
+
+	const { hasTopicError, hasAgencyError, hasConsultantError } =
+		useContext(RegistrationContext);
+	const {
+		agency: preselectedAgency,
+		topic: preselectedTopic,
+		consultant: preselectedConsultant
+	} = useContext(UrlParamsContext);
+
+	const [isloading, setIsloading] = useState<boolean>(true);
 	const [isOverlayDrawerOpen, setIsOverlayDrawerOpen] =
 		useState<boolean>(true);
 
 	setTimeout(() => {
-		isLoading(false);
+		setIsloading(false);
 	}, 3000);
 
 	return (
@@ -63,7 +85,7 @@ export const PreselectionDrawer: VFC<{
 					p: '24px'
 				}}
 			>
-				{loading && (
+				{isloading && (
 					<Box
 						sx={{
 							'display': 'flex',
@@ -111,7 +133,7 @@ export const PreselectionDrawer: VFC<{
 				>
 					{t('app.claim')}
 				</Typography>
-				{!loading && (
+				{!isloading && (
 					<Box
 						sx={{
 							'animationName': 'fadeIn',
@@ -127,21 +149,10 @@ export const PreselectionDrawer: VFC<{
 							}
 						}}
 					>
-						{isConsultantLink ? (
-							hasConsultantError ? (
-								<PreselectionError
-									errorMessage={t('registration.errors.cid')}
-								></PreselectionError>
-							) : (
-								<Typography
-									sx={{
-										color: 'white',
-										mt: '24px'
-									}}
-								>
-									{t('registration.consultantlink')}
-								</Typography>
-							)
+						{preselectedConsultant ? (
+							<ConsultantPreslection
+								hasError={hasConsultantError}
+							/>
 						) : (
 							<>
 								<Typography
@@ -153,17 +164,17 @@ export const PreselectionDrawer: VFC<{
 								>
 									{t('registration.topic.summary')}
 								</Typography>
-								{hasTopicError && topicName === '-' ? (
+								{hasTopicError ? (
 									<PreselectionError
 										errorMessage={t(
 											'registration.errors.tid'
 										)}
-									></PreselectionError>
+									/>
 								) : (
 									<Typography
 										sx={{ color: 'white', mt: '8px' }}
 									>
-										{topicName}
+										{preselectedTopic.name}
 									</Typography>
 								)}
 								<Typography
@@ -175,17 +186,17 @@ export const PreselectionDrawer: VFC<{
 								>
 									{t('registration.agency.summary')}
 								</Typography>
-								{hasAgencyError && agencyName === '-' ? (
+								{hasAgencyError ? (
 									<PreselectionError
 										errorMessage={t(
 											'registration.errors.aid'
 										)}
-									></PreselectionError>
+									/>
 								) : (
 									<Typography
 										sx={{ color: 'white', mt: '8px' }}
 									>
-										{agencyName}
+										{preselectedAgency.name}
 									</Typography>
 								)}
 							</>

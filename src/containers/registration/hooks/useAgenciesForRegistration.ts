@@ -13,7 +13,7 @@ import { UrlParamsContext } from '../../../globalState/provider/UrlParamsProvide
 import { VALID_POSTCODE_LENGTH } from '../../../components/agencySelection/agencySelectionHelpers';
 
 interface AgenciesForRegistrationArgs {
-	consultingType: ConsultingTypeInterface;
+	consultingType?: ConsultingTypeInterface;
 	postcode: string;
 	topic: TopicsDataInterface;
 }
@@ -59,7 +59,7 @@ export const useAgenciesForRegistration = ({
 
 	const allAgencies = useMemo(() => {
 		// As long as no consulting type or topic is selected we can't show any agencies
-		if (!consultingType || topicsEnabledAndUnSelected) {
+		if (!consultingType && topicsEnabledAndUnSelected) {
 			return [];
 		}
 
@@ -131,8 +131,9 @@ export const useAgenciesForRegistration = ({
 		apiAgencySelection(
 			{
 				...(autoSelectPostcode ? {} : { postcode }),
-				consultingType: consultingType?.id,
 				topicId: topic?.id,
+				// API will ignore consultingType if topicId isset but its required to be send
+				consultingType: topic?.id || consultingType?.id,
 				fetchConsultingTypeDetails: true
 			},
 			abortController.signal

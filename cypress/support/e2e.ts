@@ -1,6 +1,10 @@
 import 'cypress-file-upload';
 import './commands';
 
+before(() => {
+	Cypress.env('TENANT_ENABLED', '1');
+});
+
 beforeEach(() => {
 	window.localStorage.setItem('locale', 'de');
 	window.localStorage.setItem('showDevTools', '0');

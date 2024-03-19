@@ -1,33 +1,35 @@
 import { InputAdornment, Typography } from '@mui/material';
 import * as React from 'react';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
-import { useState, VFC, useContext, useEffect } from 'react';
+import {
+	useState,
+	VFC,
+	useContext,
+	useEffect,
+	Dispatch,
+	SetStateAction
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { Input } from '../../../../components/input/input';
-import { RegistrationContext } from '../../../../globalState';
+import { RegistrationContext, RegistrationData } from '../../../../globalState';
 import { REGISTRATION_DATA_VALIDATION } from '../registrationDataValidation';
 
-export const ZipcodeInput: VFC = () => {
+export const ZipcodeInput: VFC<{
+	onChange: Dispatch<SetStateAction<Partial<RegistrationData>>>;
+}> = ({ onChange }) => {
 	const { t } = useTranslation();
-	const {
-		setDisabledNextButton,
-		setDataForSessionStorage,
-		sessionStorageRegistrationData
-	} = useContext(RegistrationContext);
-	const [value, setValue] = useState<string>(
-		sessionStorageRegistrationData.zipcode || ''
-	);
+	const { setDisabledNextButton, registrationData } =
+		useContext(RegistrationContext);
+	const [value, setValue] = useState<string>(registrationData.zipcode || '');
 
 	useEffect(() => {
 		if (REGISTRATION_DATA_VALIDATION.zipcode.validation(value)) {
 			setDisabledNextButton(false);
-			setDataForSessionStorage({ zipcode: value });
+			onChange({ zipcode: value });
 		} else {
 			setDisabledNextButton(true);
 		}
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [value]);
+	}, [setDisabledNextButton, onChange, value]);
 
 	return (
 		<>
@@ -40,6 +42,9 @@ export const ZipcodeInput: VFC = () => {
 			<Typography>{t('registration.zipcode.bullet1')}</Typography>
 			<Typography>{t('registration.zipcode.bullet2')}</Typography>
 			<Input
+				inputProps={{
+					'data-cy': 'input-postal-code'
+				}}
 				autoComplete="postal-code"
 				inputMode="numeric"
 				inputType="text"

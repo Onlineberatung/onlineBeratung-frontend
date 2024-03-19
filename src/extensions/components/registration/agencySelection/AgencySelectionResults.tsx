@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {
 	Typography,
 	FormControlLabel,
@@ -8,24 +9,30 @@ import {
 	Button,
 	Link
 } from '@mui/material';
-import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import {
+	Dispatch,
+	SetStateAction,
+	useContext,
+	useEffect,
+	useState
+} from 'react';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import NoResultsIllustration from '../../../../resources/img/illustrations/no-results.svg';
 import ConsultantIllustration from '../../../../resources/img/illustrations/consultant-found.svg';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Loading } from '../../../../components/app/Loading';
 import { useTranslation } from 'react-i18next';
-import { RegistrationContext } from '../../../../globalState';
+import { RegistrationContext, RegistrationData } from '../../../../globalState';
 import { AgencyDataInterface } from '../../../../globalState/interfaces';
 import { AgencyLanguages } from './AgencyLanguages';
 import { parsePlaceholderString } from '../../../../utils/parsePlaceholderString';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
-import { VFC } from 'react';
 import { MetaInfo } from '../metaInfo/MetaInfo';
 import { REGISTRATION_DATA_VALIDATION } from '../registrationDataValidation';
+import { UrlParamsContext } from '../../../../globalState/provider/UrlParamsProvider';
 
 interface AgencySelectionResultsProps {
+	onChange: Dispatch<SetStateAction<Partial<RegistrationData>>>;
 	isLoading?: boolean;
 	zipcode?: string;
 	results?: AgencyDataInterface[];
@@ -33,24 +40,22 @@ interface AgencySelectionResultsProps {
 	onNextClick(): void;
 }
 
-export const AgencySelectionResults: VFC<AgencySelectionResultsProps> = ({
+export const AgencySelectionResults = ({
+	onChange,
 	isLoading,
 	zipcode,
 	results,
 	nextStepUrl,
 	onNextClick
-}) => {
+}: AgencySelectionResultsProps) => {
 	const { t } = useTranslation();
 	const settings = useAppConfig();
-	const {
-		setDisabledNextButton,
-		setDataForSessionStorage,
-		sessionStorageRegistrationData,
-		isConsultantLink
-	} = useContext(RegistrationContext);
+	const { setDisabledNextButton, registrationData } =
+		useContext(RegistrationContext);
+	const { consultant: preselectedConsultant } = useContext(UrlParamsContext);
 
-	const [agencyId, setAgencyId] = useState<number>(
-		sessionStorageRegistrationData?.agencyId
+	const [selectedAgency, setSelectedAgency] = useState<AgencyDataInterface>(
+		registrationData?.agency
 	);
 
 	useEffect(() => {
@@ -59,10 +64,10 @@ export const AgencySelectionResults: VFC<AgencySelectionResultsProps> = ({
 			results?.length > 0 &&
 			results?.every((agency) => agency.external)
 		) {
-			setAgencyId(undefined);
+			setSelectedAgency(undefined);
 			setDisabledNextButton(true);
-			setDataForSessionStorage({
-				agencyId: undefined
+			onChange({
+				agency: undefined
 			});
 			return;
 		}
@@ -71,43 +76,38 @@ export const AgencySelectionResults: VFC<AgencySelectionResultsProps> = ({
 			results?.length === 1 &&
 			results?.every((agency) => !agency.external)
 		) {
-			setAgencyId(results[0].id);
+			setSelectedAgency(results[0]);
 			setDisabledNextButton(false);
-			setDataForSessionStorage({
-				agencyId: results[0].id
+			onChange({
+				agency: results[0]
 			});
 			return;
 		}
+
 		if (
 			// invalid agencyId, needs to be removed
-			agencyId &&
+			selectedAgency &&
 			results?.length === 0
 		) {
 			setDisabledNextButton(true);
-			setDataForSessionStorage({
-				agencyId: undefined
+			onChange({
+				agency: undefined
 			});
 			return;
 		}
+
 		if (
 			// valid agencyId
 			REGISTRATION_DATA_VALIDATION.agencyId.validation(
-				agencyId?.toString()
+				selectedAgency?.id?.toString()
 			)
 		) {
 			setDisabledNextButton(false);
-			setDataForSessionStorage({
-				agencyId: agencyId
-			});
-			return;
+			onChange({ agency: selectedAgency });
 		}
-	}, [
-		agencyId,
-		results,
-		setDataForSessionStorage,
-		setDisabledNextButton,
-		zipcode
-	]);
+	}, [selectedAgency, results, onChange, setDisabledNextButton, zipcode]);
+
+	const onlyExternalAgencies = results?.every((agency) => agency.external);
 
 	return (
 		<>
@@ -123,67 +123,62 @@ export const AgencySelectionResults: VFC<AgencySelectionResultsProps> = ({
 					<Loading />
 				</Box>
 			)}
-			{!!results && !isLoading && !isConsultantLink && (
+			{!!results && !isLoading && !preselectedConsultant && (
 				<Typography variant="h5" sx={{ mt: '40px', fontWeight: '600' }}>
 					{t('registration.agency.result.headline') + ' ' + zipcode}:
 				</Typography>
 			)}
+
 			{/* only external results */}
-			{results?.length > 0 &&
-				results?.every((agency) => agency.external) && (
-					<Box
-						sx={{
-							display: 'flex',
-							flexWrap: { xs: 'wrap-reverse', md: 'nowrap' },
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							p: '16px',
-							mt: '16px',
-							borderRadius: '4px',
-							border: '1px solid #c6c5c4'
-						}}
-					>
-						<Box sx={{ mr: { xs: '0', md: '24px' } }}>
-							<Typography variant="h5" sx={{ fontWeight: '600' }}>
-								{t(
-									'registration.agency.result.external.headline'
-								)}
-							</Typography>
-							<Typography sx={{ mt: '16px' }}>
-								{t(
-									'registration.agency.result.external.subline'
-								)}
-							</Typography>
-							{results?.[0]?.url && (
-								<Button
-									target="_blank"
-									component={Link}
-									href={results?.[0]?.url}
-									sx={{
-										mt: '16px',
-										width: { xs: '100%', md: 'auto' }
-									}}
-									variant="contained"
-									startIcon={<OpenInNewIcon />}
-								>
-									{t(
-										'registration.agency.result.external.link'
-									)}
-								</Button>
-							)}
-						</Box>
-						<Box
-							component="img"
-							src={ConsultantIllustration}
-							sx={{
-								height: '156px',
-								width: '156px',
-								mx: 'auto',
-								mb: { xs: '24px', md: '0' }
-							}}
-						/>
+			{results?.length > 0 && onlyExternalAgencies && (
+				<Box
+					sx={{
+						display: 'flex',
+						flexWrap: { xs: 'wrap-reverse', md: 'nowrap' },
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						p: '16px',
+						mt: '16px',
+						borderRadius: '4px',
+						border: '1px solid #c6c5c4'
+					}}
+				>
+					<Box sx={{ mr: { xs: '0', md: '24px' } }}>
+						<Typography variant="h5" sx={{ fontWeight: '600' }}>
+							{t('registration.agency.result.external.headline')}
+						</Typography>
+						<Typography sx={{ mt: '16px' }}>
+							{t('registration.agency.result.external.subline')}
+						</Typography>
+						{results?.[0]?.url && (
+							<Button
+								target="_blank"
+								component={Link}
+								href={results?.[0]?.url}
+								sx={{
+									mt: '16px',
+									width: { xs: '100%', md: 'auto' }
+								}}
+								variant="contained"
+								startIcon={<OpenInNewIcon />}
+							>
+								{t('registration.agency.result.external.link')}
+							</Button>
+						)}
 					</Box>
-				)}
+					<Box
+						component="img"
+						src={ConsultantIllustration}
+						sx={{
+							height: '156px',
+							width: '156px',
+							mx: 'auto',
+							mb: { xs: '24px', md: '0' }
+						}}
+					/>
+				</Box>
+			)}
+
 			{/* no Results */}
 			{results?.length === 0 && (
 				<Box
@@ -242,97 +237,101 @@ export const AgencySelectionResults: VFC<AgencySelectionResultsProps> = ({
 					/>
 				</Box>
 			)}
+
 			{/* one Result */}
-			{results?.length === 1 &&
-				!results?.every((agency) => {
-					return agency.external;
-				}) && (
-					<FormControl sx={{ width: '100%' }}>
-						<RadioGroup
-							aria-label="agency-selection-radio-group"
-							name="agency-selection-radio-group"
-							defaultValue={results?.[0].name || ''}
+			{results?.length === 1 && !onlyExternalAgencies && (
+				<FormControl sx={{ width: '100%' }}>
+					<RadioGroup
+						data-cy="agency-selection-radio-group"
+						aria-label="agency-selection-radio-group"
+						name="agency-selection-radio-group"
+						defaultValue={results?.[0].name || ''}
+					>
+						<Box
+							sx={{
+								display: 'flex',
+								justifyContent: 'space-between',
+								width: '100%',
+								mt: '16px'
+							}}
 						>
-							<Box
-								sx={{
-									display: 'flex',
-									justifyContent: 'space-between',
-									width: '100%',
-									mt: '16px'
-								}}
-							>
-								<FormControlLabel
-									disabled
-									sx={{ alignItems: 'flex-start' }}
-									value={results?.[0].name || ''}
-									control={
-										<Radio
-											color="default"
-											checkedIcon={
-												<TaskAltIcon color="info" />
-											}
-											icon={<TaskAltIcon />}
-										/>
-									}
-									label={
-										<Box sx={{ mt: '10px', ml: '10px' }}>
-											<Typography variant="body1">
-												{results?.[0].name || ''}
-											</Typography>
-											<Typography
-												variant="body2"
-												sx={{
-													color: 'info.light',
-													mt: '8px'
-												}}
-											>
-												{t(
-													'registration.agency.result.languages'
-												)}
-											</Typography>
-											<AgencyLanguages
-												agencyId={results?.[0].id}
-											/>
-										</Box>
-									}
-								/>
-								{results?.[0].description && (
-									<MetaInfo
-										headline={results?.[0].name}
-										description={results?.[0].description}
-										onOverlayClose={() =>
-											setAgencyId(undefined)
+							<FormControlLabel
+								data-cy={`agency-selection-radio-${results?.[0].id}`}
+								disabled
+								sx={{ alignItems: 'flex-start' }}
+								value={results?.[0].name || ''}
+								control={
+									<Radio
+										color="default"
+										checkedIcon={
+											<TaskAltIcon color="info" />
 										}
-										backButtonLabel={t(
-											'registration.agency.infoOverlay.backButtonLabel'
-										)}
-										nextButtonLabel={t(
-											'registration.agency.infoOverlay.nextButtonLabel'
-										)}
-										nextStepUrl={nextStepUrl}
-										onNextClick={onNextClick}
-										onOverlayOpen={() => {
-											setDataForSessionStorage({
-												agencyId: results?.[0].id
-											});
-											setAgencyId(results?.[0].id);
-										}}
+										icon={<TaskAltIcon />}
 									/>
-								)}
-							</Box>
-						</RadioGroup>
-					</FormControl>
-				)}
+								}
+								label={
+									<Box sx={{ mt: '10px', ml: '10px' }}>
+										<Typography variant="body1">
+											{results?.[0].name || ''}
+										</Typography>
+										<Typography
+											variant="body2"
+											sx={{
+												color: 'info.light',
+												mt: '8px'
+											}}
+										>
+											{t(
+												'registration.agency.result.languages'
+											)}
+										</Typography>
+										<AgencyLanguages
+											agencyId={results?.[0].id}
+										/>
+									</Box>
+								}
+							/>
+							{results?.[0].description && (
+								<MetaInfo
+									headline={results?.[0].name}
+									description={results?.[0].description}
+									onOverlayClose={() =>
+										setSelectedAgency(undefined)
+									}
+									backButtonLabel={t(
+										'registration.agency.infoOverlay.backButtonLabel'
+									)}
+									nextButtonLabel={t(
+										'registration.agency.infoOverlay.nextButtonLabel'
+									)}
+									nextStepUrl={nextStepUrl}
+									onNextClick={onNextClick}
+									onOverlayOpen={() => {
+										onChange({
+											agency: results?.[0]
+										});
+										setSelectedAgency(results?.[0]);
+									}}
+								/>
+							)}
+						</Box>
+					</RadioGroup>
+				</FormControl>
+			)}
+
 			{/* more Results */}
-			{results?.length > 1 &&
-				!results?.every((agency) => agency.external) && (
-					<FormControl sx={{ width: '100%' }}>
-						<RadioGroup
-							aria-label="agency-selection-radio-group"
-							name="agency-selection-radio-group"
-						>
-							{results?.map((agency, index) => (
+			{results?.length > 1 && !onlyExternalAgencies && (
+				<FormControl sx={{ width: '100%' }}>
+					<RadioGroup
+						data-cy="agency-selection-radio-group"
+						aria-label="agency-selection-radio-group"
+						name="agency-selection-radio-group"
+					>
+						{results
+							?.filter((agency) => !agency.external)
+							.map((agency, index) => (
 								<Box
+									key={`agency-${agency.id}`}
 									sx={{
 										display: 'flex',
 										justifyContent: 'space-between',
@@ -341,12 +340,11 @@ export const AgencySelectionResults: VFC<AgencySelectionResultsProps> = ({
 									}}
 								>
 									<FormControlLabel
+										data-cy={`agency-selection-radio-${agency.id}`}
 										onClick={(e) => {
 											setDisabledNextButton(false);
-											setAgencyId(agency.id);
-											setDataForSessionStorage({
-												agencyId: agency.id
-											});
+											setSelectedAgency(agency);
+											onChange({ agency });
 										}}
 										sx={{
 											alignItems: 'flex-start'
@@ -354,7 +352,10 @@ export const AgencySelectionResults: VFC<AgencySelectionResultsProps> = ({
 										value={agency.id}
 										control={
 											<Radio
-												checked={agencyId === agency.id}
+												checked={
+													selectedAgency?.id ===
+													agency.id
+												}
 											/>
 										}
 										label={
@@ -390,7 +391,7 @@ export const AgencySelectionResults: VFC<AgencySelectionResultsProps> = ({
 											headline={agency.name}
 											description={agency.description}
 											onOverlayClose={() =>
-												setAgencyId(undefined)
+												setSelectedAgency(undefined)
 											}
 											backButtonLabel={t(
 												'registration.agency.infoOverlay.backButtonLabel'
@@ -401,18 +402,16 @@ export const AgencySelectionResults: VFC<AgencySelectionResultsProps> = ({
 											nextStepUrl={nextStepUrl}
 											onNextClick={onNextClick}
 											onOverlayOpen={() => {
-												setDataForSessionStorage({
-													agencyId: agency.id
-												});
-												setAgencyId(agency.id);
+												onChange({ agency });
+												setSelectedAgency(agency);
 											}}
 										/>
 									)}
 								</Box>
 							))}
-						</RadioGroup>
-					</FormControl>
-				)}
+					</RadioGroup>
+				</FormControl>
+			)}
 		</>
 	);
 };

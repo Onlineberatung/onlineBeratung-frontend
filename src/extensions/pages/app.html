@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="no-js" lang="de">
 	<head>
 		<meta charset="utf-8" />
@@ -28,7 +28,6 @@
 
 		<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
 		<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-		<!-- <link rel="manifest" href="%PUBLIC_URL%/manifest.json" /> -->
 
 		<!--
 		Notice the use of %PUBLIC_URL% in the tags above.
@@ -42,17 +41,19 @@
 	</head>
 
 	<body role="document">
-		<div id="banner" class="banner"></div>
+		<div class="app__container">
+			<div id="banner" class="banner"></div>
 
-		<% if(type==='error' ) { %>
-		<main
-			data-errortype="<%= errorType %>"
-			class="app"
-			id="errorRoot"
-		></main>
-		<% } else { %>
-		<main class="app" id="<%= type %>Root"></main>
-		<% } %>
+			<% if(type === 'error') { %>
+			<main
+				data-errortype="<%= errorType %>"
+				class="app"
+				id="errorRoot"
+			></main>
+			<% } else { %>
+			<main class="app" id="<%= type %>Root"></main>
+			<% } %>
+		</div>
 
 		<div id="overlay"></div>
 	</body>

@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { apiAgencyLanguages } from '../../../../api/apiAgencyLanguages';
 import { LanguagesContext } from '../../../../globalState/provider/LanguagesProvider';
@@ -11,32 +11,37 @@ interface AgencyLanguagesProps {
 
 export const AgencyLanguages = ({ agencyId }: AgencyLanguagesProps) => {
 	const { t } = useTranslation();
-	const [languages, setLanguages] = useState<string[]>(['de']);
-	const { fixed: fixedLanguages } = React.useContext(LanguagesContext);
+	const [languagesString, setLanguagesString] = useState<string>('');
+	const { fixed: fixedLanguages } = useContext(LanguagesContext);
 
 	useEffect(() => {
-		if (agencyId !== undefined) {
-			apiAgencyLanguages(agencyId, false).then((res) => {
-				const allLanguages = [...fixedLanguages, ...res.languages];
-				setLanguages(
-					allLanguages
-						.filter((element, index) => {
-							return allLanguages.indexOf(element) === index;
-						})
-						.sort()
+		(async () => {
+			let languages = ['de'];
+			if (agencyId !== undefined) {
+				languages = await apiAgencyLanguages(agencyId, false).then(
+					(res) => (languages = [...fixedLanguages, ...res.languages])
 				);
-			});
-		}
-	}, [agencyId, fixedLanguages]);
+			}
+
+			setLanguagesString(
+				languages
+					.filter(
+						(element, index) => languages.indexOf(element) === index
+					)
+					.map((lang) => {
+						const language = t(`languages.${lang}`);
+						const languageCode = lang.toUpperCase();
+						return `${language} (${languageCode})`;
+					})
+					.sort((a, b) => a.localeCompare(b))
+					.join(' | ')
+			);
+		})();
+	}, [agencyId, fixedLanguages, t]);
 
 	return (
 		<Typography variant="body2" sx={{ color: 'info.light' }}>
-			{languages.map(
-				(lang, index) =>
-					`${index !== 0 ? ' |' : ''} ${t(
-						`languages.${lang}`
-					)} (${lang.toUpperCase()})`
-			)}
+			{languagesString}
 		</Typography>
 	);
 };

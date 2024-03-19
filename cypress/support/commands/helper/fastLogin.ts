@@ -54,8 +54,6 @@ const fastLoginCommand = (getWillReturn, setWillReturn) =>
 				cy.wait('@usersData');
 				cy.wait('@settings');
 				cy.wait('@consultingTypeServiceBaseBasic');
-				cy.wait('@patchUsersData');
-				cy.wait('@fetchMyKeys');
 				if (userId === USER_ASKER) {
 					cy.wait('@askerSessions');
 				} else {

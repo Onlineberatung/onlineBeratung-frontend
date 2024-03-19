@@ -14,11 +14,6 @@ const agenciesApi = (cy, getWillReturn, setWillReturn) => {
 	cy.intercept('GET', `${endpoints.agencyServiceBase}*`, (req) => {
 		const searchParams = new URL(req.url).searchParams;
 		let agencies = getWillReturn('agencies');
-		console.log(
-			agencies,
-			searchParams.get('topicId'),
-			searchParams.get('consultingType')
-		);
 		if (searchParams.has('topicId')) {
 			agencies = agencies.filter((a) =>
 				a.topicIds?.includes(parseInt(searchParams.get('topicId')))

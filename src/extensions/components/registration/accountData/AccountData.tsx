@@ -7,7 +7,14 @@ import {
 	FormControlLabel
 } from '@mui/material';
 import * as React from 'react';
-import { useState, useContext, useEffect } from 'react';
+import {
+	useState,
+	useContext,
+	useEffect,
+	VFC,
+	Dispatch,
+	SetStateAction
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
@@ -19,7 +26,7 @@ import {
 	hasSpecialChar
 } from '../../../../utils/validateInputValue';
 import { LegalLinksContext } from '../../../../globalState/provider/LegalLinksProvider';
-import { RegistrationContext } from '../../../../globalState';
+import { RegistrationContext, RegistrationData } from '../../../../globalState';
 import { apiGetIsUsernameAvailable } from '../../../../api/apiGetIsUsernameAvailable';
 import { REGISTRATION_DATA_VALIDATION } from '../registrationDataValidation';
 import LegalLinks from '../../../../components/legalLinks/LegalLinks';
@@ -43,7 +50,9 @@ export const passwordCriteria = [
 	}
 ];
 
-export const AccountData = () => {
+export const AccountData: VFC<{
+	onChange: Dispatch<SetStateAction<Partial<RegistrationData>>>;
+}> = ({ onChange }) => {
 	const legalLinks = useContext(LegalLinksContext);
 	const { t } = useTranslation();
 	const [password, setPassword] = useState<string>('');
@@ -56,8 +65,7 @@ export const AccountData = () => {
 	const [username, setUsername] = useState<string>('');
 	const [isUsernameAvailable, setIsUsernameAvailable] =
 		useState<boolean>(true);
-	const { setDisabledNextButton, setDataForSessionStorage } =
-		useContext(RegistrationContext);
+	const { setDisabledNextButton } = useContext(RegistrationContext);
 
 	useEffect(() => {
 		if (
@@ -68,7 +76,7 @@ export const AccountData = () => {
 			dataProtectionChecked
 		) {
 			setDisabledNextButton(false);
-			setDataForSessionStorage({ username, password });
+			onChange({ username, password });
 		} else {
 			setDisabledNextButton(true);
 		}

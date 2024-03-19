@@ -1,0 +1,11 @@
+{
+	"e2e": {
+		"excludeSpecPattern": [
+			"cypress/e2e/**/registration/base.cy.ts",
+			"cypress/e2e/**/registration/consultingType.cy.ts",
+			"cypress/e2e/**/registration/topic.cy.ts",
+			"cypress/e2e/**/login.cy.ts"
+		],
+		"specPattern": ["src/extensions/cypress/e2e/**/*.cy.ts"]
+	}
+}

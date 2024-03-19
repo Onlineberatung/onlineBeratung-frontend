@@ -19,7 +19,6 @@ let consultingTypes, agencies, topics;
 
 describe('Registration', () => {
 	before(() => {
-		Cypress.env('TENANT_ENABLED', '1');
 		startWebSocketServer();
 	});
 

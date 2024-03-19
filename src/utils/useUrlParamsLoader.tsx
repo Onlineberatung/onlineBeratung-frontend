@@ -18,14 +18,17 @@ import { apiGetTopicsData } from '../api/apiGetTopicsData';
 
 export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 	const { setLocale } = useContext(LocaleContext);
-	const { consultingTypeSlug } = useParams<{
+	const { consultingTypeSlug, topicSlug } = useParams<{
 		consultingTypeSlug: string;
+		topicSlug: string;
 	}>();
 	const settings = useAppConfig();
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
 	const topicIdOrName = getUrlParameter('tid');
 	const language = getUrlParameter('lang');
+	const zipcodeParam =
+		getUrlParameter('zipcode') || getUrlParameter('postcode');
 
 	const [consultingType, setConsultingType] =
 		useState<ConsultingTypeInterface | null>(null);
@@ -35,22 +38,29 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 	const [loaded, setLoaded] = useState<boolean>(false);
 	const [topic, setTopic] = useState<TopicsDataInterface | null>(null);
 	const [slugFallback, setSlugFallback] = useState<string>();
+	const [zipcode, setZipcode] = useState<string>();
 
 	const loadTopic = useCallback(
 		async (agency) => {
 			let topic = null;
 			if (isNumber(topicIdOrName)) {
 				topic = await apiGetTopicById(topicIdOrName).catch(() => null);
-			} else if (isString(topicIdOrName)) {
+			} else if (isString(topicIdOrName) || isString(topicSlug)) {
 				topic = await apiGetTopicsData()
 					.then(
 						(allTopics) =>
 							allTopics.find(
 								(topic) =>
-									topic.name?.toLowerCase() ===
-									decodeURIComponent(
-										topicIdOrName.toLowerCase()
-									)
+									(topicIdOrName &&
+										topic.name?.toLowerCase() ===
+											decodeURIComponent(
+												topicIdOrName.toLowerCase()
+											)) ||
+									(topicSlug &&
+										topic.slug?.toLowerCase() ===
+											decodeURIComponent(
+												topicSlug.toLowerCase()
+											))
 							) || null
 					)
 					.catch(() => null);
@@ -67,7 +77,7 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 
 			return [agency, topic];
 		},
-		[topicIdOrName]
+		[topicIdOrName, topicSlug]
 	);
 
 	const handleConsultant = useCallback(
@@ -123,7 +133,7 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 			} else if (
 				// If the consultingType does not match the consultant's consultingTypes, set the consultingType to null
 				!consultant.agencies.some(
-					(a) =>
+					(a: AgencyDataInterface) =>
 						!consultingType ||
 						a.consultingType === consultingType?.id
 				)
@@ -172,7 +182,7 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 					}
 				}
 
-				if (topicIdOrName !== null) {
+				if (topicIdOrName !== null || topicSlug) {
 					[agency, topic] = await loadTopic(agency);
 				}
 
@@ -197,6 +207,11 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 					return;
 				}
 
+				const zipcodeRegex = new RegExp(/^(0[1-9]|[1-9]\d)\d{3}$/);
+				if (zipcodeParam && zipcodeRegex.test(zipcodeParam)) {
+					setZipcode(zipcodeParam);
+				}
+
 				setTopic(topic);
 				setConsultant(consultant);
 				setConsultingType(consultingType);
@@ -211,6 +226,8 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 		agencyId,
 		consultantId,
 		topicIdOrName,
+		topicSlug,
+		zipcodeParam,
 		settings.multitenancyWithSingleDomainEnabled,
 		settings.urls.toRegistration,
 		settings?.registration?.useConsultingTypeSlug,
@@ -225,5 +242,13 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 		}
 	}, [language, setLocale]);
 
-	return { agency, consultant, consultingType, loaded, topic, slugFallback };
+	return {
+		agency,
+		consultant,
+		consultingType,
+		loaded,
+		topic,
+		slugFallback,
+		zipcode
+	};
 }

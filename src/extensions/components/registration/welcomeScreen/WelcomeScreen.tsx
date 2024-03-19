@@ -5,17 +5,16 @@ import CreateIcon from '@mui/icons-material/Create';
 import ChatIcon from '@mui/icons-material/Chat';
 import MailIcon from '@mui/icons-material/Mail';
 import LockIcon from '@mui/icons-material/Lock';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { useMemo, VFC } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { useMemo } from 'react';
 import { PreselectionBox } from '../preselectionBox/PreselectionBox';
 
 interface WelcomeScreenProps {
 	nextStepUrl: string;
 }
 
-export const WelcomeScreen: VFC<WelcomeScreenProps> = ({ nextStepUrl }) => {
+export const WelcomeScreen = ({ nextStepUrl }: WelcomeScreenProps) => {
 	const { t } = useTranslation();
-	const { search } = useLocation();
 
 	const infoDefinitions = useMemo(
 		() => [
@@ -73,7 +72,10 @@ export const WelcomeScreen: VFC<WelcomeScreenProps> = ({ nextStepUrl }) => {
 				{t('registration.welcomeScreen.subline')}
 			</Typography>
 			{infoDefinitions.map((info) => (
-				<Box sx={{ display: 'flex', alignItems: 'center', mb: '32px' }}>
+				<Box
+					sx={{ display: 'flex', alignItems: 'center', mb: '32px' }}
+					key={info.subline}
+				>
 					{info.icon}
 					<Box sx={{ ml: '24px' }}>
 						<Typography variant="h5">{info.headline}</Typography>
@@ -112,7 +114,8 @@ export const WelcomeScreen: VFC<WelcomeScreenProps> = ({ nextStepUrl }) => {
 						sx={{ mt: { xs: '8px', md: '16px' } }}
 						variant="contained"
 						component={RouterLink}
-						to={`${nextStepUrl}${search}`}
+						to={nextStepUrl}
+						data-cy="button-register"
 					>
 						{t('registration.welcomeScreen.register.buttonLabel')}
 					</Button>

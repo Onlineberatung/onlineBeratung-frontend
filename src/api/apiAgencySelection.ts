@@ -9,7 +9,7 @@ export const apiAgencySelection = async (
 		...params
 	}: {
 		postcode?: string;
-		consultingType?: number | undefined;
+		consultingType?: number;
 		topicId?: number;
 		age?: number;
 		gender?: string;

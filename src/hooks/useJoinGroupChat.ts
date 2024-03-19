@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { apiPutGroupChat, GROUP_CHAT_API } from '../api/apiPutGroupChat';
+import { apiPutGroupChat, GROUP_CHAT_API } from '../api';
 import { useTenant } from '../globalState';
 
 export const useJoinGroupChat = () => {
@@ -7,11 +7,11 @@ export const useJoinGroupChat = () => {
 
 	const joinGroupChat = useCallback(
 		(gcid: string) => {
-			if (tenantData?.settings.featureGroupChatV2Enabled && gcid) {
+			if (tenantData?.settings?.featureGroupChatV2Enabled && gcid) {
 				apiPutGroupChat(gcid, GROUP_CHAT_API.ASSIGN).then();
 			}
 		},
-		[tenantData?.settings.featureGroupChatV2Enabled]
+		[tenantData]
 	);
 
 	return {

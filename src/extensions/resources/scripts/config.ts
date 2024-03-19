@@ -29,10 +29,10 @@ export const legalLinks = {
 export const config: AppConfigInterface = {
 	..._.merge(baseConfig, {
 		urls: {
-			chatScheduleUrl: uiUrl + '/themen',
+			chatScheduleUrl: uiUrl + '/registration',
 			finishedAnonymousChatRedirect: 'https://www.diakonie.de',
 			home: uiUrl + '/registration',
-			landingpage: uiUrl + '/registration',
+			landingpage: '/registration',
 			toEntry: uiUrl + '/registration',
 			toRegistration: uiUrl + '/registration',
 			...legalLinks

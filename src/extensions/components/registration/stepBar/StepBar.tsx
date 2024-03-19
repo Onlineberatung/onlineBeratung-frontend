@@ -15,7 +15,12 @@ export const StepBar: VFC<StepBarProps> = ({
 	const { t } = useTranslation();
 	return (
 		<>
-			<Box sx={{ display: 'flex', alignItems: 'center' }}>
+			<Box
+				sx={{ display: 'flex', alignItems: 'center' }}
+				data-cy="steps"
+				data-cy-max={maxNumberOfSteps}
+				data-cy-curr={currentStep}
+			>
 				<Box
 					sx={{
 						mr: '16px',

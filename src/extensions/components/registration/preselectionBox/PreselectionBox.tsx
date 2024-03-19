@@ -1,47 +1,30 @@
 import * as React from 'react';
-import { useContext, useState, useEffect, VFC } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Box, Typography } from '@mui/material';
+import { useContext } from 'react';
+import { Box } from '@mui/material';
 import { RegistrationContext } from '../../../../globalState';
 import { PreselectionDrawer } from '../preselectionDrawer/preselectionDrawer';
-import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import { useResponsive } from '../../../../hooks/useResponsive';
+import { UrlParamsContext } from '../../../../globalState/provider/UrlParamsProvider';
+import PreselectedConsultant from './PreselectedConsultant';
+import PreselectedTopic from './PreselectedTopic';
+import PreselectedAgency from './PreselectedAgency';
 
-export const PreselectionBox: VFC<{
+export const PreselectionBox = ({
+	hasDrawer = false
+}: {
 	hasDrawer?: boolean;
-}> = ({ hasDrawer = false }) => {
-	const {
-		preselectedAgency,
-		preselectedTopicName,
-		isConsultantLink,
-		hasConsultantError,
-		hasTopicError,
-		hasAgencyError,
-		preselectedData
-	} = useContext(RegistrationContext);
-	const { t } = useTranslation();
-	const [topicName, setTopicName] = useState('-');
-	const [agencyName, setAgencyName] = useState('-');
+}) => {
 	const { fromM } = useResponsive();
 
-	useEffect(() => {
-		if (preselectedTopicName) {
-			setTopicName(preselectedTopicName);
-		} else {
-			setTopicName('-');
-		}
-		if (preselectedAgency) {
-			setAgencyName(preselectedAgency?.name);
-		} else {
-			setAgencyName('-');
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [preselectedAgency, preselectedTopicName]);
+	const { hasConsultantError, hasTopicError, hasAgencyError } =
+		useContext(RegistrationContext);
+	const {
+		agency: preselectedAgency,
+		topic: preselectedTopic,
+		consultant: preselectedConsultant
+	} = useContext(UrlParamsContext);
 
-	if (
-		!(preselectedData.includes('tid') || preselectedData.includes('aid')) &&
-		(!isConsultantLink || !hasDrawer)
-	) {
+	if (!preselectedTopic && !preselectedAgency && !preselectedConsultant) {
 		return null;
 	}
 
@@ -58,104 +41,38 @@ export const PreselectionBox: VFC<{
 					borderRadius: '4px',
 					border: '1px solid #c6c5c4'
 				}}
+				data-cy="preselected"
+				data-cy-preselected-consultant={
+					preselectedConsultant?.consultantId
+				}
+				data-cy-preselected-consultant-error={hasConsultantError}
+				data-cy-preselected-agency={preselectedAgency?.id}
+				data-cy-preselected-agency-error={hasAgencyError}
+				data-cy-preselected-topic={preselectedTopic?.id}
+				data-cy-preselected-topic-error={hasTopicError}
 			>
-				{isConsultantLink &&
-					(hasConsultantError ? (
-						<Typography>
-							<ReportProblemIcon
-								aria-hidden="true"
-								color="inherit"
-								sx={{
-									width: '20px',
-									height: '20px',
-									mr: '8px',
-									color: '#FF9F00'
-								}}
-							/>
-							{t('registration.errors.cid')}
-						</Typography>
-					) : (
-						<Typography>
-							{' '}
-							{t('registration.consultantlink')}
-						</Typography>
-					))}
-				{(preselectedTopicName || hasTopicError) &&
-					!isConsultantLink && (
-						<>
-							<Typography sx={{ fontWeight: '600', mb: '8px' }}>
-								{t('registration.topic.summary')}
-							</Typography>
-							{hasTopicError && !preselectedTopicName ? (
-								<Typography
-									sx={{ mb: hasAgencyError ? '16px' : '0px' }}
-								>
-									<>
-										<ReportProblemIcon
-											aria-hidden="true"
-											color="inherit"
-											sx={{
-												width: '20px',
-												height: '20px',
-												mr: '8px',
-												color: '#FF9F00'
-											}}
-										/>
-										{t('registration.errors.tid')}
-									</>
-								</Typography>
-							) : (
-								<Typography
-									sx={{
-										mb:
-											preselectedAgency || hasAgencyError
-												? '16px'
-												: '0px'
-									}}
-								>
-									{preselectedTopicName}
-								</Typography>
-							)}
-						</>
-					)}
-				{(preselectedAgency || hasAgencyError) && !isConsultantLink && (
+				{preselectedConsultant ? (
+					<PreselectedConsultant hasError={hasConsultantError} />
+				) : (
 					<>
-						<Typography
+						<PreselectedTopic
+							hasError={hasTopicError}
+							topic={preselectedTopic}
 							sx={{
-								fontWeight: '600',
-								mb: '8px'
+								mb:
+									preselectedAgency || hasAgencyError
+										? '16px'
+										: '0px'
 							}}
-						>
-							{t('registration.agency.summary')}
-						</Typography>
-						{hasAgencyError && !preselectedAgency ? (
-							<Typography>
-								<>
-									<ReportProblemIcon
-										aria-hidden="true"
-										color="inherit"
-										sx={{
-											width: '20px',
-											height: '20px',
-											mr: '8px',
-											color: '#FF9F00'
-										}}
-									/>
-									{t('registration.errors.aid')}
-								</>
-							</Typography>
-						) : (
-							<Typography>{preselectedAgency?.name}</Typography>
-						)}
+						/>
+						<PreselectedAgency
+							hasError={hasAgencyError}
+							agency={preselectedAgency}
+						/>
 					</>
 				)}
 			</Box>
-			{hasDrawer && !fromM && (
-				<PreselectionDrawer
-					topicName={topicName}
-					agencyName={agencyName}
-				/>
-			)}
+			{hasDrawer && !fromM && <PreselectionDrawer />}
 		</>
 	);
 };

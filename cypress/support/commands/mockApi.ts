@@ -1,30 +1,9 @@
 import merge from 'lodash.merge';
-import {
-	generateAskerSession,
-	generateConsultantSession,
-	generateMessage,
-	generateMessagesReply,
-	sessionsReply
-} from '../sessions';
+import { generateAskerSession, generateConsultantSession } from '../sessions';
 import { endpoints } from '../../../src/resources/scripts/endpoints';
-import {
-	getAskerSessions,
-	setAskerSessions,
-	updateAskerSession
-} from './helper/askerSessions';
-import {
-	getConsultantSessions,
-	setConsultantSessions,
-	updateConsultantSession
-} from './helper/consultantSessions';
-import { deepMerge } from '../helpers';
-import { decodeUsername } from '../../../src/utils/encryptionHelpers';
-import { getMessages, setMessages } from './helper/messages';
-import {
-	SETTING_E2E_ENABLE,
-	SETTING_FILEUPLOAD_MAXFILESIZE,
-	SETTING_MESSAGE_MAXALLOWEDSIZE
-} from '../../../src/api/apiRocketChatSettingsPublic';
+import { setAskerSessions } from './helper/askerSessions';
+import { setConsultantSessions } from './helper/consultantSessions';
+import { setMessages } from './helper/messages';
 import { config } from '../../../src/resources/scripts/config';
 import usersChatApi from './api/users/chat';
 import usersConsultantsApi from './api/users/consultants';
