@@ -40,7 +40,7 @@
 		},
 		"overlay": {
 			"chatWasFinished": {
-				"button": "Zu Caritas.de",
+				"button": "Zur Online-Beratung",
 				"copy": "Sie haben nun keinen Zugriff mehr auf Ihren Chat-Verlauf.",
 				"headline": "Ihr_e Berater_in hat den Chat beendet."
 			},
@@ -55,7 +55,7 @@
 				},
 				"headline": "Möchten Sie diesen Chat beenden?",
 				"success": {
-					"button": "Zu Caritas.de",
+					"button": "Zur Online-Beratung",
 					"headline": "Der Chat wurde erfolgreich beendet."
 				}
 			}
@@ -485,7 +485,7 @@
 		},
 		"successOverlay": {
 			"button": "Schließen",
-			"headline": "Sie haben Ihren Account bei der Caritas Beratung & Hilfe erfolgreich gelöscht."
+			"headline": "Sie haben Ihren Account erfolgreich gelöscht."
 		}
 	},
 	"deleteSession": {
@@ -1848,7 +1848,7 @@
 			"success": {
 				"button": "Nachricht verfassen",
 				"copy": "Sie haben sich erfolgreich registriert.",
-				"headline": "Herzlich willkommen<br>bei der Beratung & Hilfe der Caritas."
+				"headline": "Herzlich willkommen<br>bei der Online-Beratung."
 			}
 		},
 		"overline": "Willkommen bei der Online-Beratung",
@@ -1936,7 +1936,7 @@
 				"buttonLabel": "Registrieren",
 				"helperText": "Noch nicht registriert?"
 			},
-			"subline": "Wie läuft die Beratung & Hilfe der Caritas ab?"
+			"subline": "Wie läuft die Beratung ab?"
 		}
 	},
 	"releaseNote": {
