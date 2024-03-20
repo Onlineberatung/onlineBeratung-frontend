@@ -57,13 +57,13 @@ jobs:
                   echo "fs.inotify.max_user_watches=524288" | sudo tee -a /etc/sysctl.conf
                   npm run test:build
             - name: Bump version
-              if: startsWith(env.BRANCH,'release') == true
+              if: env.BRANCH == 'release'
               run: |
                   git config --local user.email "action@github.com"
                   git config --local user.name "GitHub Action"
                   npm run release
             - name: Push changes
-              if: startsWith(env.BRANCH,'release') == true
+              if: env.BRANCH == 'release'
               uses: ad-m/github-push-action@master
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
