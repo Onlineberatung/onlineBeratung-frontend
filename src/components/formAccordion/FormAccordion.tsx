@@ -349,7 +349,7 @@ export const FormAccordion = ({
 										className="button-as-link"
 										onClick={() => window.open(url)}
 									>
-										${label}
+										{label}
 									</button>
 								</span>
 							)}
