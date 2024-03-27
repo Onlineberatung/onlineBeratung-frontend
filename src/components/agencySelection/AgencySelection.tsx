@@ -335,7 +335,6 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 									'registration.agencySelection.title.end'
 								)}
 							</h3>
-							<div>WTF</div>
 							{!proposedAgencies ? (
 								postcodeFallbackLink ? (
 									<Notice
