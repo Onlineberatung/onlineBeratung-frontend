@@ -145,11 +145,11 @@ jobs:
               if: ${{ (matrix.registry == 'ghcr.io') }}
               uses: aquasecurity/trivy-action@master
               with:
-                image-ref: '${{ env.DOCKER_REGISTRY }}/${{ env.REPO_NAME_WITHOUT_PREFIX }}:${{ env.DOCKER_IMAGE_TAG }}'
-                format: 'table'
-                exit-code: '1'
-                vuln-type: 'os,library'
-                severity: 'CRITICAL'
+                  image-ref: '${{ env.DOCKER_REGISTRY }}/${{ env.REPO_NAME_WITHOUT_PREFIX }}:${{ env.DOCKER_IMAGE_TAG }}'
+                  format: 'table'
+                  exit-code: '1'
+                  vuln-type: 'os,library'
+                  severity: 'CRITICAL'
             - name: Hint about the Docker Image Tag if successfull
               if: ${{ success() }}
               run: |
