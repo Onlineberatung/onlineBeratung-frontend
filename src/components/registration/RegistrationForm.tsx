@@ -141,13 +141,15 @@ export const RegistrationForm = () => {
 			...(formAccordionData.state && { state: formAccordionData.state }),
 			...(formAccordionData.age && { age: formAccordionData.age }),
 			...(consultant && { consultantId: consultant.consultantId }),
-			...(slugFallback && {
-				consultingType:
-					formAccordionData.agency.consultingTypeRel?.id?.toString(),
-				postcode: autoSelectPostcode
-					? formAccordionData.agency.postcode
-					: formAccordionData.postcode
-			})
+			...(slugFallback &&
+				formAccordionData.agency.consultingTypeRel?.id && {
+					consultingType:
+						formAccordionData.agency.consultingTypeRel.id.toString()
+				}),
+			...(slugFallback &&
+				autoSelectPostcode && {
+					postcode: formAccordionData.agency.postcode
+				})
 		};
 
 		const missingFields = [
