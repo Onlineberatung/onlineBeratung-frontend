@@ -44,6 +44,7 @@ import {
 	convertToRaw,
 	DraftHandleValue,
 	EditorState,
+	getDefaultKeyBinding,
 	RichUtils
 } from 'draft-js';
 import { draftToMarkdown } from 'markdown-draft-js';
@@ -404,17 +405,12 @@ export const MessageSubmitInterfaceComponent = ({
 		]
 	);
 
-	const handleEditorKeyCommand = useCallback(
-		(command) => {
-			const newState = RichUtils.handleKeyCommand(editorState, command);
-			if (newState) {
-				handleEditorChange(newState);
-				return 'handled';
-			}
-			return 'not-handled';
-		},
-		[editorState, handleEditorChange]
-	);
+	const handleCustomKeyBinding = (event) => {
+		if (event.key === 'Enter' && event.shiftKey) {
+			return 'shift-enter';
+		}
+		return getDefaultKeyBinding(event);
+	};
 
 	const resizeTextarea = useCallback(() => {
 		const textInput: any = textareaInputRef.current;
@@ -782,6 +778,23 @@ export const MessageSubmitInterfaceComponent = ({
 		userData
 	]);
 
+	const handleEditorKeyCommand = useCallback(
+		(command) => {
+			const newState = RichUtils.handleKeyCommand(editorState, command);
+			if (command === 'shift-enter') {
+				handleButtonClick();
+				return 'handled';
+			}
+
+			if (newState) {
+				handleEditorChange(newState);
+				return 'handled';
+			}
+			return 'not-handled';
+		},
+		[editorState, handleEditorChange, handleButtonClick]
+	);
+
 	const handleRequestFeedbackCheckbox = useCallback(() => {
 		setRequestFeedbackCheckboxChecked(
 			(requestFeedbackCheckboxChecked) => !requestFeedbackCheckboxChecked
@@ -1026,6 +1039,7 @@ export const MessageSubmitInterfaceComponent = ({
 										handleKeyCommand={
 											handleEditorKeyCommand
 										}
+										keyBindingFn={handleCustomKeyBinding}
 										placeholder={
 											hasRequestFeedbackCheckbox &&
 											requestFeedbackCheckboxChecked
