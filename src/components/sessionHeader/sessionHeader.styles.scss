@@ -168,6 +168,8 @@ $iconSize: 24px;
 			color: $tertiary;
 			line-height: 16px;
 			display: inline-block;
+			white-space: normal;
+			word-break: break-word;
 
 			@include breakpoint($fromSmall) {
 				position: relative;
