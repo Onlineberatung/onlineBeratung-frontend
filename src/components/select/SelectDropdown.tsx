@@ -84,20 +84,20 @@ const colourStyles = (
 			...styles,
 			'backgroundColor': 'white',
 			'border': state.isFocused
-				? '2px solid #3F373F'
+				? '2px solid #199fff'
 				: '1px solid #8C878C',
-			'borderRadius': undefined,
+			'borderRadius': 4,
 			'height': '50px',
-			'outline': '0',
 			'padding': state.isFocused ? '0 11px' : '0 12px',
 			'color': '#3F373F',
-			'boxShadow': undefined,
+			'boxShadow': state.isFocused ? '0 0 0 2px #199fff' : 'none',
 			'cursor': 'pointer',
 			'&:hover': {
 				border: state.isFocused
-					? '2px solid #3F373F'
+					? '2px solid #199fff'
 					: '1px solid #3F373F',
-				padding: state.isFocused ? '0 11px' : '0 12px'
+				padding: state.isFocused ? '0 11px' : '0 12px',
+				boxShadow: '0 0 0 2px #199fff'
 			},
 			'.select__inputLabel': {
 				fontSize: state.isFocused || state.hasValue ? '12px' : '16px',
@@ -441,7 +441,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					props.styleOverrides ?? {}
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
-				tabIndex={props.isInsideMenu ? -1 : 0}
+				tabIndex={props.isInsideMenu ? -1 : 2}
 				ref={props.selectRef}
 				openMenuOnFocus={props.isInsideMenu ? true : false}
 				closeMenuOnSelect={true}

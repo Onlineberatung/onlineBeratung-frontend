@@ -66,7 +66,7 @@ export const StageLayout = ({
 								href={`${settings.urls.toLogin}${
 									loginParams ? `?${loginParams}` : ''
 								}`}
-								tabIndex={-1}
+								tabIndex={2}
 							>
 								<Button
 									item={{
@@ -101,6 +101,7 @@ export const StageLayout = ({
 									),
 									type: 'TERTIARY'
 								}}
+								tabIndex={2}
 								isLink
 							/>
 						</a>

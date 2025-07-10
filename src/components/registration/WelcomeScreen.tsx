@@ -67,6 +67,7 @@ export const WelcomeScreen = ({
 						buttonHandle={handleForwardToRegistration}
 						item={registrationButton}
 						testingAttribute="close-welcome-screen"
+						tabIndex={1}
 					/>
 				</div>
 				<div>
@@ -84,6 +85,7 @@ export const WelcomeScreen = ({
 								}`
 							);
 						}}
+						tabIndex={1}
 					/>
 				</div>
 			</div>

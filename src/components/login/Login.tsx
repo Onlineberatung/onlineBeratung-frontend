@@ -154,6 +154,7 @@ export const Login = () => {
 		label: translate('login.user.label'),
 		content: username,
 		icon: <PersonIcon />,
+		tabIndex: 1,
 		...(labelState && { labelState })
 	};
 
@@ -164,6 +165,7 @@ export const Login = () => {
 		label: translate('login.password.label'),
 		content: password,
 		icon: <LockIcon />,
+		tabIndex: 1,
 		...(labelState && { labelState })
 	};
 
@@ -547,6 +549,7 @@ export const Login = () => {
 								onClick={onPasswordResetClick}
 								className="button-as-link"
 								type="button"
+								tabIndex={1}
 							>
 								{translate('login.resetPasswort.label')}
 							</button>
