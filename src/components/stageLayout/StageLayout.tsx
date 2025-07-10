@@ -11,7 +11,10 @@ import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useResponsive } from '../../hooks/useResponsive';
 import LegalLinks from '../legalLinks/LegalLinks';
-import { MENUPLACEMENT_BOTTOM_LEFT } from '../select/SelectDropdown';
+import {
+	MENUPLACEMENT_BOTTOM_LEFT,
+	MENUPLACEMENT_BOTTOM_RIGHT
+} from '../select/SelectDropdown';
 
 interface StageLayoutProps {
 	className?: string;
@@ -48,7 +51,11 @@ export const StageLayout = ({
 				{selectableLocales.length > 1 && (
 					<div>
 						<LocaleSwitch
-							menuPlacement={MENUPLACEMENT_BOTTOM_LEFT}
+							menuPlacement={
+								!fromL
+									? MENUPLACEMENT_BOTTOM_RIGHT
+									: MENUPLACEMENT_BOTTOM_LEFT
+							}
 						/>
 					</div>
 				)}

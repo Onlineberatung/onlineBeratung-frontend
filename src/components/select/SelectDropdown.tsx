@@ -30,12 +30,14 @@ export const MENUPLACEMENT_TOP = 'top';
 export const MENUPLACEMENT_BOTTOM = 'bottom';
 export const MENUPLACEMENT_RIGHT = 'right';
 export const MENUPLACEMENT_BOTTOM_LEFT = 'bottomLeft';
+export const MENUPLACEMENT_BOTTOM_RIGHT = 'bottomRight';
 
 export type MENUPLACEMENT =
 	| typeof MENUPLACEMENT_TOP
 	| typeof MENUPLACEMENT_BOTTOM
 	| typeof MENUPLACEMENT_RIGHT
-	| typeof MENUPLACEMENT_BOTTOM_LEFT;
+	| typeof MENUPLACEMENT_BOTTOM_LEFT
+	| typeof MENUPLACEMENT_BOTTOM_RIGHT;
 
 export interface SelectDropdownItem {
 	className?: string;
@@ -169,7 +171,13 @@ const colourStyles = (
 							? '16px'
 							: '0',
 					right:
-						menuPlacement === MENUPLACEMENT_BOTTOM_LEFT ? 0 : 'auto'
+						menuPlacement === MENUPLACEMENT_BOTTOM_LEFT
+							? 0
+							: 'auto',
+					left:
+						menuPlacement === MENUPLACEMENT_BOTTOM_RIGHT
+							? 0
+							: 'auto'
 				}),
 		'boxShadow': undefined,
 		'&:after, &:before': {
@@ -194,7 +202,9 @@ const colourStyles = (
 						left:
 							menuPlacement === MENUPLACEMENT_BOTTOM_LEFT
 								? '75%'
-								: '50%',
+								: menuPlacement === MENUPLACEMENT_BOTTOM_RIGHT
+									? '25%'
+									: '50%',
 						bottom:
 							state.menuPlacement === MENUPLACEMENT_TOP
 								? '-9px'
@@ -384,6 +394,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 	const menuPlacement = useMemo<MenuPlacement>(() => {
 		switch (props.menuPlacement) {
 			case MENUPLACEMENT_BOTTOM_LEFT:
+			case MENUPLACEMENT_BOTTOM_RIGHT:
 			case MENUPLACEMENT_RIGHT:
 				return MENUPLACEMENT_BOTTOM;
 			default:
