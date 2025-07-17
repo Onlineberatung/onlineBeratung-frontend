@@ -1398,6 +1398,8 @@
 				}
 			},
 			"displayName": "Display name",
+			"displayNameInfo": "The display name has been successfully changed. It may take up to an hour for this to be displayed.",
+			"displayNameInfoClose": "Close",
 			"edit": {
 				"button": {
 					"cancel": "Cancel",

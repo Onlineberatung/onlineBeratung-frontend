@@ -30,12 +30,14 @@ export const MENUPLACEMENT_TOP = 'top';
 export const MENUPLACEMENT_BOTTOM = 'bottom';
 export const MENUPLACEMENT_RIGHT = 'right';
 export const MENUPLACEMENT_BOTTOM_LEFT = 'bottomLeft';
+export const MENUPLACEMENT_BOTTOM_RIGHT = 'bottomRight';
 
 export type MENUPLACEMENT =
 	| typeof MENUPLACEMENT_TOP
 	| typeof MENUPLACEMENT_BOTTOM
 	| typeof MENUPLACEMENT_RIGHT
-	| typeof MENUPLACEMENT_BOTTOM_LEFT;
+	| typeof MENUPLACEMENT_BOTTOM_LEFT
+	| typeof MENUPLACEMENT_BOTTOM_RIGHT;
 
 export interface SelectDropdownItem {
 	className?: string;
@@ -82,20 +84,20 @@ const colourStyles = (
 			...styles,
 			'backgroundColor': 'white',
 			'border': state.isFocused
-				? '2px solid #3F373F'
+				? '2px solid #199fff'
 				: '1px solid #8C878C',
-			'borderRadius': undefined,
+			'borderRadius': 4,
 			'height': '50px',
-			'outline': '0',
 			'padding': state.isFocused ? '0 11px' : '0 12px',
 			'color': '#3F373F',
-			'boxShadow': undefined,
+			'boxShadow': state.isFocused ? '0 0 0 2px #199fff' : 'none',
 			'cursor': 'pointer',
 			'&:hover': {
 				border: state.isFocused
-					? '2px solid #3F373F'
+					? '2px solid #199fff'
 					: '1px solid #3F373F',
-				padding: state.isFocused ? '0 11px' : '0 12px'
+				padding: state.isFocused ? '0 11px' : '0 12px',
+				boxShadow: '0 0 0 2px #199fff'
 			},
 			'.select__inputLabel': {
 				fontSize: state.isFocused || state.hasValue ? '12px' : '16px',
@@ -169,7 +171,13 @@ const colourStyles = (
 							? '16px'
 							: '0',
 					right:
-						menuPlacement === MENUPLACEMENT_BOTTOM_LEFT ? 0 : 'auto'
+						menuPlacement === MENUPLACEMENT_BOTTOM_LEFT
+							? 0
+							: 'auto',
+					left:
+						menuPlacement === MENUPLACEMENT_BOTTOM_RIGHT
+							? 0
+							: 'auto'
 				}),
 		'boxShadow': undefined,
 		'&:after, &:before': {
@@ -194,7 +202,9 @@ const colourStyles = (
 						left:
 							menuPlacement === MENUPLACEMENT_BOTTOM_LEFT
 								? '75%'
-								: '50%',
+								: menuPlacement === MENUPLACEMENT_BOTTOM_RIGHT
+									? '25%'
+									: '50%',
 						bottom:
 							state.menuPlacement === MENUPLACEMENT_TOP
 								? '-9px'
@@ -384,6 +394,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 	const menuPlacement = useMemo<MenuPlacement>(() => {
 		switch (props.menuPlacement) {
 			case MENUPLACEMENT_BOTTOM_LEFT:
+			case MENUPLACEMENT_BOTTOM_RIGHT:
 			case MENUPLACEMENT_RIGHT:
 				return MENUPLACEMENT_BOTTOM;
 			default:
@@ -430,7 +441,7 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 					props.styleOverrides ?? {}
 				)}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
-				tabIndex={props.isInsideMenu ? -1 : 0}
+				tabIndex={props.isInsideMenu ? -1 : 2}
 				ref={props.selectRef}
 				openMenuOnFocus={props.isInsideMenu ? true : false}
 				closeMenuOnSelect={true}
