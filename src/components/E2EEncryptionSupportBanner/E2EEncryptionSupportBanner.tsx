@@ -16,6 +16,7 @@ import {
 } from '../../globalState';
 import { STATUS_EMPTY } from '../../globalState/interfaces';
 import { Link } from 'react-router-dom';
+import { isIOS } from 'react-device-detect';
 
 export const E2EEncryptionSupportBanner = () => {
 	const [showBanner, setShowBanner] = useState<boolean>(false);
@@ -72,7 +73,9 @@ export const E2EEncryptionSupportBanner = () => {
 				/>
 			</svg>
 			<p>
-				{translate('help.videoCall.banner.content')}{' '}
+				{isIOS
+					? translate('help.videoCall.banner.contentiOS')
+					: translate('help.videoCall.banner.content')}{' '}
 				<Link to="/profile/hilfe/videoCall">
 					{translate('help.videoCall.banner.more')}
 				</Link>

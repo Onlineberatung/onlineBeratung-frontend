@@ -886,6 +886,7 @@
 			},
 			"banner": {
 				"content": "Please use a different browser for video calls to work.",
+				"contentiOS": "The video call is not supported on iOS devices.",
 				"more": "Learn more"
 			},
 			"consultant": {
