@@ -898,6 +898,7 @@
 			},
 			"banner": {
 				"content": "Bitte verwenden Sie einen anderen Browser, um Video-Calls zu ermöglichen.",
+				"contentiOS": "Der Video-Call wird auf iOS-Geräten nicht unterstützt.",
 				"more": "Mehr erfahren"
 			},
 			"consultant": {
