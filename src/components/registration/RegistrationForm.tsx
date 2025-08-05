@@ -131,7 +131,7 @@ export const RegistrationForm = () => {
 
 		const registrationData = {
 			username: formAccordionData.username,
-			password: encodeURIComponent(formAccordionData.password),
+			password: formAccordionData.password,
 			postcode: formAccordionData.postcode,
 			agencyId: formAccordionData?.agency.id.toString(),
 			termsAccepted: isDataProtectionSelected.toString(),
