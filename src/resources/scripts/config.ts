@@ -1,10 +1,10 @@
-import deAgency from '../i18n/de/agency.json';
-import deConsultingTypes from '../i18n/de/consultingTypes.json';
 import { AppConfigInterface } from '../../globalState/interfaces';
 import {
 	OVERLAY_RELEASE_NOTE,
 	OVERLAY_TWO_FACTOR_NAG
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import deAgency from '../i18n/de/agency.json';
+import deConsultingTypes from '../i18n/de/consultingTypes.json';
 
 export const uiUrl = window.location.origin;
 
@@ -16,6 +16,7 @@ export const config: AppConfigInterface = {
 	calcomUrl: '',
 	calendarAppUrl: '',
 	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
+	enableAdviceSeekerWalkThrough: false, // Feature flag to enable the advice seeker walkthrough (false by default here & true in the theme repo)
 	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
 	multitenancyWithSingleDomainEnabled: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 	useTenantService: false,

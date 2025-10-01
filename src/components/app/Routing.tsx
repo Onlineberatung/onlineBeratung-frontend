@@ -384,10 +384,9 @@ export const Routing = (props: RoutingProps) => {
 			<Redirect
 				from="*"
 				to={
-					'/sessions/' +
-					(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
-						? 'consultant/sessionPreview'
-						: 'user/view')
+					hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)
+						? '/overview'
+						: '/sessions/user/view'
 				}
 			/>
 		</Switch>

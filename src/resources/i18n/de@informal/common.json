@@ -123,7 +123,7 @@
 	},
 	"deleteSession": {
 		"confirmOverlay": {
-			"copy": "Möchtest Du den Chat wirklich löschen?"
+			"copy": "Wenn Du die Beratung löscht, wird das Konto der ratsuchenden Person gelöscht und sie kann sich nicht mehr auf der Beratungsplattform anmelden."
 		},
 		"errorOverlay": {
 			"headline": "Ups! Wir konnten den Chat gerade nicht löschen. Bitte versuche es erneut."
@@ -443,6 +443,7 @@
 				}
 			}
 		},
+		"displayNameInfo": "Dein Anzeigename wurde erfolgreich geändert. Es kann bis zu einer Stunde dauern, bis dieser für die Ratsuchenden und in Deinem Profil angezeigt wird.",
 		"documentation": {
 			"description": "Hast Du Fragen? Im Handbuch findest Du detaillierte Informationen zu den wichtigsten Funktionen der Online-Beratungsplattform."
 		},
@@ -874,6 +875,10 @@
 		}
 	},
 	"userProfile": {
+		"data": {
+			"agencyName": "Beratungsstelle",
+			"createDate": "Registrierungsdatum"
+		},
 		"reassign": {
 			"description": "Du kannst die Unterhaltung einem anderen Teammitglied zuweisen. Diese Person ist dann für die_den Ratsuchende_n verantwortlich."
 		},
@@ -966,5 +971,40 @@
 			}
 		},
 		"subtitle": "Um Dir die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Dich vorbereitet. <br /> Du kannst ihn jederzeit abbrechen oder in Deinem Profil erneut starten."
+	},
+	"askerFirstRoundWalkthrough": {
+		"step": {
+			"0": {
+				"intro": "Wir zeigen dir in vier Schritten, wie du auf DigiSucht loslegen kannst. Du kannst den Rundgang jederzeit beenden oder später in deinem Profil neu starten."
+			},
+			"1": {
+				"intro": "Deine Registrierung wird für die Beratungsstelle erst sichtbar, wenn du eine Nachricht sendest. Erzähl in der Nachricht, worum es bei deinem Anliegen geht. Eine Beraterin oder ein Berater meldet sich dann so bald wie möglich bei dir."
+			},
+			"2": {
+				"intro": "Falls freie Termine verfügbar sind, kannst du hier alternativ einen Beratungstermin mit deiner Beratungsstelle vereinbaren. Zum Beispiel für einen Chat oder Videochat."
+			},
+			"3": {
+				"intro": "Hinterlege hier deine E-Mail-Adresse, um über neue Nachrichten deiner Beratungsstelle informiert zu werden und bei Bedarf dein Passwort zurücksetzen zu können. <strong>Wenn du dein Passwort vergisst und keine E-Mail-Adresse hinterlegt hast, kannst du dich nicht mehr einloggen.</strong>"
+			},
+			"4": {
+				"intro": "Hier findest du deinen Nachrichtenverlauf mit deiner Beratungsstelle und Bestätigungen für gebuchte Termine. <br /><br /> Leg direkt los: Erzähl von deiner Situation oder stell deine Frage. Die Beraterinnen und Berater freuen sich auf deine Nachricht!"
+			}
+		}
+	},
+	"askerSecondRoundWalkthrough": {
+		"step": {
+			"0": {
+				"intro": "In diesem Rundgang zeigen wir dir die wichtigsten Funktionen auf DigiSucht. Du kannst den Rundgang jederzeit beenden oder später in deinem Profil neu starten."
+			},
+			"1": {
+				"intro": "Hier findest du deinen Nachrichtenverlauf mit deiner Beratungsstelle und Bestätigungen für gebuchte Termine."
+			},
+			"2": {
+				"intro": "Hinterlege hier deine E-Mail-Adresse, um über neue Nachrichten deiner Beratungsstelle informiert zu werden und bei Bedarf dein Passwort zurücksetzen zu können. <strong>Falls du dein Passwort vergisst und keine E-Mail-Adresse hinterlegt hast, ist ein Login nicht mehr möglich.</strong>"
+			},
+			"3": {
+				"intro": "Hier kannst du Termine mit deiner Beraterin oder deinem Berater buchen, verschieben oder absagen."
+			}
+		}
 	}
 }

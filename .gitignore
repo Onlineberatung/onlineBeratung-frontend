@@ -32,6 +32,12 @@ local.log
 log/
 results/
 
+# cypress
+browserstack.json
+local.log
+log/
+results/
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

@@ -1,0 +1,152 @@
+.registrationFormDigi {
+	-webkit-animation: fadeIn 0.5s linear;
+	animation: fadeIn 0.5s linear;
+	margin: 120px 0;
+	max-width: auto;
+	width: 100%;
+	user-select: none;
+
+	.registrationForm__headline {
+		margin-left: 44px;
+	}
+
+	.radioButton {
+		margin-bottom: 16px;
+		min-height: 25px;
+		margin-left: 0;
+	}
+
+	&__Input {
+		padding: 0px 12px 0px 16px;
+		width: 103px;
+		height: 48px;
+		background: #ffffff;
+		outline: none;
+		border: 1px solid rgba(0, 0, 0, 0.4);
+		border-radius: 4px;
+	}
+
+	&__InputGroup {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+
+	&__CheckboxContainer {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+	}
+
+	&__AgeContainer,
+	&__GenderContainer {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+
+		&Label {
+			margin-bottom: 16px;
+		}
+	}
+
+	&__GenderContainer {
+		margin-top: 48px;
+	}
+
+	&__AgeContainer {
+		margin-top: -5px;
+	}
+
+	&__Submit {
+		margin-top: 70px;
+	}
+
+	&__terms {
+		margin-top: 35px;
+
+		a {
+			text-decoration: underline;
+		}
+	}
+
+	&__NoTopics,
+	&__AgencyMandatoryFields {
+		font-size: 14px;
+		line-height: 20px;
+		color: rgba(0, 0, 0, 0.6);
+		text-align: left;
+	}
+
+	.checkbox__label {
+		text-align: left;
+	}
+
+	.inputField__input {
+		padding: 12px 12px 0px 16px;
+		width: 103px;
+		height: 48px;
+		background: #ffffff;
+
+		border: 1px solid rgba(0, 0, 0, 0.4);
+		border-radius: 4px;
+	}
+
+	.inputField {
+		margin-top: 20px;
+		max-width: 327px;
+	}
+
+	.inputField__label {
+		left: 49px;
+	}
+
+	.formAccordionItem__continueButton {
+		text-align: left;
+		margin-top: 31px;
+
+		.button__item {
+			min-width: 0;
+			padding: 0;
+		}
+	}
+
+	.radioButton.last {
+		margin-bottom: 0;
+	}
+
+	.radioButton__contentWrapper {
+		align-items: center;
+	}
+
+	.inputField--withIcon {
+		margin-left: -32px;
+	}
+
+	.agencySelection__proposedAgencies--warning__text {
+		margin-left: 36px;
+	}
+
+	&__InputTopicIdsContainer {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 13px;
+		margin: 0 44px 32px 0;
+	}
+
+	&__InputTopicIdsContainerGroup {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		gap: 5px;
+
+		.agencyInfo__wrapper {
+			display: flex;
+		}
+
+		.checkbox__wrapper {
+			flex-grow: 1;
+			justify-content: start;
+		}
+	}
+}

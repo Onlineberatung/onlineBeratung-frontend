@@ -21,6 +21,8 @@ import { EditableData } from '../editableData/EditableData';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
+import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
 
 export const ConsultantInformation = () => {
 	const { t: translate } = useTranslation();
@@ -30,6 +32,7 @@ export const ConsultantInformation = () => {
 	const [isSaveDisabled, setIsSaveDisabled] = useState(false);
 	const [editedDisplayName, setEditedDisplayName] = useState('');
 	const [initialDisplayName, setInitialDisplayName] = useState('');
+	const [successOverlayActive, setSuccessOverlayActive] = useState(false);
 
 	const cancelEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.cancel'),
@@ -40,6 +43,18 @@ export const ConsultantInformation = () => {
 		disabled: isSaveDisabled,
 		label: translate('profile.data.edit.button.save'),
 		type: BUTTON_TYPES.LINK
+	};
+
+	const overlayItem: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('profile.data.displayNameInfo'),
+		buttonSet: [
+			{
+				label: translate('profile.data.displayNameInfoClose'),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.AUTO_CLOSE
+			}
+		]
 	};
 
 	const handleValidDisplayName = (displayName) => {
@@ -55,6 +70,7 @@ export const ConsultantInformation = () => {
 			.then(() => {
 				reloadUserData().catch(console.log);
 				setInitialDisplayName(editedDisplayName);
+				setSuccessOverlayActive(true);
 			})
 			.catch((error) => {
 				addNotification({
@@ -69,6 +85,12 @@ export const ConsultantInformation = () => {
 			.finally(() => {
 				setIsEditEnabled(false);
 			});
+	};
+
+	const handleSuccessOverlayAction = (buttonFunction: string) => {
+		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+			setSuccessOverlayActive(false);
+		}
 	};
 
 	useEffect(() => {
@@ -139,6 +161,12 @@ export const ConsultantInformation = () => {
 						buttonHandle={handleSaveEditButton}
 					/>
 				</div>
+			)}
+			{successOverlayActive && (
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleSuccessOverlayAction}
+				/>
 			)}
 		</div>
 	);

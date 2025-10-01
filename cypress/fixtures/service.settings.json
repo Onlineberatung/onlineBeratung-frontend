@@ -16,6 +16,10 @@
 		"value": false,
 		"readOnly": false
 	},
+	"enableAdviceSeekerWalkThrough": {
+		"value": false,
+		"readOnly": false
+	},
 	"disableVideoAppointments": {
 		"value": false,
 		"readOnly": false

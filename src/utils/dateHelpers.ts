@@ -110,16 +110,17 @@ export const prettyPrintTimeDifference = (
 		(deltaT % MILLISECONDS_PER_HOUR) / MILLISECONDS_PER_MINUTE
 	);
 
-	const prefix = includeIn
-		? hours < 0 || minutes < 0
-			? 'vor'
-			: 'in'
-		: 'vor';
+	const isNegative = hours < 0 || minutes < 0;
+	const prefix = includeIn ? (isNegative ? 'vor' : 'in') : 'vor';
+
+	// Use absolute values for display
+	const absHours = Math.abs(hours);
+	const absMinutes = Math.abs(minutes);
 
 	// TODO: Revise hard-coded locale once internationalization is implemented
 	return hours === 0 && minutes === 0
 		? 'jetzt'
-		: `${prefix} ${hours ? `${hours} h ` : ''}${minutes} min`;
+		: `${prefix} ${absHours ? `${absHours} h ` : ''}${absMinutes} min`;
 };
 
 export const convertISO8601ToMSSinceEpoch = (iso8601Date) => {

@@ -898,7 +898,7 @@ export const SessionsList = ({
 								/>
 							</Link>
 							<Link
-								className={clsx({
+								className={clsx('walkthrough_step_4', {
 									'sessionsList__tabs--active':
 										sessionListTab ===
 										SESSION_LIST_TAB_ARCHIVE
@@ -914,7 +914,6 @@ export const SessionsList = ({
 								role="tab"
 							>
 								<Text
-									className={clsx('walkthrough_step_4')}
 									text={translate(
 										'sessionList.view.archive.tab'
 									)}

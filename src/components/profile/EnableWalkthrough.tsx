@@ -1,17 +1,41 @@
 import * as React from 'react';
+import { useContext } from 'react';
+
+import { useTranslation } from 'react-i18next';
+import Switch from 'react-switch';
+
+import { apiPatchAdviceSeekerData, apiPatchConsultantData } from '../../api';
+import {
+	AUTHORITIES,
+	hasUserAuthority,
+	UserDataContext
+} from '../../globalState';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import Switch from 'react-switch';
-import { useContext } from 'react';
-import { UserDataContext } from '../../globalState';
-
-import { apiPatchConsultantData } from '../../api';
-import { useTranslation } from 'react-i18next';
 
 export const EnableWalkthrough = () => {
 	const { t: translate } = useTranslation();
 	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { isWalkThroughEnabled } = userData;
+
+	const handleSwitchChange = () => {
+		if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
+			apiPatchConsultantData({
+				walkThroughEnabled: !isWalkThroughEnabled
+			})
+				.then(reloadUserData)
+				.catch(console.log);
+		}
+		if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
+			sessionStorage.removeItem('currentLoginSession');
+			apiPatchAdviceSeekerData({
+				walkThroughEnabled: !isWalkThroughEnabled
+			})
+				.then(reloadUserData)
+				.catch(console.log);
+		}
+	};
+
 	return (
 		<div className="twoFactorAuth">
 			<div className="profile__content__title">
@@ -27,13 +51,7 @@ export const EnableWalkthrough = () => {
 			</div>
 			<label className="twoFactorAuth__switch">
 				<Switch
-					onChange={() => {
-						apiPatchConsultantData({
-							walkThroughEnabled: !isWalkThroughEnabled
-						})
-							.then(reloadUserData)
-							.catch(console.log);
-					}}
+					onChange={handleSwitchChange}
 					checked={userData.isWalkThroughEnabled}
 					uncheckedIcon={false}
 					checkedIcon={false}

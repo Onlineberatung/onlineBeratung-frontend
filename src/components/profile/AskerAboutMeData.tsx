@@ -1,22 +1,24 @@
 import * as React from 'react';
 import { useCallback, useContext, useMemo, useState } from 'react';
+
+import { useTranslation } from 'react-i18next';
+
 import {
 	apiDeleteTwoFactorAuth,
 	apiPutEmail,
 	FETCH_ERRORS,
 	X_REASON
 } from '../../api';
+import { apiDeleteEmail } from '../../api/apiDeleteEmail';
 import { UserDataContext } from '../../globalState';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { EditableData } from '../editableData/EditableData';
-import { Text } from '../text/Text';
-import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { ReactComponent as CheckIllustration } from '../../resources/img/illustrations/check.svg';
 import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
-import { apiDeleteEmail } from '../../api/apiDeleteEmail';
-import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
+import { EditableData } from '../editableData/EditableData';
 import { Headline } from '../headline/Headline';
-import { useTranslation } from 'react-i18next';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
+import { Text } from '../text/Text';
+import { TWO_FACTOR_TYPES } from '../twoFactorAuth/TwoFactorAuth';
 
 export const AskerAboutMeData = () => {
 	const { t: translate } = useTranslation();
@@ -254,7 +256,7 @@ export const AskerAboutMeData = () => {
 	};
 
 	return (
-		<div>
+		<div className="walkthrough-asker-profile-about-me-data">
 			<div className="profile__content__title">
 				<Headline
 					className="pr--3"

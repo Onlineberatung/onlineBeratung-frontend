@@ -50,7 +50,7 @@ export const ServiceExplanation = ({
 				],
 				{ ns: ['consultingTypes', 'common'] }
 			),
-			text: translate(
+			text: `${translate(
 				[
 					`consultingType.${consultingTypeId}.welcomeScreen.anonymous.text`,
 					`consultingType.fallback.welcomeScreen.anonymous.text`,
@@ -58,7 +58,7 @@ export const ServiceExplanation = ({
 						'registration.welcomeScreen.info4.text'
 				],
 				{ ns: ['consultingTypes', 'common'] }
-			)
+			)} <a href="${translate('registration.welcomeScreen.info4.link')}" class="serviceExplanation__infoContent__customLink" target="_blank" rel="noreferrer">${translate('registration.welcomeScreen.info4.linkText')}</a>`
 		}
 	];
 

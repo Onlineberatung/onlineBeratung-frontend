@@ -1,5 +1,7 @@
 import { apiKeycloakLogout } from '../../api/apiLogoutKeycloak';
 import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
+import { appConfig } from '../../utils/appConfig';
+import { callEventListeners } from '../../utils/eventHandler';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { budibaseLogout } from '../budibase/budibaseLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
@@ -7,9 +9,7 @@ import {
 	removeRocketChatMasterKeyFromLocalStorage,
 	removeTokenExpiryFromLocalStorage
 } from '../sessionCookie/accessSessionLocalStorage';
-import { appConfig } from '../../utils/appConfig';
 import { calcomLogout } from './calcomLogout';
-import { callEventListeners } from '../../utils/eventHandler';
 
 export const EVENT_PRE_LOGOUT = 'pre_logout';
 
@@ -47,6 +47,7 @@ const invalidateCookies = (
 	removeAllCookies();
 	removeTokenExpiryFromLocalStorage();
 	removeRocketChatMasterKeyFromLocalStorage();
+	sessionStorage.removeItem('currentLoginSession');
 	if (withRedirect) {
 		redirectAfterLogout(redirectUrl);
 	}

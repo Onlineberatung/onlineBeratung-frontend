@@ -53,7 +53,7 @@ export default function Cal({
 			action: 'bookingSuccessful',
 			callback: () => {
 				history.push({
-					pathname: `/sessions/user/view`
+					pathname: `/booking/events/gebuchte`
 				});
 			}
 		});

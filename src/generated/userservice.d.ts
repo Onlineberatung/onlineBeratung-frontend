@@ -586,6 +586,13 @@ declare namespace UserService {
 			 */
 			walkThroughEnabled?: boolean;
 		}
+		export interface PatchAdviceSeekerDTO {
+			/**
+			 * example:
+			 * false
+			 */
+			walkThroughEnabled?: boolean;
+		}
 		export interface UserChatDTO {
 			/**
 			 * example:

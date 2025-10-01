@@ -140,7 +140,7 @@ describe('videoconference', () => {
 		it('Start moderator video call', () => {
 			cy.get('@appointmentId').then((id: any) => {
 				const videoUrl = config.urls.consultantVideoConference
-					.replace('/:type', '/app')
+					.replace('/:type', '/overview')
 					.replace('/:appointmentId', `/${id}`);
 
 				cy.visit(videoUrl);
@@ -151,7 +151,7 @@ describe('videoconference', () => {
 
 		it('Start non existent moderator video call', () => {
 			const videoUrl = config.urls.consultantVideoConference
-				.replace('/:type', '/app')
+				.replace('/:type', '/overview')
 				.replace('/:appointmentId', `/${uuid()}`);
 
 			cy.visit(videoUrl);
@@ -248,10 +248,7 @@ describe('videoconference', () => {
 
 				cy.visit(videoUrl);
 
-				cy.url().should(
-					'contain',
-					'/sessions/consultant/sessionPreview'
-				);
+				cy.url().should('contain', '/overview');
 			});
 		});
 
@@ -262,7 +259,7 @@ describe('videoconference', () => {
 
 			cy.visit(videoUrl);
 
-			cy.url().should('contain', '/sessions/consultant/sessionPreview');
+			cy.url().should('contain', '/overview');
 		});
 	});
 

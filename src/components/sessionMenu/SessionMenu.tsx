@@ -14,7 +14,8 @@ import {
 	SessionTypeContext,
 	useConsultingType,
 	UserDataContext,
-	ActiveSessionContext
+	ActiveSessionContext,
+	TenantContext
 } from '../../globalState';
 import {
 	SessionItemInterface,
@@ -69,6 +70,9 @@ import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { RocketChatUsersOfRoomContext } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 import LegalLinks from '../legalLinks/LegalLinks';
+import { endpoints } from '../../resources/scripts/endpoints';
+import { refreshKeycloakAccessToken } from '../sessionCookie/refreshKeycloakAccessToken';
+import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
 
 type TReducedSessionItemInterface = Omit<
 	SessionItemInterface,
@@ -104,6 +108,9 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+
+	const { tenant } = useContext(TenantContext);
+	const [askerItemId, setAskerItemId] = useState<string>();
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
@@ -327,6 +334,25 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		subRoute: 'userProfile'
 	});
 
+	const openToolsLink = () => {
+		refreshKeycloakAccessToken().then((resp) => {
+			const accessToken = resp.access_token;
+			window.open(
+				`${endpoints.budibaseTools(
+					activeSession.consultant.id
+				)}/consultantview?userId=${askerItemId}&access_token=${accessToken}`,
+				'_blank',
+				'noopener'
+			);
+		});
+	};
+
+	useEffect(() => {
+		apiGetUserDataBySessionId(activeSession.item.id).then((resp) => {
+			setAskerItemId(resp.askerId);
+		});
+	}, [activeSession?.item?.id, askerItemId]); // eslint-disable-line react-hooks/exhaustive-deps
+
 	if (redirectToSessionsList) {
 		mobileListView();
 		return <Redirect to={listPath + getSessionListTab()} />;
@@ -542,6 +568,18 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						{translate('chatFlyout.askerProfil')}
 					</Link>
 				)}
+
+				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+					tenant?.settings?.featureToolsEnabled &&
+					activeSession?.item.id &&
+					!activeSession.isGroup && (
+						<div
+							className="sessionMenu__item"
+							onClick={() => openToolsLink()}
+						>
+							{translate('chatFlyout.toolsDocumentation')}
+						</div>
+					)}
 
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 					type !== SESSION_LIST_TYPES.ENQUIRY &&

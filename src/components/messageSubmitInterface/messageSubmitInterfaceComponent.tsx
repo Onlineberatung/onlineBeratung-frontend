@@ -1,3 +1,7 @@
+import './emojiPicker.styles';
+import './messageSubmitInterface.styles';
+import './messageSubmitInterface.yellowTheme.styles';
+
 import * as React from 'react';
 import {
 	useCallback,
@@ -7,54 +11,88 @@ import {
 	useRef,
 	useState
 } from 'react';
+
+import classNames from 'classnames';
+import clsx from 'clsx';
+import {
+	convertToRaw,
+	DraftHandleValue,
+	EditorState,
+	getDefaultKeyBinding,
+	RichUtils
+} from 'draft-js';
+import { draftToMarkdown } from 'markdown-draft-js';
+import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
-import { SendMessageButton } from './SendMessageButton';
-import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
-import { Checkbox } from '../checkbox/Checkbox';
 import {
-	AUTHORITIES,
-	getContact,
-	hasUserAuthority,
-	AnonymousConversationFinishedContext,
-	E2EEContext,
-	SessionTypeContext,
-	useTenant,
-	UserDataContext,
-	ActiveSessionContext
-} from '../../globalState';
-import { STATUS_ARCHIVED, STATUS_FINISHED } from '../../globalState/interfaces';
+	BoldButton,
+	ItalicButton,
+	UnorderedListButton
+} from '@draft-js-plugins/buttons';
+import PluginsEditor from '@draft-js-plugins/editor';
+import createEmojiPlugin from '@draft-js-plugins/emoji';
+import createLinkifyPlugin from '@draft-js-plugins/linkify';
+import createToolbarPlugin from '@draft-js-plugins/static-toolbar';
+
 import {
 	apiPutDearchive,
 	apiSendEnquiry,
 	apiSendMessage,
 	apiUploadAttachment
 } from '../../api';
+import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import {
-	MessageSubmitInfo,
-	MessageSubmitInfoInterface
-} from './MessageSubmitInfo';
+	ActiveSessionContext,
+	AnonymousConversationFinishedContext,
+	AUTHORITIES,
+	E2EEContext,
+	getContact,
+	hasUserAuthority,
+	SessionTypeContext,
+	UserDataContext,
+	useTenant
+} from '../../globalState';
+import { STATUS_ARCHIVED, STATUS_FINISHED } from '../../globalState/interfaces';
+import {
+	OVERLAY_E2EE,
+	OVERLAY_REQUEST
+} from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
+import { useE2EE } from '../../hooks/useE2EE';
+import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
+import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
+import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
+import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
+import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
+import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
+import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
+import {
+	encryptAttachment,
+	encryptText,
+	getSignature
+} from '../../utils/encryptionHelpers';
+import { mobileListView } from '../app/navigationHandler';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
+import { Checkbox } from '../checkbox/Checkbox';
+import {
+	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
+	useDevToolbar
+} from '../devToolbar/DevToolbar';
+import { Headline } from '../headline/Headline';
+import { getIconForAttachmentType } from '../message/messageHelpers';
+import { Overlay } from '../overlay/Overlay';
+import { RoomNotFound } from '../session/RoomNotFound';
+import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
+import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
+import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import {
 	ATTACHMENT_MAX_SIZE_IN_MB,
 	getAttachmentSizeMBForKB
 } from './attachmentHelpers';
-import { TypingIndicator } from '../typingIndicator/typingIndicator';
-import PluginsEditor from '@draft-js-plugins/editor';
 import {
-	convertToRaw,
-	DraftHandleValue,
-	EditorState,
-	RichUtils
-} from 'draft-js';
-import { draftToMarkdown } from 'markdown-draft-js';
-import createLinkifyPlugin from '@draft-js-plugins/linkify';
-import createToolbarPlugin from '@draft-js-plugins/static-toolbar';
-import {
-	BoldButton,
-	ItalicButton,
-	UnorderedListButton
-} from '@draft-js-plugins/buttons';
-import createEmojiPlugin from '@draft-js-plugins/emoji';
+	MessageSubmitInfo,
+	MessageSubmitInfoInterface
+} from './MessageSubmitInfo';
 import {
 	emojiPickerCustomClasses,
 	escapeMarkdownChars,
@@ -62,42 +100,8 @@ import {
 	handleEditorPastedText,
 	toolbarCustomClasses
 } from './richtextHelpers';
-import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
-import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
-import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
-import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
-import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
-import './emojiPicker.styles';
-import './messageSubmitInterface.styles';
-import './messageSubmitInterface.yellowTheme.styles';
-import clsx from 'clsx';
-import { mobileListView } from '../app/navigationHandler';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { Headline } from '../headline/Headline';
-import { useTranslation } from 'react-i18next';
-import {
-	encryptAttachment,
-	encryptText,
-	getSignature
-} from '../../utils/encryptionHelpers';
-import { useE2EE } from '../../hooks/useE2EE';
-import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
-import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
-import { Overlay } from '../overlay/Overlay';
-import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
-import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
-import { RoomNotFound } from '../session/RoomNotFound';
+import { SendMessageButton } from './SendMessageButton';
 import { useDraftMessage } from './useDraftMessage';
-import {
-	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
-	useDevToolbar
-} from '../devToolbar/DevToolbar';
-import {
-	OVERLAY_E2EE,
-	OVERLAY_REQUEST
-} from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
-import { getIconForAttachmentType } from '../message/messageHelpers';
-import classNames from 'classnames';
 
 //Linkify Plugin
 const omitKey = (key, { [key]: _, ...obj }) => obj;
@@ -404,17 +408,12 @@ export const MessageSubmitInterfaceComponent = ({
 		]
 	);
 
-	const handleEditorKeyCommand = useCallback(
-		(command) => {
-			const newState = RichUtils.handleKeyCommand(editorState, command);
-			if (newState) {
-				handleEditorChange(newState);
-				return 'handled';
-			}
-			return 'not-handled';
-		},
-		[editorState, handleEditorChange]
-	);
+	const handleCustomKeyBinding = (event) => {
+		if (event.key === 'Enter' && event.shiftKey) {
+			return 'shift-enter';
+		}
+		return getDefaultKeyBinding(event);
+	};
 
 	const resizeTextarea = useCallback(() => {
 		const textInput: any = textareaInputRef.current;
@@ -782,6 +781,23 @@ export const MessageSubmitInterfaceComponent = ({
 		userData
 	]);
 
+	const handleEditorKeyCommand = useCallback(
+		(command) => {
+			const newState = RichUtils.handleKeyCommand(editorState, command);
+			if (command === 'shift-enter') {
+				handleButtonClick();
+				return 'handled';
+			}
+
+			if (newState) {
+				handleEditorChange(newState);
+				return 'handled';
+			}
+			return 'not-handled';
+		},
+		[editorState, handleEditorChange, handleButtonClick]
+	);
+
 	const handleRequestFeedbackCheckbox = useCallback(() => {
 		setRequestFeedbackCheckboxChecked(
 			(requestFeedbackCheckboxChecked) => !requestFeedbackCheckboxChecked
@@ -972,7 +988,7 @@ export const MessageSubmitInterfaceComponent = ({
 						/>
 					)}
 					<div className={'textarea__wrapper'}>
-						<div className="textarea__wrapper-send-message">
+						<div className="textarea__wrapper-send-message walkthrough-wrapper-send-message">
 							<span className="textarea__featureWrapper">
 								<span className="textarea__richtextToggle">
 									<RichtextToggleIcon
@@ -1026,6 +1042,7 @@ export const MessageSubmitInterfaceComponent = ({
 										handleKeyCommand={
 											handleEditorKeyCommand
 										}
+										keyBindingFn={handleCustomKeyBinding}
 										placeholder={
 											hasRequestFeedbackCheckbox &&
 											requestFeedbackCheckboxChecked
@@ -1125,12 +1142,20 @@ export const MessageSubmitInterfaceComponent = ({
 									)}
 									className="textarea__wrapper-booking-headline"
 								/>
-								<Button
-									item={bookingButton}
-									isLink={true}
-									buttonHandle={handleBookingButton}
-									customIcon={<CalendarMonthIcon />}
-								/>
+								<div
+									className="walkthrough-booking-button"
+									style={{
+										display: 'inline-block',
+										margin: '0 auto'
+									}}
+								>
+									<Button
+										item={bookingButton}
+										isLink={true}
+										buttonHandle={handleBookingButton}
+										customIcon={<CalendarMonthIcon />}
+									/>
+								</div>
 							</div>
 						)}
 					</div>

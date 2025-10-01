@@ -44,11 +44,13 @@ const fastLoginCommand = (getWillReturn, setWillReturn) =>
 					tomorrow.getTime().toString()
 				);
 
-				cy.visit('/app');
-				cy.wait('@usersData');
 				if (userId === USER_ASKER) {
+					cy.visit('/app');
+					cy.wait('@usersData');
 					cy.wait('@askerSessions');
 				} else {
+					cy.visit('/sessions/consultant/sessionPreview');
+					cy.wait('@usersData');
 					cy.wait('@consultantEnquiriesBase');
 				}
 			});

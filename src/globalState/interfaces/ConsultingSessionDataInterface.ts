@@ -3,6 +3,7 @@ import { TopicsDataInterface } from './TopicsDataInterface';
 export interface ConsultingSessionDataInterface {
 	age: number;
 	agencyId: number;
+	agencyName: string;
 	askerId: string;
 	askerRcId: string;
 	askerUserName: string;
@@ -10,6 +11,7 @@ export interface ConsultingSessionDataInterface {
 	consultantRcId: string;
 	consultingType: number;
 	counsellingRelation: string;
+	create_date: string;
 	feedbackGroupId: string;
 	gender: string;
 	groupId: string;

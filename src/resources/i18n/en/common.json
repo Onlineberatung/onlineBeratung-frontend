@@ -367,7 +367,8 @@
 		"imprint": "Imprint",
 		"leaveGroupChat": "Leave chat",
 		"remove": "Delete",
-		"stopGroupChat": "End chat"
+		"stopGroupChat": "End chat",
+		"toolsDocumentation": "Tools and documentation"
 	},
 	"consultant": {
 		"absent": {
@@ -484,8 +485,8 @@
 				"confirm": "yes",
 				"deny": "no"
 			},
-			"copy": "Do you really want to delete the chat?",
-			"headline": "Delete chat"
+			"copy": "If you delete the consultation, the account of the person seeking advice will be deleted, and they will no longer be able to login to the counseling platform.",
+			"headline": "Delete consultation?"
 		},
 		"errorOverlay": {
 			"button": "ok",
@@ -1398,6 +1399,8 @@
 				}
 			},
 			"displayName": "Display name",
+			"displayNameInfo": "Your display name has been successfully changed. It may take up to an hour for it to appear to those seeking advice and on your profile.",
+			"displayNameInfoClose": "Close",
 			"edit": {
 				"button": {
 					"cancel": "Cancel",
@@ -1894,19 +1897,19 @@
 		},
 		"welcomeScreen": {
 			"info1": {
-				"text": "For individual and protected consultation",
+				"text": "For individual and protected consultation.",
 				"title": "Simple registration"
 			},
 			"info2": {
-				"text": "You send your message to a local counseling center",
+				"text": "You send your message to a local counseling center.",
 				"title": "Compose message"
 			},
 			"info3": {
-				"text": "Within 2 working days you will get an answer",
+				"text": "Within 2 working days you will get an answer.",
 				"title": "Personal and professional advice"
 			},
 			"info4": {
-				"text": "You remain anonymous and receive free advice and assistance",
+				"text": "You remain anonymous and receive free advice and assistance.",
 				"title": "Anonymous and free of charge"
 			},
 			"register": {
@@ -2170,7 +2173,8 @@
 		},
 		"contentLine2": {
 			"termsAndCondition": "I have read the Terms of Use.\n I agree to this.",
-			"termsAndConditionAndPrivacy": "I have read the Terms of Use and Privacy Policy.\n I agree to this."
+			"termsAndConditionAndPrivacy": "I have read the Terms of Use and Privacy Policy.\n I agree to this.",
+			"privacy": "I have read the Privacy Policy.\n I agree to this."
 		},
 		"labels": {
 			"here": "here",
@@ -2507,6 +2511,8 @@
 		"data": {
 			"addictiveDrugs": "Narcotics",
 			"age": "Age",
+			"agencyName": "Agency Name",
+			"createDate": "Registration Date",
 			"gender": "Gender",
 			"postcode": "Postal code",
 			"relation": "Background",
@@ -2674,5 +2680,49 @@
 			}
 		},
 		"title": "Tour"
+	},
+	"askerFirstRoundWalkthrough": {
+		"step": {
+			"0": {
+				"intro": "We'll show you in four steps how to get started with DigiSucht. You can end the tour at any time or restart it later in your profile.",
+				"title": "Getting Started on DigiSucht"
+			},
+			"1": {
+				"intro": "Your registration will only become visible to the counseling center once you send a message. In the message, describe what your concern is about. A counselor will then get back to you as soon as possible.",
+				"title": "Write a Message"
+			},
+			"2": {
+				"intro": "If available, you can alternatively arrange a counseling appointment with your counseling center here—for example, for a chat or a video chat.",
+				"title": "Schedule a Counseling Appointment"
+			},
+			"3": {
+				"intro": "Enter your email address here to be notified about new messages from your counseling center and to be able to reset your password if needed. <strong>If you forget your password and have not entered an email address, logging in will no longer be possible.</strong>",
+				"title": "Add Email Address"
+			},
+			"4": {
+				"intro": "Here you will find your message history with your counseling center and confirmations for booked appointments. <br /><br /> Get started: Describe your situation or ask your question. The counselors look forward to your message!",
+				"title": "My Counseling Sessions"
+			}
+		}
+	},
+	"askerSecondRoundWalkthrough": {
+		"step": {
+			"0": {
+				"intro": "In this tour, we will show you the most important functions on DigiSucht. You can end the tour at any time or restart it later in your profile.",
+				"title": "Tour"
+			},
+			"1": {
+				"intro": "Here you will find your message history with your counseling center and confirmations for booked appointments.",
+				"title": "My Consultations"
+			},
+			"2": {
+				"intro": "Enter your email address here to be notified about new messages from your counseling center and to be able to reset your password if needed. <strong>If you forget your password and have not entered an email address, logging in will no longer be possible.</strong>",
+				"title": "Add Email Address"
+			},
+			"3": {
+				"intro": "Here you can book, reschedule, or cancel appointments with your counselor.",
+				"title": "My Appointments"
+			}
+		}
 	}
 }

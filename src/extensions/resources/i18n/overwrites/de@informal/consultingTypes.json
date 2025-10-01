@@ -1,0 +1,11 @@
+{
+	"consultingType": {
+		"noConsultingType": {
+			"groupChatRules": {
+				"0": "Du hast eine Einladung zur Teilnahme an diesem Gruppenchat erhalten. Sobald der Chatraum aktiv ist, kannst Du diesem mit einem Klick auf den „Teilnehmen“-Button beitreten.",
+				"2": "Bei Fragen zum Gruppenchat kontaktiere bitte Deine Beraterin, Deinen Berater oder die Gruppenleitung.",
+				"3": "Mit der Nutzung des Gruppenchats akzeptierst Du die unter folgendem Link verfügbaren verbindlichen Gruppenregeln: <a href=\"https://www.suchtberatung.digital/gruppenregeln\" target=\"_blank\">https://www.suchtberatung.digital/gruppenregeln</a>"
+			}
+		}
+	}
+}

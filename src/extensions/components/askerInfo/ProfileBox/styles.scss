@@ -1,0 +1,19 @@
+.profilebox {
+	flex-basis: 50%;
+	height: auto !important;
+
+	&__content {
+		padding: 12.5px;
+
+		& .button-as-link {
+			border: none;
+			background: none;
+			padding: 0 !important;
+			text-decoration: $link-text-decoration;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+}

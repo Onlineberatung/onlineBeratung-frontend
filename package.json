@@ -1,7 +1,7 @@
 {
 	"name": "@onlineberatung/onlineberatung-frontend",
 	"title": "Online-Beratung",
-	"version": "2.9.14",
+	"version": "2.14.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/onlineberatung/onlineberatung-frontend.git"

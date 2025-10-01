@@ -28,6 +28,7 @@ export * from './apiPutDearchive';
 export * from './apiJoinGroupChat';
 export * from './apiPutGroupChat';
 export * from './apiPatchConsultantData';
+export * from './apiPatchAdviceSeekerData';
 export * from './apiPutConsultantData';
 export * from './apiPutEmail';
 export * from './apiRegistrationNewConsultingTypes';

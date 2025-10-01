@@ -42,20 +42,23 @@ export const TermsAndConditions = () => {
 		buttons: []
 	});
 
-	const transformText2Link = (text: string) => {
-		let termsLabel = translate(
-			'termsAndConditionOverlay.labels.termsAndCondition'
-		);
-		let privacyLabel = translate('termsAndConditionOverlay.labels.privacy');
-		text = text.replace(
-			termsLabel,
-			`<a class='link' target='_blank' href='/nutzungsbedingungen'>${termsLabel}</a>`
-		);
-		return text.replace(
-			privacyLabel,
-			`<a class='link' target='_blank' href='/datenschutz'>${privacyLabel}</a>`
-		);
-	};
+	// The Terms and Conditions are currently not used in this project.
+	// To prevent the app from showing a popup, the following code is commented out.
+
+	// const transformText2Link = (text: string) => {
+	// 	let termsLabel = translate(
+	// 		'termsAndConditionOverlay.labels.termsAndCondition'
+	// 	);
+	// 	let privacyLabel = translate('termsAndConditionOverlay.labels.privacy');
+	// 	text = text.replace(
+	// 		termsLabel,
+	// 		`<a class='link' target='_blank' href='/nutzungsbedingungen'>${termsLabel}</a>`
+	// 	);
+	// 	return text.replace(
+	// 		privacyLabel,
+	// 		`<a class='link' target='_blank' href='/datenschutz'>${privacyLabel}</a>`
+	// 	);
+	// };
 
 	const transformText2DataPrivacyLink = (text: string) => {
 		let hereLabel = translate('termsAndConditionOverlay.labels.here');
@@ -65,75 +68,75 @@ export const TermsAndConditions = () => {
 		);
 	};
 
-	const standardButtons = (userConfirmed: boolean) => {
-		return [
-			{
-				label: translate('termsAndConditionOverlay.buttons.decline'),
-				function: OVERLAY_FUNCTIONS.CLOSE,
-				type: BUTTON_TYPES.SECONDARY
-			},
-			{
-				label: translate('termsAndConditionOverlay.buttons.accept'),
-				disabled: !userConfirmed,
-				type: BUTTON_TYPES.PRIMARY
-			}
-		];
-	};
+	// const standardButtons = (userConfirmed: boolean) => {
+	// 	return [
+	// 		{
+	// 			label: translate('termsAndConditionOverlay.buttons.decline'),
+	// 			function: OVERLAY_FUNCTIONS.CLOSE,
+	// 			type: BUTTON_TYPES.SECONDARY
+	// 		},
+	// 		{
+	// 			label: translate('termsAndConditionOverlay.buttons.accept'),
+	// 			disabled: !userConfirmed,
+	// 			type: BUTTON_TYPES.PRIMARY
+	// 		}
+	// 	];
+	// };
 
 	const dataPrivacyButtons = [
 		{
 			label: translate('termsAndConditionOverlay.buttons.continue'),
-			type: BUTTON_TYPES.PRIMARY
+			type: BUTTON_TYPES.PRIMARY,
+			disabled: !viewState.userConfirmed
 		}
 	];
 
 	useEffect(() => {
-		if (
-			hasChanged(
-				tenantData,
-				userData,
-				'termsAndConditionsConfirmation'
-			) &&
-			hasChanged(tenantData, userData, 'dataPrivacyConfirmation')
-		) {
-			setViewState({
-				headlineText: translate(
-					'termsAndConditionOverlay.title.termsAndConditionAndPrivacy'
-				),
-				mainText: translate(
-					'termsAndConditionOverlay.contentLine1.termsAndConditionAndPrivacy'
-				),
-				checkboxText: transformText2Link(
-					translate(
-						'termsAndConditionOverlay.contentLine2.termsAndConditionAndPrivacy'
-					)
-				),
-				showOverlay: true,
-				userConfirmed: viewState.userConfirmed,
-				buttons: standardButtons(viewState.userConfirmed)
-			});
-		} else if (
-			hasChanged(tenantData, userData, 'termsAndConditionsConfirmation')
-		) {
-			setViewState({
-				headlineText: translate(
-					'termsAndConditionOverlay.title.termsAndCondition'
-				),
-				mainText: translate(
-					'termsAndConditionOverlay.contentLine1.termsAndCondition'
-				),
-				checkboxText: transformText2Link(
-					translate(
-						'termsAndConditionOverlay.contentLine2.termsAndCondition'
-					)
-				),
-				showOverlay: true,
-				userConfirmed: viewState.userConfirmed,
-				buttons: standardButtons(viewState.userConfirmed)
-			});
-		} else if (
-			hasChanged(tenantData, userData, 'dataPrivacyConfirmation')
-		) {
+		// if (
+		// 	hasChanged(
+		// 		tenantData,
+		// 		userData,
+		// 		'termsAndConditionsConfirmation'
+		// 	) &&
+		// 	hasChanged(tenantData, userData, 'dataPrivacyConfirmation')
+		// ) {
+		// 	setViewState({
+		// 		headlineText: translate(
+		// 			'termsAndConditionOverlay.title.termsAndConditionAndPrivacy'
+		// 		),
+		// 		mainText: translate(
+		// 			'termsAndConditionOverlay.contentLine1.termsAndConditionAndPrivacy'
+		// 		),
+		// 		checkboxText: transformText2Link(
+		// 			translate(
+		// 				'termsAndConditionOverlay.contentLine2.termsAndConditionAndPrivacy'
+		// 			)
+		// 		),
+		// 		showOverlay: true,
+		// 		userConfirmed: viewState.userConfirmed,
+		// 		buttons: standardButtons(viewState.userConfirmed)
+		// 	});
+		// } else if (
+		// 	hasChanged(tenantData, userData, 'termsAndConditionsConfirmation')
+		// ) {
+		// 	setViewState({
+		// 		headlineText: translate(
+		// 			'termsAndConditionOverlay.title.termsAndCondition'
+		// 		),
+		// 		mainText: translate(
+		// 			'termsAndConditionOverlay.contentLine1.termsAndCondition'
+		// 		),
+		// 		checkboxText: transformText2Link(
+		// 			translate(
+		// 				'termsAndConditionOverlay.contentLine2.termsAndCondition'
+		// 			)
+		// 		),
+		// 		showOverlay: true,
+		// 		userConfirmed: viewState.userConfirmed,
+		// 		buttons: standardButtons(viewState.userConfirmed)
+		// 	});
+		// } else
+		if (hasChanged(tenantData, userData, 'dataPrivacyConfirmation')) {
 			setViewState({
 				headlineText: translate(
 					'termsAndConditionOverlay.title.privacy'
@@ -141,7 +144,9 @@ export const TermsAndConditions = () => {
 				mainText: transformText2DataPrivacyLink(
 					translate('termsAndConditionOverlay.contentLine1.privacy')
 				),
-				checkboxText: null,
+				checkboxText: translate(
+					'termsAndConditionOverlay.contentLine2.privacy'
+				),
 				showOverlay: true,
 				userConfirmed: viewState.userConfirmed,
 				buttons: dataPrivacyButtons

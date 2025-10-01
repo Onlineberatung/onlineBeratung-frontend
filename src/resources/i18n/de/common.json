@@ -377,7 +377,8 @@
 		"imprint": "Impressum",
 		"leaveGroupChat": "Chat verlassen",
 		"remove": "Löschen",
-		"stopGroupChat": "Chat beenden"
+		"stopGroupChat": "Chat beenden",
+		"toolsDocumentation": "Tools und Dokumentation"
 	},
 	"consultant": {
 		"absent": {
@@ -494,8 +495,8 @@
 				"confirm": "Ja",
 				"deny": "Nein"
 			},
-			"copy": "Möchten Sie den Chat wirklich löschen?",
-			"headline": "Chat löschen"
+			"copy": "Wenn Sie die Beratung löschen, wird das Konto der ratsuchenden Person gelöscht und sie kann sich nicht mehr auf der Beratungsplattform anmelden.",
+			"headline": "Beratung löschen?"
 		},
 		"errorOverlay": {
 			"button": "Ok",
@@ -758,7 +759,7 @@
 			"headline": "Chat-Info",
 			"settings": {
 				"agency": "Beratungsstelle",
-				"createDate": "Erstellungsdatum",
+				"createDate": "Registrierungsdatum",
 				"creator": "Ersteller",
 				"duration": "Dauer",
 				"edit": "Bearbeiten",
@@ -1209,7 +1210,7 @@
 				},
 				"unauthorized": {
 					"otp": "Ihre Zugangsdaten sind nicht korrekt. Bitte versuchen Sie es erneut.",
-					"text": "Benutzername oder Passwort sind nicht korrekt. Bitte versuchen Sie es erneut."
+					"text": "Falsche Zugangsdaten oder temporäre Sperre wegen mehrfacher Fehlversuche (15 Min.). Bitte versuchen Sie es (später) erneut."
 				}
 			}
 		}
@@ -1413,6 +1414,8 @@
 				}
 			},
 			"displayName": "Anzeigename",
+			"displayNameInfo": "Ihr Anzeigename wurde erfolgreich geändert. Es kann bis zu einer Stunde dauern, bis dieser für die Ratsuchenden und in Ihrem Profil angezeigt wird.",
+			"displayNameInfoClose": "Schließen",
 			"edit": {
 				"button": {
 					"cancel": "Abbrechen",
@@ -1917,20 +1920,22 @@
 		},
 		"welcomeScreen": {
 			"info1": {
-				"text": "Für eine individuelle und geschützte Beratung",
+				"text": "Für eine individuelle und geschützte Beratung.",
 				"title": "Einfache Registrierung"
 			},
 			"info2": {
-				"text": "Sie schicken Ihre Nachricht an eine lokale Beratungsstelle",
+				"text": "Sie schicken Ihre Nachricht an eine lokale Beratungsstelle.",
 				"title": "Nachricht verfassen"
 			},
 			"info3": {
-				"text": "Innerhalb von 2 Werktagen bekommen Sie eine Antwort",
+				"text": "Innerhalb von 2 Werktagen bekommen Sie eine Antwort.",
 				"title": "Persönliche und professionelle Beratung"
 			},
 			"info4": {
-				"text": "Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe",
-				"title": "Anonym und kostenfrei"
+				"text": "Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe.",
+				"title": "Anonym und kostenfrei",
+				"link": "https://www.suchtberatung.digital",
+				"linkText": "Mehr Informationen zum Angebot von DigiSucht finden Sie hier."
 			},
 			"register": {
 				"buttonLabel": "Registrieren",
@@ -2189,7 +2194,8 @@
 		},
 		"contentLine2": {
 			"termsAndCondition": "Ich habe die Nutzungsbedingungen zur Kenntnis genommen.\n Damit erkläre ich mich einverstanden.",
-			"termsAndConditionAndPrivacy": "Ich habe die Nutzungsbedingungen und Datenschutzerklärung\n zur Kenntnis genommen. Damit erkläre ich mich einverstanden."
+			"termsAndConditionAndPrivacy": "Ich habe die Nutzungsbedingungen und Datenschutzerklärung\n zur Kenntnis genommen. Damit erkläre ich mich einverstanden.",
+			"privacy": "Ich habe die Datenschutzerklärung zur Kenntnis genommen.\n Damit erkläre ich mich einverstanden."
 		},
 		"labels": {
 			"here": "hier",
@@ -2261,7 +2267,7 @@
 					}
 				},
 				"step4": {
-					"copy": "Geben Sie den Einmal-Code ein, der von der App generiert wird und klicken Sie auf „Speichern“, um die Einrichtung abzuschließen.",
+					"copy": "Geben Sie den Einmal-Code ein, der von der App generiert wird und klicken Sie auf „Speichern",
 					"title": "Einmal-Code eingeben",
 					"visualisation": {
 						"label": "Verknüpfung"
@@ -2527,6 +2533,8 @@
 		"data": {
 			"addictiveDrugs": "Suchtmittel",
 			"age": "Alter",
+			"agencyName": "Beratungsstelle",
+			"createDate": "Registrierungsdatum",
 			"gender": "Geschlecht",
 			"postcode": "Postleitzahl",
 			"relation": "Hintergrund",
@@ -2692,5 +2700,49 @@
 			}
 		},
 		"title": "Rundgang"
+	},
+	"askerFirstRoundWalkthrough": {
+		"step": {
+			"0": {
+				"intro": "Wir zeigen Ihnen in vier Schritten, wie Sie auf DigiSucht loslegen. Sie können den Rundgang jederzeit beenden oder später in Ihrem Profil neu starten.",
+				"title": "Erste Schritte auf DigiSucht"
+			},
+			"1": {
+				"intro": "<strong>Ihre Registrierung wird für die Beratungsstelle erst sichtbar, wenn Sie eine Nachricht senden.</strong> Schildern Sie in der Nachricht, worum es bei Ihrem Anliegen geht. Eine Beraterin oder ein Berater wird sich dann möglichst bald bei Ihnen melden.",
+				"title": "Nachricht schreiben"
+			},
+			"2": {
+				"intro": "Sofern freie Termine verfügbar sind, können Sie hier alternativ einen Beratungstermin mit Ihrer Beratungsstelle vereinbaren. Beispielsweise für einen Chat oder einen Videochat.",
+				"title": "Beratungstermin vereinbaren"
+			},
+			"3": {
+				"intro": "Hinterlegen Sie hier Ihre E-Mail-Adresse, um über neue Nachrichten Ihrer Beratungsstelle informiert zu werden und bei Bedarf Ihr Passwort zurücksetzen zu können. <strong>Sollten Sie Ihr Passwort vergessen und keine E-Mail-Adresse hinterlegt haben, ist ein Login nicht mehr möglich.</strong>",
+				"title": "E-Mail-Adresse hinterlegen"
+			},
+			"4": {
+				"intro": "Hier finden Sie Ihren Nachrichtenverlauf mit Ihrer Beratungsstelle und Bestätigungen für gebuchte Termine. <br /><br /> Legen Sie los: Schildern Sie Ihre Situation oder stellen Sie Ihre Frage. Die Beraterinnen und Berater freuen sich auf Ihre Nachricht!",
+				"title": "Meine Beratungen"
+			}
+		}
+	},
+	"askerSecondRoundWalkthrough": {
+		"step": {
+			"0": {
+				"intro": "In diesem Rundgang zeigen wir Ihnen die wichtigsten Funktionen auf DigiSucht. Sie können den Rundgang jederzeit beenden oder später in Ihrem Profil neu starten.",
+				"title": "Rundgang"
+			},
+			"1": {
+				"intro": "Hier finden Sie Ihren Nachrichtenverlauf mit Ihrer Beratungsstelle und Bestätigungen für gebuchte Termine.",
+				"title": "Meine Beratungen"
+			},
+			"2": {
+				"intro": "Hinterlegen Sie hier Ihre E-Mail-Adresse, um über neue Nachrichten Ihrer Beratungsstelle informiert zu werden und bei Bedarf Ihr Passwort zurücksetzen zu können. <strong>Sollten Sie Ihr Passwort vergessen und keine E-Mail-Adresse hinterlegt haben, ist ein Login nicht mehr möglich.</strong>",
+				"title": "E-Mail-Adresse hinterlegen"
+			},
+			"3": {
+				"intro": "Hier können Sie Termine mit Ihrer Beraterin oder Ihrem Berater buchen, verschieben oder absagen.",
+				"title": "Meine Termine"
+			}
+		}
 	}
 }

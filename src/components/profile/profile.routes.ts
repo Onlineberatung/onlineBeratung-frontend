@@ -1,29 +1,30 @@
-import { AUTHORITIES, hasUserAuthority } from '../../globalState';
-import { ConsultantInformation } from './ConsultantInformation';
-import { ConsultantSpokenLanguages } from './ConsultantSpokenLanguages';
-import { ConsultantAgencies } from './ConsultantAgencies';
-import { AskerConsultingTypeData } from './AskerConsultingTypeData';
-import { consultingTypeSelectOptionsSet } from './profileHelpers';
-import { AskerRegistration } from './AskerRegistration';
-import { ConsultantPrivateData } from './ConsultantPrivateData';
-import { AskerAboutMeData } from './AskerAboutMeData';
-import { ConsultantStatistics } from './ConsultantStatistics';
-import { AbsenceFormular } from './AbsenceFormular';
-import { EnableWalkthrough } from './EnableWalkthrough';
-import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 import { isDesktop } from 'react-device-detect';
+
+import { AUTHORITIES, hasUserAuthority } from '../../globalState';
+import {
+	AppConfigInterface,
+	TenantDataInterface
+} from '../../globalState/interfaces';
+import { browserNotificationsSettings } from '../../utils/notificationHelpers';
+import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
+import { AbsenceFormular } from './AbsenceFormular';
+import { AskerAboutMeData } from './AskerAboutMeData';
+import { AskerConsultingTypeData } from './AskerConsultingTypeData';
+import { AskerRegistration } from './AskerRegistration';
+import { BrowserNotification } from './BrowserNotifications';
+import { ConsultantAgencies } from './ConsultantAgencies';
+import { ConsultantInformation } from './ConsultantInformation';
+import { ConsultantLiveChatAvailability } from './ConsultantLiveChatAvailability';
+import { ConsultantPrivateData } from './ConsultantPrivateData';
+import { ConsultantSpokenLanguages } from './ConsultantSpokenLanguages';
+import { ConsultantStatistics } from './ConsultantStatistics';
+import { EmailNotification } from './EmailNotifications';
+import { EnableWalkthrough } from './EnableWalkthrough';
 import { OverviewBookings } from './OverviewMobile/Bookings';
 import { OverviewSessions } from './OverviewMobile/Sessions';
-import { profileRoutesSettings } from './profileSettings.routes';
 import { profileRoutesHelp } from './profileHelp.routes';
-import { ConsultantLiveChatAvailability } from './ConsultantLiveChatAvailability';
-import {
-	TenantDataInterface,
-	AppConfigInterface
-} from '../../globalState/interfaces';
-import { EmailNotification } from './EmailNotifications';
-import { BrowserNotification } from './BrowserNotifications';
-import { browserNotificationsSettings } from '../../utils/notificationHelpers';
+import { consultingTypeSelectOptionsSet } from './profileHelpers';
+import { profileRoutesSettings } from './profileSettings.routes';
 
 const shouldShowOverview = (useOverviewPage: boolean, userData) =>
 	useOverviewPage &&
@@ -100,10 +101,16 @@ const profileRoutes = (
 						},
 						{
 							condition: (userData) =>
-								hasUserAuthority(
+								(hasUserAuthority(
 									AUTHORITIES.CONSULTANT_DEFAULT,
 									userData
-								) && settings.enableWalkthrough,
+								) &&
+									settings.enableWalkthrough) ||
+								(hasUserAuthority(
+									AUTHORITIES.ASKER_DEFAULT,
+									userData
+								) &&
+									settings.enableAdviceSeekerWalkThrough),
 							component: EnableWalkthrough,
 							column: COLUMN_RIGHT
 						},

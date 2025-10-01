@@ -24,5 +24,9 @@ $iconSize: 32px;
 			margin-top: $grid-base;
 			color: $text-low-emphasis;
 		}
+
+		&__customLink {
+			text-decoration: underline;
+		}
 	}
 }

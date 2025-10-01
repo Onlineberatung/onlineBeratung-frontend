@@ -1,5 +1,5 @@
-import { ConsultingTypeInterface } from './ConsultingTypeInterface';
 import { TWO_FACTOR_TYPES } from '../../components/twoFactorAuth/TwoFactorAuth';
+import { ConsultingTypeInterface } from './ConsultingTypeInterface';
 
 export interface UserDataInterface {
 	absenceMessage?: string;
@@ -30,6 +30,7 @@ export interface UserDataInterface {
 	termsAndConditionsConfirmation: string;
 	dataPrivacyConfirmation: string;
 	emailNotifications?: EmailNotificationsInterface;
+	initialInquirySent?: boolean;
 }
 
 export interface ConsultantDataInterface

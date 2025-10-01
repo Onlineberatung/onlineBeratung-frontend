@@ -25,18 +25,22 @@ export const E2EEncryptionSupportBanner = () => {
 	const { sessions } = useContext(SessionsDataContext);
 
 	useEffect(() => {
+		const isFirefox =
+			navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+
 		if (
-			hasVideoCallAbility(userData, consultingTypes) &&
-			// don't show banner when user enters first message
-			!(
-				hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				(sessions.length === 0 ||
-					(sessions.length === 1 &&
-						sessions[0]?.session?.status === STATUS_EMPTY))
-			)
+			isFirefox ||
+			(hasVideoCallAbility(userData, consultingTypes) &&
+				// don't show banner when user enters first message
+				!(
+					hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
+					(sessions.length === 0 ||
+						(sessions.length === 1 &&
+							sessions[0]?.session?.status === STATUS_EMPTY))
+				))
 		) {
 			setShowBanner(
-				!supportsE2EEncryptionVideoCall() &&
+				(isFirefox || !supportsE2EEncryptionVideoCall()) &&
 					!sessionStorage.getItem('hideEncryptionBanner')
 			);
 		}
