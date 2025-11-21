@@ -7,7 +7,7 @@ import {
 } from '../inputField/InputField';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import {
-	AccordionItemValidity,
+	AccordionItemValidity, isStringValidUsername,
 	MIN_USERNAME_LENGTH,
 	VALIDITY_INITIAL,
 	VALIDITY_INVALID,
@@ -71,18 +71,18 @@ export const RegistrationUsername = ({
 	};
 
 	const validateUsername = (username) => {
-		if (username.length >= MIN_USERNAME_LENGTH) {
+		if (isStringValidUsername(username)) {
 			setIsValid(VALIDITY_VALID);
 			setLabelState(VALIDITY_VALID);
 			setLabelContent(translate('registration.user.suitable'));
-		} else if (username.length > 0) {
-			setIsValid(VALIDITY_INVALID);
-			setLabelState(VALIDITY_INVALID);
-			setLabelContent(translate('registration.user.unsuitable'));
-		} else {
+		} else if (username.length === 0) {
 			setIsValid(VALIDITY_INITIAL);
 			setLabelState(null);
 			setLabelContent(null);
+		} else {
+			setIsValid(VALIDITY_INVALID);
+			setLabelState(VALIDITY_INVALID);
+			setLabelContent(translate('registration.user.unsuitable'));
 		}
 	};
 

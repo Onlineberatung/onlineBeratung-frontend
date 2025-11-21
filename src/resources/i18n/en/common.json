@@ -1886,11 +1886,11 @@
 			"start": "Registration"
 		},
 		"user": {
-			"infoText": "To protect your anonymity, we advise you not to use your real name or initials.<br>Please choose a suitable username with min. 5 characters.",
+			"infoText": "To protect your anonymity, we advise you not to use your real name or initials.<br>Please choose a suitable username with min. 5 characters and no spaces.",
 			"label": "Username",
 			"suitable": "Your username is suitable.",
 			"unavailable": "The username is already taken.",
-			"unsuitable": "Your username is too short."
+			"unsuitable": "Your username is too short or contains spaces."
 		},
 		"username": {
 			"headline": "Choose username"
