@@ -7,8 +7,8 @@ import {
 } from '../inputField/InputField';
 import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
 import {
-	AccordionItemValidity, isStringValidUsername,
-	MIN_USERNAME_LENGTH,
+	AccordionItemValidity,
+	isStringValidUsername,
 	VALIDITY_INITIAL,
 	VALIDITY_INVALID,
 	VALIDITY_VALID
