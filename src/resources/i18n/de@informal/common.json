@@ -644,9 +644,9 @@
 			"consultant": "Bitte registriere Dich, um mit Deiner Beraterin / Deinem Berater in Kontakt zu kommen"
 		},
 		"user": {
-			"infoText": "Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialen zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.",
+			"infoText": "Um Deine Anonymität zu schützen, raten wir Dir nicht Deinen tatsächlichen Namen oder Initialen zu verwenden.<br>Wähle bitte einen geeigneten Benutzernamen mit min. 5 Zeichen und ohne Leerzeichen.",
 			"suitable": "Dein Benutzername ist geeignet.",
-			"unsuitable": "Dein Benutzername ist zu kurz."
+			"unsuitable": "Dein Benutzername ist zu kurz oder enthält Leerzeichen."
 		},
 		"welcomeScreen": {
 			"info2": {
