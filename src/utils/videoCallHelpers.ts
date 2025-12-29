@@ -1,10 +1,5 @@
-import {
-	getValueFromCookie
-} from '../components/sessionCookie/accessSessionCookie';
-import {
-	AUTHORITIES,
-	hasUserAuthority
-} from '../globalState';
+import { getValueFromCookie } from '../components/sessionCookie/accessSessionCookie';
+import { AUTHORITIES, hasUserAuthority } from '../globalState';
 import {
 	ConsultingTypeBasicInterface,
 	UserDataInterface

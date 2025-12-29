@@ -2,12 +2,7 @@ import './authenticatedApp.styles';
 import './navigation.styles';
 
 import * as React from 'react';
-import {
-	useCallback,
-	useContext,
-	useEffect,
-	useState
-} from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 
 import { Redirect } from 'react-router-dom';
 
@@ -21,21 +16,11 @@ import {
 	RocketChatProvider,
 	UserDataContext
 } from '../../globalState';
-import {
-	RocketChatPublicSettingsProvider
-} from '../../globalState/provider/RocketChatPublicSettingsProvider';
-import {
-	RocketChatSubscriptionsProvider
-} from '../../globalState/provider/RocketChatSubscriptionsProvider';
-import {
-	RocketChatGetUserRolesProvider
-} from '../../globalState/provider/RocketChatSytemUsersProvider';
-import {
-	RocketChatUnreadProvider
-} from '../../globalState/provider/RocketChatUnreadProvider';
-import {
-	RocketChatUserStatusProvider
-} from '../../globalState/provider/RocketChatUserStatusProvider';
+import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
+import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
+import { RocketChatGetUserRolesProvider } from '../../globalState/provider/RocketChatSytemUsersProvider';
+import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
+import { RocketChatUserStatusProvider } from '../../globalState/provider/RocketChatUserStatusProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
 import { requestPermissions } from '../../utils/notificationHelpers';

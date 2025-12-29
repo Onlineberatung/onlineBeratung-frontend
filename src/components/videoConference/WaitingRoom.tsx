@@ -1,10 +1,7 @@
 import '../waitingRoom/waitingRoom.styles';
 
 import * as React from 'react';
-import {
-	useContext,
-	useEffect
-} from 'react';
+import { useContext, useEffect } from 'react';
 
 import { renderToString } from 'react-dom/server';
 import { useTranslation } from 'react-i18next';
@@ -14,26 +11,12 @@ import {
 	STATUS_PAUSED,
 	STATUS_STARTED
 } from '../../globalState/interfaces';
-import {
-	GlobalComponentContext
-} from '../../globalState/provider/GlobalComponentContext';
-import {
-	LegalLinksContext
-} from '../../globalState/provider/LegalLinksProvider';
-import {
-	ReactComponent as ErrorIllustration
-} from '../../resources/img/illustrations/not-found.svg';
-import {
-	ReactComponent as WaitingIllustration
-} from '../../resources/img/illustrations/waiting.svg';
-import {
-	ReactComponent as WelcomeIllustration
-} from '../../resources/img/illustrations/welcome.svg';
-import {
-	Button,
-	BUTTON_TYPES,
-	ButtonItem
-} from '../button/Button';
+import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
+import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
+import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import LegalLinks from '../legalLinks/LegalLinks';
 import { StageLayout } from '../stageLayout/StageLayout';
 import { Text } from '../text/Text';

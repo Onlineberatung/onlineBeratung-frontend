@@ -7,28 +7,13 @@ import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 
 import { apiRejectVideoCall } from '../../api';
-import {
-	NotificationsContext,
-	NotificationType
-} from '../../globalState';
-import {
-	ReactComponent as CallOffIcon
-} from '../../resources/img/icons/call-off.svg';
-import {
-	ReactComponent as CallOnIcon
-} from '../../resources/img/icons/call-on.svg';
-import {
-	ReactComponent as CameraOnIcon
-} from '../../resources/img/icons/camera-on.svg';
+import { NotificationsContext, NotificationType } from '../../globalState';
+import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
+import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
+import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
 import { decodeUsername } from '../../utils/encryptionHelpers';
-import {
-	Button,
-	BUTTON_TYPES,
-	ButtonItem
-} from '../button/Button';
-import {
-	useJoinVideoCall
-} from '../sessionHeader/GroupChatHeader/useJoinVideoCall';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
+import { useJoinVideoCall } from '../sessionHeader/GroupChatHeader/useJoinVideoCall';
 
 export interface VideoCallRequestProps {
 	rcGroupId: string;

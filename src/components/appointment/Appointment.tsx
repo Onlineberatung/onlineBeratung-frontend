@@ -1,47 +1,26 @@
 import './appointment.styles.scss';
 
 import * as React from 'react';
-import {
-	useCallback,
-	useContext,
-	useState
-} from 'react';
+import { useCallback, useContext, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import {
-	generatePath,
-	useHistory
-} from 'react-router-dom';
+import { generatePath, useHistory } from 'react-router-dom';
 
 import {
 	NOTIFICATION_TYPE_SUCCESS,
 	NotificationsContext
 } from '../../globalState';
-import {
-	AppointmentsDataInterface
-} from '../../globalState/interfaces/AppointmentsDataInterface';
+import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import {
-	ReactComponent as CopyIcon
-} from '../../resources/img/icons/documents.svg';
+import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
-import {
-	ReactComponent as TrashIcon
-} from '../../resources/img/icons/trash.svg';
+import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
 import { uiUrl } from '../../resources/scripts/config';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { Box } from '../box/Box';
-import {
-	Button,
-	BUTTON_TYPES,
-	ButtonItem
-} from '../button/Button';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
-import {
-	Overlay,
-	OVERLAY_FUNCTIONS,
-	OverlayItem
-} from '../overlay/Overlay';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 
 const DESCRIPTION_PREVIEW_LENGTH = 100;
 
