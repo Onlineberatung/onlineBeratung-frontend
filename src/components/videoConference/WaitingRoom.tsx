@@ -1,25 +1,26 @@
+import '../waitingRoom/waitingRoom.styles';
+
 import * as React from 'react';
-import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
-import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
-import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
-import './../waitingRoom/waitingRoom.styles';
 import { useContext, useEffect } from 'react';
+
+import { renderToString } from 'react-dom/server';
+import { useTranslation } from 'react-i18next';
+
 import {
 	STATUS_CREATED,
 	STATUS_PAUSED,
 	STATUS_STARTED
 } from '../../globalState/interfaces';
-import { useTranslation } from 'react-i18next';
-import { StageLayout } from '../stageLayout/StageLayout';
-import { WaitingRoomContent } from '../waitingRoom/WaitingRoomContent';
-import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
-import { Text } from '../text/Text';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
-import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
-import { E2EEncryptionSupportHelp } from '../E2EEncryptionSupportHelp/E2EEncryptionSupportHelp';
+import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
+import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
+import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
+import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import LegalLinks from '../legalLinks/LegalLinks';
-import { renderToString } from 'react-dom/server';
+import { StageLayout } from '../stageLayout/StageLayout';
+import { Text } from '../text/Text';
+import { WaitingRoomContent } from '../waitingRoom/WaitingRoomContent';
 
 export interface WaitingRoomProps {
 	confirmed: boolean;
@@ -76,9 +77,7 @@ export const WaitingRoom = ({
 	};
 
 	const getContent = () => {
-		if (!supportsE2EEncryptionVideoCall()) {
-			return <E2EEncryptionSupportHelp />;
-		} else if (error) {
+		if (error) {
 			return (
 				<WaitingRoomContent
 					headlineKey={error.title}

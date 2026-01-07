@@ -1,26 +1,26 @@
+import './appointment.styles.scss';
+
 import * as React from 'react';
 import { useCallback, useContext, useState } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { generatePath, useHistory } from 'react-router-dom';
-import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { Box } from '../box/Box';
+
 import {
 	NOTIFICATION_TYPE_SUCCESS,
-	NotificationsContext,
-	UserDataContext
+	NotificationsContext
 } from '../../globalState';
-import { copyTextToClipboard } from '../../utils/clipboardHelpers';
+import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
+import { useAppConfig } from '../../hooks/useAppConfig';
 import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
 import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
-import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
-import './appointment.styles.scss';
-import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { uiUrl } from '../../resources/scripts/config';
-import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
-import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
-import { videoCallErrorOverlayItem } from '../sessionMenu/sessionMenuHelpers';
-import { useTranslation } from 'react-i18next';
-import { useAppConfig } from '../../hooks/useAppConfig';
+import { copyTextToClipboard } from '../../utils/clipboardHelpers';
+import { Box } from '../box/Box';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
+import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
+import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 
 const DESCRIPTION_PREVIEW_LENGTH = 100;
 
@@ -38,8 +38,6 @@ export const Appointment = ({
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation();
 	const history = useHistory();
-
-	const { userData } = useContext(UserDataContext);
 
 	const [overlayItem, setOverlayItem] = useState(null);
 	const [showMore, setShowMore] = useState(false);
@@ -278,16 +276,6 @@ export const Appointment = ({
 							<Button
 								className="text--nowrap"
 								buttonHandle={() => {
-									if (
-										!supportsE2EEncryptionVideoCall(
-											userData.e2eEncryptionEnabled
-										)
-									) {
-										setOverlayItem(
-											videoCallErrorOverlayItem
-										);
-										return;
-									}
 									setOverlayItem(startVideoCallOverlay);
 								}}
 								item={startVideoCallButton}
