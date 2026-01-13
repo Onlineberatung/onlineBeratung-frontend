@@ -1,9 +1,6 @@
 import { v4 as uuid } from 'uuid';
 
-import {
-	USER_CONSULTANT,
-	USER_VIDEO
-} from '../support/commands/mockApi';
+import { USER_CONSULTANT, USER_VIDEO } from '../support/commands/mockApi';
 import {
 	closeWebSocketServer,
 	mockWebSocket,

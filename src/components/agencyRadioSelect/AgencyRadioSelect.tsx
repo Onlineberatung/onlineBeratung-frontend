@@ -47,7 +47,9 @@ export const AgencyRadioSelect = ({
 					checked={agencyIdAsString === checkedValue}
 					inputId={`agency-${agencyIdAsString}`}
 				>
-					{t([`agency.${agencyIdAsString}.name`, agency.name])}
+					{t(`agency.${agencyIdAsString}.name`, {
+						defaultValue: agency.name
+					})}
 				</RadioButton>
 
 				<InfoTooltip
