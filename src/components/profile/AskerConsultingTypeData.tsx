@@ -103,11 +103,11 @@ export const AskerConsultingTypeData = () => {
 									</p>
 									<p className="profile__data__content">
 										{translate(
-											[
-												`agency.${resort.agency.id}.name`,
-												resort.agency.name
-											],
-											{ ns: 'agencies' }
+											`agency.${resort.agency.id}.name`,
+											{
+												ns: 'agencies',
+												defaultValue: resort.agency.name
+											}
 										)}{' '}
 										<br />
 										{resort.agency.postcode}

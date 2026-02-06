@@ -1,16 +1,18 @@
 import * as React from 'react';
 import { useCallback, useContext } from 'react';
-import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
+
+import { useTranslation } from 'react-i18next';
+
 import {
+	NOTIFICATION_TYPE_SUCCESS,
 	NotificationsContext,
-	UserDataContext,
-	NOTIFICATION_TYPE_SUCCESS
+	UserDataContext
 } from '../../globalState';
-import { Headline } from '../headline/Headline';
+import { useAppConfig } from '../../hooks/useAppConfig';
+import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
-import { useAppConfig } from '../../hooks/useAppConfig';
-import { useTranslation } from 'react-i18next';
+import { Headline } from '../headline/Headline';
 
 export const ConsultantAgencies = () => {
 	const settings = useAppConfig();
@@ -36,8 +38,9 @@ export const ConsultantAgencies = () => {
 							className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
 							key={`agencies-${i}`}
 						>
-							{translate([`agency.${item.id}.name`, item.name], {
-								ns: 'agencies'
+							{translate(`agency.${item.id}.name`, {
+								ns: 'agencies',
+								defaultValue: item.name
 							})}
 							<div className="flex flex--fd-row mt--1 flex-l--fd-column mt-l--0 ml-l--2 flex--ai-c flex-l--ai-fs">
 								<div>
