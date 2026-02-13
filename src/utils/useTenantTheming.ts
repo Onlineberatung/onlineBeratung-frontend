@@ -233,30 +233,33 @@ const useTenantTheming = () => {
 
 	const onTenantServiceResponse = useCallback(
 		(tenant: TenantDataInterface) => {
-			if (!subdomain && cypressTenantEnabled !== '1') {
+			// If no subdomain and Cypress tenant not enabled, use default settings
+			// But still decode and apply theming if tenant data is available
+			if (!subdomain && cypressTenantEnabled !== '1' && !tenant) {
 				tenantContext?.setTenant({ settings } as any);
-			} else {
-				// ToDo: See VIC-428 + VIC-427
-				const decodedTenant = JSON.parse(JSON.stringify(tenant));
-
-				if (decodedTenant.theming) {
-					decodedTenant.theming.logo = decodeHTML(tenant.theming.logo);
-					decodedTenant.theming.associationLogo = decodeHTML(
-						tenant.theming.associationLogo
-					);
-					decodedTenant.theming.favicon = decodeHTML(
-						tenant.theming.favicon
-					);
-				}
-				if (decodedTenant.content) {
-					decodedTenant.content.claim = decodeHTML(tenant.content.claim);
-				}
-				decodedTenant.name = decodeHTML(tenant.name);
-
-				applyTheming(decodedTenant);
-				tenantContext?.setTenant(decodedTenant);
+				return;
 			}
-			return;
+
+			// Process tenant data
+			const decodedTenant = JSON.parse(JSON.stringify(tenant));
+
+			if (decodedTenant.theming) {
+				decodedTenant.theming.logo = decodeHTML(tenant.theming.logo);
+				decodedTenant.theming.associationLogo = decodeHTML(
+					tenant.theming.associationLogo
+				);
+				decodedTenant.theming.favicon = decodeHTML(
+					tenant.theming.favicon
+				);
+			}
+			if (decodedTenant.content) {
+				decodedTenant.content.claim = decodeHTML(tenant.content.claim);
+			}
+			decodedTenant.name = decodeHTML(tenant.name);
+
+			// Always apply theming if tenant data is available
+			applyTheming(decodedTenant);
+			tenantContext?.setTenant(decodedTenant);
 		},
 		[settings, subdomain, tenantContext, cypressTenantEnabled]
 	);
