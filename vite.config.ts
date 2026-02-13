@@ -174,9 +174,9 @@ export default defineConfig(({ mode }) => {
 				'@draft-js-plugins/emoji',
 				'@draft-js-plugins/linkify',
 				'@draft-js-plugins/static-toolbar',
-				'@draft-js-plugins/buttons'
-			],
-			exclude: ['sanitize-html']
+				'@draft-js-plugins/buttons',
+				'sanitize-html'
+			]
 		}
 	};
 });
