@@ -175,7 +175,8 @@ export default defineConfig(({ mode }) => {
 				'@draft-js-plugins/linkify',
 				'@draft-js-plugins/static-toolbar',
 				'@draft-js-plugins/buttons'
-			]
+			],
+			exclude: ['sanitize-html']
 		}
 	};
 });
