@@ -280,8 +280,8 @@ $buttonMaxWidth: 400px;
 			}
 
 			&:hover {
-				background-color: $hover-primary;
-				border-color: $hover-primary;
+				background-color: var(--skin-color-primary-hover, $hover-primary);
+				border-color: var(--skin-color-primary-hover, $hover-primary);
 				color: $white;
 
 				svg {
@@ -296,8 +296,8 @@ $buttonMaxWidth: 400px;
 			border-color: transparent;
 
 			&:hover {
-				background-color: $hover-primary;
-				border-color: $hover-primary;
+				background-color: var(--skin-color-primary-hover, $hover-primary);
+				border-color: var(--skin-color-primary-hover, $hover-primary);
 			}
 		}
 	}

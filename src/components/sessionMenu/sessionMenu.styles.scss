@@ -146,7 +146,7 @@ $iconSize: 20px;
 				}
 
 				&:hover {
-					background-color: $hover-primary;
+					background-color: var(--skin-color-primary-hover, $hover-primary);
 
 					p {
 						color: $session-menu-legal-links-color !important;
@@ -162,7 +162,7 @@ $iconSize: 20px;
 		cursor: pointer;
 
 		&:hover {
-			background-color: $hover-primary;
+			background-color: var(--skin-color-primary-hover, $hover-primary);
 			color: var(--skin-color-default, $text-invert);
 		}
 

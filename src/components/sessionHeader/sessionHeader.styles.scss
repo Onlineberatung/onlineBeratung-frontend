@@ -255,7 +255,7 @@ $iconSize: 24px;
 
 					&:hover {
 						background-color: $hover-select;
-						color: $hover-primary;
+						color: var(--skin-color-primary-hover, $hover-primary);
 					}
 
 					span {

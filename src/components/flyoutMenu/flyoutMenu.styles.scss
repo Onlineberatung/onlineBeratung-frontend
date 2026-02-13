@@ -7,7 +7,7 @@
 		color: $secondary;
 
 		&:hover {
-			color: $hover-primary;
+			color: var(--skin-color-primary-hover, $hover-primary);
 		}
 
 		svg {
@@ -57,7 +57,7 @@
 
 			&:hover {
 				background-color: $hover-select;
-				color: $hover-primary;
+				color: var(--skin-color-primary-hover, $hover-primary);
 			}
 		}
 	}
@@ -86,7 +86,7 @@
 .has-flyout {
 	&:hover {
 		.flyoutMenu__trigger {
-			color: $hover-primary;
+			color: var(--skin-color-primary-hover, $hover-primary);
 		}
 	}
 }
