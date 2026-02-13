@@ -83,7 +83,7 @@ export default defineConfig(({ mode }) => {
 				'/service': {
 					target:
 						env.VITE_API_URL ||
-						'https://familien.develop.onlineberatung.net',
+						'https://happylife.develop.onlineberatung.net',
 					changeOrigin: true,
 					secure: false,
 					configure: (proxy, _options) => {
@@ -109,7 +109,7 @@ export default defineConfig(({ mode }) => {
 				'/api': {
 					target:
 						env.VITE_API_URL ||
-						'https://familien.develop.onlineberatung.net',
+						'https://happylife.develop.onlineberatung.net',
 					changeOrigin: true,
 					secure: false,
 					configure: (proxy, _options) => {
@@ -135,7 +135,7 @@ export default defineConfig(({ mode }) => {
 				'/auth': {
 					target:
 						env.VITE_API_URL ||
-						'https://familien.develop.onlineberatung.net',
+						'https://happylife.develop.onlineberatung.net',
 					changeOrigin: true,
 					secure: false,
 					configure: (proxy, _options) => {

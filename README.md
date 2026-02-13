@@ -11,7 +11,7 @@ Please refer to the [hosted documentation](https://onlineberatung.github.io/docu
 The development server is configured with a reverse proxy that forwards backend requests to a remote backend. By default, it uses:
 
 ```
-https://familien.develop.onlineberatung.net
+https://happylife.develop.onlineberatung.net
 ```
 
 This means you can develop locally without needing to run the backend service. All API calls will be proxied to the remote development backend.
