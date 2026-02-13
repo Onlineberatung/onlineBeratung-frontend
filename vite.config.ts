@@ -158,6 +158,33 @@ export default defineConfig(({ mode }) => {
 						});
 					}
 				},
+				'/websocket': {
+					target:
+						env.VITE_API_URL ||
+						'https://happylife.develop.onlineberatung.net',
+					changeOrigin: true,
+					secure: false,
+					ws: true,
+					configure: (proxy, _options) => {
+						proxy.on('error', (err, _req, _res) => {
+							console.log('WebSocket proxy error', err);
+						});
+						proxy.on('proxyReq', (proxyReq, req, _res) => {
+							console.log(
+								'WebSocket Request to Target:',
+								req.method,
+								req.url
+							);
+						});
+						proxy.on('proxyRes', (proxyRes, req, _res) => {
+							console.log(
+								'WebSocket Response from Target:',
+								proxyRes.statusCode,
+								req.url
+							);
+						});
+					}
+				},
 				'/livereload': {
 					target: 'ws://localhost:35729',
 					ws: true

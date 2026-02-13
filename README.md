@@ -23,6 +23,7 @@ The following paths are automatically forwarded to the backend:
 - `/service/*` - Service API endpoints
 - `/api/*` - API endpoints
 - `/auth/*` - Authentication endpoints
+- `/websocket` - WebSocket connections for real-time features
 
 #### Customizing the Backend URL
 
@@ -40,6 +41,7 @@ VITE_API_URL=https://your-backend.example.com
 
 The proxy ensures that:
 
-- All requests to `localhost:5173/service/*`, `localhost:5173/api/*`, and `localhost:5173/auth/*` are forwarded to the configured backend
+- All requests to `localhost:5173/service/*`, `localhost:5173/api/*`, `localhost:5173/auth/*`, and `localhost:5173/websocket` are forwarded to the configured backend
+- WebSocket connections are properly upgraded and maintained
 - HTTPS is used with port 443 (standard)
 - CORS headers are properly handled with `changeOrigin: true`
