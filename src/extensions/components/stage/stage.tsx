@@ -66,7 +66,7 @@ export const Stage = ({
 					<div
 						className="stage__associationLogo"
 						style={{
-							backgroundImage: `url(${tenant.theming.associationLogo})`
+							backgroundImage: `url(${tenant?.theming?.associationLogo})`
 						}}
 					/>
 				</div>
