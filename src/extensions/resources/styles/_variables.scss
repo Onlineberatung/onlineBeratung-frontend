@@ -101,7 +101,7 @@ $registration-text-align: left;
 $select-dropdown-border-radius: 4px;
 $select-focus-background-color: $background-accent;
 $select-menu-before-display: none;
-$selection-focus-color: var(--skin-color-default, $primary);
+$selection-focus-color: var(--skin-color-primary, $primary);
 $session-background-color: $sessions-list-background-color-secondary;
 $session-content-background-color: $sessions-list-background-color-secondary;
 $session-header-background-color-large: $sessions-list-background-color-secondary;

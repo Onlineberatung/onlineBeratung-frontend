@@ -42,9 +42,9 @@ $buttonMaxWidth: 400px;
 	}
 
 	&__secondary {
-		color: var(--skin-color-default, $primary);
+		color: var(--skin-color-primary, $primary);
 		background-color: transparent;
-		border: 2px solid var(--skin-color-default, $primary);
+		border: 2px solid var(--skin-color-primary, $primary);
 
 		&:hover {
 			color: $white;
@@ -117,7 +117,7 @@ $buttonMaxWidth: 400px;
 	}
 
 	&__link {
-		color: var(--skin-color-primary-contrast-safe, $primary);
+		color: var(--skin-color-primary, $primary);
 		background: none;
 		height: 21px;
 
@@ -126,10 +126,10 @@ $buttonMaxWidth: 400px;
 		}
 
 		&:not([disabled]):hover {
-			color: var(--skin-color-primary-contrast-safe, $hover-primary);
+			color: var(--skin-color-primary-hover, $hover-primary);
 
 			svg * {
-				fill: var(--skin-color-primary-contrast-safe, $hover-primary);
+				fill: var(--skin-color-primary-hover, $hover-primary);
 			}
 		}
 

@@ -62,17 +62,17 @@ $iconSize: 24px;
 		svg {
 			width: $iconSize;
 			height: $iconSize;
-			fill: var(--skin-color-default, $secondary);
+			fill: var(--skin-color-secondary, $secondary);
 
 			svg path {
-				fill: var(--skin-color-default, $secondary);
+				fill: var(--skin-color-secondary, $secondary);
 			}
 
 			&:hover {
-				fill: var(--skin-color-default, $primary);
+				fill: var(--skin-color-primary, $primary);
 
 				svg path {
-					fill: var(--skin-color-default, $primary);
+					fill: var(--skin-color-primary, $primary);
 				}
 			}
 		}
@@ -103,7 +103,7 @@ $iconSize: 24px;
 		}
 
 		h3 {
-			color: var(--skin-color-default, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;

@@ -42,7 +42,7 @@ $inputHeight: 50px;
 
 		&__option {
 			background-color: $white;
-			color: var(--skin-color-default, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 			min-height: 48px;
 
 			// The `!important` annotation is relevant to not be overridden by inline styles.
@@ -114,7 +114,7 @@ $inputHeight: 50px;
 		&:hover,
 		:focus {
 			background-color: $select-focus-background-color;
-			color: var(--skin-color-default, $selection-focus-color);
+			color: var(--skin-color-primary, $selection-focus-color);
 		}
 
 		&__icon {

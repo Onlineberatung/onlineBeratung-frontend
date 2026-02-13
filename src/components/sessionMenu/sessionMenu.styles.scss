@@ -7,7 +7,7 @@ $iconSize: 20px;
 		flex-direction: row;
 
 		a {
-			color: var(--skin-color-default, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 		}
 
 		.button__wrapper {
@@ -75,7 +75,7 @@ $iconSize: 20px;
 			height: $iconSize;
 
 			&:hover {
-				fill: var(--skin-color-default, $primary);
+				fill: var(--skin-color-primary, $primary);
 				svg path {
 					fill: $font-size-secondary;
 				}
@@ -163,7 +163,7 @@ $iconSize: 20px;
 
 		&:hover {
 			background-color: var(--skin-color-primary-hover, $hover-primary);
-			color: var(--skin-color-default, $text-invert);
+			color: $text-invert;
 		}
 
 		&--mobile {

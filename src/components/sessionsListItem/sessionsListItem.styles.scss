@@ -106,7 +106,7 @@ $icon-size-small: 16px;
 	&__row {
 		display: flex;
 		gap: 12px;
-		color: var(--skin-color-default, $secondary);
+		color: var(--skin-color-secondary, $secondary);
 		&:first-child {
 			justify-content: space-between;
 			color: $tertiary;

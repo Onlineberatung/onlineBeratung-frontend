@@ -112,7 +112,7 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 		secondaryColor &&
 		contrast.ratio('#fff', secondaryColor) > contrastThreshold
 			? secondaryColor
-			: 'var(--skin-color-default)';
+			: '#fff';
 
 	const primaryColorContrastSafe =
 		primaryColor && contrast.ratio('#fff', primaryColor) < contrastThreshold

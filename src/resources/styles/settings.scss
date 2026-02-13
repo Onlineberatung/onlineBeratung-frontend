@@ -77,8 +77,8 @@ $yellow-5: #ff9f00;
 $yellow-6: #de8a00;
 
 $message-name-self: $text-low-emphasis;
-$message-name-system: var(--skin-color-default, $primary);
-$message-name-consultant: var(--skin-color-default, $primary);
+$message-name-system: var(--skin-color-primary, $primary);
+$message-name-consultant: var(--skin-color-primary, $primary);
 $message-name-user: #167a6f;
 $message-name-forwarded: $text-low-emphasis;
 $message-system: #8c878c;

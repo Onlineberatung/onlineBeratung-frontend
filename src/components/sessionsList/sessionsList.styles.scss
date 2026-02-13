@@ -150,7 +150,7 @@ $tabBarHeightDesktop: 53px;
 		}
 
 		a {
-			color: var(--skin-color-default, $tertiary);
+			color: $tertiary;
 
 			&:last-of-type {
 				margin-left: $grid-base-three;
@@ -158,7 +158,7 @@ $tabBarHeightDesktop: 53px;
 
 			@media (hover: hover) {
 				&:hover .text {
-					color: var(--skin-color-default, $hover-primary);
+					color: var(--skin-color-primary-hover, $hover-primary);
 				}
 			}
 		}
