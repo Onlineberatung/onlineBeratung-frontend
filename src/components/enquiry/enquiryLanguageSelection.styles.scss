@@ -34,15 +34,15 @@
 		}
 
 		&--selected {
-			border: 1px solid $tab-background-border-color-selected;
+			border: 1px solid var(--skin-color-primary, $primary);
 			padding: 7px 11px;
 			background-color: $tab-background-color-selected;
-			color: $tab-color-selected;
+			color: var(--skin-color-primary, $primary);
 
 			@media not all and (hover: none) {
 				&:hover {
 					background-color: $tab-background-color-selected;
-					color: $tab-color-selected;
+					color: var(--skin-color-primary, $primary);
 				}
 			}
 		}

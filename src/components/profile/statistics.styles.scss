@@ -39,11 +39,11 @@
 			svg {
 				width: 35px;
 				height: 35px;
-				fill: $statistics-highlight-color;
+				fill: var(--skin-color-primary, $primary);
 			}
 
 			p {
-				color: $statistics-highlight-color;
+				color: var(--skin-color-primary, $primary);
 				margin: 0 0 0 $grid-base;
 				font-weight: $font-weight-medium;
 				font-size: 30px;
@@ -62,7 +62,7 @@
 		}
 
 		a {
-			color: $statistics-highlight-color;
+			color: var(--skin-color-primary, $primary);
 
 			> svg {
 				margin-right: $grid-base;

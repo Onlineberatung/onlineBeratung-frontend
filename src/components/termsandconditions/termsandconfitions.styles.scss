@@ -1,6 +1,6 @@
 .termsAndConditions {
 	.link {
-		color: $link-color;
+		color: var(--skin-color-primary, $primary);
 		text-decoration: underline;
 	}
 

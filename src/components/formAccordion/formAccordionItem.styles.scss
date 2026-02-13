@@ -125,7 +125,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 
 	&--active & {
 		&__index {
-			background: $form-accordion-index-background-active;
+			background: var(--skin-color-primary, $primary);
 			border: none;
 			color: $form-accordion-index-color-active;
 			font-weight: $form-accordion-title-font-weight;
@@ -133,7 +133,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 
 		&__title {
 			font-weight: $form-accordion-title-font-weight;
-			color: $form-accordion-index-background-active;
+			color: var(--skin-color-primary, $primary);
 		}
 
 		&__content {
