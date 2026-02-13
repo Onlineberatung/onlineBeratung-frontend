@@ -1,4 +1,3 @@
-import '../../polyfill';
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import Icon400 from '../../resources/img/illustrations/bad-request.svg?react';

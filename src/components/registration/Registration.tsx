@@ -1,4 +1,3 @@
-import '../../polyfill';
 import * as React from 'react';
 import unionBy from 'lodash/unionBy';
 import { useParams } from 'react-router-dom';

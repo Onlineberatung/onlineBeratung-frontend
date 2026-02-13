@@ -4,7 +4,6 @@
  * and other stuff to prevent error logs which only happen because of missing
  * requirements
  */
-import '../../polyfill';
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { StageLayout } from '../stageLayout/StageLayout';

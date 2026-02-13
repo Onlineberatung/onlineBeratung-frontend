@@ -1,4 +1,3 @@
-import '../../polyfill';
 import * as React from 'react';
 import { ComponentType, useState, lazy, Suspense, useContext } from 'react';
 import {
