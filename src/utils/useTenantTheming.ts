@@ -240,14 +240,18 @@ const useTenantTheming = () => {
 				// ToDo: See VIC-428 + VIC-427
 				const decodedTenant = JSON.parse(JSON.stringify(tenant));
 
-				decodedTenant.theming.logo = decodeHTML(tenant.theming.logo);
-				decodedTenant.theming.associationLogo = decodeHTML(
-					tenant.theming.associationLogo
-				);
-				decodedTenant.theming.favicon = decodeHTML(
-					tenant.theming.favicon
-				);
-				decodedTenant.content.claim = decodeHTML(tenant.content.claim);
+				if (decodedTenant.theming) {
+					decodedTenant.theming.logo = decodeHTML(tenant.theming.logo);
+					decodedTenant.theming.associationLogo = decodeHTML(
+						tenant.theming.associationLogo
+					);
+					decodedTenant.theming.favicon = decodeHTML(
+						tenant.theming.favicon
+					);
+				}
+				if (decodedTenant.content) {
+					decodedTenant.content.claim = decodeHTML(tenant.content.claim);
+				}
 				decodedTenant.name = decodeHTML(tenant.name);
 
 				applyTheming(decodedTenant);
