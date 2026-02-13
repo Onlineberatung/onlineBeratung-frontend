@@ -119,9 +119,9 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 			? 'var(--skin-color-primary-foreground-dark)'
 			: primaryColor;
 
-	document.head.insertAdjacentHTML(
-		'beforeend',
-		`<style>
+	// Use getOrCreateHeadNode to ensure the style tag persists through Vite HMR
+	const styleNode = getOrCreateHeadNode('style', { id: 'tenant-theming' });
+	styleNode.textContent = `
 		:root {
 		--skin-color-primary: ${primaryColor};
 		--skin-color-primary-hover: ${
@@ -150,8 +150,7 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 		--text-color-contrast-switch: ${textColorContrastSwitch};
 		--text-color-secondary-contrast-switch: ${textColorSecondaryContrastSwitch};
 		}
-		</style>`
-	);
+	`;
 };
 
 const getOrCreateHeadNode = (
