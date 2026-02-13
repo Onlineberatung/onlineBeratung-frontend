@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import { extensionsPlugin } from './vite-plugin-extensions';
 import path from 'path';
 import fs from 'fs';
 
@@ -18,6 +19,11 @@ export default defineConfig(({ mode }) => {
 
 	return {
 		plugins: [
+			// Extensions override plugin - must be first to intercept imports
+			extensionsPlugin({
+				extensionsDir: path.resolve(__dirname, extensionDir),
+				srcDir: path.resolve(__dirname, './src')
+			}),
 			react({
 				// Use React 18's new JSX transform
 				jsxRuntime: 'automatic'
