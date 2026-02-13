@@ -12,8 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { ModalContext } from '../../globalState';
 import { OVERLAY_TYPES } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 import { LoadingIndicator } from '../loadingIndicator/LoadingIndicator';
-
-const FocusTrap = require('focus-trap-react');
+import FocusTrap from 'focus-trap-react';
 
 export const OVERLAY_FUNCTIONS = {
 	CLOSE: 'CLOSE',

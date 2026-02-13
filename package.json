@@ -93,6 +93,7 @@
 		"@babel/eslint-parser": "^7.23.3",
 		"@commitlint/cli": "^18.5.0",
 		"@commitlint/config-conventional": "^18.5.0",
+		"@cypress/vite-dev-server": "^5.0.7",
 		"@dtsgenerator/replace-namespace": "^1.6.0",
 		"@types/bytebuffer": "^5.0.43",
 		"@types/draft-js": "0.11.3",
@@ -105,6 +106,7 @@
 		"@types/uuid": "^8.3.2",
 		"@typescript-eslint/eslint-plugin": "^6.19.1",
 		"@typescript-eslint/parser": "^6.19.1",
+		"@vitejs/plugin-react": "^4.2.1",
 		"breakpoint-sass": "2.7.1",
 		"concurrently": "^8.2.2",
 		"cross-env": "^7.0.3",
@@ -145,12 +147,11 @@
 		"stylelint-scss": "^5.3.2",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.3.3",
-		"wait-on": "^7.2.0",
 		"vite": "^5.0.12",
-		"@vitejs/plugin-react": "^4.2.1",
+		"vite-plugin-node-polyfills": "^0.25.0",
 		"vite-plugin-svgr": "^4.2.0",
 		"vite-tsconfig-paths": "^4.3.1",
-		"@cypress/vite-dev-server": "^5.0.7"
+		"wait-on": "^7.2.0"
 	},
 	"scripts": {
 		"start": "node proxy/server.js",

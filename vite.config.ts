@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import path from 'path';
 import fs from 'fs';
 
@@ -31,7 +32,16 @@ export default defineConfig(({ mode }) => {
 				},
 				include: '**/*.svg'
 			}),
-			tsconfigPaths()
+			tsconfigPaths(),
+			nodePolyfills({
+				// Enable polyfills for browser
+				include: ['buffer', 'process', 'util', 'stream'],
+				globals: {
+					Buffer: true,
+					global: true,
+					process: true
+				}
+			})
 		],
 		resolve: {
 			alias: {
@@ -75,6 +85,24 @@ export default defineConfig(({ mode }) => {
 			// Make sure environment variables are available
 			'process.env': {}
 		},
-		envPrefix: 'VITE_'
+		envPrefix: 'VITE_',
+		optimizeDeps: {
+			esbuildOptions: {
+				// Node.js global to browser globalThis
+				define: {
+					global: 'globalThis'
+				}
+			},
+			include: [
+				'draft-js',
+				'draft-js-export-html',
+				'markdown-draft-js',
+				'@draft-js-plugins/editor',
+				'@draft-js-plugins/emoji',
+				'@draft-js-plugins/linkify',
+				'@draft-js-plugins/static-toolbar',
+				'@draft-js-plugins/buttons'
+			]
+		}
 	};
 });
