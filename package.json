@@ -53,6 +53,7 @@
 		"i18next-resources-to-backend": "^1.2.0",
 		"identity-obj-proxy": "^3.0.0",
 		"immutability-helper": "^3.1.1",
+		"immutable": "^3.8.2",
 		"intro.js": "^5.0.0",
 		"intro.js-react": "^0.5.0",
 		"jotai": "^2.7.0",
