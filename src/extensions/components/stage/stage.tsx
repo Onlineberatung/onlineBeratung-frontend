@@ -51,14 +51,14 @@ export const Stage = ({
 				className="stage__logo"
 				style={{
 					backgroundImage: `url(${
-						isTenantLoaded ? tenant?.theming.logo || logo : null
+						isTenantLoaded ? tenant?.theming?.logo || logo : null
 					})`
 				}}
 			></Link>
 
 			<div className="stage__headline">
 				<h1>{tenant?.name || t('app.stage.title')}</h1>
-				<h4>{tenant?.content.claim || t('app.claim')}</h4>
+				<h4>{tenant?.content?.claim || t('app.claim')}</h4>
 			</div>
 
 			{hasAssociationLogo && (
