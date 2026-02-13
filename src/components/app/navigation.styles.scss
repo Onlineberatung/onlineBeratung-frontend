@@ -133,7 +133,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			top: 4px;
 			left: calc(50% + #{$grid-base-two});
 			text-align: center;
-			outline: $primary 2px solid;
+			outline: var(--skin-color-primary, $primary) 2px solid;
 
 			@include breakpoint($fromMedium) {
 				top: 0;

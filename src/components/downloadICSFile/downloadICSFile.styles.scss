@@ -8,7 +8,7 @@
 	}
 
 	&--primary {
-		color: $primary;
+		color: var(--skin-color-primary, $primary);
 	}
 
 	&__icon {

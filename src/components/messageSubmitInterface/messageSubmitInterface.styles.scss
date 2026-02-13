@@ -436,7 +436,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			}
 
 			svg {
-				fill: $primary;
+				fill: var(--skin-color-primary, $primary);
 				position: relative;
 				left: 50%;
 				top: 50%;

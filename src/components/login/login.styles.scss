@@ -25,7 +25,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	.button-as-link {
 		border: none;
 		background: none;
-		color: $primary;
+		color: var(--skin-color-primary, $primary);
 		text-decoration: $link-text-decoration;
 		padding-left: 0px;
 		margin-top: $grid-base-four;

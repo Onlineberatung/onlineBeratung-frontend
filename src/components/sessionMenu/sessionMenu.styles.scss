@@ -41,7 +41,7 @@ $iconSize: 20px;
 			}
 
 			p {
-				color: $primary;
+				color: var(--skin-color-primary, $primary);
 				text-align: center;
 
 				@include breakpoint($fromLarge) {
@@ -55,7 +55,7 @@ $iconSize: 20px;
 				}
 
 				path {
-					fill: $primary;
+					fill: var(--skin-color-primary, $primary);
 				}
 			}
 		}

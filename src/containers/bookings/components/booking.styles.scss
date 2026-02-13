@@ -8,7 +8,7 @@ $headerHeight: 80px;
 	}
 
 	&--primary {
-		color: $primary;
+		color: var(--skin-color-primary, $primary);
 	}
 
 	&--font-weight-bold {
@@ -99,7 +99,7 @@ $headerHeight: 80px;
 		text-align: center;
 
 		p {
-			color: $primary;
+			color: var(--skin-color-primary, $primary);
 			text-align: center;
 			word-break: normal;
 		}
@@ -109,7 +109,7 @@ $headerHeight: 80px;
 		}
 
 		path {
-			fill: $primary;
+			fill: var(--skin-color-primary, $primary);
 		}
 
 		@include breakpoint($fromLarge) {
@@ -324,7 +324,7 @@ $headerHeight: 80px;
 			width: 18px;
 			height: 18px;
 			path {
-				fill: $primary;
+				fill: var(--skin-color-primary, $primary);
 			}
 		}
 	}
