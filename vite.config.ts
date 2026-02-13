@@ -72,7 +72,10 @@ export default defineConfig(({ mode }) => {
 		css: {
 			preprocessorOptions: {
 				scss: {
-					additionalData: `@import "./src/resources/styles/settings.scss";\n`
+					api: 'modern-compiler', // Use modern Sass API instead of legacy
+					additionalData: `@import "./src/resources/styles/settings.scss";\n`,
+					// Silence @import deprecation warnings (will be fixed in future migration)
+					silenceDeprecations: ['import']
 				}
 			}
 		},
