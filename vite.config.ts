@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => {
 				jsxRuntime: 'automatic'
 			}),
 			svgr({
+				include: '**/*.svg?react',
 				svgrOptions: {
 					// Export React component as default
 					exportType: 'default',
@@ -44,8 +45,7 @@ export default defineConfig(({ mode }) => {
 						]
 					},
 					titleProp: true
-				},
-				include: '**/*.svg'
+				}
 			}),
 			tsconfigPaths(),
 			nodePolyfills({
