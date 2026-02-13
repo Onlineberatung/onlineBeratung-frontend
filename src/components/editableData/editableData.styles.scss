@@ -28,7 +28,7 @@
 		}
 
 		&::selection {
-			background: $primary-10-opacity;
+			background: rgba($primary, 0.1);
 		}
 	}
 
