@@ -8,13 +8,21 @@ Please refer to the [hosted documentation](https://onlineberatung.github.io/docu
 
 ### Backend Proxy
 
-The development server is configured with a reverse proxy that forwards all `/service/*` requests to a remote backend. By default, it uses:
+The development server is configured with a reverse proxy that forwards backend requests to a remote backend. By default, it uses:
 
 ```
 https://familien.develop.onlineberatung.net
 ```
 
 This means you can develop locally without needing to run the backend service. All API calls will be proxied to the remote development backend.
+
+#### Proxied Paths
+
+The following paths are automatically forwarded to the backend:
+
+- `/service/*` - Service API endpoints
+- `/api/*` - API endpoints
+- `/auth/*` - Authentication endpoints
 
 #### Customizing the Backend URL
 
@@ -32,6 +40,6 @@ VITE_API_URL=https://your-backend.example.com
 
 The proxy ensures that:
 
-- All requests to `localhost:5173/service/*` are forwarded to the configured backend
+- All requests to `localhost:5173/service/*`, `localhost:5173/api/*`, and `localhost:5173/auth/*` are forwarded to the configured backend
 - HTTPS is used with port 443 (standard)
 - CORS headers are properly handled with `changeOrigin: true`
