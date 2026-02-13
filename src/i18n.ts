@@ -158,7 +158,9 @@ export const init = async (
 							) && LocalStorageBackend,
 
 							translation?.weblate.path && FetchBackend,
-							resourcesToBackend(unflatten(baseResources))
+							resourcesToBackend(
+								unflatten(baseResources) as Resource
+							)
 						].filter(Boolean),
 						backendOptions: [
 							!(

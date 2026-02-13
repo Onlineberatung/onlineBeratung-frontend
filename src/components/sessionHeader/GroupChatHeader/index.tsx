@@ -141,10 +141,18 @@ export const GroupChatHeader = ({
 						<Link
 							to={`/sessions/consultant/${sessionView}/${activeSession.item.groupId}/${activeSession.item.id}/groupChatInfo${sessionTabPath}`}
 						>
-							<h3>{activeSession.item.topic}</h3>
+							<h3>
+								{typeof activeSession.item.topic === 'string'
+									? activeSession.item.topic
+									: activeSession.item.topic?.name}
+							</h3>
 						</Link>
 					) : (
-						<h3>{activeSession.item.topic}</h3>
+						<h3>
+							{typeof activeSession.item.topic === 'string'
+								? activeSession.item.topic
+								: activeSession.item.topic?.name}
+						</h3>
 					)}
 				</div>
 

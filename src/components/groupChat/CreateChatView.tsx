@@ -547,7 +547,9 @@ export const CreateGroupChatView = (props) => {
 						</h3>
 					</div>
 					<p className="createChat__header__subtitle createChat__header__subtitle--withBackButton">
-						{activeSession.item.topic}
+						{typeof activeSession.item.topic === 'string'
+							? activeSession.item.topic
+							: activeSession.item.topic?.name}
 					</p>
 				</div>
 			) : (

@@ -260,7 +260,9 @@ export const GroupChatInfo = () => {
 						</div>
 						<div className="groupChatInfo__header__metaInfo">
 							<p className="groupChatInfo__header__username">
-								{activeSession.item.topic}
+								{typeof activeSession.item.topic === 'string'
+									? activeSession.item.topic
+									: activeSession.item.topic?.name}
 							</p>
 						</div>
 					</div>
@@ -272,7 +274,11 @@ export const GroupChatInfo = () => {
 									<span className="groupChatInfo__icon--active"></span>
 								) : null}
 							</div>
-							<h2>{activeSession.item.topic}</h2>
+							<h2>
+								{typeof activeSession.item.topic === 'string'
+									? activeSession.item.topic
+									: activeSession.item.topic?.name}
+							</h2>
 						</div>
 						{activeSession.item.active &&
 						activeSession.item.subscribed ? (
@@ -342,7 +348,8 @@ export const GroupChatInfo = () => {
 												<p className="groupChatInfo__data__content">
 													{getCreationDate(
 														new Date(
-															activeSession.item.createdAt
+															activeSession.item
+																.createdAt
 														)
 													)}
 												</p>

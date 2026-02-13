@@ -421,7 +421,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 									{...message}
 								/>
 								{index === messages.length - 1 &&
-									enableInitialScroll()}
+									(() => {
+										enableInitialScroll();
+										return null;
+									})()}
 							</React.Fragment>
 						))}
 					<div

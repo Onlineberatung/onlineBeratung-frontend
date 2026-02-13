@@ -45,7 +45,10 @@ export interface SelectDropdownItem {
 	selectedOptions: SelectOption[];
 	selectInputLabel?: string;
 	placeholder?: string;
-	handleDropdownSelect: Function;
+	handleDropdownSelect: (
+		newValue: SelectOption | SelectOption[],
+		actionMeta?: any
+	) => void;
 	useIconOption?: boolean;
 	isSearchable?: boolean;
 	isMulti?: boolean;
@@ -378,8 +381,11 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 	);
 
 	const currentSelectInputLabel = props.selectInputLabel;
-	const CustomValueContainer = ({ children, ...props }) => (
-		<components.ValueContainer {...props} className="select__inputWrapper">
+	const CustomValueContainer = ({ children, ...containerProps }: any) => (
+		<components.ValueContainer
+			{...containerProps}
+			className="select__inputWrapper"
+		>
 			{React.Children.map(children, (child) => child)}
 			<label className="select__inputLabel">
 				{translate(currentSelectInputLabel)}

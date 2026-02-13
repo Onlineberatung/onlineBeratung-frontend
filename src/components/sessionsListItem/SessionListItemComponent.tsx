@@ -296,7 +296,9 @@ export const SessionListItemComponent = ({
 									'sessionsListItem__username--readLabel'
 							)}
 						>
-							{activeSession.item.topic}
+							{typeof activeSession.item.topic === 'string'
+								? activeSession.item.topic
+								: activeSession.item.topic?.name}
 						</div>
 					</div>
 					<div className="sessionsListItem__row">
