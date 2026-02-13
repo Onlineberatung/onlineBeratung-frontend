@@ -200,7 +200,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
 			.navigation__icon__filled {
 				display: block;
-				fill: $primary;
+				fill: var(--skin-color-primary, $primary);
 			}
 			.navigation__icon__outline {
 				display: none;
