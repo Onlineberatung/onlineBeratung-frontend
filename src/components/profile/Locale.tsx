@@ -5,7 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language_filled.svg';
 
 import './profile.styles';
-import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
+import {
+	SelectDropdown,
+	SelectDropdownItem,
+	SelectOption
+} from '../select/SelectDropdown';
 import { LocaleContext } from '../../globalState';
 
 export const Locale = () => {
@@ -13,7 +17,14 @@ export const Locale = () => {
 	const { locale, setLocale, selectableLocales } = useContext(LocaleContext);
 
 	const languageSelectDropdown: SelectDropdownItem = {
-		handleDropdownSelect: ({ value }) => setLocale(value),
+		handleDropdownSelect: (selectedOption) => {
+			const value = Array.isArray(selectedOption)
+				? selectedOption[0]?.value
+				: (selectedOption as SelectOption)?.value;
+			if (value) {
+				setLocale(value);
+			}
+		},
 		id: 'languageSelect',
 		selectedOptions: selectableLocales.map((lng) => ({
 			label: translate([lng, lng], { ns: 'languages' }),

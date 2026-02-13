@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
+import {
+	SelectDropdown,
+	SelectDropdownItem,
+	SelectOption
+} from '../select/SelectDropdown';
 import {
 	AccordionItemValidity,
 	RegistrationDropdownSelectData,
@@ -40,7 +44,14 @@ export const RegistrationState = ({
 	};
 
 	const stateSelectDropdown: SelectDropdownItem = {
-		handleDropdownSelect: (e) => setState(e.value),
+		handleDropdownSelect: (selectedOption) => {
+			const value = Array.isArray(selectedOption)
+				? selectedOption[0]?.value
+				: (selectedOption as SelectOption)?.value;
+			if (value) {
+				setState(value);
+			}
+		},
 		id: 'stateSelect',
 		selectedOptions: stateData,
 		selectInputLabel: dropdownSelectData.label,

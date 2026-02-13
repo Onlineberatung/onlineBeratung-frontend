@@ -59,16 +59,14 @@ declare namespace Paths {
 			export type Postcode = string;
 		}
 		export interface QueryParameters {
-			postcode: /**
+			postcode /**
 			 * example:
 			 * 56789
-			 */
-			Parameters.Postcode;
-			consultingType: /**
+			 */: Parameters.Postcode;
+			consultingType /**
 			 * example:
 			 * 5
-			 */
-			Parameters.ConsultingType /* int32 */;
+			 */: Parameters.ConsultingType /* int32 */;
 		}
 		namespace Responses {
 			export type $200 = AgencyService.Schemas.AgencyResponseDTO[];

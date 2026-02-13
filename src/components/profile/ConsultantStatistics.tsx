@@ -6,7 +6,11 @@ import {
 	ConsultantStatisticsDTO
 } from '../../api';
 import { Headline } from '../headline/Headline';
-import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
+import {
+	SelectDropdown,
+	SelectDropdownItem,
+	SelectOption
+} from '../select/SelectDropdown';
 import { Text } from '../text/Text';
 import { ReactComponent as PersonsIcon } from '../../resources/img/icons/persons.svg';
 import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
@@ -148,8 +152,14 @@ export const ConsultantStatistics = () => {
 	const selectDropdown: SelectDropdownItem = {
 		id: 'statisticsSelect',
 		selectedOptions: statisticsPeriodOptions,
-		handleDropdownSelect: (selectedOption) =>
-			setStatisticsPeriod(selectedOption.value),
+		handleDropdownSelect: (selectedOption) => {
+			const value = Array.isArray(selectedOption)
+				? selectedOption[0]?.value
+				: (selectedOption as SelectOption)?.value;
+			if (value) {
+				setStatisticsPeriod(value);
+			}
+		},
 		useIconOption: false,
 		isSearchable: false,
 		menuPlacement: 'bottom',

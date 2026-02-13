@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import Select, { MenuPlacement, StylesConfig } from 'react-select';
+import Select, { MenuPlacement, StylesConfig, MultiValue } from 'react-select';
 import { components } from 'react-select';
 import { CloseCircle } from '../../resources/img/icons';
 import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down-light.svg';
@@ -46,7 +46,7 @@ export interface SelectDropdownItem {
 	selectInputLabel?: string;
 	placeholder?: string;
 	handleDropdownSelect: (
-		newValue: SelectOption | SelectOption[],
+		newValue: SelectOption | MultiValue<SelectOption>,
 		actionMeta?: any
 	) => void;
 	useIconOption?: boolean;

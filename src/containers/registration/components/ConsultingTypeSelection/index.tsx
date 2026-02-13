@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Text } from '../../../../components/text/Text';
 import {
 	SelectDropdown,
-	SelectDropdownItem
+	SelectDropdownItem,
+	SelectOption
 } from '../../../../components/select/SelectDropdown';
 import { ConsultingTypeInterface } from '../../../../globalState/interfaces';
 
@@ -41,8 +42,14 @@ export const ConsultingTypeSelection = ({
 	const consultingTypeSelect: SelectDropdownItem = {
 		id: 'consultingTypeSelection',
 		selectedOptions: consultingTypeOptions,
-		handleDropdownSelect: (selectedOption) =>
-			onChange(selectedOption.value),
+		handleDropdownSelect: (selectedOption) => {
+			const value = Array.isArray(selectedOption)
+				? selectedOption[0]?.value
+				: (selectedOption as SelectOption)?.value;
+			if (value) {
+				onChange(value);
+			}
+		},
 		selectInputLabel: t(
 			'registration.consultingTypeAgencySelection.consultingType.select.label'
 		),

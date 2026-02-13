@@ -10,7 +10,8 @@ import {
 	MENUPLACEMENT,
 	MENUPLACEMENT_BOTTOM,
 	SelectDropdown,
-	SelectDropdownItem
+	SelectDropdownItem,
+	SelectOption
 } from '../select/SelectDropdown';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 
@@ -67,12 +68,17 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 	}
 
 	const languageSelectDropdown: SelectDropdownItem = {
-		handleDropdownSelect: ({ value }) => {
+		handleDropdownSelect: (selectedOption) => {
+			const value = Array.isArray(selectedOption)
+				? selectedOption[0]?.value
+				: (selectedOption as SelectOption)?.value;
 			// If we wait to be set in LocaleSwitch sometimes we've an problem of reloading the requests
 			// because we're always looking by "locale" from the context but the locale is changed before
 			// we save the cookie so to fix this we set the cookie before the locale switch
-			setValueInCookie('lang', value);
-			setLocale(value);
+			if (value) {
+				setValueInCookie('lang', value);
+				setLocale(value);
+			}
 		},
 		id: 'languageSelect',
 		className,

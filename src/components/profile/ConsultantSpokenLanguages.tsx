@@ -4,6 +4,7 @@ import { UserDataContext } from '../../globalState';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { SelectDropdown, SelectOption } from '../select/SelectDropdown';
+import { MultiValue } from 'react-select';
 import { Text } from '../text/Text';
 
 import './profile.styles';
@@ -36,10 +37,11 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 		setPreviousLanguages([...userData.languages]);
 	}, [userData]);
 
-	const selectHandler = (e: SelectOption[]) => {
+	const selectHandler = (e: SelectOption | MultiValue<SelectOption>) => {
+		const languageArray = Array.isArray(e) ? e : [e];
 		const newLanguages = [
 			...fixedLanguages,
-			...e.map((languageObject) => languageObject.value)
+			...languageArray.map((languageObject) => languageObject.value)
 		];
 
 		setSelectedLanguages(newLanguages.filter(isUniqueLanguage));

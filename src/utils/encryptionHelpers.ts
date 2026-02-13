@@ -278,7 +278,11 @@ export const decryptAttachment = async (
 		}
 
 		const [vector, cipherText] = splitVectorAndEcryptedData(msgArray);
-		const result = await decryptAES(vector, groupKey, cipherText);
+		const result = await decryptAES(
+			vector as Uint8Array<ArrayBuffer>,
+			groupKey,
+			cipherText as Uint8Array<ArrayBuffer>
+		);
 		return new File([result as BlobPart], name);
 	} catch (error) {
 		console.error('Error decrypting message: ', error, encAttachment);
@@ -434,7 +438,11 @@ export const decryptText = async (
 		}
 
 		const [vector, cipherText] = splitVectorAndEcryptedData(msgArray);
-		const result = await decryptAES(vector, groupKey, cipherText);
+		const result = await decryptAES(
+			vector as Uint8Array<ArrayBuffer>,
+			groupKey,
+			cipherText as Uint8Array<ArrayBuffer>
+		);
 		return new TextDecoder('UTF-8').decode(result as BufferSource);
 	} catch (error) {
 		console.error('Error decrypting message: ', error, encMessage);
@@ -596,7 +604,11 @@ export const decryptPrivateKey = async (privateKey, masterKey) => {
 		);
 
 		return toString(
-			(await decryptAES(vector, masterKey, cipherText)) as Uint8Array
+			(await decryptAES(
+				vector as Uint8Array<ArrayBuffer>,
+				masterKey,
+				cipherText as Uint8Array<ArrayBuffer>
+			)) as unknown as Uint8Array
 		);
 	} catch (error) {
 		throw new Error('E2E -> Error decrypting private key: ' + error);

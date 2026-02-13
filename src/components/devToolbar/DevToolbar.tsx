@@ -219,7 +219,7 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 			i18n.changeLanguage(
 				value === 'cimode'
 					? 'cimode'
-					: localStorage.getItem(STORAGE_KEY_LOCALE) ?? 'de'
+					: (localStorage.getItem(STORAGE_KEY_LOCALE) ?? 'de')
 			);
 		}
 	},
