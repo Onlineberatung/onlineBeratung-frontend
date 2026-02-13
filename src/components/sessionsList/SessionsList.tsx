@@ -53,7 +53,7 @@ import {
 import { Button } from '../button/Button';
 import { WelcomeIllustration } from './SessionsListWelcomeIllustration';
 import { SessionListCreateChat } from './SessionListCreateChat';
-import './sessionsList.styles';
+import './sessionsList.styles.scss';
 import {
 	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
 	SCROLL_PAGINATE_THRESHOLD
@@ -74,7 +74,7 @@ import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as LiveChatAvailableIllustration } from '../../resources/img/illustrations/live-chat-available.svg';
+import LiveChatAvailableIllustration from '../../resources/img/illustrations/live-chat-available.svg?react';
 import { ListInfo } from '../listInfo/ListInfo';
 import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
 import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';

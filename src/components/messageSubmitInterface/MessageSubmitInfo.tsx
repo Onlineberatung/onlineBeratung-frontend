@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
-import { ReactComponent as ErrorIcon } from '../../resources/img/icons/exclamation-mark.svg';
-import './messageSubmitInfo.styles';
+import InfoIcon from '../../resources/img/icons/i.svg?react';
+import ErrorIcon from '../../resources/img/icons/exclamation-mark.svg?react';
+import './messageSubmitInfo.styles.scss';
 import { useTranslation } from 'react-i18next';
 
 export interface MessageSubmitInfoInterface {

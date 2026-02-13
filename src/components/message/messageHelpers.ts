@@ -5,10 +5,10 @@ import {
 	isPNGAttachment,
 	isXLSXAttachment
 } from '../messageSubmitInterface/attachmentHelpers';
-import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
-import { ReactComponent as FileImageIcon } from '../../resources/img/icons/file-image.svg';
-import { ReactComponent as FilePdfIcon } from '../../resources/img/icons/file-pdf.svg';
-import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xls.svg';
+import FileDocIcon from '../../resources/img/icons/file-doc.svg?react';
+import FileImageIcon from '../../resources/img/icons/file-image.svg?react';
+import FilePdfIcon from '../../resources/img/icons/file-pdf.svg?react';
+import FileXlsIcon from '../../resources/img/icons/file-xls.svg?react';
 
 export const getIconForAttachmentType = (attachmentType: string) => {
 	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {

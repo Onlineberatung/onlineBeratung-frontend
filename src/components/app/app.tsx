@@ -9,7 +9,7 @@ import {
 	Redirect
 } from 'react-router-dom';
 import { StageProps } from '../stage/stage';
-import '../../resources/styles/styles';
+import '../../resources/styles/styles.scss';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';

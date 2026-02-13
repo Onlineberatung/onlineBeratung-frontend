@@ -23,7 +23,7 @@ import {
 	CameraOnIcon,
 	GroupChatInfoIcon
 } from '../../../resources/img/icons';
-import { ReactComponent as VideoCallIcon } from '../../../resources/img/illustrations/camera.svg';
+import VideoCallIcon from '../../../resources/img/illustrations/camera.svg?react';
 import { SessionMenu } from '../../sessionMenu/SessionMenu';
 import { useTranslation } from 'react-i18next';
 import { getGroupChatDate } from '../../session/sessionDateHelpers';

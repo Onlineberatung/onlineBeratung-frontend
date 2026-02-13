@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
 import { ActiveSessionContext } from '../../globalState';
-import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
+import NewWindow from '../../resources/img/icons/new-window.svg?react';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { refreshKeycloakAccessToken } from '../sessionCookie/refreshKeycloakAccessToken';
 import { Text } from '../text/Text';
-import './askerInfoTools.styles';
+import './askerInfoTools.styles.scss';
 import { AskerInfoToolsOptions } from './AskerInfoToolsOptions';
 import { useTranslation } from 'react-i18next';
 

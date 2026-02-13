@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import './stage.styles';
+import './stage.styles.scss';
 import { Spinner, useTenant } from '../../../..';
 import { config } from '../../resources/scripts/config';
 import logo from './logo.png';

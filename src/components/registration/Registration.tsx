@@ -7,7 +7,7 @@ import { getUrlParameter } from '../../utils/getUrlParameter';
 import { WelcomeScreen } from './WelcomeScreen';
 import { InformalContext } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
-import '../../resources/styles/styles';
+import '../../resources/styles/styles.scss';
 import { StageLayout } from '../stageLayout/StageLayout';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import { useTranslation } from 'react-i18next';

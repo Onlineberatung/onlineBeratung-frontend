@@ -1,7 +1,7 @@
 import * as React from 'react';
-import './localeSwitch.styles';
-import { ReactComponent as LanguageIconOutline } from '../../resources/img/icons/language_outline.svg';
-import { ReactComponent as LanguageIconFilled } from '../../resources/img/icons/language_filled.svg';
+import './localeSwitch.styles.scss';
+import LanguageIconOutline from '../../resources/img/icons/language_outline.svg?react';
+import LanguageIconFilled from '../../resources/img/icons/language_filled.svg?react';
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect, useState } from 'react';
 import { UserDataContext, LocaleContext } from '../../globalState';

@@ -7,7 +7,7 @@ import { SelectDropdown, SelectOption } from '../select/SelectDropdown';
 import { MultiValue } from 'react-select';
 import { Text } from '../text/Text';
 
-import './profile.styles';
+import './profile.styles.scss';
 import { isUniqueLanguage } from './profileHelpers';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useTranslation } from 'react-i18next';

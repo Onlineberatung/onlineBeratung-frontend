@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, BUTTON_TYPES } from '../button/Button';
-import './reassignRequestMessage.styles';
+import './reassignRequestMessage.styles.scss';
 import { ConsultantListContext } from '../../globalState';
 
 export const ReassignRequestMessage: React.FC<{

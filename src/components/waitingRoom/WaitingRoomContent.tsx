@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import './waitingRoom.styles';
+import './waitingRoom.styles.scss';
 import { useTranslation } from 'react-i18next';
 
 export interface WaitingRoomContentProps {

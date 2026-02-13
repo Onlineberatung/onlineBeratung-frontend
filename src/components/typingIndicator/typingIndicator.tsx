@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import './typingIndicator.styles';
+import './typingIndicator.styles.scss';
 
 export const TypingIndicator = (props) => {
 	const { t: translate } = useTranslation();

@@ -5,7 +5,7 @@ import {
 	IncomingVideoCallProps,
 	NOTIFICATION_TYPE_CALL
 } from '../incomingVideoCall/IncomingVideoCall';
-import './notification.styles';
+import './notification.styles.scss';
 
 import {
 	NOTIFICATION_TYPE_ERROR,
@@ -17,11 +17,11 @@ import {
 	NotificationsContext,
 	NotificationType
 } from '../../globalState';
-import { ReactComponent as ExclamationIcon } from '../../resources/img/icons/exclamation-mark.svg';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
-import { ReactComponent as ErrorIcon } from '../../resources/img/icons/x.svg';
-import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark-white.svg';
-import { ReactComponent as CloseIcon } from '../../resources/img/icons/x.svg';
+import ExclamationIcon from '../../resources/img/icons/exclamation-mark.svg?react';
+import InfoIcon from '../../resources/img/icons/i.svg?react';
+import ErrorIcon from '../../resources/img/icons/x.svg?react';
+import CheckIcon from '../../resources/img/icons/checkmark-white.svg?react';
+import CloseIcon from '../../resources/img/icons/x.svg?react';
 import { useTranslation } from 'react-i18next';
 
 type NotificationProps = {

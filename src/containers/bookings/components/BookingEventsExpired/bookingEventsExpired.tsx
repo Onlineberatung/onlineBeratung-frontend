@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import '../booking.styles';
+import '../booking.styles.scss';
 import { UserDataContext } from '../../../../globalState';
 import {
 	BookingEventsInterface,

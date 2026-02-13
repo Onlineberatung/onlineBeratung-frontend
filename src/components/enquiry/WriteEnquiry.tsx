@@ -20,9 +20,9 @@ import {
 	mobileDetailView,
 	mobileListView
 } from '../app/navigationHandler';
-import { ReactComponent as EnvelopeCheckIcon } from '../../resources/img/illustrations/envelope-check.svg';
-import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
-import './enquiry.styles';
+import EnvelopeCheckIcon from '../../resources/img/illustrations/envelope-check.svg?react';
+import WelcomeIcon from '../../resources/img/illustrations/welcome.svg?react';
+import './enquiry.styles.scss';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { EnquiryLanguageSelection } from './EnquiryLanguageSelection';

@@ -9,7 +9,7 @@ import {
 import { Headline } from '../headline/Headline';
 import { isUniqueLanguage } from '../profile/profileHelpers';
 
-import './enquiryLanguageSelection.styles';
+import './enquiryLanguageSelection.styles.scss';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';

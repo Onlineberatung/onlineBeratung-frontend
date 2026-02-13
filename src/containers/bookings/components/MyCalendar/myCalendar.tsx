@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import '../booking.styles';
+import '../booking.styles.scss';
 import { Box } from '../../../../components/box/Box';
 import {
 	Button,
@@ -9,7 +9,7 @@ import {
 } from '../../../../components/button/Button';
 import { Headline } from '../../../../components/headline/Headline';
 import { Text } from '../../../../components/text/Text';
-import { ReactComponent as NewWindowIcon } from '../../../../resources/img/icons/new-window.svg';
+import NewWindowIcon from '../../../../resources/img/icons/new-window.svg?react';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 export const MyCalendar = () => {

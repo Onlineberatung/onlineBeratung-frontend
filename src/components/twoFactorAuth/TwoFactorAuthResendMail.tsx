@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CheckmarkIcon } from '../../resources/img/icons';
 import { Text } from '../text/Text';
-import './twoFactorAuthResendMail.styles';
+import './twoFactorAuthResendMail.styles.scss';
 
 interface TwoFactorAuthResendMailProps {
 	resendHandler: (callback: Function) => void;

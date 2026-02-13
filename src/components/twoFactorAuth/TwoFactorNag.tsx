@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { UserDataContext } from '../../globalState';
 import { BUTTON_TYPES } from '../button/Button';
 import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
-import './twoFactorNag.styles';
+import './twoFactorNag.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import {

@@ -9,10 +9,10 @@ import {
 } from '../../../../../globalState';
 import { BookingEventUiInterface } from '../../../../../globalState/interfaces/BookingsInterface';
 import { InfoIcon } from '../../../../../resources/img/icons';
-import { ReactComponent as VideoCalIcon } from '../../../../../resources/img/icons/video-booking.svg';
-import { ReactComponent as CallIcon } from '../../../../../resources/img/icons/call.svg';
-import { ReactComponent as LocationIcon } from '../../../../../resources/img/icons/location.svg';
-import { ReactComponent as ChatIcon } from '../../../../../resources/img/icons/chat-booking.svg';
+import VideoCalIcon from '../../../../../resources/img/icons/video-booking.svg?react';
+import CallIcon from '../../../../../resources/img/icons/call.svg?react';
+import LocationIcon from '../../../../../resources/img/icons/location.svg?react';
+import ChatIcon from '../../../../../resources/img/icons/chat-booking.svg?react';
 
 export const LocationType = ({ event }: { event: BookingEventUiInterface }) => {
 	const { t: translate } = useTranslation();

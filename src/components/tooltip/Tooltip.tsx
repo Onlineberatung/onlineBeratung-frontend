@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import './tooltip.styles';
+import './tooltip.styles.scss';
 
 export const DIRECTION_TOP = 'top';
 export const DIRECTION_BOTTOM = 'bottom';

@@ -2,9 +2,9 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, generatePath } from 'react-router-dom';
-import { ReactComponent as ForwardIcon } from '../../../resources/img/icons/arrow-right.svg';
-import { ReactComponent as NewWindowIcon } from '../../../resources/img/icons/new-window.svg';
-import './link_menu.styles';
+import ForwardIcon from '../../../resources/img/icons/arrow-right.svg?react';
+import NewWindowIcon from '../../../resources/img/icons/new-window.svg?react';
+import './link_menu.styles.scss';
 
 export type LinkMenuComponentType = {
 	component: ReactNode;

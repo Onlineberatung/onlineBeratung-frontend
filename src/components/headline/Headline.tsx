@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './headline.styles';
+import './headline.styles.scss';
 
 export type HeadlineLevel = '1' | '2' | '3' | '4' | '5';
 interface HeadlineProps {

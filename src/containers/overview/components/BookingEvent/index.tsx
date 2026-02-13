@@ -7,7 +7,7 @@ import {
 	getPrettyDateFromMessageDate,
 	prettyPrintTimeDifference
 } from '../../../../utils/dateHelpers';
-import { ReactComponent as CameraOnIcon } from '../../../../resources/img/icons/camera-on.svg';
+import CameraOnIcon from '../../../../resources/img/icons/camera-on.svg?react';
 import './booking-event.styles.scss';
 import { uiUrl } from '../../../../resources/scripts/config';
 import {

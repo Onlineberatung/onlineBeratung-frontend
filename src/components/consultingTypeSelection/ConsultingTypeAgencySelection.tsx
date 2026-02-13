@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AgencyDataInterface } from '../../globalState/interfaces';
-import './consultingTypeAgencySelection.styles';
-import '../profile/profile.styles';
+import './consultingTypeAgencySelection.styles.scss';
+import '../profile/profile.styles.scss';
 import {
 	VALIDITY_INVALID,
 	VALIDITY_VALID

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
-import './checkbox.styles';
+import CheckmarkIcon from '../../resources/img/icons/checkmark.svg?react';
+import './checkbox.styles.scss';
 import { MouseEvent, KeyboardEvent, PropsWithChildren } from 'react';
 
 export interface CheckboxItem {

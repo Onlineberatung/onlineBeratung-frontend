@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language_filled.svg';
+import LanguageIcon from '../../resources/img/icons/language_filled.svg?react';
 
-import './profile.styles';
+import './profile.styles.scss';
 import {
 	SelectDropdown,
 	SelectDropdownItem,

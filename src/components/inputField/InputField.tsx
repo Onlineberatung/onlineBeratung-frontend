@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Text } from '../text/Text';
-import { ReactComponent as ShowPasswordIcon } from '../../resources/img/icons/eye.svg';
-import { ReactComponent as HidePasswordIcon } from '../../resources/img/icons/eye-closed.svg';
-import './inputField.styles';
+import ShowPasswordIcon from '../../resources/img/icons/eye.svg?react';
+import HidePasswordIcon from '../../resources/img/icons/eye-closed.svg?react';
+import './inputField.styles.scss';
 import { useTranslation } from 'react-i18next';
 
 export type InputFieldLabelState = 'valid' | 'invalid';

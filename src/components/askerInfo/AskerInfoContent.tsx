@@ -11,8 +11,8 @@ import {
 } from '../../globalState';
 import { AskerInfoData } from './AskerInfoData';
 import { AskerInfoAssign } from './AskerInfoAssign';
-import '../profile/profile.styles';
-import './askerInfo.styles';
+import '../profile/profile.styles.scss';
+import './askerInfo.styles.scss';
 import { AskerInfoTools } from './AskerInfoTools';
 import { Box } from '../box/Box';
 

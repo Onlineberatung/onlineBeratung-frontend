@@ -12,14 +12,14 @@ import {
 	SelectOption
 } from '../select/SelectDropdown';
 import { Text } from '../text/Text';
-import { ReactComponent as PersonsIcon } from '../../resources/img/icons/persons.svg';
-import { ReactComponent as SpeechBubbleIcon } from '../../resources/img/icons/speech-bubble.svg';
-import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
+import PersonsIcon from '../../resources/img/icons/persons.svg?react';
+import SpeechBubbleIcon from '../../resources/img/icons/speech-bubble.svg?react';
+import DownloadIcon from '../../resources/img/icons/download.svg?react';
 import { CSVLink } from 'react-csv';
 import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
-import './statistics.styles';
-import './profile.styles';
+import './statistics.styles.scss';
+import './profile.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 

@@ -9,7 +9,7 @@ import {
 	UserDataContext
 } from '../../globalState';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
+import CopyIcon from '../../resources/img/icons/documents.svg?react';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import { Headline } from '../headline/Headline';

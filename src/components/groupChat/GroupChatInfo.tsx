@@ -33,9 +33,9 @@ import {
 	desktopView
 } from '../app/navigationHandler';
 import { decodeUsername } from '../../utils/encryptionHelpers';
-import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
-import './groupChatInfo.styles';
+import BackIcon from '../../resources/img/icons/arrow-left.svg?react';
+import GroupChatIcon from '../../resources/img/icons/speech-bubble.svg?react';
+import './groupChatInfo.styles.scss';
 import { Text } from '../text/Text';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';

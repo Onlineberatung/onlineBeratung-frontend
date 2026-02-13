@@ -18,7 +18,7 @@ import { SESSION_LIST_TAB, SESSION_LIST_TYPES } from './sessionHelpers';
 import { JoinGroupChatView } from '../groupChat/JoinGroupChatView';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { useResponsive } from '../../hooks/useResponsive';
-import './session.styles';
+import './session.styles.scss';
 import useUpdatingRef from '../../hooks/useUpdatingRef';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useSession } from '../../hooks/useSession';

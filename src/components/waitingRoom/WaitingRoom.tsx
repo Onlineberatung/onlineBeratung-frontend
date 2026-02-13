@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Text } from '../text/Text';
 import { v4 as uuid } from 'uuid';
-import './waitingRoom.styles';
-import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
-import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
-import { ReactComponent as SecurityIllustration } from '../../resources/img/illustrations/security.svg';
-import { ReactComponent as ClosedIllustration } from '../../resources/img/illustrations/closed.svg';
+import './waitingRoom.styles.scss';
+import WaitingIllustration from '../../resources/img/illustrations/waiting.svg?react';
+import ErrorIllustration from '../../resources/img/illustrations/not-found.svg?react';
+import SecurityIllustration from '../../resources/img/illustrations/security.svg?react';
+import ClosedIllustration from '../../resources/img/illustrations/closed.svg?react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import {
 	AnonymousConversationAvailabilityInterface,

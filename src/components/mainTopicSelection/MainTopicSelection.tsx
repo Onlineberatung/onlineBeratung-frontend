@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import { useEffect, useState } from 'react';
-import './MainTopicSelection.styles';
+import './MainTopicSelection.styles.scss';
 import { apiGetTopicsData } from '../../api/apiGetTopicsData';
 import { RadioButton } from '../radioButton/RadioButton';
 import { InfoTooltip } from '../infoTooltip/InfoTooltip';

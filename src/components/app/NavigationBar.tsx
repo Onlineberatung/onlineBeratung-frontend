@@ -19,8 +19,8 @@ import {
 	LocaleContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
-import { ReactComponent as LogoutIconOutline } from '../../resources/img/icons/logout_outline.svg';
-import { ReactComponent as LogoutIconFilled } from '../../resources/img/icons/logout_filled.svg';
+import LogoutIconOutline from '../../resources/img/icons/logout_outline.svg?react';
+import LogoutIconFilled from '../../resources/img/icons/logout_filled.svg?react';
 import clsx from 'clsx';
 import { RocketChatUnreadContext } from '../../globalState/provider/RocketChatUnreadProvider';
 import {

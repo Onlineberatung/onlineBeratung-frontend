@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import './text.styles';
+import './text.styles.scss';
 import { PropsWithChildren } from 'react';
 
 export type TextTypeOptions =

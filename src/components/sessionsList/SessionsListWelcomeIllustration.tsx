@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
+import WelcomeIcon from '../../resources/img/illustrations/welcome.svg?react';
 
 export const WelcomeIllustration = () => {
 	const { t: translate } = useTranslation();

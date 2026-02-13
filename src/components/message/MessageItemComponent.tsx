@@ -32,7 +32,7 @@ import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import { Text } from '../text/Text';
-import './message.styles';
+import './message.styles.scss';
 import { Appointment } from './Appointment';
 import { decryptText, MissingKeyError } from '../../utils/encryptionHelpers';
 import { e2eeParams } from '../../hooks/useE2EE';
@@ -55,14 +55,14 @@ import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
 import { ERROR_LEVEL_WARN, TError } from '../../api/apiPostError';
-import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
-import { ReactComponent as DeletedIcon } from '../../resources/img/icons/deleted.svg';
+import TrashIcon from '../../resources/img/icons/trash.svg?react';
+import DeletedIcon from '../../resources/img/icons/deleted.svg?react';
 import {
 	IBooleanSetting,
 	SETTING_MESSAGE_ALLOWDELETING
 } from '../../api/apiRocketChatSettingsPublic';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
-import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
+import XIllustration from '../../resources/img/illustrations/x.svg?react';
 import { BUTTON_TYPES } from '../button/Button';
 import { apiDeleteMessage } from '../../api/apiDeleteMessage';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';

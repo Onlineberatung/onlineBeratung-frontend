@@ -10,11 +10,11 @@ import {
 	useTenant,
 	LocaleContext
 } from '../../globalState';
-import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
-import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
-import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
+import PersonIcon from '../../resources/img/icons/person.svg?react';
+import LogoutIcon from '../../resources/img/icons/out.svg?react';
+import BackIcon from '../../resources/img/icons/arrow-left.svg?react';
 import { Text } from '../text/Text';
-import './profile.styles';
+import './profile.styles.scss';
 import profileRoutes from './profile.routes';
 import {
 	Link,

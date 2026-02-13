@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { ReactComponent as NewWindowIcon } from '../../resources/img/icons/new-window.svg';
-import { ReactComponent as PersonsTwoIcon } from '../../resources/img/icons/persons-two-google.svg';
-import './tools.styles';
+import NewWindowIcon from '../../resources/img/icons/new-window.svg?react';
+import PersonsTwoIcon from '../../resources/img/icons/persons-two-google.svg?react';
+import './tools.styles.scss';
 import { ToolsListInterface } from '../../globalState/interfaces/ToolsInterface';
 import { useTranslation } from 'react-i18next';
 
