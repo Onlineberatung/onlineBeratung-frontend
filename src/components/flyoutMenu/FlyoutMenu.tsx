@@ -14,6 +14,7 @@ interface FlyoutMenuProps {
 		| 'left-top'
 		| 'right-top';
 	isHidden?: boolean;
+	children?: React.ReactNode;
 }
 
 export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
