@@ -36,7 +36,7 @@ export function extensionsPlugin(options: ExtensionsPluginOptions): Plugin {
 
 			// Skip if the importer is from extensions directory
 			// This prevents circular dependencies when extensions import from src
-			if (importer.startsWith(extensionsDir)) {
+			if (importer.startsWith(extensionsDir) || importer.includes('/extensions/')) {
 				return null;
 			}
 
@@ -58,7 +58,8 @@ export function extensionsPlugin(options: ExtensionsPluginOptions): Plugin {
 			}
 
 			// Skip if already importing from extensions directory
-			if (resolvedPath.startsWith(extensionsDir)) {
+			// This prevents trying to override files that are already extensions
+			if (resolvedPath.startsWith(extensionsDir) || resolvedPath.includes('/extensions/')) {
 				return null;
 			}
 
