@@ -104,7 +104,7 @@ export const fetchData = ({
 
 		const localDevelopmentHeader = isLocalDevelopment
 			? {
-					[process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY]:
+					[import.meta.env.VITE_CSRF_WHITELIST_HEADER_PROPERTY]:
 						csrfToken
 				}
 			: null;

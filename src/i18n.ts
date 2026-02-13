@@ -230,9 +230,9 @@ export const init = async (
 					((localStorage.getItem(
 						STORAGE_KEY_ENABLE_TRANSLATION_CHECK
 					) ?? null) === null &&
-						(!process.env.REACT_APP_ENABLE_TRANSLATION_CHECK ||
+						(!import.meta.env.VITE_ENABLE_TRANSLATION_CHECK ||
 							parseInt(
-								process.env.REACT_APP_ENABLE_TRANSLATION_CHECK
+								import.meta.env.VITE_ENABLE_TRANSLATION_CHECK
 							) !== 1))
 				) {
 					return;

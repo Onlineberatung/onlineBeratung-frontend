@@ -36,8 +36,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
 	componentDidCatch(error, info) {
 		if (
-			(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY &&
-				parseInt(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY) === 1) ||
+			(import.meta.env.VITE_DISABLE_ERROR_BOUNDARY &&
+				parseInt(import.meta.env.VITE_DISABLE_ERROR_BOUNDARY) === 1) ||
 			(localStorage.getItem(STORAGE_KEY_ERROR_BOUNDARY) ?? '1') === '0'
 		) {
 			console.error('ErrorBoundary disabled!');
