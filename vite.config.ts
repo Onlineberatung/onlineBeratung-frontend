@@ -86,6 +86,7 @@ export default defineConfig(({ mode }) => {
 						'https://happylife.develop.onlineberatung.net',
 					changeOrigin: true,
 					secure: false,
+					ws: true, // Enable WebSocket support for /service/live/* endpoints
 					configure: (proxy, _options) => {
 						proxy.on('error', (err, _req, _res) => {
 							console.log('proxy error', err);

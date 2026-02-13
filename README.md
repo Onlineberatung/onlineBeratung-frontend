@@ -42,6 +42,6 @@ VITE_API_URL=https://your-backend.example.com
 The proxy ensures that:
 
 - All requests to `localhost:5173/service/*`, `localhost:5173/api/*`, `localhost:5173/auth/*`, and `localhost:5173/websocket` are forwarded to the configured backend
-- WebSocket connections are properly upgraded and maintained
+- WebSocket connections are supported for `/websocket` and `/service/live/*` endpoints
 - HTTPS is used with port 443 (standard)
 - CORS headers are properly handled with `changeOrigin: true`
