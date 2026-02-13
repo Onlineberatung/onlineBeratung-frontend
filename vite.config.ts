@@ -27,7 +27,22 @@ export default defineConfig(({ mode }) => {
 					// Export React component as default
 					exportType: 'default',
 					ref: true,
-					svgo: false,
+					svgo: true,
+					svgoConfig: {
+						plugins: [
+							{
+								name: 'preset-default',
+								params: {
+									overrides: {
+										// Keep viewBox for proper scaling
+										removeViewBox: false,
+										// Keep IDs for internal references like masks, defs
+										cleanupIds: false
+									}
+								}
+							}
+						]
+					},
 					titleProp: true
 				},
 				include: '**/*.svg'
