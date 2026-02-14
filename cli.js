@@ -7,8 +7,8 @@ let command = process.argv[2];
 function throwUsageError(message) {
 	throw new Error(
 		(message ? message + '\n\n' : '') +
-			'Please call `onlineberatung-frontend` with one of the available commands:' +
-			'\n - `start`: Start the production server' +
+			'Usage: onlineberatung-frontend start' +
+			'\n\nStarts the production server for the built application.' +
 			'\n'
 	);
 }
