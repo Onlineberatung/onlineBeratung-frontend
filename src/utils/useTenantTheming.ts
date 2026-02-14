@@ -92,11 +92,31 @@ const adjustHSLColor = ({
  * @param s Saturation (0-100)
  * @param l Lightness (0-100)
  * @param a Alpha (0-1) optional
- * @return {string}
+ * @return {string} CSS color string in hex or rgba format
+ * @throws {Error} If input values are invalid or out of range
  */
 const hslToHex = (h: number, s: number, l: number, a?: number): string => {
-	s = s / 100;
-	l = l / 100;
+	// Input validation to prevent NaN/Infinity and ensure valid ranges
+	if (typeof h !== 'number' || !isFinite(h)) {
+		throw new Error('Hue must be a finite number');
+	}
+	if (typeof s !== 'number' || !isFinite(s)) {
+		throw new Error('Saturation must be a finite number');
+	}
+	if (typeof l !== 'number' || !isFinite(l)) {
+		throw new Error('Lightness must be a finite number');
+	}
+	if (a !== undefined && (typeof a !== 'number' || !isFinite(a))) {
+		throw new Error('Alpha must be a finite number');
+	}
+
+	// Clamp values to valid ranges
+	h = Math.max(0, Math.min(360, h)) % 360;
+	s = Math.max(0, Math.min(100, s)) / 100;
+	l = Math.max(0, Math.min(100, l)) / 100;
+	if (a !== undefined) {
+		a = Math.max(0, Math.min(1, a));
+	}
 
 	const c = (1 - Math.abs(2 * l - 1)) * s;
 	const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
@@ -131,9 +151,10 @@ const hslToHex = (h: number, s: number, l: number, a?: number): string => {
 		b = x;
 	}
 
-	r = Math.round((r + m) * 255);
-	g = Math.round((g + m) * 255);
-	b = Math.round((b + m) * 255);
+	// Clamp RGB values to valid 0-255 range
+	r = Math.max(0, Math.min(255, Math.round((r + m) * 255)));
+	g = Math.max(0, Math.min(255, Math.round((g + m) * 255)));
+	b = Math.max(0, Math.min(255, Math.round((b + m) * 255)));
 
 	if (a !== undefined) {
 		return `rgba(${r}, ${g}, ${b}, ${a})`;
