@@ -73,16 +73,19 @@ export default defineConfig(({ mode }) => {
 			preprocessorOptions: {
 				scss: {
 					api: 'modern-compiler', // Use modern Sass API instead of legacy
-					additionalData: `@import "${path.resolve(__dirname, './src/resources/styles/settings.scss')}";\n`,
-					// Suppress @import deprecation warnings
-					// NOTE: We use @import extensively throughout the codebase.
-					// Migrating to @use/@forward is a large task that requires:
-					// - Namespacing all variables and mixins
-					// - Updating 142+ SCSS files
-					// - Extensive testing to ensure no regressions
-					// This should be done in a dedicated migration effort.
-					// See: https://sass-lang.com/documentation/at-rules/import
-					silenceDeprecations: ['import']
+					additionalData: `@use "sass:color";\n@import "${path.resolve(__dirname, './src/resources/styles/settings.scss')}";\n`,
+					// Suppress deprecation warnings from dependencies and legacy code
+					// - import: We use @import extensively (142+ files). Migrating to @use/@forward
+					//   requires 2-3 weeks of dedicated effort. See SCSS_DEPRECATIONS.md
+					// - if-function: From breakpoint-sass dependency
+					// - color-functions: From dependencies (sanitize.css, etc.)
+					// - global-builtin: From breakpoint-sass dependency
+					silenceDeprecations: [
+						'import',
+						'if-function',
+						'color-functions',
+						'global-builtin'
+					]
 				}
 			}
 		},
