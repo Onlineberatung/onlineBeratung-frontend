@@ -79,7 +79,7 @@ export default defineConfig(({ mode }) => {
 					// - import: We use @import extensively (142+ files). Migrating to @use/@forward
 					//   requires 2-3 weeks of dedicated effort. See SCSS_DEPRECATIONS.md
 					// - color-functions: From dependencies (sanitize.css, etc.)
-					silenceDeprecations: ['import', 'color-functions']
+					silenceDeprecations: ['import', 'color-functions', 'if-function']
 				}
 			}
 		},
