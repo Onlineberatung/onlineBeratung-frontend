@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTenant } from '../../../..';
+import { useTenant } from '../../globalState';
 
 import { LegalPageWrapper } from '../legalPageWrapper/LegalPageWrapper';
 import useDocumentTitle from '../../utils/useDocumentTitle';
