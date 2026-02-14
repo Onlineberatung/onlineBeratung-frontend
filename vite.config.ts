@@ -73,7 +73,16 @@ export default defineConfig(({ mode }) => {
 			preprocessorOptions: {
 				scss: {
 					api: 'modern-compiler', // Use modern Sass API instead of legacy
-					additionalData: `@import "${path.resolve(__dirname, './src/resources/styles/settings.scss')}";\n`
+					additionalData: `@import "${path.resolve(__dirname, './src/resources/styles/settings.scss')}";\n`,
+					// Suppress @import deprecation warnings
+					// NOTE: We use @import extensively throughout the codebase.
+					// Migrating to @use/@forward is a large task that requires:
+					// - Namespacing all variables and mixins
+					// - Updating 142+ SCSS files
+					// - Extensive testing to ensure no regressions
+					// This should be done in a dedicated migration effort.
+					// See: https://sass-lang.com/documentation/at-rules/import
+					silenceDeprecations: ['import']
 				}
 			}
 		},
