@@ -27,7 +27,10 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 	const [flyoutShown, setFlyoutShown] = useState(false);
 	const { t: translate } = useTranslation();
 
-	const handleFlyout = useCallback(() => {
+	const handleFlyout = useCallback((e?: React.MouseEvent | MouseEvent) => {
+		if (e) {
+			e.stopPropagation();
+		}
 		setFlyoutShown(!flyoutShown);
 		if (!flyoutShown) {
 			handleClose();
@@ -69,6 +72,7 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 				className={`flyoutMenu__content ${
 					flyoutShown ? 'flyoutMenu__content--shown' : ''
 				}`}
+				onClick={(e) => e.stopPropagation()}
 			>
 				{childrenArray.map(
 					(child, i) =>
