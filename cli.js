@@ -7,9 +7,8 @@ let command = process.argv[2];
 function throwUsageError(message) {
 	throw new Error(
 		(message ? message + '\n\n' : '') +
-			'Please call `onlineberatung-frontend` with one of the available commands:' +
-			'\n - `start`: Start the development server' +
-			'\n - `build`: Build the app for production' +
+			'Usage: onlineberatung-frontend start' +
+			'\n\nStarts the production server for the built application.' +
 			'\n'
 	);
 }
@@ -22,10 +21,6 @@ command = command.trim();
 
 if (command === 'start') {
 	require('./proxy/server.js');
-} else if (command === 'dev') {
-	require('./scripts/start');
-} else if (command === 'build') {
-	require('./scripts/build');
 } else {
 	throwUsageError(`Unknown command: ${command}`);
 }
