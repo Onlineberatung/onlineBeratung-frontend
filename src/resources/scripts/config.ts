@@ -352,7 +352,7 @@ export const config: AppConfigInterface = {
 				consultingTypes: {}
 			},
 			en: {
-				common: [en, enOverwrites],
+				common: _.merge({}, en, enOverwrites),
 				consultingTypes: {
 					...enConsultingTypes
 				},
