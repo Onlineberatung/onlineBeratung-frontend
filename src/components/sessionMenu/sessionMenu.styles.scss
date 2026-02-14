@@ -35,7 +35,7 @@ $iconSize: 20px;
 			white-space: normal;
 			flex-direction: column;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				margin-right: 1rem;
 				flex-direction: row;
 			}
@@ -44,13 +44,13 @@ $iconSize: 20px;
 				color: var(--skin-color-primary, $primary);
 				text-align: center;
 
-				@include breakpoint($fromLarge) {
+				@include from-large {
 					text-align: left;
 				}
 			}
 
 			svg {
-				@include breakpoint($fromLarge) {
+				@include from-large {
 					margin-right: 0.5rem;
 				}
 
@@ -60,7 +60,7 @@ $iconSize: 20px;
 			}
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			&--mobile {
 				display: none;
 			}
@@ -131,7 +131,7 @@ $iconSize: 20px;
 		}
 		.sessionMenu__item:not(.sessionMenu__item--mobile)
 			~ .legalInformationLinks--menu {
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				@include legal-links-border;
 			}
 		}
@@ -174,7 +174,7 @@ $iconSize: 20px;
 			display: none;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			&--mobile {
 				display: none !important;
 			}
@@ -217,7 +217,7 @@ $iconSize: 20px;
 	&__videoCallButtons {
 		display: none;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: flex;
 		}
 	}

@@ -7,7 +7,7 @@
 	}
 
 	&__description {
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			max-width: 500px;
 		}
 	}

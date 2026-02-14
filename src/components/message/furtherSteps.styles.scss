@@ -63,7 +63,7 @@ $further-steps-illustration-height-large: 75px !default;
 	}
 }
 
-@include breakpoint(1024px) {
+@media (min-width: 1024px) {
 	.furtherSteps {
 		padding: $grid-base-three $grid-base-three $grid-base-four;
 

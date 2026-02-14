@@ -77,15 +77,8 @@ export default defineConfig(({ mode }) => {
 					// Suppress deprecation warnings from dependencies and legacy code
 					// - import: We use @import extensively (142+ files). Migrating to @use/@forward
 					//   requires 2-3 weeks of dedicated effort. See SCSS_DEPRECATIONS.md
-					// - if-function: From breakpoint-sass dependency
 					// - color-functions: From dependencies (sanitize.css, etc.)
-					// - global-builtin: From breakpoint-sass dependency
-					silenceDeprecations: [
-						'import',
-						'if-function',
-						'color-functions',
-						'global-builtin'
-					]
+					silenceDeprecations: ['import', 'color-functions']
 				}
 			}
 		},

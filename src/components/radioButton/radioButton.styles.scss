@@ -93,12 +93,12 @@ $radio-button-input-checked-shadow:
 		border-radius: 24px;
 		max-width: $max-input-width;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			width: auto;
 			padding-right: $grid-base-two;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			max-width: 229px;
 		}
 
@@ -116,12 +116,12 @@ $radio-button-input-checked-shadow:
 		margin-left: 0 !important;
 		margin-top: $grid-base;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			margin-left: $grid-base;
 			margin-top: $grid-base;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			margin-left: $grid-base-two;
 			margin-top: 0;
 		}

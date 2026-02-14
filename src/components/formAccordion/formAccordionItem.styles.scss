@@ -10,7 +10,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 	width: 100%;
 	border-bottom: 1px solid $black-25-opacity;
 
-	@include breakpoint($fromMedium) {
+	@include from-medium {
 		min-width: 560px;
 	}
 
@@ -83,7 +83,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 			margin-top: $grid-base-two;
 			margin-left: $form-accordion-item-input-margin-left;
 
-			@include breakpoint($fromMedium) {
+			@include from-medium {
 				margin-right: $form-accordion-item-input-margin-right;
 			}
 		}
@@ -92,7 +92,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 	.select__wrapper {
 		width: 100%;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			width: 320px;
 		}
 	}
@@ -100,7 +100,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 		align-self: flex-end;
 		margin-top: $grid-base-three;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			margin-right: 0;
 		}
 
@@ -110,7 +110,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 			width: 100%;
 			max-width: 535px;
 
-			@include breakpoint($fromMedium) {
+			@include from-medium {
 				width: auto;
 			}
 		}
@@ -140,7 +140,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 			display: block;
 			transition: opacity 0.6s ease;
 
-			@include breakpoint($fromMedium) {
+			@include from-medium {
 				display: flex;
 				justify-content: space-between;
 			}
@@ -153,7 +153,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 	}
 
 	.inputField {
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			width: 65%;
 		}
 	}

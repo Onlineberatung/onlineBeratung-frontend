@@ -3,11 +3,11 @@
 	overflow: hidden;
 	width: 100%;
 
-	@include breakpoint($fromMedium) {
+	@include from-medium {
 		margin-top: $grid-base-three;
 	}
 
-	@include breakpoint($fromLarge) {
+	@include from-large {
 		margin-top: $grid-base-six;
 	}
 

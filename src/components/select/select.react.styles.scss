@@ -6,7 +6,7 @@ $inputHeight: 50px;
 		max-width: $max-input-width;
 		width: 100%;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			margin: 0 auto $grid-base-two;
 		}
 

@@ -5,7 +5,7 @@
 	margin-bottom: $grid-base;
 	border-radius: $box-border-radius;
 
-	@include breakpoint($fromMedium) {
+	@include from-medium {
 		padding: $grid-base-three;
 		margin-bottom: $grid-base-two;
 	}

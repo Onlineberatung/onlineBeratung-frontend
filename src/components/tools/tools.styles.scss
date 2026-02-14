@@ -26,11 +26,11 @@ $imprintHeight: 40px;
 		padding: $grid-base-three $grid-base-two;
 		z-index: 20;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding: $grid-base-three;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			position: static;
 		}
 
@@ -46,7 +46,7 @@ $imprintHeight: 40px;
 		margin: $grid-base-twelve 0 0 0;
 		overflow-x: hidden;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			margin: 0;
 		}
 	}
@@ -56,18 +56,18 @@ $imprintHeight: 40px;
 		display: grid;
 		grid-template-columns: repeat(1fr);
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding: 0 $grid-base-three $grid-base-ten;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			padding: 0 $grid-base-three $grid-base-eight;
 			grid-template-columns: repeat(2, 1fr);
 			column-gap: 24px;
 		}
 
 		.box {
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				margin-bottom: 1rem;
 				display: block;
 			}

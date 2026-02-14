@@ -55,7 +55,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		width: 280px;
 		margin-bottom: $grid-base-two;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: 320px;
 		}
 	}
@@ -92,7 +92,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		width: 280px;
 		margin-bottom: $grid-base-four;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: 320px;
 		}
 	}
@@ -154,7 +154,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		width: 280px;
 		margin-bottom: $grid-base-three;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: 320px;
 		}
 	}

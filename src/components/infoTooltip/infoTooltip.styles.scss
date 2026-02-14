@@ -37,7 +37,7 @@ $breakpointFlyoutPosition: 1140px;
 
 	@include rounded-drop-shadow;
 
-	@include breakpoint($breakpointFlyoutPosition) {
+	@media (min-width: $breakpointFlyoutPosition) {
 		right: calc(((#{$agencyInfoWidth} / 2) * -1) + (#{$infoIconSize} / 2));
 	}
 
@@ -53,7 +53,7 @@ $breakpointFlyoutPosition: 1140px;
 		border-right: 10px solid transparent;
 		transform: rotate(180deg);
 
-		@include breakpoint($breakpointFlyoutPosition) {
+		@media (min-width: $breakpointFlyoutPosition) {
 			left: 0;
 			right: 0;
 		}

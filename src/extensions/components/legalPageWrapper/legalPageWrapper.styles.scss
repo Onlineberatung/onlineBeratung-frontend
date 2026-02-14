@@ -1,5 +1,5 @@
 .legalPageWrapper {
-	@include breakpoint($fromLarge) {
+	@include from-large {
 		.stage {
 			display: flex;
 		}
@@ -34,7 +34,7 @@
 		justify-content: flex-start;
 		padding-top: 120px;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: calc(60vw - 160px);
 			left: calc(40vw + 80px);
 		}

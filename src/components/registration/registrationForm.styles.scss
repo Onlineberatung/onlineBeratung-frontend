@@ -67,7 +67,7 @@ $registration-form-headline-margin-bottom: 24px;
 			width: 100%;
 		}
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			display: flex;
 			justify-content: flex-end;
 

@@ -44,13 +44,13 @@ $waiting-room-subline-opacity: 1 !default;
 			border-radius: 100%;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			margin: 0 $grid-base-five 0;
 			flex: 0 0 320px;
 			height: 320px;
 		}
 
-		@include breakpoint($fromXLarge) {
+		@include from-x-large {
 			margin-right: $grid-base-ten;
 			flex: 0 0 560px;
 			justify-content: left;
@@ -93,7 +93,7 @@ $waiting-room-subline-opacity: 1 !default;
 			height: 100%;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			margin-left: $grid-base-five;
 		}
 	}
@@ -109,7 +109,7 @@ $waiting-room-subline-opacity: 1 !default;
 		justify-content: center;
 		width: 100%;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			flex-wrap: nowrap;
 			justify-content: space-between;
 		}
@@ -127,7 +127,7 @@ $waiting-room-subline-opacity: 1 !default;
 				}
 			}
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				display: block;
 				p {
 					text-align: left;
@@ -161,7 +161,7 @@ $waiting-room-subline-opacity: 1 !default;
 			font-weight: $font-weight-regular;
 		}
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			display: inline;
 		}
 	}

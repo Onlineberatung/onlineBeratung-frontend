@@ -9,7 +9,7 @@ $inputSpacing: 32px;
 		width: 100vw;
 		height: 100%;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: 100%;
 		}
 	}
@@ -21,11 +21,11 @@ $inputSpacing: 32px;
 		background-color: $background-lighter;
 		padding: $grid-base-three $grid-base-two;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding: $grid-base-three;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			background-color: $background-light;
 			align-items: flex-start;
 		}
@@ -44,7 +44,7 @@ $inputSpacing: 32px;
 			position: relative;
 			z-index: 10;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				display: none;
 			}
 
@@ -68,7 +68,7 @@ $inputSpacing: 32px;
 		&__title {
 			margin: 0 auto;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				margin: 0;
 			}
 		}
@@ -80,14 +80,14 @@ $inputSpacing: 32px;
 			margin: 0;
 
 			&--withBackButton {
-				@include breakpoint($fromLarge) {
+				@include from-large {
 					margin-left: $grid-base-four;
 				}
 			}
 		}
 
 		&--edit {
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				.createChat__header {
 					&__inner {
 						justify-content: flex-start;
@@ -128,7 +128,7 @@ $inputSpacing: 32px;
 			margin-bottom: $grid-base-two;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: flex;
 			.button__wrapper:first-child {
 				margin-right: $grid-base-two;

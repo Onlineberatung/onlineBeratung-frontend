@@ -12,7 +12,7 @@ $background-circle-size: 1800px !default;
 		overflow: hidden;
 		min-height: 0;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			&::after {
 				content: '';
 				position: absolute;
@@ -61,11 +61,11 @@ $background-circle-size: 1800px !default;
 		display: flex;
 		z-index: 2;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding: $grid-base-six $grid-base-three $grid-base-six;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			align-items: center;
 			justify-content: center;
 			margin: 0 auto;
@@ -79,7 +79,7 @@ $background-circle-size: 1800px !default;
 		align-items: center;
 		flex-direction: column;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			flex-direction: row;
 		}
 	}
@@ -91,7 +91,7 @@ $background-circle-size: 1800px !default;
 		min-height: $enquiry-image-size;
 		display: block;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: $enquiry-image-size-large;
 			height: $enquiry-image-size-large;
 			max-width: 300px;
@@ -123,7 +123,7 @@ $background-circle-size: 1800px !default;
 	}
 
 	&__text {
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			max-width: 600px;
 			max-height: 100%;
 			overflow: auto;

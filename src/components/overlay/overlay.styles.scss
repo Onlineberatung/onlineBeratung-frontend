@@ -51,7 +51,7 @@ $overlay-illustration-size-large: 160px;
 		margin: auto;
 		background: $white;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			background: none;
 			height: auto;
 			max-width: 720px;
@@ -72,11 +72,11 @@ $overlay-illustration-size-large: 160px;
 		margin: auto;
 		padding: $grid-base-ten $grid-base-three $grid-base-six;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding: $grid-base-six $grid-base-three;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: 100%;
 			height: auto;
 			max-width: 720px;
@@ -122,7 +122,7 @@ $overlay-illustration-size-large: 160px;
 			outline: none;
 		}
 
-		@include breakpoint($overlay-steps-breakpoint-small) {
+		@media (min-width: $overlay-steps-breakpoint-small) {
 			top: 24px;
 			right: 24px;
 		}
@@ -138,7 +138,7 @@ $overlay-illustration-size-large: 160px;
 			text-transform: uppercase;
 			display: none;
 
-			@include breakpoint($overlay-steps-breakpoint-small) {
+			@media (min-width: $overlay-steps-breakpoint-small) {
 				display: block;
 			}
 		}
@@ -154,12 +154,12 @@ $overlay-illustration-size-large: 160px;
 				margin: $overlay-icon-size-xs 6px $overlay-icon-size-xs;
 				width: 10px;
 
-				@include breakpoint($overlay-steps-breakpoint-small) {
+				@media (min-width: $overlay-steps-breakpoint-small) {
 					margin: $overlay-icon-size-xs -14px $overlay-icon-size-xs;
 					width: 25px;
 				}
 
-				@include breakpoint($overlay-steps-breakpoint-large) {
+				@media (min-width: $overlay-steps-breakpoint-large) {
 					margin: $overlay-icon-size-xs -14px $overlay-icon-size-xs;
 					width: 50px;
 				}
@@ -237,7 +237,7 @@ $overlay-illustration-size-large: 160px;
 	&__illustrationWrapper {
 		margin-bottom: $grid-base;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			$size: $overlay-illustration-size-from-large + $grid-base * 2;
 
 			display: inline-block;
@@ -266,7 +266,7 @@ $overlay-illustration-size-large: 160px;
 		background-color: $illustration-background-info;
 		border-radius: calc($overlay-illustration-size / 2);
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			height: $overlay-illustration-size-from-large;
 			width: $overlay-illustration-size-from-large;
 		}
@@ -276,7 +276,7 @@ $overlay-illustration-size-large: 160px;
 			height: $overlay-icon-size;
 			align-self: center;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				width: $overlay-icon-size-large;
 				height: $overlay-icon-size-large;
 			}
@@ -299,7 +299,7 @@ $overlay-illustration-size-large: 160px;
 			height: $overlay-illustration-size-large;
 			width: $overlay-illustration-size-large;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				width: $overlay-illustration-size-from-large;
 				height: $overlay-illustration-size-from-large;
 			}
@@ -309,7 +309,7 @@ $overlay-illustration-size-large: 160px;
 				height: $overlay-illustration-size-large;
 				align-self: center;
 
-				@include breakpoint($fromLarge) {
+				@include from-large {
 					width: $overlay-illustration-size-from-large;
 					height: $overlay-illustration-size-from-large;
 				}
@@ -327,7 +327,7 @@ $overlay-illustration-size-large: 160px;
 		justify-content: center;
 		align-items: center;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			margin: #{-$grid-base-six};
 			margin-bottom: $grid-base-four;
 		}
@@ -373,7 +373,7 @@ $overlay-illustration-size-large: 160px;
 
 	&--illustration {
 		.overlay__wrapper {
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				padding-top: calc(
 					$overlay-illustration-size-from-large / 2 + $grid-base-four
 				);
@@ -383,7 +383,7 @@ $overlay-illustration-size-large: 160px;
 		.overlay__content {
 			padding-top: calc($overlay-illustration-size / 2 + $grid-base);
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				padding-top: calc(
 					$overlay-illustration-size-from-large / 2 + $grid-base
 				);
@@ -403,7 +403,7 @@ $overlay-illustration-size-large: 160px;
 			max-width: 400px;
 			margin: $overlay-stepped-input-field-margin;
 
-			@include breakpoint($fromSmall) {
+			@include from-small {
 				max-width: 325px;
 			}
 		}
@@ -424,14 +424,14 @@ $overlay-illustration-size-large: 160px;
 			margin-top: $grid-base-two;
 			width: 100%;
 
-			@include breakpoint($fromSmall) {
+			@include from-small {
 				width: auto;
 			}
 
 			&:last-child {
 				padding-bottom: $grid-base-three;
 
-				@include breakpoint($fromLarge) {
+				@include from-large {
 					padding-bottom: 0;
 				}
 			}

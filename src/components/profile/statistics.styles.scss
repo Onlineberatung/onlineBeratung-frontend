@@ -2,7 +2,7 @@
 	&__periodSelect {
 		margin-bottom: 18px;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			display: flex;
 		}
 
@@ -15,7 +15,7 @@
 			margin: 0;
 			padding: 0;
 
-			@include breakpoint($fromMedium) {
+			@include from-medium {
 				padding: 0 $grid-base-three;
 			}
 		}

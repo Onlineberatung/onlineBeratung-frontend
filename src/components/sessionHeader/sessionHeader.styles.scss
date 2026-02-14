@@ -9,11 +9,11 @@ $iconSize: 24px;
 	padding: $grid-base-two $grid-base-two;
 	background-color: $session-header-background-color;
 
-	@include breakpoint($fromMedium) {
+	@include from-medium {
 		padding: $grid-base-three;
 	}
 
-	@include breakpoint($fromLarge) {
+	@include from-large {
 		align-items: flex-start;
 		background-color: $session-header-background-color-large;
 	}
@@ -37,7 +37,7 @@ $iconSize: 24px;
 			margin-left: -36px;
 			cursor: auto;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				text-align: left;
 				margin-left: 0;
 			}
@@ -52,7 +52,7 @@ $iconSize: 24px;
 		position: relative;
 		z-index: 10;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: none;
 		}
 	}
@@ -81,7 +81,7 @@ $iconSize: 24px;
 	&__feedbackBackButton {
 		padding-right: 10px;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: block;
 		}
 	}
@@ -90,7 +90,7 @@ $iconSize: 24px;
 		cursor: pointer;
 		overflow: hidden;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			flex-grow: 1;
 			margin: 0;
 		}
@@ -127,7 +127,7 @@ $iconSize: 24px;
 	&__feedbackButton {
 		display: none;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: inline-block;
 		}
 
@@ -158,7 +158,7 @@ $iconSize: 24px;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			padding: 0;
 			text-align: left;
 		}
@@ -171,7 +171,7 @@ $iconSize: 24px;
 			white-space: normal;
 			word-break: break-word;
 
-			@include breakpoint($fromSmall) {
+			@include from-small {
 				position: relative;
 			}
 
@@ -214,7 +214,7 @@ $iconSize: 24px;
 			@include rounded-drop-shadow;
 			cursor: default;
 
-			@include breakpoint($fromSmall) {
+			@include from-small {
 				top: $line-height-tertiary;
 				left: 50%;
 				transform: translateX(-50%);
@@ -287,14 +287,14 @@ $iconSize: 24px;
 				margin-left: -10px;
 				transform: rotate(180deg);
 
-				@include breakpoint($fromSmall) {
+				@include from-small {
 					left: 50%;
 				}
 			}
 		}
 	}
 	&__feedbackMetaInfo {
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			padding-left: 36px;
 		}
 	}

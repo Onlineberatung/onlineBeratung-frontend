@@ -11,7 +11,7 @@ $gridSpacing: $grid-base-four;
 	justify-content: center;
 	display: none;
 
-	@include breakpoint($fromXLarge) {
+	@include from-x-large {
 		display: flex;
 	}
 
@@ -91,7 +91,7 @@ $gridSpacing: $grid-base-four;
 		&.stage--animation-done {
 			display: none;
 
-			@include breakpoint($fromXLarge) {
+			@include from-x-large {
 				display: flex;
 			}
 		}
@@ -114,7 +114,7 @@ $gridSpacing: $grid-base-four;
 			}
 		}
 
-		@include breakpoint($fromXLarge) {
+		@include from-x-large {
 			&.stage--ready {
 				animation: overlayAnimation 1s ease forwards;
 				animation-delay: $loginOverlayDelayDesktop;
@@ -135,7 +135,7 @@ $gridSpacing: $grid-base-four;
 		animation-delay: 2s;
 		animation: hideSpinner 4s ease forwards;
 
-		@include breakpoint($fromXLarge) {
+		@include from-x-large {
 			animation-duration: 2s;
 		}
 

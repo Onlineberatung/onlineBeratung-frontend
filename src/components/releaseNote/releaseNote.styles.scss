@@ -17,11 +17,11 @@
 		max-height: calc(100vh - 520px);
 		overflow: auto;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			max-height: calc(100vh - 490px);
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			max-height: calc(100vh - 420px);
 		}
 	}
