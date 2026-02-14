@@ -1,5 +1,5 @@
 @mixin display-wrapper($key, $breakpoint) {
-	$bpKey: if($breakpoint == null, '', '-#{$key}');
+	$bpKey: if($breakpoint == null, "", "-#{$key}");
 
 	@if not $breakpoint {
 		@include display($bpKey);

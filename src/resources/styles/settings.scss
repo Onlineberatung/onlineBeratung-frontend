@@ -1,5 +1,7 @@
 // GLOBAL SASS SETTINGS
 
+@use 'sass:color';
+
 @import './fonts';
 
 // BREAKPOINTS
@@ -233,7 +235,7 @@ $max-input-width: 320px;
 $message-background-primary: $primary;
 $message-background-secondary: black;
 $message-background-rate: 0%;
-$message-background: mix(
+$message-background: color.mix(
 	$message-background-secondary,
 	$primary,
 	$message-background-rate
