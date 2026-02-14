@@ -86,6 +86,67 @@ const adjustHSLColor = ({
 	return `hsl(${color.h}, ${color.s}%, ${adjust}%)`;
 };
 
+/**
+ * Convert HSL(A) to hex or rgba format for CSS
+ * @param h Hue (0-360)
+ * @param s Saturation (0-100)
+ * @param l Lightness (0-100)
+ * @param a Alpha (0-1) optional
+ * @return {string}
+ */
+const hslToHex = (h: number, s: number, l: number, a?: number): string => {
+	s = s / 100;
+	l = l / 100;
+
+	const c = (1 - Math.abs(2 * l - 1)) * s;
+	const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+	const m = l - c / 2;
+	let r = 0;
+	let g = 0;
+	let b = 0;
+
+	if (0 <= h && h < 60) {
+		r = c;
+		g = x;
+		b = 0;
+	} else if (60 <= h && h < 120) {
+		r = x;
+		g = c;
+		b = 0;
+	} else if (120 <= h && h < 180) {
+		r = 0;
+		g = c;
+		b = x;
+	} else if (180 <= h && h < 240) {
+		r = 0;
+		g = x;
+		b = c;
+	} else if (240 <= h && h < 300) {
+		r = x;
+		g = 0;
+		b = c;
+	} else if (300 <= h && h < 360) {
+		r = c;
+		g = 0;
+		b = x;
+	}
+
+	r = Math.round((r + m) * 255);
+	g = Math.round((g + m) * 255);
+	b = Math.round((b + m) * 255);
+
+	if (a !== undefined) {
+		return `rgba(${r}, ${g}, ${b}, ${a})`;
+	}
+
+	const toHex = (n: number) => {
+		const hex = n.toString(16);
+		return hex.length === 1 ? '0' + hex : hex;
+	};
+
+	return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+};
+
 const injectCss = ({ primaryColor, secondaryColor }) => {
 	// make HSL colors over RGB from hex
 	const primaryHSL = hexToRGB(primaryColor);
@@ -119,22 +180,34 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 			? 'var(--skin-color-primary-foreground-dark)'
 			: primaryColor;
 
+	// Calculate hover color HSL
+	const hoverHsl = primaryHSL
+		? {
+				h: primaryHSL.h,
+				s: primaryHSL.s,
+				l:
+					primaryColor &&
+					contrast.ratio('#fff', primaryColor) < contrastThreshold
+						? primaryHSL.l + 10 // lighter
+						: primaryHSL.l - 10 // darker
+			}
+		: null;
+
 	// Use getOrCreateHeadNode to ensure the style tag persists through Vite HMR
 	const styleNode = getOrCreateHeadNode('style', { id: 'tenant-theming' });
 	styleNode.textContent = `
 		:root {
 		--skin-color-primary: ${primaryColor};
 		--skin-color-primary-hover: ${
-			primaryColor &&
-			contrast.ratio('#fff', primaryColor) < contrastThreshold
+			hoverHsl
 				? adjustHSLColor({
-						color: primaryHSL,
-						adjust: primaryHSL.l + 10
-					}) // lighter
-				: adjustHSLColor({
-						color: primaryHSL,
-						adjust: primaryHSL.l - 1
-					}) // darker
+						color: hoverHsl,
+						adjust: hoverHsl.l
+					})
+				: ''
+		};
+		--skin-color-primary-hover-translucent: ${
+			hoverHsl ? hslToHex(hoverHsl.h, hoverHsl.s, hoverHsl.l, 0.2) : ''
 		};
 		--skin-color-secondary: ${secondaryColor || ''};
 		--skin-color-secondary-light: ${

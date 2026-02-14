@@ -72,7 +72,10 @@ $inputHeight: 50px;
 					--skin-color-primary-contrast-safe,
 					$hover-primary
 				) !important;
-				background-color: $tab-background-color-selected-hover !important;
+				background-color: var(
+					--skin-color-primary-hover-translucent,
+					$tab-background-color-selected-hover
+				) !important;
 
 				.select__input__multi-value__label,
 				.select__input__multi-value__remove {
