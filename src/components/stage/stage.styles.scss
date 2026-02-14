@@ -1,85 +1,49 @@
 $loginOverlayDelayDesktop: 1s;
 $loginOverlayDelayMobile: 2.5s;
+$transitionDuration: 1.4s;
+$transitionCurve: ease;
 $iconSize: 55px;
 $gridSpacing: $grid-base-four;
 
 .stage {
 	background-color: var(--skin-color-primary, $primary);
-	color: var(--text-color-contrast-switch, $text-invert);
+	color: var(--text-color-contrast-switch, $white);
 	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	padding: $grid-base-four $grid-base-four $grid-base-eight;
 	display: none;
 
 	@include from-x-large {
 		display: flex;
+		padding: 60px $grid-base-ten $grid-base-ten;
+		justify-content: space-between;
 	}
 
 	&__headline {
-		display: flex;
-		flex: 1 1 0;
-		flex-direction: column;
-		flex-wrap: wrap;
-		justify-content: flex-end;
-		margin-bottom: 140px;
+		margin-top: 20px;
 		word-break: normal;
+		text-align: left;
 
 		h1 {
 			margin-bottom: $grid-base;
+			font-size: 32px;
+			font-weight: $font-weight-bold;
+
+			@include from-x-large {
+				margin-bottom: $grid-base-three;
+				font-size: 40px;
+				line-height: 50px;
+			}
 		}
 
 		h4 {
 			margin: 0;
-			text-align: center;
+			text-align: left;
 			font-size: $font-size-primary;
 			font-weight: $font-weight-regular;
-		}
-	}
 
-	&__logos {
-		display: flex;
-		flex-wrap: wrap;
-		flex: 1 1 0;
-		align-items: flex-end;
-		align-content: flex-end;
-		width: 335px;
-		margin-bottom: $grid-base-five;
-		transform: scale(0.9);
-
-		@media (width >= calc(#{$xsmall} + #{$grid-base-three})) {
-			transform: scale(1);
-			margin-bottom: $grid-base-ten;
-		}
-
-		svg {
-			width: $iconSize;
-			height: $iconSize;
-			margin-right: $gridSpacing;
-			margin-top: $gridSpacing;
-
-			&.raphaelswerk {
-				padding-top: 8px;
-				margin-left: -5px;
-				margin-right: calc(#{$gridSpacing} - 5px);
-				width: 64px;
-				height: 64px;
-			}
-
-			&:first-child {
-				margin-left: 54px;
-			}
-
-			&:nth-child(-n + 3) {
-				margin-top: 0;
-			}
-
-			&:nth-child(4) {
-				margin-left: $grid-base-two;
-				margin-right: $grid-base-three;
-			}
-
-			&:nth-child(7) {
-				margin-right: 0;
+			@include from-x-large {
+				font-size: 24px;
+				line-height: 32px;
 			}
 		}
 	}
@@ -96,13 +60,28 @@ $gridSpacing: $grid-base-four;
 			}
 		}
 
-		&.stage--ready {
-			animation: overlayAnimation 1.4s ease forwards;
-			animation-delay: $loginOverlayDelayMobile;
+		h1 {
+			@include from-x-large {
+				transform: scale(1.5);
+				transform-origin: bottom left;
+
+				@keyframes headlineAnimation {
+					from {
+						transform: scale(1.5);
+					}
+					to {
+						transform: none;
+					}
+				}
+
+				animation: headlineAnimation 1s $loginOverlayDelayDesktop
+					$transitionCurve forwards;
+			}
 		}
 
-		.stage__headline {
-			margin-bottom: 80px;
+		&.stage--ready {
+			animation: overlayAnimation $transitionDuration
+				$loginOverlayDelayMobile $transitionCurve forwards;
 		}
 
 		@keyframes overlayAnimation {
@@ -116,8 +95,8 @@ $gridSpacing: $grid-base-four;
 
 		@include from-x-large {
 			&.stage--ready {
-				animation: overlayAnimation 1s ease forwards;
-				animation-delay: $loginOverlayDelayDesktop;
+				animation: overlayAnimation 1s $loginOverlayDelayDesktop
+					$transitionCurve forwards;
 			}
 
 			@keyframes overlayAnimation {
@@ -132,11 +111,22 @@ $gridSpacing: $grid-base-four;
 	}
 
 	&__spinner {
-		animation-delay: 2s;
-		animation: hideSpinner 4s ease forwards;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		animation: hideSpinner 4s 2s ease forwards;
+
+		&.spinner * {
+			background-color: var(--skin-color-secondary, #{$white});
+		}
 
 		@include from-x-large {
 			animation-duration: 2s;
+			top: auto;
+			left: auto;
+			right: 114px;
+			bottom: 114px;
 		}
 
 		@keyframes hideSpinner {
@@ -146,6 +136,38 @@ $gridSpacing: $grid-base-four;
 			to {
 				opacity: 0;
 			}
+		}
+	}
+
+	&__logo {
+		width: 200px;
+		height: 200px;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: top left;
+
+		@include from-xx-large {
+			width: 225px;
+			height: 225px;
+		}
+	}
+
+	&__associationLogoWrapper {
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+		align-items: flex-end;
+	}
+
+	&__associationLogo {
+		width: 100%;
+		max-height: 280px;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center left;
+
+		@include from-x-large {
+			height: 100%;
 		}
 	}
 }

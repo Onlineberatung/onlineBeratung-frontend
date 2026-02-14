@@ -291,3 +291,7 @@ $text-divider-text-transform: none;
 $upload-progress: #80dd92;
 $waiting-room-illustration-display-after: block;
 $welcome-screen-icon-background: $primary;
+
+// Import extension overrides
+@import './variables';
+@import './overwrites';

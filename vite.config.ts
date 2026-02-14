@@ -3,27 +3,14 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
-import { extensionsPlugin } from './vite-plugin-extensions';
 import path from 'path';
-import fs from 'fs';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
-	const extensionDir = env.EXTENSION_DIR || './src/extensions';
-
-	// Determine if we should use extensions
-	const useExtensions = fs.existsSync(
-		path.resolve(__dirname, extensionDir, 'initApp.tsx')
-	);
 
 	return {
 		plugins: [
-			// Extensions override plugin - must be first to intercept imports
-			extensionsPlugin({
-				extensionsDir: path.resolve(__dirname, extensionDir),
-				srcDir: path.resolve(__dirname, './src')
-			}),
 			react({
 				// Use React 18's new JSX transform
 				jsxRuntime: 'automatic'
