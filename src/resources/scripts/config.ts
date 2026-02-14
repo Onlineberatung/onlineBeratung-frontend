@@ -3,6 +3,7 @@ import de from '../i18n/overwrites/de/common.json';
 import deInformal from '../i18n/overwrites/de@informal/common.json';
 import deAgency from '../i18n/de/agency.json';
 import deConsultingTypes from '../i18n/de/consultingTypes.json';
+import deLanguages from '../i18n/de/languages.json';
 import en from '../i18n/en/common.json';
 import enOverwrites from '../i18n/overwrites/en/common.json';
 import enLanguages from '../i18n/en/languages.json';
@@ -333,7 +334,7 @@ export const config: AppConfigInterface = {
 		resources: {
 			de: {
 				languages: {
-					en: '(EN) Englisch'
+					...deLanguages
 				},
 				common: {
 					...de

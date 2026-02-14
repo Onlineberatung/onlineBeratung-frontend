@@ -1,3 +1,18 @@
 {
-	"de": "(DE) Deutsch"
+	"de": "(DE) Deutsch",
+	"en": "(EN) Englisch",
+	"fr": "(FR) Französisch",
+	"es": "(ES) Spanisch",
+	"it": "(IT) Italienisch",
+	"nl": "(NL) Niederländisch",
+	"pl": "(PL) Polnisch",
+	"pt": "(PT) Portugiesisch",
+	"ro": "(RO) Rumänisch",
+	"ru": "(RU) Russisch",
+	"tr": "(TR) Türkisch",
+	"uk": "(UK) Ukrainisch",
+	"ar": "(AR) Arabisch",
+	"zh": "(ZH) Chinesisch",
+	"ja": "(JA) Japanisch",
+	"ko": "(KO) Koreanisch"
 }
