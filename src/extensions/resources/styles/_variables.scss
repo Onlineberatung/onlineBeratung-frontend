@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // FONTS
 $font-family-sans-serif: 'Nunito', sans-serif;
 $font-family-divider: $font-family-sans-serif;
@@ -8,7 +10,7 @@ $font-weight-medium: 600;
 // COLORS
 $primary: #00008c;
 $secondary: #3f373f;
-$hover-primary: darken($primary, 10%);
+$hover-primary: color.scale($primary, $lightness: -10%);
 $background-accent: #eaeaea;
 $background-light: #f9f6f2;
 $hover-select: $background-accent;
@@ -39,6 +41,7 @@ $form-accordion-index-background-active: var(--skin-color-primary, $primary);
 $form-accordion-item-title-color: $black;
 $form-accordion-index-background-active:
   // A light variant of the primary color, since we can't apply opacity directly
+
 	linear-gradient(
 		to right,
 		rgba(255, 255, 255, 0.9),

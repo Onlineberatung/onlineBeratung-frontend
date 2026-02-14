@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $buttonMinWidth: 200px;
 $buttonMaxWidth: 400px;
 
@@ -211,7 +213,7 @@ $buttonMaxWidth: 400px;
 			border: none;
 
 			&:hover {
-				background-color: darken($form-success, 5%);
+				background-color: color.scale($form-success, $lightness: -5%);
 
 				svg {
 					fill: $white;
@@ -224,7 +226,7 @@ $buttonMaxWidth: 400px;
 			border: none;
 
 			&:hover {
-				background-color: darken($form-error, 8%);
+				background-color: color.scale($form-error, $lightness: -8%);
 
 				svg {
 					fill: $white;
@@ -260,7 +262,10 @@ $buttonMaxWidth: 400px;
 			&:hover {
 				background-color: var(
 					--skin-color-secondary,
-					darken($button-small-icon-alternate-background-color, 7%)
+					color.scale(
+						$button-small-icon-alternate-background-color,
+						$lightness: -7%
+					)
 				);
 
 				svg {
@@ -280,7 +285,10 @@ $buttonMaxWidth: 400px;
 			}
 
 			&:hover {
-				background-color: var(--skin-color-primary-hover, $hover-primary);
+				background-color: var(
+					--skin-color-primary-hover,
+					$hover-primary
+				);
 				border-color: var(--skin-color-primary-hover, $hover-primary);
 				color: $white;
 
@@ -296,7 +304,10 @@ $buttonMaxWidth: 400px;
 			border-color: transparent;
 
 			&:hover {
-				background-color: var(--skin-color-primary-hover, $hover-primary);
+				background-color: var(
+					--skin-color-primary-hover,
+					$hover-primary
+				);
 				border-color: var(--skin-color-primary-hover, $hover-primary);
 			}
 		}
