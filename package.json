@@ -160,7 +160,6 @@
 		"cypress:wait-and-open:wait-on-cra": "wait-on http://127.0.0.1:5173",
 		"cypress:wait-and-open:open": "cross-env NODE_ENV=production cypress open",
 		"dtsgen": "ts-node dtsgen.ts",
-		"prepare": "husky install",
 		"browserstack": "browserstack-cypress run --sync"
 	},
 	"eslintConfig": {
@@ -177,8 +176,6 @@
 			},
 			{
 				"files": [
-					"config/**/*.js",
-					"scripts/**/*.js",
 					"proxy/**/*.js"
 				],
 				"rules": {
@@ -236,8 +233,6 @@
 	"nodemonConfig": {
 		"exec": "npm run dev",
 		"watch": [
-			"scripts/",
-			"config/",
 			"proxy/"
 		],
 		"delay": 2500
