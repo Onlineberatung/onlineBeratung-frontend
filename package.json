@@ -25,7 +25,6 @@
 		"@mui/material": "^5.12.1",
 		"@onlineberatung/onlineberatung-frontend-extensions": "file:src/extensions",
 		"@stomp/stompjs": "^6.1.2",
-		"browserslist": "^4.22.2",
 		"bytebuffer": "^5.0.1",
 		"classnames": "^2.5.1",
 		"clsx": "^2.1.1",
@@ -45,7 +44,6 @@
 		"i18next-fetch-backend": "^5.0.2",
 		"i18next-localstorage-backend": "^4.2.0",
 		"i18next-resources-to-backend": "^1.2.0",
-		"identity-obj-proxy": "^3.0.0",
 		"immutability-helper": "^3.1.1",
 		"immutable": "^3.8.2",
 		"intro.js": "^5.0.0",
@@ -79,8 +77,6 @@
 		"web-vitals": "^2.1.3"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.23.7",
-		"@babel/eslint-parser": "^7.23.3",
 		"@commitlint/cli": "^18.5.0",
 		"@commitlint/config-conventional": "^18.5.0",
 		"@cypress/vite-dev-server": "^5.0.7",
@@ -105,24 +101,17 @@
 		"dotenv-expand": "^10.0.0",
 		"dtsgenerator": "^3.19.1",
 		"eslint": "^8.56.0",
-		"eslint-config-react-app": "^7.0.1",
+		"eslint-import-resolver-typescript": "^4.4.4",
 		"eslint-plugin-cypress": "^2.15.1",
-		"eslint-plugin-flowtype": "^8.0.3",
 		"eslint-plugin-import": "^2.29.1",
 		"eslint-plugin-jsx-a11y": "^6.8.0",
 		"eslint-plugin-react": "^7.33.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
-		"eslint-plugin-testing-library": "^6.2.0",
 		"husky": "^8.0.3",
 		"lint-staged": "^15.2.0",
 		"mock-socket": "^9.3.1",
 		"nodemon": "^3.0.3",
 		"npm-run-all": "^4.1.5",
-		"postcss": "^8.4.33",
-		"postcss-flexbugs-fixes": "^5.0.2",
-		"postcss-normalize": "^10.0.1",
-		"postcss-preset-env": "^7.2.3",
-		"postcss-safe-parser": "^6.0.0",
 		"prettier": "^3.2.4",
 		"prettier-eslint-cli": "^8.0.1",
 		"sass": "^1.70.0",
@@ -161,52 +150,6 @@
 		"cypress:wait-and-open:open": "cross-env NODE_ENV=production cypress open",
 		"dtsgen": "ts-node dtsgen.ts",
 		"browserstack": "browserstack-cypress run --sync"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"plugin:cypress/recommended"
-		],
-		"overrides": [
-			{
-				"files": "*.spec.ts",
-				"rules": {
-					"@typescript-eslint/no-unused-expressions": "off"
-				}
-			},
-			{
-				"files": [
-					"proxy/**/*.js"
-				],
-				"rules": {
-					"strict": "off"
-				}
-			}
-		]
-	},
-	"browserslist": {
-		"production": [
-			"last 1 year and > 0.2%",
-			"Chrome >= 119",
-			"Firefox >= 120",
-			"Safari >= 17",
-			"Edge >= 119",
-			"iOS >= 17",
-			"ChromeAndroid >= 119",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version",
-			"last 1 edge version"
-		]
-	},
-	"babel": {
-		"presets": [
-			"react-app"
-		]
 	},
 	"config": {
 		"commitizen": {
