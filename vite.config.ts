@@ -73,9 +73,15 @@ export default defineConfig(({ mode }) => {
 			preprocessorOptions: {
 				scss: {
 					api: 'modern-compiler', // Use modern Sass API instead of legacy
-					additionalData: `@import "./src/resources/styles/settings.scss";\n`,
-					// Silence @import deprecation warnings (will be fixed in future migration)
-					silenceDeprecations: ['import']
+					additionalData: `@import "${path.resolve(__dirname, './src/resources/styles/settings.scss')}";\n`,
+					// Silence deprecation warnings that come from dependencies (breakpoint-sass, etc.)
+					// These will be fixed when we migrate to @use/@forward or update dependencies
+					silenceDeprecations: [
+						'import',
+						'legacy-js-api',
+						'if-function',
+						'global-builtin'
+					]
 				}
 			}
 		},
