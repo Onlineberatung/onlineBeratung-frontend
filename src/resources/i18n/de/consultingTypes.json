@@ -1,3 +1,15 @@
 {
-	"consultingType": {}
+	"consultingType": {
+		"fallback": {
+			"titles": {
+				"welcome": "Herzlich Willkommen!"
+			},
+			"welcomeScreen": {
+				"anonymous": {
+					"title": "Anonym und kostenfrei",
+					"text": "Sie bleiben anonym und erhalten kostenfreie Beratung und Hilfe"
+				}
+			}
+		}
+	}
 }
