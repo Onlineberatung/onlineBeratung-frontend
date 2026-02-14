@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
+import { DatePicker, TimePicker } from '../datepicker/DatePickerMui';
 import { Textarea } from '../form/textarea';
 import * as React from 'react';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
@@ -63,62 +63,48 @@ export const OnlineMeetingForm = ({
 							<DatePicker
 								selected={onlineMeeting.datetime}
 								onChange={(date) => {
-									const dateTime = new Date(date.getTime());
-									if (!onlineMeeting.datetime) {
-										dateTime.setHours(DEFAULT_MEETING_TIME);
+									if (date) {
+										const dateTime = new Date(date.getTime());
+										if (!onlineMeeting.datetime) {
+											dateTime.setHours(DEFAULT_MEETING_TIME);
+										}
+										handleChange('datetime', dateTime);
 									}
-									handleChange('datetime', dateTime);
 								}}
 								locale={locale}
 								minDate={new Date()}
 								maxDate={new Date(2999, 12, 31)}
 								dateFormat="cccccc, dd. MMMM yyyy"
+								label={translate(
+									'appointments.onlineMeeting.form.date'
+								)}
 								onFocus={() => setDateFocus(true)}
 								onBlur={() => setDateFocus(false)}
+								isLabelActive={dateFocus}
 							/>
-							<span
-								className={
-									onlineMeeting.datetime || dateFocus
-										? `react-datepicker__label react-datepicker__label--active`
-										: `react-datepicker__label`
-								}
-								aria-label="date input label"
-							>
-								{translate(
-									'appointments.onlineMeeting.form.date'
-								)}{' '}
-							</span>
 						</div>
 					</div>
 					<div className="flex__col--1">
 						<div>
 							<div className="formWrapper react-datepicker--time">
-								<DatePicker
+								<TimePicker
 									selected={onlineMeeting.datetime}
 									onChange={(time) =>
-										handleChange('datetime', time)
+										time && handleChange('datetime', time)
 									}
 									locale={locale}
-									showTimeSelect
-									showTimeSelectOnly
+									showTimeSelect={true}
+									showTimeSelectOnly={true}
 									timeIntervals={15}
 									timeCaption="Uhrzeit"
 									dateFormat="HH:mm"
-									onFocus={() => setTimeFocus(true)}
-									onBlur={() => setTimeFocus(false)}
-								/>
-								<span
-									className={
-										onlineMeeting.datetime || timeFocus
-											? `react-datepicker__label react-datepicker__label--active`
-											: `react-datepicker__label`
-									}
-									aria-label="time input label"
-								>
-									{translate(
+									label={translate(
 										'appointments.onlineMeeting.form.time'
 									)}
-								</span>
+									onFocus={() => setTimeFocus(true)}
+									onBlur={() => setTimeFocus(false)}
+									isLabelActive={timeFocus}
+								/>
 							</div>
 						</div>
 					</div>

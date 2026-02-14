@@ -1,0 +1,177 @@
+// MUI DatePicker and TimePicker styles to match the app design
+@import '../../resources/styles/settings';
+
+.mui-datepicker-wrapper {
+	position: relative;
+	width: 100%;
+
+	// Match existing input styling
+	.MuiTextField-root {
+		width: 100%;
+
+		.MuiOutlinedInput-root {
+			background-color: white;
+			border-radius: $input-field-border-radius;
+			height: 50px;
+			padding: 15px 50px 0 19px;
+
+			.MuiOutlinedInput-input {
+				padding: 0;
+				padding-top: 15px;
+				color: #3f373f;
+			}
+
+			.MuiOutlinedInput-notchedOutline {
+				border-color: #8c878c;
+			}
+
+			&:hover .MuiOutlinedInput-notchedOutline {
+				border-color: #3f373f;
+			}
+
+			&.Mui-focused .MuiOutlinedInput-notchedOutline {
+				border-color: #199fff;
+				border-width: 2px;
+			}
+		}
+	}
+
+	// Label styling to match react-datepicker
+	.mui-datepicker__label {
+		position: absolute;
+		top: 15px;
+		left: 20px;
+		color: $tertiary;
+		z-index: 2;
+		pointer-events: none;
+		transition:
+			font-size 0.5s,
+			top 0.5s;
+		font-size: $font-size-primary;
+
+		&--active {
+			top: 3px;
+			font-size: $font-size-secondary;
+		}
+	}
+
+	// Icon styling
+	.MuiInputAdornment-root {
+		position: absolute;
+		right: 15px;
+		top: 50%;
+		transform: translateY(-50%);
+
+		.MuiIconButton-root {
+			padding: 0;
+
+			svg {
+				width: 20px;
+				height: 20px;
+			}
+		}
+	}
+}
+
+.mui-timepicker-wrapper {
+	// Time picker specific styles if needed
+}
+
+// Popper styling for calendar/time picker dropdown
+.MuiPickersPopper-root {
+	z-index: 11 !important;
+
+	.MuiPaper-root {
+		border-radius: 4px;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+		border: 1px solid #c4bfc4;
+	}
+
+	// Calendar day styling
+	.MuiPickersDay-root {
+		border-radius: 4px;
+		font-size: $font-size-tertiary;
+
+		&:hover {
+			background-color: $datepicker-hover-color;
+			color: var(--skin-color-primary, $primary);
+		}
+
+		&.Mui-selected {
+			background-color: var(--skin-color-primary, $primary) !important;
+			color: $white !important;
+
+			&:hover {
+				background-color: var(
+					--skin-color-primary-hover,
+					$hover-primary
+				) !important;
+			}
+		}
+
+		&.MuiPickersDay-today {
+			border-color: var(
+				--skin-color-primary-contrast-safe,
+				$primary
+			) !important;
+			font-weight: $font-weight-medium;
+		}
+	}
+
+	// Time list styling
+	.MuiMultiSectionDigitalClock-root,
+	.MuiTimeClock-root {
+		.MuiMenuItem-root {
+			font-size: $font-size-primary;
+			height: 30px;
+			line-height: 30px;
+			border-radius: 0;
+
+			&:hover {
+				background-color: $datepicker-hover-color;
+				color: var(--skin-color-primary-contrast-safe, $primary);
+			}
+
+			&.Mui-selected {
+				background-color: $white;
+				color: $black;
+				font-weight: $font-weight-regular;
+
+				&:hover {
+					background-color: $datepicker-hover-color;
+				}
+			}
+		}
+	}
+
+	// Calendar header
+	.MuiPickersCalendarHeader-root {
+		background-color: $background-light;
+		padding-top: 8px;
+		padding-bottom: 8px;
+
+		.MuiPickersCalendarHeader-label {
+			font-weight: $font-weight-medium;
+			font-size: $font-size-primary;
+		}
+
+		.MuiIconButton-root {
+			padding: 4px;
+
+			svg {
+				width: 14px;
+				height: 14px;
+			}
+		}
+	}
+}
+
+// Form wrapper compatibility
+.formWrapper {
+	&.react-datepicker--date,
+	&.react-datepicker--time {
+		.mui-datepicker-wrapper {
+			width: 100%;
+		}
+	}
+}
