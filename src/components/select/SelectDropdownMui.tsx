@@ -9,7 +9,6 @@ import {
 	InputAdornment,
 	SelectChangeEvent
 } from '@mui/material';
-import { MultiValue } from 'react-select';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { CloseCircle } from '../../resources/img/icons';
@@ -17,6 +16,9 @@ import ArrowDownIcon from '../../resources/img/icons/arrow-down-light.svg?react'
 import ArrowUpIcon from '../../resources/img/icons/arrow-up-light.svg?react';
 import { Text } from '../text/Text';
 import './select-mui.styles.scss';
+
+// Local type definition to avoid react-select dependency
+export type MultiValue<T> = T[];
 
 export interface SelectOption {
 	value: string;
@@ -235,9 +237,10 @@ export const SelectDropdownMui = (props: SelectDropdownItem) => {
 						setOpen(false);
 						if (props.isInsideMenu) {
 							setTimeout(() => {
-								document
-									.getElementById('local-switch-wrapper')
-									?.focus();
+								const focusElement = document.getElementById(
+									'local-switch-wrapper'
+								);
+								focusElement?.focus();
 							}, 10);
 						}
 					}}

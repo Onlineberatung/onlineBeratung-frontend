@@ -1,6 +1,9 @@
 // MUI Select and Autocomplete styles to match the app design
 @import '../../resources/styles/settings';
 
+// Focus color variable for consistency
+$focus-color: #199fff;
+
 .select-mui__wrapper {
 	position: relative;
 	width: 100%;
@@ -18,9 +21,9 @@
 		}
 
 		&.Mui-focused .MuiOutlinedInput-notchedOutline {
-			border-color: #199fff;
+			border-color: $focus-color;
 			border-width: 2px;
-			box-shadow: 0 0 0 2px #199fff;
+			box-shadow: 0 0 0 2px $focus-color;
 		}
 
 		.MuiOutlinedInput-notchedOutline {
