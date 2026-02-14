@@ -14,6 +14,7 @@ import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LanguagesProvider } from '../../globalState/provider/LanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
+import { MuiThemeProvider } from './MuiThemeProvider';
 import {
 	AppConfigProvider,
 	InformalProvider,
@@ -136,71 +137,73 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 				)}
 				<Route>
 					<ContextProvider>
-						<TenantThemingLoader />
-						{startWebsocket && (
-							<WebsocketHandler
-								disconnect={disconnectWebsocket}
-							/>
-						)}
-						<Suspense fallback={<Loading />}>
-							<Switch>
-								{extraRoutes.map(
-									({ route, component: Component }) => (
-										<Route
-											{...route}
-											key={
-												typeof route.path === 'string'
-													? route.path
-													: route.path.join('-')
+						<MuiThemeProvider>
+							<TenantThemingLoader />
+							{startWebsocket && (
+								<WebsocketHandler
+									disconnect={disconnectWebsocket}
+								/>
+							)}
+							<Suspense fallback={<Loading />}>
+								<Switch>
+									{extraRoutes.map(
+										({ route, component: Component }) => (
+											<Route
+												{...route}
+												key={
+													typeof route.path === 'string'
+														? route.path
+														: route.path.join('-')
+												}
+											>
+												<Component />
+											</Route>
+										)
+									)}
+
+									<Route
+										path={[
+											'/registration',
+											'/:consultingTypeSlug/registration'
+										]}
+									>
+										<UrlParamsProvider>
+											<Registration />
+										</UrlParamsProvider>
+									</Route>
+
+									<Route path="/:consultingTypeSlug/warteraum">
+										<WaitingRoomLoader
+											onAnonymousRegistration={() =>
+												setStartWebsocket(true)
 											}
-										>
-											<Component />
-										</Route>
-									)
-								)}
+										/>
+									</Route>
 
-								<Route
-									path={[
-										'/registration',
-										'/:consultingTypeSlug/registration'
-									]}
-								>
-									<UrlParamsProvider>
-										<Registration />
-									</UrlParamsProvider>
-								</Route>
-
-								<Route path="/:consultingTypeSlug/warteraum">
-									<WaitingRoomLoader
-										onAnonymousRegistration={() =>
-											setStartWebsocket(true)
+									<Route path="/login" exact>
+										<UrlParamsProvider>
+											<Login />
+										</UrlParamsProvider>
+									</Route>
+									<Route
+										path={settings.urls.videoConference}
+										exact
+									>
+										<VideoConference />
+									</Route>
+									<Route path={settings.urls.videoCall} exact>
+										<VideoCall />
+									</Route>
+									<AuthenticatedApp
+										onAppReady={() => setStartWebsocket(true)}
+										onLogout={() =>
+											setDisconnectWebsocket(true)
 										}
 									/>
-								</Route>
-
-								<Route path="/login" exact>
-									<UrlParamsProvider>
-										<Login />
-									</UrlParamsProvider>
-								</Route>
-								<Route
-									path={settings.urls.videoConference}
-									exact
-								>
-									<VideoConference />
-								</Route>
-								<Route path={settings.urls.videoCall} exact>
-									<VideoCall />
-								</Route>
-								<AuthenticatedApp
-									onAppReady={() => setStartWebsocket(true)}
-									onLogout={() =>
-										setDisconnectWebsocket(true)
-									}
-								/>
-							</Switch>
-							<NotificationsContainer />
-						</Suspense>
+								</Switch>
+								<NotificationsContainer />
+							</Suspense>
+						</MuiThemeProvider>
 					</ContextProvider>
 				</Route>
 			</Switch>
