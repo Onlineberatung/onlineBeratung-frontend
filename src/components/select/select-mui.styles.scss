@@ -151,13 +151,13 @@ $focus-color: #199fff;
 	// Error state
 	&--error {
 		.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
-			border-color: $error-color;
+			border-color: $form-error;
 		}
 	}
 
 	.select-mui__error {
 		margin-top: 4px;
-		color: $error-color;
+		color: $form-error;
 	}
 }
 
