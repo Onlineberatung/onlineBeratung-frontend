@@ -1,0 +1,351 @@
+// MUI Select and Autocomplete styles to match the app design
+@import '../../resources/styles/settings';
+
+.select-mui__wrapper {
+	position: relative;
+	width: 100%;
+
+	// Base select/autocomplete styling to match react-select
+	.MuiOutlinedInput-root,
+	.MuiTextField-root .MuiOutlinedInput-root {
+		background-color: white;
+		border-radius: 4px;
+		height: 50px;
+		min-height: 50px;
+
+		&:hover .MuiOutlinedInput-notchedOutline {
+			border-color: #3f373f;
+		}
+
+		&.Mui-focused .MuiOutlinedInput-notchedOutline {
+			border-color: #199fff;
+			border-width: 2px;
+			box-shadow: 0 0 0 2px #199fff;
+		}
+
+		.MuiOutlinedInput-notchedOutline {
+			border-color: #8c878c;
+		}
+
+		.MuiOutlinedInput-input {
+			padding: 15px 50px 0 19px;
+			color: #3f373f;
+			cursor: pointer;
+			font-size: $font-size-primary;
+		}
+
+		// Multi-select input padding adjustment
+		&.MuiAutocomplete-inputRoot {
+			padding: 4px 50px 4px 12px;
+
+			.MuiAutocomplete-input {
+				padding: 11px 0 0 7px;
+			}
+		}
+	}
+
+	// Floating label styling
+	.MuiInputLabel-root {
+		color: $tertiary;
+		font-size: $font-size-primary;
+		transform: translate(20px, 15px) scale(1);
+
+		&.MuiInputLabel-shrink {
+			transform: translate(20px, 3px) scale(0.75);
+			font-size: $font-size-secondary;
+		}
+
+		&.Mui-focused {
+			color: $tertiary;
+		}
+	}
+
+	// Custom label for Select (non-Autocomplete)
+	.select-mui__label {
+		position: absolute;
+		top: 15px;
+		left: 20px;
+		color: $tertiary;
+		z-index: 2;
+		pointer-events: none;
+		transition:
+			font-size 0.5s,
+			top 0.5s;
+		font-size: $font-size-primary;
+
+		&--active {
+			top: 3px;
+			font-size: $font-size-secondary;
+		}
+	}
+
+	// Arrow icon styling
+	.select-mui__arrow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		pointer-events: none;
+		margin-right: 8px;
+
+		svg {
+			width: 14px;
+			height: 14px;
+		}
+	}
+
+	// Placeholder styling
+	.select-mui__placeholder {
+		color: $tertiary;
+		font-size: $font-size-primary;
+	}
+
+	// Value with icon
+	.select-mui__value-with-icon {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		.select-mui__value__icon {
+			font-size: 18px;
+		}
+	}
+
+	// Chip styling for multi-select
+	.select-mui__chip {
+		margin: 4px;
+		border-radius: 4px;
+		height: 28px;
+		background-color: var(--skin-color-primary, $primary);
+		color: white;
+		font-size: $font-size-secondary;
+
+		.MuiChip-label {
+			padding: 0 11px;
+		}
+
+		.MuiChip-deleteIcon {
+			color: white;
+			width: 16px;
+			height: 16px;
+			margin-right: 8px;
+
+			&:hover {
+				color: rgba(255, 255, 255, 0.8);
+			}
+		}
+
+		&--fixed {
+			background-color: transparent !important;
+			border: 1px solid rgba(0, 0, 0, 0.2) !important;
+			color: rgba(0, 0, 0, 0.8) !important;
+
+			&:hover {
+				background-color: transparent !important;
+			}
+		}
+	}
+
+	// Error state
+	&--error {
+		.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+			border-color: $error-color;
+		}
+	}
+
+	.select-mui__error {
+		margin-top: 4px;
+		color: $error-color;
+	}
+}
+
+// Menu/dropdown styling
+.MuiPaper-root.MuiMenu-paper,
+.MuiPaper-root.MuiAutocomplete-paper {
+	border-radius: 4px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+	border: 1px solid #c4bfc4;
+	margin-top: 16px;
+
+	// Arrow indicator (using pseudo-element)
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		margin-left: -10px;
+		z-index: 2;
+		border-left: 10px solid transparent;
+		border-right: 10px solid transparent;
+	}
+
+	&::before {
+		top: -10px;
+		border-bottom: 10px solid rgba(0, 0, 0, 0.1);
+		z-index: 1;
+	}
+
+	&::after {
+		top: -8px;
+		border-bottom: 10px solid #fff;
+		z-index: 2;
+	}
+}
+
+// Menu items
+.select-mui__menu-item,
+.select-mui__option {
+	font-size: $font-size-tertiary;
+	color: #3f373f;
+	padding: 8px 16px;
+	cursor: pointer;
+	text-align: left;
+	line-height: 21px;
+
+	&:hover {
+		background-color: $datepicker-hover-color;
+		color: var(--skin-color-primary, $primary);
+	}
+
+	&.Mui-selected {
+		background-color: $datepicker-hover-color;
+		color: var(--skin-color-primary, $primary);
+
+		&:hover {
+			background-color: $datepicker-hover-color;
+		}
+	}
+
+	// Icon option styling
+	.select-mui__option__icon {
+		display: inline-block;
+		margin-right: 8px;
+		font-size: 18px;
+	}
+
+	.select-mui__option__label {
+		display: inline-block;
+	}
+}
+
+// Menu positioning variants
+.select-mui--menu-top {
+	.MuiPaper-root {
+		margin-top: 0;
+		margin-bottom: 16px;
+
+		&::before,
+		&::after {
+			top: auto;
+			bottom: -10px;
+			border-bottom: none;
+			border-top: 10px solid #fff;
+		}
+
+		&::before {
+			bottom: -14px;
+			border-top: 10px solid rgba(0, 0, 0, 0.1);
+		}
+	}
+}
+
+.select-mui--menu-right {
+	.MuiPaper-root {
+		margin-left: 16px;
+		margin-top: 0;
+
+		&::before,
+		&::after {
+			left: -10px;
+			top: 5%;
+			margin-left: 0;
+			border-top: 10px solid transparent;
+			border-bottom: 10px solid transparent;
+			border-right: 10px solid #fff;
+			border-left: none;
+		}
+
+		&::before {
+			left: -14px;
+			border-right: 10px solid rgba(0, 0, 0, 0.1);
+		}
+	}
+}
+
+.select-mui--menu-bottom-left {
+	.MuiPaper-root {
+		&::before,
+		&::after {
+			left: 75%;
+		}
+	}
+}
+
+.select-mui--menu-bottom-right {
+	.MuiPaper-root {
+		&::before,
+		&::after {
+			left: 25%;
+		}
+	}
+}
+
+// Autocomplete listbox
+.MuiAutocomplete-listbox {
+	padding: 0;
+	max-height: 200px;
+
+	.MuiAutocomplete-option {
+		font-size: $font-size-tertiary;
+		padding: 8px 16px;
+		line-height: 21px;
+
+		&:hover {
+			background-color: $datepicker-hover-color;
+			color: var(--skin-color-primary, $primary);
+		}
+
+		&.Mui-focused {
+			background-color: $datepicker-hover-color;
+		}
+
+		&[aria-selected='true'] {
+			background-color: $white;
+			color: $black;
+		}
+	}
+}
+
+// Loading indicator
+.MuiAutocomplete-loading {
+	padding: 8px 16px;
+	text-align: center;
+	color: $tertiary;
+}
+
+// No options message
+.MuiAutocomplete-noOptions {
+	padding: 8px 16px;
+	text-align: center;
+	color: $tertiary;
+}
+
+// Clear indicator
+.MuiAutocomplete-clearIndicator {
+	margin-right: -4px;
+	color: $tertiary;
+
+	&:hover {
+		color: #3f373f;
+	}
+}
+
+// Popup indicator (arrow)
+.MuiAutocomplete-popupIndicator {
+	margin-right: -4px;
+}
+
+// Endadornment positioning
+.MuiAutocomplete-endAdornment {
+	right: 12px !important;
+	top: calc(50% - 14px) !important;
+}
