@@ -364,6 +364,19 @@ export const config: AppConfigInterface = {
 			}
 		}
 	},
+	translation: {
+		weblate: {
+			host: import.meta.env.FRONTEND_WEBLATE_HOST || '',
+			path: import.meta.env.FRONTEND_WEBLATE_PATH || '/weblate/api',
+			project: import.meta.env.FRONTEND_WEBLATE_PROJECT || '',
+			key: import.meta.env.FRONTEND_WEBLATE_API_KEY || '',
+			percentage: parseInt(import.meta.env.FRONTEND_WEBLATE_MIN_PERCENT) || 50
+		},
+		cache: {
+			disabled: import.meta.env.FRONTEND_TRANSLATION_CACHE_DISABLE === '1',
+			time: parseInt(import.meta.env.FRONTEND_TRANSLATION_CACHE_TIME) || 120
+		}
+	},
 	user: {
 		profile: {
 			visibleOnEnquiry: (sessionUserData) =>
