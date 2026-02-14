@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useState } from 'react';
 import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker as MuiTimePicker } from '@mui/x-date-pickers/TimePicker';
@@ -140,8 +139,8 @@ export const TimePicker = ({
 	// Convert date to dayjs
 	const value = selected ? dayjs(selected) : null;
 
-	// Convert format
-	const muiFormat = dateFormat.replace('HH', 'HH').replace('mm', 'mm'); // Same format
+	// MUI uses same format as react-datepicker for HH:mm
+	const muiFormat = dateFormat;
 
 	const handleChange = (newValue: Dayjs | null) => {
 		onChange(newValue ? newValue.toDate() : null);
