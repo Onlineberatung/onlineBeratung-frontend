@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useContext, useState, useEffect } from 'react';
-import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
+import CopyIcon from '../../resources/img/icons/documents.svg?react';
+import InfoIcon from '../../resources/img/icons/i.svg?react';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
@@ -22,7 +22,7 @@ import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { OverlayItem, OVERLAY_FUNCTIONS, Overlay } from '../overlay/Overlay';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 
 export const ConsultantInformation = () => {
 	const { t: translate } = useTranslation();

@@ -9,7 +9,7 @@
 		flex: 0;
 		padding: 0 $grid-base-two $grid-base-four;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			padding: 0 $grid-base-three $grid-base-four;
 		}
 	}
@@ -50,13 +50,13 @@
 		width: auto;
 		padding: 48px 16px;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			& > *:not(.loadingIndicator) {
 				max-width: 700px;
 			}
 		}
 
-		@include breakpoint($fromXLarge) {
+		@include from-x-large {
 			width: 100%;
 			padding-left: calc(40vw + 16px);
 
@@ -106,7 +106,7 @@
 		align-items: center;
 		margin: 0;
 
-		@include breakpoint($fromXLarge) {
+		@include from-x-large {
 			justify-content: flex-end;
 		}
 

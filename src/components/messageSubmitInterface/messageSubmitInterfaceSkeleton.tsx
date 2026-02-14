@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { SendMessageButton } from './SendMessageButton';
-import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
-import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
-import './messageSubmitInterface.styles';
+import EmojiIcon from '../../resources/img/icons/smiley-positive.svg?react';
+import RichtextToggleIcon from '../../resources/img/icons/richtext-toggle.svg?react';
+import './messageSubmitInterface.styles.scss';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Loading } from '../app/Loading';

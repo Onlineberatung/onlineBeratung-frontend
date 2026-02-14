@@ -4,7 +4,7 @@ import { apiPostBanUser } from '../../api/apiPostBanUser';
 import { BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { Overlay, OverlayItem } from '../overlay/Overlay';
-import { ReactComponent as Check } from '../../resources/img/illustrations/check.svg';
+import Check from '../../resources/img/illustrations/check.svg?react';
 import './banUser.styles.scss';
 
 interface BanUserProps {

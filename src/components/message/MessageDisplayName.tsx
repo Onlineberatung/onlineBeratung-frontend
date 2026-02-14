@@ -5,7 +5,7 @@ import {
 	formatToHHMM,
 	getPrettyDateFromMessageDate
 } from '../../utils/dateHelpers';
-import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
+import ArrowForwardIcon from '../../resources/img/icons/arrow-forward.svg?react';
 import { ForwardMessageDTO } from './MessageItemComponent';
 import { ActiveSessionContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';

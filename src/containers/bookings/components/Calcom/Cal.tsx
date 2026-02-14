@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import useEmbed from './useEmbed';
-import './cal.styles';
+import './cal.styles.scss';
 
 export default function Cal({
 	calLink,

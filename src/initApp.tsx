@@ -1,10 +1,11 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { App } from './components/app/app';
 import { Stage } from './components/stage/stage';
 import { config } from './resources/scripts/config';
 
-ReactDOM.render(
-	<App config={config} stageComponent={Stage} />,
-	document.getElementById('appRoot')
-);
+const container = document.getElementById('appRoot');
+if (container) {
+	const root = createRoot(container);
+	root.render(<App config={config} stageComponent={Stage} />);
+}

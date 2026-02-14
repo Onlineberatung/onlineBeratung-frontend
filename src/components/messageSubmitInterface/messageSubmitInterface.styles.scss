@@ -17,11 +17,11 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 		padding: 12px $grid-base-two;
 		width: $contentWidthSmall;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding: 12px $grid-base-three;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: $contentWidth;
 		}
 
@@ -105,7 +105,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			max-height: 118px;
 			min-height: 88px;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				max-height: 218px;
 				min-height: 106px;
 			}
@@ -243,7 +243,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			margin-bottom: $grid-base;
 			cursor: pointer;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				margin-bottom: 12px;
 			}
 
@@ -436,7 +436,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			}
 
 			svg {
-				fill: $primary;
+				fill: var(--skin-color-primary, $primary);
 				position: relative;
 				left: 50%;
 				top: 50%;

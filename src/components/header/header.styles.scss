@@ -14,7 +14,7 @@
 		margin-bottom: 0;
 	}
 
-	@include breakpoint($fromSmall) {
+	@include from-small {
 		flex-direction: row;
 		justify-content: space-between;
 		flex-wrap: nowrap;

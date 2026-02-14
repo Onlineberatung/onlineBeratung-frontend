@@ -8,7 +8,7 @@ $font-weight-medium: 600;
 // COLORS
 $primary: #00008c;
 $secondary: #3f373f;
-$hover-primary: darken($primary, 10%);
+$hover-primary: color.scale($primary, $lightness: -10%);
 $background-accent: #eaeaea;
 $background-light: #f9f6f2;
 $hover-select: $background-accent;
@@ -39,6 +39,7 @@ $form-accordion-index-background-active: var(--skin-color-primary, $primary);
 $form-accordion-item-title-color: $black;
 $form-accordion-index-background-active:
   // A light variant of the primary color, since we can't apply opacity directly
+
 	linear-gradient(
 		to right,
 		rgba(255, 255, 255, 0.9),
@@ -101,7 +102,7 @@ $registration-text-align: left;
 $select-dropdown-border-radius: 4px;
 $select-focus-background-color: $background-accent;
 $select-menu-before-display: none;
-$selection-focus-color: var(--skin-color-default, $primary);
+$selection-focus-color: var(--skin-color-primary, $primary);
 $session-background-color: $sessions-list-background-color-secondary;
 $session-content-background-color: $sessions-list-background-color-secondary;
 $session-header-background-color-large: $sessions-list-background-color-secondary;

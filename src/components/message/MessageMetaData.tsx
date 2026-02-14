@@ -7,7 +7,7 @@ import {
 	ActiveSessionContext
 } from '../../globalState';
 import { formatToHHMM } from '../../utils/dateHelpers';
-import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
+import CheckmarkIcon from '../../resources/img/icons/checkmark.svg?react';
 import { useTranslation } from 'react-i18next';
 
 interface MessageMetaDataProps {

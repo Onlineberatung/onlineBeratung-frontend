@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import Select, { defaultStyles, MenuPlacement } from 'react-select';
+import Select, { MenuPlacement, StylesConfig, MultiValue } from 'react-select';
 import { components } from 'react-select';
 import { CloseCircle } from '../../resources/img/icons';
-import { ReactComponent as ArrowDownIcon } from '../../resources/img/icons/arrow-down-light.svg';
-import { ReactComponent as ArrowUpIcon } from '../../resources/img/icons/arrow-up-light.svg';
+import ArrowDownIcon from '../../resources/img/icons/arrow-down-light.svg?react';
+import ArrowUpIcon from '../../resources/img/icons/arrow-up-light.svg?react';
 import { Text } from '../text/Text';
-import './select.react.styles';
-import './select.styles';
+import './select.react.styles.scss';
+import './select.styles.scss';
 import { useResponsive } from '../../hooks/useResponsive';
 import { useTranslation } from 'react-i18next';
 import { ReactNode, useMemo } from 'react';
@@ -45,7 +45,10 @@ export interface SelectDropdownItem {
 	selectedOptions: SelectOption[];
 	selectInputLabel?: string;
 	placeholder?: string;
-	handleDropdownSelect: Function;
+	handleDropdownSelect: (
+		newValue: SelectOption | MultiValue<SelectOption>,
+		actionMeta?: any
+	) => void;
 	useIconOption?: boolean;
 	isSearchable?: boolean;
 	isMulti?: boolean;
@@ -56,7 +59,7 @@ export interface SelectDropdownItem {
 	hasError?: boolean;
 	errorMessage?: string;
 	onKeyDown?: Function;
-	styleOverrides?: defaultStyles;
+	styleOverrides?: Partial<StylesConfig<SelectOption, boolean>>;
 	selectRef?: any;
 	isInsideMenu?: boolean;
 	menuShouldBlockScroll?: boolean;
@@ -65,7 +68,9 @@ export interface SelectDropdownItem {
 const colourStyles = (
 	fromL,
 	menuPlacement: MENUPLACEMENT,
-	{
+	overrides: Partial<StylesConfig<SelectOption, boolean>> = {}
+): StylesConfig<SelectOption, boolean> => {
+	const {
 		control,
 		singleValue,
 		input,
@@ -76,268 +81,273 @@ const colourStyles = (
 		multiValueLabel,
 		multiValueRemove,
 		indicatorSeparator,
-		...overrides
-	}: defaultStyles
-) => ({
-	control: (styles, state) => {
-		return {
-			...styles,
-			'backgroundColor': 'white',
-			'border': state.isFocused
-				? '2px solid #199fff'
-				: '1px solid #8C878C',
-			'borderRadius': 4,
-			'height': '50px',
-			'padding': state.isFocused ? '0 11px' : '0 12px',
-			'color': '#3F373F',
-			'boxShadow': state.isFocused ? '0 0 0 2px #199fff' : 'none',
-			'cursor': 'pointer',
-			'&:hover': {
-				border: state.isFocused
+		...rest
+	} = overrides;
+
+	return {
+		control: (styles, state) => {
+			return {
+				...styles,
+				'backgroundColor': 'white',
+				'border': state.isFocused
 					? '2px solid #199fff'
-					: '1px solid #3F373F',
-				padding: state.isFocused ? '0 11px' : '0 12px',
-				boxShadow: '0 0 0 2px #199fff'
-			},
-			'.select__inputLabel': {
-				fontSize: state.isFocused || state.hasValue ? '12px' : '16px',
-				top: state.isFocused || state.hasValue ? '0px' : '14px',
-				transition: 'font-size .5s, top .5s',
-				color: 'rgba(0, 0, 0, 0.6)',
-				position: 'absolute',
-				marginLeft: '3px',
-				cursor: 'pointer'
-			},
-			...(control?.(styles, state) ?? {})
-		};
-	},
-	singleValue: (styles, state) => ({
-		...styles,
-		top: '60%',
-		...(singleValue?.(styles, state) ?? {})
-	}),
-	input: (styles, state) => {
-		return state.isMulti
-			? {
-					...styles,
-					...(input?.(styles, state) ?? {})
-				}
-			: {
-					...styles,
-					paddingTop: '12px',
-					cursor: 'pointer',
-					...(input?.(styles, state) ?? {})
-				};
-	},
-	option: (styles, state) => {
-		return {
+					: '1px solid #8C878C',
+				'borderRadius': 4,
+				'height': '50px',
+				'padding': state.isFocused ? '0 11px' : '0 12px',
+				'color': '#3F373F',
+				'boxShadow': state.isFocused ? '0 0 0 2px #199fff' : 'none',
+				'cursor': 'pointer',
+				'&:hover': {
+					border: state.isFocused
+						? '2px solid #199fff'
+						: '1px solid #3F373F',
+					padding: state.isFocused ? '0 11px' : '0 12px',
+					boxShadow: '0 0 0 2px #199fff'
+				},
+				'.select__inputLabel': {
+					fontSize:
+						state.isFocused || state.hasValue ? '12px' : '16px',
+					top: state.isFocused || state.hasValue ? '0px' : '14px',
+					transition: 'font-size .5s, top .5s',
+					color: 'rgba(0, 0, 0, 0.6)',
+					position: 'absolute',
+					marginLeft: '3px',
+					cursor: 'pointer'
+				},
+				...(control?.(styles, state) ?? {})
+			};
+		},
+		singleValue: (styles, state) => ({
 			...styles,
-
-			// Use values from stylesheet
-			color: undefined,
-			backgroundColor: undefined,
-
-			textAlign: 'left',
-			lineHeight: '21px',
-			cursor: 'pointer',
-			...(option?.(styles, state) ?? {})
-		};
-	},
-	menuList: (styles, state) => ({
-		...styles,
-		...(!fromL && { maxHeight: '150px' }),
-		padding: '0',
-		border: undefined,
-		borderRadius: '4px',
-		boxShadow: undefined,
-		...(menuList?.(styles, state) ?? {})
-	}),
-	menu: (styles, state) => ({
-		...styles,
-		'marginTop': state.menuPlacement === MENUPLACEMENT_TOP ? '0' : '16px',
-		'fontWeight': 'normal',
-		...(menuPlacement === MENUPLACEMENT_RIGHT
-			? {
-					bottom: '0',
-					left: '100%',
-					top: 'auto',
-					marginLeft: '16px',
-					marginBottom: 0,
-					width: 'auto'
-				}
-			: {
-					marginBottom:
-						state.menuPlacement === MENUPLACEMENT_TOP
-							? '16px'
-							: '0',
-					right:
-						menuPlacement === MENUPLACEMENT_BOTTOM_LEFT
-							? 0
-							: 'auto',
-					left:
-						menuPlacement === MENUPLACEMENT_BOTTOM_RIGHT
-							? 0
-							: 'auto'
-				}),
-		'boxShadow': undefined,
-		'&:after, &:before': {
-			content: `''`,
-			position: 'absolute',
-			marginTop: '-1px',
-			marginLeft: '-12px',
-			zIndex: 2,
-			...(menuPlacement === MENUPLACEMENT_RIGHT
+			top: '60%',
+			...(singleValue?.(styles, state) ?? {})
+		}),
+		input: (styles, state) => {
+			return state.isMulti
 				? {
-						left: '0',
-						bottom: '5%',
-						top: 'auto',
-						borderTop: '10px solid transparent',
-						borderBottom: '10px solid transparent',
-						borderLeft: 'none',
-						borderRight: '10px solid #fff',
-						height: '12px',
-						width: '12px'
+						...styles,
+						...(input?.(styles, state) ?? {})
 					}
 				: {
-						left:
+						...styles,
+						paddingTop: '12px',
+						cursor: 'pointer',
+						...(input?.(styles, state) ?? {})
+					};
+		},
+		option: (styles, state) => {
+			return {
+				...styles,
+
+				// Use values from stylesheet
+				color: undefined,
+				backgroundColor: undefined,
+
+				textAlign: 'left',
+				lineHeight: '21px',
+				cursor: 'pointer',
+				...(option?.(styles, state) ?? {})
+			};
+		},
+		menuList: (styles, state) => ({
+			...styles,
+			...(!fromL && { maxHeight: '150px' }),
+			padding: '0',
+			border: undefined,
+			borderRadius: '4px',
+			boxShadow: undefined,
+			...(menuList?.(styles, state) ?? {})
+		}),
+		menu: (styles, state) => ({
+			...styles,
+			'marginTop':
+				state.menuPlacement === MENUPLACEMENT_TOP ? '0' : '16px',
+			'fontWeight': 'normal',
+			...(menuPlacement === MENUPLACEMENT_RIGHT
+				? {
+						bottom: '0',
+						left: '100%',
+						top: 'auto',
+						marginLeft: '16px',
+						marginBottom: 0,
+						width: 'auto'
+					}
+				: {
+						marginBottom:
+							state.menuPlacement === MENUPLACEMENT_TOP
+								? '16px'
+								: '0',
+						right:
 							menuPlacement === MENUPLACEMENT_BOTTOM_LEFT
-								? '75%'
-								: menuPlacement === MENUPLACEMENT_BOTTOM_RIGHT
-									? '25%'
-									: '50%',
-						bottom:
-							state.menuPlacement === MENUPLACEMENT_TOP
-								? '-9px'
+								? 0
 								: 'auto',
-						top:
-							state.menuPlacement === MENUPLACEMENT_TOP
-								? 'auto'
-								: '-8px',
-						borderLeft: '10px solid transparent',
-						borderRight: '10px solid transparent',
-						borderTop:
-							state.menuPlacement === MENUPLACEMENT_TOP
-								? '10px solid #fff'
-								: 'none',
-						borderBottom:
-							state.menuPlacement === MENUPLACEMENT_TOP
-								? 'none'
-								: '10px solid #fff'
-					})
-		},
-		'&:before': {
-			zIndex: 1,
-			...(menuPlacement === MENUPLACEMENT_RIGHT
+						left:
+							menuPlacement === MENUPLACEMENT_BOTTOM_RIGHT
+								? 0
+								: 'auto'
+					}),
+			'boxShadow': undefined,
+			'&:after, &:before': {
+				content: `''`,
+				position: 'absolute',
+				marginTop: '-1px',
+				marginLeft: '-12px',
+				zIndex: 2,
+				...(menuPlacement === MENUPLACEMENT_RIGHT
+					? {
+							left: '0',
+							bottom: '5%',
+							top: 'auto',
+							borderTop: '10px solid transparent',
+							borderBottom: '10px solid transparent',
+							borderLeft: 'none',
+							borderRight: '10px solid #fff',
+							height: '12px',
+							width: '12px'
+						}
+					: {
+							left:
+								menuPlacement === MENUPLACEMENT_BOTTOM_LEFT
+									? '75%'
+									: menuPlacement ===
+										  MENUPLACEMENT_BOTTOM_RIGHT
+										? '25%'
+										: '50%',
+							bottom:
+								state.menuPlacement === MENUPLACEMENT_TOP
+									? '-9px'
+									: 'auto',
+							top:
+								state.menuPlacement === MENUPLACEMENT_TOP
+									? 'auto'
+									: '-8px',
+							borderLeft: '10px solid transparent',
+							borderRight: '10px solid transparent',
+							borderTop:
+								state.menuPlacement === MENUPLACEMENT_TOP
+									? '10px solid #fff'
+									: 'none',
+							borderBottom:
+								state.menuPlacement === MENUPLACEMENT_TOP
+									? 'none'
+									: '10px solid #fff'
+						})
+			},
+			'&:before': {
+				zIndex: 1,
+				...(menuPlacement === MENUPLACEMENT_RIGHT
+					? {
+							left: '0',
+							bottom: '5%',
+							top: 'auto',
+							borderTop: '10px solid transparent',
+							borderBottom: '10px solid transparent',
+							borderLeft: 'none',
+							borderRight: '10px solid rgba(0,0,0,0.1)'
+						}
+					: {
+							bottom:
+								state.menuPlacement === MENUPLACEMENT_TOP
+									? '-14px'
+									: 'auto',
+							top:
+								state.menuPlacement === MENUPLACEMENT_TOP
+									? 'auto'
+									: '-10px',
+							borderTop:
+								state.menuPlacement === MENUPLACEMENT_TOP
+									? '10px solid rgba(0,0,0,0.1)'
+									: 'none',
+							borderBottom:
+								state.menuPlacement === MENUPLACEMENT_TOP
+									? 'none'
+									: '10px solid rgba(0,0,0,0.1)'
+						})
+			},
+			...(menu?.(styles, state) ?? {})
+		}),
+		multiValue: (styles, state) => {
+			const common = {
+				margin: '4px'
+			};
+			return state.data.isFixed
 				? {
-						left: '0',
-						bottom: '5%',
-						top: 'auto',
-						borderTop: '10px solid transparent',
-						borderBottom: '10px solid transparent',
-						borderLeft: 'none',
-						borderRight: '10px solid rgba(0,0,0,0.1)'
-					}
-				: {
-						bottom:
-							state.menuPlacement === MENUPLACEMENT_TOP
-								? '-14px'
-								: 'auto',
-						top:
-							state.menuPlacement === MENUPLACEMENT_TOP
-								? 'auto'
-								: '-10px',
-						borderTop:
-							state.menuPlacement === MENUPLACEMENT_TOP
-								? '10px solid rgba(0,0,0,0.1)'
-								: 'none',
-						borderBottom:
-							state.menuPlacement === MENUPLACEMENT_TOP
-								? 'none'
-								: '10px solid rgba(0,0,0,0.1)'
-					})
-		},
-		...(menu?.(styles, state) ?? {})
-	}),
-	multiValue: (styles, state) => {
-		const common = {
-			margin: '4px'
-		};
-		return state.data.isFixed
-			? {
-					...styles,
-					...common,
-					// important is needed for fixed option to overwrite color from scss
-					'border': '1px solid rgba(0,0,0,0.2) !important',
-					'backgroundColor': 'transparent !important',
-					'&:hover': {
+						...styles,
+						...common,
+						// important is needed for fixed option to overwrite color from scss
 						'border': '1px solid rgba(0,0,0,0.2) !important',
 						'backgroundColor': 'transparent !important',
-						'& > .select__input__multi-value__label': {
+						'&:hover': {
+							'border': '1px solid rgba(0,0,0,0.2) !important',
+							'backgroundColor': 'transparent !important',
+							'& > .select__input__multi-value__label': {
+								color: 'rgba(0,0,0,0.8) !important'
+							}
+						},
+						...(multiValue?.(styles, state) ?? {})
+					}
+				: {
+						...styles,
+						...common,
+						border: '1px solid transparent',
+						...(multiValue?.(styles, state) ?? {})
+					};
+		},
+		multiValueLabel: (styles, state) => {
+			const common = {
+				paddingLeft: '11px',
+				paddingRight: '11px',
+				paddingTop: '3px',
+				paddingBottom: '3px'
+			};
+			return state.data.isFixed
+				? {
+						// important is needed for fixed option to overwrite color from scss
+						...styles,
+						...common,
+						'color': 'rgba(0,0,0,0.8) !important',
+						'&:hover': {
 							color: 'rgba(0,0,0,0.8) !important'
-						}
+						},
+						'cursor': 'pointer',
+						...(multiValueLabel?.(styles, state) ?? {})
+					}
+				: {
+						...styles,
+						...common,
+						paddingRight: '4px',
+						cursor: 'pointer',
+						...(multiValueLabel?.(styles, state) ?? {})
+					};
+		},
+		multiValueRemove: (styles, state) =>
+			state.data.isFixed
+				? {
+						...styles,
+						display: 'none',
+						...(multiValueRemove?.(styles, state) ?? {})
+					}
+				: {
+						...styles,
+						'paddingRight': '8px',
+						'cursor': 'pointer',
+						'opacity': 1,
+						'backgroundColor': 'transparent',
+						'&:hover': {
+							backgroundColor: 'transparent'
+						},
+						...(multiValueRemove?.(styles, state) ?? {})
 					},
-					...(multiValue?.(styles, state) ?? {})
-				}
-			: {
-					...styles,
-					...common,
-					border: '1px solid transparent',
-					...(multiValue?.(styles, state) ?? {})
-				};
-	},
-	multiValueLabel: (styles, state) => {
-		const common = {
-			paddingLeft: '11px',
-			paddingRight: '11px',
-			paddingTop: '3px',
-			paddingBottom: '3px'
-		};
-		return state.data.isFixed
-			? {
-					// important is needed for fixed option to overwrite color from scss
-					...styles,
-					...common,
-					'color': 'rgba(0,0,0,0.8) !important',
-					'&:hover': {
-						color: 'rgba(0,0,0,0.8) !important'
-					},
-					'cursor': 'pointer',
-					...(multiValueLabel?.(styles, state) ?? {})
-				}
-			: {
-					...styles,
-					...common,
-					paddingRight: '4px',
-					cursor: 'pointer',
-					...(multiValueLabel?.(styles, state) ?? {})
-				};
-	},
-	multiValueRemove: (styles, state) =>
-		state.data.isFixed
-			? {
-					...styles,
-					display: 'none',
-					...(multiValueRemove?.(styles, state) ?? {})
-				}
-			: {
-					...styles,
-					'paddingRight': '8px',
-					'cursor': 'pointer',
-					'opacity': 1,
-					'backgroundColor': 'transparent',
-					'&:hover': {
-						backgroundColor: 'transparent'
-					},
-					...(multiValueRemove?.(styles, state) ?? {})
-				},
-	indicatorSeparator: (styles, state) => ({
-		...styles,
-		display: 'none',
-		cursor: 'pointer',
-		...(indicatorSeparator?.(styles, state) ?? {})
-	}),
-	...overrides
-});
+		indicatorSeparator: (styles, state) => ({
+			...styles,
+			display: 'none',
+			cursor: 'pointer',
+			...(indicatorSeparator?.(styles, state) ?? {})
+		}),
+		...rest
+	};
+};
 
 export const SelectDropdown = (props: SelectDropdownItem) => {
 	const { t: translate } = useTranslation();
@@ -371,8 +381,11 @@ export const SelectDropdown = (props: SelectDropdownItem) => {
 	);
 
 	const currentSelectInputLabel = props.selectInputLabel;
-	const CustomValueContainer = ({ children, ...props }) => (
-		<components.ValueContainer {...props} className="select__inputWrapper">
+	const CustomValueContainer = ({ children, ...containerProps }: any) => (
+		<components.ValueContainer
+			{...containerProps}
+			className="select__inputWrapper"
+		>
 			{React.Children.map(children, (child) => child)}
 			<label className="select__inputLabel">
 				{translate(currentSelectInputLabel)}

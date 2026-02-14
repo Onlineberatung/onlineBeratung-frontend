@@ -5,7 +5,7 @@ import {
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
-import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
+import LockIcon from '../../resources/img/icons/lock.svg?react';
 import { LABEL_TYPES, Text } from '../text/Text';
 import {
 	inputValuesFit,
@@ -18,7 +18,7 @@ import {
 	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from './registrationHelpers';
-import './registrationPassword.styles';
+import './registrationPassword.styles.scss';
 import { useTranslation } from 'react-i18next';
 
 interface RegistrationPasswordProps {

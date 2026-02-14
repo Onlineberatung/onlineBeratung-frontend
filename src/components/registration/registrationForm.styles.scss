@@ -27,7 +27,7 @@ $registration-form-headline-margin-bottom: 24px;
 			border: none;
 			background: none;
 			padding: 0;
-			color: $link-color;
+			color: var(--skin-color-primary, $primary);
 			text-decoration: $link-text-decoration;
 			font-weight: $link-font-weight;
 
@@ -67,7 +67,7 @@ $registration-form-headline-margin-bottom: 24px;
 			width: 100%;
 		}
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			display: flex;
 			justify-content: flex-end;
 

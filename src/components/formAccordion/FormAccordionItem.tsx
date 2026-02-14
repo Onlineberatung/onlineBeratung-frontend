@@ -1,7 +1,7 @@
 import * as React from 'react';
-import './formAccordionItem.styles';
-import { ReactComponent as ValidIcon } from '../../resources/img/icons/checkmark_filled.svg';
-import { ReactComponent as InvalidIcon } from '../../resources/img/icons/exclamation-mark.svg';
+import './formAccordionItem.styles.scss';
+import ValidIcon from '../../resources/img/icons/checkmark_filled.svg?react';
+import InvalidIcon from '../../resources/img/icons/exclamation-mark.svg?react';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { AccordionItemValidity } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';

@@ -8,7 +8,7 @@
 		align-items: center;
 		height: 100% !important;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			align-items: center;
 		}
 

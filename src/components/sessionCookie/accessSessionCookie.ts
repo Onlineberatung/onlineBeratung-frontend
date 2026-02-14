@@ -34,7 +34,7 @@ export const removeAllCookies = (allowlist = []) => {
 		if (
 			[
 				...allowlist,
-				...(process.env.REACT_APP_COOKIES_ALLOWEDLIST ?? '').split(',')
+				...(import.meta.env.VITE_COOKIES_ALLOWEDLIST ?? '').split(',')
 			].includes(name)
 		)
 			return;

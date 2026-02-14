@@ -9,7 +9,7 @@
 
 	&__progress {
 		height: 18px;
-		background: $primary;
+		background: var(--skin-color-primary, $primary);
 		transition: width 0.5s ease;
 		display: flex;
 		justify-content: center;

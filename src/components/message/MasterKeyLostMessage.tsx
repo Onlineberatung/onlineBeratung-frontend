@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './e2eeActivatedMessage.styles';
+import './e2eeActivatedMessage.styles.scss';
 import { Overlay } from '../overlay/Overlay';
 import { subscriptionKeyLostOverlayItem } from '../session/subscriptionKeyLostHelper';
 import { Button, BUTTON_TYPES } from '../button/Button';

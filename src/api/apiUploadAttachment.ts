@@ -67,7 +67,7 @@ export const apiUploadAttachment = (
 		xhr.setRequestHeader('cache-control', 'no-cache');
 		if (isLocalDevelopment) {
 			xhr.setRequestHeader(
-				process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY,
+				import.meta.env.VITE_CSRF_WHITELIST_HEADER_PROPERTY,
 				csrfToken
 			);
 		}

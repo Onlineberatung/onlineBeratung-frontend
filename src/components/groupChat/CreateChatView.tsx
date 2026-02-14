@@ -24,8 +24,8 @@ import {
 	getValidDateFormatForSelectedDate,
 	getValidTimeFormatForSelectedTime
 } from './createChatHelpers';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
+import XIcon from '../../resources/img/illustrations/x.svg?react';
 import { ButtonItem, BUTTON_TYPES, Button } from '../button/Button';
 import { OVERLAY_FUNCTIONS, Overlay, OverlayItem } from '../overlay/Overlay';
 import DatePicker, { registerLocale } from 'react-datepicker/dist/es';
@@ -38,10 +38,10 @@ import {
 } from '../../api';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { getChatDate } from '../session/sessionDateHelpers';
-import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
+import BackIcon from '../../resources/img/icons/arrow-left.svg?react';
 import 'react-datepicker/src/stylesheets/datepicker.scss';
-import '../datepicker/datepicker.styles';
-import './createChat.styles';
+import '../datepicker/datepicker.styles.scss';
+import './createChat.styles.scss';
 import { useResponsive } from '../../hooks/useResponsive';
 import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
 import { useSearchParam } from '../../hooks/useSearchParams';
@@ -547,7 +547,9 @@ export const CreateGroupChatView = (props) => {
 						</h3>
 					</div>
 					<p className="createChat__header__subtitle createChat__header__subtitle--withBackButton">
-						{activeSession.item.topic}
+						{typeof activeSession.item.topic === 'string'
+							? activeSession.item.topic
+							: activeSession.item.topic?.name}
 					</p>
 				</div>
 			) : (

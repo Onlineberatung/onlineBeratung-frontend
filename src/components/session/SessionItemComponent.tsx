@@ -29,10 +29,10 @@ import {
 	ActiveSessionContext
 } from '../../globalState';
 import { ConsultingTypeInterface } from '../../globalState/interfaces';
-import './session.styles';
-import './session.yellowTheme.styles';
+import './session.styles.scss';
+import './session.yellowTheme.styles.scss';
 import { useDebouncedCallback } from 'use-debounce';
-import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
+import ArrowDoubleDownIcon from '../../resources/img/icons/arrow-double-down.svg?react';
 import smoothScroll from './smoothScrollHelper';
 import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
@@ -421,7 +421,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 									{...message}
 								/>
 								{index === messages.length - 1 &&
-									enableInitialScroll()}
+									(() => {
+										enableInitialScroll();
+										return null;
+									})()}
 							</React.Fragment>
 						))}
 					<div

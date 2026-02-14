@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { apiAgencyLanguages } from '../../api/apiAgencyLanguages';
 import { isUniqueLanguage } from '../profile/profileHelpers';
-import './agencyLanguages.styles';
+import './agencyLanguages.styles.scss';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';

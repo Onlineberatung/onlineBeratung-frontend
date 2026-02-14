@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './tag.styles';
+import './tag.styles.scss';
 import { Link } from 'react-router-dom';
 
 export interface TagProps {

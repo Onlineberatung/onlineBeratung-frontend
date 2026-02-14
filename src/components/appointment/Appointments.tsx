@@ -18,8 +18,8 @@ import {
 } from '../../utils/dateHelpers';
 import { OnlineMeetingForm } from './OnlineMeetingForm';
 import { Appointment } from './Appointment';
-import { ReactComponent as CameraPlusIcon } from '../../resources/img/icons/camera-plus.svg';
-import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/chat-waiting.svg';
+import CameraPlusIcon from '../../resources/img/icons/camera-plus.svg?react';
+import WaitingIllustration from '../../resources/img/illustrations/chat-waiting.svg?react';
 import { Loading } from '../app/Loading';
 import { useResponsive } from '../../hooks/useResponsive';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';

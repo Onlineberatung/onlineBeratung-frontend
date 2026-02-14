@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { LoadingIndicator } from '../loadingIndicator/LoadingIndicator';
-import './loading.styles';
+import './loading.styles.scss';
 
 export const Loading = () => {
 	const [isVisible, setIsVisible] = useState(false);

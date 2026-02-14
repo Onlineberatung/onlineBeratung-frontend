@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Text } from '../text/Text';
 import { Headline } from '../headline/Headline';
-import './appointment.styles';
-import { ReactComponent as CalendarCheckIcon } from '../../resources/img/icons/calendar-check.svg';
-import { ReactComponent as CalendarCancelIcon } from '../../resources/img/icons/calendar-cancel.svg';
+import './appointment.styles.scss';
+import CalendarCheckIcon from '../../resources/img/icons/calendar-check.svg?react';
+import CalendarCancelIcon from '../../resources/img/icons/calendar-cancel.svg?react';
 import {
 	convertUTCDateToLocalDate,
 	formatToHHMM

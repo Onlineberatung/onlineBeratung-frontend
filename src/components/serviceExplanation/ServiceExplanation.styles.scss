@@ -10,7 +10,7 @@ $iconSize: 32px;
 			margin-right: 14px;
 
 			* {
-				fill: $welcome-screen-icon-background;
+				fill: var(--skin-color-primary, $primary);
 			}
 		}
 	}

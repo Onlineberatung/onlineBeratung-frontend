@@ -1,4 +1,4 @@
-import './incomingVideoCall.styles';
+import './incomingVideoCall.styles.scss';
 
 import * as React from 'react';
 import { useContext } from 'react';
@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next';
 
 import { apiRejectVideoCall } from '../../api';
 import { NotificationsContext, NotificationType } from '../../globalState';
-import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
-import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
-import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
+import CallOffIcon from '../../resources/img/icons/call-off.svg?react';
+import CallOnIcon from '../../resources/img/icons/call-on.svg?react';
+import CameraOnIcon from '../../resources/img/icons/camera-on.svg?react';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { useJoinVideoCall } from '../sessionHeader/GroupChatHeader/useJoinVideoCall';

@@ -7,7 +7,7 @@ $iconSize: 20px;
 		flex-direction: row;
 
 		a {
-			color: var(--skin-color-default, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 		}
 
 		.button__wrapper {
@@ -35,32 +35,32 @@ $iconSize: 20px;
 			white-space: normal;
 			flex-direction: column;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				margin-right: 1rem;
 				flex-direction: row;
 			}
 
 			p {
-				color: $primary;
+				color: var(--skin-color-primary, $primary);
 				text-align: center;
 
-				@include breakpoint($fromLarge) {
+				@include from-large {
 					text-align: left;
 				}
 			}
 
 			svg {
-				@include breakpoint($fromLarge) {
+				@include from-large {
 					margin-right: 0.5rem;
 				}
 
 				path {
-					fill: $primary;
+					fill: var(--skin-color-primary, $primary);
 				}
 			}
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			&--mobile {
 				display: none;
 			}
@@ -75,7 +75,7 @@ $iconSize: 20px;
 			height: $iconSize;
 
 			&:hover {
-				fill: var(--skin-color-default, $primary);
+				fill: var(--skin-color-primary, $primary);
 				svg path {
 					fill: $font-size-secondary;
 				}
@@ -131,7 +131,7 @@ $iconSize: 20px;
 		}
 		.sessionMenu__item:not(.sessionMenu__item--mobile)
 			~ .legalInformationLinks--menu {
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				@include legal-links-border;
 			}
 		}
@@ -146,7 +146,7 @@ $iconSize: 20px;
 				}
 
 				&:hover {
-					background-color: $hover-primary;
+					background-color: var(--skin-color-primary-hover, $hover-primary);
 
 					p {
 						color: $session-menu-legal-links-color !important;
@@ -162,8 +162,8 @@ $iconSize: 20px;
 		cursor: pointer;
 
 		&:hover {
-			background-color: $hover-primary;
-			color: var(--skin-color-default, $text-invert);
+			background-color: var(--skin-color-primary-hover, $hover-primary);
+			color: $text-invert;
 		}
 
 		&--mobile {
@@ -174,7 +174,7 @@ $iconSize: 20px;
 			display: none;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			&--mobile {
 				display: none !important;
 			}
@@ -217,7 +217,7 @@ $iconSize: 20px;
 	&__videoCallButtons {
 		display: none;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: flex;
 		}
 	}

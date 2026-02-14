@@ -41,7 +41,7 @@
 .illustration {
 	display: none;
 
-	@include breakpoint($fromLarge) {
+	@include from-large {
 		display: block;
 	}
 }

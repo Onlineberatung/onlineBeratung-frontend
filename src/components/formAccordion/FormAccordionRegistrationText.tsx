@@ -1,5 +1,5 @@
 import { AgencyDataInterface } from '../../globalState/interfaces';
-import './formAccordionRegistrationText.styles';
+import './formAccordionRegistrationText.styles.scss';
 
 interface FormAccordionRegistrationTextProps {
 	agency: AgencyDataInterface;

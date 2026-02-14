@@ -62,7 +62,7 @@ export function typedArrayToBuffer(array: Uint8Array): ArrayBuffer {
 	return array.buffer.slice(
 		array.byteOffset,
 		array.byteLength + array.byteOffset
-	);
+	) as ArrayBuffer;
 }
 
 export const generateRSAKey = async (): Promise<CryptoKeyPair> => {
@@ -173,7 +173,7 @@ export async function importRSAKey(
 
 export function joinVectorAndEcryptedData(
 	vector: Uint8Array,
-	encryptedData: ArrayLike<number> | ArrayBufferLike
+	encryptedData: ArrayLike<number> | ArrayBuffer
 ): Uint8Array {
 	const cipherText = new Uint8Array(encryptedData);
 	const output = new Uint8Array(vector.length + cipherText.length);
@@ -278,8 +278,12 @@ export const decryptAttachment = async (
 		}
 
 		const [vector, cipherText] = splitVectorAndEcryptedData(msgArray);
-		const result = await decryptAES(vector, groupKey, cipherText);
-		return new File([result], name);
+		const result = await decryptAES(
+			vector as Uint8Array<ArrayBuffer>,
+			groupKey,
+			cipherText as Uint8Array<ArrayBuffer>
+		);
+		return new File([result as BlobPart], name);
 	} catch (error) {
 		console.error('Error decrypting message: ', error, encAttachment);
 		throw error;
@@ -434,8 +438,12 @@ export const decryptText = async (
 		}
 
 		const [vector, cipherText] = splitVectorAndEcryptedData(msgArray);
-		const result = await decryptAES(vector, groupKey, cipherText);
-		return new TextDecoder('UTF-8').decode(result);
+		const result = await decryptAES(
+			vector as Uint8Array<ArrayBuffer>,
+			groupKey,
+			cipherText as Uint8Array<ArrayBuffer>
+		);
+		return new TextDecoder('UTF-8').decode(result as BufferSource);
 	} catch (error) {
 		console.error('Error decrypting message: ', error, encMessage);
 		throw error;
@@ -595,7 +603,13 @@ export const decryptPrivateKey = async (privateKey, masterKey) => {
 			Uint8Array.from(Object.values(JSON.parse(privateKey)))
 		);
 
-		return toString(await decryptAES(vector, masterKey, cipherText));
+		return toString(
+			(await decryptAES(
+				vector as Uint8Array<ArrayBuffer>,
+				masterKey,
+				cipherText as Uint8Array<ArrayBuffer>
+			)) as unknown as Uint8Array
+		);
 	} catch (error) {
 		throw new Error('E2E -> Error decrypting private key: ' + error);
 	}

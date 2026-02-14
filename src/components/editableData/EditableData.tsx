@@ -1,10 +1,10 @@
 import * as React from 'react';
-import './editableData.styles';
+import './editableData.styles.scss';
 import { Text } from '../text/Text';
 import clsx from 'clsx';
-import { ReactComponent as CrossMarkIcon } from '../../resources/img/icons/x.svg';
-import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
-import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
+import CrossMarkIcon from '../../resources/img/icons/x.svg?react';
+import TrashIcon from '../../resources/img/icons/trash.svg?react';
+import PenIcon from '../../resources/img/icons/pen.svg?react';
 import { useEffect, useState } from 'react';
 import { isStringValidEmail } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';

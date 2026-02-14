@@ -1,4 +1,4 @@
-import '../waitingRoom/waitingRoom.styles';
+import '../waitingRoom/waitingRoom.styles.scss';
 
 import * as React from 'react';
 import { useContext, useEffect } from 'react';
@@ -13,9 +13,9 @@ import {
 } from '../../globalState/interfaces';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
-import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
-import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
-import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
+import ErrorIllustration from '../../resources/img/illustrations/not-found.svg?react';
+import WaitingIllustration from '../../resources/img/illustrations/waiting.svg?react';
+import WelcomeIllustration from '../../resources/img/illustrations/welcome.svg?react';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import LegalLinks from '../legalLinks/LegalLinks';
 import { StageLayout } from '../stageLayout/StageLayout';

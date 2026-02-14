@@ -37,9 +37,9 @@ import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 import useTyping from '../../utils/useTyping';
-import './session.styles';
+import './session.styles.scss';
 import { useE2EE } from '../../hooks/useE2EE';
 import {
 	EVENT_ROOMS_CHANGED,

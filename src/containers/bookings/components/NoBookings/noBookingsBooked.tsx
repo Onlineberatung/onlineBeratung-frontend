@@ -8,8 +8,8 @@ import {
 	ButtonItem
 } from '../../../../components/button/Button';
 import { Headline } from '../../../../components/headline/Headline';
-import '../booking.styles';
-import { ReactComponent as CalendarMonthPlusIcon } from '../../../../resources/img/icons/calendar-plus.svg';
+import '../booking.styles.scss';
+import CalendarMonthPlusIcon from '../../../../resources/img/icons/calendar-plus.svg?react';
 import { Text } from '../../../../components/text/Text';
 import { Box } from '../../../../components/box/Box';
 import {

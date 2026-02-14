@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { OverlayItem } from '../components/overlay/Overlay';
-import { ReactComponent as WaitingIcon } from '../resources/img/illustrations/waiting.svg';
+import WaitingIcon from '../resources/img/illustrations/waiting.svg?react';
 import * as React from 'react';
 import { LoadingIndicator } from '../components/loadingIndicator/LoadingIndicator';
 import { useTranslation } from 'react-i18next';

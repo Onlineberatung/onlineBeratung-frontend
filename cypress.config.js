@@ -1,26 +1,6 @@
 const _ = require('lodash');
 const { defineConfig } = require('cypress');
 
-// @ts-ignore
-const wp = require('@cypress/webpack-preprocessor');
-
-const options = {
-	webpackOptions: {
-		resolve: {
-			extensions: ['.ts', '.tsx', '.js']
-		},
-		module: {
-			rules: [
-				{
-					test: /\.tsx?$/,
-					loader: 'ts-loader',
-					options: { transpileOnly: true }
-				}
-			]
-		}
-	}
-};
-
 let conf;
 try {
 	conf = require('./src/extensions/cypress/cypress.json') || {};
@@ -33,16 +13,17 @@ module.exports = defineConfig(
 	_.mergeWith(
 		{
 			e2e: {
-				baseUrl: 'http://localhost:9001',
+				baseUrl: 'http://localhost:5173',
 				supportFile: 'cypress/support/e2e.{js,jsx,ts,tsx}',
 				setupNodeEvents(on, config) {
-					on('file:preprocessor', wp(options));
+					// Vite handles TypeScript compilation automatically
+					return config;
 				},
 				specPattern: ['cypress/e2e/**/*.cy.ts']
 			},
 			env: {
 				CYPRESS_WS_URL:
-					process.env.CYPRESS_WS_URL || process.env.REACT_APP_API_URL
+					process.env.CYPRESS_WS_URL || process.env.VITE_API_URL
 			},
 			retries: {
 				runMode: 2

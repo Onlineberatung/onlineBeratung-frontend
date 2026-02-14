@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as SendIcon } from '../../resources/img/icons/paper-plane.svg';
+import SendIcon from '../../resources/img/icons/paper-plane.svg?react';
 
 interface SendMessageButtonProps {
 	clicked?: boolean;

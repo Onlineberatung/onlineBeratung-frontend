@@ -1,7 +1,7 @@
 import { BUTTON_TYPES } from '../button/Button';
 import { OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
-import { ReactComponent as WelcomeIllustration } from '../../resources/img/illustrations/welcome.svg';
-import { ReactComponent as WavingIllustration } from '../../resources/img/illustrations/waving.svg';
+import WelcomeIllustration from '../../resources/img/illustrations/welcome.svg?react';
+import WavingIllustration from '../../resources/img/illustrations/waving.svg?react';
 
 export const acceptanceOverlayItem: OverlayItem = {
 	headline: 'anonymous.waitingroom.overlay.acceptance.headline',

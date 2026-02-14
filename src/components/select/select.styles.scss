@@ -134,8 +134,11 @@ $select-menu-before-display: block !default;
 			cursor: pointer;
 
 			&:hover {
-				color: var(--skin-color-default, $primary);
-				background-color: $hover-select;
+				color: var(--skin-color-primary, $primary);
+				background-color: var(
+					--skin-color-primary-hover-translucent,
+					$hover-select
+				);
 			}
 		}
 	}

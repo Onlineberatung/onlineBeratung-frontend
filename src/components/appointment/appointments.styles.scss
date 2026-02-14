@@ -11,7 +11,7 @@
 
 		&__header,
 		&__body > div {
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				width: 75%;
 				margin: auto;
 			}
@@ -24,7 +24,7 @@
 		&__footer {
 			background-color: $dark-grey;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				background-color: $background-light;
 			}
 
@@ -38,7 +38,7 @@
 		display: inline-flex;
 		align-self: center;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			justify-content: center;
 		}
 	}

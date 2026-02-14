@@ -6,7 +6,7 @@ import { APIToolsInterface } from '../../globalState/interfaces/ToolsInterface';
 import { Box } from '../box/Box';
 import { Headline } from '../headline/Headline';
 import { Tool } from './Tool';
-import './tools.styles';
+import './tools.styles.scss';
 import { useTranslation } from 'react-i18next';
 
 export const ToolsList = () => {

@@ -7,7 +7,7 @@
 	}
 
 	&__description {
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			max-width: 500px;
 		}
 	}
@@ -18,7 +18,7 @@
 	}
 
 	&__date {
-		color: $primary;
+		color: var(--skin-color-primary, $primary);
 		font-size: 12px;
 		line-height: 18px;
 		font-style: normal;

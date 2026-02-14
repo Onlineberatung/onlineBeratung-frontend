@@ -5,7 +5,7 @@ import {
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
-import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import PersonIcon from '../../resources/img/icons/person.svg?react';
 import {
 	AccordionItemValidity,
 	isStringValidUsername,

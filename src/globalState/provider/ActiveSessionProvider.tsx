@@ -6,6 +6,7 @@ type ActiveSessionContextProps = {
 	activeSession: ExtendedSessionInterface | null;
 	reloadActiveSession?: () => void;
 	readActiveSession?: () => void;
+	children?: React.ReactNode;
 };
 
 export const ActiveSessionContext =

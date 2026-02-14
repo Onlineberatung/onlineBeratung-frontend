@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useCalcomLogin } from '../../hooks/useCalcomLogin';
 import { AvailabilityContainer } from '../AvailabilityContainer/availabilityContainer';
 import { CalendarIntegration } from '../CalendarIntegration/calendarIntegration';
-import '../booking.styles';
+import '../booking.styles.scss';
 
 export const BookingSettings = () => {
 	const loadedExternalComponents = useCalcomLogin();

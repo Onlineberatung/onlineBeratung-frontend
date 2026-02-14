@@ -17,13 +17,13 @@ import {
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
-import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
-import { ReactComponent as AddIcon } from '../../resources/img/icons/add.svg';
-import { ReactComponent as AddShieldIcon } from '../../resources/img/icons/add-shield.svg';
-import { ReactComponent as UrlIcon } from '../../resources/img/icons/url.svg';
-import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark.svg';
-import { ReactComponent as IlluCheck } from '../../resources/img/illustrations/check.svg';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
+import DownloadIcon from '../../resources/img/icons/download.svg?react';
+import AddIcon from '../../resources/img/icons/add.svg?react';
+import AddShieldIcon from '../../resources/img/icons/add-shield.svg?react';
+import UrlIcon from '../../resources/img/icons/url.svg?react';
+import CheckIcon from '../../resources/img/icons/checkmark.svg?react';
+import IlluCheck from '../../resources/img/illustrations/check.svg?react';
+import InfoIcon from '../../resources/img/icons/i.svg?react';
 import {
 	apiDeleteTwoFactorAuth,
 	apiPutTwoFactorAuthEmail,
@@ -32,7 +32,7 @@ import {
 	FETCH_ERRORS,
 	apiPatchTwoFactorAuthEncourage
 } from '../../api';
-import './twoFactorAuth.styles';
+import './twoFactorAuth.styles.scss';
 import { isStringValidEmail } from '../registration/registrationHelpers';
 import { LockIcon, PenIcon } from '../../resources/img/icons';
 import { RadioButton } from '../radioButton/RadioButton';

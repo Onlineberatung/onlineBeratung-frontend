@@ -63,14 +63,14 @@ import {
 	handleEditorPastedText,
 	toolbarCustomClasses
 } from './richtextHelpers';
-import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
-import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
-import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
-import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
-import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
-import './emojiPicker.styles';
-import './messageSubmitInterface.styles';
-import './messageSubmitInterface.yellowTheme.styles';
+import EmojiIcon from '../../resources/img/icons/smiley-positive.svg?react';
+import ClipIcon from '../../resources/img/icons/clip.svg?react';
+import RichtextToggleIcon from '../../resources/img/icons/richtext-toggle.svg?react';
+import RemoveIcon from '../../resources/img/icons/x.svg?react';
+import CalendarMonthIcon from '../../resources/img/icons/calendar-month-navigation.svg?react';
+import './emojiPicker.styles.scss';
+import './messageSubmitInterface.styles.scss';
+import './messageSubmitInterface.yellowTheme.styles.scss';
 import clsx from 'clsx';
 import { mobileListView } from '../app/navigationHandler';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';

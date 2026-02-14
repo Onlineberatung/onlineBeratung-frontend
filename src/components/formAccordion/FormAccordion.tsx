@@ -8,7 +8,7 @@ import {
 	useMemo,
 	useState
 } from 'react';
-import './formAccordion.styles';
+import './formAccordion.styles.scss';
 import { useTenant, AgencySpecificContext } from '../../globalState';
 import {
 	RequiredComponentsInterface,

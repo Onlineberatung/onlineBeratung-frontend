@@ -1,0 +1,91 @@
+/**
+ * Custom Breakpoint Mixins
+ * 
+ * These mixins replace the deprecated breakpoint-sass library.
+ * They provide a simple, maintainable way to handle responsive design
+ * without external dependencies or deprecation warnings.
+ * 
+ * Usage:
+ *   @include from-small { ... }
+ *   @include from-medium { ... }
+ *   etc.
+ */
+
+// Breakpoint values (matches the $from* variables in settings.scss)
+$breakpoint-small: 520px;
+$breakpoint-medium: 600px;
+$breakpoint-large: 900px;
+$breakpoint-x-large: 1200px;
+$breakpoint-xx-large: 1600px;
+
+/**
+ * Mobile-first breakpoint mixin: from small (576px and up)
+ */
+@mixin from-small {
+	@media (min-width: $breakpoint-small) {
+		@content;
+	}
+}
+
+/**
+ * Mobile-first breakpoint mixin: from medium (768px and up)
+ */
+@mixin from-medium {
+	@media (min-width: $breakpoint-medium) {
+		@content;
+	}
+}
+
+/**
+ * Mobile-first breakpoint mixin: from large (1024px and up)
+ */
+@mixin from-large {
+	@media (min-width: $breakpoint-large) {
+		@content;
+	}
+}
+
+/**
+ * Mobile-first breakpoint mixin: from x-large (1200px and up)
+ */
+@mixin from-x-large {
+	@media (min-width: $breakpoint-x-large) {
+		@content;
+	}
+}
+
+/**
+ * Mobile-first breakpoint mixin: from xx-large (1600px and up)
+ */
+@mixin from-xx-large {
+	@media (min-width: $breakpoint-xx-large) {
+		@content;
+	}
+}
+
+/**
+ * Max-width breakpoint mixin: until small (up to 519px)
+ */
+@mixin until-small {
+	@media (max-width: ($breakpoint-small - 1px)) {
+		@content;
+	}
+}
+
+/**
+ * Max-width breakpoint mixin: until medium (up to 767px)
+ */
+@mixin until-medium {
+	@media (max-width: ($breakpoint-medium - 1px)) {
+		@content;
+	}
+}
+
+/**
+ * Max-width breakpoint mixin: until large (up to 1023px)
+ */
+@mixin until-large {
+	@media (max-width: ($breakpoint-large - 1px)) {
+		@content;
+	}
+}

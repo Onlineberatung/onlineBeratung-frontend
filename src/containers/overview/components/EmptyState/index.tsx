@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { ReactComponent as CheckmarkIcon } from '../../../../resources/img/illustrations/checkmark.svg';
-import { ReactComponent as MailIcon } from '../../../../resources/img/illustrations/mail-icon.svg';
-import { ReactComponent as TermineIcon } from '../../../../resources/img/illustrations/termine-icon.svg';
+import CheckmarkIcon from '../../../../resources/img/illustrations/checkmark.svg?react';
+import MailIcon from '../../../../resources/img/illustrations/mail-icon.svg?react';
+import TermineIcon from '../../../../resources/img/illustrations/termine-icon.svg?react';
 import './emptyState.styles.scss';
 import { useTranslation } from 'react-i18next';
 

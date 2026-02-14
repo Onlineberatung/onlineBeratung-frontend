@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import './radioButton.styles';
+import './radioButton.styles.scss';
 import { PropsWithChildren } from 'react';
 
 export interface RadioButtonItem {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { getContact, ActiveSessionContext } from '../../globalState';
-import './session.styles';
+import './session.styles.scss';
 import { FETCH_ERRORS } from '../../api';
 import { SessionHeaderComponent } from '../sessionHeader/SessionHeaderComponent';
 import { Headline } from '../headline/Headline';

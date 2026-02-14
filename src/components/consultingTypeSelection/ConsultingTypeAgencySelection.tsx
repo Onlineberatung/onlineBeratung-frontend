@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AgencyDataInterface } from '../../globalState/interfaces';
-import './consultingTypeAgencySelection.styles';
-import '../profile/profile.styles';
+import './consultingTypeAgencySelection.styles.scss';
+import '../profile/profile.styles.scss';
 import {
 	VALIDITY_INVALID,
 	VALIDITY_VALID
@@ -170,7 +170,11 @@ export const ConsultingTypeAgencySelection = ({
 	const consultingTypeSelect: SelectDropdownItem = {
 		id: 'consultingTypeSelection',
 		selectedOptions: consultingTypeOptions,
-		handleDropdownSelect: setSelectedConsultingTypeOption,
+		handleDropdownSelect: (selectedOption) => {
+			if (!Array.isArray(selectedOption)) {
+				setSelectedConsultingTypeOption(selectedOption as SelectOption);
+			}
+		},
 		selectInputLabel: translate(
 			'registration.consultingTypeAgencySelection.consultingType.select.label'
 		),
@@ -181,7 +185,11 @@ export const ConsultingTypeAgencySelection = ({
 	const topicSelect: SelectDropdownItem = {
 		id: 'topicSelection',
 		selectedOptions: topicOptions,
-		handleDropdownSelect: setSelectedTopicOption,
+		handleDropdownSelect: (selectedOption) => {
+			if (!Array.isArray(selectedOption)) {
+				setSelectedTopicOption(selectedOption as SelectOption);
+			}
+		},
 		selectInputLabel: translate(
 			'registration.consultingTypeAgencySelection.topic.select.label'
 		),

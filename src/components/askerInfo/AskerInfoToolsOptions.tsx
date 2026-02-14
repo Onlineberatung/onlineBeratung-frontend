@@ -5,9 +5,9 @@ import {
 	SelectOption,
 	SelectOptionsMulti
 } from '../select/SelectDropdown';
-import { ReactComponent as Info } from '../../resources/img/icons/i.svg';
+import Info from '../../resources/img/icons/i.svg?react';
 import { Text } from '../text/Text';
-import './askerInfoToolsOptions.styles';
+import './askerInfoToolsOptions.styles.scss';
 import { apiGetTools } from '../../api/apiGetTools';
 import { APIToolsInterface } from '../../globalState/interfaces/ToolsInterface';
 import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';

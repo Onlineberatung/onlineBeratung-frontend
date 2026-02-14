@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, BUTTON_TYPES } from '../../../button/Button';
 import { Text } from '../../../text/Text';
-import { ReactComponent as PlusIcon } from '../../../../resources/img/icons/plus-mui.svg';
+import PlusIcon from '../../../../resources/img/icons/plus-mui.svg?react';
 import { SetEmailModal } from '../SetEmailModal';
 import styles from './styles.module.scss';
 

@@ -17,7 +17,7 @@ import {
 	ActiveSessionContext
 } from '../../globalState';
 import { SelectDropdown } from '../select/SelectDropdown';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 import { useE2EE } from '../../hooks/useE2EE';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';

@@ -136,8 +136,8 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 		type: TOGGLE,
 		choices: { '1': 'Disabled', '0': 'Enabled' },
 		value:
-			process.env.REACT_APP_DISABLE_2FA_DUTY &&
-			parseInt(process.env.REACT_APP_DISABLE_2FA_DUTY) === 1
+			import.meta.env.VITE_DISABLE_2FA_DUTY &&
+			parseInt(import.meta.env.VITE_DISABLE_2FA_DUTY) === 1
 				? '1'
 				: '0',
 		description:
@@ -175,8 +175,8 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 		type: TOGGLE,
 		choices: { '1': 'Enabled', '0': 'DISABLED' },
 		value:
-			process.env.REACT_APP_DISABLE_ERROR_BOUNDARY &&
-			parseInt(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY) === 1
+			import.meta.env.VITE_DISABLE_ERROR_BOUNDARY &&
+			parseInt(import.meta.env.VITE_DISABLE_ERROR_BOUNDARY) === 1
 				? '0'
 				: '1',
 		description:
@@ -188,8 +188,8 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 		type: TOGGLE,
 		choices: { '1': 'Disabled', '0': 'Enabled' },
 		value:
-			process.env.REACT_APP_TRANSLATION_DISABLE_CACHE &&
-			parseInt(process.env.REACT_APP_TRANSLATION_DISABLE_CACHE) === 1
+			import.meta.env.VITE_TRANSLATION_DISABLE_CACHE &&
+			parseInt(import.meta.env.VITE_TRANSLATION_DISABLE_CACHE) === 1
 				? '1'
 				: '0',
 		description: 'Disable the localStorage cache for translations'
@@ -200,8 +200,8 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 		type: TOGGLE,
 		choices: { '0': 'Disabled', '1': 'Enabled' },
 		value:
-			process.env.REACT_APP_ENABLE_TRANSLATION_CHECK &&
-			parseInt(process.env.REACT_APP_ENABLE_TRANSLATION_CHECK) === 1
+			import.meta.env.VITE_ENABLE_TRANSLATION_CHECK &&
+			parseInt(import.meta.env.VITE_ENABLE_TRANSLATION_CHECK) === 1
 				? '1'
 				: '0',
 		description:
@@ -219,11 +219,11 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 			i18n.changeLanguage(
 				value === 'cimode'
 					? 'cimode'
-					: localStorage.getItem(STORAGE_KEY_LOCALE) ?? 'de'
+					: (localStorage.getItem(STORAGE_KEY_LOCALE) ?? 'de')
 			);
 		}
 	},
-	process.env.REACT_APP_DOCKER && {
+	import.meta.env.VITE_DOCKER && {
 		label: 'DEV API',
 		key: STORAGE_KEY_API,
 		persistent: false,

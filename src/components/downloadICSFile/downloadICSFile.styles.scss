@@ -8,7 +8,7 @@
 	}
 
 	&--primary {
-		color: $primary;
+		color: var(--skin-color-primary, $primary);
 	}
 
 	&__icon {
@@ -16,7 +16,7 @@
 			display: flex;
 			margin-top: 0.5rem;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				display: none;
 			}
 

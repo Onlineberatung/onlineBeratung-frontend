@@ -8,8 +8,8 @@ import {
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { VALID_POSTCODE_LENGTH } from './agencySelectionHelpers';
-import './agencySelection.styles';
-import '../profile/profile.styles';
+import './agencySelection.styles.scss';
+import '../profile/profile.styles.scss';
 import { Loading } from '../app/Loading';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';

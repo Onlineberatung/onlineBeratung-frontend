@@ -1,4 +1,4 @@
-import './notifications.styles';
+import './notifications.styles.scss';
 
 import * as React from 'react';
 

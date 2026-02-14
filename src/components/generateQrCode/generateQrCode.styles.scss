@@ -3,7 +3,7 @@
 		white-space: nowrap;
 		border: none;
 		background-color: transparent;
-		color: $primary;
+		color: var(--skin-color-primary, $primary);
 		font-size: $font-size-tertiary;
 		cursor: pointer;
 		display: flex;
@@ -12,7 +12,7 @@
 		text-decoration: $link-text-decoration;
 
 		&:hover {
-			color: $hover-primary;
+			color: var(--skin-color-primary-hover, $hover-primary);
 		}
 
 		svg {

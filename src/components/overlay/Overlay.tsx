@@ -5,15 +5,14 @@ import { createPortal } from 'react-dom';
 import { ButtonItem, Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline, HeadlineLevel } from '../headline/Headline';
-import { ReactComponent as XIcon } from '../../resources/img/icons/x.svg';
+import XIcon from '../../resources/img/icons/x.svg?react';
 import clsx from 'clsx';
-import './overlay.styles';
+import './overlay.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { ModalContext } from '../../globalState';
 import { OVERLAY_TYPES } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 import { LoadingIndicator } from '../loadingIndicator/LoadingIndicator';
-
-const FocusTrap = require('focus-trap-react');
+import FocusTrap from 'focus-trap-react';
 
 export const OVERLAY_FUNCTIONS = {
 	CLOSE: 'CLOSE',

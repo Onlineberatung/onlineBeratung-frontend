@@ -3,7 +3,7 @@ import {
 	ATTACHMENT_TRANSLATE_FOR_TYPE,
 	getAttachmentSizeMBForKB
 } from '../messageSubmitInterface/attachmentHelpers';
-import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
+import DownloadIcon from '../../resources/img/icons/download.svg?react';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '../../resources/scripts/endpoints';
 import { useCallback, useRef } from 'react';

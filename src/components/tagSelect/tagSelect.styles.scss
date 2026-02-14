@@ -46,7 +46,7 @@
 			background-color: $hover-select;
 		}
 
-		@include breakpoint($fromSmall) {
+		@include from-small {
 			font-size: $font-size-primary;
 		}
 	}

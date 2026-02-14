@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
-import { ReactComponent as ArrowIcon } from '../../resources/img/illustrations/arrow.svg';
+import ArrowIcon from '../../resources/img/illustrations/arrow.svg?react';
 import { BUTTON_TYPES } from '../button/Button';
 import { ConsultingTypeBasicInterface } from '../../globalState/interfaces';
 import { useTranslation } from 'react-i18next';

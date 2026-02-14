@@ -17,8 +17,8 @@ import {
 	TopicsDataInterface
 } from '../../globalState/interfaces';
 import { FormAccordion } from '../formAccordion/FormAccordion';
-import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
-import './registrationForm.styles';
+import WelcomeIcon from '../../resources/img/illustrations/welcome.svg?react';
+import './registrationForm.styles.scss';
 import {
 	getErrorCaseForStatus,
 	redirectToErrorPage

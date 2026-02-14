@@ -24,9 +24,9 @@ import {
 	convertUserDataObjectToArray,
 	getUserDataTranslateBase
 } from '../profile/profileHelpers';
-import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-import './sessionHeader.styles';
-import './sessionHeader.yellowTheme.styles';
+import BackIcon from '../../resources/img/icons/arrow-left.svg?react';
+import './sessionHeader.styles.scss';
+import './sessionHeader.yellowTheme.styles.scss';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { GroupChatHeader } from './GroupChatHeader';

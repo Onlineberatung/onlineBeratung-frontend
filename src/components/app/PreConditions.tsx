@@ -4,11 +4,10 @@
  * and other stuff to prevent error logs which only happen because of missing
  * requirements
  */
-import '../../polyfill';
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { StageLayout } from '../stageLayout/StageLayout';
-import '../../resources/styles/styles';
+import '../../resources/styles/styles.scss';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { useTranslation } from 'react-i18next';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';

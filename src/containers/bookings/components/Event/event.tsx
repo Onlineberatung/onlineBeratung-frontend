@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useCallback, useContext } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import '../booking.styles';
+import '../booking.styles.scss';
 import { Box } from '../../../../components/box/Box';
 import {
 	Button,
@@ -26,8 +26,8 @@ import {
 	UserDataContext
 } from '../../../../globalState';
 import { copyTextToClipboard } from '../../../../utils/clipboardHelpers';
-import { ReactComponent as CalendarRescheduleIcon } from '../../../../resources/img/icons/calendar-reschedule.svg';
-import { ReactComponent as CalendarCancelIcon } from '../../../../resources/img/icons/calendar-cancel.svg';
+import CalendarRescheduleIcon from '../../../../resources/img/icons/calendar-reschedule.svg?react';
+import CalendarCancelIcon from '../../../../resources/img/icons/calendar-cancel.svg?react';
 import { LocationType } from './LocationType';
 
 interface EventProps {

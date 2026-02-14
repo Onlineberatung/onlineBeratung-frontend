@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
 import { Overlay } from '../overlay/Overlay';
-import { ReactComponent as QRCodeIcon } from '../../resources/img/icons/qr-code.svg';
-import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
-import './generateQrCode.styles';
+import QRCodeIcon from '../../resources/img/icons/qr-code.svg?react';
+import DownloadIcon from '../../resources/img/icons/download.svg?react';
+import './generateQrCode.styles.scss';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';

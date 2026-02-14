@@ -32,8 +32,10 @@ export interface UserDataInterface {
 	emailNotifications?: EmailNotificationsInterface;
 }
 
-export interface ConsultantDataInterface
-	extends Omit<UserDataInterface, 'userId'> {
+export interface ConsultantDataInterface extends Omit<
+	UserDataInterface,
+	'userId'
+> {
 	consultantId: string;
 	agencies: AgencyDataInterface[];
 }

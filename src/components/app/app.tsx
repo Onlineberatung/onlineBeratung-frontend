@@ -1,4 +1,3 @@
-import '../../polyfill';
 import * as React from 'react';
 import { ComponentType, useState, lazy, Suspense, useContext } from 'react';
 import {
@@ -9,7 +8,7 @@ import {
 	Redirect
 } from 'react-router-dom';
 import { StageProps } from '../stage/stage';
-import '../../resources/styles/styles';
+import '../../resources/styles/styles.scss';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';

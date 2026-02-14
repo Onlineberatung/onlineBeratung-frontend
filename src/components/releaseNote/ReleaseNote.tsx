@@ -4,7 +4,7 @@ import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { markdownToDraft } from 'markdown-draft-js';
 import { Headline } from '../headline/Headline';
-import { ReactComponent as newIllustration } from '../../resources/img/illustrations/new.svg';
+import newIllustration from '../../resources/img/illustrations/new.svg?react';
 import { Checkbox } from '../checkbox/Checkbox';
 import { Text } from '../text/Text';
 import { convertFromRaw } from 'draft-js';

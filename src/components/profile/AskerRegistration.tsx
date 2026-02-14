@@ -18,13 +18,13 @@ import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { logout } from '../logout/logout';
 import { mobileListView } from '../app/navigationHandler';
 import { AgencySelection } from '../agencySelection/AgencySelection';
-import './profile.styles';
+import './profile.styles.scss';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import { AskerRegistrationExternalAgencyOverlay } from './AskerRegistrationExternalAgencyOverlay';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
+import XIcon from '../../resources/img/illustrations/x.svg?react';
 
 export const AskerRegistration: React.FC = () => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);

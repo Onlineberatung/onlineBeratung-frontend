@@ -9,8 +9,8 @@ import {
 	inputValuesFit,
 	strengthIndicator
 } from '../../utils/validateInputValue';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import './passwordReset.styles';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
+import './passwordReset.styles.scss';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import {

@@ -154,7 +154,7 @@ $message-attachment-color: $secondary !default;
 	}
 
 	&__message {
-		color: var(--skin-color-default, $secondary);
+		color: var(--skin-color-secondary, $secondary);
 		line-height: $message-lineheight;
 		background-color: $white;
 		border-radius: 0 12px 12px;
@@ -243,7 +243,7 @@ $message-attachment-color: $secondary !default;
 
 				p {
 					margin: 0;
-					color: var(--skin-color-default, $secondary);
+					color: var(--skin-color-secondary, $secondary);
 					line-height: $icon-size;
 					text-decoration: underline;
 
@@ -254,7 +254,7 @@ $message-attachment-color: $secondary !default;
 					}
 
 					&:hover {
-						color: var(--skin-color-default, $secondary);
+						color: var(--skin-color-secondary, $secondary);
 						opacity: 0.8;
 					}
 				}

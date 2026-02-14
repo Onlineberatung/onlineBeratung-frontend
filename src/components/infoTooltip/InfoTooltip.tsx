@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
+import InfoIcon from '../../resources/img/icons/i.svg?react';
 import { isMobile } from 'react-device-detect';
 import { Text } from '../text/Text';
-import './infoTooltip.styles';
+import './infoTooltip.styles.scss';
 import { useTranslation } from 'react-i18next';
 
 interface InfoInterface {

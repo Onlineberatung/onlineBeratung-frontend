@@ -1,5 +1,5 @@
-import '../sessionHeader/sessionHeader.styles';
-import './sessionMenu.styles';
+import '../sessionHeader/sessionHeader.styles.scss';
+import './sessionMenu.styles.scss';
 
 import * as React from 'react';
 import {
@@ -38,16 +38,16 @@ import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider
 import { RocketChatUsersOfRoomContext } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useSearchParam } from '../../hooks/useSearchParams';
-import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
-import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
-import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import { ReactComponent as EditGroupChatIcon } from '../../resources/img/icons/gear.svg';
-import { ReactComponent as GroupChatInfoIcon } from '../../resources/img/icons/i.svg';
-import { ReactComponent as LeaveChatIcon } from '../../resources/img/icons/out.svg';
-import { ReactComponent as FeedbackIcon } from '../../resources/img/icons/pen-paper.svg';
-import { ReactComponent as MenuHorizontalIcon } from '../../resources/img/icons/stack-horizontal.svg';
-import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/stack-vertical.svg';
-import { ReactComponent as StopGroupChatIcon } from '../../resources/img/icons/x.svg';
+import CalendarMonthPlusIcon from '../../resources/img/icons/calendar-plus.svg?react';
+import CallOnIcon from '../../resources/img/icons/call-on.svg?react';
+import CameraOnIcon from '../../resources/img/icons/camera-on.svg?react';
+import EditGroupChatIcon from '../../resources/img/icons/gear.svg?react';
+import GroupChatInfoIcon from '../../resources/img/icons/i.svg?react';
+import LeaveChatIcon from '../../resources/img/icons/out.svg?react';
+import FeedbackIcon from '../../resources/img/icons/pen-paper.svg?react';
+import MenuHorizontalIcon from '../../resources/img/icons/stack-horizontal.svg?react';
+import MenuVerticalIcon from '../../resources/img/icons/stack-vertical.svg?react';
+import StopGroupChatIcon from '../../resources/img/icons/x.svg?react';
 import { mobileListView } from '../app/navigationHandler';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { isGroupChatOwner } from '../groupChat/groupChatHelpers';

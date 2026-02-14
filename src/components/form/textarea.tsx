@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { TextareaHTMLAttributes, useCallback } from 'react';
 import { v4 as uuid } from 'uuid';
-import './textarea.styles';
+import './textarea.styles.scss';
 import useMeasure from 'react-use-measure';
 import { ResizeObserver } from '@juggle/resize-observer';
 
-export interface TextareaProps
-	extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
+export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
 export const Textarea = ({
 	onChange,

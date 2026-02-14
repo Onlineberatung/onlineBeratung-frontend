@@ -3,7 +3,7 @@ import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useContext } from 'react';
 import { TenantContext } from '../../globalState';
-import './header.styles';
+import './header.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
 import { agencyLogoAtom } from '../../store/agencyLogoAtom';

@@ -12,9 +12,9 @@ import {
 } from '../../globalState';
 import { AppointmentsDataInterface } from '../../globalState/interfaces/AppointmentsDataInterface';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
-import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
-import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
+import CopyIcon from '../../resources/img/icons/documents.svg?react';
+import PenIcon from '../../resources/img/icons/pen.svg?react';
+import TrashIcon from '../../resources/img/icons/trash.svg?react';
 import { uiUrl } from '../../resources/scripts/config';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { Box } from '../box/Box';

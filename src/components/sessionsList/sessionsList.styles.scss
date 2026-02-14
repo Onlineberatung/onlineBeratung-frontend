@@ -34,11 +34,11 @@ $tabBarHeightDesktop: 53px;
 		background-color: $sessions-list-background-color-secondary;
 		z-index: 15;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding-left: $grid-base-three;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			padding: $grid-base-three;
 		}
 	}
@@ -48,7 +48,7 @@ $tabBarHeightDesktop: 53px;
 		right: 16px;
 		top: 14px;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			right: $grid-base-three;
 		}
 	}
@@ -99,7 +99,7 @@ $tabBarHeightDesktop: 53px;
 		background-color: $sessions-list-background-color-secondary;
 		z-index: 5;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			top: $grid-base-ten;
 		}
 
@@ -113,7 +113,7 @@ $tabBarHeightDesktop: 53px;
 		overflow: auto;
 		flex: 1;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			margin-top: 0;
 			padding-top: 0;
 			position: relative;
@@ -144,13 +144,13 @@ $tabBarHeightDesktop: 53px;
 		background-color: $sessions-list-background-color-secondary;
 		z-index: 5;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			padding: 0 $grid-base-three $grid-base-three;
 			background-color: $sessions-list-background-color-secondary;
 		}
 
 		a {
-			color: var(--skin-color-default, $tertiary);
+			color: $tertiary;
 
 			&:last-of-type {
 				margin-left: $grid-base-three;
@@ -158,7 +158,7 @@ $tabBarHeightDesktop: 53px;
 
 			@media (hover: hover) {
 				&:hover .text {
-					color: var(--skin-color-default, $hover-primary);
+					color: var(--skin-color-primary-hover, $hover-primary);
 				}
 			}
 		}
@@ -183,7 +183,7 @@ $tabBarHeightDesktop: 53px;
 		&__wrapper {
 			padding: $grid-base-three;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				padding: 0 $grid-base-three $grid-base-three;
 			}
 		}
@@ -252,7 +252,7 @@ $tabBarHeightDesktop: 53px;
 			color: $light-grey;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			padding: 0;
 		}
 	}
@@ -278,7 +278,7 @@ $tabBarHeightDesktop: 53px;
 		margin-bottom: 0;
 		margin-right: $grid-base-seven;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			margin-left: 0;
 		}
 	}

@@ -29,7 +29,7 @@ import {
 import { getGroupChatDate } from '../session/sessionDateHelpers';
 import { markdownToDraft } from 'markdown-draft-js';
 import { convertFromRaw } from 'draft-js';
-import './sessionsListItem.styles';
+import './sessionsListItem.styles.scss';
 import { Tag } from '../tag/Tag';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
@@ -296,7 +296,9 @@ export const SessionListItemComponent = ({
 									'sessionsListItem__username--readLabel'
 							)}
 						>
-							{activeSession.item.topic}
+							{typeof activeSession.item.topic === 'string'
+								? activeSession.item.topic
+								: activeSession.item.topic?.name}
 						</div>
 					</div>
 					<div className="sessionsListItem__row">

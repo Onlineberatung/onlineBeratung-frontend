@@ -1,8 +1,8 @@
 import React from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
-import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
+import NewWindow from '../../resources/img/icons/new-window.svg?react';
+import CopyIcon from '../../resources/img/icons/documents.svg?react';
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
 import SafariLogo from '../../resources/img/images/safari.png';

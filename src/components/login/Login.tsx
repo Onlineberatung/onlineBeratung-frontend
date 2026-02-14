@@ -1,4 +1,3 @@
-import '../../polyfill';
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
@@ -11,9 +10,9 @@ import { endpoints } from '../../resources/scripts/endpoints';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { autoLogin, redirectToApp } from '../registration/autoLogin';
 import { Text } from '../text/Text';
-import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
-import { ReactComponent as LockIcon } from '../../resources/img/icons/lock.svg';
-import { ReactComponent as VerifiedIcon } from '../../resources/img/icons/verified.svg';
+import PersonIcon from '../../resources/img/icons/person.svg?react';
+import LockIcon from '../../resources/img/icons/lock.svg?react';
+import VerifiedIcon from '../../resources/img/icons/verified.svg?react';
 import { StageLayout } from '../stageLayout/StageLayout';
 import {
 	apiGetUserData,
@@ -35,13 +34,13 @@ import {
 	AgencyDataInterface,
 	UserDataInterface
 } from '../../globalState/interfaces';
-import '../../resources/styles/styles';
-import './login.styles';
+import '../../resources/styles/styles.scss';
+import './login.styles.scss';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { ConsultingTypeAgencySelection } from '../consultingTypeSelection/ConsultingTypeAgencySelection';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
-import { ReactComponent as WelcomeIcon } from '../../resources/img/illustrations/welcome.svg';
+import WelcomeIcon from '../../resources/img/illustrations/welcome.svg?react';
 import {
 	VALIDITY_INITIAL,
 	VALIDITY_INVALID,

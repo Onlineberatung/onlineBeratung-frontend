@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { ReactComponent as NewWindow } from '../../../resources/img/icons/new-window.svg';
+import NewWindow from '../../../resources/img/icons/new-window.svg?react';
 import { Headline } from '../../headline/Headline';
 import { Text } from '../../text/Text';
 import styles from './styles.module.scss';

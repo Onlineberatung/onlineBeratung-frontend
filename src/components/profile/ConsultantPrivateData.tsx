@@ -4,7 +4,7 @@ import { UserDataContext } from '../../globalState';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
+import PenIcon from '../../resources/img/icons/pen.svg?react';
 import { EditableData } from '../editableData/EditableData';
 import {
 	apiDeleteTwoFactorAuth,

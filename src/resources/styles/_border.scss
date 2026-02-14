@@ -1,5 +1,5 @@
 @mixin border-wrapper($key, $breakpoint) {
-	$bpKey: if($breakpoint == null, '', '-#{$key}');
+	$bpKey: if($breakpoint == null, "", "-#{$key}");
 
 	@if not $breakpoint {
 		@include border($bpKey);

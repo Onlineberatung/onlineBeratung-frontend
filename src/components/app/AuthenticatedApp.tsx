@@ -1,5 +1,5 @@
-import './authenticatedApp.styles';
-import './navigation.styles';
+import './authenticatedApp.styles.scss';
+import './navigation.styles.scss';
 
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';

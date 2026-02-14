@@ -1,9 +1,10 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Error } from './components/error/Error';
 import { config } from './resources/scripts/config';
 
-ReactDOM.render(
-	<Error config={config} />,
-	document.getElementById('errorRoot')
-);
+const container = document.getElementById('errorRoot');
+if (container) {
+	const root = createRoot(container);
+	root.render(<Error config={config} />);
+}
