@@ -32,7 +32,7 @@ export const FlyoutMenu: React.FC<FlyoutMenuProps> = ({
 			e.stopPropagation();
 		}
 		setFlyoutShown(!flyoutShown);
-		if (!flyoutShown) {
+		if (flyoutShown) {
 			handleClose();
 		}
 	}, [flyoutShown, handleClose]);
