@@ -73,7 +73,7 @@ export default defineConfig(({ mode }) => {
 			preprocessorOptions: {
 				scss: {
 					api: 'modern-compiler', // Use modern Sass API instead of legacy
-					additionalData: `@use "sass:color";\n@import "${path.resolve(__dirname, './src/resources/styles/settings.scss')}";\n`,
+					additionalData: `@use "sass:color";\n@import "${path.resolve(__dirname, './src/resources/styles/settings.scss').replace(/\\/g, '/')}";\n`,
 					// Suppress deprecation warnings from dependencies and legacy code
 					// - import: We use @import extensively (142+ files). Migrating to @use/@forward
 					//   requires 2-3 weeks of dedicated effort. See SCSS_DEPRECATIONS.md
