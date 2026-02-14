@@ -92,27 +92,19 @@ export const DatePicker = ({
 					format={muiFormat}
 					minDate={minDate ? dayjs(minDate) : undefined}
 					maxDate={maxDate ? dayjs(maxDate) : undefined}
+					label={label}
 					slotProps={{
 						textField: {
 							onFocus: handleFocus,
 							onBlur: handleBlur,
 							fullWidth: true,
-							variant: 'outlined'
+							variant: 'outlined',
+							InputLabelProps: {
+								shrink: isFocused || !!selected
+							}
 						}
 					}}
 				/>
-				{showLabel && label && (
-					<span
-						className={
-							isFocused || selected || isLabelActive
-								? 'mui-datepicker__label mui-datepicker__label--active'
-								: 'mui-datepicker__label'
-						}
-						aria-label="date input label"
-					>
-						{label}
-					</span>
-				)}
 			</div>
 		</LocalizationProvider>
 	);
@@ -164,27 +156,19 @@ export const TimePicker = ({
 					onChange={handleChange}
 					format={muiFormat}
 					minutesStep={timeIntervals}
+					label={label}
 					slotProps={{
 						textField: {
 							onFocus: handleFocus,
 							onBlur: handleBlur,
 							fullWidth: true,
-							variant: 'outlined'
+							variant: 'outlined',
+							InputLabelProps: {
+								shrink: isFocused || !!selected
+							}
 						}
 					}}
 				/>
-				{showLabel && label && (
-					<span
-						className={
-							isFocused || selected || isLabelActive
-								? 'mui-datepicker__label mui-datepicker__label--active'
-								: 'mui-datepicker__label'
-						}
-						aria-label="time input label"
-					>
-						{label}
-					</span>
-				)}
 			</div>
 		</LocalizationProvider>
 	);

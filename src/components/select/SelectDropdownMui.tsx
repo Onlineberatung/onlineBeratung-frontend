@@ -6,7 +6,6 @@ import {
 	Autocomplete,
 	TextField,
 	Chip,
-	InputAdornment,
 	SelectChangeEvent
 } from '@mui/material';
 import clsx from 'clsx';
@@ -247,6 +246,7 @@ export const SelectDropdownMui = (props: SelectDropdownItem) => {
 					onFocus={() => setIsFocused(true)}
 					onBlur={() => setIsFocused(false)}
 					disableClearable={!props.isClearable}
+					popupIcon={<DropdownIcon />}
 					renderInput={(params) => (
 						<TextField
 							{...params}
@@ -259,17 +259,6 @@ export const SelectDropdownMui = (props: SelectDropdownItem) => {
 							}
 							InputLabelProps={{
 								shrink: isFocused || hasValue || undefined
-							}}
-							InputProps={{
-								...params.InputProps,
-								endAdornment: (
-									<>
-										{params.InputProps.endAdornment}
-										<InputAdornment position="end">
-											<DropdownIcon />
-										</InputAdornment>
-									</>
-								)
 							}}
 						/>
 					)}

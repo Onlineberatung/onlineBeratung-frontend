@@ -36,22 +36,19 @@
 		}
 	}
 
-	// Label styling to match react-datepicker
-	.mui-datepicker__label {
-		position: absolute;
-		top: 15px;
-		left: 20px;
+	// Use MUI's native label styling
+	.MuiInputLabel-root {
 		color: $tertiary;
-		z-index: 2;
-		pointer-events: none;
-		transition:
-			font-size 0.5s,
-			top 0.5s;
 		font-size: $font-size-primary;
+		transform: translate(20px, 15px) scale(1);
 
-		&--active {
-			top: 3px;
+		&.MuiInputLabel-shrink {
+			transform: translate(20px, 3px) scale(0.75);
 			font-size: $font-size-secondary;
+		}
+
+		&.Mui-focused {
+			color: $tertiary;
 		}
 	}
 

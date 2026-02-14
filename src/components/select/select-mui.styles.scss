@@ -342,13 +342,58 @@ $focus-color: #199fff;
 	}
 }
 
-// Popup indicator (arrow)
+// Popup indicator (arrow) - custom styling
 .MuiAutocomplete-popupIndicator {
-	margin-right: -4px;
+	padding: 2px;
+	margin-right: 8px;
+
+	svg {
+		width: 14px;
+		height: 14px;
+	}
 }
 
 // Endadornment positioning
 .MuiAutocomplete-endAdornment {
 	right: 12px !important;
 	top: calc(50% - 14px) !important;
+}
+
+// LocaleSwitch specific styles - hide indicators
+.localeSwitch {
+	.MuiAutocomplete-popupIndicator,
+	.MuiAutocomplete-clearIndicator {
+		display: none;
+	}
+
+	.MuiOutlinedInput-root {
+		border: 0 !important;
+		background: none !important;
+		padding: 0 !important;
+		height: auto !important;
+		min-height: auto !important;
+
+		&:hover .MuiOutlinedInput-notchedOutline,
+		&.Mui-focused .MuiOutlinedInput-notchedOutline {
+			border: 0 !important;
+			box-shadow: none !important;
+		}
+
+		.MuiOutlinedInput-notchedOutline {
+			border: 0 !important;
+		}
+
+		.MuiOutlinedInput-input {
+			padding: 0 !important;
+		}
+	}
+
+	.MuiAutocomplete-inputRoot {
+		padding: 0 !important;
+		justify-content: center;
+	}
+
+	.MuiInputLabel-root {
+		display: none;
+	}
 }
