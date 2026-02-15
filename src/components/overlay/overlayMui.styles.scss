@@ -87,13 +87,14 @@ outline: none;
 }
 
 &__closeIcon {
-position: absolute;
-top: 18px;
-right: 18px;
+position: absolute !important;
+top: 8px !important;
+right: 8px !important;
+z-index: 1;
 
 @media (min-width: $overlay-steps-breakpoint-small) {
-top: 24px;
-right: 24px;
+top: 16px !important;
+right: 16px !important;
 }
 }
 

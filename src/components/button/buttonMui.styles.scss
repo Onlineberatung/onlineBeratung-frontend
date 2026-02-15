@@ -258,6 +258,11 @@ $buttonMaxWidth: 400px;
 	padding-right: 10px;
 }
 
+// Session menu video call buttons padding
+.sessionMenu__videoCallButtons .button-mui__wrapper {
+	padding-right: 10px;
+}
+
 // FormAccordion next button - prevent text wrapping
 .formAccordionItem__nextbutton .MuiButton-root {
 	white-space: nowrap;
@@ -270,4 +275,9 @@ $buttonMaxWidth: 400px;
 	.MuiButton-root {
 		width: 100%;
 	}
+}
+
+// Login form button - specific selector for 100% width
+.loginForm button {
+	width: 100%;
 }
