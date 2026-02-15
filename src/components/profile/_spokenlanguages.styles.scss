@@ -27,5 +27,40 @@
 		@include from-medium {
 			width: 100%;
 		}
+
+		// Ensure MUI Autocomplete arrow icon is standard 14px size
+		.MuiAutocomplete-popupIndicator {
+			padding: 2px;
+			margin-right: 8px;
+
+			svg {
+				width: 14px !important;
+				height: 14px !important;
+			}
+		}
+
+		// Ensure proper arrow positioning
+		.MuiAutocomplete-endAdornment {
+			right: 12px !important;
+			top: calc(50% - 14px) !important;
+		}
+	}
+
+	// Ensure dropdown options have correct hover color
+	&__languageSelect {
+		.MuiAutocomplete-popper {
+			.MuiAutocomplete-listbox {
+				.MuiAutocomplete-option {
+					&:hover {
+						background-color: $datepicker-hover-color !important;
+						color: var(--skin-color-primary, $primary) !important;
+					}
+
+					&.Mui-focused {
+						background-color: $datepicker-hover-color !important;
+					}
+				}
+			}
+		}
 	}
 }
