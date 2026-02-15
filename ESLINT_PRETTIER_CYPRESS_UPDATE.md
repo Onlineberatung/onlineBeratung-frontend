@@ -33,6 +33,32 @@ Updated ESLint, Prettier, Cypress, and Stylelint to their latest versions. Migra
 
 ## Configuration Changes
 
+### Browser Support Standards
+Added modern browser support configuration to align tooling with current web standards:
+
+#### Browserslist Configuration
+Added to `package.json`:
+```json
+"browserslist": [
+  "> 3%",
+  "last 10 versions",
+  "Firefox ESR",
+  "not dead"
+]
+```
+
+This targets:
+- Browsers with >3% global usage
+- Last 10 versions of major browsers
+- Firefox Extended Support Release
+- Browsers that are still maintained
+
+#### Benefits
+- Ensures consistent browser targeting across all build tools
+- Used by Stylelint for browser feature compatibility checking
+- Can be used by PostCSS, Babel, and other transpilation tools
+- Provides clear documentation of supported browsers
+
 ### ESLint Migration to Flat Config
 ESLint 9+ requires a new flat configuration format. The following changes were made:
 
@@ -64,6 +90,8 @@ The new configuration:
 - Maintains all previous rules and plugin configurations
 - Updated deprecated rule name: `scss/at-import-partial-extension` → `scss/load-partial-extension`
 - Added new rule configuration: `color-function-alias-notation` (set to null to allow both rgb/rgba)
+- **Updated browser targets**: Changed from `> 2% and Last 2 versions` to `> 3%, last 10 versions, Firefox ESR, not dead`
+- Browser feature checking now aligns with modern standards via browserslist configuration
 - Requires Node.js 20.19.0+ (current environment has Node.js 24)
 
 ### GitHub Actions Integration
@@ -123,6 +151,14 @@ Updated `.github/workflows/build.yml` to properly run linting checks:
   - `scss/at-import-partial-extension` → `scss/load-partial-extension`
   - Old blacklist/whitelist rules removed
 - **New Rules**: Added `color-function-alias-notation` for modern color function handling
+- **Browser Target Update**: Changed from `> 2% and Last 2 versions` to `> 3%, last 10 versions, Firefox ESR, not dead`
+
+### Browser Support Configuration
+- **New Browserslist**: Added explicit browser support configuration
+- **More Comprehensive Coverage**: Now targets last 10 versions instead of last 2, ensuring better coverage
+- **Firefox ESR Support**: Explicitly includes Firefox Extended Support Release
+- **Higher Market Share Threshold**: Changed from >2% to >3% for better focus on widely-used browsers
+- **Impact**: Stylelint will flag more unsupported features in legacy browsers (e.g., Opera Mini, KaiOS Browser)
 
 ## Migration Path for Future Updates
 
