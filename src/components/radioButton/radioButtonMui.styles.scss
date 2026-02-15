@@ -11,6 +11,10 @@
       padding: 9px;
       color: $border-default;
       
+      .MuiSvgIcon-root {
+        font-size: 30px; // 6px bigger than default 24px
+      }
+      
       &:hover {
         background-color: rgba(0, 0, 0, 0.04);
       }
@@ -59,7 +63,7 @@
       padding: 6px;
       
       .MuiSvgIcon-root {
-        font-size: 18px;
+        font-size: 24px; // 6px bigger than previous 18px
       }
     }
     
