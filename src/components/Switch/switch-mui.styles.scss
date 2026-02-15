@@ -5,3 +5,8 @@
 		margin-top: 0.25rem;
 	}
 }
+
+// Align all MUI switches with their labels
+.MuiSwitch-root {
+	margin-top: -6px;
+}

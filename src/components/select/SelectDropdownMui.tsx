@@ -247,7 +247,6 @@ export const SelectDropdownMui = (props: SelectDropdownItem) => {
 					onFocus={() => setIsFocused(true)}
 					onBlur={() => setIsFocused(false)}
 					disableClearable={!props.isClearable}
-					popupIcon={<DropdownIcon />}
 					renderInput={(params) => (
 						<TextField
 							{...params}

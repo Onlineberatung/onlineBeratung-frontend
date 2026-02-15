@@ -64,16 +64,9 @@ export const DatePicker = ({
 	// Convert date to dayjs
 	const value = selected ? dayjs(selected) : null;
 
-	// Convert dayjs format to MUI format with proper locale support
-	// react-datepicker uses date-fns format, MUI uses dayjs format
-	// Common formats:
-	// 'cccccc, dd. MMMM yyyy' -> 'ddd, DD. MM YYYY' (German: Mo, 15. 02 2024)
-	// 'MM/dd/yyyy' -> 'MM/DD/YYYY' (English: 02/15/2024)
-	const muiFormat = dateFormat
-		.replace(/cccccc/g, 'ddd')  // Short day name (e.g., Mon)
-		.replace(/MMMM/g, 'MM')     // Month as 2-digit number (01-12) - MUST be before dd replacement
-		.replace(/dd/g, 'DD')       // Day of month (01-31)
-		.replace(/yyyy/g, 'YYYY');  // Full year (e.g., 2024)
+	// Use simple, clean format that MUI X DatePicker understands
+	// This avoids format conversion issues and displays clearly
+	const muiFormat = 'DD.MM.YYYY';
 
 	const handleChange = (newValue: Dayjs | null) => {
 		onChange(newValue ? newValue.toDate() : null);
@@ -139,8 +132,8 @@ export const TimePicker = ({
 	// Convert date to dayjs
 	const value = selected ? dayjs(selected) : null;
 
-	// MUI uses same format as dayjs for HH:mm
-	const muiFormat = dateFormat;
+	// Use simple 24-hour time format
+	const muiFormat = 'HH:mm';
 
 	const handleChange = (newValue: Dayjs | null) => {
 		onChange(newValue ? newValue.toDate() : null);

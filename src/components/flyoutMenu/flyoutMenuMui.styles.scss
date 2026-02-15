@@ -60,12 +60,15 @@
 		
 		// Critical actions (delete, ban) use alarm red color
 		&.critical-action {
+			color: $form-error !important;
+			
 			a {
 				color: $form-error !important;
 			}
 			
 			&:hover {
 				background-color: $form-error !important;
+				color: $text-invert !important;
 				
 				a {
 					color: $text-invert !important;
