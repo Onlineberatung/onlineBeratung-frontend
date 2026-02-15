@@ -19,6 +19,7 @@ interface DatePickerProps {
 	maxDate?: Date;
 	dateFormat?: string;
 	label?: string;
+	placeholder?: string;
 	showLabel?: boolean;
 	isLabelActive?: boolean;
 }
@@ -35,6 +36,7 @@ interface TimePickerProps {
 	timeCaption?: string;
 	dateFormat?: string;
 	label?: string;
+	placeholder?: string;
 	showLabel?: boolean;
 	isLabelActive?: boolean;
 }
@@ -53,6 +55,7 @@ export const DatePicker = ({
 	maxDate,
 	dateFormat = 'cccccc, dd. MMMM yyyy',
 	label,
+	placeholder,
 	showLabel = true,
 	isLabelActive = false
 }: DatePickerProps) => {
@@ -61,13 +64,17 @@ export const DatePicker = ({
 	// Convert date to dayjs
 	const value = selected ? dayjs(selected) : null;
 
-	// Convert dayjs format to MUI format
+	// Convert dayjs format to MUI format with proper locale support
 	// react-datepicker uses date-fns format, MUI uses dayjs format
-	// 'cccccc, dd. MMMM yyyy' -> 'ddd, DD. MMMM YYYY'
+	// Common formats:
+	// 'cccccc, dd. MMMM yyyy' -> 'ddd, DD. MMMM YYYY' (German: Mo, 15. Februar 2024)
+	// 'MM/dd/yyyy' -> 'MM/DD/YYYY' (English: 02/15/2024)
 	const muiFormat = dateFormat
-		.replace('cccccc', 'ddd')
-		.replace('dd', 'DD')
-		.replace('yyyy', 'YYYY');
+		.replace(/cccccc/g, 'ddd')  // Short day name
+		.replace(/dd/g, 'DD')       // Day of month
+		.replace(/yyyy/g, 'YYYY')   // Full year
+		.replace(/MM/g, 'MM')       // Month number
+		.replace(/MMMM/g, 'MMMM');  // Full month name
 
 	const handleChange = (newValue: Dayjs | null) => {
 		onChange(newValue ? newValue.toDate() : null);
@@ -99,6 +106,7 @@ export const DatePicker = ({
 							onBlur: handleBlur,
 							fullWidth: true,
 							variant: 'outlined',
+							placeholder: placeholder,
 							InputLabelProps: {
 								shrink: isFocused || !!selected
 							}
@@ -123,6 +131,7 @@ export const TimePicker = ({
 	timeIntervals = 15,
 	dateFormat = 'HH:mm',
 	label,
+	placeholder,
 	showLabel = true,
 	isLabelActive = false
 }: TimePickerProps) => {
@@ -131,7 +140,7 @@ export const TimePicker = ({
 	// Convert date to dayjs
 	const value = selected ? dayjs(selected) : null;
 
-	// MUI uses same format as react-datepicker for HH:mm
+	// MUI uses same format as dayjs for HH:mm
 	const muiFormat = dateFormat;
 
 	const handleChange = (newValue: Dayjs | null) => {
@@ -163,6 +172,7 @@ export const TimePicker = ({
 							onBlur: handleBlur,
 							fullWidth: true,
 							variant: 'outlined',
+							placeholder: placeholder,
 							InputLabelProps: {
 								shrink: isFocused || !!selected
 							}

@@ -13,7 +13,8 @@ import {
 	UPDATE_SESSIONS,
 	SessionTypeContext,
 	useTenant,
-	UserDataContext
+	UserDataContext,
+	LocaleContext
 } from '../../globalState';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { Checkbox } from '../checkbox/Checkbox';
@@ -47,6 +48,7 @@ import { Textarea } from '../form/textarea';
 
 export const CreateGroupChatView = (props) => {
 	const { t: translate } = useTranslation();
+	const { locale } = useContext(LocaleContext);
 	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 	const history = useHistory();
 	const {
@@ -577,7 +579,7 @@ export const CreateGroupChatView = (props) => {
 						onChange={(date) => date && handleDatePicker(date)}
 						onFocus={() => setIsDateInputFocus(true)}
 						onBlur={() => setIsDateInputFocus(false)}
-						locale="de"
+						locale={locale}
 						minDate={new Date()}
 						maxDate={new Date(2999, 12, 31)}
 						dateFormat="cccccc, dd. MMMM yyyy"
@@ -592,7 +594,7 @@ export const CreateGroupChatView = (props) => {
 						onChange={(time) => time && handleTimePicker(time)}
 						onFocus={() => setIsTimeInputFocus(true)}
 						onBlur={() => setIsTimeInputFocus(false)}
-						locale="de"
+						locale={locale}
 						showTimeSelect={true}
 						showTimeSelectOnly={true}
 						timeIntervals={15}
