@@ -45,6 +45,17 @@ export const FlyoutMenuMui: React.FC<FlyoutMenuProps> = ({
 	if (isHidden || childrenArray.length <= 0) {
 		return null;
 	}
+	
+	// Helper function to determine if a child contains critical actions (delete, ban)
+	const isCriticalAction = (child: React.ReactNode): boolean => {
+		if (React.isValidElement(child)) {
+			const childProps = child.props as any;
+			// Check if the child has className containing 'deleteMessage' or 'banUser'
+			const className = childProps?.className || '';
+			return className.includes('deleteMessage') || className.includes('banUser');
+		}
+		return false;
+	};
 
 	// Map position prop to MUI anchorOrigin and transformOrigin
 	const getAnchorProps = () => {
@@ -100,15 +111,18 @@ export const FlyoutMenuMui: React.FC<FlyoutMenuProps> = ({
 					}
 				}}
 			>
-				{childrenArray.map((child, i) => (
-					<MenuItem
-						key={`flyoutMenu__item--${i}`}
-						className="flyoutMenuMui__item"
-						onClick={handleClose}
-					>
-						{child}
-					</MenuItem>
-				))}
+				{childrenArray.map((child, i) => {
+					const isCritical = isCriticalAction(child);
+					return (
+						<MenuItem
+							key={`flyoutMenu__item--${i}`}
+							className={`flyoutMenuMui__item${isCritical ? ' critical-action' : ''}`}
+							onClick={handleClose}
+						>
+							{child}
+						</MenuItem>
+					);
+				})}
 			</Menu>
 		</div>
 	);

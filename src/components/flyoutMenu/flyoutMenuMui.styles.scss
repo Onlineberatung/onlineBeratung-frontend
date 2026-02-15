@@ -42,6 +42,11 @@
 			width: 100%;
 			color: $form-secondary;
 			display: block;
+			
+			// Hide icons in menu items to prevent layout issues
+			svg {
+				display: none !important;
+			}
 		}
 
 		&:hover {
@@ -50,6 +55,21 @@
 
 			a {
 				color: $text-invert !important;
+			}
+		}
+		
+		// Critical actions (delete, ban) use alarm red color
+		&.critical-action {
+			a {
+				color: $form-error !important;
+			}
+			
+			&:hover {
+				background-color: $form-error !important;
+				
+				a {
+					color: $text-invert !important;
+				}
 			}
 		}
 	}
