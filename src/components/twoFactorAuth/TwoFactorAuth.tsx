@@ -9,7 +9,7 @@ import {
 } from '../../globalState';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import Switch from 'react-switch';
+import Switch from '../Switch/SwitchSimple';
 import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import {

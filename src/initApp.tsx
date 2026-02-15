@@ -6,6 +6,7 @@ import { config, routePathNames } from './resources/scripts/config';
 import { TermsAndConditions } from './components/legalInformationLinks/TermsAndConditions';
 import { Imprint } from './components/legalInformationLinks/Imprint';
 import { Privacy } from './components/legalInformationLinks/Privacy';
+import { MuiThemeTest } from './components/app/MuiThemeTest';
 
 const container = document.getElementById('appRoot');
 if (container) {
@@ -19,7 +20,8 @@ if (container) {
 					component: TermsAndConditions
 				},
 				{ route: { path: routePathNames.imprint }, component: Imprint },
-				{ route: { path: routePathNames.privacy }, component: Privacy }
+				{ route: { path: routePathNames.privacy }, component: Privacy },
+				{ route: { path: '/mui-theme-test' }, component: MuiThemeTest }
 			]}
 			stageComponent={Stage}
 		/>

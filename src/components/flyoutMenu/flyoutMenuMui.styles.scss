@@ -1,0 +1,87 @@
+// MUI FlyoutMenu styles - matching SessionMenu appearance
+.flyoutMenuMui {
+	&__trigger {
+		color: $secondary !important;
+		padding: 0 !important;
+		
+		&:hover {
+			color: var(--skin-color-primary-hover, $hover-primary) !important;
+		}
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	&__paper {
+		// Match SessionMenu paper styling exactly
+		border: 1px solid $form-disabled !important;
+		box-sizing: border-box;
+		background: white;
+		min-width: 230px;
+		@include rounded-drop-shadow;
+		overflow: hidden;
+
+		// Remove MUI default padding
+		.MuiList-root {
+			padding: 0;
+		}
+	}
+
+	&__item {
+		// Match SessionMenu item styling exactly
+		text-align: left;
+		padding: 12px $grid-base-two !important;
+		cursor: pointer;
+		min-height: auto !important;
+		color: $form-secondary !important;
+
+		a {
+			text-decoration: none;
+			width: 100%;
+			color: $form-secondary;
+			display: block;
+			
+			// Hide icons in menu items to prevent layout issues
+			svg {
+				display: none !important;
+			}
+		}
+
+		&:hover {
+			background-color: var(--skin-color-primary-hover, $hover-primary) !important;
+			color: $text-invert !important;
+
+			a {
+				color: $text-invert !important;
+			}
+		}
+		
+		// Critical actions (delete, ban) use alarm red color
+		&.critical-action {
+			color: $form-error !important;
+			
+			a {
+				color: $form-error !important;
+			}
+			
+			&:hover {
+				background-color: $form-error !important;
+				color: $text-invert !important;
+				
+				a {
+					color: $text-invert !important;
+				}
+			}
+		}
+	}
+}
+
+.has-flyout {
+	&:hover {
+		.flyoutMenuMui__trigger {
+			color: var(--skin-color-primary-hover, $hover-primary) !important;
+		}
+	}
+}

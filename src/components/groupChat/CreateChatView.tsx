@@ -13,7 +13,8 @@ import {
 	UPDATE_SESSIONS,
 	SessionTypeContext,
 	useTenant,
-	UserDataContext
+	UserDataContext,
+	LocaleContext
 } from '../../globalState';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { Checkbox } from '../checkbox/Checkbox';
@@ -28,8 +29,7 @@ import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 import XIcon from '../../resources/img/illustrations/x.svg?react';
 import { ButtonItem, BUTTON_TYPES, Button } from '../button/Button';
 import { OVERLAY_FUNCTIONS, Overlay, OverlayItem } from '../overlay/Overlay';
-import DatePicker, { registerLocale } from 'react-datepicker/dist/es';
-import de from 'date-fns/locale/de';
+import { DatePicker, TimePicker } from '../datepicker/DatePickerMui';
 import {
 	groupChatSettings,
 	apiCreateGroupChat,
@@ -39,8 +39,6 @@ import {
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { getChatDate } from '../session/sessionDateHelpers';
 import BackIcon from '../../resources/img/icons/arrow-left.svg?react';
-import 'react-datepicker/src/stylesheets/datepicker.scss';
-import '../datepicker/datepicker.styles.scss';
 import './createChat.styles.scss';
 import { useResponsive } from '../../hooks/useResponsive';
 import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';
@@ -48,10 +46,9 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { Textarea } from '../form/textarea';
 
-registerLocale('de', de);
-
 export const CreateGroupChatView = (props) => {
 	const { t: translate } = useTranslation();
+	const { locale } = useContext(LocaleContext);
 	const { rcGroupId: groupIdFromParam } = useParams<{ rcGroupId: string }>();
 	const history = useHistory();
 	const {
@@ -579,49 +576,33 @@ export const CreateGroupChatView = (props) => {
 				<div className="formWrapper react-datepicker--date">
 					<DatePicker
 						selected={selectedDate}
-						onChange={(date) => handleDatePicker(date)}
+						onChange={(date) => date && handleDatePicker(date)}
 						onFocus={() => setIsDateInputFocus(true)}
 						onBlur={() => setIsDateInputFocus(false)}
-						locale="de"
+						locale={locale}
 						minDate={new Date()}
 						maxDate={new Date(2999, 12, 31)}
 						dateFormat="cccccc, dd. MMMM yyyy"
+						label={translate('groupChat.create.dateInput.label')}
+						isLabelActive={isDateInputFocused}
 					/>
-					<span
-						className={
-							isDateInputFocused || selectedDate
-								? `react-datepicker__label react-datepicker__label--active`
-								: `react-datepicker__label`
-						}
-						aria-label="date input label"
-					>
-						{translate('groupChat.create.dateInput.label')}
-					</span>
 				</div>
 
 				<div className="formWrapper react-datepicker--time">
-					<DatePicker
+					<TimePicker
 						selected={selectedTime}
-						onChange={(time) => handleTimePicker(time)}
+						onChange={(time) => time && handleTimePicker(time)}
 						onFocus={() => setIsTimeInputFocus(true)}
 						onBlur={() => setIsTimeInputFocus(false)}
-						locale="de"
-						showTimeSelect
-						showTimeSelectOnly
+						locale={locale}
+						showTimeSelect={true}
+						showTimeSelectOnly={true}
 						timeIntervals={15}
 						timeCaption="Uhrzeit"
 						dateFormat="HH:mm"
+						label={translate('groupChat.create.beginDateInput.label')}
+						isLabelActive={isTimeInputFocused}
 					/>
-					<span
-						className={
-							isTimeInputFocused || selectedTime
-								? `react-datepicker__label react-datepicker__label--active`
-								: `react-datepicker__label`
-						}
-						aria-label="time input label"
-					>
-						{translate('groupChat.create.beginDateInput.label')}
-					</span>
 				</div>
 
 				<SelectDropdown {...durationSelectDropdown} />

@@ -7,7 +7,7 @@ import { UserDataContext } from '../../globalState';
 import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 import './absenceFormular.styles.scss';
 import { Headline } from '../headline/Headline';
-import Switch from 'react-switch';
+import Switch from '../Switch/SwitchSimple';
 import { Text } from '../text/Text';
 import { Textarea } from '../form/textarea';
 import { isMobile } from 'react-device-detect';

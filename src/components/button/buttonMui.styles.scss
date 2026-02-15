@@ -1,0 +1,282 @@
+@import '../../resources/styles/settings';
+
+$buttonMinWidth: 200px;
+$buttonMaxWidth: 400px;
+
+.button-mui {
+	// Base MUI Button styles with theme integration
+	
+	&__wrapper {
+		&--inline {
+			display: inline-block;
+		}
+	}
+
+	// PRIMARY button - MUI contained variant
+	&--primary {
+		min-width: $buttonMinWidth;
+		max-width: $buttonMaxWidth;
+		height: $grid-base-six;
+		font-weight: $font-weight-bold;
+		border-radius: $button-border-radius;
+		
+		// Primary color via CSS var (tenant theming)
+		background-color: var(--skin-color-primary, $primary) !important;
+		color: var(--text-color-contrast-switch, $white) !important;
+		
+		&:hover {
+			background-color: var(--skin-color-primary-hover, $hover-primary) !important;
+		}
+	}
+
+	// SECONDARY button - MUI outlined variant
+	&--secondary {
+		min-width: $buttonMinWidth;
+		max-width: $buttonMaxWidth;
+		height: $grid-base-six;
+		font-weight: $font-weight-bold;
+		border-radius: $button-border-radius;
+		
+		color: var(--skin-color-primary, $primary) !important;
+		border-color: var(--skin-color-primary, $primary) !important;
+		border-width: 2px !important;
+		
+		&:hover {
+			color: $white !important;
+			background-color: var(--skin-color-primary-hover, $hover-primary) !important;
+			border-color: var(--skin-color-primary-hover, $hover-primary) !important;
+		}
+	}
+
+	// TERTIARY button - MUI outlined variant
+	&--tertiary {
+		height: $grid-base-four;
+		width: auto;
+		min-width: 0;
+		padding: 0 $grid-base-two !important;
+		font-weight: $font-weight-bold;
+		border-radius: $button-border-radius;
+		font-size: $font-size-tertiary;
+		text-transform: none;
+		
+		color: $tertiary !important;
+		border-color: $tertiary !important;
+		border-width: 2px !important;
+		
+		&:hover {
+			color: var(--text-color-contrast-switch, $white) !important;
+			background-color: var(--skin-color-primary-hover, $hover-primary) !important;
+			border-color: var(--skin-color-primary-hover, $hover-primary) !important;
+		}
+	}
+
+	// LINK button - MUI text variant
+	&--link {
+		min-width: 0;
+		height: auto;
+		padding: 0 !important;
+		font-weight: $font-weight-bold;
+		text-transform: none;
+		
+		color: $link-color !important;
+		
+		&:hover {
+			background-color: transparent !important;
+			color: $link-color-hover !important;
+			text-decoration: underline;
+		}
+		
+		&-inline {
+			display: inline-block;
+		}
+	}
+
+	// AUTO_CLOSE button - MUI contained with animation
+	&--auto-close {
+		min-width: $buttonMinWidth;
+		max-width: $buttonMaxWidth;
+		height: $grid-base-six;
+		font-weight: $font-weight-bold;
+		border-radius: $button-border-radius;
+		position: relative;
+		overflow: hidden;
+		
+		color: var(--text-color-contrast-switch, $white) !important;
+		background-color: var(--skin-color-primary, $primary) !important;
+		border: 2px solid var(--skin-color-primary, $primary) !important;
+		
+		// Auto-close animation
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -100%;
+			width: 100%;
+			height: 100%;
+			background: var(--skin-color-primary-hover, $hover-primary);
+			animation: loadAnimation 10s linear forwards;
+			z-index: -1;
+		}
+		
+		@keyframes loadAnimation {
+			from {
+				left: -100%;
+			}
+			to {
+				left: 0;
+			}
+		}
+		
+		&:hover {
+			border-color: var(--skin-color-primary-hover, $hover-primary) !important;
+		}
+	}
+
+	// SMALL_ICON button - MUI IconButton with color variants
+	&--small-icon {
+		width: 32px;
+		height: 32px;
+		padding: $grid-base !important;
+		border-radius: 4px;  // Use standard border radius
+		
+		// Green variant
+		&-green {
+			background-color: $form-success !important;
+			color: $white !important;
+			
+			&:hover {
+				background-color: color.adjust($form-success, $lightness: -10%) !important;
+			}
+		}
+		
+		// Red variant
+		&-red {
+			background-color: $form-error !important;
+			color: $white !important;
+			
+			&:hover {
+				background-color: color.adjust($form-error, $lightness: -10%) !important;
+			}
+		}
+		
+		// Yellow variant
+		&-yellow {
+			background-color: $yellow-3 !important;
+			color: $black !important;
+			
+			&:hover {
+				background-color: color.adjust($yellow-3, $lightness: -10%) !important;
+			}
+		}
+		
+		// Grey variant
+		&-grey {
+			background-color: $light-grey !important;
+			color: $form-secondary !important;
+			
+			&:hover {
+				background-color: color.adjust($light-grey, $lightness: -10%) !important;
+			}
+		}
+		
+		// Alternate variant
+		&-alternate {
+			background-color: rgba(var(--skin-color-primary, $primary), 0.1) !important;
+			color: var(--skin-color-primary, $primary) !important;
+			
+			&:hover {
+				background-color: rgba(var(--skin-color-primary, $primary), 0.2) !important;
+			}
+		}
+		
+		// Secondary variant
+		&-secondary {
+			background-color: $secondary !important;
+			color: $white !important;
+			
+			&:hover {
+				background-color: color.adjust($secondary, $lightness: -10%) !important;
+			}
+		}
+		
+		// Transparent variant
+		&-transparent {
+			background-color: transparent !important;
+			color: $form-secondary !important;
+			
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.05) !important;
+			}
+		}
+		
+		// With label
+		&-with-label {
+			width: auto;
+			padding: $grid-base $grid-base-two !important;
+		}
+	}
+	
+	&__icon-label {
+		margin-left: $grid-base;
+		font-size: $font-size-tertiary;
+	}
+}
+
+// Focus styles for accessibility
+.MuiButton-root, .MuiIconButton-root {
+	&:focus-visible {
+		outline: $focus-outline;
+		outline-offset: 4px;
+	}
+}
+
+// Global button styles
+.MuiButton-root {
+	font-weight: 700 !important;
+}
+
+// Disabled button styling - light grey to clearly show disabled state
+.MuiButton-root.Mui-disabled,
+.MuiIconButton-root.Mui-disabled {
+	background-color: rgba(0, 0, 0, 0.12) !important;
+	color: rgba(0, 0, 0, 0.26) !important;
+	border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+// Icon-only buttons - remove unnecessary margins
+.button-mui--icon-only {
+	.MuiButton-root {
+		// Clean spacing without extra margins
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+	}
+}
+
+// Session menu button spacing
+.sessionMenu .button-mui__wrapper {
+	padding-right: 10px;
+}
+
+// Session menu video call buttons padding
+.sessionMenu__videoCallButtons .button-mui__wrapper {
+	padding-right: 10px;
+}
+
+// FormAccordion next button - prevent text wrapping
+.formAccordionItem__nextbutton .MuiButton-root {
+	white-space: nowrap;
+}
+
+// Login form button - 100% width
+.loginContainer .button-mui__wrapper {
+	width: 100%;
+	
+	.MuiButton-root {
+		width: 100%;
+	}
+}
+
+// Login form button - specific selector for 100% width
+.loginForm button {
+	width: 100%;
+}

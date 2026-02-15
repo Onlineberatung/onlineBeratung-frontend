@@ -1,0 +1,12 @@
+// MUI Switch styles - minimal, let MUI handle most styling
+.switch-mui-wrapper {
+	// No custom overrides - use default MUI Switch styling
+	.switch-mui-description {
+		margin-top: 0.25rem;
+	}
+}
+
+// Align all MUI switches with their labels
+.MuiSwitch-root {
+	margin-top: -6px;
+}

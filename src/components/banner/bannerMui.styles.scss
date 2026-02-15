@@ -1,0 +1,48 @@
+@import '../../resources/styles/settings';
+
+// Define light color variants for banner backgrounds
+$primary-light: rgba(204, 30, 28, 0.1);  // Light primary (10% opacity)
+$success-light: rgba(10, 136, 47, 0.1);  // Light success (10% opacity)
+$warning-light: rgba(255, 193, 7, 0.1);  // Light warning (10% opacity)
+$error-light: rgba(204, 0, 0, 0.1);      // Light error (10% opacity)
+
+.banner-mui {
+	width: 100%;
+	border-radius: 0;
+	
+	&.MuiAlert-standardInfo {
+		background-color: $primary-light;
+		color: $form-secondary;
+	}
+
+	&.MuiAlert-standardSuccess {
+		background-color: $success-light;
+		color: $form-secondary;
+	}
+
+	&.MuiAlert-standardWarning {
+		background-color: $warning-light;
+		color: $form-secondary;
+	}
+
+	&.MuiAlert-standardError {
+		background-color: $error-light;
+		color: $form-secondary;
+	}
+
+	.MuiAlert-icon {
+		color: var(--skin-color-primary, $primary);
+	}
+
+	.MuiIconButton-root {
+		color: $form-secondary;
+		
+		&:hover {
+			background-color: rgba(0, 0, 0, 0.04);
+		}
+	}
+}
+
+.banner-mui__element {
+	width: 100%;
+}

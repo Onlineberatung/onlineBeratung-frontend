@@ -3,22 +3,8 @@
 		max-width: 600px;
 	}
 
-	&__buttons {
-		display: flex;
-		margin: 10px 0;
-		justify-content: flex-end;
-
-		button {
-			min-width: unset;
-			padding: 0;
-		}
-
-		.button__wrapper + .button__wrapper {
-			margin-left: $grid-base-three;
-		}
-	}
-
-	.select__wrapper {
+	.select__wrapper,
+	.select-mui__wrapper {
 		margin: 0;
 		padding: 0;
 		max-width: none;
@@ -27,18 +13,39 @@
 			width: 100%;
 		}
 
-		.select__input__control {
-			height: auto;
-			padding-top: 3px;
-			padding-bottom: 3px;
+		// Arrow icon - 22px size (more visible)
+		.MuiAutocomplete-popupIndicator {
+			padding: 2px;
+			margin-right: 8px;
+
+			svg {
+				width: 22px !important;
+				height: 22px !important;
+			}
 		}
 
-		.select__input__indicators {
-			align-items: flex-start;
+		// Arrow positioning - properly centered
+		.MuiAutocomplete-endAdornment {
+			right: 8px !important;
+			top: calc(50%) !important;
 		}
+	}
 
-		.select__input__indicator {
-			margin-top: 2px;
+	// Ensure dropdown options have correct hover color
+	&__languageSelect {
+		.MuiAutocomplete-popper {
+			.MuiAutocomplete-listbox {
+				.MuiAutocomplete-option {
+					&:hover {
+						background-color: $datepicker-hover-color !important;
+						color: var(--skin-color-primary, $primary) !important;
+					}
+
+					&.Mui-focused {
+						background-color: $datepicker-hover-color !important;
+					}
+				}
+			}
 		}
 	}
 }

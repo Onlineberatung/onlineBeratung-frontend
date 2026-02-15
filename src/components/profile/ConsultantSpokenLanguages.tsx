@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Stack } from '@mui/material';
 import { apiPutConsultantData } from '../../api';
 import { UserDataContext } from '../../globalState';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -24,12 +25,12 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 
 	const cancelEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.cancel'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.SECONDARY
 	};
 
 	const saveEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.save'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.PRIMARY
 	};
 
 	useEffect(() => {
@@ -115,7 +116,13 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 
 				{JSON.stringify(previousLanguages) !==
 					JSON.stringify(selectedLanguages) && (
-					<div className="spokenLanguages__buttons">
+					<Stack 
+						direction="row" 
+						spacing={2} 
+						className="spokenLanguages__buttons"
+						justifyContent="flex-end"
+						sx={{ marginTop: '20px' }}
+					>
 						<Button
 							item={cancelEditButton}
 							buttonHandle={cancelHandler}
@@ -124,7 +131,7 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 							item={saveEditButton}
 							buttonHandle={saveHandler}
 						/>
-					</div>
+					</Stack>
 				)}
 			</div>
 		</div>
