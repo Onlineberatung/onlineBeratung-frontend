@@ -12,6 +12,7 @@ import {
 
 import { useTranslation } from 'react-i18next';
 import { generatePath, Link, Redirect, useHistory } from 'react-router-dom';
+import { Menu, IconButton } from '@mui/material';
 
 import {
 	apiFinishAnonymousConversation,
@@ -101,41 +102,29 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
 	const [overlayItem, setOverlayItem] = useState(null);
-	const [flyoutOpen, setFlyoutOpen] = useState(null);
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+
+	const flyoutOpen = Boolean(anchorEl);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
-	const handleClick = useCallback(
-		(e) => {
-			const menuIconH = document.getElementById('iconH');
-			const menuIconV = document.getElementById('iconV');
-			const flyoutMenu = document.getElementById('flyout');
+	const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
 
-			const dropdown = document.querySelector('.sessionMenu__content');
-			if (dropdown && flyoutOpen) {
-				if (
-					!menuIconH.contains(e.target) &&
-					!menuIconV.contains(e.target)
-				) {
-					if (flyoutMenu && !flyoutMenu.contains(e.target)) {
-						setFlyoutOpen(!flyoutOpen);
-					}
-				}
-			}
-		},
-		[flyoutOpen]
-	);
+	const handleMenuClose = () => {
+		setAnchorEl(null);
+	};
 
 	const [appointmentFeatureEnabled, setAppointmentFeatureEnabled] =
 		useState(false);
 
 	useEffect(() => {
-		document.addEventListener('mousedown', (e) => handleClick(e));
 		if (!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
 			const { appointmentFeatureEnabled } = userData;
 			setAppointmentFeatureEnabled(appointmentFeatureEnabled);
@@ -144,7 +133,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 			// do not get group members for a chat that has not been started and user is not subscribed
 			return;
 		}
-	}, [handleClick, activeSession, userData]);
+	}, [activeSession, userData]);
 
 	const handleBookingButton = () => {
 		history.push('/booking/');
@@ -199,7 +188,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						mobileListView();
 						history.push(listPath);
 					}
-					setFlyoutOpen(false);
+					handleMenuClose();
 				}, 1000);
 			})
 			.catch((error) => {
@@ -293,7 +282,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					setOverlayActive(false);
 					setOverlayItem(null);
 					setIsRequestInProgress(false);
-					setFlyoutOpen(false);
+					handleMenuClose();
 				});
 		} else if (buttonFunction === 'GOTO_MANUAL') {
 			history.push('/profile/hilfe/videoCall');
@@ -465,32 +454,49 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					</div>
 				)}
 
-			<span
+			<IconButton
 				id="iconH"
-				onClick={() => setFlyoutOpen(!flyoutOpen)}
+				onClick={handleMenuOpen}
 				className="sessionMenu__icon sessionMenu__icon--desktop"
+				aria-label={translate('app.menu')}
+				size="small"
 			>
 				<MenuHorizontalIcon
 					title={translate('app.menu')}
 					aria-label={translate('app.menu')}
 				/>
-			</span>
-			<span
+			</IconButton>
+			<IconButton
 				id="iconV"
-				onClick={() => setFlyoutOpen(!flyoutOpen)}
+				onClick={handleMenuOpen}
 				className="sessionMenu__icon sessionMenu__icon--mobile"
+				aria-label={translate('app.menu')}
+				size="small"
 			>
 				<MenuVerticalIcon
 					title={translate('app.menu')}
 					aria-label={translate('app.menu')}
 				/>
-			</span>
+			</IconButton>
 
-			<div
+			<Menu
 				id="flyout"
-				className={`sessionMenu__content ${
-					flyoutOpen && 'sessionMenu__content--open'
-				}`}
+				anchorEl={anchorEl}
+				open={flyoutOpen}
+				onClose={handleMenuClose}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'right'
+				}}
+				transformOrigin={{
+					vertical: 'top',
+					horizontal: 'right'
+				}}
+				slotProps={{
+					paper: {
+						className: 'sessionMenu__content'
+					}
+				}}
 			>
 				{activeSession.isLive &&
 					activeSession.item.status !== STATUS_FINISHED &&
@@ -605,7 +611,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						)}
 					</LegalLinks>
 				</div>
-			</div>
+			</Menu>
 			{overlayActive && (
 				<Overlay
 					item={overlayItem}

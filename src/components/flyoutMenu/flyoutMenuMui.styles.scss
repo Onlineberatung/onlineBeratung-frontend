@@ -1,0 +1,51 @@
+// MUI FlyoutMenu styles
+.flyoutMenuMui {
+	&__trigger {
+		color: $secondary !important;
+		padding: 0 !important;
+		
+		&:hover {
+			color: var(--skin-color-primary-hover, $hover-primary) !important;
+		}
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	&__paper {
+		border: 1px solid $line-grey;
+		font-size: $font-size-primary;
+		line-height: $line-height-primary;
+		@include rounded-drop-shadow;
+	}
+
+	&__item {
+		button,
+		a {
+			text-decoration: none;
+			width: 100%;
+		}
+
+		padding: 14px $grid-base-two !important;
+		font-size: $font-size-primary !important;
+		line-height: $line-height-primary !important;
+		color: $secondary !important;
+		white-space: nowrap;
+		background-color: #fff;
+
+		&:hover {
+			background-color: $hover-select !important;
+			color: var(--skin-color-primary-hover, $hover-primary) !important;
+		}
+	}
+}
+
+.has-flyout {
+	&:hover {
+		.flyoutMenuMui__trigger {
+			color: var(--skin-color-primary-hover, $hover-primary) !important;
+		}
+	}
+}
