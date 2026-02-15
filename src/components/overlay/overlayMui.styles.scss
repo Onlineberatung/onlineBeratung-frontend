@@ -15,6 +15,11 @@ $overlay-illustration-size-large: 160px;
 overflow-y: visible;
 }
 
+// Override MUI DialogContent padding
+.MuiDialogContent-root {
+padding: 24px 36px !important;
+}
+
 &__backdrop {
 background: rgba(101, 95, 101, 0.85);
 animation: fadeIn linear 0.5s;
@@ -88,14 +93,9 @@ outline: none;
 
 &__closeIcon {
 position: absolute !important;
-top: 8px !important;
-right: 8px !important;
+top: 12px !important;
+right: 12px !important;
 z-index: 1;
-
-@media (min-width: $overlay-steps-breakpoint-small) {
-top: 16px !important;
-right: 16px !important;
-}
 }
 
 &__steps {
