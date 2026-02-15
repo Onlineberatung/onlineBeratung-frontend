@@ -3,7 +3,6 @@ import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker as MuiTimePicker } from '@mui/x-date-pickers/TimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TextField } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
 import 'dayjs/locale/de';
 import 'dayjs/locale/en';
