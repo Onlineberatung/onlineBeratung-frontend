@@ -706,8 +706,16 @@ const DeleteMessage = ({
 
 	return (
 		<>
-			<button
+			<a
 				onClick={() => setDeleteOverlay(true)}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						setDeleteOverlay(true);
+					}
+				}}
+				role="button"
+				tabIndex={0}
 				className={`flex ${className}`}
 			>
 				<div className="mr--1">
@@ -720,7 +728,7 @@ const DeleteMessage = ({
 					/>
 				</div>
 				<div>{translate('message.delete.delete')}</div>
-			</button>
+			</a>
 			{deleteOverlay && (
 				<Overlay
 					item={deleteOverlayItem}

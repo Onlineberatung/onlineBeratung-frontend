@@ -35,9 +35,20 @@ export const BanUser: React.VFC<BanUserProps> = ({
 	};
 
 	return (
-		<button className="banUser" onClick={banUser}>
+		<a
+			className="banUser"
+			onClick={banUser}
+			onKeyDown={(e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					banUser();
+				}
+			}}
+			role="button"
+			tabIndex={0}
+		>
 			{translate('banUser.ban.trigger')}
-		</button>
+		</a>
 	);
 };
 
