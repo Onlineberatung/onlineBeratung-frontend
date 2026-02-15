@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { Stack } from '@mui/material';
 import { UserDataContext } from '../../globalState';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
@@ -38,7 +39,7 @@ export const ConsultantPrivateData = () => {
 
 	const cancelEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.cancel'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.SECONDARY
 	};
 
 	const isEmail2faActive =
@@ -68,7 +69,7 @@ export const ConsultantPrivateData = () => {
 	const saveEditButton: ButtonItem = {
 		disabled: isSaveDisabled,
 		label: translate('profile.data.edit.button.save'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.PRIMARY
 	};
 
 	const handleSaveEditButton = () => {
@@ -241,7 +242,7 @@ export const ConsultantPrivateData = () => {
 				onValueIsValid={(lastName) => setLastName(lastName)}
 			/>
 			{!isEditDisabled && (
-				<div className="editableData__buttonSet editableData__buttonSet--edit">
+				<Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ marginTop: '10px' }}>
 					<Button
 						item={cancelEditButton}
 						buttonHandle={handleCancelEditButton}
@@ -250,7 +251,7 @@ export const ConsultantPrivateData = () => {
 						item={saveEditButton}
 						buttonHandle={handleSaveEditButton}
 					/>
-				</div>
+				</Stack>
 			)}
 			{overlayActive && (
 				<Overlay
