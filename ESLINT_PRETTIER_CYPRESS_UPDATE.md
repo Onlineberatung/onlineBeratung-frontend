@@ -30,14 +30,28 @@ Updated ESLint, Prettier, Cypress, and Stylelint to their latest versions. Migra
 - **@eslint/compat**: ^2.0.2 - Compatibility layer for legacy plugins
 - **@eslint/js**: ^9.39.2 - ESLint's JavaScript rules
 - **globals**: ^15.14.0 - Global identifiers from different JavaScript environments
+- **eslint-plugin-compat**: Latest - Browser compatibility checking for JavaScript APIs
 
 ## Configuration Changes
 
-### Browser Support Standards
-Added modern browser support configuration to align tooling with current web standards:
+### Browser Support Standards - Baseline Widely Available
+Updated browser support configuration to use **"Baseline Widely Available"** standard from the Web Platform DX Community Group:
 
 #### Browserslist Configuration
-Added to `package.json`:
+Updated in `package.json`:
+```json
+"browserslist": [
+  "baseline widely available"
+]
+```
+
+**What is "Baseline Widely Available"?**
+- Represents web features that are considered safe to use for broad audiences
+- Features available in core browsers (Chrome, Firefox, Safari, Edge) for 30+ months
+- Automatically maintained by the Web Platform DX Community Group
+- Aligns with what MDN and web.dev display as "Baseline" in feature documentation
+
+**Previous Configuration:**
 ```json
 "browserslist": [
   "> 3%",
@@ -47,17 +61,64 @@ Added to `package.json`:
 ]
 ```
 
-This targets:
-- Browsers with >3% global usage
-- Last 10 versions of major browsers
-- Firefox Extended Support Release
-- Browsers that are still maintained
-
 #### Benefits
-- Ensures consistent browser targeting across all build tools
-- Used by Stylelint for browser feature compatibility checking
-- Can be used by PostCSS, Babel, and other transpilation tools
-- Provides clear documentation of supported browsers
+- **Standards-aligned**: Uses industry-standard definition of browser compatibility
+- **Future-proof**: Automatically updated as browser features mature
+- **Consistent**: All build tools (ESLint, Stylelint, Babel, PostCSS) share same targets
+- **Clear expectations**: Well-documented baseline for what features are safe to use
+- **Reproducible**: Can pin to specific dates if needed: `baseline widely available on 2024-06-06`
+
+#### ESLint Browser Compatibility Plugin
+Added `eslint-plugin-compat` to check JavaScript API compatibility:
+
+**Installation:**
+```bash
+npm install --save-dev eslint-plugin-compat
+```
+
+**Configuration in `eslint.config.mjs`:**
+```js
+import compat from 'eslint-plugin-compat';
+
+export default [
+  // ... other configs
+  compat.configs['flat/recommended'],
+  // ... rest of config
+];
+```
+
+**Features:**
+- Automatically uses browserslist configuration
+- Warns when using APIs not supported by target browsers
+- Integrates with existing ESLint workflow
+- No additional configuration needed when browserslist is defined
+
+#### Stylelint Browser Compatibility
+Updated `stylelint.config.mjs` to use browserslist automatically:
+
+**Before:**
+```js
+'plugin/no-unsupported-browser-features': [
+  true,
+  {
+    browsers: ['> 3%', 'last 10 versions', 'Firefox ESR', 'not dead'],
+    severity: 'warning',
+    // ...
+  }
+]
+```
+
+**After:**
+```js
+'plugin/no-unsupported-browser-features': [
+  true,
+  {
+    // browsers option removed - uses browserslist from package.json
+    severity: 'warning',
+    // ...
+  }
+]
+```
 
 ### ESLint Migration to Flat Config
 ESLint 9+ requires a new flat configuration format. The following changes were made:
@@ -151,14 +212,21 @@ Updated `.github/workflows/build.yml` to properly run linting checks:
   - `scss/at-import-partial-extension` → `scss/load-partial-extension`
   - Old blacklist/whitelist rules removed
 - **New Rules**: Added `color-function-alias-notation` for modern color function handling
-- **Browser Target Update**: Changed from `> 2% and Last 2 versions` to `> 3%, last 10 versions, Firefox ESR, not dead`
+- **Browser Target Update**: Now uses browserslist from package.json instead of hardcoded values
 
-### Browser Support Configuration
-- **New Browserslist**: Added explicit browser support configuration
-- **More Comprehensive Coverage**: Now targets last 10 versions instead of last 2, ensuring better coverage
-- **Firefox ESR Support**: Explicitly includes Firefox Extended Support Release
-- **Higher Market Share Threshold**: Changed from >2% to >3% for better focus on widely-used browsers
-- **Impact**: Stylelint will flag more unsupported features in legacy browsers (e.g., Opera Mini, KaiOS Browser)
+### Browser Support Configuration - Baseline Widely Available
+- **Major Update**: Changed from custom browser queries to "baseline widely available"
+- **Previous**: `> 3%, last 10 versions, Firefox ESR, not dead`
+- **Current**: `baseline widely available`
+- **Standards-Based**: Uses Web Platform DX Community Group's Baseline definition
+- **30+ Month Rule**: Only includes features available in core browsers for 30+ months
+- **Impact**: 
+  - More conservative browser support compared to "last 10 versions"
+  - Better alignment with industry standards and MDN documentation
+  - Reduced browser fragmentation in targeting
+  - ESLint now checks JavaScript API compatibility via eslint-plugin-compat
+  - Stylelint automatically uses browserslist configuration
+- **Flexibility**: Can pin to specific dates if reproducibility is needed
 
 ## Migration Path for Future Updates
 
@@ -203,8 +271,12 @@ npm install --save-dev @typescript-eslint/eslint-plugin@latest @typescript-eslin
 ## References
 - [ESLint 9 Migration Guide](https://eslint.org/docs/latest/use/migrate-to-9.0.0)
 - [ESLint Flat Config Documentation](https://eslint.org/docs/latest/use/configure/configuration-files)
+- [eslint-plugin-compat Documentation](https://github.com/amilajack/eslint-plugin-compat)
 - [Prettier Documentation](https://prettier.io/docs/en/)
 - [Cypress 15 Release Notes](https://docs.cypress.io/guides/references/changelog)
 - [Stylelint 17 Migration Guide](https://github.com/stylelint/stylelint/blob/main/docs/migration-guide/to-17.md)
 - [Stylelint Configuration Documentation](https://stylelint.io/user-guide/configure/)
 - [stylelint-scss 7.0.0 Changelog](https://github.com/stylelint-scss/stylelint-scss/blob/master/CHANGELOG.md)
+- [Baseline Widely Available - web.dev](https://web.dev/blog/browserslist-supports-baseline)
+- [Web Platform DX Baseline Initiative](https://github.com/web-platform-dx/web-features)
+- [Browserslist Documentation](https://github.com/browserslist/browserslist)
