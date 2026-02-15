@@ -121,7 +121,6 @@
 		"prettier": "^3.8.1",
 		"prettier-eslint-cli": "^8.0.1",
 		"sass": "^1.70.0",
-		"serve": "^14.2.1",
 		"standard-version": "^9.5.0",
 		"stylelint": "^17.3.0",
 		"stylelint-config-standard": "^40.0.0",
