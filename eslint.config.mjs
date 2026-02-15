@@ -25,7 +25,7 @@ export default [
 	{
 		files: ['**/*.{js,jsx,ts,tsx}'],
 		languageOptions: {
-			ecmaVersion: 2020,
+			ecmaVersion: 'latest',
 			sourceType: 'module',
 			parser: tsparser,
 			parserOptions: {
@@ -35,7 +35,7 @@ export default [
 			},
 			globals: {
 				...globals.browser,
-				...globals.es2020,
+				...globals.es2021,
 				...globals.node
 			}
 		},
