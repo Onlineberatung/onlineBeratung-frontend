@@ -1,2 +1,27 @@
-// All styling removed - using MUI defaults
-// Tooltip appearance controlled by MUI theme
+// Minimal theme styling for tooltips
+// Keeps MUI default arrow, adds theme colors
+
+@import '../../resources/styles/settings';
+
+.MuiTooltip-tooltip {
+  background-color: $white;
+  color: $form-secondary;
+  border: 1px solid $form-disabled;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 8px 12px;
+  max-width: 300px;
+  font-size: 14px;
+  line-height: 1.5;
+  
+  // Link styling
+  a {
+    color: $link-color;
+    text-decoration: underline;
+    
+    &:hover {
+      color: $link-hover-color;
+    }
+  }
+}
+
+// MUI arrow kept as default (no custom styling)

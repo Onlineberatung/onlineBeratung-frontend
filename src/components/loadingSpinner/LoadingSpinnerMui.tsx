@@ -17,7 +17,7 @@ export const LoadingSpinnerMui: React.FC<LoadingSpinnerProps> = () => {
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
-				padding: '20px'
+				minHeight: '200px'
 			}}
 			title={translate('app.wait')}
 		>
