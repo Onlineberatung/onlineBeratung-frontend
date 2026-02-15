@@ -137,7 +137,7 @@ $buttonMaxWidth: 400px;
 		width: 32px;
 		height: 32px;
 		padding: $grid-base !important;
-		border-radius: $border-radius-default;
+		border-radius: 4px;  // Use standard border radius
 		
 		// Green variant
 		&-green {

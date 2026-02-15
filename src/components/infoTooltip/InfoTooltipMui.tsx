@@ -60,30 +60,32 @@ export const InfoTooltipMui = ({
 				</div>
 			)}
 			{info.name && (
-				<Text
-					style={{ fontWeight: 'bold' }}
-					text={translate(
-						[
-							`${translation.prefix}.${info.id}.name`,
-							info.name
-						],
-						{ ns: translation.ns }
-					)}
-					type="standard"
-				/>
+				<div style={{ fontWeight: 'bold' }}>
+					<Text
+						text={translate(
+							[
+								`${translation.prefix}.${info.id}.name`,
+								info.name
+							],
+							{ ns: translation.ns }
+						)}
+						type="standard"
+					/>
+				</div>
 			)}
 			{info.description && (
-				<Text
-					style={{ marginTop: '8px' }}
-					text={translate(
-						[
-							`${translation.prefix}.${info.id}.description`,
-							info.description
-						],
-						{ ns: translation.ns }
-					)}
-					type="infoSmall"
-				/>
+				<div style={{ marginTop: '8px' }}>
+					<Text
+						text={translate(
+							[
+								`${translation.prefix}.${info.id}.description`,
+								info.description
+							],
+							{ ns: translation.ns }
+						)}
+						type="infoSmall"
+					/>
+				</div>
 			)}
 		</div>
 	);
