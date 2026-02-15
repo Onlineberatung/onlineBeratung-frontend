@@ -18,27 +18,14 @@
 		}
 	}
 
-	.select__wrapper {
+	.select__wrapper,
+	.select-mui__wrapper {
 		margin: 0;
 		padding: 0;
 		max-width: none;
 
 		@include from-medium {
 			width: 100%;
-		}
-
-		.select__input__control {
-			height: auto;
-			padding-top: 3px;
-			padding-bottom: 3px;
-		}
-
-		.select__input__indicators {
-			align-items: flex-start;
-		}
-
-		.select__input__indicator {
-			margin-top: 2px;
 		}
 	}
 }
