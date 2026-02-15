@@ -8,7 +8,6 @@ export default {
 		'plugin/no-unsupported-browser-features': [
 			true,
 			{
-				browsers: ['> 3%', 'last 10 versions', 'Firefox ESR', 'not dead'],
 				severity: 'warning',
 				ignore: [
 					// Works good enough in the supported browsers

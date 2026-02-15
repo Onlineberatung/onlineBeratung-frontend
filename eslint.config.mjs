@@ -6,6 +6,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import importPlugin from 'eslint-plugin-import';
 import cypress from 'eslint-plugin-cypress';
+import compat from 'eslint-plugin-compat';
 import { fixupPluginRules } from '@eslint/compat';
 import globals from 'globals';
 
@@ -22,6 +23,7 @@ export default [
 		]
 	},
 	js.configs.recommended,
+	compat.configs['flat/recommended'],
 	{
 		files: ['**/*.{js,jsx,ts,tsx}'],
 		languageOptions: {
