@@ -47,7 +47,6 @@ export const profileRoutesSettings = (
 			}
 		]
 	},
-
 	{
 		condition: (userData) =>
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData),
