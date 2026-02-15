@@ -1,5 +1,4 @@
-@use "sass:color";
-@use '../../resources/styles/settings' as *;
+@import '../../resources/styles/settings';
 
 $buttonMinWidth: 200px;
 $buttonMaxWidth: 400px;
