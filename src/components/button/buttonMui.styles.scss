@@ -229,3 +229,44 @@ $buttonMaxWidth: 400px;
 		outline-offset: 4px;
 	}
 }
+
+// Global button styles
+.MuiButton-root {
+	font-weight: 700 !important;
+}
+
+// Disabled button styling - light grey to clearly show disabled state
+.MuiButton-root.Mui-disabled,
+.MuiIconButton-root.Mui-disabled {
+	background-color: rgba(0, 0, 0, 0.12) !important;
+	color: rgba(0, 0, 0, 0.26) !important;
+	border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+// Icon-only buttons - remove unnecessary margins
+.button-mui--icon-only {
+	.MuiButton-root {
+		// Clean spacing without extra margins
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+	}
+}
+
+// Session menu button spacing
+.sessionMenu .button-mui__wrapper {
+	padding-right: 10px;
+}
+
+// FormAccordion next button - prevent text wrapping
+.formAccordionItem__nextbutton .MuiButton-root {
+	white-space: nowrap;
+}
+
+// Login form button - 100% width
+.loginContainer .button-mui__wrapper {
+	width: 100%;
+	
+	.MuiButton-root {
+		width: 100%;
+	}
+}
