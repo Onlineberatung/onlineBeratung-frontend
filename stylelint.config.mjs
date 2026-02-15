@@ -34,12 +34,6 @@ export default {
 				]
 			}
 		],
-		'rule-empty-line-before': [
-			'always-multi-line',
-			{
-				except: ['after-single-line-comment', 'first-nested']
-			}
-		],
 
 		// Defaults are not good
 		'alpha-value-notation': 'number',
