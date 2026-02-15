@@ -5,6 +5,35 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import path from 'path';
 
+const DEFAULT_API_TARGET = 'https://happylife.develop.onlineberatung.net';
+
+const settingsScssPath = path.posix.join(__dirname.replace(/\\/g, '/'), 'src/resources/styles/settings.scss');
+
+const logger = {
+	info: (...args: unknown[]) => console.log(...args),
+	error: (...args: unknown[]) => console.error(...args)
+};
+
+function attachProxyLogging(proxy: any) {
+	proxy.on('error', (err: any, _req: any, _res: any) => {
+		logger.error('proxy error', err);
+	});
+	proxy.on('proxyReq', (proxyReq: any, req: any, _res: any) => {
+		logger.info(
+			'Sending Request to the Target:',
+			req.method,
+			req.url
+		);
+	});
+	proxy.on('proxyRes', (proxyRes: any, req: any, _res: any) => {
+		logger.info(
+			'Received Response from the Target:',
+			proxyRes.statusCode,
+			req.url
+		);
+	});
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
@@ -61,7 +90,7 @@ export default defineConfig(({ mode }) => {
 				scss: {
 					api: 'modern-compiler', // Use modern Sass API instead of legacy
 					// All @use statements must come before any @import statements
-					additionalData: `@use "sass:color";\n@use "sass:meta";\n@import "${path.resolve(__dirname, './src/resources/styles/settings.scss').replace(/\\/g, '/')}";\n`,
+					additionalData: `@use "sass:color";\n@use "sass:meta";\n@import "${settingsScssPath}";\n`,
 					// Suppress deprecation warnings from dependencies and legacy code
 					// - import: We use @import extensively (142+ files). Migrating to @use/@forward
 					//   requires 2-3 weeks of dedicated effort. See SCSS_DEPRECATIONS.md
@@ -77,133 +106,53 @@ export default defineConfig(({ mode }) => {
 				'/service': {
 					target:
 						env.VITE_API_URL ||
-						'https://happylife.develop.onlineberatung.net',
+						DEFAULT_API_TARGET,
 					changeOrigin: true,
 					secure: false,
 					ws: true, // Enable WebSocket support for /service/live/* endpoints
 					configure: (proxy, _options) => {
-						proxy.on('error', (err, _req, _res) => {
-							console.log('proxy error', err);
-						});
-						proxy.on('proxyReq', (proxyReq, req, _res) => {
-							console.log(
-								'Sending Request to the Target:',
-								req.method,
-								req.url
-							);
-						});
-						proxy.on('proxyRes', (proxyRes, req, _res) => {
-							console.log(
-								'Received Response from the Target:',
-								proxyRes.statusCode,
-								req.url
-							);
-						});
+						attachProxyLogging(proxy);
 					}
 				},
 				'/api': {
 					target:
 						env.VITE_API_URL ||
-						'https://happylife.develop.onlineberatung.net',
+						DEFAULT_API_TARGET,
 					changeOrigin: true,
 					secure: false,
 					configure: (proxy, _options) => {
-						proxy.on('error', (err, _req, _res) => {
-							console.log('proxy error', err);
-						});
-						proxy.on('proxyReq', (proxyReq, req, _res) => {
-							console.log(
-								'Sending Request to the Target:',
-								req.method,
-								req.url
-							);
-						});
-						proxy.on('proxyRes', (proxyRes, req, _res) => {
-							console.log(
-								'Received Response from the Target:',
-								proxyRes.statusCode,
-								req.url
-							);
-						});
+						attachProxyLogging(proxy);
 					}
 				},
 				'/auth': {
 					target:
 						env.VITE_API_URL ||
-						'https://happylife.develop.onlineberatung.net',
+						DEFAULT_API_TARGET,
 					changeOrigin: true,
 					secure: false,
 					configure: (proxy, _options) => {
-						proxy.on('error', (err, _req, _res) => {
-							console.log('proxy error', err);
-						});
-						proxy.on('proxyReq', (proxyReq, req, _res) => {
-							console.log(
-								'Sending Request to the Target:',
-								req.method,
-								req.url
-							);
-						});
-						proxy.on('proxyRes', (proxyRes, req, _res) => {
-							console.log(
-								'Received Response from the Target:',
-								proxyRes.statusCode,
-								req.url
-							);
-						});
+						attachProxyLogging(proxy);
 					}
 				},
 				'/websocket': {
 					target:
 						env.VITE_API_URL ||
-						'https://happylife.develop.onlineberatung.net',
+						DEFAULT_API_TARGET,
 					changeOrigin: true,
 					secure: false,
 					ws: true,
 					configure: (proxy, _options) => {
-						proxy.on('error', (err, _req, _res) => {
-							console.log('WebSocket proxy error', err);
-						});
-						proxy.on('proxyReq', (proxyReq, req, _res) => {
-							console.log(
-								'WebSocket Request to Target:',
-								req.method,
-								req.url
-							);
-						});
-						proxy.on('proxyRes', (proxyRes, req, _res) => {
-							console.log(
-								'WebSocket Response from Target:',
-								proxyRes.statusCode,
-								req.url
-							);
-						});
+						attachProxyLogging(proxy);
 					}
 				},
 				'/p/weblate': {
 					target:
 						env.VITE_API_URL ||
-						'https://happylife.develop.onlineberatung.net',
+						DEFAULT_API_TARGET,
 					changeOrigin: true,
 					secure: false,
 					configure: (proxy, _options) => {
-						proxy.on('error', (err, _req, _res) => {
-							console.log('proxy error', err);
-						});
-						proxy.on('proxyReq', (proxyReq, req, _res) => {
-							console.log(
-								'Sending Request to the Target:',
-								req.method,
-								req.url
-							);
-						});
-						proxy.on('proxyRes', (proxyRes, req, _res) => {
-							console.log(
-								'Received Response from the Target:',
-								proxyRes.statusCode,
-								req.url
-							);
-						});
+						attachProxyLogging(proxy);
 					}
 				},
 				'/livereload': {

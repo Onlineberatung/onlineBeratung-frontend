@@ -11,9 +11,9 @@ import CheckmarkIcon from '../../resources/img/icons/checkmark.svg?react';
 import { useTranslation } from 'react-i18next';
 
 interface MessageMetaDataProps {
-	isMyMessage: Boolean;
-	isNotRead: Boolean;
-	isReadStatusDisabled: Boolean;
+	isMyMessage: boolean;
+	isNotRead: boolean;
+	isReadStatusDisabled: boolean;
 	messageTime: string;
 	type: string;
 	t: null | 'e2e' | 'rm';
