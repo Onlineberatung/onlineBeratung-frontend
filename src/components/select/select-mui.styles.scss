@@ -114,30 +114,6 @@ $focus-color: #199fff;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 	border: 1px solid #c4bfc4;
 	margin-top: 16px;
-
-	// Arrow indicator (using pseudo-element)
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-		left: 50%;
-		margin-left: -10px;
-		z-index: 2;
-		border-left: 10px solid transparent;
-		border-right: 10px solid transparent;
-	}
-
-	&::before {
-		top: -10px;
-		border-bottom: 10px solid rgba(0, 0, 0, 0.1);
-		z-index: 1;
-	}
-
-	&::after {
-		top: -8px;
-		border-bottom: 10px solid #fff;
-		z-index: 2;
-	}
 }
 
 // Menu items - minimal overrides
@@ -169,19 +145,6 @@ $focus-color: #199fff;
 	.MuiPaper-root {
 		margin-top: 0;
 		margin-bottom: 16px;
-
-		&::before,
-		&::after {
-			top: auto;
-			bottom: -10px;
-			border-bottom: none;
-			border-top: 10px solid #fff;
-		}
-
-		&::before {
-			bottom: -14px;
-			border-top: 10px solid rgba(0, 0, 0, 0.1);
-		}
 	}
 }
 
@@ -189,40 +152,18 @@ $focus-color: #199fff;
 	.MuiPaper-root {
 		margin-left: 16px;
 		margin-top: 0;
-
-		&::before,
-		&::after {
-			left: -10px;
-			top: 5%;
-			margin-left: 0;
-			border-top: 10px solid transparent;
-			border-bottom: 10px solid transparent;
-			border-right: 10px solid #fff;
-			border-left: none;
-		}
-
-		&::before {
-			left: -14px;
-			border-right: 10px solid rgba(0, 0, 0, 0.1);
-		}
 	}
 }
 
 .select-mui--menu-bottom-left {
 	.MuiPaper-root {
-		&::before,
-		&::after {
-			left: 75%;
-		}
+		// Position handled by MUI
 	}
 }
 
 .select-mui--menu-bottom-right {
 	.MuiPaper-root {
-		&::before,
-		&::after {
-			left: 25%;
-		}
+		// Position handled by MUI
 	}
 }
 

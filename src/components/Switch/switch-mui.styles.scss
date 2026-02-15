@@ -1,56 +1,6 @@
-// MUI Switch styles matching react-switch appearance
+// MUI Switch styles - minimal, let MUI handle most styling
 .switch-mui-wrapper {
-	.switch-mui {
-		// Match react-switch dimensions: width=48, height=26
-		width: 48px;
-		height: 26px;
-		padding: 0;
-		
-		.MuiSwitch-switchBase {
-			padding: 0;
-			margin: 0;
-			
-			// Unchecked state (offColor: #8C878C)
-			& + .MuiSwitch-track {
-				background-color: #8C878C;
-				opacity: 1;
-				border: none;
-				border-radius: 13px; // height/2 for pill shape
-			}
-			
-			// Checked state (onColor: #0A882F)
-			&.Mui-checked {
-				transform: translateX(22px); // 48 - 26 = 22px
-				
-				& + .MuiSwitch-track {
-					background-color: #0A882F;
-					opacity: 1;
-				}
-				
-				.MuiSwitch-thumb {
-					box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.6);
-				}
-			}
-			
-			// Remove focus ring (activeBoxShadow: none)
-			&.Mui-focusVisible .MuiSwitch-thumb {
-				box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.6);
-			}
-		}
-		
-		.MuiSwitch-thumb {
-			// Match handleDiameter: 27
-			width: 27px;
-			height: 27px;
-			box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.6);
-			// No icon (uncheckedIcon: false, checkedIcon: false)
-		}
-		
-		.MuiSwitch-track {
-			border-radius: 13px;
-		}
-	}
-	
+	// No custom overrides - use default MUI Switch styling
 	.switch-mui-description {
 		margin-top: 0.25rem;
 	}

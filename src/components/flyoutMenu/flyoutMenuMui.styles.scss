@@ -1,4 +1,4 @@
-// MUI FlyoutMenu styles
+// MUI FlyoutMenu styles - matching SessionMenu appearance
 .flyoutMenuMui {
 	&__trigger {
 		color: $secondary !important;
@@ -15,29 +15,42 @@
 	}
 
 	&__paper {
-		border: 1px solid $line-grey;
-		font-size: $font-size-primary;
-		line-height: $line-height-primary;
+		// Match SessionMenu paper styling exactly
+		border: 1px solid $form-disabled !important;
+		box-sizing: border-box;
+		background: white;
+		min-width: 230px;
 		@include rounded-drop-shadow;
+		overflow: hidden;
+
+		// Remove MUI default padding
+		.MuiList-root {
+			padding: 0;
+		}
 	}
 
 	&__item {
-		button,
+		// Match SessionMenu item styling exactly
+		text-align: left;
+		padding: 12px $grid-base-two !important;
+		cursor: pointer;
+		min-height: auto !important;
+		color: $form-secondary !important;
+
 		a {
 			text-decoration: none;
 			width: 100%;
+			color: $form-secondary;
+			display: block;
 		}
 
-		padding: 14px $grid-base-two !important;
-		font-size: $font-size-primary !important;
-		line-height: $line-height-primary !important;
-		color: $secondary !important;
-		white-space: nowrap;
-		background-color: #fff;
-
 		&:hover {
-			background-color: $hover-select !important;
-			color: var(--skin-color-primary-hover, $hover-primary) !important;
+			background-color: var(--skin-color-primary-hover, $hover-primary) !important;
+			color: $text-invert !important;
+
+			a {
+				color: $text-invert !important;
+			}
 		}
 	}
 }
