@@ -34,11 +34,15 @@ export const CheckboxMui = ({
 	children
 }: PropsWithChildren<CheckboxItem>) => {
 	const labelContent = label ? (
-		<span
-			dangerouslySetInnerHTML={{
-				__html: `${label}${description ? `<br />${description}` : ''}`
-			}}
-		/>
+		<span>
+			{label}
+			{description && (
+				<>
+					<br />
+					{description}
+				</>
+			)}
+		</span>
 	) : (
 		<>
 			{children}
