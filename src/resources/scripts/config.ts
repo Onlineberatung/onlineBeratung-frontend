@@ -358,8 +358,8 @@ export const config: AppConfigInterface = {
 	},
 	translation: {
 		weblate: {
-			host: import.meta.env.FRONTEND_WEBLATE_HOST || '',
-			path: import.meta.env.FRONTEND_WEBLATE_PATH || '/weblate/api',
+			host: import.meta.env.FRONTEND_WEBLATE_HOST || 'https://happylife.develop.onlineberatung.net',
+			path: import.meta.env.FRONTEND_WEBLATE_PATH || '/p/weblate/api/projects/',
 			project: import.meta.env.FRONTEND_WEBLATE_PROJECT || '',
 			key: import.meta.env.FRONTEND_WEBLATE_API_KEY || '',
 			percentage: parseInt(import.meta.env.FRONTEND_WEBLATE_MIN_PERCENT, 10) || 50
