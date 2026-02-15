@@ -1,4 +1,3 @@
-@use "sass:color";
 @import '../../resources/styles/settings';
 
 $buttonMinWidth: 200px;
@@ -146,7 +145,7 @@ $buttonMaxWidth: 400px;
 			color: $white !important;
 			
 			&:hover {
-				background-color: color.adjust($form-success, $lightness: -10%) !important;
+				background-color: darken($form-success, 10%) !important;
 			}
 		}
 		
@@ -156,7 +155,7 @@ $buttonMaxWidth: 400px;
 			color: $white !important;
 			
 			&:hover {
-				background-color: color.adjust($form-error, $lightness: -10%) !important;
+				background-color: darken($form-error, 10%) !important;
 			}
 		}
 		
@@ -166,7 +165,7 @@ $buttonMaxWidth: 400px;
 			color: $black !important;
 			
 			&:hover {
-				background-color: color.adjust($yellow-3, $lightness: -10%) !important;
+				background-color: darken($yellow-3, 10%) !important;
 			}
 		}
 		
@@ -176,7 +175,7 @@ $buttonMaxWidth: 400px;
 			color: $form-secondary !important;
 			
 			&:hover {
-				background-color: color.adjust($light-grey, $lightness: -10%) !important;
+				background-color: darken($light-grey, 10%) !important;
 			}
 		}
 		
@@ -196,7 +195,7 @@ $buttonMaxWidth: 400px;
 			color: $white !important;
 			
 			&:hover {
-				background-color: color.adjust($secondary, $lightness: -10%) !important;
+				background-color: darken($secondary, 10%) !important;
 			}
 		}
 		
