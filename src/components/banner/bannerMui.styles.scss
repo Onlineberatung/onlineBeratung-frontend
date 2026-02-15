@@ -1,0 +1,42 @@
+@import '../../resources/styles/settings';
+
+.banner-mui {
+	width: 100%;
+	border-radius: 0;
+	
+	&.MuiAlert-standardInfo {
+		background-color: $primary-light;
+		color: $form-secondary;
+	}
+
+	&.MuiAlert-standardSuccess {
+		background-color: $success-light;
+		color: $form-secondary;
+	}
+
+	&.MuiAlert-standardWarning {
+		background-color: $warning-light;
+		color: $form-secondary;
+	}
+
+	&.MuiAlert-standardError {
+		background-color: $error-light;
+		color: $form-secondary;
+	}
+
+	.MuiAlert-icon {
+		color: var(--skin-color-primary, $primary);
+	}
+
+	.MuiIconButton-root {
+		color: $form-secondary;
+		
+		&:hover {
+			background-color: rgba(0, 0, 0, 0.04);
+		}
+	}
+}
+
+.banner-mui__element {
+	width: 100%;
+}

@@ -1,0 +1,40 @@
+@import '../../resources/styles/settings';
+
+.progressbar-mui {
+	height: 20px;
+	margin: $grid-base-two 0;
+	width: 100%;
+	border: 1px solid $secondary;
+	border-radius: $button-border-radius;
+	overflow: hidden;
+	position: relative;
+
+	.progressbar-mui__progress {
+		height: 18px;
+		
+		.MuiLinearProgress-bar {
+			background-color: var(--skin-color-primary, $primary);
+			transition: transform 0.5s ease;
+		}
+
+		&.MuiLinearProgress-root {
+			background-color: transparent;
+		}
+	}
+
+	.progressbar-mui__percent {
+		position: absolute;
+		width: 100%;
+		height: 18px;
+		line-height: 18px;
+		left: 0;
+		top: 0;
+		color: $body-font-color;
+		text-align: center;
+		font-size: 12px;
+	}
+
+	&--finish .progressbar-mui__progress .MuiLinearProgress-bar {
+		transition: transform 0.1s linear;
+	}
+}
