@@ -43,12 +43,8 @@ export const TooltipMui = ({
 			placement={placementMap[direction]}
 			arrow
 			className={className}
-			classes={{
-				tooltip: 'tooltip-mui__content',
-				arrow: 'tooltip-mui__arrow'
-			}}
 		>
-			<span className="tooltip-mui__trigger">{trigger}</span>
+			<span style={{ display: 'inline-flex', cursor: 'help' }}>{trigger}</span>
 		</MuiTooltip>
 	);
 };

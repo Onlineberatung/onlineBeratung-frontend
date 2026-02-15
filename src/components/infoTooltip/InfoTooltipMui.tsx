@@ -47,10 +47,10 @@ export const InfoTooltipMui = ({
 
 	// Tooltip content component
 	const tooltipContent = (
-		<div className="agencyInfo__content">
+		<div style={{ padding: '12px 20px', textAlign: 'left' }}>
 			{showTeamAgencyInfo && (
-				<div className="agencyInfo__teamAgency">
-					<InfoIcon aria-hidden="true" focusable="false" />
+				<div style={{ display: 'flex', marginBottom: '8px' }}>
+					<InfoIcon aria-hidden="true" focusable="false" style={{ marginRight: '8px' }} />
 					<Text
 						text={translate(
 							`registration.${translation.prefix}.preselected.isTeam`
@@ -61,7 +61,7 @@ export const InfoTooltipMui = ({
 			)}
 			{info.name && (
 				<Text
-					className="agencyInfo__name"
+					style={{ fontWeight: 'bold' }}
 					text={translate(
 						[
 							`${translation.prefix}.${info.id}.name`,
@@ -74,7 +74,7 @@ export const InfoTooltipMui = ({
 			)}
 			{info.description && (
 				<Text
-					className="agencyInfo__description"
+					style={{ marginTop: '8px' }}
 					text={translate(
 						[
 							`${translation.prefix}.${info.id}.description`,
@@ -92,17 +92,30 @@ export const InfoTooltipMui = ({
 	if (isMobile) {
 		return (
 			<ClickAwayListener onClickAway={handleClose}>
-				<div className="agencyInfo__wrapper">
+				<div style={{ position: 'relative', height: '24px', verticalAlign: 'middle', display: 'flex' }}>
 					<InfoIcon
 						onClick={handleToggle}
 						tabIndex={0}
 						aria-label={translate('notifications.info')}
+						style={{ width: '24px', height: '24px', cursor: 'pointer' }}
 					/>
 					{open && (
 						<div
-							className={`agencyInfo ${
-								isProfileView ? 'agencyInfo--above' : ''
-							}`}
+							style={{
+								position: 'absolute',
+								top: isProfileView ? 'auto' : '50px',
+								bottom: isProfileView ? '40px' : 'auto',
+								right: '-12px',
+								width: '266px',
+								textAlign: 'left',
+								zIndex: 20,
+								boxSizing: 'border-box',
+								background: 'white',
+								padding: '16px 20px',
+								border: '1px solid rgba(0, 0, 0, 0.05)',
+								borderRadius: '4px',
+								boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)'
+							}}
 						>
 							{tooltipContent}
 						</div>
@@ -114,19 +127,16 @@ export const InfoTooltipMui = ({
 
 	// Desktop: Use MUI Tooltip for hover behavior
 	return (
-		<div className="agencyInfo__wrapper">
+		<div style={{ position: 'relative', height: '24px', verticalAlign: 'middle', display: 'flex' }}>
 			<Tooltip
 				title={tooltipContent}
 				arrow
 				placement={isProfileView ? 'top' : 'bottom'}
-				classes={{
-					tooltip: 'agencyInfo',
-					arrow: 'agencyInfo__arrow'
-				}}
 			>
 				<InfoIcon
 					tabIndex={0}
 					aria-label={translate('notifications.info')}
+					style={{ width: '24px', height: '24px', cursor: 'pointer' }}
 				/>
 			</Tooltip>
 		</div>
