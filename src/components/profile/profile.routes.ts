@@ -10,6 +10,7 @@ import { AskerAboutMeData } from './AskerAboutMeData';
 import { ConsultantStatistics } from './ConsultantStatistics';
 import { AbsenceFormular } from './AbsenceFormular';
 import { EnableWalkthrough } from './EnableWalkthrough';
+import { Locale } from './Locale';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 import { isDesktop } from 'react-device-detect';
 import { OverviewBookings } from './OverviewMobile/Bookings';
@@ -79,6 +80,11 @@ const profileRoutes = (
 								),
 							component: ConsultantInformation,
 							column: COLUMN_LEFT
+						},
+						{
+							condition: () => selectableLocales.length > 1,
+							component: Locale,
+							column: COLUMN_RIGHT
 						},
 						{
 							condition: (userData) =>
