@@ -15,8 +15,7 @@ import {
 	ConsultingTypesContext,
 	SessionsDataContext,
 	SET_SESSIONS,
-	TenantContext,
-	LocaleContext
+	TenantContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import LogoutIconOutline from '../../resources/img/icons/logout_outline.svg?react';
@@ -28,12 +27,10 @@ import {
 	apiGetAskerSessionList
 } from '../../api';
 import { useTranslation } from 'react-i18next';
-import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
 import { userHasBudibaseTools } from '../../api/apiGetTools';
 import { browserNotificationsSettings } from '../../utils/notificationHelpers';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import { useResponsive } from '../../hooks/useResponsive';
-import { MENUPLACEMENT_RIGHT } from '../select/SelectDropdown';
 
 export interface NavigationBarProps {
 	onLogout: any;
@@ -50,7 +47,6 @@ export const NavigationBar = ({
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions, dispatch } = useContext(SessionsDataContext);
-	const { selectableLocales } = useContext(LocaleContext);
 	const [sessionId, setSessionId] = useState(null);
 	const [hasTools, setHasTools] = useState<boolean>(false);
 
@@ -66,9 +62,7 @@ export const NavigationBar = ({
 	const { tenant } = useContext(TenantContext);
 
 	const ref_menu = useRef<any>([]);
-	const ref_local = useRef<any>();
 	const ref_logout = useRef<any>();
-	const ref_select = useRef<any>();
 
 	const handleLogout = useCallback(() => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
@@ -147,8 +141,6 @@ export const NavigationBar = ({
 	const handleSelection = (index) => {
 		if (document.activeElement === ref_logout.current) {
 			handleLogout();
-		} else if (document.activeElement === ref_local.current) {
-			ref_select.current.focus();
 		} else {
 			ref_menu.current[index].click();
 		}
@@ -160,29 +152,13 @@ export const NavigationBar = ({
 			ref_logout.current.setAttribute('tabindex', '0');
 			ref_menu.current[index].setAttribute('tabindex', '-1');
 		} else if (document.activeElement === ref_logout.current) {
-			if (selectableLocales.length > 1) {
-				ref_local.current.focus();
-				ref_local.current.setAttribute('tabindex', '0');
-				ref_logout.current.setAttribute('tabindex', '-1');
-			} else {
-				ref_menu.current[ref_menu.current.length - 1].focus();
-				ref_menu.current[ref_menu.current.length - 1].setAttribute(
-					'tabindex',
-					'0'
-				);
-				ref_logout.current.setAttribute('tabindex', '-1');
-			}
-		} else if (document.activeElement === ref_local.current) {
 			ref_menu.current[ref_menu.current.length - 1].focus();
 			ref_menu.current[ref_menu.current.length - 1].setAttribute(
 				'tabindex',
 				'0'
 			);
-			ref_local.current.setAttribute('tabindex', '-1');
-		} else if (
-			document.activeElement !==
-			document.getElementById('react-select-2-input')
-		) {
+			ref_logout.current.setAttribute('tabindex', '-1');
+		} else {
 			ref_menu.current[index - 1].focus();
 			ref_menu.current[index - 1].setAttribute('tabindex', '0');
 			ref_menu.current[index].setAttribute('tabindex', '-1');
@@ -191,27 +167,14 @@ export const NavigationBar = ({
 
 	const handleArrowDown = (index) => {
 		if (index === ref_menu.current.length - 1) {
-			if (selectableLocales.length > 1) {
-				ref_local.current.focus();
-				ref_local.current.setAttribute('tabindex', '0');
-				ref_menu.current[index].setAttribute('tabindex', '-1');
-			} else {
-				ref_logout.current.focus();
-				ref_logout.current.setAttribute('tabindex', '0');
-				ref_menu.current[index].setAttribute('tabindex', '-1');
-			}
-		} else if (document.activeElement === ref_local.current) {
 			ref_logout.current.focus();
 			ref_logout.current.setAttribute('tabindex', '0');
-			ref_local.current.setAttribute('tabindex', '-1');
+			ref_menu.current[index].setAttribute('tabindex', '-1');
 		} else if (document.activeElement === ref_logout.current) {
 			ref_menu.current[0].focus();
 			ref_menu.current[0].setAttribute('tabindex', '0');
 			ref_logout.current.setAttribute('tabindex', '-1');
-		} else if (
-			document.activeElement !==
-			document.getElementById('react-select-2-input')
-		) {
+		} else {
 			ref_menu.current[index + 1].focus();
 			ref_menu.current[index + 1].setAttribute('tabindex', '0');
 			ref_menu.current[index].setAttribute('tabindex', '-1');
@@ -336,28 +299,6 @@ export const NavigationBar = ({
 							)
 					})}
 				>
-					{selectableLocales.length > 1 && (
-						<div
-							className="navigation__item navigation__item__language"
-							role="tab"
-							tabIndex={-1}
-							ref={(el) => (ref_local.current = el)}
-							onKeyDown={(e) => handleKeyDownMenu(e, null)}
-							id="local-switch-wrapper"
-						>
-							<LocaleSwitch
-								showIcon={true}
-								className="navigation__title"
-								updateUserData
-								vertical
-								iconSize={32}
-								label={translate('navigation.language')}
-								menuPlacement={MENUPLACEMENT_RIGHT}
-								selectRef={(el) => (ref_select.current = el)}
-								isInsideMenu={true}
-							/>
-						</div>
-					)}
 					<div
 						onClick={handleLogout}
 						className={'navigation__item'}
