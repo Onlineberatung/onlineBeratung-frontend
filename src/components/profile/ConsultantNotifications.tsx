@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext } from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import Switch from 'react-switch';
+import Switch from '../Switch/SwitchSimple';
 import { UserDataContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useTranslation } from 'react-i18next';

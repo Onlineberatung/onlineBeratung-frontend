@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import Switch from 'react-switch';
+import Switch from '../Switch/SwitchSimple';
 import { useContext } from 'react';
 import { UserDataContext } from '../../globalState';
 
