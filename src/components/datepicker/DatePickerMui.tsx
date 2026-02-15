@@ -101,6 +101,13 @@ export const DatePicker = ({
 							placeholder: placeholder,
 							InputLabelProps: {
 								shrink: isFocused || !!selected
+							},
+							// Make the entire field clickable to open picker
+							onClick: (e) => {
+								const target = e.currentTarget.querySelector('input');
+								if (target) {
+									target.focus();
+								}
 							}
 						}
 					}}
@@ -167,6 +174,13 @@ export const TimePicker = ({
 							placeholder: placeholder,
 							InputLabelProps: {
 								shrink: isFocused || !!selected
+							},
+							// Make the entire field clickable to open picker
+							onClick: (e) => {
+								const target = e.currentTarget.querySelector('input');
+								if (target) {
+									target.focus();
+								}
 							}
 						}
 					}}

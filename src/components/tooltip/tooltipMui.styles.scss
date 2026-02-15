@@ -1,0 +1,25 @@
+@import '../../resources/styles/variables';
+
+// Minimal MUI Tooltip styling to match theme
+.tooltip-mui__trigger {
+	display: inline-flex;
+	cursor: help;
+}
+
+.tooltip-mui__content {
+	background-color: $background-primary;
+	color: $text-secondary;
+	font-size: 14px;
+	padding: $grid-base $grid-base-two;
+	border: 1px solid $form-disabled;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	max-width: 300px;
+}
+
+.tooltip-mui__arrow {
+	color: $background-primary;
+	
+	&::before {
+		border: 1px solid $form-disabled;
+	}
+}

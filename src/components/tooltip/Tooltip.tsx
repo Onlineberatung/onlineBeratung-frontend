@@ -1,12 +1,9 @@
-import * as React from 'react';
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { isMobile } from 'react-device-detect';
-import './tooltip.styles.scss';
+// Re-export MUI version for backward compatibility
+export { TooltipMui as Tooltip, DIRECTION_TOP, DIRECTION_BOTTOM, DIRECTION_LEFT, DIRECTION_RIGHT } from './TooltipMui';
+export type { TooltipProps } from './TooltipMui';
 
-export const DIRECTION_TOP = 'top';
-export const DIRECTION_BOTTOM = 'bottom';
-export const DIRECTION_LEFT = 'left';
-export const DIRECTION_RIGHT = 'right';
+// Legacy Tooltip component - kept for reference but not exported
+// Original implementation with manual positioning commented out
 
 const TOOLTIP_POSITION_CENTER = 'center';
 const TOOLTIP_POSITION_LEFT = 'left';
