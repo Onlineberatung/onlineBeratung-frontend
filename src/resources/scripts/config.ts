@@ -360,7 +360,7 @@ export const config: AppConfigInterface = {
 		weblate: {
 			host: import.meta.env.FRONTEND_WEBLATE_HOST || '',
 			path: import.meta.env.FRONTEND_WEBLATE_PATH || '/p/weblate/api',
-			project: import.meta.env.FRONTEND_WEBLATE_PROJECT || '',
+			project: import.meta.env.FRONTEND_WEBLATE_PROJECT || 'frontend',
 			key: import.meta.env.FRONTEND_WEBLATE_API_KEY || '',
 			percentage: parseInt(import.meta.env.FRONTEND_WEBLATE_MIN_PERCENT, 10) || 50
 		},
