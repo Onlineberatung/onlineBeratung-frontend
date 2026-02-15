@@ -1,7 +1,7 @@
-# ESLint, Prettier, and Cypress Update Summary
+# ESLint, Prettier, Cypress, and Stylelint Update Summary
 
 ## Overview
-Updated ESLint, Prettier, and Cypress to their latest versions and migrated ESLint configuration to the new flat config format required by ESLint 9+.
+Updated ESLint, Prettier, Cypress, and Stylelint to their latest versions. Migrated ESLint configuration to the new flat config format required by ESLint 9+, and migrated Stylelint configuration to ESM format required by Stylelint 17+.
 
 ## Version Updates
 
@@ -9,6 +9,7 @@ Updated ESLint, Prettier, and Cypress to their latest versions and migrated ESLi
 - **ESLint**: 8.56.0 → 9.39.2
 - **Prettier**: 3.2.4 → 3.8.1
 - **Cypress**: 13.6.3 → 15.10.0
+- **Stylelint**: 15.11.0 → 17.3.0
 
 ### ESLint Plugins
 - **@typescript-eslint/eslint-plugin**: 6.19.1 → 8.55.0
@@ -18,6 +19,12 @@ Updated ESLint, Prettier, and Cypress to their latest versions and migrated ESLi
 - **eslint-plugin-jsx-a11y**: 6.8.0 → 6.10.2
 - **eslint-plugin-import**: 2.29.1 → 2.32.0
 - **eslint-plugin-cypress**: 2.15.1 → 5.3.0
+
+### Stylelint Packages
+- **stylelint-config-standard**: 34.0.0 → 40.0.0
+- **stylelint-config-standard-scss**: 11.1.0 → 17.0.0
+- **stylelint-scss**: 5.3.2 → 7.0.0
+- **stylelint-no-unsupported-browser-features**: 7.0.0 → 8.1.1
 
 ### New Dependencies
 - **@eslint/compat**: ^2.0.2 - Compatibility layer for legacy plugins
@@ -43,6 +50,22 @@ The new configuration:
 - Handles both `src/` and `proxy/` directories with appropriate overrides
 - Uses `@eslint/compat` for compatibility with plugins not yet fully supporting flat config
 
+### Stylelint Migration to ESM Config
+Stylelint 17+ requires ESM format for configuration files. The following changes were made:
+
+#### Removed Files
+- `.stylelintrc.js` (CommonJS format)
+
+#### New Files
+- `stylelint.config.mjs` - Modern Stylelint ESM config
+
+The new configuration:
+- Uses ES modules format (.mjs)
+- Maintains all previous rules and plugin configurations
+- Updated deprecated rule name: `scss/at-import-partial-extension` → `scss/load-partial-extension`
+- Added new rule configuration: `color-function-alias-notation` (set to null to allow both rgb/rgba)
+- Requires Node.js 20.19.0+ (current environment has Node.js 24)
+
 ### GitHub Actions Integration
 Updated `.github/workflows/build.yml` to properly run linting checks:
 
@@ -66,8 +89,8 @@ Updated `.github/workflows/build.yml` to properly run linting checks:
 ### Linting Status
 - ✅ ESLint runs with new configuration
 - ✅ Prettier runs with new version
-- ✅ Stylelint continues to work
-- ℹ️ Pre-existing linting issues remain (601 problems in ESLint)
+- ✅ Stylelint runs with new version (17.3.0)
+- ℹ️ Pre-existing linting issues remain (601 problems in ESLint, 10 in Stylelint)
 
 ### Cypress Status
 - ✅ Cypress 15.10.0 binary installed and verified
@@ -93,6 +116,14 @@ Updated `.github/workflows/build.yml` to properly run linting checks:
 - No breaking changes affecting this project
 - Configuration continues to use `defineConfig` API
 
+### Stylelint 17+
+- **ESM Config Required**: The old `.stylelintrc.*` CommonJS format is deprecated
+- **Node.js 20.19.0+ Required**: Older Node.js versions are not supported
+- **Rule Renames**: Several SCSS rules were renamed in stylelint-scss 7.0.0:
+  - `scss/at-import-partial-extension` → `scss/load-partial-extension`
+  - Old blacklist/whitelist rules removed
+- **New Rules**: Added `color-function-alias-notation` for modern color function handling
+
 ## Migration Path for Future Updates
 
 If you need to update individual tools:
@@ -112,6 +143,11 @@ npm install --save-dev prettier@latest
 npm install --save-dev cypress@latest
 ```
 
+### Stylelint
+```bash
+npm install --save-dev stylelint@latest stylelint-config-standard@latest stylelint-config-standard-scss@latest stylelint-scss@latest
+```
+
 ### ESLint Plugins
 Always check compatibility with your ESLint version:
 ```bash
@@ -120,16 +156,19 @@ npm install --save-dev @typescript-eslint/eslint-plugin@latest @typescript-eslin
 
 ## Recommendations
 
-1. **Address Pre-existing Linting Issues**: Consider running `npx eslint src --fix` and `npx prettier --write .` to automatically fix many issues
+1. **Address Pre-existing Linting Issues**: Consider running `npx eslint src --fix`, `npx prettier --write .`, and `npx stylelint "src/**/*.scss" --fix` to automatically fix many issues
 
 2. **Update CI/CD**: If you want stricter PR checks in the future, remove `continue-on-error: true` from the workflow once existing issues are resolved
 
 3. **Cypress Tests**: Ensure all E2E tests pass with Cypress 15.10.0 by running the full test suite
 
-4. **Documentation**: Update any developer documentation that references ESLint configuration
+4. **Documentation**: Update any developer documentation that references ESLint or Stylelint configuration
 
 ## References
 - [ESLint 9 Migration Guide](https://eslint.org/docs/latest/use/migrate-to-9.0.0)
 - [ESLint Flat Config Documentation](https://eslint.org/docs/latest/use/configure/configuration-files)
 - [Prettier Documentation](https://prettier.io/docs/en/)
 - [Cypress 15 Release Notes](https://docs.cypress.io/guides/references/changelog)
+- [Stylelint 17 Migration Guide](https://github.com/stylelint/stylelint/blob/main/docs/migration-guide/to-17.md)
+- [Stylelint Configuration Documentation](https://stylelint.io/user-guide/configure/)
+- [stylelint-scss 7.0.0 Changelog](https://github.com/stylelint-scss/stylelint-scss/blob/master/CHANGELOG.md)
