@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useState, useEffect } from 'react';
+import { Stack } from '@mui/material';
 import CopyIcon from '../../resources/img/icons/documents.svg?react';
 import InfoIcon from '../../resources/img/icons/i.svg?react';
 import {
@@ -36,13 +37,13 @@ export const ConsultantInformation = () => {
 
 	const cancelEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.cancel'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.SECONDARY
 	};
 
 	const saveEditButton: ButtonItem = {
 		disabled: isSaveDisabled,
 		label: translate('profile.data.edit.button.save'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.PRIMARY
 	};
 
 	const overlayItem: OverlayItem = {
@@ -151,7 +152,7 @@ export const ConsultantInformation = () => {
 				onValueIsValid={handleValidDisplayName}
 			/>
 			{isDisplayNameFeatureEnabled && isEditEnabled && (
-				<div className="editableData__buttonSet editableData__buttonSet--edit">
+				<Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ marginTop: '10px' }}>
 					<Button
 						item={cancelEditButton}
 						buttonHandle={handleCancelEditButton}
@@ -160,7 +161,7 @@ export const ConsultantInformation = () => {
 						item={saveEditButton}
 						buttonHandle={handleSaveEditButton}
 					/>
-				</div>
+				</Stack>
 			)}
 			{successOverlayActive && (
 				<Overlay
