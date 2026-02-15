@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	plugins: ['stylelint-scss', 'stylelint-no-unsupported-browser-features'],
 	extends: ['stylelint-config-standard', 'stylelint-config-standard-scss'],
 	rules: {
@@ -44,10 +44,11 @@ module.exports = {
 		// Defaults are not good
 		'alpha-value-notation': 'number',
 		'color-function-notation': 'legacy',
+		'color-function-alias-notation': null, // Allow both rgb/rgba notation
 		'value-keyword-case': null, // Requires e.g. "robotoslab" instead of "RobotoSlab"
 		'scss/operator-no-unspaced': null, // Has false positives
 		'scss/dollar-variable-empty-line-before': null,
-		'scss/at-import-partial-extension': null, // We use the `.styles.scss` extension
+		'scss/load-partial-extension': null, // We use the `.styles.scss` extension
 		'scss/operator-no-newline-after': null, // Conflicts with prettier
 
 		// Too much effort to change
