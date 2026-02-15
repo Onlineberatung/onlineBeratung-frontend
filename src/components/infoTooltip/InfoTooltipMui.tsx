@@ -5,6 +5,7 @@ import InfoIcon from '../../resources/img/icons/i.svg?react';
 import { isMobile } from 'react-device-detect';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
+import '../tooltip/tooltipMui.styles.scss';
 
 interface InfoInterface {
 	id: number;
