@@ -69,7 +69,11 @@ export const DatePicker = ({
 	const muiFormat = 'DD.MM.YYYY';
 
 	const handleChange = (newValue: Dayjs | null) => {
-		onChange(newValue ? newValue.toDate() : null);
+		// Only call onChange if the date is valid or null
+		// This prevents page reloads during manual typing of incomplete dates
+		if (newValue === null || newValue.isValid()) {
+			onChange(newValue ? newValue.toDate() : null);
+		}
 	};
 
 	const handleFocus = () => {
@@ -136,7 +140,11 @@ export const TimePicker = ({
 	const muiFormat = 'HH:mm';
 
 	const handleChange = (newValue: Dayjs | null) => {
-		onChange(newValue ? newValue.toDate() : null);
+		// Only call onChange if the time is valid or null
+		// This prevents page reloads during manual typing of incomplete times
+		if (newValue === null || newValue.isValid()) {
+			onChange(newValue ? newValue.toDate() : null);
+		}
 	};
 
 	const handleFocus = () => {
