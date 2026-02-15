@@ -31,9 +31,8 @@ export const createTenantMuiTheme = (
 			}
 		},
 		typography: {
-			// Use the app's default font family
-			fontFamily:
-				'Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif',
+			// Use the app's actual font family (Nunito)
+			fontFamily: 'Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
 			// Match button text styling in the app
 			button: {
 				textTransform: 'none', // Don't uppercase button text by default

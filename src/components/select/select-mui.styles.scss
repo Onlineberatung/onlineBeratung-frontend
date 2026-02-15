@@ -1,4 +1,4 @@
-// MUI Select and Autocomplete styles to match the app design
+// MUI Select and Autocomplete styles - minimal overrides
 @import '../../resources/styles/settings';
 
 // Focus color variable for consistency
@@ -8,58 +8,13 @@ $focus-color: #199fff;
 	position: relative;
 	width: 100%;
 
-	// Base select/autocomplete styling to match react-select
-	.MuiOutlinedInput-root,
-	.MuiTextField-root .MuiOutlinedInput-root {
-		background-color: white;
-		border-radius: 4px;
-		height: 50px;
+	// Minimal custom styling - let MUI handle most of it
+	.MuiOutlinedInput-root {
 		min-height: 50px;
-
-		&:hover .MuiOutlinedInput-notchedOutline {
-			border-color: #3f373f;
-		}
 
 		&.Mui-focused .MuiOutlinedInput-notchedOutline {
 			border-color: $focus-color;
 			border-width: 2px;
-			box-shadow: 0 0 0 2px $focus-color;
-		}
-
-		.MuiOutlinedInput-notchedOutline {
-			border-color: #8c878c;
-		}
-
-		.MuiOutlinedInput-input {
-			padding: 15px 50px 0 19px;
-			color: #3f373f;
-			cursor: pointer;
-			font-size: $font-size-primary;
-		}
-
-		// Multi-select input padding adjustment
-		&.MuiAutocomplete-inputRoot {
-			padding: 4px 50px 4px 12px;
-
-			.MuiAutocomplete-input {
-				padding: 11px 0 0 7px;
-			}
-		}
-	}
-
-	// Floating label styling
-	.MuiInputLabel-root {
-		color: $tertiary;
-		font-size: $font-size-primary;
-		transform: translate(20px, 15px) scale(1);
-
-		&.MuiInputLabel-shrink {
-			transform: translate(20px, 3px) scale(0.75);
-			font-size: $font-size-secondary;
-		}
-
-		&.Mui-focused {
-			color: $tertiary;
 		}
 	}
 
@@ -68,17 +23,15 @@ $focus-color: #199fff;
 		position: absolute;
 		top: 15px;
 		left: 20px;
-		color: $tertiary;
 		z-index: 2;
 		pointer-events: none;
 		transition:
 			font-size 0.5s,
 			top 0.5s;
-		font-size: $font-size-primary;
 
 		&--active {
 			top: 3px;
-			font-size: $font-size-secondary;
+			font-size: 0.75em;
 		}
 	}
 
@@ -94,12 +47,6 @@ $focus-color: #199fff;
 			width: 14px;
 			height: 14px;
 		}
-	}
-
-	// Placeholder styling
-	.select-mui__placeholder {
-		color: $tertiary;
-		font-size: $font-size-primary;
 	}
 
 	// Value with icon
@@ -120,7 +67,6 @@ $focus-color: #199fff;
 		height: 28px;
 		background-color: var(--skin-color-primary, $primary);
 		color: white;
-		font-size: $font-size-secondary;
 
 		.MuiChip-label {
 			padding: 0 11px;
@@ -194,11 +140,8 @@ $focus-color: #199fff;
 	}
 }
 
-// Menu items
-.select-mui__menu-item,
+// Menu items - minimal overrides
 .select-mui__option {
-	font-size: $font-size-tertiary;
-	color: #3f373f;
 	padding: 8px 16px;
 	cursor: pointer;
 	text-align: left;
@@ -207,15 +150,6 @@ $focus-color: #199fff;
 	&:hover {
 		background-color: $datepicker-hover-color;
 		color: var(--skin-color-primary, $primary);
-	}
-
-	&.Mui-selected {
-		background-color: $datepicker-hover-color;
-		color: var(--skin-color-primary, $primary);
-
-		&:hover {
-			background-color: $datepicker-hover-color;
-		}
 	}
 
 	// Icon option styling
@@ -292,13 +226,12 @@ $focus-color: #199fff;
 	}
 }
 
-// Autocomplete listbox
+// Autocomplete listbox - minimal overrides
 .MuiAutocomplete-listbox {
 	padding: 0;
 	max-height: 200px;
 
 	.MuiAutocomplete-option {
-		font-size: $font-size-tertiary;
 		padding: 8px 16px;
 		line-height: 21px;
 
@@ -315,30 +248,6 @@ $focus-color: #199fff;
 			background-color: $white;
 			color: $black;
 		}
-	}
-}
-
-// Loading indicator
-.MuiAutocomplete-loading {
-	padding: 8px 16px;
-	text-align: center;
-	color: $tertiary;
-}
-
-// No options message
-.MuiAutocomplete-noOptions {
-	padding: 8px 16px;
-	text-align: center;
-	color: $tertiary;
-}
-
-// Clear indicator
-.MuiAutocomplete-clearIndicator {
-	margin-right: -4px;
-	color: $tertiary;
-
-	&:hover {
-		color: #3f373f;
 	}
 }
 

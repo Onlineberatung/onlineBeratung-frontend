@@ -142,9 +142,10 @@ export const SelectDropdownMui = (props: SelectDropdownItem) => {
 
 	// Render option with icon if needed
 	const renderOption = (optionProps: any, option: SelectOption) => {
+		const { key, ...restProps } = optionProps;
 		if (props.useIconOption && option.iconLabel) {
 			return (
-				<li {...optionProps} className="select-mui__option">
+				<li key={key} {...restProps} className="select-mui__option">
 					<span className="select-mui__option__icon">
 						{option.iconLabel}
 					</span>
@@ -155,7 +156,7 @@ export const SelectDropdownMui = (props: SelectDropdownItem) => {
 			);
 		}
 		return (
-			<li {...optionProps} className="select-mui__option">
+			<li key={key} {...restProps} className="select-mui__option">
 				{option.label}
 			</li>
 		);
