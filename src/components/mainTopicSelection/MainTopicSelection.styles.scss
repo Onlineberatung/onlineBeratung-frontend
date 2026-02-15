@@ -15,7 +15,7 @@
 	&__topic {
 		display: flex;
 		position: relative;
-		padding: 12px 0;
+		// Padding removed - MUI form elements provide adequate spacing
 	}
 	&__topic &__radioButton {
 		min-height: 25px;
