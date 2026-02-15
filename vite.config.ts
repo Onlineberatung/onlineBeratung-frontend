@@ -201,7 +201,7 @@ export default defineConfig(({ mode }) => {
 			// Make sure environment variables are available
 			'process.env': {}
 		},
-		envPrefix: 'VITE_',
+		envPrefix: ['VITE_', 'FRONTEND_'],
 		optimizeDeps: {
 			esbuildOptions: {
 				// Node.js global to browser globalThis
