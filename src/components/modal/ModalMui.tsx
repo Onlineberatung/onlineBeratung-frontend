@@ -31,7 +31,11 @@ export const ModalMui = ({
 			}}
 			// Disable backdrop click and escape key by default for loading screens
 			disableEscapeKeyDown={!onClose}
-			onBackdropClick={onClose}
+			slotProps={{
+				backdrop: {
+					onClick: onClose
+				}
+			}}
 		>
 			<DialogContent className="modal-mui__content">
 				{children}

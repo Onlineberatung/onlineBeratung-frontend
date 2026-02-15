@@ -96,7 +96,6 @@ export const InfoTooltipMui = ({
 					<InfoIcon
 						onClick={handleToggle}
 						tabIndex={0}
-						title={translate('notifications.info')}
 						aria-label={translate('notifications.info')}
 					/>
 					{open && (
@@ -127,7 +126,6 @@ export const InfoTooltipMui = ({
 			>
 				<InfoIcon
 					tabIndex={0}
-					title={translate('notifications.info')}
 					aria-label={translate('notifications.info')}
 				/>
 			</Tooltip>
