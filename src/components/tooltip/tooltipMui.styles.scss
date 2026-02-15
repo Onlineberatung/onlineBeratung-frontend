@@ -24,4 +24,7 @@
   }
 }
 
-// MUI arrow kept as default (no custom styling)
+// MUI arrow - set to white to match tooltip background
+.MuiTooltip-arrow {
+  color: $white;
+}
