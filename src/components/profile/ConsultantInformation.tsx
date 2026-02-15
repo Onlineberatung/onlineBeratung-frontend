@@ -152,7 +152,7 @@ export const ConsultantInformation = () => {
 				onValueIsValid={handleValidDisplayName}
 			/>
 			{isDisplayNameFeatureEnabled && isEditEnabled && (
-				<Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ marginTop: '10px' }}>
+				<Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ marginTop: '20px' }}>
 					<Button
 						item={cancelEditButton}
 						buttonHandle={handleCancelEditButton}

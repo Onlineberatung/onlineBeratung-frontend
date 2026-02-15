@@ -121,7 +121,7 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 						spacing={2} 
 						className="spokenLanguages__buttons"
 						justifyContent="flex-end"
-						sx={{ marginTop: '10px' }}
+						sx={{ marginTop: '20px' }}
 					>
 						<Button
 							item={cancelEditButton}

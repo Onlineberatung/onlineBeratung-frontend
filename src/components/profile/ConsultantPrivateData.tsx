@@ -242,7 +242,7 @@ export const ConsultantPrivateData = () => {
 				onValueIsValid={(lastName) => setLastName(lastName)}
 			/>
 			{!isEditDisabled && (
-				<Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ marginTop: '10px' }}>
+				<Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ marginTop: '20px' }}>
 					<Button
 						item={cancelEditButton}
 						buttonHandle={handleCancelEditButton}
