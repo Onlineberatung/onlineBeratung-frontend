@@ -184,5 +184,11 @@
 			"proxy/"
 		],
 		"delay": 2500
-	}
+	},
+	"browserslist": [
+		"> 3%",
+		"last 10 versions",
+		"Firefox ESR",
+		"not dead"
+	]
 }
