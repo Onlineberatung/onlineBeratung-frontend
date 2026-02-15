@@ -14,6 +14,11 @@ import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import { Headline } from '../headline/Headline';
 
+type Agency = {
+	id: string | number;
+	name: string;
+};
+
 export const ConsultantAgencies = () => {
 	const settings = useAppConfig();
 	const { t: translate } = useTranslation(['common', 'agencies']);
@@ -32,11 +37,11 @@ export const ConsultantAgencies = () => {
 				</div>
 			</div>
 			<div className="profile__data__item full">
-				{userData.agencies.map((item, i) => {
+				{userData.agencies.map((item: Agency, index: number) => {
 					return (
 						<div
 							className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
-							key={`agencies-${i}`}
+							key={`agencies-${item.id}`}
 						>
 							{translate(`agency.${item.id}.name`, {
 								ns: 'agencies',
@@ -71,7 +76,7 @@ export const ConsultantAgencies = () => {
 };
 
 type AgencyRegistrationLinkProps = {
-	agency: any;
+	agency: Agency;
 };
 
 const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
