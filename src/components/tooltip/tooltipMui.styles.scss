@@ -1,4 +1,4 @@
-@import '../../resources/styles/variables';
+@import '../../resources/styles/settings';
 
 // Minimal MUI Tooltip styling to match theme
 .tooltip-mui__trigger {
@@ -7,8 +7,8 @@
 }
 
 .tooltip-mui__content {
-	background-color: $background-primary;
-	color: $text-secondary;
+	background-color: $white;
+	color: $form-secondary;
 	font-size: 14px;
 	padding: $grid-base $grid-base-two;
 	border: 1px solid $form-disabled;
@@ -17,7 +17,7 @@
 }
 
 .tooltip-mui__arrow {
-	color: $background-primary;
+	color: $white;
 	
 	&::before {
 		border: 1px solid $form-disabled;
