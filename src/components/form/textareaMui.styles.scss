@@ -1,0 +1,55 @@
+@import '../../resources/styles/settings';
+
+.textareaMui__wrapper {
+  position: relative;
+  width: 100%;
+
+  // Character counter
+  .textareaMui__counter {
+    position: absolute;
+    bottom: 8px;
+    right: 14px;
+    font-size: $font-size-secondary;
+    color: $text-low-emphasis;
+    pointer-events: none;
+  }
+
+  // MUI TextField styling to match theme
+  .MuiTextField-root {
+    .MuiOutlinedInput-root {
+      background-color: $white;
+      
+      fieldset {
+        border-color: $border-default;
+      }
+      
+      &:hover fieldset {
+        border-color: $border-hover;
+      }
+      
+      &.Mui-focused fieldset {
+        border-color: var(--skin-color-primary, $primary);
+      }
+      
+      &.Mui-error fieldset {
+        border-color: $form-error;
+      }
+    }
+    
+    .MuiInputBase-input {
+      color: $form-secondary;
+    }
+    
+    .MuiInputLabel-root {
+      color: $text-low-emphasis;
+      
+      &.Mui-focused {
+        color: var(--skin-color-primary, $primary);
+      }
+      
+      &.Mui-error {
+        color: $form-error;
+      }
+    }
+  }
+}

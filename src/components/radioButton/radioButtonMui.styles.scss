@@ -1,0 +1,70 @@
+@import '../../resources/styles/settings';
+
+.radioButtonMui {
+  width: 100%;
+
+  .MuiFormControlLabel-root {
+    margin: 0;
+    width: 100%;
+    
+    .MuiRadio-root {
+      padding: 9px;
+      color: $border-default;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+      
+      &.Mui-checked {
+        color: var(--skin-color-primary, $primary);
+      }
+      
+      &.Mui-disabled {
+        color: $form-disabled;
+      }
+    }
+    
+    .MuiFormControlLabel-label {
+      color: $form-secondary;
+      font-size: $font-size-primary;
+      margin-left: 8px;
+      flex: 1;
+      
+      &.Mui-disabled {
+        color: $text-disabled;
+      }
+    }
+  }
+
+  // Type variations
+  &--box {
+    .MuiFormControlLabel-root {
+      border: 1px solid $border-default;
+      padding: 12px;
+      border-radius: 4px;
+      
+      &:hover {
+        border-color: $border-hover;
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+    }
+    
+    .MuiRadio-root.Mui-checked ~ .MuiFormControlLabel-label {
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  &--smaller {
+    .MuiRadio-root {
+      padding: 6px;
+      
+      .MuiSvgIcon-root {
+        font-size: 18px;
+      }
+    }
+    
+    .MuiFormControlLabel-label {
+      font-size: $font-size-secondary;
+    }
+  }
+}
