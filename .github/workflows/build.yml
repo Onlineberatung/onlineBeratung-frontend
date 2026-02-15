@@ -37,17 +37,12 @@ jobs:
               with:
                   mode: ${{ env.ENV_NAME }}
             - run: npm ci
-            - name: Run linters
-              uses: wearerequired/lint-action@v2
-              with:
-                  github_token: ${{ secrets.github_token }}
-                  eslint: true
-                  eslint_dir: ./src
-                  eslint_extensions: js,ts,tsx
-                  stylelint: true
-                  stylelint_dir: ./src
-                  stylelint_extensions: scss
-                  prettier: true
+            - name: Run ESLint
+              run: npx eslint src
+            - name: Run Stylelint
+              run: npm run lint:style
+            - name: Run Prettier check
+              run: npx prettier --check "**/*.+(js|jsx|css|less|scss|ts|tsx|md|json)"
             - name: Run build
               run: |
                   npm run build
