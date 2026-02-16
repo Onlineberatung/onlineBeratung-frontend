@@ -67,6 +67,15 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const isAudio = isAudioAttachment(props.file.type);
 	const canPreview = isImage || isPDF || isAudio;
 
+	// Check if this attachment should be decrypted
+	const isAttachmentEncryptionEnabled = React.useMemo(() => {
+		return parseInt(getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION));
+	}, [getDevToolbarOption]);
+
+	const shouldDecryptAttachment = React.useMemo(() => {
+		return encrypted && props.t === 'e2e' && isAttachmentEncryptionEnabled;
+	}, [encrypted, props.t, isAttachmentEncryptionEnabled]);
+
 	const decryptFile = useCallback(
 		async (url: string) => {
 			if (
@@ -74,9 +83,6 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 				attachmentStatus === DECRYPTION_ERROR
 			)
 				return;
-			const isAttachmentEncryptionEnabledDevTools = parseInt(
-				getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION)
-			);
 			setAttachmentStatus(IS_DECRYPTING);
 
 			const data = await fetchData({
@@ -88,11 +94,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 				}
 			});
 
-			const shouldDecrypt =
-				encrypted &&
-				props.t === 'e2e' &&
-				isAttachmentEncryptionEnabledDevTools;
-			const skipDecryption = !shouldDecrypt;
+			const skipDecryption = !shouldDecryptAttachment;
 			let blobUrl;
 
 			if (skipDecryption) {
@@ -143,13 +145,11 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 		},
 		[
 			attachmentStatus,
-			encrypted,
+			shouldDecryptAttachment,
 			key,
 			keyID,
 			props.attachment.title,
-			props.t,
 			props.file.type,
-			getDevToolbarOption,
 			addNotification,
 			translate
 		]
@@ -175,23 +175,28 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			}
 		} else if (isImage || isPDF) {
 			// For images and PDFs, decrypt if needed then open modal
-			if (props.t === 'e2e' && !encryptedFile) {
+			if (shouldDecryptAttachment && !encryptedFile) {
 				await decryptFile(apiUrl + props.attachment.title_link);
 			}
 			setModalOpen(true);
 		}
-	}, [isAudio, isImage, isPDF, props.t, encryptedFile, decryptFile, props.attachment.title_link]);
+	}, [isAudio, isImage, isPDF, shouldDecryptAttachment, encryptedFile, decryptFile, props.attachment.title_link]);
 
 	const handleModalClose = useCallback(() => {
 		setModalOpen(false);
 	}, []);
 
 	const getPreviewUrl = useCallback(() => {
+		// If attachment encryption is not enabled, use direct URL even for e2e messages
+		if (!shouldDecryptAttachment) {
+			return apiUrl + props.attachment.title_link;
+		}
+		// If encrypted, return the decrypted blob URL
 		if (props.t === 'e2e') {
 			return encryptedFile;
 		}
 		return apiUrl + props.attachment.title_link;
-	}, [props.t, encryptedFile, props.attachment.title_link]);
+	}, [props.t, encryptedFile, props.attachment.title_link, shouldDecryptAttachment]);
 
 	const attachmentAriaLabel = () => {
 		if (
@@ -223,7 +228,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					>
 						{attachmentStatus === IS_DECRYPTING ? (
 							<LoadingSpinner />
-						) : encryptedFile || props.t !== 'e2e' ? (
+						) : encryptedFile || !shouldDecryptAttachment ? (
 							<img
 								src={getPreviewUrl()}
 								alt={props.attachment.title}
@@ -240,7 +245,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			)}
 
 			{/* Audio Player */}
-			{isAudio && (attachmentStatus === DECRYPTION_FINISHED || props.t !== 'e2e') && (
+			{isAudio && (attachmentStatus === DECRYPTION_FINISHED || !shouldDecryptAttachment) && (
 				<div className="messageItem__message__attachment__audio">
 					<audio
 						ref={audioRef}

@@ -105,10 +105,14 @@ export const TiptapEditor = React.memo(
 
 		// Update content when it changes externally
 		useEffect(() => {
-			if (editor && content !== undefined && content.trim()) {
+			if (editor && content !== undefined) {
 				const currentText = editor.getText();
-				// Only update if content actually changed
-				if (currentText.trim() !== content.trim()) {
+				// Clear editor if content is empty
+				if (content === '' && currentText !== '') {
+					editor.commands.clearContent();
+				}
+				// Only update if content actually changed and has content
+				else if (content.trim() && currentText.trim() !== content.trim()) {
 					editor.commands.setContent(content);
 				}
 			}
