@@ -70,10 +70,6 @@ import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
 import { RoomNotFound } from '../session/RoomNotFound';
 import {
-	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
-	useDevToolbar
-} from '../devToolbar/DevToolbar';
-import {
 	OVERLAY_E2EE,
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
@@ -114,7 +110,6 @@ export const MessageSubmitInterfaceComponent = ({
 	const { t: translate } = useTranslation();
 	const tenant = useTenant();
 	const history = useHistory();
-	const { getDevToolbarOption } = useDevToolbar();
 
 	const textareaInputRef = useRef<HTMLDivElement>(null);
 	const inputWrapperRef = useRef<HTMLSpanElement>(null);
@@ -453,13 +448,10 @@ export const MessageSubmitInterfaceComponent = ({
 			if (attachment) {
 				let res: any;
 
-				const isAttachmentEncryptionEnabledDevTools = parseInt(
-					getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION)
-				);
 				let attachmentFile = attachment;
 				let signature = null;
-				let encryptEnabled =
-					isEncrypted && !!isAttachmentEncryptionEnabledDevTools;
+				// For 100% E2EE app: Always encrypt attachments when message is encrypted
+				let encryptEnabled = isEncrypted;
 
 				if (encryptEnabled) {
 					try {
@@ -553,7 +545,6 @@ export const MessageSubmitInterfaceComponent = ({
 			activeSession.rid,
 			cleanupAttachment,
 			encryptRoom,
-			getDevToolbarOption,
 			getTypedMarkdownMessage,
 			handleAttachmentUploadError,
 			handleMessageSendSuccess,

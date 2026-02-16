@@ -21,10 +21,6 @@ import {
 } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import {
-	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
-	useDevToolbar
-} from '../devToolbar/DevToolbar';
-import {
 	NotificationsContext,
 	NOTIFICATION_TYPE_ERROR
 } from '../../globalState';
@@ -51,7 +47,6 @@ const DECRYPTION_FINISHED = 'decryption_finished';
 export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const { t: translate } = useTranslation();
 	const { key, keyID, encrypted } = useE2EE(props.rid);
-	const { getDevToolbarOption } = useDevToolbar();
 	const { addNotification } = React.useContext(NotificationsContext);
 
 	const [encryptedFile, setEncryptedFile] = React.useState(null);
@@ -67,14 +62,11 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const isAudio = isAudioAttachment(props.file.type);
 	const canPreview = isImage || isPDF || isAudio;
 
-	// Check if this attachment should be decrypted
-	const isAttachmentEncryptionEnabled = React.useMemo(() => {
-		return parseInt(getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION));
-	}, [getDevToolbarOption]);
-
+	// For 100% E2EE app: Always decrypt e2e messages
+	// Maintain backward compatibility: old non-e2e messages won't have t='e2e'
 	const shouldDecryptAttachment = React.useMemo(() => {
-		return encrypted && props.t === 'e2e' && isAttachmentEncryptionEnabled;
-	}, [encrypted, props.t, isAttachmentEncryptionEnabled]);
+		return props.t === 'e2e';
+	}, [props.t]);
 
 	const decryptFile = useCallback(
 		async (url: string) => {
@@ -200,12 +192,12 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 
 	const attachmentAriaLabel = () => {
 		if (
-			props.t === 'e2e' &&
+			shouldDecryptAttachment &&
 			encryptedFile &&
 			attachmentStatus === DECRYPTION_FINISHED
 		)
 			return translate('e2ee.attachment.save');
-		else if (props.t === 'e2e' && attachmentStatus !== DECRYPTION_FINISHED)
+		else if (shouldDecryptAttachment && attachmentStatus !== DECRYPTION_FINISHED)
 			return translate(`e2ee.attachment.${attachmentStatus}`);
 		else return translate('attachments.download.label');
 	};
@@ -312,7 +304,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			</button>
 
 			{/* Download Links */}
-			{props.t === 'e2e' && (
+			{shouldDecryptAttachment ? (
 				<>
 					{encryptedFile &&
 					attachmentStatus === DECRYPTION_FINISHED ? (
@@ -354,15 +346,18 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 						</button>
 					)}
 				</>
-			)}
-			{props.t !== 'e2e' && (
+			) : (
 				<a
 					ref={currentDownloadLink}
 					href={apiUrl + props.attachment.title_link}
 					rel="noopener noreferer"
+					download={props.file.name}
 					className="messageItem__message__attachment__download"
 				>
-					<DownloadIcon />
+					<DownloadIcon
+						title={translate('app.download')}
+						aria-label={translate('app.download')}
+					/>
 					<p>{translate('attachments.download.label')}</p>
 				</a>
 			)}
