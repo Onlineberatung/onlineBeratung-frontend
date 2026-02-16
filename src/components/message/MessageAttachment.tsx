@@ -63,7 +63,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const canPreview = isImage || isPDF || isAudio;
 
 	// For 100% E2EE app: Always decrypt e2e messages
-	// Maintain backward compatibility: old non-e2e messages won't have t='e2e'
+	// Maintain backward compatibility: old non-e2e messages (props.t !== 'e2e') will work as before
 	const isEncrypted = props.t === 'e2e';
 
 	const decryptFile = useCallback(
@@ -180,8 +180,12 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 		if (isEncrypted && encryptedFile) {
 			return encryptedFile;
 		}
-		// For non-encrypted attachments (backward compatibility), use direct URL
-		return apiUrl + props.attachment.title_link;
+		// For non-encrypted attachments (backward compatibility for old messages), use direct URL
+		if (!isEncrypted) {
+			return apiUrl + props.attachment.title_link;
+		}
+		// For encrypted attachments not yet decrypted, return null (should not reach here)
+		return null;
 	}, [isEncrypted, encryptedFile, props.attachment.title_link]);
 
 	const attachmentAriaLabel = () => {
@@ -214,7 +218,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					>
 						{attachmentStatus === IS_DECRYPTING ? (
 							<LoadingSpinner />
-						) : encryptedFile || !isEncrypted ? (
+						) : (attachmentStatus === DECRYPTION_FINISHED && encryptedFile) || !isEncrypted ? (
 							<img
 								src={getPreviewUrl()}
 								alt={props.attachment.title}
@@ -231,7 +235,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			)}
 
 			{/* Audio Player */}
-			{isAudio && (attachmentStatus === DECRYPTION_FINISHED || !isEncrypted) && (
+			{isAudio && ((attachmentStatus === DECRYPTION_FINISHED && encryptedFile) || !isEncrypted) && (
 				<div className="messageItem__message__attachment__audio">
 					<audio
 						ref={audioRef}

@@ -405,6 +405,7 @@ export const MessageSubmitInterfaceComponent = ({
 				.then(() => setEditorContent(''))
 				.then(() => setIsRequestInProgress(false))
 				.catch((error) => {
+					setIsRequestInProgress(false);
 					console.log(error);
 				});
 		},
