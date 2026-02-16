@@ -47,6 +47,11 @@ const Registration = lazy(() =>
 		default: m.Registration
 	}))
 );
+const Welcome = lazy(() =>
+	import('../welcome/Welcome').then((m) => ({
+		default: m.Welcome
+	}))
+);
 const WaitingRoomLoader = lazy(() =>
 	import('../waitingRoom/WaitingRoomLoader').then((m) => ({
 		default: m.WaitingRoomLoader
@@ -163,6 +168,17 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 											</Route>
 										)
 									)}
+
+									<Route
+										path={[
+											'/welcome',
+											'/:consultingTypeSlug/welcome'
+										]}
+									>
+										<UrlParamsProvider>
+											<Welcome />
+										</UrlParamsProvider>
+									</Route>
 
 									<Route
 										path={[

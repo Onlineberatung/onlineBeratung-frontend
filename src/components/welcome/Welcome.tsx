@@ -1,36 +1,51 @@
 import * as React from 'react';
-import unionBy from 'lodash/unionBy';
-import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { getUrlParameter } from '../../utils/getUrlParameter';
-import { InformalContext } from '../../globalState';
-import { RegistrationForm } from './RegistrationForm';
-import '../../resources/styles/styles.scss';
+import { useParams, useHistory } from 'react-router-dom';
+import unionBy from 'lodash/unionBy';
 import { StageLayout } from '../stageLayout/StageLayout';
-import useIsFirstVisit from '../../utils/useIsFirstVisit';
-import { useTranslation } from 'react-i18next';
+import { WelcomeScreen } from '../registration/WelcomeScreen';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
+import { InformalContext } from '../../globalState';
+import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import useIsFirstVisit from '../../utils/useIsFirstVisit';
+import { getUrlParameter } from '../../utils/getUrlParameter';
 import { SEO } from '../seo/SEO';
+import '../../resources/styles/styles.scss';
 
-export const Registration = () => {
+export const Welcome = () => {
 	const { t: translate } = useTranslation([
 		'common',
 		'consultingTypes',
 		'agencies'
 	]);
-
+	const history = useHistory();
+	const settings = useAppConfig();
 	const { consultingTypeSlug } = useParams<{ consultingTypeSlug: string }>();
-
+	
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
 	const postcodeParameter = getUrlParameter('postcode');
-	const settings = useAppConfig();
-
+	
 	const { setInformal } = useContext(InformalContext);
 	const { Stage } = useContext(GlobalComponentContext);
-
+	const { agency, consultingType, consultant, topic, loaded } =
+		useContext(UrlParamsContext);
+	
+	const [isReady, setIsReady] = useState(false);
+	const isFirstVisit = useIsFirstVisit();
+	
+	// Build URL parameters for registration and login links
+	const urlParams = Object.entries({
+		cid: consultantId,
+		aid: agencyId,
+		postcode: postcodeParameter
+	})
+		.filter(([, value]) => value)
+		.map(([key, value]) => `${key}=${value}`)
+		.join('&');
+	
 	const loginParams = Object.entries({
 		cid: consultantId,
 		aid: agencyId
@@ -38,17 +53,12 @@ export const Registration = () => {
 		.filter(([, value]) => value)
 		.map(([key, value]) => `${key}=${value}`)
 		.join('&');
-
-	const [isReady, setIsReady] = useState(false);
-
-	const { agency, consultingType, consultant, topic, loaded } =
-		useContext(UrlParamsContext);
-
+	
 	useEffect(() => {
 		if (!loaded) {
 			return;
 		}
-
+		
 		if (!consultingType && !agency && !consultant && !topic) {
 			console.error(
 				'No `consultingType`, `consultant`, `agency` or `topic` found in URL.'
@@ -56,7 +66,7 @@ export const Registration = () => {
 			window.location.href = settings.urls.toRegistration;
 			return;
 		}
-
+		
 		try {
 			if (consultant) {
 				// If all consultant agencies are informal then use informal
@@ -64,11 +74,11 @@ export const Registration = () => {
 					(agency) => !agency.consultingTypeRel.languageFormal
 				);
 				setInformal(isInformal);
-
+				
 				// If consultant has only one consulting type set document title
 				const hasUniqueConsultingType =
 					unionBy(consultant.agencies, 'consultingType').length > 1;
-
+				
 				if (hasUniqueConsultingType) {
 					document.title = `${translate(
 						'registration.title.start'
@@ -90,10 +100,10 @@ export const Registration = () => {
 						consultingType.urls?.requiredAidMissingRedirectUrl;
 					throw new Error(`Consulting type requires matching aid`);
 				}
-
+				
 				// SET FORMAL/INFORMAL
 				setInformal(!consultingType.languageFormal);
-
+				
 				document.title = `${translate(
 					'registration.title.start'
 				)} ${translate(
@@ -121,9 +131,16 @@ export const Registration = () => {
 		settings.urls.toRegistration,
 		topic
 	]);
-
-	const isFirstVisit = useIsFirstVisit();
-
+	
+	const handleForwardToRegistration = () => {
+		// Navigate to registration with URL parameters
+		const registrationPath = consultingTypeSlug
+			? `/${consultingTypeSlug}/registration`
+			: '/registration';
+		const path = urlParams ? `${registrationPath}?${urlParams}` : registrationPath;
+		history.push(path);
+	};
+	
 	return (
 		<>
 			<SEO
@@ -133,13 +150,53 @@ export const Registration = () => {
 			/>
 			<StageLayout
 				showLegalLinks={true}
-				showLoginLink={true}
+				showLoginLink={false}
 				stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
 				loginParams={loginParams}
 			>
-			{isReady && (
-				<RegistrationForm />
-			)}
+				{isReady && (
+					<WelcomeScreen
+						title={
+							consultingType
+								? translate(
+										[
+											`consultingType.${consultingType?.id}.titles.welcome`,
+											`consultingType.fallback.titles.welcome`,
+											consultingType?.titles.welcome
+										],
+										{
+											ns: 'consultingTypes'
+										}
+								  )
+								: translate('registration.headline')
+						}
+						handleForwardToRegistration={handleForwardToRegistration}
+						welcomeScreenConfig={
+							consultingType?.registration?.welcomeScreen ||
+							agency?.consultingTypeRel?.registration?.welcomeScreen
+						}
+						loginParams={loginParams}
+						consultingTypeId={
+							consultingType?.id ||
+							agency?.consultingTypeRel?.id ||
+							0
+						}
+						consultingTypeName={
+							consultingType
+								? translate(
+										[
+											`consultingType.${consultingType?.id}.titles.long`,
+											`consultingType.fallback.titles.long`,
+											consultingType?.titles.long
+										],
+										{
+											ns: 'consultingTypes'
+										}
+								  )
+								: ''
+						}
+					/>
+				)}
 			</StageLayout>
 		</>
 	);
