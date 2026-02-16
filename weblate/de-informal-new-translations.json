@@ -2,7 +2,8 @@
   "registration": {
     "agency": {
       "error": {
-        "topicRequired": "Bitte wähle zunächst ein Thema aus, um passende Beratungsstellen zu finden."
+        "topicRequired": "Bitte wähle zunächst ein Thema aus, um passende Beratungsstellen zu finden.",
+        "notFound": "Die angegebene Beratungsstelle konnte nicht gefunden werden. Bitte wähle eine Beratungsstelle aus der Liste."
       }
     },
     "headline": "Registrierung",

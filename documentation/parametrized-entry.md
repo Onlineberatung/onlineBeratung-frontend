@@ -6,6 +6,34 @@ This document describes all available URL parameters that can be used to pre-con
 
 The application supports parametrized entry, allowing external systems to deep-link into specific registration flows with pre-filled or pre-selected information. This enables seamless integration with external websites, marketing campaigns, and partner systems.
 
+## Entry Points and Routing Behavior
+
+### Welcome Screen vs. Direct Registration
+
+The application automatically determines which screen to show based on URL parameters:
+
+**Without Parameters:**
+- URL: `/` or `/welcome`
+- **Behavior:** Shows the welcome screen with "Register" and "Login" buttons
+- User must click "Register" to proceed to registration
+
+**With Any Parameter:**
+- URL: `/?aid=123` or `/beratung/registration?aid=123`
+- **Behavior:** Skips welcome screen and goes directly to registration form
+- Applicable parameters: `aid`, `cid`, `postcode`
+- This allows direct deep-linking from marketing campaigns or partner sites
+
+### Root Path Redirect
+
+When accessing the root path (`/`), the application checks for URL parameters:
+1. If **no parameters** are present → redirects to `/welcome`
+2. If **any parameter** is present → redirects to `/beratung/registration` with parameters
+
+This ensures a smooth user experience whether coming from:
+- General website (no params → welcome screen)
+- Marketing campaign (with params → direct to registration)
+- Partner integration (with params → direct to registration)
+
 ## URL Parameter Options
 
 ### 1. Agency ID (`aid`)
@@ -14,11 +42,13 @@ Pre-selects a specific counseling agency during registration.
 **Parameter:** `aid`  
 **Type:** Number  
 **Example:** `?aid=123`  
-**Usage:** `/beratung/registration?aid=123`
+**Usage:** `/beratung/registration?aid=123` or `/?aid=123`
 
 **Behavior:**
+- **Skips welcome screen** and goes directly to registration
 - Automatically selects the specified agency in the agency selection step
-- If the agency is valid, it will be pre-selected
+- If the agency is valid, it will be pre-selected and the postcode field will be disabled
+- If the agency ID is invalid, shows an MUI Snackbar warning message and allows normal registration
 - Agency-specific legal links (impressum, privacy) will be shown if available
 - Works in combination with other parameters
 
@@ -30,9 +60,10 @@ Pre-selects a specific consultant during registration.
 **Parameter:** `cid`  
 **Type:** String  
 **Example:** `?cid=consultant-uuid`  
-**Usage:** `/beratung/registration?cid=consultant-uuid`
+**Usage:** `/beratung/registration?cid=consultant-uuid` or `/?cid=consultant-uuid`
 
 **Behavior:**
+- **Skips welcome screen** and goes directly to registration
 - Automatically assigns the user to the specified consultant
 - Used for direct consultant assignments
 - Can be combined with agency ID
@@ -46,30 +77,35 @@ Pre-fills the postcode field and triggers agency search.
 **Parameter:** `postcode`  
 **Type:** String (5 digits)  
 **Example:** `?postcode=12345`  
-**Usage:** `/beratung/registration?postcode=12345`
+**Usage:** `/beratung/registration?postcode=12345` or `/?postcode=12345`
 
 **Behavior:**
-- Skips the welcome screen (if `postcode` parameter is present)
-- Pre-fills the postcode in the agency selection
+- **Skips welcome screen** and goes directly to registration
+- Pre-fills the postcode in the agency selection form field
 - Automatically triggers agency search for the given postcode
 - Shows agencies available in that postal code area
-- If no postcode parameter is provided, welcome screen is shown
+- User can change the postcode if needed (field is not disabled)
 
 ---
 
-### 4. Consulting Type Slug
-Selects a specific type of counseling service.
+### 4. Topic ID (`tid`)
+Pre-selects a specific topic during registration.
 
-**Parameter:** Route parameter in URL path  
-**Type:** String  
-**Example:** `/addiction/registration` or `/beratung/registration`  
-**Usage:** `/:consultingTypeSlug/registration`
+**Parameter:** `tid`  
+**Type:** Number or String  
+**Example:** `?tid=123` or `?tid=topic-name`  
+**Usage:** `/beratung/registration?tid=123` or `/?tid=topic-name`
 
 **Behavior:**
-- Routes to specific consulting type (e.g., "addiction", "beratung")
-- Loads consulting-type-specific configuration
-- Shows consulting-type-specific content and branding
-- Falls back to default if slug is not recognized
+- **Skips welcome screen** and goes directly to registration
+- Pre-selects the specified topic in the topic selection step
+- Topic ID can be numeric or a URL-encoded topic name
+- If topic is invalid, user can select from available topics
+- Works with agency selection to filter agencies by topic
+
+---
+
+**Note:** Consulting type-specific routes (e.g., `/:consultingTypeSlug/registration`) have been removed. All registration now uses the `/beratung/registration` route.
 
 ---
 
@@ -80,23 +116,35 @@ Multiple parameters can be combined for more specific targeting:
 ### Example 1: Agency + Postcode
 ```
 /beratung/registration?aid=123&postcode=12345
+/?aid=123&postcode=12345
 ```
-Pre-selects agency 123 and shows it's available in postcode 12345.
+Pre-selects agency 123, postcode field is disabled, and the agency is shown as pre-selected.
 
 ### Example 2: Consultant + Agency
 ```
 /beratung/registration?cid=consultant-uuid&aid=123
+/?cid=consultant-uuid&aid=123
 ```
 Routes to specific consultant within a specific agency.
 
-### Example 3: Full Pre-configuration
+### Example 3: Topic + Postcode
 ```
-/addiction/registration?aid=123&cid=consultant-uuid&postcode=12345
+/beratung/registration?tid=123&postcode=12345
+/?tid=123&postcode=12345
 ```
-- Consulting type: addiction counseling
-- Agency: 123
+- Topic: 123 (pre-selected)
+- Postcode: 12345 (pre-filled)
+- Agencies filtered by topic and postcode
+
+### Example 4: Full Pre-configuration
+```
+/beratung/registration?aid=123&cid=consultant-uuid&postcode=12345&tid=456
+/?aid=123&cid=consultant-uuid&postcode=12345&tid=456
+```
+- Agency: 123 (pre-selected, postcode disabled)
 - Consultant: consultant-uuid
 - Postcode: 12345
+- Topic: 456
 
 ---
 
