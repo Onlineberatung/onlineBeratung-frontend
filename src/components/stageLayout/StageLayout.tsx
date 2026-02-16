@@ -126,34 +126,19 @@ export const StageLayout = ({
 							params={{ aid: specificAgency?.id }}
 							legalLinks={legalLinks}
 						>
-							{(label, url, isInternal) =>
-								isInternal ? (
-									<Link
-										to={url}
-										className="button-as-link"
-										data-cy-link={url}
-									>
-										<Text
-											className="stageLayout__legalLinksItem"
-											type="infoSmall"
-											text={label}
-										/>
-									</Link>
-								) : (
-									<button
-										type="button"
-										className="button-as-link"
-										data-cy-link={url}
-										onClick={() => window.open(url, '_blank')}
-									>
-										<Text
-											className="stageLayout__legalLinksItem"
-											type="infoSmall"
-											text={label}
-										/>
-									</button>
-								)
-							}
+							{(label, url) => (
+								<Link
+									to={url}
+									className="button-as-link"
+									data-cy-link={url}
+								>
+									<Text
+										className="stageLayout__legalLinksItem"
+										type="infoSmall"
+										text={label}
+									/>
+								</Link>
+							)}
 						</LegalLinks>
 					</div>
 				)}

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import './appointments.styles.scss';
@@ -324,13 +325,13 @@ export const Appointments = () => {
 							}
 						>
 							{(label, url) => (
-								<a href={url} target="_blank" rel="noreferrer">
+								<Link to={url}>
 									<Text
 										className="profile__footer__item"
 										type="infoSmall"
 										text={label}
 									/>
-								</a>
+								</Link>
 							)}
 						</LegalLinks>
 					</div>

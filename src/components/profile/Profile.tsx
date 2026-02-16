@@ -481,13 +481,13 @@ export const Profile = () => {
 						}
 					>
 						{(label, url) => (
-							<a href={url} target="_blank" rel="noreferrer">
+							<Link to={url}>
 								<Text
 									className="profile__footer__item"
 									type="infoSmall"
 									text={label}
 								/>
-							</a>
+							</Link>
 						)}
 					</LegalLinks>
 				</div>

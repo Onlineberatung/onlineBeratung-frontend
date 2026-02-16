@@ -20,7 +20,7 @@ const LegalLinks = ({
 	delimiter?: ReactNode;
 	lastDelimiter?: string;
 	params?: { [key: string]: string | number };
-	children?: (label: string, url: string, isInternal: boolean) => ReactNode;
+	children?: (label: string, url: string) => ReactNode;
 	filter?: (legalLink: TProvidedLegalLink) => boolean;
 }) => {
 	const { t: translate } = useTranslation();
@@ -37,11 +37,6 @@ const LegalLinks = ({
 	const getSuffix = (i: number, lastIndex: number) =>
 		i === lastIndex && suffix;
 
-	// Check if URL is internal (relative path)
-	const isInternalUrl = (url: string) => {
-		return url.startsWith('/') && !url.startsWith('//');
-	};
-
 	const links = legalLinks
 		.filter(filter || (() => true))
 		.map(({ label, getUrl }) => ({
@@ -49,19 +44,13 @@ const LegalLinks = ({
 			url: getUrl(params || {})
 		}))
 		.reduce((links, { label, url }, i, b) => {
-			const isInternal = isInternalUrl(url);
-
 			links.push(
 				<Fragment key={url}>
 					{getPrefix(i, b.length - 1)}
 					{children ? (
-						children(label, url, isInternal)
-					) : isInternal ? (
-						<Link to={url}>{label}</Link>
+						children(label, url)
 					) : (
-						<a target="_blank" rel="noreferrer" href={url}>
-							{label}
-						</a>
+						<Link to={url}>{label}</Link>
 					)}
 					{getSuffix(i, b.length - 1)}
 				</Fragment>

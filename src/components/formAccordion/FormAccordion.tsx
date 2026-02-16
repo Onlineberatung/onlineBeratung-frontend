@@ -359,28 +359,13 @@ export const FormAccordion = ({
 							legalLinks={legalLinks}
 							params={{ aid: specificAgency?.id }}
 						>
-							{(label, url, isInternal) =>
-								isInternal ? (
-									<span>
-										<Link
-											to={url}
-											className="button-as-link"
-										>
-											{label}
-										</Link>
-									</span>
-								) : (
-									<span>
-										<button
-											type="button"
-											className="button-as-link"
-											onClick={() => window.open(url)}
-										>
-											{label}
-										</button>
-									</span>
-								)
-							}
+							{(label, url) => (
+								<span>
+									<Link to={url} className="button-as-link">
+										{label}
+									</Link>
+								</span>
+							)}
 						</LegalLinks>
 					</Checkbox>
 				</div>

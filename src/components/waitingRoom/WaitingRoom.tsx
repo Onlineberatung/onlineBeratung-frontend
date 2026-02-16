@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { Text } from '../text/Text';
 import { v4 as uuid } from 'uuid';
 import './waitingRoom.styles.scss';
@@ -309,13 +310,9 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 						>
 							{(label, url) => (
 								<span>
-									<button
-										type="button"
-										className="button-as-link"
-										onClick={() => window.open(url)}
-									>
+									<Link to={url} className="button-as-link">
 										{label}
-									</button>
+									</Link>
 								</span>
 							)}
 						</LegalLinks>

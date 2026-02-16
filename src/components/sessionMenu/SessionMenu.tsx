@@ -602,12 +602,12 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						params={{ aid: activeSession?.agency?.id }}
 					>
 						{(label, url) => (
-							<a href={url} target="_blank" rel="noreferrer">
+							<Link to={url}>
 								<Text
 									type="infoLargeAlternative"
 									text={label}
 								/>
-							</a>
+							</Link>
 						)}
 					</LegalLinks>
 				</div>
