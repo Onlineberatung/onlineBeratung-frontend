@@ -42,7 +42,7 @@ $form-accordion-item-input-margin-left: 0 !default;
 
 	&__title {
 		font-weight: $font-weight-regular;
-		margin-right: 30px;
+		max-width: calc(100% - 30px);
 	}
 
 	&__validationIcon {
@@ -78,11 +78,14 @@ $form-accordion-item-input-margin-left: 0 !default;
 			margin-left: 0;
 		}
 
+		.inputField {
+			margin-left: 44px;
+		}
+
 		.inputField,
 		.consultingTypeSelection__possibleConsultingTypes .select__wrapper,
 		.consultingTypeSelection__possibleConsultingTypes + .agencySelection {
 			margin-top: $grid-base-two;
-			margin-left: $form-accordion-item-input-margin-left;
 
 			@include from-medium {
 				margin-right: $form-accordion-item-input-margin-right;

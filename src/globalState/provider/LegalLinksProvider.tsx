@@ -49,13 +49,14 @@ export function LegalLinksProvider({
 					...legalLink,
 					getUrl: (params: {
 						[key: string]: string | number | null | undefined;
-					}) =>
-						getUrl(
-							url.match(/http(s)?:\/\//)
-								? url
-								: `${window.location.origin}${url}`,
-							params
-						)
+					}) => {
+						// If URL already includes origin (starts with http/https), use it as is
+						// Otherwise, prepend the origin
+						const fullUrl = url.match(/^https?:\/\//)
+							? url
+							: `${window.location.origin}${url}`;
+						return getUrl(fullUrl, params);
+					}
 				})
 			),
 		[externalLegalLinks, settings.legalLinks, getUrl]
