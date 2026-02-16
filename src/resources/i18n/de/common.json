@@ -1138,6 +1138,11 @@
 		"zu": "isiZulu"
 	},
 	"login": {
+		"headline": "Login",
+		"intro": {
+			"seoDescription": "Melden Sie sich an für Ihre vertrauliche Online-Beratung. Sicherer Zugang zu Ihren Gesprächen und persönlichen Beratern.",
+			"seoKeywords": "Login, Anmeldung, Online-Beratung, sicherer Zugang, vertraulich"
+		},
 		"button": {
 			"label": "Anmelden"
 		},
@@ -1742,6 +1747,11 @@
 		}
 	},
 	"registration": {
+		"headline": "Registrierung",
+		"intro": {
+			"seoDescription": "Kostenlose und vertrauliche Online-Beratung. Registrieren Sie sich jetzt für professionelle Unterstützung.",
+			"seoKeywords": "Online-Beratung, Registrierung, kostenlose Beratung, vertraulich, Hilfe, Unterstützung"
+		},
 		"accordion": {
 			"item": {
 				"continueButton": {

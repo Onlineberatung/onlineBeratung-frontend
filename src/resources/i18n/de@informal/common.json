@@ -576,6 +576,11 @@
 		}
 	},
 	"registration": {
+		"headline": "Registrierung",
+		"intro": {
+			"seoDescription": "Kostenlose und vertrauliche Online-Beratung. Registriere Dich jetzt für professionelle Unterstützung.",
+			"seoKeywords": "Online-Beratung, Registrierung, kostenlose Beratung, vertraulich, Hilfe, Unterstützung"
+		},
 		"agency": {
 			"preselected": {
 				"isTeam": "Du wirst von einem Team beraten.",

@@ -7,6 +7,7 @@ import {
 	RouteProps,
 	Redirect
 } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { StageProps } from '../stage/stage';
 import '../../resources/styles/styles.scss';
 import { ContextProvider } from '../../globalState/state';
@@ -85,29 +86,31 @@ export const App = ({
 
 	return (
 		<ErrorBoundary>
-			<AppConfigProvider config={config}>
-				<TenantProvider>
-					<InformalProvider>
-						<LocaleProvider>
-							<LanguagesProvider
-								fixed={fixedLanguages}
-								spoken={spokenLanguages}
-							>
-								<LegalLinksProvider legalLinks={legalLinks}>
-									<GlobalComponentContext.Provider
-										value={{ Stage: stageComponent }}
-									>
-										<RouterWrapper
-											extraRoutes={extraRoutes}
-										/>
-									</GlobalComponentContext.Provider>
-								</LegalLinksProvider>
-							</LanguagesProvider>
-						</LocaleProvider>
-					</InformalProvider>
-				</TenantProvider>
-				<DevToolbarWrapper />
-			</AppConfigProvider>
+			<HelmetProvider>
+				<AppConfigProvider config={config}>
+					<TenantProvider>
+						<InformalProvider>
+							<LocaleProvider>
+								<LanguagesProvider
+									fixed={fixedLanguages}
+									spoken={spokenLanguages}
+								>
+									<LegalLinksProvider legalLinks={legalLinks}>
+										<GlobalComponentContext.Provider
+											value={{ Stage: stageComponent }}
+										>
+											<RouterWrapper
+												extraRoutes={extraRoutes}
+											/>
+										</GlobalComponentContext.Provider>
+									</LegalLinksProvider>
+								</LanguagesProvider>
+							</LocaleProvider>
+						</InformalProvider>
+					</TenantProvider>
+					<DevToolbarWrapper />
+				</AppConfigProvider>
+			</HelmetProvider>
 		</ErrorBoundary>
 	);
 };

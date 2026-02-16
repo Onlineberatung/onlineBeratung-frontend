@@ -65,6 +65,7 @@ import { budibaseLogout } from '../budibase/budibaseLogout';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 import { useConsultantRegistrationData } from '../../containers/registration/hooks/useConsultantRegistrationData';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
+import { SEO } from '../seo/SEO';
 
 const regexAccountDeletedError = /account disabled/i;
 
@@ -480,6 +481,11 @@ export const Login = () => {
 
 	return (
 		<>
+			<SEO
+				title={translate('login.headline')}
+				description={translate('login.intro.seoDescription')}
+				keywords={translate('login.intro.seoKeywords')}
+			/>
 			<StageLayout
 				stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
 				showLegalLinks

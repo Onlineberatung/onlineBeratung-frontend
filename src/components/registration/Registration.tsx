@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { SEO } from '../seo/SEO';
 
 export const Registration = () => {
 	const { t: translate } = useTranslation([
@@ -134,12 +135,18 @@ export const Registration = () => {
 	const isFirstVisit = useIsFirstVisit();
 
 	return (
-		<StageLayout
-			showLegalLinks={true}
-			showLoginLink={!showWelcomeScreen}
-			stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
-			loginParams={loginParams}
-		>
+		<>
+			<SEO
+				title={translate('registration.headline')}
+				description={translate('registration.intro.seoDescription')}
+				keywords={translate('registration.intro.seoKeywords')}
+			/>
+			<StageLayout
+				showLegalLinks={true}
+				showLoginLink={!showWelcomeScreen}
+				stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
+				loginParams={loginParams}
+			>
 			{isReady &&
 				(showWelcomeScreen ? (
 					<WelcomeScreen
@@ -177,6 +184,7 @@ export const Registration = () => {
 				) : (
 					<RegistrationForm />
 				))}
-		</StageLayout>
+			</StageLayout>
+		</>
 	);
 };
