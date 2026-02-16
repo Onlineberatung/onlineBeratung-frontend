@@ -24,11 +24,11 @@ export const SEO = ({
 	noIndex = false,
 	canonical
 }: SEOProps) => {
-	const { t: translate } = useTranslation();
+	const { t } = useTranslation();
 	const tenant = useTenant();
 
-	const siteTitle = tenant?.name || translate('app.stage.title');
-	const siteClaim = tenant?.content?.claim || translate('app.claim');
+	const siteTitle = tenant?.name || t('app.stage.title');
+	const siteClaim = tenant?.content?.claim || t('app.claim');
 	const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 	const fullDescription = description || siteClaim;
 

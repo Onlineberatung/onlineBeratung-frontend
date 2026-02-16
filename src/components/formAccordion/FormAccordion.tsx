@@ -165,21 +165,6 @@ export const FormAccordion = ({
 		}
 	};
 
-	const agencySelectionTitle = useMemo(() => {
-		let key = 'agency';
-		if (consultant) {
-			key =
-				consultingTypes.length > 1
-					? 'consultingTypeAgencySelection.consultingType'
-					: 'consultingTypeAgencySelection.agency';
-		} else if (!consultingType?.registration?.autoSelectPostcode) {
-			key = consultingType?.registration?.autoSelectAgency
-				? 'agencyPreselected'
-				: 'agencySelection';
-		}
-		return `registration.${key}.headline`;
-	}, [consultant, consultingType, consultingTypes.length]);
-
 	// Build registration steps in the correct order:
 	// 1. Topics (if enabled) - must be first to enable agency selection
 	// 2. Age (if enabled)
@@ -270,6 +255,22 @@ export const FormAccordion = ({
 	}
 
 	// Step 4: Agency Selection - now comes before username/password
+	// Determine the title for agency selection based on context
+	const agencySelectionTitle = useMemo(() => {
+		let key = 'agency';
+		if (consultant) {
+			key =
+				consultingTypes.length > 1
+					? 'consultingTypeAgencySelection.consultingType'
+					: 'consultingTypeAgencySelection.agency';
+		} else if (!consultingType?.registration?.autoSelectPostcode) {
+			key = consultingType?.registration?.autoSelectAgency
+				? 'agencyPreselected'
+				: 'agencySelection';
+		}
+		return `registration.${key}.headline`;
+	}, [consultant, consultingType, consultingTypes.length]);
+
 	accordionItemData.push({
 		title: translate(agencySelectionTitle),
 		nestedComponent: (
