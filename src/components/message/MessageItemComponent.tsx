@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import sanitizeHtml from 'sanitize-html';
+import { marked } from 'marked';
 import { PrettyDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
@@ -20,11 +21,7 @@ import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
 import { CopyMessage } from './CopyMessage';
 import { MessageDisplayName } from './MessageDisplayName';
-import { markdownToDraft } from 'markdown-draft-js';
-import { stateToHTML } from 'draft-js-export-html';
-import { convertFromRaw, ContentState } from 'draft-js';
 import {
-	markdownToDraftDefaultOptions,
 	sanitizeHtmlDefaultOptions,
 	urlifyLinksInText
 } from '../messageSubmitInterface/richtextHelpers';
@@ -203,17 +200,18 @@ export const MessageItemComponent = ({
 	]);
 
 	useEffect((): void => {
-		const rawMessageObject = markdownToDraft(
-			decryptedMessage,
-			markdownToDraftDefaultOptions
-		);
-		const contentStateMessage: ContentState =
-			convertFromRaw(rawMessageObject);
+		// Convert markdown to HTML using marked
+		const htmlMessage = decryptedMessage
+			? marked.parse(decryptedMessage, {
+					breaks: true,
+					gfm: true
+				})
+			: '';
 
 		setRenderedMessage(
-			contentStateMessage.hasText()
+			htmlMessage
 				? sanitizeHtml(
-						urlifyLinksInText(stateToHTML(contentStateMessage)),
+						urlifyLinksInText(String(htmlMessage)),
 						sanitizeHtmlDefaultOptions
 					)
 				: ''

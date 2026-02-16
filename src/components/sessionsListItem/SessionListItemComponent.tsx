@@ -27,8 +27,6 @@ import {
 	TopicSessionInterface
 } from '../../globalState/interfaces';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
-import { markdownToDraft } from 'markdown-draft-js';
-import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles.scss';
 import { Tag } from '../tag/Tag';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
@@ -114,10 +112,12 @@ export const SessionListItemComponent = ({
 					)
 				)
 				.then((message) => {
-					const rawMessageObject = markdownToDraft(message);
-					const contentStateMessage =
-						convertFromRaw(rawMessageObject);
-					setPlainTextLastMessage(contentStateMessage.getPlainText());
+					// Extract plain text from markdown by removing markdown syntax
+					const plainText = message
+						.replace(/[*_~`#\[\]]/g, '') // Remove markdown formatting chars
+						.replace(/\n/g, ' ') // Replace newlines with spaces
+						.trim();
+					setPlainTextLastMessage(plainText);
 				});
 		} else {
 			if (
@@ -128,11 +128,12 @@ export const SessionListItemComponent = ({
 					translate('e2ee.message.encryption.text')
 				);
 			} else {
-				const rawMessageObject = markdownToDraft(
-					activeSession.item.lastMessage
-				);
-				const contentStateMessage = convertFromRaw(rawMessageObject);
-				setPlainTextLastMessage(contentStateMessage.getPlainText());
+				// Extract plain text from markdown by removing markdown syntax
+				const plainText = activeSession.item.lastMessage
+					.replace(/[*_~`#\[\]]/g, '') // Remove markdown formatting chars
+					.replace(/\n/g, ' ') // Replace newlines with spaces
+					.trim();
+				setPlainTextLastMessage(plainText);
 			}
 		}
 	}, [
