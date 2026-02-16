@@ -288,7 +288,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					ref={currentDownloadLink}
 					href={encryptedFile}
 					download={props.file.name}
-					rel="noopener noreferer"
+					rel="noopener noreferrer"
 					className="messageItem__message__attachment__download"
 				>
 					<DownloadIcon
