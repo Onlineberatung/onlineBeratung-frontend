@@ -14,7 +14,7 @@ import {
 	RequiredComponentsInterface,
 	RegistrationNotesInterface
 } from '../../globalState/interfaces';
-import { FormAccordionItem } from '../formAccordion/FormAccordionItem';
+import { FormAccordionItemMui } from '../formAccordion/FormAccordionItemMui';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
 import { RegistrationAge } from '../registration/RegistrationAge';
 import { RegistrationState } from '../registration/RegistrationState';
@@ -393,7 +393,7 @@ export const FormAccordion = ({
 		<div className="formAccordion">
 			{accordionItemData.map((accordionItem, i) => {
 				return (
-					<FormAccordionItem
+					<FormAccordionItemMui
 						index={i + 1}
 						isActive={i + 1 === activeItem}
 						isLastItem={i + 1 === accordionItemData.length}
