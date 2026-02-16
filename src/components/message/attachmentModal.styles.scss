@@ -5,7 +5,7 @@
 	
 	&__content {
 		position: relative;
-		background-color: $background-primary;
+		background-color: $white;
 		border-radius: 8px;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 		max-width: 90vw;
@@ -20,14 +20,14 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: $grid-base-two;
-		border-bottom: 1px solid $border-grey;
+		border-bottom: 1px solid $line-grey;
 	}
 	
 	&__title {
 		margin: 0;
 		font-size: 1.25rem;
 		font-weight: 600;
-		color: $text-primary;
+		color: $text-high-emphasis;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -35,10 +35,10 @@
 	}
 	
 	&__closeButton {
-		color: $text-secondary;
+		color: $text-low-emphasis;
 		
 		&:hover {
-			color: $text-primary;
+			color: $text-high-emphasis;
 			background-color: rgba(0, 0, 0, 0.05);
 		}
 	}
