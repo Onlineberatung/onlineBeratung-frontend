@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback, useContext } from 'react';
+import { Snackbar, Alert } from '@mui/material';
 import { BUTTON_TYPES } from '../button/Button';
 import { apiPostRegistration, FETCH_ERRORS, X_REASON } from '../../api';
 import { endpoints } from '../../resources/scripts/endpoints';
@@ -32,6 +33,7 @@ import { getUrlParameter } from '../../utils/getUrlParameter';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { ConsultingTypeRegistrationDefaults } from '../../containers/registration/components/ProposedAgencies/ProposedAgencies';
 import { apiPostError, ERROR_LEVEL_ERROR } from '../../api/apiPostError';
+import { useSnackbar } from '../../hooks/useSnackbar';
 
 export interface FormAccordionData {
 	username?: string;
@@ -51,8 +53,21 @@ export const RegistrationForm = () => {
 	const { locale } = useLocaleData();
 	const settings = useAppConfig();
 	const postcode = getUrlParameter('postcode');
+	const agencyIdParam = getUrlParameter('aid');
 	const { agency, consultingType, consultant, topic, slugFallback } =
 		useContext(UrlParamsContext);
+	const { snackbar, showSnackbar, hideSnackbar } = useSnackbar();
+
+	// Check if agency parameter was provided but agency doesn't exist
+	useEffect(() => {
+		if (agencyIdParam && !agency) {
+			// Agency ID was provided but not found
+			showSnackbar(
+				translate('registration.agency.error.notFound'),
+				'warning'
+			);
+		}
+	}, [agencyIdParam, agency, showSnackbar, translate]);
 
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>(() => {
@@ -287,6 +302,22 @@ export const RegistrationForm = () => {
 					handleOverlay={handleOverlayAction}
 				/>
 			)}
+
+			<Snackbar
+				open={snackbar.open}
+				autoHideDuration={6000}
+				onClose={hideSnackbar}
+				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+			>
+				<Alert
+					onClose={hideSnackbar}
+					severity={snackbar.severity}
+					variant="filled"
+					sx={{ width: '100%' }}
+				>
+					{snackbar.message}
+				</Alert>
+			</Snackbar>
 		</>
 	);
 };

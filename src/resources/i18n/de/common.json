@@ -1772,7 +1772,8 @@
 				"prefix": "Ihre vorausgewählte Beratungsstelle: "
 			},
 			"error": {
-				"topicRequired": "Bitte wählen Sie zunächst ein Thema aus, um passende Beratungsstellen zu finden."
+				"topicRequired": "Bitte wählen Sie zunächst ein Thema aus, um passende Beratungsstellen zu finden.",
+				"notFound": "Die angegebene Beratungsstelle konnte nicht gefunden werden. Bitte wählen Sie eine Beratungsstelle aus der Liste."
 			}
 		},
 		"agencyPreselected": {

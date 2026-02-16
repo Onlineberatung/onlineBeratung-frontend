@@ -35,6 +35,7 @@ import { Loading } from './Loading';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 import { UrlParamsProvider } from '../../globalState/provider/UrlParamsProvider';
 import { Notifications } from '../notifications/Notifications';
+import { RootRedirect } from './RootRedirect';
 
 const Login = lazy(() =>
 	import('../login/Login').then((m) => ({ default: m.Login }))
@@ -168,6 +169,10 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 											</Route>
 										)
 									)}
+
+									<Route path="/" exact>
+										<RootRedirect />
+									</Route>
 
 									<Route path="/welcome">
 										<UrlParamsProvider>
