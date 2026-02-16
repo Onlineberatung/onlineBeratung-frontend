@@ -335,7 +335,7 @@ export const MessageSubmitInterfaceComponent = ({
 
 		// calculate inputHeight
 		const textHeight = document.querySelector(
-			'.public-DraftEditor-content > div'
+			'.tiptap-editor, .ProseMirror'
 		)?.scrollHeight;
 		let textInputMaxHeight = isRichtextActive
 			? textareaMaxHeight - richtextHeight

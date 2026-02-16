@@ -185,15 +185,12 @@ export default defineConfig(({ mode }) => {
 				}
 			},
 			include: [
-				'draft-js',
-				'draft-js-export-html',
-				'markdown-draft-js',
-				'@draft-js-plugins/editor',
-				'@draft-js-plugins/emoji',
-				'@draft-js-plugins/linkify',
-				'@draft-js-plugins/static-toolbar',
-				'@draft-js-plugins/buttons',
-				'sanitize-html'
+				'sanitize-html',
+				'marked',
+				'@tiptap/react',
+				'@tiptap/starter-kit',
+				'tiptap-markdown',
+				'emoji-picker-react'
 			]
 		}
 	};
