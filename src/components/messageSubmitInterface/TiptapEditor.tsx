@@ -97,17 +97,17 @@ export const TiptapEditor = React.memo(
 					// Prevent input beyond max length
 					return;
 				}
-				const markdown = editor.storage.markdown?.getMarkdown() || text;
-				onChange?.(markdown);
+				// tiptap-markdown extension makes getText return markdown
+				onChange?.(text);
 			}
 		});
 
 		// Update content when it changes externally
 		useEffect(() => {
 			if (editor && content !== undefined) {
-				const currentContent =
-					editor.storage.markdown?.getMarkdown() || editor.getText();
-				if (currentContent !== content) {
+				const currentText = editor.getText();
+				// Only update if content actually changed
+				if (currentText.trim() !== content.trim() && content.trim()) {
 					editor.commands.setContent(content);
 				}
 			}

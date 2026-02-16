@@ -39,31 +39,8 @@ import {
 	getAttachmentSizeMBForKB
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
-import PluginsEditor from '@draft-js-plugins/editor';
-import {
-	convertToRaw,
-	DraftHandleValue,
-	EditorState,
-	getDefaultKeyBinding,
-	RichUtils
-} from 'draft-js';
-import { draftToMarkdown } from 'markdown-draft-js';
-import createLinkifyPlugin from '@draft-js-plugins/linkify';
-import createToolbarPlugin from '@draft-js-plugins/static-toolbar';
-import {
-	BoldButton,
-	ItalicButton,
-	UnorderedListButton
-} from '@draft-js-plugins/buttons';
-import createEmojiPlugin from '@draft-js-plugins/emoji';
-import {
-	emojiPickerCustomClasses,
-	escapeMarkdownChars,
-	handleEditorBeforeInput,
-	handleEditorPastedText,
-	toolbarCustomClasses
-} from './richtextHelpers';
-import EmojiIcon from '../../resources/img/icons/smiley-positive.svg?react';
+import { TiptapEditor, INPUT_MAX_LENGTH } from './TiptapEditor';
+import { useTiptapDraftMessage } from './useTiptapDraftMessage';
 import ClipIcon from '../../resources/img/icons/clip.svg?react';
 import RichtextToggleIcon from '../../resources/img/icons/richtext-toggle.svg?react';
 import RemoveIcon from '../../resources/img/icons/x.svg?react';
@@ -71,6 +48,7 @@ import CalendarMonthIcon from '../../resources/img/icons/calendar-month-navigati
 import './emojiPicker.styles.scss';
 import './messageSubmitInterface.styles.scss';
 import './messageSubmitInterface.yellowTheme.styles.scss';
+import './tiptapEditor.styles.scss';
 import clsx from 'clsx';
 import { mobileListView } from '../app/navigationHandler';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
@@ -88,7 +66,6 @@ import { Overlay } from '../overlay/Overlay';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
 import { RoomNotFound } from '../session/RoomNotFound';
-import { useDraftMessage } from './useDraftMessage';
 import {
 	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
 	useDevToolbar
@@ -99,28 +76,6 @@ import {
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 import { getIconForAttachmentType } from '../message/messageHelpers';
 import classNames from 'classnames';
-
-//Linkify Plugin
-const omitKey = (key, { [key]: _, ...obj }) => obj;
-const linkifyPlugin = createLinkifyPlugin({
-	component: (props) => {
-		return (
-			/* eslint-disable */
-			<a
-				{...omitKey('blockKey', props)}
-				href={props.href}
-				onClick={() => window.open(props.href, '_blank')}
-			></a>
-			/* eslint-enable */
-		);
-	}
-});
-
-//Static Toolbar Plugin
-const staticToolbarPlugin = createToolbarPlugin({
-	theme: toolbarCustomClasses
-});
-const { Toolbar } = staticToolbarPlugin;
 
 const INFO_TYPES = {
 	ABSENT: 'ABSENT',
@@ -179,7 +134,7 @@ export const MessageSubmitInterfaceComponent = ({
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [attachmentUpload, setAttachmentUpload] =
 		useState<XMLHttpRequest | null>(null);
-	const [editorState, setEditorState] = useState(EditorState.createEmpty());
+	const [editorContent, setEditorContent] = useState('');
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
 	const [isConsultantAbsent, setIsConsultantAbsent] = useState(
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -197,24 +152,6 @@ export const MessageSubmitInterfaceComponent = ({
 	const [requestFeedbackCheckboxChecked, setRequestFeedbackCheckboxChecked] =
 		useState(false);
 	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
-
-	//Emoji Picker Plugin
-	const emojiPlugin = useMemo(
-		() =>
-			createEmojiPlugin({
-				theme: emojiPickerCustomClasses,
-				useNativeArt: true,
-				disableInlineEmojis: true,
-				selectButtonContent: (
-					<EmojiIcon
-						aria-label={translate('enquiry.write.input.emojies')}
-						title={translate('enquiry.write.input.emojies')}
-					/>
-				)
-			}),
-		[translate]
-	);
-	const { EmojiSelect } = emojiPlugin;
 
 	// This loads the keys for current activeSession.rid which is already set:
 	// to groupChat.groupId on group chats
@@ -270,9 +207,9 @@ export const MessageSubmitInterfaceComponent = ({
 	}, [activeSession, activeSession.item.status, userData]);
 
 	const { onChange: onDraftMessageChange, loaded: draftLoaded } =
-		useDraftMessage(
+		useTiptapDraftMessage(
 			!anonymousConversationFinished && !isRequestInProgress,
-			setEditorState
+			setEditorContent
 		);
 
 	useEffect(() => {
@@ -296,19 +233,9 @@ export const MessageSubmitInterfaceComponent = ({
 		}
 	}, [isLiveChatFinished]);
 
-	const getTypedMarkdownMessage = useCallback(
-		(currentEditorState?: EditorState) => {
-			const contentState = currentEditorState
-				? currentEditorState.getCurrentContent()
-				: editorState.getCurrentContent();
-			const rawObject = convertToRaw(escapeMarkdownChars(contentState));
-			const markdownString = draftToMarkdown(rawObject, {
-				escapeMarkdownCharacters: false
-			});
-			return markdownString.trim();
-		},
-		[editorState]
-	);
+	const getTypedMarkdownMessage = useCallback(() => {
+		return editorContent.trim();
+	}, [editorContent]);
 
 	useEffect(() => {
 		if (!activeInfo && isConsultantAbsent) {
@@ -384,33 +311,15 @@ export const MessageSubmitInterfaceComponent = ({
 	);
 
 	const handleEditorChange = useCallback(
-		(currentEditorState) => {
-			if (
-				draftLoaded &&
-				currentEditorState.getCurrentContent() !==
-					editorState.getCurrentContent() &&
-				isTyping
-			) {
-				isTyping(!currentEditorState.getCurrentContent().hasText());
+		(markdown: string) => {
+			if (draftLoaded && markdown !== editorContent && isTyping) {
+				isTyping(markdown.trim().length === 0);
 			}
-			setEditorState(currentEditorState);
-			onDraftMessageChange(getTypedMarkdownMessage(currentEditorState));
+			setEditorContent(markdown);
+			onDraftMessageChange(markdown);
 		},
-		[
-			draftLoaded,
-			editorState,
-			getTypedMarkdownMessage,
-			isTyping,
-			onDraftMessageChange
-		]
+		[draftLoaded, editorContent, isTyping, onDraftMessageChange]
 	);
-
-	const handleCustomKeyBinding = (event) => {
-		if (event.key === 'Enter' && event.shiftKey) {
-			return 'shift-enter';
-		}
-		return getDefaultKeyBinding(event);
-	};
 
 	const resizeTextarea = useCallback(() => {
 		const textInput: any = textareaInputRef.current;
@@ -490,19 +399,13 @@ export const MessageSubmitInterfaceComponent = ({
 						onSendButton && onSendButton(response);
 					})
 				)
-				.then(() => setEditorState(EditorState.createEmpty()))
+				.then(() => setEditorContent(''))
 				.then(() => setIsRequestInProgress(false))
 				.catch((error) => {
 					console.log(error);
 				});
 		},
-		[
-			activeSession.item.id,
-			encryptRoom,
-			language,
-			onSendButton,
-			setE2EEState
-		]
+		[activeSession.item.id, encryptRoom, language, onSendButton, setE2EEState]
 	);
 
 	const handleMessageSendSuccess = useCallback(() => {
@@ -520,7 +423,7 @@ export const MessageSubmitInterfaceComponent = ({
 				);
 			}, 700);
 		}
-		setEditorState(EditorState.createEmpty());
+		setEditorContent('');
 		setActiveInfo('');
 		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
@@ -778,22 +681,9 @@ export const MessageSubmitInterfaceComponent = ({
 		userData
 	]);
 
-	const handleEditorKeyCommand = useCallback(
-		(command) => {
-			const newState = RichUtils.handleKeyCommand(editorState, command);
-			if (command === 'shift-enter') {
-				handleButtonClick();
-				return 'handled';
-			}
-
-			if (newState) {
-				handleEditorChange(newState);
-				return 'handled';
-			}
-			return 'not-handled';
-		},
-		[editorState, handleEditorChange, handleButtonClick]
-	);
+	const handleEditorSubmit = useCallback(() => {
+		handleButtonClick();
+	}, [handleButtonClick]);
 
 	const handleRequestFeedbackCheckbox = useCallback(() => {
 		setRequestFeedbackCheckboxChecked(
@@ -1004,7 +894,6 @@ export const MessageSubmitInterfaceComponent = ({
 										)}
 									/>
 								</span>
-								<EmojiSelect />
 							</span>
 							<span
 								className="textarea__inputWrapper"
@@ -1017,29 +906,10 @@ export const MessageSubmitInterfaceComponent = ({
 									onFocus={toggleAbsentMessage}
 									onBlur={toggleAbsentMessage}
 								>
-									<Toolbar>
-										{(externalProps) => (
-											<div className="textarea__toolbar__buttonWrapper">
-												<BoldButton
-													{...externalProps}
-												/>
-												<ItalicButton
-													{...externalProps}
-												/>
-												<UnorderedListButton
-													{...externalProps}
-												/>
-											</div>
-										)}
-									</Toolbar>
-									<PluginsEditor
-										editorState={editorState}
+									<TiptapEditor
+										content={editorContent}
 										onChange={handleEditorChange}
-										readOnly={!draftLoaded}
-										handleKeyCommand={
-											handleEditorKeyCommand
-										}
-										keyBindingFn={handleCustomKeyBinding}
+										onSubmit={handleEditorSubmit}
 										placeholder={
 											hasRequestFeedbackCheckbox &&
 											requestFeedbackCheckboxChecked
@@ -1048,32 +918,8 @@ export const MessageSubmitInterfaceComponent = ({
 													)
 												: placeholder
 										}
-										stripPastedStyles={true}
-										spellCheck={true}
-										handleBeforeInput={() =>
-											handleEditorBeforeInput(editorState)
-										}
-										handlePastedText={(
-											text: string,
-											html?: string
-										): DraftHandleValue => {
-											const newEditorState =
-												handleEditorPastedText(
-													editorState,
-													text,
-													html
-												);
-											if (newEditorState) {
-												setEditorState(newEditorState);
-											}
-											return 'handled';
-										}}
-										plugins={[
-											linkifyPlugin,
-											staticToolbarPlugin,
-											emojiPlugin
-										]}
-										tabIndex={0}
+										disabled={!draftLoaded}
+										isRichtextActive={isRichtextActive}
 									/>
 								</div>
 								{hasUploadFunctionality &&
