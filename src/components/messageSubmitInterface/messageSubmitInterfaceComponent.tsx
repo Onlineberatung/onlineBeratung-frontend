@@ -894,6 +894,21 @@ export const MessageSubmitInterfaceComponent = ({
 										)}
 									/>
 								</span>
+								{hasUploadFunctionality && !attachmentSelected && (
+									<span className="textarea__attachmentIcon">
+										<ClipIcon
+											width="20"
+											height="20"
+											aria-label={translate(
+												'enquiry.write.input.attachement'
+											)}
+											title={translate(
+												'enquiry.write.input.attachement'
+											)}
+											onClick={handleAttachmentSelect}
+										/>
+									</span>
+								)}
 							</span>
 							<span
 								className="textarea__inputWrapper"
@@ -922,20 +937,7 @@ export const MessageSubmitInterfaceComponent = ({
 										isRichtextActive={isRichtextActive}
 									/>
 								</div>
-								{hasUploadFunctionality &&
-									(!attachmentSelected ? (
-										<span className="textarea__attachmentSelect">
-											<ClipIcon
-												aria-label={translate(
-													'enquiry.write.input.attachement'
-												)}
-												title={translate(
-													'enquiry.write.input.attachement'
-												)}
-												onClick={handleAttachmentSelect}
-											/>
-										</span>
-									) : (
+								{hasUploadFunctionality && attachmentSelected && (
 										<div className="textarea__attachmentWrapper">
 											<span className="textarea__attachmentSelected">
 												<span className="textarea__attachmentSelected__progress"></span>

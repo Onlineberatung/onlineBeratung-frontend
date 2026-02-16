@@ -24,6 +24,7 @@ interface TiptapEditorProps {
 	content?: string;
 	onChange?: (markdown: string) => void;
 	onSubmit?: () => void;
+	onEditorReady?: (editor: any) => void;
 	className?: string;
 	disabled?: boolean;
 	isRichtextActive: boolean;
@@ -35,13 +36,12 @@ export const TiptapEditor = React.memo(
 		content = '',
 		onChange,
 		onSubmit,
+		onEditorReady,
 		className,
 		disabled = false,
 		isRichtextActive
 	}: TiptapEditorProps) => {
 		const theme = useTheme();
-		const [emojiAnchorEl, setEmojiAnchorEl] =
-			React.useState<HTMLButtonElement | null>(null);
 		const editorRef = useRef<HTMLDivElement>(null);
 
 		const extensions = useMemo(
