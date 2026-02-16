@@ -50,10 +50,10 @@ export const FlyoutMenuMui: React.FC<FlyoutMenuProps> = ({
 	const isCriticalAction = (child: React.ReactNode): boolean => {
 		if (React.isValidElement(child)) {
 			const childProps = child.props as any;
-			// Check if the child has className containing critical action patterns
+			// Check if the child has className containing specific critical action patterns
 			const className = childProps?.className || '';
-			// Match whole words to avoid false positives
-			return /\b(delete|ban)\b/.test(className);
+			// Match specific class names used for delete and ban actions
+			return /flyoutMenu__item--delete|banUser/.test(className);
 		}
 		return false;
 	};

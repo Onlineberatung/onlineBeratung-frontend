@@ -196,8 +196,9 @@ BackdropProps={{
 className: 'overlay-mui__backdrop'
 }}
 		onClose={(event, reason) => {
-			// Only allow closing via close button, not backdrop clicks or escape key
-			if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
+			// Prevent backdrop clicks from closing the dialog
+			// Escape key behavior is controlled by disableEscapeKeyDown prop
+			if (reason === 'backdropClick') {
 				return;
 			}
 			if (props.handleOverlayClose) {
