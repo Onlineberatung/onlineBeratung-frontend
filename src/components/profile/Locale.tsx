@@ -11,6 +11,7 @@ import {
 	SelectOption
 } from '../select/SelectDropdown';
 import { LocaleContext } from '../../globalState';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
 
 export const Locale = () => {
 	const { t: translate } = useTranslation(['common', 'languages']);
@@ -21,7 +22,10 @@ export const Locale = () => {
 			const value = Array.isArray(selectedOption)
 				? selectedOption[0]?.value
 				: (selectedOption as SelectOption)?.value;
+			// Set cookie before locale switch to avoid request caching issues
+			// (see LocaleSwitch.tsx for detailed explanation)
 			if (value) {
+				setValueInCookie('lang', value);
 				setLocale(value);
 			}
 		},
