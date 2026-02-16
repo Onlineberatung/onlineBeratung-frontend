@@ -707,10 +707,15 @@ const DeleteMessage = ({
 	return (
 		<>
 			<a
-				onClick={() => setDeleteOverlay(true)}
+				onClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					setDeleteOverlay(true);
+				}}
 				onKeyDown={(e) => {
 					if (e.key === 'Enter' || e.key === ' ') {
 						e.preventDefault();
+						e.stopPropagation();
 						setDeleteOverlay(true);
 					}
 				}}
