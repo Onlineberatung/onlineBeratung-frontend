@@ -98,6 +98,34 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			}
 		}
 
+		&__emojiIcon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: $grid-base-three;
+			height: $grid-base-three;
+			margin-bottom: $grid-base;
+			cursor: pointer;
+
+			@include from-large {
+				margin-bottom: 12px;
+			}
+
+			svg {
+				align-self: flex-end;
+
+				* {
+					fill: $tertiary;
+				}
+
+				&:hover {
+					* {
+						fill: var(--skin-color-primary, $primary);
+					}
+				}
+			}
+		}
+
 		&__attachmentIcon {
 			display: flex;
 			align-items: center;

@@ -41,8 +41,11 @@ import {
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
 import { TiptapEditor, INPUT_MAX_LENGTH } from './TiptapEditor';
 import { useTiptapDraftMessage } from './useTiptapDraftMessage';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import { Popover } from '@mui/material';
 import ClipIcon from '../../resources/img/icons/clip.svg?react';
 import RichtextToggleIcon from '../../resources/img/icons/richtext-toggle.svg?react';
+import EmojiIcon from '../../resources/img/icons/smiley-positive.svg?react';
 import RemoveIcon from '../../resources/img/icons/x.svg?react';
 import CalendarMonthIcon from '../../resources/img/icons/calendar-month-navigation.svg?react';
 import './emojiPicker.styles.scss';
@@ -152,6 +155,11 @@ export const MessageSubmitInterfaceComponent = ({
 	const [requestFeedbackCheckboxChecked, setRequestFeedbackCheckboxChecked] =
 		useState(false);
 	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
+	const [emojiAnchorEl, setEmojiAnchorEl] =
+		useState<HTMLButtonElement | null>(null);
+	const [insertEmojiFunc, setInsertEmojiFunc] = useState<
+		((emoji: string) => void) | null
+	>(null);
 
 	// This loads the keys for current activeSession.rid which is already set:
 	// to groupChat.groupId on group chats
@@ -737,6 +745,34 @@ export const MessageSubmitInterfaceComponent = ({
 		cleanupAttachment();
 	}, [attachmentUpload, cleanupAttachment, uploadProgress]);
 
+	const handleEmojiButtonClick = useCallback(
+		(event: React.MouseEvent<HTMLButtonElement>) => {
+			setEmojiAnchorEl(event.currentTarget);
+		},
+		[]
+	);
+
+	const handleEmojiClose = useCallback(() => {
+		setEmojiAnchorEl(null);
+	}, []);
+
+	const handleEmojiClick = useCallback(
+		(emojiData: EmojiClickData) => {
+			if (insertEmojiFunc) {
+				insertEmojiFunc(emojiData.emoji);
+				setEmojiAnchorEl(null);
+			}
+		},
+		[insertEmojiFunc]
+	);
+
+	const handleInsertEmojiReady = useCallback(
+		(insertEmoji: (emoji: string) => void) => {
+			setInsertEmojiFunc(() => insertEmoji);
+		},
+		[]
+	);
+
 	const getMessageSubmitInfo = useCallback((): MessageSubmitInfoInterface => {
 		let infoData;
 		if (activeInfo === INFO_TYPES.ABSENT) {
@@ -894,6 +930,16 @@ export const MessageSubmitInterfaceComponent = ({
 										)}
 									/>
 								</span>
+								<span className="textarea__emojiIcon">
+									<EmojiIcon
+										width="20"
+										height="20"
+										onClick={handleEmojiButtonClick}
+										title={translate('app.emoji')}
+										aria-label={translate('app.emoji')}
+										style={{ cursor: 'pointer' }}
+									/>
+								</span>
 								{hasUploadFunctionality && !attachmentSelected && (
 									<span className="textarea__attachmentIcon">
 										<ClipIcon
@@ -925,6 +971,7 @@ export const MessageSubmitInterfaceComponent = ({
 										content={editorContent}
 										onChange={handleEditorChange}
 										onSubmit={handleEditorSubmit}
+										onInsertEmoji={handleInsertEmojiReady}
 										placeholder={
 											hasRequestFeedbackCheckbox &&
 											requestFeedbackCheckboxChecked
@@ -938,35 +985,35 @@ export const MessageSubmitInterfaceComponent = ({
 									/>
 								</div>
 								{hasUploadFunctionality && attachmentSelected && (
-										<div className="textarea__attachmentWrapper">
-											<span className="textarea__attachmentSelected">
-												<span className="textarea__attachmentSelected__progress"></span>
-												<span className="textarea__attachmentSelected__labelWrapper">
-													{getAttachmentIcon(
-														attachmentSelected.type
-													)}
-													<p className="textarea__attachmentSelected__label">
-														{
-															attachmentSelected.name
+									<div className="textarea__attachmentWrapper">
+										<span className="textarea__attachmentSelected">
+											<span className="textarea__attachmentSelected__progress"></span>
+											<span className="textarea__attachmentSelected__labelWrapper">
+												{getAttachmentIcon(
+													attachmentSelected.type
+												)}
+												<p className="textarea__attachmentSelected__label">
+													{
+														attachmentSelected.name
+													}
+												</p>
+												<span className="textarea__attachmentSelected__remove">
+													<RemoveIcon
+														onClick={
+															handleAttachmentRemoval
 														}
-													</p>
-													<span className="textarea__attachmentSelected__remove">
-														<RemoveIcon
-															onClick={
-																handleAttachmentRemoval
-															}
-															title={translate(
-																'app.remove'
-															)}
-															aria-label={translate(
-																'app.remove'
-															)}
-														/>
-													</span>
+														title={translate(
+															'app.remove'
+														)}
+														aria-label={translate(
+															'app.remove'
+														)}
+													/>
 												</span>
 											</span>
-										</div>
-									))}
+										</span>
+									</div>
+								)}
 							</span>
 							<div className="textarea__buttons">
 								<SendMessageButton
@@ -1016,6 +1063,23 @@ export const MessageSubmitInterfaceComponent = ({
 			{e2eeOverlayVisible && (
 				<Overlay item={e2eeOverlay} name={OVERLAY_E2EE} />
 			)}
+
+			<Popover
+				open={Boolean(emojiAnchorEl)}
+				anchorEl={emojiAnchorEl}
+				onClose={handleEmojiClose}
+				anchorOrigin={{
+					vertical: 'top',
+					horizontal: 'left'
+				}}
+				transformOrigin={{
+					vertical: 'bottom',
+					horizontal: 'left'
+				}}
+				className="emoji__selectPopover"
+			>
+				<EmojiPicker onEmojiClick={handleEmojiClick} />
+			</Popover>
 		</div>
 	);
 };

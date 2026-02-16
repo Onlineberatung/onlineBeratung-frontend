@@ -6,15 +6,13 @@ import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import { Markdown } from 'tiptap-markdown';
-import { Box, IconButton, Popover, useTheme } from '@mui/material';
+import { Box, IconButton, useTheme } from '@mui/material';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import StrikethroughSIcon from '@mui/icons-material/StrikethroughS';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
-import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
-import EmojiIcon from '../../resources/img/icons/smiley-positive.svg?react';
 import clsx from 'clsx';
 
 export const INPUT_MAX_LENGTH = 7500;
@@ -25,6 +23,7 @@ interface TiptapEditorProps {
 	onChange?: (markdown: string) => void;
 	onSubmit?: () => void;
 	onEditorReady?: (editor: any) => void;
+	onInsertEmoji?: (insertEmoji: (emoji: string) => void) => void;
 	className?: string;
 	disabled?: boolean;
 	isRichtextActive: boolean;
@@ -37,6 +36,7 @@ export const TiptapEditor = React.memo(
 		onChange,
 		onSubmit,
 		onEditorReady,
+		onInsertEmoji,
 		className,
 		disabled = false,
 		isRichtextActive
@@ -103,6 +103,23 @@ export const TiptapEditor = React.memo(
 			}
 		});
 
+		// Notify parent when editor is ready
+		useEffect(() => {
+			if (editor && onEditorReady) {
+				onEditorReady(editor);
+			}
+		}, [editor, onEditorReady]);
+
+		// Expose insertEmoji function to parent
+		useEffect(() => {
+			if (editor && onInsertEmoji) {
+				const insertEmoji = (emoji: string) => {
+					editor.chain().focus().insertContent(emoji).run();
+				};
+				onInsertEmoji(insertEmoji);
+			}
+		}, [editor, onInsertEmoji]);
+
 		// Update content when it changes externally
 		useEffect(() => {
 			if (editor && content !== undefined) {
@@ -124,27 +141,6 @@ export const TiptapEditor = React.memo(
 				editor.setEditable(!disabled);
 			}
 		}, [disabled, editor]);
-
-		const handleEmojiClick = useCallback(
-			(emojiData: EmojiClickData) => {
-				if (editor) {
-					editor.chain().focus().insertContent(emojiData.emoji).run();
-					setEmojiAnchorEl(null);
-				}
-			},
-			[editor]
-		);
-
-		const handleEmojiButtonClick = useCallback(
-			(event: React.MouseEvent<HTMLButtonElement>) => {
-				setEmojiAnchorEl(event.currentTarget);
-			},
-			[]
-		);
-
-		const handleEmojiClose = useCallback(() => {
-			setEmojiAnchorEl(null);
-		}, []);
 
 		const toggleFormat = useCallback(
 			(format: string) => {
@@ -177,8 +173,6 @@ export const TiptapEditor = React.memo(
 		if (!editor) {
 			return null;
 		}
-
-		const emojiOpen = Boolean(emojiAnchorEl);
 
 		return (
 			<Box className={clsx('textarea__input', className)} ref={editorRef}>
@@ -301,50 +295,7 @@ export const TiptapEditor = React.memo(
 					}}
 				>
 					<EditorContent editor={editor} />
-					<Box
-						className="textarea__actions"
-						sx={{
-							position: 'absolute',
-							bottom: '8px',
-							right: '8px',
-							display: 'flex',
-							gap: 0.5
-						}}
-					>
-						<IconButton
-							size="small"
-							onClick={handleEmojiButtonClick}
-							aria-label="Add emoji"
-							className="emoji__selectButton"
-						>
-							<EmojiIcon
-								style={{
-									width: '24px',
-									height: '24px',
-									fill: emojiOpen
-										? theme.palette.primary.main
-										: theme.palette.text.secondary
-								}}
-							/>
-						</IconButton>
-					</Box>
 				</Box>
-				<Popover
-					open={emojiOpen}
-					anchorEl={emojiAnchorEl}
-					onClose={handleEmojiClose}
-					anchorOrigin={{
-						vertical: 'top',
-						horizontal: 'left'
-					}}
-					transformOrigin={{
-						vertical: 'bottom',
-						horizontal: 'left'
-					}}
-					className="emoji__selectPopover"
-				>
-					<EmojiPicker onEmojiClick={handleEmojiClick} />
-				</Popover>
 			</Box>
 		);
 	}
