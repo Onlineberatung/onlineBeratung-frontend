@@ -2,6 +2,7 @@ import { TProvidedLegalLink } from '../../globalState/provider/LegalLinksProvide
 import { useTranslation } from 'react-i18next';
 import { Fragment, ReactNode } from 'react';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 const LegalLinks = ({
 	legalLinks,
@@ -19,7 +20,7 @@ const LegalLinks = ({
 	delimiter?: ReactNode;
 	lastDelimiter?: string;
 	params?: { [key: string]: string | number };
-	children?: (label: string, url: string) => ReactNode;
+	children?: (label: string, url: string, isInternal: boolean) => ReactNode;
 	filter?: (legalLink: TProvidedLegalLink) => boolean;
 }) => {
 	const { t: translate } = useTranslation();
@@ -36,6 +37,15 @@ const LegalLinks = ({
 	const getSuffix = (i: number, lastIndex: number) =>
 		i === lastIndex && suffix;
 
+	// Check if URL is internal (relative path)
+	const isInternalUrl = (url: string) => {
+		return (
+			url.startsWith('/') &&
+			!url.startsWith('//') &&
+			!url.match(/^https?:\/\//)
+		);
+	};
+
 	const links = legalLinks
 		.filter(filter || (() => true))
 		.map(({ label, getUrl }) => ({
@@ -43,11 +53,15 @@ const LegalLinks = ({
 			url: getUrl(params || {})
 		}))
 		.reduce((links, { label, url }, i, b) => {
+			const isInternal = isInternalUrl(url);
+
 			links.push(
 				<Fragment key={url}>
 					{getPrefix(i, b.length - 1)}
 					{children ? (
-						children(label, url)
+						children(label, url, isInternal)
+					) : isInternal ? (
+						<Link to={url}>{label}</Link>
 					) : (
 						<a target="_blank" rel="noreferrer" href={url}>
 							{label}

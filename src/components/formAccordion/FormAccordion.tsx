@@ -8,6 +8,7 @@ import {
 	useMemo,
 	useState
 } from 'react';
+import { Link } from 'react-router-dom';
 import './formAccordion.styles.scss';
 import { useTenant, AgencySpecificContext } from '../../globalState';
 import {
@@ -358,17 +359,28 @@ export const FormAccordion = ({
 							legalLinks={legalLinks}
 							params={{ aid: specificAgency?.id }}
 						>
-							{(label, url) => (
-								<span>
-									<button
-										type="button"
-										className="button-as-link"
-										onClick={() => window.open(url)}
-									>
-										{label}
-									</button>
-								</span>
-							)}
+							{(label, url, isInternal) =>
+								isInternal ? (
+									<span>
+										<Link
+											to={url}
+											className="button-as-link"
+										>
+											{label}
+										</Link>
+									</span>
+								) : (
+									<span>
+										<button
+											type="button"
+											className="button-as-link"
+											onClick={() => window.open(url)}
+										>
+											{label}
+										</button>
+									</span>
+								)
+							}
 						</LegalLinks>
 					</Checkbox>
 				</div>

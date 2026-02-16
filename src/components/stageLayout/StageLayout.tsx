@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Children, ReactElement, ReactNode, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
@@ -125,20 +126,34 @@ export const StageLayout = ({
 							params={{ aid: specificAgency?.id }}
 							legalLinks={legalLinks}
 						>
-							{(label, url) => (
-								<button
-									type="button"
-									className="button-as-link"
-									data-cy-link={url}
-									onClick={() => window.open(url, '_blank')}
-								>
-									<Text
-										className="stageLayout__legalLinksItem"
-										type="infoSmall"
-										text={label}
-									/>
-								</button>
-							)}
+							{(label, url, isInternal) =>
+								isInternal ? (
+									<Link
+										to={url}
+										className="button-as-link"
+										data-cy-link={url}
+									>
+										<Text
+											className="stageLayout__legalLinksItem"
+											type="infoSmall"
+											text={label}
+										/>
+									</Link>
+								) : (
+									<button
+										type="button"
+										className="button-as-link"
+										data-cy-link={url}
+										onClick={() => window.open(url, '_blank')}
+									>
+										<Text
+											className="stageLayout__legalLinksItem"
+											type="infoSmall"
+											text={label}
+										/>
+									</button>
+								)
+							}
 						</LegalLinks>
 					</div>
 				)}
