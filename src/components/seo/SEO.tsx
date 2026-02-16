@@ -32,9 +32,13 @@ export const SEO = ({
 	const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 	const fullDescription = description || siteClaim;
 
-	const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
+	// For SSR, fallback to VITE_APP_URL if available, otherwise empty string
+	const siteUrl =
+		typeof window !== 'undefined'
+			? window.location.origin
+			: import.meta.env.VITE_APP_URL || '';
 	const currentUrl =
-		typeof window !== 'undefined' ? window.location.href : '';
+		typeof window !== 'undefined' ? window.location.href : siteUrl;
 	const canonicalUrl = canonical || currentUrl;
 
 	return (

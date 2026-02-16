@@ -173,7 +173,7 @@ export const FormAccordion = ({
 	// 4. Agency selection - requires topic to be selected first
 	// 5. Username
 	// 6. Password
-	// 7. Data Protection (added later)
+	// Note: Data protection checkbox is added separately below the accordion
 	const accordionItemData = [];
 
 	// Step 1: Topic Selection (if topics are required)

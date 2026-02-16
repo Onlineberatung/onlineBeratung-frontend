@@ -39,11 +39,7 @@ const LegalLinks = ({
 
 	// Check if URL is internal (relative path)
 	const isInternalUrl = (url: string) => {
-		return (
-			url.startsWith('/') &&
-			!url.startsWith('//') &&
-			!url.match(/^https?:\/\//)
-		);
+		return url.startsWith('/') && !url.startsWith('//');
 	};
 
 	const links = legalLinks
