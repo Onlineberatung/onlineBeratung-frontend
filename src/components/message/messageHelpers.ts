@@ -10,7 +10,7 @@ import FileDocIcon from '../../resources/img/icons/file-doc.svg?react';
 import FileImageIcon from '../../resources/img/icons/file-image.svg?react';
 import FilePdfIcon from '../../resources/img/icons/file-pdf.svg?react';
 import FileXlsIcon from '../../resources/img/icons/file-xls.svg?react';
-import FileIcon from '../../resources/img/icons/file.svg?react';
+import DocumentsIcon from '../../resources/img/icons/documents.svg?react';
 
 export const getIconForAttachmentType = (attachmentType: string) => {
 	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {
@@ -22,7 +22,7 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 	} else if (isXLSXAttachment(attachmentType)) {
 		return FileXlsIcon;
 	} else if (isAudioAttachment(attachmentType)) {
-		return FileIcon; // Using generic file icon for audio
+		return DocumentsIcon; // Using generic documents icon for audio
 	}
-	return FileIcon; // Default icon for unknown types
+	return DocumentsIcon; // Default icon for unknown types
 };
