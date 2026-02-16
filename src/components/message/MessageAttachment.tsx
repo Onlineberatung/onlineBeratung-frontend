@@ -1,12 +1,15 @@
 import * as React from 'react';
 import {
 	ATTACHMENT_TRANSLATE_FOR_TYPE,
-	getAttachmentSizeMBForKB
+	getAttachmentSizeMBForKB,
+	isImageAttachment,
+	isPDFAttachment,
+	isAudioAttachment
 } from '../messageSubmitInterface/attachmentHelpers';
 import DownloadIcon from '../../resources/img/icons/download.svg?react';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '../../resources/scripts/endpoints';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { FETCH_METHODS, fetchData } from '../../api';
 import {
 	decryptAttachment,
@@ -29,6 +32,7 @@ import { LoadingSpinner } from '../loadingSpinner/LoadingSpinner';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import clsx from 'clsx';
 import { getIconForAttachmentType } from './messageHelpers';
+import { AttachmentModal } from './AttachmentModal';
 
 interface MessageAttachmentProps {
 	attachment: MessageService.Schemas.AttachmentDTO;
@@ -54,7 +58,14 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const [attachmentStatus, setAttachmentStatus] = React.useState(
 		props.t === 'e2e' ? ENCRYPTED : NOT_ENCRYPTED
 	);
+	const [modalOpen, setModalOpen] = useState(false);
 	const currentDownloadLink = useRef<any>();
+	const audioRef = useRef<HTMLAudioElement>(null);
+
+	const isImage = isImageAttachment(props.file.type);
+	const isPDF = isPDFAttachment(props.file.type);
+	const isAudio = isAudioAttachment(props.file.type);
+	const canPreview = isImage || isPDF || isAudio;
 
 	const decryptFile = useCallback(
 		async (url: string) => {
@@ -152,6 +163,36 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 		return null;
 	}, []);
 
+	const handlePreviewClick = useCallback(async () => {
+		if (isAudio) {
+			// For audio, just toggle play/pause
+			if (audioRef.current) {
+				if (audioRef.current.paused) {
+					audioRef.current.play();
+				} else {
+					audioRef.current.pause();
+				}
+			}
+		} else if (isImage || isPDF) {
+			// For images and PDFs, decrypt if needed then open modal
+			if (props.t === 'e2e' && !encryptedFile) {
+				await decryptFile(apiUrl + props.attachment.title_link);
+			}
+			setModalOpen(true);
+		}
+	}, [isAudio, isImage, isPDF, props.t, encryptedFile, decryptFile, props.attachment.title_link]);
+
+	const handleModalClose = useCallback(() => {
+		setModalOpen(false);
+	}, []);
+
+	const getPreviewUrl = useCallback(() => {
+		if (props.t === 'e2e') {
+			return encryptedFile;
+		}
+		return apiUrl + props.attachment.title_link;
+	}, [props.t, encryptedFile, props.attachment.title_link]);
+
 	const attachmentAriaLabel = () => {
 		if (
 			props.t === 'e2e' &&
@@ -172,9 +213,57 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					: ''
 			}
 		>
+			{/* Image Preview */}
+			{isImage && (
+				<div className="messageItem__message__attachment__preview">
+					<button
+						onClick={handlePreviewClick}
+						className="messageItem__message__attachment__preview__button"
+						aria-label={translate('attachments.preview.label')}
+					>
+						{attachmentStatus === IS_DECRYPTING ? (
+							<LoadingSpinner />
+						) : encryptedFile || props.t !== 'e2e' ? (
+							<img
+								src={getPreviewUrl()}
+								alt={props.attachment.title}
+								className="messageItem__message__attachment__preview__image"
+							/>
+						) : (
+							<div className="messageItem__message__attachment__preview__placeholder">
+								{getAttachmentIcon(props.file.type)}
+								<span>{translate('e2ee.attachment.encrypted')}</span>
+							</div>
+						)}
+					</button>
+				</div>
+			)}
+
+			{/* Audio Player */}
+			{isAudio && (attachmentStatus === DECRYPTION_FINISHED || props.t !== 'e2e') && (
+				<div className="messageItem__message__attachment__audio">
+					<audio
+						ref={audioRef}
+						controls
+						className="messageItem__message__attachment__audio__player"
+						preload="metadata"
+					>
+						<source src={getPreviewUrl()} type={props.file.type} />
+						{translate('attachments.audio.unsupported')}
+					</audio>
+				</div>
+			)}
+
+			{/* Attachment Info Button */}
 			<button
 				aria-label={attachmentAriaLabel()}
-				onClick={() => currentDownloadLink.current.click()}
+				onClick={() => {
+					if (canPreview && !isAudio) {
+						handlePreviewClick();
+					} else {
+						currentDownloadLink.current.click();
+					}
+				}}
 				className="messageItem__message__attachment"
 			>
 				<span className="messageItem__message__attachment__icon">
@@ -216,6 +305,8 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					</p>
 				</span>
 			</button>
+
+			{/* Download Links */}
 			{props.t === 'e2e' && (
 				<>
 					{encryptedFile &&
@@ -269,6 +360,17 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					<DownloadIcon />
 					<p>{translate('attachments.download.label')}</p>
 				</a>
+			)}
+
+			{/* Attachment Modal for Images and PDFs */}
+			{(isImage || isPDF) && (
+				<AttachmentModal
+					open={modalOpen}
+					onClose={handleModalClose}
+					type={isImage ? 'image' : 'pdf'}
+					src={getPreviewUrl()}
+					title={props.attachment.title}
+				/>
 			)}
 		</div>
 	);
