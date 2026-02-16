@@ -26,6 +26,7 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 	const consultantId = getUrlParameter('cid');
 	const topicIdOrName = getUrlParameter('tid');
 	const language = getUrlParameter('lang');
+	const postcodeParam = getUrlParameter('postcode');
 
 	const [consultingType, setConsultingType] =
 		useState<ConsultingTypeInterface | null>(null);
@@ -225,5 +226,5 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 		}
 	}, [language, setLocale]);
 
-	return { agency, consultant, consultingType, loaded, topic, slugFallback };
+	return { agency, consultant, consultingType, loaded, topic, slugFallback, postcode: postcodeParam };
 }

@@ -215,6 +215,7 @@ export const ProposedAgencies = ({
 						handleChange({ postcode: postCode })
 					}
 					isPreselectedAgency={!!preSelectedAgency}
+					disabled={!!preSelectedAgency}
 				/>
 			)}
 			{agencySelectionNote && (

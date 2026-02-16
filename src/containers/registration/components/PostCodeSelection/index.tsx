@@ -13,13 +13,15 @@ interface PostCodeSelectionArgs {
 	value: string;
 	onChange: (value: string) => void;
 	onKeyDown?: (ev: KeyboardEvent) => void;
+	disabled?: boolean;
 }
 
 export const PostCodeSelection = ({
 	isPreselectedAgency,
 	value,
 	onChange,
-	onKeyDown
+	onKeyDown,
+	disabled = false
 }: PostCodeSelectionArgs) => {
 	const { t: translate } = useTranslation(['common', 'agencies']);
 
@@ -32,7 +34,8 @@ export const PostCodeSelection = ({
 		content: value,
 		maxLength: VALID_POSTCODE_LENGTH,
 		pattern: '^[0-9]+$',
-		icon: <PinIcon />
+		icon: <PinIcon />,
+		disabled: disabled
 	};
 
 	const introItemsTranslations = isPreselectedAgency
