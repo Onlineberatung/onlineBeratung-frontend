@@ -24,7 +24,7 @@ export const useTiptapDraftMessage = (
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
-	const draftSaveTimeout = useRef(null);
+	const draftSaveTimeout = useRef<NodeJS.Timeout | null>(null);
 	const willUnmount = useRef(false);
 
 	const { keyID, key, encrypted, ready } = useE2EE(activeSession.rid);
