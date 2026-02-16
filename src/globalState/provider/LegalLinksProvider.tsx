@@ -50,11 +50,15 @@ export function LegalLinksProvider({
 					getUrl: (params: {
 						[key: string]: string | number | null | undefined;
 					}) => {
-						// If URL already includes origin (starts with http/https), use it as is
-						// Otherwise, prepend the origin
+						// URL from config can be:
+						// 1. Full URL with origin (e.g., "http://localhost:5173/impressum")
+						// 2. Relative path (e.g., "/impressum")
+						// We should NOT prepend origin if URL already starts with http/https
 						const fullUrl = url.match(/^https?:\/\//)
 							? url
-							: `${window.location.origin}${url}`;
+							: url.startsWith('/')
+							? `${window.location.origin}${url}`
+							: `${window.location.origin}/${url}`;
 						return getUrl(fullUrl, params);
 					}
 				})

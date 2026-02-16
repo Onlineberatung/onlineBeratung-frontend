@@ -155,6 +155,7 @@ export const Login = () => {
 		content: username,
 		icon: <PersonIcon />,
 		tabIndex: 1,
+		autoComplete: 'username',
 		...(labelState && { labelState })
 	};
 
@@ -166,6 +167,7 @@ export const Login = () => {
 		content: password,
 		icon: <LockIcon />,
 		tabIndex: 1,
+		autoComplete: 'current-password',
 		...(labelState && { labelState })
 	};
 

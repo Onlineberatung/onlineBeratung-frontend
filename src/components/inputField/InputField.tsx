@@ -26,6 +26,7 @@ export interface InputFieldItem {
 	warningActive?: boolean;
 	labelState?: InputFieldLabelState;
 	tabIndex?: number;
+	autoComplete?: string;
 }
 
 export interface InputFieldProps {
@@ -92,7 +93,7 @@ export const InputField = (props: InputFieldProps) => {
 				name={inputItem.name}
 				placeholder={inputItem.label}
 				disabled={inputItem.disabled}
-				autoComplete="off"
+				autoComplete={inputItem.autoComplete || 'off'}
 				onKeyUp={handleKeyUp}
 				onKeyDown={(e) => (props.onKeyDown ? props.onKeyDown(e) : null)}
 				tabIndex={inputItem.tabIndex}

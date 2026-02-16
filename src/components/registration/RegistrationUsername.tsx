@@ -62,6 +62,7 @@ export const RegistrationUsername = ({
 		maxLength: 30,
 		name: 'username',
 		type: 'text',
+		autoComplete: 'off',
 		...(labelState && { labelState: labelState })
 	};
 

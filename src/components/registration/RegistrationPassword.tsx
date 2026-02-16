@@ -117,6 +117,7 @@ export const RegistrationPassword = ({
 			: translate('registration.password.input.label'),
 		name: 'passwordInput',
 		type: 'password',
+		autoComplete: 'new-password',
 		...(passwordLabelState && { labelState: passwordLabelState })
 	};
 
@@ -129,6 +130,7 @@ export const RegistrationPassword = ({
 			: translate('registration.password.confirmation.label'),
 		name: 'passwordConfirmation',
 		type: 'password',
+		autoComplete: 'new-password',
 		...(passwordConfirmationLabelState && {
 			labelState: passwordConfirmationLabelState
 		})
