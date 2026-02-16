@@ -165,52 +165,6 @@ export const FormAccordion = ({
 		}
 	};
 
-	const accordionItemData = [
-		{
-			title: translate('registration.username.headline'),
-			nestedComponent: (
-				<RegistrationUsername
-					isUsernameAlreadyInUse={isUsernameAlreadyInUse}
-					onUsernameChange={(username) => onChange({ username })}
-					onValidityChange={(validity) =>
-						handleValidity('username', validity)
-					}
-					onKeyDown={handleKeyDown}
-				/>
-			),
-			isValid: validity.username
-		},
-		{
-			title: translate('registration.password.headline'),
-			nestedComponent: (
-				<RegistrationPassword
-					onPasswordChange={(password) => onChange({ password })}
-					onValidityChange={(validity) =>
-						handleValidity('password', validity)
-					}
-					passwordNote={registrationNotes?.password}
-					onKeyDown={handleKeyDown}
-				/>
-			),
-			isValid: validity.password
-		}
-	];
-
-	if (topicsAreRequired) {
-		accordionItemData.push({
-			title: translate('registration.mainTopic.headline'),
-			nestedComponent: (
-				<MainTopicSelection
-					name="mainTopic"
-					value={formAccordionData.mainTopic}
-					onChange={(topic) => onChange({ mainTopic: topic })}
-					onValidityChange={handleValidity}
-				/>
-			),
-			isValid: validity.mainTopic
-		});
-	}
-
 	const agencySelectionTitle = useMemo(() => {
 		let key = 'agency';
 		if (consultant) {
@@ -226,6 +180,33 @@ export const FormAccordion = ({
 		return `registration.${key}.headline`;
 	}, [consultant, consultingType, consultingTypes.length]);
 
+	// Build registration steps in the correct order:
+	// 1. Topics (if enabled) - must be first to enable agency selection
+	// 2. Age (if enabled)
+	// 3. State (if enabled)
+	// 4. Agency selection - requires topic to be selected first
+	// 5. Username
+	// 6. Password
+	// 7. Data Protection (added later)
+	const accordionItemData = [];
+
+	// Step 1: Topic Selection (if topics are required)
+	if (topicsAreRequired) {
+		accordionItemData.push({
+			title: translate('registration.mainTopic.headline'),
+			nestedComponent: (
+				<MainTopicSelection
+					name="mainTopic"
+					value={formAccordionData.mainTopic}
+					onChange={(topic) => onChange({ mainTopic: topic })}
+					onValidityChange={handleValidity}
+				/>
+			),
+			isValid: validity.mainTopic
+		});
+	}
+
+	// Step 2: Age Selection (if enabled)
 	if (additionalStepsData?.age?.isEnabled) {
 		accordionItemData.push({
 			title: translate('registration.age.headline'),
@@ -258,6 +239,7 @@ export const FormAccordion = ({
 		});
 	}
 
+	// Step 3: State Selection (if enabled)
 	if (additionalStepsData?.state?.isEnabled) {
 		// we want an array from 1 to 16 and the 0 at the end
 		let countiesArray = Array.from(Array(17).keys());
@@ -287,6 +269,7 @@ export const FormAccordion = ({
 		});
 	}
 
+	// Step 4: Agency Selection - now comes before username/password
 	accordionItemData.push({
 		title: translate(agencySelectionTitle),
 		nestedComponent: (
@@ -299,6 +282,38 @@ export const FormAccordion = ({
 			/>
 		),
 		isValid: validity.agency
+	});
+
+	// Step 5: Username
+	accordionItemData.push({
+		title: translate('registration.username.headline'),
+		nestedComponent: (
+			<RegistrationUsername
+				isUsernameAlreadyInUse={isUsernameAlreadyInUse}
+				onUsernameChange={(username) => onChange({ username })}
+				onValidityChange={(validity) =>
+					handleValidity('username', validity)
+				}
+				onKeyDown={handleKeyDown}
+			/>
+		),
+		isValid: validity.username
+	});
+
+	// Step 6: Password
+	accordionItemData.push({
+		title: translate('registration.password.headline'),
+		nestedComponent: (
+			<RegistrationPassword
+				onPasswordChange={(password) => onChange({ password })}
+				onValidityChange={(validity) =>
+					handleValidity('password', validity)
+				}
+				passwordNote={registrationNotes?.password}
+				onKeyDown={handleKeyDown}
+			/>
+		),
+		isValid: validity.password
 	});
 
 	accordionItemData.push({

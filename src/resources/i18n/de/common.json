@@ -1759,6 +1759,9 @@
 			"preselected": {
 				"isTeam": "Sie werden von einem Team beraten.",
 				"prefix": "Ihre vorausgewählte Beratungsstelle: "
+			},
+			"error": {
+				"topicRequired": "Bitte wählen Sie zunächst ein Thema aus, um passende Beratungsstellen zu finden."
 			}
 		},
 		"agencyPreselected": {
