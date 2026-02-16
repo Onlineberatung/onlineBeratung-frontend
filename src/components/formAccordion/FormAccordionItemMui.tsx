@@ -27,6 +27,7 @@ interface FormAccordionItemMuiProps {
 const Accordion = styled((props: AccordionProps) => (
 	<MuiAccordion disableGutters elevation={0} square {...props} />
 ))(() => ({
+	backgroundColor: 'transparent',
 	'&:before': {
 		display: 'none'
 	},
@@ -38,6 +39,7 @@ const Accordion = styled((props: AccordionProps) => (
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
 	<MuiAccordionSummary {...props} />
 ))(() => ({
+	backgroundColor: 'transparent',
 	flexDirection: 'row',
 	'& .MuiAccordionSummary-content': {
 		margin: 0,
@@ -49,6 +51,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(() => ({
+	backgroundColor: 'transparent',
 	padding: 0,
 	display: 'block'
 }));
