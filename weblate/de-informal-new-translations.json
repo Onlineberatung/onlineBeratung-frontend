@@ -1,0 +1,14 @@
+{
+  "registration": {
+    "agency": {
+      "error": {
+        "topicRequired": "Bitte wähle zunächst ein Thema aus, um passende Beratungsstellen zu finden."
+      }
+    },
+    "headline": "Registrierung",
+    "intro": {
+      "seoDescription": "Kostenlose und vertrauliche Online-Beratung. Registriere Dich jetzt für professionelle Unterstützung.",
+      "seoKeywords": "Online-Beratung, Registrierung, kostenlose Beratung, vertraulich, Hilfe, Unterstützung"
+    }
+  }
+}
