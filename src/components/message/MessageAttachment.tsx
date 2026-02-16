@@ -62,9 +62,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 	const isAudio = isAudioAttachment(props.file.type);
 	const canPreview = isImage || isPDF || isAudio;
 
-	// For 100% E2EE app: Always decrypt e2e messages
-	// Maintain backward compatibility: old non-e2e messages (props.t !== 'e2e') will work as before
-	const isEncrypted = props.t === 'e2e';
+	// 100% E2EE system - all messages are encrypted and require decryption
 
 	const decryptFile = useCallback(
 		async (url: string) => {
@@ -84,57 +82,48 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 				}
 			});
 
-			let blobUrl;
+			// Decrypt E2EE attachment (all attachments are encrypted)
+			const text = await data.text();
+			const encryptedData = await decryptAttachment(
+				text,
+				props.attachment.title,
+				keyID,
+				key
+			).catch((error) => {
+				setAttachmentStatus(DECRYPTION_ERROR);
 
-			if (!isEncrypted) {
-				// Backward compatibility: old non-encrypted messages
-				const blob = await data.blob();
-				blobUrl = window.URL.createObjectURL(blob);
-			} else {
-				// Decrypt E2EE attachment
-				const text = await data.text();
-				const encryptedData = await decryptAttachment(
-					text,
-					props.attachment.title,
-					keyID,
-					key
-				).catch((error) => {
-					setAttachmentStatus(DECRYPTION_ERROR);
-
-					addNotification({
-						notificationType: NOTIFICATION_TYPE_ERROR,
-						title: translate('e2ee.attachment.error.title'),
-						text: translate('e2ee.attachment.error.text'),
-						closeable: true,
-						timeout: 60000
-					});
-
-					apiPostError({
-						name: error.name,
-						message: error.message,
-						stack: error.stack,
-						level: ERROR_LEVEL_WARN
-					}).then();
-
-					return null;
+				addNotification({
+					notificationType: NOTIFICATION_TYPE_ERROR,
+					title: translate('e2ee.attachment.error.title'),
+					text: translate('e2ee.attachment.error.text'),
+					closeable: true,
+					timeout: 60000
 				});
 
-				if (!encryptedData) {
-					return;
-				}
+				apiPostError({
+					name: error.name,
+					message: error.message,
+					stack: error.stack,
+					level: ERROR_LEVEL_WARN
+				}).then();
 
-				const blobData = new Blob([encryptedData], {
-					type: props.file.type
-				});
-				blobUrl = window.URL.createObjectURL(blobData);
+				return null;
+			});
+
+			if (!encryptedData) {
+				return;
 			}
+
+			const blobData = new Blob([encryptedData], {
+				type: props.file.type
+			});
+			const blobUrl = window.URL.createObjectURL(blobData);
 
 			setEncryptedFile(blobUrl);
 			setAttachmentStatus(DECRYPTION_FINISHED);
 		},
 		[
 			attachmentStatus,
-			isEncrypted,
 			key,
 			keyID,
 			props.attachment.title,
@@ -164,38 +153,30 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			}
 		} else if (isImage || isPDF) {
 			// For images and PDFs, decrypt if needed then open modal
-			if (isEncrypted && !encryptedFile) {
+			if (!encryptedFile) {
 				await decryptFile(apiUrl + props.attachment.title_link);
 			}
 			setModalOpen(true);
 		}
-	}, [isAudio, isImage, isPDF, isEncrypted, encryptedFile, decryptFile, props.attachment.title_link]);
+	}, [isAudio, isImage, isPDF, encryptedFile, decryptFile, props.attachment.title_link]);
 
 	const handleModalClose = useCallback(() => {
 		setModalOpen(false);
 	}, []);
 
 	const getPreviewUrl = useCallback(() => {
-		// For encrypted attachments, return decrypted blob URL
-		if (isEncrypted && encryptedFile) {
+		// All attachments are E2EE - return decrypted blob URL or null
+		if (encryptedFile) {
 			return encryptedFile;
 		}
-		// For non-encrypted attachments (backward compatibility for old messages), use direct URL
-		if (!isEncrypted) {
-			return apiUrl + props.attachment.title_link;
-		}
-		// For encrypted attachments not yet decrypted, return null (should not reach here)
+		// Attachment not yet decrypted
 		return null;
-	}, [isEncrypted, encryptedFile, props.attachment.title_link]);
+	}, [encryptedFile]);
 
 	const attachmentAriaLabel = () => {
-		if (
-			isEncrypted &&
-			encryptedFile &&
-			attachmentStatus === DECRYPTION_FINISHED
-		)
+		if (encryptedFile && attachmentStatus === DECRYPTION_FINISHED)
 			return translate('e2ee.attachment.save');
-		else if (isEncrypted && attachmentStatus !== DECRYPTION_FINISHED)
+		else if (attachmentStatus !== DECRYPTION_FINISHED)
 			return translate(`e2ee.attachment.${attachmentStatus}`);
 		else return translate('attachments.download.label');
 	};
@@ -218,7 +199,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					>
 						{attachmentStatus === IS_DECRYPTING ? (
 							<LoadingSpinner />
-						) : (attachmentStatus === DECRYPTION_FINISHED && encryptedFile) || !isEncrypted ? (
+						) : attachmentStatus === DECRYPTION_FINISHED && encryptedFile ? (
 							<img
 								src={getPreviewUrl()}
 								alt={props.attachment.title}
@@ -235,7 +216,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			)}
 
 			{/* Audio Player */}
-			{isAudio && ((attachmentStatus === DECRYPTION_FINISHED && encryptedFile) || !isEncrypted) && (
+			{isAudio && attachmentStatus === DECRYPTION_FINISHED && encryptedFile && (
 				<div className="messageItem__message__attachment__audio">
 					<audio
 						ref={audioRef}
@@ -301,63 +282,44 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 				</span>
 			</button>
 
-			{/* Download Links */}
-			{isEncrypted ? (
-				<>
-					{encryptedFile &&
-					attachmentStatus === DECRYPTION_FINISHED ? (
-						<a
-							ref={currentDownloadLink}
-							href={encryptedFile}
-							download={props.file.name}
-							rel="noopener noreferer"
-							className="messageItem__message__attachment__download"
-						>
-							<DownloadIcon
-								title={translate('app.download')}
-								aria-label={translate('app.download')}
-							/>
-							<p>{translate('e2ee.attachment.save')}</p>
-						</a>
-					) : (
-						<button
-							ref={currentDownloadLink}
-							onClick={() =>
-								decryptFile(
-									apiUrl + props.attachment.title_link
-								)
-							}
-							className="messageItem__message__attachment__download"
-						>
-							<p
-								className={clsx({
-									decrypting:
-										attachmentStatus === IS_DECRYPTING,
-									decryptionError:
-										attachmentStatus === DECRYPTION_ERROR
-								})}
-							>
-								{translate(
-									`e2ee.attachment.${attachmentStatus}`
-								)}
-							</p>
-						</button>
-					)}
-				</>
-			) : (
+			{/* Download Links - All attachments are E2EE */}
+			{encryptedFile && attachmentStatus === DECRYPTION_FINISHED ? (
 				<a
 					ref={currentDownloadLink}
-					href={apiUrl + props.attachment.title_link}
-					rel="noopener noreferer"
+					href={encryptedFile}
 					download={props.file.name}
+					rel="noopener noreferer"
 					className="messageItem__message__attachment__download"
 				>
 					<DownloadIcon
 						title={translate('app.download')}
 						aria-label={translate('app.download')}
 					/>
-					<p>{translate('attachments.download.label')}</p>
+					<p>{translate('e2ee.attachment.save')}</p>
 				</a>
+			) : (
+				<button
+					ref={currentDownloadLink}
+					onClick={() =>
+						decryptFile(
+							apiUrl + props.attachment.title_link
+						)
+					}
+					className="messageItem__message__attachment__download"
+				>
+					<p
+						className={clsx({
+							decrypting:
+								attachmentStatus === IS_DECRYPTING,
+							decryptionError:
+								attachmentStatus === DECRYPTION_ERROR
+						})}
+					>
+						{translate(
+							`e2ee.attachment.${attachmentStatus}`
+						)}
+					</p>
+				</button>
 			)}
 
 			{/* Attachment Modal for Images and PDFs */}
