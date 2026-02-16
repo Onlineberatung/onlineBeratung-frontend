@@ -64,9 +64,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 
 	// For 100% E2EE app: Always decrypt e2e messages
 	// Maintain backward compatibility: old non-e2e messages won't have t='e2e'
-	const shouldDecryptAttachment = React.useMemo(() => {
-		return props.t === 'e2e';
-	}, [props.t]);
+	const isEncrypted = props.t === 'e2e';
 
 	const decryptFile = useCallback(
 		async (url: string) => {
@@ -86,15 +84,14 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 				}
 			});
 
-			const skipDecryption = !shouldDecryptAttachment;
 			let blobUrl;
 
-			if (skipDecryption) {
-				// not encrypted
+			if (!isEncrypted) {
+				// Backward compatibility: old non-encrypted messages
 				const blob = await data.blob();
 				blobUrl = window.URL.createObjectURL(blob);
 			} else {
-				// encrypted
+				// Decrypt E2EE attachment
 				const text = await data.text();
 				const encryptedData = await decryptAttachment(
 					text,
@@ -137,7 +134,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 		},
 		[
 			attachmentStatus,
-			shouldDecryptAttachment,
+			isEncrypted,
 			key,
 			keyID,
 			props.attachment.title,
@@ -167,37 +164,34 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			}
 		} else if (isImage || isPDF) {
 			// For images and PDFs, decrypt if needed then open modal
-			if (shouldDecryptAttachment && !encryptedFile) {
+			if (isEncrypted && !encryptedFile) {
 				await decryptFile(apiUrl + props.attachment.title_link);
 			}
 			setModalOpen(true);
 		}
-	}, [isAudio, isImage, isPDF, shouldDecryptAttachment, encryptedFile, decryptFile, props.attachment.title_link]);
+	}, [isAudio, isImage, isPDF, isEncrypted, encryptedFile, decryptFile, props.attachment.title_link]);
 
 	const handleModalClose = useCallback(() => {
 		setModalOpen(false);
 	}, []);
 
 	const getPreviewUrl = useCallback(() => {
-		// If attachment encryption is not enabled, use direct URL even for e2e messages
-		if (!shouldDecryptAttachment) {
-			return apiUrl + props.attachment.title_link;
-		}
-		// If encrypted, return the decrypted blob URL
-		if (props.t === 'e2e') {
+		// For encrypted attachments, return decrypted blob URL
+		if (isEncrypted && encryptedFile) {
 			return encryptedFile;
 		}
+		// For non-encrypted attachments (backward compatibility), use direct URL
 		return apiUrl + props.attachment.title_link;
-	}, [props.t, encryptedFile, props.attachment.title_link, shouldDecryptAttachment]);
+	}, [isEncrypted, encryptedFile, props.attachment.title_link]);
 
 	const attachmentAriaLabel = () => {
 		if (
-			shouldDecryptAttachment &&
+			isEncrypted &&
 			encryptedFile &&
 			attachmentStatus === DECRYPTION_FINISHED
 		)
 			return translate('e2ee.attachment.save');
-		else if (shouldDecryptAttachment && attachmentStatus !== DECRYPTION_FINISHED)
+		else if (isEncrypted && attachmentStatus !== DECRYPTION_FINISHED)
 			return translate(`e2ee.attachment.${attachmentStatus}`);
 		else return translate('attachments.download.label');
 	};
@@ -220,7 +214,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					>
 						{attachmentStatus === IS_DECRYPTING ? (
 							<LoadingSpinner />
-						) : encryptedFile || !shouldDecryptAttachment ? (
+						) : encryptedFile || !isEncrypted ? (
 							<img
 								src={getPreviewUrl()}
 								alt={props.attachment.title}
@@ -237,7 +231,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			)}
 
 			{/* Audio Player */}
-			{isAudio && (attachmentStatus === DECRYPTION_FINISHED || !shouldDecryptAttachment) && (
+			{isAudio && (attachmentStatus === DECRYPTION_FINISHED || !isEncrypted) && (
 				<div className="messageItem__message__attachment__audio">
 					<audio
 						ref={audioRef}
@@ -304,7 +298,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 			</button>
 
 			{/* Download Links */}
-			{shouldDecryptAttachment ? (
+			{isEncrypted ? (
 				<>
 					{encryptedFile &&
 					attachmentStatus === DECRYPTION_FINISHED ? (
