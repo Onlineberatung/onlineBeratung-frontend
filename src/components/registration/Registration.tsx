@@ -1,6 +1,5 @@
 import * as React from 'react';
 import unionBy from 'lodash/unionBy';
-import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { InformalContext } from '../../globalState';
@@ -20,8 +19,6 @@ export const Registration = () => {
 		'consultingTypes',
 		'agencies'
 	]);
-
-	const { consultingTypeSlug } = useParams<{ consultingTypeSlug: string }>();
 
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
@@ -115,7 +112,6 @@ export const Registration = () => {
 		agency,
 		consultant,
 		loaded,
-		consultingTypeSlug,
 		translate,
 		setInformal,
 		settings.urls.toRegistration,

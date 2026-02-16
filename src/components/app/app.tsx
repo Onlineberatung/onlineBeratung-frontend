@@ -169,12 +169,7 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 										)
 									)}
 
-									<Route
-										path={[
-											'/welcome',
-											'/:consultingTypeSlug/welcome'
-										]}
-									>
+									<Route path="/welcome">
 										<UrlParamsProvider>
 											<Welcome />
 										</UrlParamsProvider>
@@ -183,20 +178,12 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 									<Route
 										path={[
 											'/registration',
-											'/:consultingTypeSlug/registration'
+											'/beratung/registration'
 										]}
 									>
 										<UrlParamsProvider>
 											<Registration />
 										</UrlParamsProvider>
-									</Route>
-
-									<Route path="/:consultingTypeSlug/warteraum">
-										<WaitingRoomLoader
-											onAnonymousRegistration={() =>
-												setStartWebsocket(true)
-											}
-										/>
 									</Route>
 
 									<Route path="/login" exact>

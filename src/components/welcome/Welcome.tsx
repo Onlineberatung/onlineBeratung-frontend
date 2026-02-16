@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import unionBy from 'lodash/unionBy';
 import { StageLayout } from '../stageLayout/StageLayout';
 import { WelcomeScreen } from '../registration/WelcomeScreen';
@@ -22,7 +22,6 @@ export const Welcome = () => {
 	]);
 	const history = useHistory();
 	const settings = useAppConfig();
-	const { consultingTypeSlug } = useParams<{ consultingTypeSlug: string }>();
 	
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
@@ -125,7 +124,6 @@ export const Welcome = () => {
 		agency,
 		consultant,
 		loaded,
-		consultingTypeSlug,
 		translate,
 		setInformal,
 		settings.urls.toRegistration,
@@ -134,9 +132,7 @@ export const Welcome = () => {
 	
 	const handleForwardToRegistration = () => {
 		// Navigate to registration with URL parameters
-		const registrationPath = consultingTypeSlug
-			? `/${consultingTypeSlug}/registration`
-			: '/registration';
+		const registrationPath = '/beratung/registration';
 		const path = urlParams ? `${registrationPath}?${urlParams}` : registrationPath;
 		history.push(path);
 	};
