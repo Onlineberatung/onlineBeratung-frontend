@@ -11,5 +11,11 @@
       "seoDescription": "Kostenlose und vertrauliche Online-Beratung. Registriere Dich jetzt für professionelle Unterstützung.",
       "seoKeywords": "Online-Beratung, Registrierung, kostenlose Beratung, vertraulich, Hilfe, Unterstützung"
     }
+  },
+  "welcome": {
+    "liveChat": {
+      "headline": "Anonymer Live-Chat ist gerade verfügbar!",
+      "button": "Live-Chat Warteraum betreten"
+    }
   }
 }

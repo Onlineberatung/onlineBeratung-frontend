@@ -187,6 +187,11 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 										<></>
 									</Route>
 
+									<Route path="/beratung/warteraum" exact>
+										<WaitingRoomLoader />
+									</Route>
+
+
 									<Route path="/login" exact>
 										<UrlParamsProvider>
 											<Login />
