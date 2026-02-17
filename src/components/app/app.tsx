@@ -181,7 +181,11 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 										</UrlParamsProvider>
 									</Route>
 
-									{/* Registration is now rendered by RegistrationWithPersistence */}
+									{/* Registration Route - actual component rendered by RegistrationWithPersistence above */}
+									<Route path="/beratung/registration" exact>
+										{/* Component is rendered outside Switch for persistence - this route just marks the path as valid */}
+										<></>
+									</Route>
 
 									<Route path="/login" exact>
 										<UrlParamsProvider>
