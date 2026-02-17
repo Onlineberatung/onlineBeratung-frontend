@@ -13,7 +13,11 @@ import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { SEO } from '../seo/SEO';
 
-export const Registration = () => {
+export interface RegistrationProps {
+	isBackground?: boolean;
+}
+
+export const Registration = ({ isBackground = false }: RegistrationProps) => {
 	const { t: translate } = useTranslation([
 		'common',
 		'consultingTypes',
@@ -43,6 +47,13 @@ export const Registration = () => {
 
 	useEffect(() => {
 		if (!loaded) {
+			return;
+		}
+
+		// Don't execute redirects when component is in background (hidden on legal pages)
+		if (isBackground) {
+			console.log('Registration is in background mode, skipping redirect logic');
+			setIsReady(true);
 			return;
 		}
 
@@ -109,6 +120,7 @@ export const Registration = () => {
 			return;
 		}
 	}, [
+		isBackground,
 		consultingType,
 		agency,
 		consultant,

@@ -5,7 +5,8 @@ import {
 	Switch,
 	Route,
 	RouteProps,
-	Redirect
+	Redirect,
+	useLocation
 } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { StageProps } from '../stage/stage';
@@ -222,4 +223,29 @@ const NotificationsContainer = () => {
 	);
 };
 
+/**
+ * Keeps Registration component mounted when navigating to/from legal pages
+ * This preserves all form state without needing complex persistence logic
+ */
+const RegistrationWithPersistence = () => {
+	const location = useLocation();
+	
+	const isRegistrationRoute = location.pathname === '/beratung/registration';
+	const isLegalPage = location.pathname.match(/^\/(impressum|datenschutz|nutzungsbedingungen)/);
+	
+	// Keep mounted on registration or legal pages
+	if (!isRegistrationRoute && !isLegalPage) {
+		return null;
+	}
+	
+	// Hide when on legal pages, show when on registration
+	// Pass isBackground prop to prevent redirects when hidden
+	return (
+		<div style={{ display: isRegistrationRoute ? 'block' : 'none' }}>
+			<UrlParamsProvider>
+				<Registration isBackground={!isRegistrationRoute} />
+			</UrlParamsProvider>
+		</div>
+	);
+};
 
