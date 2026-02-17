@@ -177,12 +177,7 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 										</UrlParamsProvider>
 									</Route>
 
-									<Route
-										path={[
-											'/registration',
-											'/:consultingTypeSlug/registration'
-										]}
-									>
+									<Route path="/beratung/registration">
 										<UrlParamsProvider>
 											<Registration />
 										</UrlParamsProvider>
