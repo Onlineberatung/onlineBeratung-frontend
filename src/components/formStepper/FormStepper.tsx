@@ -163,6 +163,11 @@ setActiveStep(nextStep);
 setVisitedSteps((prev) => new Set([...prev, nextStep]));
 };
 
+const handleStepBack = () => {
+const prevStep = activeStep - 1;
+setActiveStep(prevStep);
+};
+
 const handleKeyDown = (e, isLastInput = true, isFirstInput = true) => {
 if (
 e.key === 'Tab' &&
