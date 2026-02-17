@@ -1043,7 +1043,7 @@ export const MessageSubmitInterfaceComponent = ({
 							type="file"
 							id="dataUpload"
 							name="dataUpload"
-							accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+							accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .mp3, .wav, .ogg, .m4a, .aac, .odt, .ods, .odp"
 						/>
 					)}
 				</form>
