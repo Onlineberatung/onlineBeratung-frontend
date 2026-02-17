@@ -467,7 +467,7 @@ export const Login = () => {
 				showRegistrationLink={hasTenant}
 			>
 				<div className="loginForm">
-					<div>
+					<div style={{ maxWidth: '400px', width: '100%' }}>
 						<div className="loginForm__headline">
 							<h2>{translate('login.headline')}</h2>
 						</div>

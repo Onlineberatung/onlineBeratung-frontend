@@ -50,20 +50,33 @@ export function LegalLinksProvider({
 					getUrl: (params: {
 						[key: string]: string | number | null | undefined;
 					}) => {
-						// URL from config can be:
-						// 1. Full URL with origin (e.g., "http://localhost:5173/impressum")
-						// 2. Relative path (e.g., "/impressum")
-						// We should NOT prepend origin if URL already starts with http/https
-						const fullUrl = url.match(/^https?:\/\//)
-							? url
-							: url.startsWith('/')
-							? `${window.location.origin}${url}`
-							: `${window.location.origin}/${url}`;
-						return getUrl(fullUrl, params);
+						// For React Router Link component, we should return relative paths
+						// Extract pathname from URL if it's already a full URL
+						let path = url;
+						if (url.match(/^https?:\/\//)) {
+							// It's a full URL, extract the pathname
+							try {
+								const urlObj = new URL(url);
+								path = urlObj.pathname;
+							} catch (e) {
+								path = url;
+							}
+						}
+						
+						// If params are provided, append them as query string
+						if (params && Object.keys(params).length > 0) {
+							const queryParams = Object.entries(params)
+								.filter(([, value]) => !!value)
+								.map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
+								.join('&');
+							return queryParams ? `${path}?${queryParams}` : path;
+						}
+						
+						return path;
 					}
 				})
 			),
-		[externalLegalLinks, settings.legalLinks, getUrl]
+		[externalLegalLinks, settings.legalLinks]
 	);
 
 	return (

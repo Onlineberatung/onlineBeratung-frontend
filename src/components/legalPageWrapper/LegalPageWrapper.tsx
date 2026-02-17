@@ -26,7 +26,7 @@ export const LegalPageWrapper = ({
 	};
 
 	const backButton: ButtonItem = {
-		label: t('legal.back'),
+		label: t('app.back'),
 		type: BUTTON_TYPES.SECONDARY,
 		smallIconBackgroundColor: 'transparent'
 	};

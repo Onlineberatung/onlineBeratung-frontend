@@ -69,12 +69,16 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		tenantData?.settings?.featureTopicsEnabled;
 
 	useEffect(() => {
-		setSelectedPostcode(props.initialPostcode || '');
-		setPostcodeFallbackLink('');
-		setSelectedAgency(null);
-		setProposedAgencies(null);
-		setPreselectedAgency(props.preselectedAgency);
-	}, [props.preselectedAgency, props.consultingType, props.initialPostcode]);
+		// Only reset if consultingType or preselected agency actually changes
+		// Don't reset on every re-render to maintain agency selection when navigating steps
+		if (props.preselectedAgency !== preselectedAgency) {
+			setPreselectedAgency(props.preselectedAgency);
+			setSelectedAgency(props.preselectedAgency);
+		}
+		if (props.initialPostcode && props.initialPostcode !== selectedPostcode) {
+			setSelectedPostcode(props.initialPostcode);
+		}
+	}, [props.preselectedAgency, props.initialPostcode]);
 
 	useEffect(() => {
 		(async () => {
@@ -325,7 +329,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					)}
 
 					{validPostcode() && !preselectedAgency && (
-						<div className="agencySelection__proposedAgencies">
+						<div className="agencySelection__proposedAgencies" style={{ minWidth: '100%' }}>
 							<h3>
 								{translate(
 									'registration.agencySelection.title.start'

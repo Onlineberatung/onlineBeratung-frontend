@@ -82,12 +82,13 @@ export const PostCodeSelection = ({
 					id="postcode"
 					type="number"
 					label={translate('registration.agencySelection.postcode.label')}
-					value={value}
+					value={value || ""}
 					onChange={(e) => onChange(e.target.value)}
 					onKeyDown={onKeyDown as any}
 					disabled={disabled}
 					fullWidth
 					variant="outlined"
+					autoComplete="off"
 					inputProps={{
 						maxLength: VALID_POSTCODE_LENGTH,
 						pattern: '^[0-9]+$'
