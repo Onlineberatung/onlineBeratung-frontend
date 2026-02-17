@@ -155,6 +155,16 @@ export default defineConfig(({ mode }) => {
 						attachProxyLogging(proxy);
 					}
 				},
+				'/file-upload': {
+					target:
+						env.VITE_API_URL ||
+						DEFAULT_API_TARGET,
+					changeOrigin: true,
+					secure: false,
+					configure: (proxy, _options) => {
+						attachProxyLogging(proxy);
+					}
+				},
 				'/livereload': {
 					target: 'ws://localhost:35729',
 					ws: true
