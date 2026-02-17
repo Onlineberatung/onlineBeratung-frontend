@@ -198,7 +198,9 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 						aria-label={translate('attachments.preview.label')}
 					>
 						{attachmentStatus === IS_DECRYPTING ? (
-							<LoadingSpinner />
+							<div className="messageItem__message__attachment__preview__placeholder">
+								<LoadingSpinner />
+							</div>
 						) : attachmentStatus === DECRYPTION_FINISHED && encryptedFile ? (
 							<img
 								src={getPreviewUrl()}
