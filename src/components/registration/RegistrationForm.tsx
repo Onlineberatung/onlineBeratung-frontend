@@ -257,6 +257,7 @@ export const RegistrationForm = () => {
 				className="registrationForm"
 				id="registrationForm"
 				data-consultingtype={consultingType?.id}
+				onSubmit={(e) => e.preventDefault()}
 			>
 				<h3 className="registrationForm__overline">
 					{consultingType
