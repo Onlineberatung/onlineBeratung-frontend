@@ -427,8 +427,8 @@ alternativeLabel
 sx={{ mb: 4 }}
 >
 {stepperItemData.map((stepperItem, i) => {
-// Only mark as completed if step is before current AND actually valid
-const isCompleted = i < activeStep && stepperItem.isValid === VALIDITY_VALID;
+// Mark as completed if step is valid (regardless of position - future valid steps stay green)
+const isCompleted = stepperItem.isValid === VALIDITY_VALID;
 const isError = isStepError(i, stepperItem);
 
 return (
