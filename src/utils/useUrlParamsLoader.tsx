@@ -8,7 +8,7 @@ import {
 	ConsultingTypeInterface,
 	TopicsDataInterface
 } from '../globalState/interfaces';
-import { apiGetAgencyById, apiGetConsultingType } from '../api';
+import { apiGetAgencyById, apiGetConsultingType, apiGetConsultingTypes } from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
 import { apiGetTopicById } from '../api/apiGetTopicId';
@@ -170,6 +170,18 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 							!consultingType?.registration?.autoSelectPostcode)
 					) {
 						agency = null;
+					}
+				}
+
+				// If no consulting type found from URL parameters, load default one for backend compatibility
+				// Backend requires consultingType field for registration to work
+				if (!consultingType && !consultingTypeSlug && !agency && !consultantId) {
+					const consultingTypes = await apiGetConsultingTypes().catch(() => []);
+					if (consultingTypes.length > 0) {
+						// Use first consulting type as default
+						consultingType = await apiGetConsultingType({
+							consultingTypeId: consultingTypes[0].id
+						}).catch(() => null);
 					}
 				}
 

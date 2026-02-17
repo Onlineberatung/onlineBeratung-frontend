@@ -46,6 +46,8 @@ export const Registration = () => {
 			return;
 		}
 
+		// We now allow registration with just a consultingType (default one)
+		// since backend requires it. Only redirect to welcome if we have nothing at all.
 		if (!consultingType && !agency && !consultant && !topic) {
 			console.error(
 				'No `consultingType`, `consultant`, `agency` or `topic` found in URL. Redirecting to welcome.'
