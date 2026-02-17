@@ -677,8 +677,6 @@ const DeleteMessage = ({
 		() => ({
 			headline: translate('message.delete.overlay.headline'),
 			copy: translate('message.delete.overlay.copy'),
-			svg: XIllustration,
-			illustrationBackground: 'neutral',
 			buttonSet: [
 				{
 					label: translate('message.delete.overlay.cancel'),
@@ -689,7 +687,7 @@ const DeleteMessage = ({
 				{
 					label: translate('message.delete.overlay.confirm'),
 					function: 'CONFIRM',
-					type: BUTTON_TYPES.PRIMARY,
+					type: BUTTON_TYPES.DANGER,
 					disabled: isRequestInProgress
 				}
 			],
@@ -710,13 +708,19 @@ const DeleteMessage = ({
 				onClick={(e) => {
 					e.preventDefault();
 					e.stopPropagation();
-					setDeleteOverlay(true);
+					// Small delay to ensure menu closes cleanly before modal opens
+					setTimeout(() => {
+						setDeleteOverlay(true);
+					}, 50);
 				}}
 				onKeyDown={(e) => {
 					if (e.key === 'Enter' || e.key === ' ') {
 						e.preventDefault();
 						e.stopPropagation();
-						setDeleteOverlay(true);
+						// Small delay to ensure menu closes cleanly before modal opens
+						setTimeout(() => {
+							setDeleteOverlay(true);
+						}, 50);
 					}
 				}}
 				role="button"

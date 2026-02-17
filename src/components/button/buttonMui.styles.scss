@@ -48,6 +48,27 @@ $buttonMaxWidth: 400px;
 		}
 	}
 
+	// DANGER button - MUI contained variant for critical/destructive actions
+	&--danger {
+		min-width: $buttonMinWidth;
+		max-width: $buttonMaxWidth;
+		height: $grid-base-six;
+		font-weight: $font-weight-bold;
+		border-radius: $button-border-radius;
+		
+		// Red background for destructive actions
+		background-color: $form-error !important;
+		color: $white !important;
+		
+		&:hover {
+			background-color: color.adjust($form-error, $lightness: -10%) !important;
+		}
+		
+		&:active {
+			background-color: color.adjust($form-error, $lightness: -15%) !important;
+		}
+	}
+
 	// TERTIARY button - MUI outlined variant
 	&--tertiary {
 		height: $grid-base-four;
