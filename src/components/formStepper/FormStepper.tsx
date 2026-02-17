@@ -10,13 +10,15 @@ useState
 } from 'react';
 import { Link } from 'react-router-dom';
 import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Box from '@mui/material/Box';
 import './formStepper.styles.scss';
 import { useTenant, AgencySpecificContext } from '../../globalState';
 import {
 RequiredComponentsInterface,
 RegistrationNotesInterface
 } from '../../globalState/interfaces';
-import { FormStepperItemMui } from './FormStepperItemMui';
 import { RegistrationUsername } from '../registration/RegistrationUsername';
 import { RegistrationAge } from '../registration/RegistrationAge';
 import { RegistrationState } from '../registration/RegistrationState';
@@ -76,6 +78,7 @@ AgencySpecificContext
 const { consultingTypes } = useConsultantRegistrationData({});
 
 const [activeStep, setActiveStep] = useState<number>(0);
+const [visitedSteps, setVisitedSteps] = useState<Set<number>>(new Set([0]));
 
 const topicsAreRequired = useMemo(
 () =>
@@ -149,6 +152,17 @@ isDataProtectionSelected ? VALIDITY_VALID : VALIDITY_INITIAL
 );
 }, [handleValidity, isDataProtectionSelected]);
 
+const handleStepClick = (stepIndex: number) => {
+setActiveStep(stepIndex);
+setVisitedSteps((prev) => new Set([...prev, stepIndex]));
+};
+
+const handleNext = () => {
+const nextStep = activeStep + 1;
+setActiveStep(nextStep);
+setVisitedSteps((prev) => new Set([...prev, nextStep]));
+};
+
 const handleKeyDown = (e, isLastInput = true, isFirstInput = true) => {
 if (
 e.key === 'Tab' &&
@@ -165,6 +179,11 @@ activeStep !== 0
 ) {
 setActiveStep(activeStep - 1);
 }
+};
+
+const isStepError = (stepIndex: number, stepData: any): boolean => {
+if (!visitedSteps.has(stepIndex)) return false;
+return stepData && stepData.isValid !== VALIDITY_VALID;
 };
 
 // Build registration steps in the correct order:
@@ -386,23 +405,51 @@ isValid: validity.dataProtection
 
 return (
 <div className="formStepper">
-<Stepper activeStep={activeStep} orientation="vertical">
+<Stepper 
+activeStep={activeStep} 
+orientation="horizontal"
+alternativeLabel
+sx={{ mb: 4 }}
+>
 {stepperItemData.map((stepperItem, i) => {
+const isCompleted = i < activeStep;
+const isError = isStepError(i, stepperItem);
+
 return (
-<FormStepperItemMui
-index={i + 1}
-isActive={i === activeStep}
-isLastItem={i === stepperItemData.length - 1}
-onStepSubmit={() => setActiveStep(i + 1)}
-title={stepperItem.title}
-nestedComponent={stepperItem.nestedComponent}
+<Step 
 key={i}
-isValid={stepperItem.isValid as AccordionItemValidity}
-completed={i < activeStep}
-/>
+completed={isCompleted}
+>
+<StepLabel
+error={isError}
+onClick={() => handleStepClick(i)}
+sx={{ cursor: 'pointer' }}
+>
+{stepperItem.title}
+</StepLabel>
+</Step>
 );
 })}
 </Stepper>
+<Box sx={{ mt: 3 }}>
+{stepperItemData[activeStep] && (
+<>
+{stepperItemData[activeStep].nestedComponent}
+{activeStep < stepperItemData.length - 1 && (
+<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+<Button
+item={{
+label: translate('registration.continueButton.label'),
+type: BUTTON_TYPES.PRIMARY
+}}
+buttonHandle={handleNext}
+disabled={stepperItemData[activeStep].isValid !== VALIDITY_VALID}
+/>
+</Box>
+)}
+</>
+)}
+</Box>
 </div>
 );
 };
