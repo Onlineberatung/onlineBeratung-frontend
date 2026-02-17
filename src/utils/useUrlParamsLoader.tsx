@@ -8,7 +8,7 @@ import {
 	ConsultingTypeInterface,
 	TopicsDataInterface
 } from '../globalState/interfaces';
-import { apiGetAgencyById, apiGetConsultingType, apiGetConsultingTypes } from '../api';
+import { apiGetAgencyById, apiGetConsultingType } from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
 import { apiGetTopicById } from '../api/apiGetTopicId';
@@ -36,7 +36,6 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 	const [loaded, setLoaded] = useState<boolean>(false);
 	const [topic, setTopic] = useState<TopicsDataInterface | null>(null);
 	const [slugFallback, setSlugFallback] = useState<string>();
-	const [error, setError] = useState<string | null>(null);
 
 	const loadTopic = useCallback(
 		async (agency) => {
@@ -174,23 +173,6 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 					}
 				}
 
-				// If no consulting type found from URL parameters, load default one for backend compatibility
-				// Backend requires consultingType field for registration to work
-				if (!consultingType && !consultingTypeSlug && !agency && !consultantId) {
-					const consultingTypes = await apiGetConsultingTypes().catch(() => []);
-					if (consultingTypes.length === 0) {
-						// Critical error: No consulting types available in the system
-						// This means the app is not properly configured and registration cannot work
-						setError('noConsultingTypes');
-						setLoaded(true); // Mark as loaded so error can be displayed
-						return;
-					}
-					// Use first consulting type as default
-					consultingType = await apiGetConsultingType({
-						consultingTypeId: consultingTypes[0].id
-					}).catch(() => null);
-				}
-
 				if (topicIdOrName !== null) {
 					[agency, topic] = await loadTopic(agency);
 				}
@@ -244,5 +226,5 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 		}
 	}, [language, setLocale]);
 
-	return { agency, consultant, consultingType, loaded, topic, slugFallback, postcode: postcodeParam, error };
+	return { agency, consultant, consultingType, loaded, topic, slugFallback, postcode: postcodeParam };
 }

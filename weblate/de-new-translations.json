@@ -19,10 +19,4 @@
       "seoKeywords": "Login, Anmeldung, Online-Beratung, sicherer Zugang, vertraulich"
     }
   },
-  "errors": {
-    "noConsultingTypes": {
-      "title": "Systemfehler: Keine Beratungsarten verfügbar",
-      "message": "Die Anwendung ist nicht korrekt konfiguriert. Es sind keine Beratungsarten im System vorhanden. Bitte kontaktieren Sie Ihren Systemadministrator."
-    }
-  }
-}
+  "login": {

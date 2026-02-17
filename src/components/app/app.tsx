@@ -180,7 +180,7 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 									<Route
 										path={[
 											'/registration',
-											'/beratung/registration'
+											'/:consultingTypeSlug/registration'
 										]}
 									>
 										<UrlParamsProvider>

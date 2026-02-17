@@ -21,7 +21,6 @@ export const UrlParamsContext = createContext<{
 	loaded: boolean;
 	slugFallback: string;
 	postcode: string | null;
-	error: string | null;
 }>({
 	agency: null,
 	consultingType: null,
@@ -29,8 +28,7 @@ export const UrlParamsContext = createContext<{
 	topic: null,
 	loaded: false,
 	slugFallback: undefined,
-	postcode: null,
-	error: null
+	postcode: null
 });
 
 export const UrlParamsProvider = ({ children }: PropsWithChildren<{}>) => {
@@ -39,7 +37,7 @@ export const UrlParamsProvider = ({ children }: PropsWithChildren<{}>) => {
 		() => (document.location.href = settings.urls.toRegistration),
 		[settings.urls.toRegistration]
 	);
-	const { agency, consultingType, consultant, topic, loaded, slugFallback, postcode, error } =
+	const { agency, consultingType, consultant, topic, loaded, slugFallback, postcode } =
 		useUrlParamsLoader(handleBadRequest);
 
 	const context = useMemo(
@@ -50,10 +48,9 @@ export const UrlParamsProvider = ({ children }: PropsWithChildren<{}>) => {
 			topic,
 			loaded,
 			slugFallback,
-			postcode,
-			error
+			postcode
 		}),
-		[agency, consultingType, consultant, topic, loaded, slugFallback, postcode, error]
+		[agency, consultingType, consultant, topic, loaded, slugFallback, postcode]
 	);
 
 	return (
