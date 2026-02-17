@@ -112,4 +112,12 @@ $infoIconSize: 16px;
 			text-align: left;
 		}
 	}
+
+	&__inputContainer {
+		margin-left: 0;
+	}
+
+	.MuiRadio-root {
+		margin-left: -12px;
+	}
 }
