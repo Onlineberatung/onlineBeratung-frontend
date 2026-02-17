@@ -40,10 +40,6 @@ import { FormAccordionData } from '../registration/RegistrationForm';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { TProvidedLegalLink } from '../../globalState/provider/LegalLinksProvider';
 import LegalLinks from '../legalLinks/LegalLinks';
-import {
-	loadRegistrationState,
-	saveRegistrationState
-} from '../registration/registrationStatePersistence';
 
 interface FormStepperProps {
 formAccordionData: FormAccordionData;
@@ -81,18 +77,10 @@ AgencySpecificContext
 );
 const { consultingTypes } = useConsultantRegistrationData({});
 
-// Try to restore persisted state
-const persistedState = loadRegistrationState();
-
-const [activeStep, setActiveStep] = useState<number>(() => {
-	return persistedState?.activeStep || 0;
-});
-const [visitedSteps, setVisitedSteps] = useState<Set<number>>(() => {
-	if (persistedState?.visitedSteps) {
-		return new Set(persistedState.visitedSteps);
-	}
-	return new Set([0]);
-});
+const [activeStep, setActiveStep] = useState<number>(0);
+const [visitedSteps, setVisitedSteps] = useState<Set<number>>(
+	new Set([0])
+);
 
 const topicsAreRequired = useMemo(
 () =>
@@ -137,17 +125,6 @@ formAccordionData.agency,
 setSpecificAgency,
 setIsDataProtectionSelected
 ]);
-
-// Save state whenever it changes
-useEffect(() => {
-	console.log('[FormStepper] Saving state - activeStep:', activeStep, 'visitedSteps:', Array.from(visitedSteps));
-	saveRegistrationState(
-		formAccordionData,
-		activeStep,
-		visitedSteps,
-		isDataProtectionSelected
-	);
-}, [formAccordionData, activeStep, visitedSteps, isDataProtectionSelected]);
 
 useEffect(() => {
 onValidation(
