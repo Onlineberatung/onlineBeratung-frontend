@@ -439,7 +439,7 @@ sx={{ cursor: 'pointer' }}
 <>
 {stepperItemData[activeStep].nestedComponent}
 {activeStep < stepperItemData.length - 1 && (
-<Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+<Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: 'flex-end' }}>
 {activeStep > 0 && (
 <Button
 item={{
