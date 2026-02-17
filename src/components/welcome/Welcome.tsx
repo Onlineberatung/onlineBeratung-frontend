@@ -58,11 +58,13 @@ export const Welcome = () => {
 			return;
 		}
 		
+		// Welcome screen can display without consulting type/agency/consultant/topic
+		// Only set up formal/informal and title if they are available
 		if (!consultingType && !agency && !consultant && !topic) {
-			console.error(
-				'No `consultingType`, `consultant`, `agency` or `topic` found in URL.'
+			console.log(
+				'No `consultingType`, `consultant`, `agency` or `topic` found in URL. Showing generic welcome screen.'
 			);
-			window.location.href = settings.urls.toRegistration;
+			setIsReady(true);
 			return;
 		}
 		

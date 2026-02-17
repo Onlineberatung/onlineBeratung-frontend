@@ -48,9 +48,9 @@ export const Registration = () => {
 
 		if (!consultingType && !agency && !consultant && !topic) {
 			console.error(
-				'No `consultingType`, `consultant`, `agency` or `topic` found in URL.'
+				'No `consultingType`, `consultant`, `agency` or `topic` found in URL. Redirecting to welcome.'
 			);
-			window.location.href = settings.urls.toRegistration;
+			window.location.href = '/welcome';
 			return;
 		}
 
