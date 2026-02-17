@@ -191,9 +191,14 @@ setActiveStep(activeStep - 1);
 const isStepError = (stepIndex: number, stepData: any): boolean => {
 // Don't mark the currently active step as error
 if (stepIndex === activeStep) return false;
-// Only mark as error if step was visited but left without proper validation
-if (!visitedSteps.has(stepIndex)) return false;
+
+// Past steps (before current): Show error if invalid
+if (stepIndex < activeStep) {
 return stepData && stepData.isValid !== VALIDITY_VALID;
+}
+
+// Future steps (after current): Don't show error, just open/todo
+return false;
 };
 
 // Build registration steps in the correct order:
