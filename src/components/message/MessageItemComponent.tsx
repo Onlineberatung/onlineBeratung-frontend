@@ -68,6 +68,9 @@ import { apiDeleteMessage } from '../../api/apiDeleteMessage';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { BanUser, BanUserOverlay } from '../banUser/BanUser';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+
+// Constants
+const MODAL_OPEN_DELAY = 50; // milliseconds - delay to ensure menu closes before modal opens
 import { VideoChatDetails, VideoChatDetailsAlias } from './VideoChatDetails';
 
 export interface ForwardMessageDTO {
@@ -711,7 +714,7 @@ const DeleteMessage = ({
 					// Small delay to ensure menu closes cleanly before modal opens
 					setTimeout(() => {
 						setDeleteOverlay(true);
-					}, 50);
+					}, MODAL_OPEN_DELAY);
 				}}
 				onKeyDown={(e) => {
 					if (e.key === 'Enter' || e.key === ' ') {
@@ -720,7 +723,7 @@ const DeleteMessage = ({
 						// Small delay to ensure menu closes cleanly before modal opens
 						setTimeout(() => {
 							setDeleteOverlay(true);
-						}, 50);
+						}, MODAL_OPEN_DELAY);
 					}
 				}}
 				role="button"
