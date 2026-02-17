@@ -34,6 +34,10 @@ import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { ConsultingTypeRegistrationDefaults } from '../../containers/registration/components/ProposedAgencies/ProposedAgencies';
 import { apiPostError, ERROR_LEVEL_ERROR } from '../../api/apiPostError';
 import { useSnackbar } from '../../hooks/useSnackbar';
+import {
+	loadRegistrationState,
+	clearRegistrationState
+} from './registrationStatePersistence';
 
 export interface FormAccordionData {
 	username?: string;
@@ -71,6 +75,14 @@ export const RegistrationForm = () => {
 
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>(() => {
+			// Try to load persisted state first
+			const persistedState = loadRegistrationState();
+			if (persistedState) {
+				// Restore persisted state
+				return persistedState.formData;
+			}
+
+			// Otherwise initialize with URL params
 			const initData = {
 				agency: agency || null,
 				consultingType: consultingType || null,
@@ -96,7 +108,11 @@ export const RegistrationForm = () => {
 	const [isUsernameAlreadyInUse, setIsUsernameAlreadyInUse] =
 		useState<boolean>(false);
 	const [isDataProtectionSelected, setIsDataProtectionSelected] =
-		useState(false);
+		useState(() => {
+			// Try to restore from persisted state
+			const persistedState = loadRegistrationState();
+			return persistedState?.isDataProtectionSelected || false;
+		});
 	const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [missingFieldsErrorPosted, setMissingFieldsErrorPosted] = useState<
@@ -223,7 +239,11 @@ export const RegistrationForm = () => {
 			settings.multitenancyWithSingleDomainEnabled,
 			tenant
 		)
-			.then(() => setOverlayActive(true))
+			.then(() => {
+				// Clear persisted state on successful registration
+				clearRegistrationState();
+				setOverlayActive(true);
+			})
 			.catch((errorRes) => {
 				if (
 					errorRes.status === 409 &&
