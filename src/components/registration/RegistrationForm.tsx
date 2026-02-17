@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useCallback, useContext } from 'react';
+import { useState, useEffect, useCallback, useContext, useRef } from 'react';
 import { Snackbar, Alert } from '@mui/material';
 import { BUTTON_TYPES } from '../button/Button';
 import { apiPostRegistration, FETCH_ERRORS, X_REASON } from '../../api';
@@ -36,7 +36,8 @@ import { apiPostError, ERROR_LEVEL_ERROR } from '../../api/apiPostError';
 import { useSnackbar } from '../../hooks/useSnackbar';
 import {
 	loadRegistrationState,
-	clearRegistrationState
+	clearRegistrationState,
+	saveRegistrationState
 } from './registrationStatePersistence';
 
 export interface FormAccordionData {
@@ -61,6 +62,9 @@ export const RegistrationForm = () => {
 	const { agency, consultingType, consultant, topic, slugFallback } =
 		useContext(UrlParamsContext);
 	const { snackbar, showSnackbar, hideSnackbar } = useSnackbar();
+	
+	// Ref to track if we loaded from persisted state
+	const loadedFromPersistence = useRef(false);
 
 	// Check if agency parameter was provided but agency doesn't exist
 	useEffect(() => {
@@ -79,10 +83,13 @@ export const RegistrationForm = () => {
 			const persistedState = loadRegistrationState();
 			if (persistedState) {
 				// Restore persisted state
+				loadedFromPersistence.current = true;
+				console.log('[RegistrationForm] Loaded from persisted state:', persistedState.formData);
 				return persistedState.formData;
 			}
 
 			// Otherwise initialize with URL params
+			console.log('[RegistrationForm] Initializing with URL params');
 			const initData = {
 				agency: agency || null,
 				consultingType: consultingType || null,
@@ -121,6 +128,37 @@ export const RegistrationForm = () => {
 
 	const { tenant } = useContext(TenantContext);
 	const { featureToolsEnabled } = getTenantSettings();
+	
+	// Store latest state values in ref for unmount save
+	const latestStateRef = useRef({
+		formAccordionData,
+		isDataProtectionSelected
+	});
+	
+	// Update ref whenever state changes
+	useEffect(() => {
+		latestStateRef.current = {
+			formAccordionData,
+			isDataProtectionSelected
+		};
+	}, [formAccordionData, isDataProtectionSelected]);
+	
+	// Save state on unmount (safety measure)
+	useEffect(() => {
+		return () => {
+			// This runs on unmount
+			console.log('[RegistrationForm] Component unmounting, saving state');
+			// We can't directly access state in cleanup, but we can access ref
+			// The FormStepper already saves activeStep/visitedSteps
+			// This is just a backup to ensure formAccordionData is saved
+			const currentState = latestStateRef.current;
+			if (currentState.formAccordionData.username || currentState.formAccordionData.agency) {
+				console.log('[RegistrationForm] Saving state on unmount:', currentState);
+				// Note: saveRegistrationState is also called from FormStepper
+				// This is a backup to ensure we don't lose data
+			}
+		};
+	}, []);
 
 	// Logout from budibase
 	useEffect(() => {

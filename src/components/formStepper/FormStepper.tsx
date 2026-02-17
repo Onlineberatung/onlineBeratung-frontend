@@ -140,12 +140,13 @@ setIsDataProtectionSelected
 
 // Save state whenever it changes
 useEffect(() => {
-saveRegistrationState(
-formAccordionData,
-activeStep,
-visitedSteps,
-isDataProtectionSelected
-);
+	console.log('[FormStepper] Saving state - activeStep:', activeStep, 'visitedSteps:', Array.from(visitedSteps));
+	saveRegistrationState(
+		formAccordionData,
+		activeStep,
+		visitedSteps,
+		isDataProtectionSelected
+	);
 }, [formAccordionData, activeStep, visitedSteps, isDataProtectionSelected]);
 
 useEffect(() => {
