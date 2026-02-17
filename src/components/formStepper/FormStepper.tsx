@@ -420,7 +420,6 @@ activeStep={activeStep}
 orientation="horizontal"
 alternativeLabel
 sx={{ mb: 4 }}
-slotProps={{ transition: { unmountOnExit: false } }}
 >
 {stepperItemData.map((stepperItem, i) => {
 const isCompleted = i < activeStep;
