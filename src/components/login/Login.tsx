@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
-import {
-	InputField,
-	InputFieldItem,
-	InputFieldLabelState
-} from '../inputField/InputField';
+import { TextField } from '@mui/material';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { autoLogin, redirectToApp } from '../registration/autoLogin';
@@ -66,6 +62,10 @@ import { GlobalComponentContext } from '../../globalState/provider/GlobalCompone
 import { useConsultantRegistrationData } from '../../containers/registration/hooks/useConsultantRegistrationData';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { SEO } from '../seo/SEO';
+import {
+	InputField,
+	InputFieldItem
+} from '../inputField/InputField';
 
 const regexAccountDeletedError = /account disabled/i;
 
@@ -93,7 +93,6 @@ export const Login = () => {
 	const consultantId = getUrlParameter('cid');
 	const { consultant, loaded: isReady } = useContext(UrlParamsContext);
 
-	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 	const [username, setUsername] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(
@@ -117,7 +116,6 @@ export const Login = () => {
 
 	useEffect(() => {
 		setShowLoginError('');
-		setLabelState(null);
 		if (
 			(!isOtpRequired && username && password) ||
 			(isOtpRequired && username && password && otp)
@@ -145,31 +143,6 @@ export const Login = () => {
 	const [pwResetOverlayActive, setPwResetOverlayActive] = useState(false);
 
 	const [twoFactorType, setTwoFactorType] = useState(TWO_FACTOR_TYPES.NONE);
-
-	const inputItemUsername: InputFieldItem = {
-		name: 'username',
-		class: 'login',
-		id: 'username',
-		type: 'text',
-		label: translate('login.user.label'),
-		content: username,
-		icon: <PersonIcon />,
-		tabIndex: 1,
-		autoComplete: 'username',
-		...(labelState && { labelState })
-	};
-
-	const inputItemPassword: InputFieldItem = {
-		name: 'password',
-		id: 'passwordInput',
-		type: 'password',
-		label: translate('login.password.label'),
-		content: password,
-		icon: <LockIcon />,
-		tabIndex: 1,
-		autoComplete: 'current-password',
-		...(labelState && { labelState })
-	};
 
 	const otpInputItem: InputFieldItem = {
 		content: otp,
@@ -498,15 +471,35 @@ export const Login = () => {
 						<div className="loginForm__headline">
 							<h2>{translate('login.headline')}</h2>
 						</div>
-						<InputField
-							item={inputItemUsername}
-							inputHandle={handleUsernameChange}
-							keyUpHandle={handleKeyUp}
+						<TextField
+							id="username"
+							name="username"
+							label={translate('login.user.label')}
+							type="text"
+							value={username}
+							onChange={handleUsernameChange}
+							onKeyUp={handleKeyUp}
+							error={!!showLoginError}
+							fullWidth
+							variant="outlined"
+							autoComplete="username"
+							sx={{ mt: 2 }}
+							tabIndex={1}
 						/>
-						<InputField
-							item={inputItemPassword}
-							inputHandle={handlePasswordChange}
-							keyUpHandle={handleKeyUp}
+						<TextField
+							id="passwordInput"
+							name="password"
+							label={translate('login.password.label')}
+							type="password"
+							value={password}
+							onChange={handlePasswordChange}
+							onKeyUp={handleKeyUp}
+							error={!!showLoginError}
+							fullWidth
+							variant="outlined"
+							autoComplete="current-password"
+							sx={{ mt: 2 }}
+							tabIndex={1}
 						/>
 						<div
 							className={clsx('loginForm__otp', {
