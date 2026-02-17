@@ -108,7 +108,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			cursor: pointer;
 
 			@include from-large {
-				margin-bottom: 12px;
+				margin-bottom: 10px;
 			}
 
 			svg {
@@ -132,7 +132,12 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			justify-content: center;
 			width: $grid-base-three;
 			height: $grid-base-three;
+			margin-bottom: $grid-base;
 			cursor: pointer;
+
+			@include from-large {
+				margin-bottom: 10px;
+			}
 
 			svg {
 				align-self: flex-end;
@@ -291,12 +296,11 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			justify-content: center;
 			width: $grid-base-three;
 			height: $grid-base-three;
-			margin-top: 6px;
 			margin-bottom: $grid-base;
 			cursor: pointer;
 
 			@include from-large {
-				margin-bottom: 12px;
+				margin-bottom: 10px;
 			}
 
 			svg {

@@ -289,7 +289,6 @@ export const TiptapEditor = React.memo(
 					className="textarea__editor-wrapper"
 					sx={{
 						position: 'relative',
-						minHeight: '60px',
 						padding: '12px',
 						backgroundColor: theme.palette.background.paper
 					}}
