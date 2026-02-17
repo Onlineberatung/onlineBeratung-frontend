@@ -182,6 +182,9 @@ setActiveStep(activeStep - 1);
 };
 
 const isStepError = (stepIndex: number, stepData: any): boolean => {
+// Don't mark the currently active step as error
+if (stepIndex === activeStep) return false;
+// Only mark as error if step was visited but left without proper validation
 if (!visitedSteps.has(stepIndex)) return false;
 return stepData && stepData.isValid !== VALIDITY_VALID;
 };
@@ -436,10 +439,19 @@ sx={{ cursor: 'pointer' }}
 <>
 {stepperItemData[activeStep].nestedComponent}
 {activeStep < stepperItemData.length - 1 && (
-<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+<Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+{activeStep > 0 && (
 <Button
 item={{
-label: translate('registration.continueButton.label'),
+label: translate('app.back'),
+type: BUTTON_TYPES.SECONDARY
+}}
+buttonHandle={handleStepBack}
+/>
+)}
+<Button
+item={{
+label: translate('app.next'),
 type: BUTTON_TYPES.PRIMARY
 }}
 buttonHandle={handleNext}

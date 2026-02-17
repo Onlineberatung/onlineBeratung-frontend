@@ -1,10 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 import { VALID_POSTCODE_LENGTH } from '../../../../components/agencySelection/agencySelectionHelpers';
-import {
-	InputField,
-	InputFieldItem
-} from '../../../../components/inputField/InputField';
 import { Text } from '../../../../components/text/Text';
 import { PinIcon } from '../../../../resources/img/icons';
 
@@ -24,19 +22,6 @@ export const PostCodeSelection = ({
 	disabled = false
 }: PostCodeSelectionArgs) => {
 	const { t: translate } = useTranslation(['common', 'agencies']);
-
-	const postcodeInputItem: InputFieldItem = {
-		name: 'postcode',
-		class: 'asker__registration__postcodeInput',
-		id: 'postcode',
-		type: 'number',
-		label: translate('registration.agencySelection.postcode.label'),
-		content: value,
-		maxLength: VALID_POSTCODE_LENGTH,
-		pattern: '^[0-9]+$',
-		icon: <PinIcon />,
-		disabled: disabled
-	};
 
 	const introItemsTranslations = isPreselectedAgency
 		? [
@@ -92,10 +77,29 @@ export const PostCodeSelection = ({
 				</div>
 			</div>
 			<div className="agencySelection__inputContainer">
-				<InputField
-					item={postcodeInputItem}
-					inputHandle={(e) => onChange(e.target.value)}
-					onKeyDown={(e) => onKeyDown?.(e)}
+				<TextField
+					name="postcode"
+					id="postcode"
+					type="number"
+					label={translate('registration.agencySelection.postcode.label')}
+					value={value}
+					onChange={(e) => onChange(e.target.value)}
+					onKeyDown={onKeyDown as any}
+					disabled={disabled}
+					fullWidth
+					variant="outlined"
+					inputProps={{
+						maxLength: VALID_POSTCODE_LENGTH,
+						pattern: '^[0-9]+$'
+					}}
+					InputProps={{
+						startAdornment: (
+							<InputAdornment position="start">
+								<PinIcon />
+							</InputAdornment>
+						)
+					}}
+					sx={{ mt: 2 }}
 				/>
 			</div>
 		</div>

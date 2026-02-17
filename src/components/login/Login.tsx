@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { generatePath, useHistory } from 'react-router-dom';
-import { TextField } from '@mui/material';
+import { TextField, Stack, Box, InputAdornment } from '@mui/material';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { autoLogin, redirectToApp } from '../registration/autoLogin';
@@ -471,89 +471,110 @@ export const Login = () => {
 						<div className="loginForm__headline">
 							<h2>{translate('login.headline')}</h2>
 						</div>
-						<TextField
-							id="username"
-							name="username"
-							label={translate('login.user.label')}
-							type="text"
-							value={username}
-							onChange={handleUsernameChange}
-							onKeyUp={handleKeyUp}
-							error={!!showLoginError}
-							fullWidth
-							variant="outlined"
-							autoComplete="username"
-							sx={{ mt: 2 }}
-							tabIndex={1}
-						/>
-						<TextField
-							id="passwordInput"
-							name="password"
-							label={translate('login.password.label')}
-							type="password"
-							value={password}
-							onChange={handlePasswordChange}
-							onKeyUp={handleKeyUp}
-							error={!!showLoginError}
-							fullWidth
-							variant="outlined"
-							autoComplete="current-password"
-							sx={{ mt: 2 }}
-							tabIndex={1}
-						/>
-						<div
-							className={clsx('loginForm__otp', {
-								'loginForm__otp--active': isOtpRequired
-							})}
-						>
-							{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
-								<Text
-									className="loginForm__emailHint"
-									text={translate(
-										'twoFactorAuth.activate.email.resend.hint'
-									)}
-									type="infoLargeAlternative"
-								/>
-							)}
-							<InputField
-								item={otpInputItem}
-								inputHandle={handleOtpChange}
-								keyUpHandle={handleKeyUp}
-							/>
-							{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
-								<TwoFactorAuthResendMail
-									resendHandler={(callback) => {
-										tryLogin();
-										callback();
-									}}
-								/>
-							)}
-						</div>
-
-						{showLoginError && (
-							<Text
-								text={showLoginError}
-								type="infoSmall"
-								className="loginForm__error"
-							/>
-						)}
-
-						<Button
-							item={loginButton}
-							buttonHandle={handleLogin}
-							disabled={isButtonDisabled || isRequestInProgress}
-						/>
-
-						{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
-							<button
-								onClick={onPasswordResetClick}
-								className="button-as-link"
-								type="button"
+						<Stack spacing={2}>
+							<TextField
+								id="username"
+								name="username"
+								label={translate('login.user.label')}
+								type="text"
+								value={username}
+								onChange={handleUsernameChange}
+								onKeyUp={handleKeyUp}
+								error={!!showLoginError}
+								fullWidth
+								variant="outlined"
+								autoComplete="username"
 								tabIndex={1}
-							>
-								{translate('login.resetPasswort.label')}
-							</button>
-						)}
+							/>
+							<TextField
+								id="passwordInput"
+								name="password"
+								label={translate('login.password.label')}
+								type="password"
+								value={password}
+								onChange={handlePasswordChange}
+								onKeyUp={handleKeyUp}
+								error={!!showLoginError}
+								fullWidth
+								variant="outlined"
+								autoComplete="current-password"
+								tabIndex={1}
+							/>
+							{isOtpRequired && (
+								<Box>
+									{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
+										<Text
+											className="loginForm__emailHint"
+											text={translate(
+												'twoFactorAuth.activate.email.resend.hint'
+											)}
+											type="infoLargeAlternative"
+										/>
+									)}
+									<TextField
+										id="otp"
+										name="otp"
+										label={translate('twoFactorAuth.activate.otp.input.label.text')}
+										type="text"
+										value={otp}
+										onChange={handleOtpChange}
+										onKeyUp={handleKeyUp}
+										fullWidth
+										variant="outlined"
+										inputProps={{
+											maxLength: OTP_LENGTH,
+											inputMode: 'numeric'
+										}}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<VerifiedIcon />
+												</InputAdornment>
+											)
+										}}
+										helperText={
+											twoFactorType === TWO_FACTOR_TYPES.APP
+												? translate(`login.warning.failed.app.otp.missing`)
+												: ''
+										}
+										tabIndex={0}
+									/>
+									{twoFactorType === TWO_FACTOR_TYPES.EMAIL && (
+										<TwoFactorAuthResendMail
+											resendHandler={(callback) => {
+												tryLogin();
+												callback();
+											}}
+										/>
+									)}
+								</Box>
+							)}
+
+							{showLoginError && (
+								<Text
+									text={showLoginError}
+									type="infoSmall"
+									className="loginForm__error"
+								/>
+							)}
+
+							<Button
+								item={loginButton}
+								buttonHandle={handleLogin}
+								disabled={isButtonDisabled || isRequestInProgress}
+							/>
+
+							{!(twoFactorType === TWO_FACTOR_TYPES.EMAIL) && (
+								<button
+									onClick={onPasswordResetClick}
+									className="button-as-link"
+									type="button"
+									tabIndex={1}
+								>
+									{translate('login.resetPasswort.label')}
+								</button>
+							)}
+						</Stack>
 
 						{!hasTenant && (
 							<div className="loginForm__register">
