@@ -2664,6 +2664,12 @@
 			"welcomeImageTitle": "Willkommen"
 		}
 	},
+	"errors": {
+		"noConsultingTypes": {
+			"title": "Systemfehler: Keine Beratungsarten verfügbar",
+			"message": "Die Anwendung ist nicht korrekt konfiguriert. Es sind keine Beratungsarten im System vorhanden. Bitte kontaktieren Sie Ihren Systemadministrator."
+		}
+	},
 	"walkthrough": {
 		"step": {
 			"0": {

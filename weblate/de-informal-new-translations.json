@@ -11,5 +11,11 @@
       "seoDescription": "Kostenlose und vertrauliche Online-Beratung. Registriere Dich jetzt für professionelle Unterstützung.",
       "seoKeywords": "Online-Beratung, Registrierung, kostenlose Beratung, vertraulich, Hilfe, Unterstützung"
     }
+  },
+  "errors": {
+    "noConsultingTypes": {
+      "title": "Systemfehler: Keine Beratungsarten verfügbar",
+      "message": "Die Anwendung ist nicht korrekt konfiguriert. Es sind keine Beratungsarten im System vorhanden. Bitte kontaktiere deinen Systemadministrator."
+    }
   }
 }

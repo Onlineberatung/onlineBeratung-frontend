@@ -950,6 +950,12 @@
 			"subline": "Der Video-Call hat noch nicht begonnen. Du wirst weitergeleitet, sobald Dein_e Berater_in den Video-Call startet."
 		}
 	},
+	"errors": {
+		"noConsultingTypes": {
+			"title": "Systemfehler: Keine Beratungsarten verfügbar",
+			"message": "Die Anwendung ist nicht korrekt konfiguriert. Es sind keine Beratungsarten im System vorhanden. Bitte kontaktiere deinen Systemadministrator."
+		}
+	},
 	"walkthrough": {
 		"step": {
 			"0": {

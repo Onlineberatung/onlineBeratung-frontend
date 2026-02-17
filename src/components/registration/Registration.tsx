@@ -38,11 +38,19 @@ export const Registration = () => {
 
 	const [isReady, setIsReady] = useState(false);
 
-	const { agency, consultingType, consultant, topic, loaded } =
+	const { agency, consultingType, consultant, topic, loaded, error } =
 		useContext(UrlParamsContext);
 
 	useEffect(() => {
 		if (!loaded) {
+			return;
+		}
+
+		// Critical error: No consulting types available in the system
+		if (error === 'noConsultingTypes') {
+			console.error('No consulting types available in the system. App is not properly configured.');
+			// Don't redirect - show error in the component render below
+			setIsReady(true);
 			return;
 		}
 
@@ -121,6 +129,36 @@ export const Registration = () => {
 	]);
 
 	const isFirstVisit = useIsFirstVisit();
+
+	// Show error if no consulting types available in the system
+	if (error === 'noConsultingTypes') {
+		return (
+			<>
+				<SEO
+					title={translate('registration.headline')}
+					description={translate('registration.intro.seoDescription')}
+					keywords={translate('registration.intro.seoKeywords')}
+				/>
+				<StageLayout
+					showLegalLinks={true}
+					showLoginLink={true}
+					stage={<Stage hasAnimation={false} isReady={true} />}
+					loginParams={loginParams}
+				>
+					<div style={{
+						padding: '2rem',
+						backgroundColor: '#f44336',
+						color: 'white',
+						borderRadius: '4px',
+						marginBottom: '2rem'
+					}}>
+						<h2>{translate('errors.noConsultingTypes.title')}</h2>
+						<p>{translate('errors.noConsultingTypes.message')}</p>
+					</div>
+				</StageLayout>
+			</>
+		);
+	}
 
 	return (
 		<>
