@@ -68,10 +68,10 @@ import { apiDeleteMessage } from '../../api/apiDeleteMessage';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { BanUser, BanUserOverlay } from '../banUser/BanUser';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
+import { VideoChatDetails, VideoChatDetailsAlias } from './VideoChatDetails';
 
 // Constants
 const MODAL_OPEN_DELAY = 50; // milliseconds - delay to ensure menu closes before modal opens
-import { VideoChatDetails, VideoChatDetailsAlias } from './VideoChatDetails';
 
 export interface ForwardMessageDTO {
 	message: string;
