@@ -228,7 +228,7 @@
 		"error": {
 			"format": {
 				"headline": "Your file could not be sent.",
-				"message": "our file could not be sent. Allowed are images (jpg and png), and documents (docx and pdf). Please try again."
+				"message": "Your file could not be sent. Allowed are images (jpg, png), documents (pdf, docx, xlsx, odt, ods, odp), and audio files (mp3, wav, ogg, aac, m4a). Please try again."
 			},
 			"other": {
 				"headline": "There was an error uploading the file.",
@@ -251,11 +251,19 @@
 		},
 		"type": {
 			"label": {
+				"aac": "AAC",
 				"docx": "DOCX",
 				"jpeg": "JPG",
+				"m4a": "M4A",
 				"mb": "MB",
+				"mp3": "MP3",
+				"ogg": "OGG",
+				"odp": "ODP",
+				"ods": "ODS",
+				"odt": "ODT",
 				"pdf": "PDF",
 				"png": "PNG",
+				"wav": "WAV",
 				"xlsx": "XLSX"
 			}
 		}
@@ -2005,7 +2013,7 @@
 				"insideDropArea": "Place the file here to upload it.",
 				"outsideDropArea": "Drag the file into the field to upload it."
 			},
-			"restrictions": ".jpg, .png, .pdf, .docx, .xlsx up to a maximum of {{attachment_filesize}}MB"
+			"restrictions": ".jpg, .png, .pdf, .docx, .xlsx, .mp3, .wav, .ogg, .aac, .m4a, .odt, .ods, .odp up to a maximum of {{attachment_filesize}}MB"
 		},
 		"empty": "Please select a message",
 		"feedback": {

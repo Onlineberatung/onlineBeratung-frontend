@@ -556,3 +556,67 @@ $message-attachment-color: $secondary !default;
 		opacity: 0;
 	}
 }
+
+// Attachment Preview and Audio Player Styles
+.messageItem__message__attachment {
+	&__preview {
+		margin-bottom: $grid-base;
+		
+		&__button {
+			border: none;
+			background: none;
+			padding: 0;
+			cursor: pointer;
+			display: block;
+			width: 100%;
+			max-width: 300px;
+			
+			&:hover {
+				opacity: 0.9;
+			}
+		}
+		
+		&__image {
+			width: 100%;
+			height: auto;
+			max-height: 200px;
+			object-fit: cover;
+			border-radius: 8px;
+			display: block;
+		}
+		
+		&__placeholder {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: $grid-base-three;
+			background-color: $background-light;
+			border-radius: 8px;
+			min-height: 120px;
+			
+			svg {
+				width: 48px;
+				height: 48px;
+				margin-bottom: $grid-base;
+				opacity: 0.5;
+			}
+			
+			span {
+				color: $text-low-emphasis;
+				font-size: $font-size-secondary;
+			}
+		}
+	}
+	
+	&__audio {
+		margin-bottom: $grid-base;
+		
+		&__player {
+			width: 100%;
+			max-width: 300px;
+			height: 40px;
+		}
+	}
+}
+
