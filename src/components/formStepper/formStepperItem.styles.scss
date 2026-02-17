@@ -1,0 +1,67 @@
+@import '../../resources/styles/settings';
+
+.formStepperItem {
+margin-bottom: $grid-base;
+
+&__iconWrapper {
+display: flex;
+align-items: center;
+position: relative;
+}
+
+&__index {
+font-size: 1.125rem;
+display: flex;
+align-items: center;
+justify-content: center;
+width: 32px;
+height: 32px;
+border-radius: 50%;
+background-color: #eaeaea;
+color: #000;
+font-weight: 600;
+}
+
+&--active {
+.formStepperItem__index {
+background-color: $primary;
+color: $white;
+}
+}
+
+&__title {
+font-size: 1rem;
+font-weight: 400;
+margin: 0;
+max-width: calc(100% - 30px);
+}
+
+&__content {
+padding: $grid-base 0 0 $grid-base-three;
+
+.inputField {
+margin-left: 44px;
+}
+}
+
+&__nextbutton {
+margin-top: $grid-base-two;
+margin-left: 44px;
+}
+
+&__validationIcon {
+width: 24px;
+height: 24px;
+margin-left: $grid-base;
+position: absolute;
+right: -32px;
+
+&--valid path {
+fill: $success;
+}
+
+&--invalid path {
+fill: #cc1e1c;
+}
+}
+}

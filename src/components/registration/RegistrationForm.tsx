@@ -17,7 +17,7 @@ import {
 	ConsultingTypeInterface,
 	TopicsDataInterface
 } from '../../globalState/interfaces';
-import { FormAccordion } from '../formAccordion/FormAccordion';
+import { FormStepper } from '../formStepper/FormStepper';
 import WelcomeIcon from '../../resources/img/illustrations/welcome.svg?react';
 import './registrationForm.styles.scss';
 import {
@@ -278,7 +278,7 @@ export const RegistrationForm = () => {
 				)}
 
 				{(consultingType || consultant) && (
-					<FormAccordion
+					<FormStepper
 						formAccordionData={formAccordionData}
 						isUsernameAlreadyInUse={isUsernameAlreadyInUse}
 						onChange={handleChange}
