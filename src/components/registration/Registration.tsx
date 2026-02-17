@@ -50,7 +50,8 @@ export const Registration = () => {
 			console.error(
 				'No `consultingType`, `consultant`, `agency` or `topic` found in URL.'
 			);
-			window.location.href = settings.urls.toRegistration;
+			// Redirect to welcome screen instead of registration to avoid infinite loop
+			window.location.href = '/welcome';
 			return;
 		}
 

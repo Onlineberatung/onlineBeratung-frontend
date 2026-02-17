@@ -228,7 +228,6 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 			}
 		})();
 	}, [
-		consultingTypeSlug,
 		agencyId,
 		consultantId,
 		topicIdOrName,
