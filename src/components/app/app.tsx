@@ -187,8 +187,13 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 										<></>
 									</Route>
 
-									<Route path="/beratung/warteraum" exact>
-										<WaitingRoomLoader />
+									<Route path="/beratung/warteraum/:consultingTypeSlug?" exact>
+										<WaitingRoomLoader 
+											onAnonymousRegistration={(data: any) => {
+												console.log('Anonymous registration completed:', data);
+												// Anonymous registration is handled within WaitingRoom component
+											}}
+										/>
 									</Route>
 
 
