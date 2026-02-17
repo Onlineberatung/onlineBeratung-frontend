@@ -70,6 +70,9 @@ import { BanUser, BanUserOverlay } from '../banUser/BanUser';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { VideoChatDetails, VideoChatDetailsAlias } from './VideoChatDetails';
 
+// Constants
+const MODAL_OPEN_DELAY = 50; // milliseconds - delay to ensure menu closes before modal opens
+
 export interface ForwardMessageDTO {
 	message: string;
 	rcUserId: string;
@@ -677,8 +680,6 @@ const DeleteMessage = ({
 		() => ({
 			headline: translate('message.delete.overlay.headline'),
 			copy: translate('message.delete.overlay.copy'),
-			svg: XIllustration,
-			illustrationBackground: 'neutral',
 			buttonSet: [
 				{
 					label: translate('message.delete.overlay.cancel'),
@@ -689,7 +690,7 @@ const DeleteMessage = ({
 				{
 					label: translate('message.delete.overlay.confirm'),
 					function: 'CONFIRM',
-					type: BUTTON_TYPES.PRIMARY,
+					type: BUTTON_TYPES.DANGER,
 					disabled: isRequestInProgress
 				}
 			],
@@ -707,11 +708,22 @@ const DeleteMessage = ({
 	return (
 		<>
 			<a
-				onClick={() => setDeleteOverlay(true)}
+				onClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					// Small delay to ensure menu closes cleanly before modal opens
+					setTimeout(() => {
+						setDeleteOverlay(true);
+					}, MODAL_OPEN_DELAY);
+				}}
 				onKeyDown={(e) => {
 					if (e.key === 'Enter' || e.key === ' ') {
 						e.preventDefault();
-						setDeleteOverlay(true);
+						e.stopPropagation();
+						// Small delay to ensure menu closes cleanly before modal opens
+						setTimeout(() => {
+							setDeleteOverlay(true);
+						}, MODAL_OPEN_DELAY);
 					}
 				}}
 				role="button"
