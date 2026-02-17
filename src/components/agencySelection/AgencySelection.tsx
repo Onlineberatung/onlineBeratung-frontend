@@ -329,7 +329,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					)}
 
 					{validPostcode() && !preselectedAgency && (
-						<div className="agencySelection__proposedAgencies" style={{ minWidth: '100%' }}>
+						<div className="agencySelection__proposedAgencies" style={{ minWidth: '100%', width: '100%' }}>
 							<h3>
 								{translate(
 									'registration.agencySelection.title.start'

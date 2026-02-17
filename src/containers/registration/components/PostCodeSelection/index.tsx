@@ -82,7 +82,7 @@ export const PostCodeSelection = ({
 					id="postcode"
 					type="number"
 					label={translate('registration.agencySelection.postcode.label')}
-					value={value || ""}
+					value={value ?? ""}
 					onChange={(e) => onChange(e.target.value)}
 					onKeyDown={onKeyDown as any}
 					disabled={disabled}

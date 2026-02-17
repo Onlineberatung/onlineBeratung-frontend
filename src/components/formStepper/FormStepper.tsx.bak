@@ -442,7 +442,6 @@ activeStep={activeStep}
 orientation="horizontal"
 alternativeLabel
 sx={{ mb: 4 }}
-slotProps={{ transition: { unmountOnExit: false } }}
 >
 {stepperItemData.map((stepperItem, i) => {
 const isCompleted = i < activeStep;
@@ -465,15 +464,12 @@ sx={{ cursor: 'pointer' }}
 })}
 </Stepper>
 <Box sx={{ mt: 3 }}>
-{stepperItemData.map((stepperItem, i) => (
-<div 
-key={i}
-style={{ display: activeStep === i ? 'block' : 'none' }}
->
-{stepperItem.nestedComponent}
-{i < stepperItemData.length - 1 && (
+{stepperItemData[activeStep] && (
+<>
+{stepperItemData[activeStep].nestedComponent}
+{activeStep < stepperItemData.length - 1 && (
 <Box sx={{ display: 'flex', gap: 2, mt: 2, justifyContent: 'flex-end' }}>
-{i > 0 && (
+{activeStep > 0 && (
 <Button
 item={{
 label: translate('app.back'),
@@ -488,12 +484,12 @@ label: translate('app.next'),
 type: BUTTON_TYPES.PRIMARY
 }}
 buttonHandle={handleNext}
-disabled={stepperItem.isValid !== VALIDITY_VALID}
+disabled={stepperItemData[activeStep].isValid !== VALIDITY_VALID}
 />
 </Box>
 )}
-</div>
-))}
+</>
+)}
 </Box>
 </div>
 );
