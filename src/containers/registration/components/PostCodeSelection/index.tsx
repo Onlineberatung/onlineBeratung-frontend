@@ -35,7 +35,7 @@ export const PostCodeSelection = ({
 			];
 
 	return (
-		<div className={'postCodeContainer'}>
+		<div className={'postCodeContainer'} style={{ width: '100%' }}>
 			<div className="agencySelection__intro">
 				<Text
 					text={
