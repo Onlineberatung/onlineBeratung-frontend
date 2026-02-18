@@ -61,11 +61,11 @@ $buttonMaxWidth: 400px;
 		color: $white !important;
 		
 		&:hover {
-			background-color: darken($form-error, 10%) !important;
+			background-color: #b30000 !important; // darken($form-error, 10%)
 		}
 		
 		&:active {
-			background-color: darken($form-error, 15%) !important;
+			background-color: #a60000 !important; // darken($form-error, 15%)
 		}
 	}
 
