@@ -133,11 +133,18 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	useEffect(() => {
 		if (anonymousEnquiryAccepted) {
+			// Show acceptance overlay briefly
 			setOverlayItem(acceptanceOverlayItem);
 			setIsOverlayActive(true);
 			setAnonymousEnquiryAccepted(false);
+			
+			// Automatically navigate to chat after short delay
+			setTimeout(() => {
+				deleteCookieByName('registeredUsername');
+				history.push('/app');
+			}, 2000);
 		}
-	}, [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted]);
+	}, [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted, history]);
 
 	useEffect(() => {
 		if (anonymousConversationStarted) {
