@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
@@ -10,12 +10,32 @@ import {
 	SelectDropdownItem,
 	SelectOption
 } from '../select/SelectDropdown';
-import { LocaleContext } from '../../globalState';
+import { LocaleContext, UserDataContext } from '../../globalState';
 import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 export const Locale = () => {
 	const { t: translate } = useTranslation(['common', 'languages']);
 	const { locale, setLocale, selectableLocales } = useContext(LocaleContext);
+	const userDataContext = useContext(UserDataContext);
+	const [requestInProgress, setRequestInProgress] = useState(false);
+
+	useEffect(() => {
+		if (
+			userDataContext?.userData?.preferredLanguage !== locale &&
+			!requestInProgress
+		) {
+			setRequestInProgress(true);
+			apiPatchUserData({
+				preferredLanguage: locale
+			})
+				.then(userDataContext.reloadUserData)
+				.catch(console.log)
+				.finally(() => {
+					setRequestInProgress(false);
+				});
+		}
+	}, [locale, requestInProgress, userDataContext]);
 
 	const languageSelectDropdown: SelectDropdownItem = {
 		handleDropdownSelect: (selectedOption) => {
