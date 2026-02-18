@@ -8,6 +8,7 @@ import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 import './absenceFormular.styles.scss';
 import { Headline } from '../headline/Headline';
 import Switch from '../Switch/SwitchSimple';
+import { FormControlLabel } from '@mui/material';
 import { Text } from '../text/Text';
 import { Textarea } from '../form/textarea';
 import { isMobile } from 'react-device-detect';
@@ -96,26 +97,24 @@ export const AbsenceFormular = () => {
 					type="infoLargeAlternative"
 				/>
 
-				<div className="flex">
-					<Switch
-						className="mr--1"
-						onChange={() => saveAbsence(!isAbsent)}
-						checked={isAbsent}
-						uncheckedIcon={false}
-						checkedIcon={false}
-						width={48}
-						height={26}
-						onColor="#0A882F"
-						offColor="#8C878C"
-						boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-						handleDiameter={27}
-						activeBoxShadow="none"
-					/>
-					<Text
-						text={translate('absence.checkbox.label')}
-						type="standard"
-					/>
-				</div>
+				<FormControlLabel
+					control={
+						<Switch
+							onChange={() => saveAbsence(!isAbsent)}
+							checked={isAbsent}
+							uncheckedIcon={false}
+							checkedIcon={false}
+							width={48}
+							height={26}
+							onColor="#0A882F"
+							offColor="#8C878C"
+							boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+							handleDiameter={27}
+							activeBoxShadow="none"
+						/>
+					}
+					label={translate('absence.checkbox.label')}
+				/>
 			</div>
 			{overlayActive && (
 				<Overlay
