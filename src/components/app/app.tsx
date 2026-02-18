@@ -189,9 +189,9 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 
 									<Route path="/beratung/warteraum/:consultingTypeSlug?" exact>
 										<WaitingRoomLoader 
-											onAnonymousRegistration={(data: any) => {
-												console.log('Anonymous registration completed:', data);
-												// Anonymous registration is handled within WaitingRoom component
+											onAnonymousRegistration={() => {
+												console.log('[App] Anonymous registration completed, starting WebSocket');
+												setStartWebsocket(true);
 											}}
 										/>
 									</Route>

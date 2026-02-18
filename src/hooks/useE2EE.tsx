@@ -439,6 +439,8 @@ export const useE2EE = (
 
 	useEffect(() => {
 		return () => {
+			// Reset key type tracking to prevent contamination across rooms
+			keyType.current = null;
 			setEncrypted(false);
 			setSubscriptionKeyLost(false);
 			setRoomNotFound(false);
