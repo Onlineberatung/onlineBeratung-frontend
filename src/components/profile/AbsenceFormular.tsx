@@ -114,6 +114,7 @@ export const AbsenceFormular = () => {
 						/>
 					}
 					label={translate('absence.checkbox.label')}
+					labelPlacement="end"
 				/>
 			</div>
 			{overlayActive && (

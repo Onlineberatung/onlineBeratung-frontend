@@ -60,6 +60,7 @@ export const ConsultantNotifications = () => {
 						/>
 					}
 					label={translate(notification.label)}
+					labelPlacement="end"
 				/>
 			))}
 		</div>

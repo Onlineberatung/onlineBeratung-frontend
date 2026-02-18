@@ -54,6 +54,7 @@ export const ConsultantLiveChatAvailability = () => {
 					/>
 				}
 				label={translate('profile.liveChat.toggleLabel')}
+				labelPlacement="end"
 			/>
 		</div>
 	);

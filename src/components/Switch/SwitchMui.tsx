@@ -63,6 +63,7 @@ export const SwitchMui = ({
 					/>
 				}
 				label={t(titleKey)}
+				labelPlacement="end"
 			/>
 			{descriptionKey && (
 				<Text

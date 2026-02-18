@@ -53,6 +53,7 @@ export const EnableWalkthrough = () => {
 						? translate('walkthrough.switch.active.label')
 						: translate('walkthrough.switch.deactive.label')
 				}
+				labelPlacement="end"
 			/>
 		</div>
 	);
