@@ -148,9 +148,13 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	useEffect(() => {
 		if (anonymousConversationStarted) {
+			console.log('[WaitingRoom] Conversation started! Navigating to chat...');
 			setAnonymousConversationStarted(false);
+			// Navigate to chat immediately when conversation starts
+			deleteCookieByName('registeredUsername');
+			history.push('/app');
 		}
-	}, [anonymousConversationStarted, setAnonymousConversationStarted]);
+	}, [anonymousConversationStarted, setAnonymousConversationStarted, history]);
 
 	useEffect(() => {
 		if (anonymousConversationFinished === 'NEW') {
