@@ -78,7 +78,19 @@ function reducer(
 				if (index < 0) {
 					newSessions.push(s);
 				} else {
-					newSessions.splice(index, 1, s);
+					// Check if session data has changed to avoid unnecessary re-renders
+					const existingSession = newSessions[index];
+					const hasChanged = 
+						JSON.stringify(existingSession.session) !== JSON.stringify(s.session) ||
+						JSON.stringify(existingSession.chat) !== JSON.stringify(s.chat) ||
+						JSON.stringify(existingSession.consultant) !== JSON.stringify(s.consultant) ||
+						JSON.stringify(existingSession.user) !== JSON.stringify(s.user) ||
+						existingSession.latestMessage !== s.latestMessage;
+					
+					// Only replace if data has actually changed
+					if (hasChanged) {
+						newSessions.splice(index, 1, s);
+					}
 				}
 			});
 
