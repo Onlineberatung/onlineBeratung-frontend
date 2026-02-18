@@ -1,3 +1,4 @@
+@use 'sass:color';
 @import '../../resources/styles/settings';
 
 $buttonMinWidth: 200px;
@@ -61,11 +62,11 @@ $buttonMaxWidth: 400px;
 		color: $white !important;
 		
 		&:hover {
-			background-color: #b30000 !important; // darken($form-error, 10%)
+			background-color: color.scale($form-error, $lightness: -10%) !important;
 		}
 		
 		&:active {
-			background-color: #a60000 !important; // darken($form-error, 15%)
+			background-color: color.scale($form-error, $lightness: -15%) !important;
 		}
 	}
 
