@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Switch as MuiSwitch, SwitchProps as MuiSwitchProps } from '@mui/material';
+import { Switch as MuiSwitch, SwitchProps as MuiSwitchProps, FormControlLabel } from '@mui/material';
 import { Text } from '../text/Text';
 import './switch-mui.styles.scss';
 
@@ -53,15 +53,17 @@ export const SwitchMui = ({
 
 	return (
 		<div className="mb--2 switch-mui-wrapper">
-			<div className="flex flex--jc-sb">
-				<Text text={t(titleKey)} type="standard" />
-				<MuiSwitch
-					className="mr--1 switch-mui"
-					checked={checked}
-					onChange={handleChange}
-					{...props}
-				/>
-			</div>
+			<FormControlLabel
+				control={
+					<MuiSwitch
+						className="switch-mui"
+						checked={checked}
+						onChange={handleChange}
+						{...props}
+					/>
+				}
+				label={t(titleKey)}
+			/>
 			{descriptionKey && (
 				<Text
 					text={t(descriptionKey)}

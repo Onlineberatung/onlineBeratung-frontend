@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from '../Switch/SwitchSimple';
+import { FormControlLabel } from '@mui/material';
 import { useContext } from 'react';
 import { UserDataContext } from '../../globalState';
 
@@ -25,35 +26,34 @@ export const EnableWalkthrough = () => {
 					className="tertiary"
 				/>
 			</div>
-			<label className="twoFactorAuth__switch">
-				<Switch
-					onChange={() => {
-						apiPatchConsultantData({
-							walkThroughEnabled: !isWalkThroughEnabled
-						})
-							.then(reloadUserData)
-							.catch(console.log);
-					}}
-					checked={userData.isWalkThroughEnabled}
-					uncheckedIcon={false}
-					checkedIcon={false}
-					width={48}
-					height={26}
-					onColor="#0A882F"
-					offColor="#8C878C"
-					boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-					handleDiameter={27}
-					activeBoxShadow="none"
-				/>
-				<Text
-					text={
-						isWalkThroughEnabled
-							? translate('walkthrough.switch.active.label')
-							: translate('walkthrough.switch.deactive.label')
-					}
-					type="standard"
-				/>
-			</label>
+			<FormControlLabel
+				control={
+					<Switch
+						onChange={() => {
+							apiPatchConsultantData({
+								walkThroughEnabled: !isWalkThroughEnabled
+							})
+								.then(reloadUserData)
+								.catch(console.log);
+						}}
+						checked={userData.isWalkThroughEnabled}
+						uncheckedIcon={false}
+						checkedIcon={false}
+						width={48}
+						height={26}
+						onColor="#0A882F"
+						offColor="#8C878C"
+						boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+						handleDiameter={27}
+						activeBoxShadow="none"
+					/>
+				}
+				label={
+					isWalkThroughEnabled
+						? translate('walkthrough.switch.active.label')
+						: translate('walkthrough.switch.deactive.label')
+				}
+			/>
 		</div>
 	);
 };
