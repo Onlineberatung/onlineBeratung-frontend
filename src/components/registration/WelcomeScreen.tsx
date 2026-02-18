@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline } from '../headline/Headline';
@@ -8,87 +9,155 @@ import './welcomeScreen.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { apiAnonymousConversationAvailability } from '../../api';
+import { Typography, Button as MuiButton } from '@mui/material';
 
 interface WelcomeScreenProps {
-	title: string;
-	handleForwardToRegistration: Function;
-	welcomeScreenConfig?: RegistrationWelcomeScreenInterface;
-	loginParams?: string;
-	consultingTypeId: number;
-	consultingTypeName: string;
+title: string;
+handleForwardToRegistration: Function;
+welcomeScreenConfig?: RegistrationWelcomeScreenInterface;
+loginParams?: string;
+consultingTypeId: number;
+consultingTypeName: string;
 }
 
 export const WelcomeScreen = ({
-	title,
-	handleForwardToRegistration,
-	welcomeScreenConfig,
-	loginParams,
-	consultingTypeId,
-	consultingTypeName
+title,
+handleForwardToRegistration,
+welcomeScreenConfig,
+loginParams,
+consultingTypeId,
+consultingTypeName
 }: WelcomeScreenProps) => {
-	const { t: translate } = useTranslation();
-	const history = useHistory();
-	const settings = useAppConfig();
+const { t: translate } = useTranslation();
+const history = useHistory();
+const settings = useAppConfig();
 
-	const registrationButton: ButtonItem = {
-		label: translate('registration.welcomeScreen.register.buttonLabel'),
-		type: BUTTON_TYPES.PRIMARY
-	};
+const registrationButton: ButtonItem = {
+label: translate('registration.welcomeScreen.register.buttonLabel'),
+type: BUTTON_TYPES.PRIMARY
+};
 
-	const loginButton: ButtonItem = {
-		label: translate('registration.login.label'),
-		type: BUTTON_TYPES.SECONDARY
-	};
+const loginButton: ButtonItem = {
+label: translate('registration.login.label'),
+type: BUTTON_TYPES.SECONDARY
+};
 
-	return (
-		<div className="registrationWelcome">
-			{consultingTypeName &&
-				!settings.welcomeScreen.consultingType.hidden && (
-					<div className="registrationWelcome__consultingType">
-						{consultingTypeName}{' '}
-					</div>
-				)}
-			<Headline text={title} semanticLevel="2" />
-			<h4>{translate('registration.welcomeScreen.subline')}</h4>
-			<ServiceExplanation
-				welcomeScreenConfig={welcomeScreenConfig}
-				className="registrationWelcome__explanation"
-				consultingTypeId={consultingTypeId}
-			/>
-			<div className="registrationWelcome__buttonsWrapper">
-				<div>
-					<Text
-						text={translate(
-							'registration.welcomeScreen.register.helperText'
-						)}
-						type="infoLargeAlternative"
-					/>
-					<Button
-						buttonHandle={handleForwardToRegistration}
-						item={registrationButton}
-						testingAttribute="close-welcome-screen"
-						tabIndex={1}
-					/>
-				</div>
-				<div>
-					<Text
-						text={translate('registration.login.helper')}
-						type="infoLargeAlternative"
-					/>
-					<Button
-						isLink={true}
-						item={loginButton}
-						buttonHandle={() => {
-							history.push(
-								`${new URL(settings.urls.toLogin).pathname}${
-									loginParams ? `?${loginParams}` : ''
-								}`
-							);
-						}}
-						tabIndex={1}
-					/>
-				</div>
-			</div>
-		</div>
-	);
+// Live chat availability check
+const [isLiveChatAvailable, setIsLiveChatAvailable] = useState(false);
+const [isCheckingLiveChat, setIsCheckingLiveChat] = useState(false);
+
+useEffect(() => {
+// Check live chat availability asynchronously
+// Don't delay the page load
+const checkLiveChatAvailability = async () => {
+if (!consultingTypeId || consultingTypeId === 0) {
+return;
+}
+
+setIsCheckingLiveChat(true);
+try {
+const result = await apiAnonymousConversationAvailability(consultingTypeId);
+setIsLiveChatAvailable(
+result && 
+result.numAvailableConsultants > 0 && 
+result.status === 'ONLINE'
+);
+} catch (error) {
+console.log('Could not check live chat availability:', error);
+setIsLiveChatAvailable(false);
+} finally {
+setIsCheckingLiveChat(false);
+}
+};
+
+checkLiveChatAvailability();
+}, [consultingTypeId]);
+
+const handleNavigateToWaitingRoom = () => {
+history.push('/beratung/warteraum');
+};
+
+return (
+<div className="registrationWelcome">
+{consultingTypeName &&
+!settings.welcomeScreen.consultingType.hidden && (
+<div className="registrationWelcome__consultingType">
+{consultingTypeName}{' '}
+</div>
+)}
+<Headline text={title} semanticLevel="2" />
+<h4>{translate('registration.welcomeScreen.subline')}</h4>
+<ServiceExplanation
+welcomeScreenConfig={welcomeScreenConfig}
+className="registrationWelcome__explanation"
+consultingTypeId={consultingTypeId}
+/>
+<div className="registrationWelcome__buttonsWrapper">
+<div>
+<Text
+text={translate(
+'registration.welcomeScreen.register.helperText'
+)}
+type="infoLargeAlternative"
+/>
+<Button
+buttonHandle={handleForwardToRegistration}
+item={registrationButton}
+testingAttribute="close-welcome-screen"
+tabIndex={1}
+/>
+</div>
+<div>
+<Text
+text={translate('registration.login.helper')}
+type="infoLargeAlternative"
+/>
+<Button
+isLink={true}
+item={loginButton}
+buttonHandle={() => {
+history.push(
+`${new URL(settings.urls.toLogin).pathname}${
+loginParams ? `?${loginParams}` : ''
+}`
+);
+}}
+tabIndex={1}
+/>
+</div>
+</div>
+
+{/* Live Chat Availability Section */}
+{isLiveChatAvailable && !isCheckingLiveChat && (
+<div 
+className="registrationWelcome__buttonsWrapper" 
+style={{ marginTop: '12px' }}
+>
+<div>
+<Typography 
+variant="h6" 
+sx={{ 
+mb: 1, 
+fontSize: '1.1rem', 
+fontWeight: 500,
+color: 'primary.main'
+}}
+>
+{translate('welcome.liveChat.headline')}
+</Typography>
+<MuiButton
+variant="contained"
+color="primary"
+onClick={handleNavigateToWaitingRoom}
+fullWidth
+sx={{ mt: 1 }}
+>
+{translate('welcome.liveChat.button')}
+</MuiButton>
+</div>
+</div>
+)}
+</div>
+);
 };

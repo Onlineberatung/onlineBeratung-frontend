@@ -186,6 +186,7 @@ export const ButtonMui = (props: ButtonProps) => {
 				className={getButtonClassName()}
 				data-cy={props.testingAttribute}
 				tabIndex={props.tabIndex}
+				type="button"
 				startIcon={
 					props.customIcon ? (
 						props.customIcon

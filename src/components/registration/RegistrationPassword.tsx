@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import {
-	InputField,
-	InputFieldItem,
-	InputFieldLabelState
-} from '../inputField/InputField';
+import { TextField } from '@mui/material';
 import LockIcon from '../../resources/img/icons/lock.svg?react';
 import { LABEL_TYPES, Text } from '../text/Text';
 import {
@@ -39,16 +35,12 @@ export const RegistrationPassword = ({
 		useState<AccordionItemValidity>(VALIDITY_INITIAL);
 	const [password, setPassword] = useState<string>('');
 	const [passwordLabel, setPasswordLabel] = useState<string>(null);
-	const [passwordLabelState, setPasswordLabelState] =
-		useState<InputFieldLabelState>(null);
 	const [passwordCriteriaValidation, setPasswordCriteriaValidation] =
 		useState<passwordCriteria>();
 	const [passwordConfirmation, setPasswordConfirmation] =
 		useState<string>('');
 	const [passwordConfirmationLabel, setPasswordConfirmationLabel] =
 		useState<string>(null);
-	const [passwordConfirmationLabelState, setPasswordConfirmationLabelState] =
-		useState<InputFieldLabelState>(null);
 
 	useEffect(() => {
 		if (passwordCriteriaValidation) {
@@ -57,13 +49,10 @@ export const RegistrationPassword = ({
 			).every((criteria) => criteria);
 
 			if (password.length >= 1 && !areAllCriteriaValid) {
-				setPasswordLabelState(VALIDITY_INVALID);
 				setPasswordLabel(translate('registration.password.insecure'));
 			} else if (password.length >= 1) {
-				setPasswordLabelState(VALIDITY_VALID);
 				setPasswordLabel(translate('registration.password.secure'));
 			} else {
-				setPasswordLabelState(null);
 				setPasswordLabel(null);
 			}
 		}
@@ -72,17 +61,14 @@ export const RegistrationPassword = ({
 	useEffect(() => {
 		let passwordFits = inputValuesFit(passwordConfirmation, password);
 		if (passwordConfirmation.length >= 1 && !passwordFits) {
-			setPasswordConfirmationLabelState(VALIDITY_INVALID);
 			setPasswordConfirmationLabel(
 				translate('registration.password.notSame')
 			);
 		} else if (passwordConfirmation.length >= 1) {
-			setPasswordConfirmationLabelState(VALIDITY_VALID);
 			setPasswordConfirmationLabel(
 				translate('registration.password.same')
 			);
 		} else {
-			setPasswordConfirmationLabelState(null);
 			setPasswordConfirmationLabel(null);
 		}
 	}, [passwordConfirmation, password, translate]);
@@ -96,49 +82,40 @@ export const RegistrationPassword = ({
 	}, [password]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	useEffect(() => {
-		if (
-			passwordLabelState === VALIDITY_VALID &&
-			passwordConfirmationLabelState === VALIDITY_VALID
-		) {
+		const areAllCriteriaValid = passwordCriteriaValidation && Object.values(
+			passwordCriteriaValidation
+		).every((criteria) => criteria);
+		
+		const passwordFits = inputValuesFit(passwordConfirmation, password);
+		
+		if (password.length >= 1 && areAllCriteriaValid && passwordConfirmation.length >= 1 && passwordFits) {
 			setIsValid(VALIDITY_VALID);
-		} else if (!passwordLabelState && !passwordConfirmationLabelState) {
+		} else if (!password && !passwordConfirmation) {
 			setIsValid(VALIDITY_INITIAL);
 		} else {
 			setIsValid(VALIDITY_INVALID);
 		}
-	}, [passwordLabelState, passwordConfirmationLabelState]);
-
-	const inputItemPassword: InputFieldItem = {
-		content: password,
-		icon: <LockIcon />,
-		id: 'passwordInput',
-		label: passwordLabel
-			? `${passwordLabel}`
-			: translate('registration.password.input.label'),
-		name: 'passwordInput',
-		type: 'password',
-		...(passwordLabelState && { labelState: passwordLabelState })
-	};
-
-	const inputItemPasswordConfirmation: InputFieldItem = {
-		content: passwordConfirmation,
-		icon: <LockIcon />,
-		id: 'passwordConfirmation',
-		label: passwordConfirmationLabel
-			? `${passwordConfirmationLabel}`
-			: translate('registration.password.confirmation.label'),
-		name: 'passwordConfirmation',
-		type: 'password',
-		...(passwordConfirmationLabelState && {
-			labelState: passwordConfirmationLabelState
-		})
-	};
+	}, [password, passwordConfirmation, passwordCriteriaValidation]);
 
 	const handlepasswordChange = (event) => {
 		setPasswordCriteriaValidation(
 			validatePasswordCriteria(event.target.value)
 		);
 		setPassword(event.target.value);
+	};
+
+	const getPasswordHelperText = () => {
+		if (passwordLabel) {
+			return passwordLabel;
+		}
+		return '';
+	};
+
+	const getPasswordConfirmationHelperText = () => {
+		if (passwordConfirmationLabel) {
+			return passwordConfirmationLabel;
+		}
+		return '';
 	};
 
 	const passwordCriteria = [
@@ -188,6 +165,9 @@ export const RegistrationPassword = ({
 		);
 	});
 
+	const isPasswordInvalid = password.length >= 1 && passwordLabel === translate('registration.password.insecure');
+	const isPasswordConfirmationInvalid = passwordConfirmation.length >= 1 && passwordConfirmationLabel === translate('registration.password.notSame');
+
 	return (
 		<div className="registrationPassword">
 			<Text
@@ -197,15 +177,35 @@ export const RegistrationPassword = ({
 			<ul className="registrationPassword__validation">
 				{passwordCriteriaList}
 			</ul>
-			<InputField
-				item={inputItemPassword}
-				inputHandle={handlepasswordChange}
+			<TextField
+				id="passwordInput"
+				name="passwordInput"
+				label={translate('registration.password.input.label')}
+				type="password"
+				value={password}
+				onChange={handlepasswordChange}
 				onKeyDown={(e) => onKeyDown(e, false)}
+				error={isPasswordInvalid}
+				helperText={getPasswordHelperText()}
+				fullWidth
+				variant="outlined"
+				autoComplete="new-password"
+				sx={{ mt: 2 }}
 			/>
-			<InputField
-				item={inputItemPasswordConfirmation}
-				inputHandle={(e) => setPasswordConfirmation(e.target.value)}
+			<TextField
+				id="passwordConfirmation"
+				name="passwordConfirmation"
+				label={translate('registration.password.confirmation.label')}
+				type="password"
+				value={passwordConfirmation}
+				onChange={(e) => setPasswordConfirmation(e.target.value)}
 				onKeyDown={(e) => onKeyDown(e, true, false)}
+				error={isPasswordConfirmationInvalid}
+				helperText={getPasswordConfirmationHelperText()}
+				fullWidth
+				variant="outlined"
+				autoComplete="new-password"
+				sx={{ mt: 2 }}
 			/>
 			{passwordNote && (
 				<div data-cy="registration-password-note">

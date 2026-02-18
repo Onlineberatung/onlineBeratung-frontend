@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Children, ReactElement, ReactNode, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
@@ -126,18 +127,17 @@ export const StageLayout = ({
 							legalLinks={legalLinks}
 						>
 							{(label, url) => (
-								<button
-									type="button"
+								<Link
+									to={url}
 									className="button-as-link"
 									data-cy-link={url}
-									onClick={() => window.open(url, '_blank')}
 								>
 									<Text
 										className="stageLayout__legalLinksItem"
 										type="infoSmall"
 										text={label}
 									/>
-								</button>
+								</Link>
 							)}
 						</LegalLinks>
 					</div>

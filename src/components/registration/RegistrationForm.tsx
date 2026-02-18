@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useState, useEffect, useCallback, useContext } from 'react';
+import { useState, useEffect, useCallback, useContext, useRef } from 'react';
+import { Snackbar, Alert } from '@mui/material';
 import { BUTTON_TYPES } from '../button/Button';
 import { apiPostRegistration, FETCH_ERRORS, X_REASON } from '../../api';
 import { endpoints } from '../../resources/scripts/endpoints';
@@ -16,7 +17,7 @@ import {
 	ConsultingTypeInterface,
 	TopicsDataInterface
 } from '../../globalState/interfaces';
-import { FormAccordion } from '../formAccordion/FormAccordion';
+import { FormStepper } from '../formStepper/FormStepper';
 import WelcomeIcon from '../../resources/img/illustrations/welcome.svg?react';
 import './registrationForm.styles.scss';
 import {
@@ -32,6 +33,7 @@ import { getUrlParameter } from '../../utils/getUrlParameter';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { ConsultingTypeRegistrationDefaults } from '../../containers/registration/components/ProposedAgencies/ProposedAgencies';
 import { apiPostError, ERROR_LEVEL_ERROR } from '../../api/apiPostError';
+import { useSnackbar } from '../../hooks/useSnackbar';
 
 export interface FormAccordionData {
 	username?: string;
@@ -51,11 +53,25 @@ export const RegistrationForm = () => {
 	const { locale } = useLocaleData();
 	const settings = useAppConfig();
 	const postcode = getUrlParameter('postcode');
+	const agencyIdParam = getUrlParameter('aid');
 	const { agency, consultingType, consultant, topic, slugFallback } =
 		useContext(UrlParamsContext);
+	const { snackbar, showSnackbar, hideSnackbar } = useSnackbar();
+
+	// Check if agency parameter was provided but agency doesn't exist
+	useEffect(() => {
+		if (agencyIdParam && !agency) {
+			// Agency ID was provided but not found
+			showSnackbar(
+				translate('registration.agency.error.notFound'),
+				'warning'
+			);
+		}
+	}, [agencyIdParam, agency, showSnackbar, translate]);
 
 	const [formAccordionData, setFormAccordionData] =
 		useState<FormAccordionData>(() => {
+			// Initialize with URL params
 			const initData = {
 				agency: agency || null,
 				consultingType: consultingType || null,
@@ -208,7 +224,9 @@ export const RegistrationForm = () => {
 			settings.multitenancyWithSingleDomainEnabled,
 			tenant
 		)
-			.then(() => setOverlayActive(true))
+			.then(() => {
+				setOverlayActive(true);
+			})
 			.catch((errorRes) => {
 				if (
 					errorRes.status === 409 &&
@@ -242,6 +260,7 @@ export const RegistrationForm = () => {
 				className="registrationForm"
 				id="registrationForm"
 				data-consultingtype={consultingType?.id}
+				onSubmit={(e) => e.preventDefault()}
 			>
 				<h3 className="registrationForm__overline">
 					{consultingType
@@ -263,7 +282,7 @@ export const RegistrationForm = () => {
 				)}
 
 				{(consultingType || consultant) && (
-					<FormAccordion
+					<FormStepper
 						formAccordionData={formAccordionData}
 						isUsernameAlreadyInUse={isUsernameAlreadyInUse}
 						onChange={handleChange}
@@ -287,6 +306,22 @@ export const RegistrationForm = () => {
 					handleOverlay={handleOverlayAction}
 				/>
 			)}
+
+			<Snackbar
+				open={snackbar.open}
+				autoHideDuration={6000}
+				onClose={hideSnackbar}
+				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+			>
+				<Alert
+					onClose={hideSnackbar}
+					severity={snackbar.severity}
+					variant="filled"
+					sx={{ width: '100%' }}
+				>
+					{snackbar.message}
+				</Alert>
+			</Snackbar>
 		</>
 	);
 };

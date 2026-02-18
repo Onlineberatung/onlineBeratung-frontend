@@ -5,8 +5,10 @@ import {
 	Switch,
 	Route,
 	RouteProps,
-	Redirect
+	Redirect,
+	useLocation
 } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { StageProps } from '../stage/stage';
 import '../../resources/styles/styles.scss';
 import { ContextProvider } from '../../globalState/state';
@@ -34,6 +36,7 @@ import { Loading } from './Loading';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 import { UrlParamsProvider } from '../../globalState/provider/UrlParamsProvider';
 import { Notifications } from '../notifications/Notifications';
+import { RootRedirect } from './RootRedirect';
 
 const Login = lazy(() =>
 	import('../login/Login').then((m) => ({ default: m.Login }))
@@ -44,6 +47,11 @@ const AuthenticatedApp = lazy(() =>
 const Registration = lazy(() =>
 	import('../registration/Registration').then((m) => ({
 		default: m.Registration
+	}))
+);
+const Welcome = lazy(() =>
+	import('../welcome/Welcome').then((m) => ({
+		default: m.Welcome
 	}))
 );
 const WaitingRoomLoader = lazy(() =>
@@ -85,29 +93,31 @@ export const App = ({
 
 	return (
 		<ErrorBoundary>
-			<AppConfigProvider config={config}>
-				<TenantProvider>
-					<InformalProvider>
-						<LocaleProvider>
-							<LanguagesProvider
-								fixed={fixedLanguages}
-								spoken={spokenLanguages}
-							>
-								<LegalLinksProvider legalLinks={legalLinks}>
-									<GlobalComponentContext.Provider
-										value={{ Stage: stageComponent }}
-									>
-										<RouterWrapper
-											extraRoutes={extraRoutes}
-										/>
-									</GlobalComponentContext.Provider>
-								</LegalLinksProvider>
-							</LanguagesProvider>
-						</LocaleProvider>
-					</InformalProvider>
-				</TenantProvider>
-				<DevToolbarWrapper />
-			</AppConfigProvider>
+			<HelmetProvider>
+				<AppConfigProvider config={config}>
+					<TenantProvider>
+						<InformalProvider>
+							<LocaleProvider>
+								<LanguagesProvider
+									fixed={fixedLanguages}
+									spoken={spokenLanguages}
+								>
+									<LegalLinksProvider legalLinks={legalLinks}>
+										<GlobalComponentContext.Provider
+											value={{ Stage: stageComponent }}
+										>
+											<RouterWrapper
+												extraRoutes={extraRoutes}
+											/>
+										</GlobalComponentContext.Provider>
+									</LegalLinksProvider>
+								</LanguagesProvider>
+							</LocaleProvider>
+						</InformalProvider>
+					</TenantProvider>
+					<DevToolbarWrapper />
+				</AppConfigProvider>
+			</HelmetProvider>
 		</ErrorBoundary>
 	);
 };
@@ -132,9 +142,6 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 	return (
 		<Router>
 			<Switch>
-				{settings.urls.landingpage !== '/' && (
-					<Redirect from="/" to={settings.urls.landingpage} exact />
-				)}
 				<Route>
 					<ContextProvider>
 						<MuiThemeProvider>
@@ -145,6 +152,9 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 								/>
 							)}
 							<Suspense fallback={<Loading />}>
+								{/* Keep Registration mounted when on legal pages */}
+								<RegistrationWithPersistence />
+								
 								<Switch>
 									{extraRoutes.map(
 										({ route, component: Component }) => (
@@ -161,24 +171,31 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 										)
 									)}
 
-									<Route
-										path={[
-											'/registration',
-											'/:consultingTypeSlug/registration'
-										]}
-									>
+									<Route path="/" exact>
+										<RootRedirect />
+									</Route>
+
+									<Route path="/welcome">
 										<UrlParamsProvider>
-											<Registration />
+											<Welcome />
 										</UrlParamsProvider>
 									</Route>
 
-									<Route path="/:consultingTypeSlug/warteraum">
-										<WaitingRoomLoader
-											onAnonymousRegistration={() =>
-												setStartWebsocket(true)
-											}
+									{/* Registration Route - actual component rendered by RegistrationWithPersistence above */}
+									<Route path="/beratung/registration" exact>
+										{/* Component is rendered outside Switch for persistence - this route just marks the path as valid */}
+										<></>
+									</Route>
+
+									<Route path="/beratung/warteraum/:consultingTypeSlug?" exact>
+										<WaitingRoomLoader 
+											onAnonymousRegistration={(data: any) => {
+												console.log('Anonymous registration completed:', data);
+												// Anonymous registration is handled within WaitingRoom component
+											}}
 										/>
 									</Route>
+
 
 									<Route path="/login" exact>
 										<UrlParamsProvider>
@@ -219,3 +236,30 @@ const NotificationsContainer = () => {
 		)
 	);
 };
+
+/**
+ * Keeps Registration component mounted when navigating to/from legal pages
+ * This preserves all form state without needing complex persistence logic
+ */
+const RegistrationWithPersistence = () => {
+	const location = useLocation();
+	
+	const isRegistrationRoute = location.pathname === '/beratung/registration';
+	const isLegalPage = location.pathname.match(/^\/(impressum|datenschutz|nutzungsbedingungen)/);
+	
+	// Keep mounted on registration or legal pages
+	if (!isRegistrationRoute && !isLegalPage) {
+		return null;
+	}
+	
+	// Hide when on legal pages, show when on registration
+	// Pass isBackground prop to prevent redirects when hidden
+	return (
+		<div style={{ display: isRegistrationRoute ? 'block' : 'none' }}>
+			<UrlParamsProvider>
+				<Registration isBackground={!isRegistrationRoute} />
+			</UrlParamsProvider>
+		</div>
+	);
+};
+

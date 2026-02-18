@@ -1,9 +1,7 @@
 import * as React from 'react';
 import unionBy from 'lodash/unionBy';
-import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { getUrlParameter } from '../../utils/getUrlParameter';
-import { WelcomeScreen } from './WelcomeScreen';
 import { InformalContext } from '../../globalState';
 import { RegistrationForm } from './RegistrationForm';
 import '../../resources/styles/styles.scss';
@@ -13,15 +11,18 @@ import { useTranslation } from 'react-i18next';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { SEO } from '../seo/SEO';
 
-export const Registration = () => {
+export interface RegistrationProps {
+	isBackground?: boolean;
+}
+
+export const Registration = ({ isBackground = false }: RegistrationProps) => {
 	const { t: translate } = useTranslation([
 		'common',
 		'consultingTypes',
 		'agencies'
 	]);
-
-	const { consultingTypeSlug } = useParams<{ consultingTypeSlug: string }>();
 
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
@@ -39,16 +40,7 @@ export const Registration = () => {
 		.map(([key, value]) => `${key}=${value}`)
 		.join('&');
 
-	const [showWelcomeScreen, setShowWelcomeScreen] = useState<boolean>(
-		postcodeParameter === null
-	);
-
 	const [isReady, setIsReady] = useState(false);
-
-	const handleForwardToRegistration = () => {
-		setShowWelcomeScreen(false);
-		window.scrollTo({ top: 0 });
-	};
 
 	const { agency, consultingType, consultant, topic, loaded } =
 		useContext(UrlParamsContext);
@@ -58,11 +50,19 @@ export const Registration = () => {
 			return;
 		}
 
+		// Don't execute redirects when component is in background (hidden on legal pages)
+		if (isBackground) {
+			console.log('Registration is in background mode, skipping redirect logic');
+			setIsReady(true);
+			return;
+		}
+
 		if (!consultingType && !agency && !consultant && !topic) {
 			console.error(
 				'No `consultingType`, `consultant`, `agency` or `topic` found in URL.'
 			);
-			window.location.href = settings.urls.toRegistration;
+			// Redirect to welcome screen instead of registration to avoid infinite loop
+			window.location.href = '/welcome';
 			return;
 		}
 
@@ -120,11 +120,11 @@ export const Registration = () => {
 			return;
 		}
 	}, [
+		isBackground,
 		consultingType,
 		agency,
 		consultant,
 		loaded,
-		consultingTypeSlug,
 		translate,
 		setInformal,
 		settings.urls.toRegistration,
@@ -134,49 +134,22 @@ export const Registration = () => {
 	const isFirstVisit = useIsFirstVisit();
 
 	return (
-		<StageLayout
-			showLegalLinks={true}
-			showLoginLink={!showWelcomeScreen}
-			stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
-			loginParams={loginParams}
-		>
-			{isReady &&
-				(showWelcomeScreen ? (
-					<WelcomeScreen
-						title={
-							consultingType
-								? translate(
-										[
-											`consultingType.${consultingType?.id}.titles.welcome`,
-											`consultingType.fallback.titles.welcome`,
-											consultingType?.titles.welcome
-										],
-										{ ns: 'consultingTypes' }
-									)
-								: translate('registration.overline')
-						}
-						handleForwardToRegistration={
-							handleForwardToRegistration
-						}
-						loginParams={loginParams}
-						welcomeScreenConfig={consultingType?.welcomeScreen}
-						consultingTypeId={consultingType?.id}
-						consultingTypeName={
-							consultingType
-								? translate(
-										[
-											`consultingType.${consultingType?.id}.titles.long`,
-											`consultingType.fallback.titles.long`,
-											consultingType?.titles.long
-										],
-										{ ns: 'consultingTypes' }
-									)
-								: null
-						}
-					/>
-				) : (
-					<RegistrationForm />
-				))}
-		</StageLayout>
+		<>
+			<SEO
+				title={translate('registration.headline')}
+				description={translate('registration.intro.seoDescription')}
+				keywords={translate('registration.intro.seoKeywords')}
+			/>
+			<StageLayout
+				showLegalLinks={true}
+				showLoginLink={true}
+				stage={<Stage hasAnimation={isFirstVisit} isReady={isReady} />}
+				loginParams={loginParams}
+			>
+			{isReady && (
+				<RegistrationForm />
+			)}
+			</StageLayout>
+		</>
 	);
 };

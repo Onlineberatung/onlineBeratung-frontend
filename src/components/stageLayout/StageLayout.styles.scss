@@ -34,11 +34,11 @@
 		flex-basis: $header-height;
 		height: $header-height;
 		width: 100%;
-		padding: 0 $grid-base-three;
+		padding: $grid-base-two $grid-base-three 0;
 
 		&.mobile {
 			justify-content: space-between;
-			padding: 0 $grid-base-two;
+			padding: $grid-base-two $grid-base-two 0;
 		}
 	}
 
