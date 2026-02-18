@@ -139,10 +139,13 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			setAnonymousEnquiryAccepted(false);
 			
 			// Automatically navigate to chat after short delay
-			setTimeout(() => {
+			const timeoutId = setTimeout(() => {
 				deleteCookieByName('registeredUsername');
 				history.push('/app');
 			}, 2000);
+			
+			// Cleanup timeout if component unmounts
+			return () => clearTimeout(timeoutId);
 		}
 	}, [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted, history]);
 
