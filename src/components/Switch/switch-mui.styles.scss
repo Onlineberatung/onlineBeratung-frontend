@@ -4,9 +4,23 @@
 	.switch-mui-description {
 		margin-top: 0.25rem;
 	}
+
+	// Ensure proper spacing between switch and label in FormControlLabel
+	.MuiFormControlLabel-root {
+		margin-left: 0;
+		
+		.MuiFormControlLabel-label {
+			margin-left: 8px;
+		}
+	}
+}
+
+// Global override: Remove MUI's default -11px margin-left from FormControlLabel
+.MuiFormControlLabel-root {
+	margin-left: 0 !important;
 }
 
 // Align all MUI switches with their labels
 .MuiSwitch-root {
-	margin-top: -6px;
+	margin-left: -10px;
 }

@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import Switch from '../Switch/SwitchSimple';
+import { FormControlLabel } from '@mui/material';
 import { UserDataContext } from '../../globalState';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useTranslation } from 'react-i18next';
@@ -45,22 +46,22 @@ export const ConsultantNotifications = () => {
 				/>
 			</div>
 			{settings.emails.notifications.map((notification, index) => (
-				<div className="flex flex--ai-c" key={index}>
-					<Switch
-						className="mr--1"
-						onChange={() => toggleSwitch(notification.types)}
-						checked={
-							userData.emailToggles.find(
-								(toggle) =>
-									toggle.name === notification.types[0]
-							)?.state ?? false
-						}
-					/>
-					<Text
-						text={translate(notification.label)}
-						type="standard"
-					/>
-				</div>
+				<FormControlLabel
+					key={index}
+					control={
+						<Switch
+							onChange={() => toggleSwitch(notification.types)}
+							checked={
+								userData.emailToggles.find(
+									(toggle) =>
+										toggle.name === notification.types[0]
+								)?.state ?? false
+							}
+						/>
+					}
+					label={translate(notification.label)}
+					labelPlacement="end"
+				/>
 			))}
 		</div>
 	);
