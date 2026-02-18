@@ -12,7 +12,6 @@ import {
 	AnonymousConversationAvailabilityInterface,
 	AnonymousRegistrationResponse,
 	apiAnonymousConversationAvailability,
-	apiGetAskerSessionList,
 	apiPostAnonymousRegistration,
 	FETCH_ERRORS
 } from '../../api';
@@ -57,8 +56,6 @@ export interface WaitingRoomProps {
 const USERNAME_CONFLICT_RETRY_LIMIT = 20;
 // Slowdown request after every 5 requests to prevent 429
 const USERNAME_CONFLICT_RETRY_SLOWDOWN = 5;
-// Maximum retries for session polling after acceptance
-const SESSION_POLLING_MAX_RETRIES = 10;
 
 export const WaitingRoom = (props: WaitingRoomProps) => {
 	const { t: translate } = useTranslation();
@@ -141,95 +138,11 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			setIsOverlayActive(true);
 			setAnonymousEnquiryAccepted(false);
 			
-			let timeoutId: ReturnType<typeof setTimeout> | null = null;
-			let retryCount = 0;
-			let isCancelled = false; // Flag to prevent navigation after unmount
-			
-			// Get session details and navigate to chat
-			const sessionId = getValueFromCookie('anonymousSessionId');
-			
-			if (!sessionId) {
-				console.error('[WaitingRoom] No sessionId found in cookie');
-				// Fallback to /app navigation
-				timeoutId = setTimeout(() => {
-					if (!isCancelled) {
-						deleteCookieByName('registeredUsername');
-						history.push('/app');
-					}
-				}, 2000);
-				return () => {
-					isCancelled = true;
-					if (timeoutId) clearTimeout(timeoutId);
-				};
-			}
-			
-			// Poll for session to be ready and then navigate
-			const checkSessionAndNavigate = () => {
-				// Check if effect was cancelled
-				if (isCancelled) return;
-				
-				apiGetAskerSessionList()
-					.then(({ sessions }) => {
-						if (isCancelled) return; // Don't proceed if cancelled
-						
-						if (sessions && sessions.length > 0) {
-							// Find the anonymous session
-							const anonymousSession = sessions.find((s) => 
-								s.session?.id?.toString() === sessionId.toString()
-							);
-							
-							if (anonymousSession) {
-								// Session is ready, navigate to it
-								const rid = anonymousSession.session?.groupId;
-								deleteCookieByName('registeredUsername');
-								history.push(`/sessions/user/view/${rid}/${sessionId}`);
-							} else if (retryCount < SESSION_POLLING_MAX_RETRIES) {
-								// Session not found yet, try again
-								console.log(`[WaitingRoom] Session not ready yet, retrying... (${retryCount + 1}/${SESSION_POLLING_MAX_RETRIES})`);
-								retryCount++;
-								timeoutId = setTimeout(checkSessionAndNavigate, 1000);
-							} else {
-								// Max retries reached, fallback to /app navigation
-								console.warn('[WaitingRoom] Max retries reached, falling back to /app navigation');
-								deleteCookieByName('registeredUsername');
-								history.push('/app');
-							}
-						} else if (retryCount < SESSION_POLLING_MAX_RETRIES) {
-							// No sessions yet, try again
-							console.log(`[WaitingRoom] No sessions found, retrying... (${retryCount + 1}/${SESSION_POLLING_MAX_RETRIES})`);
-							retryCount++;
-							timeoutId = setTimeout(checkSessionAndNavigate, 1000);
-						} else {
-							// Max retries reached, fallback to /app navigation
-							console.warn('[WaitingRoom] Max retries reached, falling back to /app navigation');
-							deleteCookieByName('registeredUsername');
-							history.push('/app');
-						}
-					})
-					.catch((error) => {
-						if (isCancelled) return; // Don't proceed if cancelled
-						
-						console.error('[WaitingRoom] Error fetching session list:', error);
-						// Fallback navigation after delay
-						timeoutId = setTimeout(() => {
-							if (!isCancelled) {
-								deleteCookieByName('registeredUsername');
-								history.push('/app');
-							}
-						}, 2000);
-					});
-			};
-			
-			// Start checking after 1 second to give backend time to process
-			timeoutId = setTimeout(checkSessionAndNavigate, 1000);
-			
-			// Cleanup function to clear any pending timeouts
-			return () => {
-				isCancelled = true;
-				if (timeoutId) {
-					clearTimeout(timeoutId);
-				}
-			};
+			// Automatically navigate to chat after short delay
+			setTimeout(() => {
+				deleteCookieByName('registeredUsername');
+				history.push('/app');
+			}, 2000);
 		}
 	}, [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted, history]);
 
