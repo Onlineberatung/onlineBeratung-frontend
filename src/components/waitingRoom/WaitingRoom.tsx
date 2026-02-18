@@ -143,6 +143,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			
 			let timeoutId: ReturnType<typeof setTimeout> | null = null;
 			let retryCount = 0;
+			let isCancelled = false; // Flag to prevent navigation after unmount
 			
 			// Get session details and navigate to chat
 			const sessionId = getValueFromCookie('anonymousSessionId');
@@ -151,18 +152,26 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 				console.error('[WaitingRoom] No sessionId found in cookie');
 				// Fallback to /app navigation
 				timeoutId = setTimeout(() => {
-					deleteCookieByName('registeredUsername');
-					history.push('/app');
+					if (!isCancelled) {
+						deleteCookieByName('registeredUsername');
+						history.push('/app');
+					}
 				}, 2000);
 				return () => {
+					isCancelled = true;
 					if (timeoutId) clearTimeout(timeoutId);
 				};
 			}
 			
 			// Poll for session to be ready and then navigate
 			const checkSessionAndNavigate = () => {
+				// Check if effect was cancelled
+				if (isCancelled) return;
+				
 				apiGetAskerSessionList()
 					.then(({ sessions }) => {
+						if (isCancelled) return; // Don't proceed if cancelled
+						
 						if (sessions && sessions.length > 0) {
 							// Find the anonymous session
 							const anonymousSession = sessions.find((s) => 
@@ -198,11 +207,15 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 						}
 					})
 					.catch((error) => {
+						if (isCancelled) return; // Don't proceed if cancelled
+						
 						console.error('[WaitingRoom] Error fetching session list:', error);
 						// Fallback navigation after delay
 						timeoutId = setTimeout(() => {
-							deleteCookieByName('registeredUsername');
-							history.push('/app');
+							if (!isCancelled) {
+								deleteCookieByName('registeredUsername');
+								history.push('/app');
+							}
 						}, 2000);
 					});
 			};
@@ -212,6 +225,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			
 			// Cleanup function to clear any pending timeouts
 			return () => {
+				isCancelled = true;
 				if (timeoutId) {
 					clearTimeout(timeoutId);
 				}
