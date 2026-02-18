@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { marked } from 'marked';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
 	convertISO8601ToMSSinceEpoch,
@@ -27,8 +28,6 @@ import {
 	TopicSessionInterface
 } from '../../globalState/interfaces';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
-import { markdownToDraft } from 'markdown-draft-js';
-import { convertFromRaw } from 'draft-js';
 import './sessionsListItem.styles.scss';
 import { Tag } from '../tag/Tag';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
@@ -44,6 +43,37 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { SessionListItemLastMessage } from './SessionListItemLastMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
+
+// Helper function to extract plain text from markdown
+const extractPlainTextFromMarkdown = (markdown: string): string => {
+	try {
+		// Parse markdown to tokens
+		const tokens = marked.lexer(markdown);
+		// Extract text from all tokens
+		const plainText = tokens
+			.map((token) => {
+				if ('text' in token) {
+					return token.text;
+				}
+				if ('tokens' in token && Array.isArray(token.tokens)) {
+					return token.tokens
+						.map((t) => ('text' in t ? t.text : ''))
+						.join('');
+				}
+				return '';
+			})
+			.join(' ')
+			.replace(/\s+/g, ' ')
+			.trim();
+		return plainText;
+	} catch {
+		// Fallback: simple regex-based stripping
+		return markdown
+			.replace(/[*_~`#\[\]]/g, '')
+			.replace(/\n/g, ' ')
+			.trim();
+	}
+};
 
 interface SessionListItemProps {
 	defaultLanguage: string;
@@ -114,10 +144,7 @@ export const SessionListItemComponent = ({
 					)
 				)
 				.then((message) => {
-					const rawMessageObject = markdownToDraft(message);
-					const contentStateMessage =
-						convertFromRaw(rawMessageObject);
-					setPlainTextLastMessage(contentStateMessage.getPlainText());
+					setPlainTextLastMessage(extractPlainTextFromMarkdown(message));
 				});
 		} else {
 			if (
@@ -128,11 +155,9 @@ export const SessionListItemComponent = ({
 					translate('e2ee.message.encryption.text')
 				);
 			} else {
-				const rawMessageObject = markdownToDraft(
-					activeSession.item.lastMessage
+				setPlainTextLastMessage(
+					extractPlainTextFromMarkdown(activeSession.item.lastMessage)
 				);
-				const contentStateMessage = convertFromRaw(rawMessageObject);
-				setPlainTextLastMessage(contentStateMessage.getPlainText());
 			}
 		}
 	}, [

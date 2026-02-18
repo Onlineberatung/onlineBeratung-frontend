@@ -10,6 +10,7 @@ export const BUTTON_TYPES = {
 	PRIMARY: 'PRIMARY',
 	SECONDARY: 'SECONDARY',
 	TERTIARY: 'TERTIARY',
+	DANGER: 'DANGER',
 	LINK: 'LINK',
 	LINK_INLINE: 'LINK_INLINE',
 	AUTO_CLOSE: 'AUTO_CLOSE',
@@ -83,6 +84,7 @@ export const ButtonMui = (props: ButtonProps) => {
 	const getMuiVariant = (): 'contained' | 'outlined' | 'text' => {
 		switch (item.type) {
 			case BUTTON_TYPES.PRIMARY:
+			case BUTTON_TYPES.DANGER:
 			case BUTTON_TYPES.AUTO_CLOSE:
 				return 'contained';
 			case BUTTON_TYPES.SECONDARY:
@@ -108,6 +110,9 @@ export const ButtonMui = (props: ButtonProps) => {
 				break;
 			case BUTTON_TYPES.TERTIARY:
 				className += ' button-mui--tertiary';
+				break;
+			case BUTTON_TYPES.DANGER:
+				className += ' button-mui--danger';
 				break;
 			case BUTTON_TYPES.LINK:
 				className += ' button-mui--link';

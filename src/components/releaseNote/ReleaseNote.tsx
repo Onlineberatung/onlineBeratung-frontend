@@ -2,15 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
-import { markdownToDraft } from 'markdown-draft-js';
+import { marked } from 'marked';
 import { Headline } from '../headline/Headline';
 import newIllustration from '../../resources/img/illustrations/new.svg?react';
 import { Checkbox } from '../checkbox/Checkbox';
 import { Text } from '../text/Text';
-import { convertFromRaw } from 'draft-js';
 import sanitizeHtml from 'sanitize-html';
 import { sanitizeHtmlExtendedOptions } from '../messageSubmitInterface/richtextHelpers';
-import { stateToHTML } from 'draft-js-export-html';
 import './releaseNote.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
@@ -86,24 +84,25 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 					throw new Error('No release notes!');
 				}
 
-				const rawMarkdownToDraftObject = markdownToDraft(
-					markdowns
-						.map(
-							(m) =>
-								`${
-									markdowns.length > 1 && m.title
-										? `***${m.title}***\n\n`
-										: ''
-								}${m.markdown}`
-						)
-						.join('\n\n')
-				);
-				const convertedMarkdownObject = convertFromRaw(
-					rawMarkdownToDraftObject
-				);
+				// Convert markdown to HTML using marked
+				const combinedMarkdown = markdowns
+					.map(
+						(m) =>
+							`${
+								markdowns.length > 1 && m.title
+									? `***${m.title}***\n\n`
+									: ''
+							}${m.markdown}`
+					)
+					.join('\n\n');
+
+				const htmlText = marked.parse(combinedMarkdown, {
+					breaks: true,
+					gfm: true
+				});
 
 				const sanitizedText = sanitizeHtml(
-					stateToHTML(convertedMarkdownObject),
+					String(htmlText),
 					sanitizeHtmlExtendedOptions
 				);
 

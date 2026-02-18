@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import sanitizeHtml from 'sanitize-html';
+import { marked } from 'marked';
 import { PrettyDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
@@ -20,11 +21,7 @@ import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
 import { CopyMessage } from './CopyMessage';
 import { MessageDisplayName } from './MessageDisplayName';
-import { markdownToDraft } from 'markdown-draft-js';
-import { stateToHTML } from 'draft-js-export-html';
-import { convertFromRaw, ContentState } from 'draft-js';
 import {
-	markdownToDraftDefaultOptions,
 	sanitizeHtmlDefaultOptions,
 	urlifyLinksInText
 } from '../messageSubmitInterface/richtextHelpers';
@@ -69,6 +66,9 @@ import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { BanUser, BanUserOverlay } from '../banUser/BanUser';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { VideoChatDetails, VideoChatDetailsAlias } from './VideoChatDetails';
+
+// Constants
+const MODAL_OPEN_DELAY = 50; // milliseconds - delay to ensure menu closes before modal opens
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -203,17 +203,18 @@ export const MessageItemComponent = ({
 	]);
 
 	useEffect((): void => {
-		const rawMessageObject = markdownToDraft(
-			decryptedMessage,
-			markdownToDraftDefaultOptions
-		);
-		const contentStateMessage: ContentState =
-			convertFromRaw(rawMessageObject);
+		// Convert markdown to HTML using marked
+		const htmlMessage = decryptedMessage
+			? marked.parse(decryptedMessage, {
+					breaks: true,
+					gfm: true
+				})
+			: '';
 
 		setRenderedMessage(
-			contentStateMessage.hasText()
+			htmlMessage
 				? sanitizeHtml(
-						urlifyLinksInText(stateToHTML(contentStateMessage)),
+						urlifyLinksInText(String(htmlMessage)),
 						sanitizeHtmlDefaultOptions
 					)
 				: ''
@@ -677,8 +678,6 @@ const DeleteMessage = ({
 		() => ({
 			headline: translate('message.delete.overlay.headline'),
 			copy: translate('message.delete.overlay.copy'),
-			svg: XIllustration,
-			illustrationBackground: 'neutral',
 			buttonSet: [
 				{
 					label: translate('message.delete.overlay.cancel'),
@@ -689,7 +688,7 @@ const DeleteMessage = ({
 				{
 					label: translate('message.delete.overlay.confirm'),
 					function: 'CONFIRM',
-					type: BUTTON_TYPES.PRIMARY,
+					type: BUTTON_TYPES.DANGER,
 					disabled: isRequestInProgress
 				}
 			],
@@ -707,11 +706,22 @@ const DeleteMessage = ({
 	return (
 		<>
 			<a
-				onClick={() => setDeleteOverlay(true)}
+				onClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					// Small delay to ensure menu closes cleanly before modal opens
+					setTimeout(() => {
+						setDeleteOverlay(true);
+					}, MODAL_OPEN_DELAY);
+				}}
 				onKeyDown={(e) => {
 					if (e.key === 'Enter' || e.key === ' ') {
 						e.preventDefault();
-						setDeleteOverlay(true);
+						e.stopPropagation();
+						// Small delay to ensure menu closes cleanly before modal opens
+						setTimeout(() => {
+							setDeleteOverlay(true);
+						}, MODAL_OPEN_DELAY);
 					}
 				}}
 				role="button"

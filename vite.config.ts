@@ -155,6 +155,16 @@ export default defineConfig(({ mode }) => {
 						attachProxyLogging(proxy);
 					}
 				},
+				'/file-upload': {
+					target:
+						env.VITE_API_URL ||
+						DEFAULT_API_TARGET,
+					changeOrigin: true,
+					secure: false,
+					configure: (proxy, _options) => {
+						attachProxyLogging(proxy);
+					}
+				},
 				'/livereload': {
 					target: 'ws://localhost:35729',
 					ws: true
@@ -185,15 +195,12 @@ export default defineConfig(({ mode }) => {
 				}
 			},
 			include: [
-				'draft-js',
-				'draft-js-export-html',
-				'markdown-draft-js',
-				'@draft-js-plugins/editor',
-				'@draft-js-plugins/emoji',
-				'@draft-js-plugins/linkify',
-				'@draft-js-plugins/static-toolbar',
-				'@draft-js-plugins/buttons',
-				'sanitize-html'
+				'sanitize-html',
+				'marked',
+				'@tiptap/react',
+				'@tiptap/starter-kit',
+				'tiptap-markdown',
+				'emoji-picker-react'
 			]
 		}
 	};

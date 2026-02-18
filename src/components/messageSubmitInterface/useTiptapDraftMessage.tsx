@@ -9,8 +9,6 @@ import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEContext, ActiveSessionContext } from '../../globalState';
-import { convertFromRaw, EditorState } from 'draft-js';
-import { markdownToDraft } from 'markdown-draft-js';
 import { EVENT_PRE_LOGOUT } from '../logout/logout';
 import {
 	addEventListener,
@@ -19,14 +17,14 @@ import {
 
 const SAVE_DRAFT_TIMEOUT = 10000;
 
-export const useDraftMessage = (
+export const useTiptapDraftMessage = (
 	enabled: boolean,
-	loadFunction: (state: EditorState) => void
+	loadFunction: (markdown: string) => void
 ) => {
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { isE2eeEnabled } = useContext(E2EEContext);
 
-	const draftSaveTimeout = useRef(null);
+	const draftSaveTimeout = useRef<NodeJS.Timeout | null>(null);
 	const willUnmount = useRef(false);
 
 	const { keyID, key, encrypted, ready } = useE2EE(activeSession.rid);
@@ -34,15 +32,6 @@ export const useDraftMessage = (
 	const [loaded, setLoaded] = useState(false);
 	const [messageRes, setMessageRes] = useState<IDraftMessage>(null);
 	const [message, setMessage] = useState(null);
-
-	const setEditorWithMarkdownString = useCallback(
-		(markdownString: string) => {
-			const rawObject = markdownToDraft(markdownString);
-			const draftContent = convertFromRaw(rawObject);
-			loadFunction(EditorState.createWithContent(draftContent));
-		},
-		[loadFunction]
-	);
 
 	// Load the draft message from the api but do not show it because its encrypted
 	useEffect(() => {
@@ -74,7 +63,7 @@ export const useDraftMessage = (
 		}
 
 		if (!isE2eeEnabled || messageRes.t !== 'e2e') {
-			setEditorWithMarkdownString(messageRes.message);
+			loadFunction(messageRes.message);
 			setMessage(messageRes.message);
 			setLoaded(true);
 			return;
@@ -90,19 +79,11 @@ export const useDraftMessage = (
 		)
 			.catch(() => messageRes.message)
 			.then((msg) => {
-				setEditorWithMarkdownString(msg);
+				loadFunction(msg);
 				setMessage(msg);
 				setLoaded(true);
 			});
-	}, [
-		messageRes,
-		encrypted,
-		isE2eeEnabled,
-		key,
-		keyID,
-		ready,
-		setEditorWithMarkdownString
-	]);
+	}, [messageRes, encrypted, isE2eeEnabled, key, keyID, ready, loadFunction]);
 
 	const saveDraftMessage = useCallback(
 		async (draftMessage) => {

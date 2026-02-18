@@ -229,7 +229,7 @@
 		"error": {
 			"format": {
 				"headline": "Ihre Datei konnte nicht gesendet werden.",
-				"message": "Ihre Datei konnte nicht gesendet werden. Erlaubt sind Bilder (jpg und png), sowie Dokumente (docx und pdf). Bitte versuchen Sie es erneut."
+				"message": "Ihre Datei konnte nicht gesendet werden. Erlaubt sind Bilder (jpg, png), Dokumente (pdf, docx, xlsx, odt, ods, odp) und Audiodateien (mp3, wav, ogg, aac, m4a). Bitte versuchen Sie es erneut."
 			},
 			"other": {
 				"headline": "Es gab einen Fehler beim Hochladen der Datei.",
@@ -252,11 +252,19 @@
 		},
 		"type": {
 			"label": {
+				"aac": "AAC",
 				"docx": "DOCX",
 				"jpeg": "JPG",
+				"m4a": "M4A",
 				"mb": "MB",
+				"mp3": "MP3",
+				"ogg": "OGG",
+				"odp": "ODP",
+				"ods": "ODS",
+				"odt": "ODT",
 				"pdf": "PDF",
 				"png": "PNG",
+				"wav": "WAV",
 				"xlsx": "XLSX"
 			}
 		}
@@ -2043,7 +2051,7 @@
 				"insideDropArea": "Legen Sie die Datei hier ab, um sie hochzuladen.",
 				"outsideDropArea": "Ziehen Sie die Datei in das Feld, um sie hochzuladen."
 			},
-			"restrictions": ".jpg, .png, .pdf, .docx, .xlsx bis maximal {{attachment_filesize}} MB"
+			"restrictions": ".jpg, .png, .pdf, .docx, .xlsx, .mp3, .wav, .ogg, .aac, .m4a, .odt, .ods, .odp bis maximal {{attachment_filesize}} MB"
 		},
 		"empty": "Bitte wählen Sie eine Nachricht aus",
 		"feedback": {

@@ -195,6 +195,16 @@ className: 'overlay-mui__paper'
 BackdropProps={{
 className: 'overlay-mui__backdrop'
 }}
+		onClose={(event, reason) => {
+			// Prevent backdrop clicks from closing the dialog
+			// Escape key behavior is controlled by disableEscapeKeyDown prop
+			if (reason === 'backdropClick') {
+				return;
+			}
+			if (props.handleOverlayClose) {
+				props.handleOverlayClose(event);
+			}
+		}}
 disableEscapeKeyDown={!props.handleOverlayClose && !activeOverlay.showCloseButton}
 >
 <DialogContent className={`overlay-mui__content ${props.loading ? 'overlay-mui__loading' : ''}`.trim()}>
