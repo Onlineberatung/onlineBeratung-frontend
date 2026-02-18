@@ -385,6 +385,9 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					</WaitingRoomContent>
 				</>
 			);
+		} else if (isConsultantAvailable === undefined) {
+			// Consultant availability not yet determined, show loading
+			return <Loading></Loading>;
 		} else if (isConsultantAvailable) {
 			return (
 				<WaitingRoomContent
