@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentType, useState, useEffect, lazy, Suspense, useContext } from 'react';
+import { ComponentType, useState, lazy, Suspense, useContext } from 'react';
 import {
 	BrowserRouter as Router,
 	Switch,
@@ -128,21 +128,12 @@ interface RouterWrapperProps {
 
 const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 	const settings = useAppConfig();
-	const location = useLocation();
 
 	const [startWebsocket, setStartWebsocket] = useState<boolean>(false);
 	const [disconnectWebsocket, setDisconnectWebsocket] =
 		useState<boolean>(false);
 	const [failedPreCondition, setFailedPreCondition] =
 		useState(preConditionsMet());
-
-	// Start websocket for waiting room (anonymous users need it)
-	useEffect(() => {
-		if (location.pathname === '/beratung/warteraum') {
-			console.log('[App] Starting websocket for waiting room...');
-			setStartWebsocket(true);
-		}
-	}, [location.pathname]);
 
 	if (failedPreCondition) {
 		return <PreConditions onPreConditionsMet={setFailedPreCondition} />;
