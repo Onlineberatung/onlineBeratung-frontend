@@ -103,26 +103,27 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 	}, [settings.urls.registration, agency.id, addNotification, translate]);
 
 	return (
-		<button
+		<MuiBox
+			component="button"
 			className="text--nowrap text--tertiary primary button-as-link"
 			type="button"
 			tabIndex={0}
 			onClick={copyRegistrationLink}
 			title={translate('profile.data.agency.registrationLink.title')}
 			aria-label={translate('profile.data.agency.registrationLink.title')}
-			style={{ 
+			sx={{ 
 				border: 'none', 
 				background: 'none', 
-				padding: 0, 
+				p: 0, 
 				textDecoration: 'underline',
 				cursor: 'pointer',
 				display: 'flex',
 				alignItems: 'center',
-				gap: '4px'
+				gap: 0.5
 			}}
 		>
 			<CopyIcon className={`copy icn--s`} />{' '}
 			{translate('profile.data.agency.registrationLink.text')}
-		</button>
+		</MuiBox>
 	);
 };

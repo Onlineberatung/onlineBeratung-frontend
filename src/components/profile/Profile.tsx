@@ -505,10 +505,10 @@ const ProfileItem = ({
 	element: SingleComponentType;
 	index: number;
 }) => {
-	const gridSize = element.fullWidth ? 12 : 6;
+	const lgGridSize = element.fullWidth ? 12 : 6;
 	
 	return (
-		<Grid item xs={12} lg={gridSize}>
+		<Grid item xs={12} lg={lgGridSize}>
 			{element.boxed === false ? (
 				<element.component />
 			) : (

@@ -177,13 +177,14 @@ export const ConsultantPrivateData = () => {
 						semanticLevel="5"
 					/>
 					{isEditDisabled && (
-						<span
+						<MuiBox
+							component="span"
 							role="button"
 							className="tertiary"
 							onClick={() => {
 								setIsEditDisabled(false);
 							}}
-							style={{ cursor: 'pointer' }}
+							sx={{ cursor: 'pointer' }}
 						>
 							<PenIcon
 								title={translate(
@@ -193,7 +194,7 @@ export const ConsultantPrivateData = () => {
 									'profile.data.edit.button.edit'
 								)}
 							/>
-						</span>
+						</MuiBox>
 					)}
 				</Stack>
 

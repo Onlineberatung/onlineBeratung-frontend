@@ -118,16 +118,17 @@ export const ConsultantInformation = () => {
 						semanticLevel="5"
 					/>
 					{isDisplayNameFeatureEnabled && !isEditEnabled && (
-						<span
+						<MuiBox
+							component="span"
 							role="button"
 							className="tertiary"
 							onClick={() => {
 								setIsEditEnabled(true);
 							}}
-							style={{ cursor: 'pointer' }}
+							sx={{ cursor: 'pointer' }}
 						>
 							<PenIcon />
-						</span>
+						</MuiBox>
 					)}
 				</Stack>
 
@@ -211,7 +212,8 @@ const PersonalRegistrationLink = ({
 				text={translate(`qrCode.personal.overlay.info`)}
 			/>
 			<Stack direction="row" spacing={1} alignItems="center">
-				<button
+				<MuiBox
+					component="button"
 					type="button"
 					className="text--nowrap text--tertiary primary button-as-link"
 					tabIndex={0}
@@ -222,20 +224,20 @@ const PersonalRegistrationLink = ({
 					aria-label={translate(
 						'profile.data.personal.registrationLink.title'
 					)}
-					style={{ 
+					sx={{ 
 						border: 'none', 
 						background: 'none', 
-						padding: 0, 
+						p: 0, 
 						textDecoration: 'underline',
 						cursor: 'pointer',
 						display: 'flex',
 						alignItems: 'center',
-						gap: '4px'
+						gap: 0.5
 					}}
 				>
 					<CopyIcon className={`copy icn--s`} />{' '}
 					{translate('profile.data.personal.registrationLink.text')}
-				</button>
+				</MuiBox>
 				<Tooltip
 					trigger={
 						<InfoIcon
