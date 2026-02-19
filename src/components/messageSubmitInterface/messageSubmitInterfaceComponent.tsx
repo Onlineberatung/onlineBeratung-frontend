@@ -151,7 +151,7 @@ export const MessageSubmitInterfaceComponent = ({
 		useState(false);
 	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
 	const [emojiAnchorEl, setEmojiAnchorEl] =
-		useState<HTMLButtonElement | null>(null);
+		useState<Element | null>(null);
 	const [insertEmojiFunc, setInsertEmojiFunc] = useState<
 		((emoji: string) => void) | null
 	>(null);
@@ -738,7 +738,7 @@ export const MessageSubmitInterfaceComponent = ({
 	}, [attachmentUpload, cleanupAttachment, uploadProgress]);
 
 	const handleEmojiButtonClick = useCallback(
-		(event: React.MouseEvent<HTMLButtonElement>) => {
+		(event: React.MouseEvent<Element>) => {
 			setEmojiAnchorEl(event.currentTarget);
 		},
 		[]
