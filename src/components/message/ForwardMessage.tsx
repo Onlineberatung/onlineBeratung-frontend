@@ -79,15 +79,19 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 			props.askerRcId,
 			props.groupId,
 			isEncrypted
-		).then(() => {
-			encryptRoom(setE2EEState).then(() => {
-				setMessageForwarded(true);
-				setTimeout(() => {
-					setMessageForwarded(false);
-					setIsRequestInProgress(false);
-				}, 3000);
+		)
+			.then(() => {
+				encryptRoom(setE2EEState).then(() => {
+					setMessageForwarded(true);
+					setTimeout(() => {
+						setMessageForwarded(false);
+						setIsRequestInProgress(false);
+					}, 3000);
+				});
+			})
+			.catch(() => {
+				setIsRequestInProgress(false);
 			});
-		});
 	}, [
 		isRequestInProgress,
 		encrypted,

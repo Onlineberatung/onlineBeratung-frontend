@@ -67,7 +67,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 
-	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
+	const messages = useMemo(() => props.messages, [props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [initialScrollCompleted, setInitialScrollCompleted] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
