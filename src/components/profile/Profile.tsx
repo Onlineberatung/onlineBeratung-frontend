@@ -42,6 +42,7 @@ import {
 	solveCondition,
 	solveGroupConditions,
 	COLUMN_LEFT,
+	COLUMN_RIGHT,
 	SingleComponentType,
 	TabGroups,
 	TabType
@@ -51,7 +52,7 @@ import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider
 import { useAppConfig } from '../../hooks/useAppConfig';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import LegalLinks from '../legalLinks/LegalLinks';
-import { Box as MuiBox, Grid } from '@mui/material';
+import { Box as MuiBox, Grid, Stack } from '@mui/material';
 
 export const Profile = () => {
 	const settings = useAppConfig();
@@ -349,40 +350,11 @@ export const Profile = () => {
 										key={`/profile${tab.url}`}
 									>
 										<div className="profile__content">
-											<Grid container spacing={3}>
-												{tab.elements
-													.reduce(
-														(
-															acc: SingleComponentType[],
-															element
-														) =>
-															acc.concat(
-																isTabGroup(element)
-																	? element.elements
-																	: element
-															),
-														[]
-													)
-													.filter((element) =>
-														solveCondition(
-															element.condition,
-															userData,
-															consultingTypes ?? []
-														)
-													)
-													.sort(
-														(a, b) =>
-															(a?.order || 99) -
-															(b?.order || 99)
-													)
-													.map((element, i) => (
-														<ProfileItem
-															key={i}
-															element={element}
-															index={i}
-														/>
-													))}
-											</Grid>
+											<ProfileColumns
+												elements={tab.elements}
+												userData={userData}
+												consultingTypes={consultingTypes ?? []}
+											/>
 										</div>
 									</Route>
 								))
@@ -499,16 +471,98 @@ export const Profile = () => {
 	);
 };
 
+const ProfileColumns = ({
+	elements,
+	userData,
+	consultingTypes
+}: {
+	elements: (TabGroups | SingleComponentType | null)[];
+	userData: any;
+	consultingTypes: any[];
+}) => {
+	// Flatten and filter elements
+	const allElements = elements
+		.reduce(
+			(acc: SingleComponentType[], element) =>
+				acc.concat(
+					isTabGroup(element) ? element.elements : element
+				),
+			[]
+		)
+		.filter((element) =>
+			solveCondition(element.condition, userData, consultingTypes)
+		)
+		.sort((a, b) => (a?.order || 99) - (b?.order || 99));
+
+	// Separate elements by column
+	const leftColumnElements = allElements.filter(
+		(el) => el.column === COLUMN_LEFT && !el.fullWidth
+	);
+	const rightColumnElements = allElements.filter(
+		(el) => el.column === COLUMN_RIGHT && !el.fullWidth
+	);
+	const fullWidthElements = allElements.filter((el) => el.fullWidth);
+
+	return (
+		<Grid container spacing={3}>
+			{/* Full width elements first */}
+			{fullWidthElements.map((element, i) => (
+				<Grid item xs={12} key={`full-${i}`}>
+					{element.boxed === false ? (
+						<element.component />
+					) : (
+						<Box>
+							<element.component />
+						</Box>
+					)}
+				</Grid>
+			))}
+			
+			{/* Left column */}
+			<Grid item xs={12} lg={6}>
+				<Stack spacing={3}>
+					{leftColumnElements.map((element, i) => (
+						<div key={`left-${i}`}>
+							{element.boxed === false ? (
+								<element.component />
+							) : (
+								<Box>
+									<element.component />
+								</Box>
+							)}
+						</div>
+					))}
+				</Stack>
+			</Grid>
+
+			{/* Right column */}
+			<Grid item xs={12} lg={6}>
+				<Stack spacing={3}>
+					{rightColumnElements.map((element, i) => (
+						<div key={`right-${i}`}>
+							{element.boxed === false ? (
+								<element.component />
+							) : (
+								<Box>
+									<element.component />
+								</Box>
+							)}
+						</div>
+					))}
+				</Stack>
+			</Grid>
+		</Grid>
+	);
+};
+
 const ProfileItem = ({
 	element
 }: {
 	element: SingleComponentType;
 	index: number;
 }) => {
-	const lgGridSize = element.fullWidth ? 12 : 6;
-	
 	return (
-		<Grid item xs={12} lg={lgGridSize}>
+		<div>
 			{element.boxed === false ? (
 				<element.component />
 			) : (
@@ -516,7 +570,7 @@ const ProfileItem = ({
 					<element.component />
 				</Box>
 			)}
-		</Grid>
+		</div>
 	);
 };
 
@@ -524,20 +578,73 @@ const ProfileGroup = ({ group }: { group: TabGroups }) => {
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
+	const allElements = group.elements
+		.filter((element) =>
+			solveCondition(
+				element.condition,
+				userData,
+				consultingTypes ?? []
+			)
+		)
+		.sort((a, b) => (a?.order || 99) - (b?.order || 99));
+
+	// Separate elements by column
+	const leftColumnElements = allElements.filter(
+		(el) => el.column === COLUMN_LEFT && !el.fullWidth
+	);
+	const rightColumnElements = allElements.filter(
+		(el) => el.column === COLUMN_RIGHT && !el.fullWidth
+	);
+	const fullWidthElements = allElements.filter((el) => el.fullWidth);
+
 	return (
 		<Grid container spacing={3}>
-			{group.elements
-				.filter((element) =>
-					solveCondition(
-						element.condition,
-						userData,
-						consultingTypes ?? []
-					)
-				)
-				.sort((a, b) => (a?.order || 99) - (b?.order || 99))
-				.map((element, i) => (
-					<ProfileItem key={i} element={element} index={i} />
-				))}
+			{/* Full width elements first */}
+			{fullWidthElements.map((element, i) => (
+				<Grid item xs={12} key={`full-${i}`}>
+					{element.boxed === false ? (
+						<element.component />
+					) : (
+						<Box>
+							<element.component />
+						</Box>
+					)}
+				</Grid>
+			))}
+			
+			{/* Left column */}
+			<Grid item xs={12} lg={6}>
+				<Stack spacing={3}>
+					{leftColumnElements.map((element, i) => (
+						<div key={`left-${i}`}>
+							{element.boxed === false ? (
+								<element.component />
+							) : (
+								<Box>
+									<element.component />
+								</Box>
+							)}
+						</div>
+					))}
+				</Stack>
+			</Grid>
+
+			{/* Right column */}
+			<Grid item xs={12} lg={6}>
+				<Stack spacing={3}>
+					{rightColumnElements.map((element, i) => (
+						<div key={`right-${i}`}>
+							{element.boxed === false ? (
+								<element.component />
+							) : (
+								<Box>
+									<element.component />
+								</Box>
+							)}
+						</div>
+					))}
+				</Stack>
+			</Grid>
 		</Grid>
 	);
 };
