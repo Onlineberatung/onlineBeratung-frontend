@@ -51,7 +51,7 @@ import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider
 import { useAppConfig } from '../../hooks/useAppConfig';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import LegalLinks from '../legalLinks/LegalLinks';
-import { Box as MuiBox, Grid2 } from '@mui/material';
+import { Box as MuiBox, Grid } from '@mui/material';
 
 export const Profile = () => {
 	const settings = useAppConfig();
@@ -349,7 +349,7 @@ export const Profile = () => {
 										key={`/profile${tab.url}`}
 									>
 										<div className="profile__content">
-											<Grid2 container spacing={3}>
+											<Grid container spacing={3}>
 												{tab.elements
 													.reduce(
 														(
@@ -382,7 +382,7 @@ export const Profile = () => {
 															index={i}
 														/>
 													))}
-											</Grid2>
+											</Grid>
 										</div>
 									</Route>
 								))
@@ -508,7 +508,7 @@ const ProfileItem = ({
 	const gridSize = element.fullWidth ? 12 : 6;
 	
 	return (
-		<Grid2 size={{ xs: 12, lg: gridSize }}>
+		<Grid item xs={12} lg={gridSize}>
 			{element.boxed === false ? (
 				<element.component />
 			) : (
@@ -516,7 +516,7 @@ const ProfileItem = ({
 					<element.component />
 				</Box>
 			)}
-		</Grid2>
+		</Grid>
 	);
 };
 
@@ -525,7 +525,7 @@ const ProfileGroup = ({ group }: { group: TabGroups }) => {
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	return (
-		<Grid2 container spacing={3}>
+		<Grid container spacing={3}>
 			{group.elements
 				.filter((element) =>
 					solveCondition(
@@ -538,6 +538,6 @@ const ProfileGroup = ({ group }: { group: TabGroups }) => {
 				.map((element, i) => (
 					<ProfileItem key={i} element={element} index={i} />
 				))}
-		</Grid2>
+		</Grid>
 	);
 };

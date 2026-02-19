@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useCallback, useContext } from 'react';
 
 import { useTranslation } from 'react-i18next';
+import { Stack, Typography, Box as MuiBox } from '@mui/material';
 
 import {
 	NOTIFICATION_TYPE_SUCCESS,
@@ -26,29 +27,29 @@ export const ConsultantAgencies = () => {
 	const { userData } = useContext(UserDataContext);
 
 	return (
-		<div>
-			<div className="profile__content__title">
-				<div className="flex flex--fd-column flex-xl--fd-row">
-					<Headline
-						className="pr--3"
-						text={translate('profile.data.title.agencies')}
-						semanticLevel="5"
-					/>
-				</div>
-			</div>
-			<div className="profile__data__item full">
-				{userData.agencies.map((item: Agency, index: number) => {
-					return (
-						<div
-							className="profile__data__content profile__data__content--agencies flex flex--fd-column flex-l--fd-row flex-l--jc-sb mb--2"
-							key={`agencies-${item.id}`}
-						>
-							{translate(`agency.${item.id}.name`, {
-								ns: 'agencies',
-								defaultValue: item.name
-							})}
-							<div className="flex flex--fd-row mt--1 flex-l--fd-column mt-l--0 ml-l--2 flex--ai-c flex-l--ai-fs">
-								<div>
+		<MuiBox>
+			<Stack spacing={2}>
+				<Headline
+					text={translate('profile.data.title.agencies')}
+					semanticLevel="5"
+				/>
+				
+				<Stack spacing={2} divider={<MuiBox sx={{ borderBottom: 1, borderColor: 'divider' }} />}>
+					{userData.agencies.map((item: Agency) => {
+						return (
+							<Stack
+								key={`agencies-${item.id}`}
+								direction={{ xs: 'column', lg: 'row' }}
+								justifyContent="space-between"
+								spacing={2}
+							>
+								<Typography variant="body1">
+									{translate(`agency.${item.id}.name`, {
+										ns: 'agencies',
+										defaultValue: item.name
+									})}
+								</Typography>
+								<Stack direction="row" spacing={2} alignItems="center">
 									<GenerateQrCode
 										url={`${settings.urls.registration}?aid=${item.id}`}
 										filename={'beratungsstelle'}
@@ -62,16 +63,14 @@ export const ConsultantAgencies = () => {
 											}
 										)}
 									/>
-								</div>
-								<div className="ml--2 mt-l--1 ml-l--0">
 									<AgencyRegistrationLink agency={item} />
-								</div>
-							</div>
-						</div>
-					);
-				})}
-			</div>
-		</div>
+								</Stack>
+							</Stack>
+						);
+					})}
+				</Stack>
+			</Stack>
+		</MuiBox>
 	);
 };
 
@@ -105,12 +104,22 @@ const AgencyRegistrationLink = ({ agency }: AgencyRegistrationLinkProps) => {
 
 	return (
 		<button
-			className="profile__data__copy_registration_link text--nowrap text--tertiary primary mr--2 button-as-link"
+			className="text--nowrap text--tertiary primary button-as-link"
 			type="button"
 			tabIndex={0}
 			onClick={copyRegistrationLink}
 			title={translate('profile.data.agency.registrationLink.title')}
 			aria-label={translate('profile.data.agency.registrationLink.title')}
+			style={{ 
+				border: 'none', 
+				background: 'none', 
+				padding: 0, 
+				textDecoration: 'underline',
+				cursor: 'pointer',
+				display: 'flex',
+				alignItems: 'center',
+				gap: '4px'
+			}}
 		>
 			<CopyIcon className={`copy icn--s`} />{' '}
 			{translate('profile.data.agency.registrationLink.text')}
