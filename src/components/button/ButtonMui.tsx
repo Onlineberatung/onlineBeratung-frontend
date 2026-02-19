@@ -164,8 +164,9 @@ export const ButtonMui = (props: ButtonProps) => {
 	}
 
 	// For all other button types, use regular MUI Button
+	const Wrapper = item.type === BUTTON_TYPES.LINK_INLINE ? 'span' : 'div';
 	return (
-		<div
+		<Wrapper
 			className={`button-mui__wrapper ${
 				item.type === BUTTON_TYPES.LINK_INLINE
 					? 'button-mui__wrapper--inline'
@@ -195,6 +196,6 @@ export const ButtonMui = (props: ButtonProps) => {
 			>
 				{item.label && translate(item.label)}
 			</MuiButton>
-		</div>
+		</Wrapper>
 	);
 };
