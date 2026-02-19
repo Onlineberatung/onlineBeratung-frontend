@@ -43,7 +43,7 @@ import {
 	STORAGE_KEY_DISABLE_2FA_DUTY,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
-import { Box as MuiBox, Stack, Typography } from '@mui/material';
+import { Box as MuiBox, Stack, Typography, FormControlLabel } from '@mui/material';
 
 export const OTP_LENGTH = 6;
 
@@ -878,26 +878,29 @@ export const TwoFactorAuth = () => {
 				</Typography>
 
 				{!isTwoFactorBinding && (
-					<Stack direction="row" spacing={2} alignItems="center" component="label">
-						<Switch
-							onChange={handleSwitchChange}
-							checked={isSwitchChecked}
-							uncheckedIcon={false}
-							checkedIcon={false}
-							width={48}
-							height={26}
-							onColor="#0A882F"
-							offColor="#8C878C"
-							boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-							handleDiameter={27}
-							activeBoxShadow="none"
-						/>
-						<Typography variant="body1">
-							{isSwitchChecked
+					<FormControlLabel
+						control={
+							<Switch
+								onChange={handleSwitchChange}
+								checked={isSwitchChecked}
+								uncheckedIcon={false}
+								checkedIcon={false}
+								width={48}
+								height={26}
+								onColor="#0A882F"
+								offColor="#8C878C"
+								boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+								handleDiameter={27}
+								activeBoxShadow="none"
+							/>
+						}
+						label={
+							isSwitchChecked
 								? translate('twoFactorAuth.switch.active.label')
-								: translate('twoFactorAuth.switch.deactive.label')}
-						</Typography>
-					</Stack>
+								: translate('twoFactorAuth.switch.deactive.label')
+						}
+						labelPlacement="end"
+					/>
 				)}
 
 				{(isSwitchChecked || isTwoFactorBinding) &&
