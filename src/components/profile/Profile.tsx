@@ -507,7 +507,7 @@ const ProfileColumns = ({
 		<Grid container spacing={3}>
 			{/* Full width elements first */}
 			{fullWidthElements.map((element, i) => (
-				<Grid item xs={12} key={`full-${i}`}>
+				<Grid size={{ xs: 12 }} key={`full-${i}`}>
 					{element.boxed === false ? (
 						<element.component />
 					) : (
@@ -519,7 +519,7 @@ const ProfileColumns = ({
 			))}
 			
 			{/* Left column */}
-			<Grid item xs={12} lg={6}>
+			<Grid size={{ xs: 12, md: 6 }}>
 				<Stack spacing={3}>
 					{leftColumnElements.map((element, i) => (
 						<div key={`left-${i}`}>
@@ -536,7 +536,7 @@ const ProfileColumns = ({
 			</Grid>
 
 			{/* Right column */}
-			<Grid item xs={12} lg={6}>
+			<Grid size={{ xs: 12, md: 6 }}>
 				<Stack spacing={3}>
 					{rightColumnElements.map((element, i) => (
 						<div key={`right-${i}`}>
@@ -601,7 +601,7 @@ const ProfileGroup = ({ group }: { group: TabGroups }) => {
 		<Grid container spacing={3}>
 			{/* Full width elements first */}
 			{fullWidthElements.map((element, i) => (
-				<Grid item xs={12} key={`full-${i}`}>
+				<Grid size={{ xs: 12 }} key={`full-${i}`}>
 					{element.boxed === false ? (
 						<element.component />
 					) : (
@@ -613,7 +613,7 @@ const ProfileGroup = ({ group }: { group: TabGroups }) => {
 			))}
 			
 			{/* Left column */}
-			<Grid item xs={12} lg={6}>
+			<Grid size={{ xs: 12, md: 6 }}>
 				<Stack spacing={3}>
 					{leftColumnElements.map((element, i) => (
 						<div key={`left-${i}`}>
@@ -630,7 +630,7 @@ const ProfileGroup = ({ group }: { group: TabGroups }) => {
 			</Grid>
 
 			{/* Right column */}
-			<Grid item xs={12} lg={6}>
+			<Grid size={{ xs: 12, md: 6 }}>
 				<Stack spacing={3}>
 					{rightColumnElements.map((element, i) => (
 						<div key={`right-${i}`}>
