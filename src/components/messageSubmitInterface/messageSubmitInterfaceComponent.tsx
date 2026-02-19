@@ -151,7 +151,7 @@ export const MessageSubmitInterfaceComponent = ({
 		useState(false);
 	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
 	const [emojiAnchorEl, setEmojiAnchorEl] =
-		useState<HTMLButtonElement | null>(null);
+		useState<Element | null>(null);
 	const [insertEmojiFunc, setInsertEmojiFunc] = useState<
 		((emoji: string) => void) | null
 	>(null);
@@ -406,7 +406,7 @@ export const MessageSubmitInterfaceComponent = ({
 				.then(() => setIsRequestInProgress(false))
 				.catch((error) => {
 					setIsRequestInProgress(false);
-					console.log(error);
+					console.error(error);
 				});
 		},
 		[activeSession.item.id, encryptRoom, language, onSendButton, setE2EEState]
@@ -529,7 +529,7 @@ export const MessageSubmitInterfaceComponent = ({
 					})
 					.catch((error) => {
 						setIsRequestInProgress(false);
-						console.log(error);
+						console.error(error);
 					});
 			} else {
 				onSendButton && onSendButton();
@@ -738,7 +738,7 @@ export const MessageSubmitInterfaceComponent = ({
 	}, [attachmentUpload, cleanupAttachment, uploadProgress]);
 
 	const handleEmojiButtonClick = useCallback(
-		(event: React.MouseEvent<HTMLButtonElement>) => {
+		(event: React.MouseEvent<SVGSVGElement>) => {
 			setEmojiAnchorEl(event.currentTarget);
 		},
 		[]

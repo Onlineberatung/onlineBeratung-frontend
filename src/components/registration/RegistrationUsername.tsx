@@ -16,7 +16,7 @@ interface RegistrationUsernameProps {
 	isUsernameAlreadyInUse: boolean;
 	onUsernameChange: Function;
 	onValidityChange: Function;
-	onKeyDown?: Function;
+	onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
 }
 
 export const RegistrationUsername = ({

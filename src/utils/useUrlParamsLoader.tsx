@@ -224,7 +224,7 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 				setAgency(agency);
 				setLoaded(true);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		})();
 	}, [

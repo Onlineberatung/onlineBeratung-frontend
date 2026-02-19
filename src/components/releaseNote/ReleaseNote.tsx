@@ -170,7 +170,7 @@ export const ReleaseNote: React.FC<ReleaseNoteProps> = () => {
 								)}
 								labelId={'seen_label'}
 								name={'seen'}
-								onKeyPress={(event) => {
+								onKeyDown={(event) => {
 									if (event.key === 'Enter') {
 										changeHasSeenReleaseNote();
 									}

@@ -176,7 +176,7 @@ export const SessionAssign = (props: { value?: string }) => {
 					setConsultantList(consultants);
 				})
 				.catch((error) => {
-					console.log(error);
+					console.error(error);
 				});
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -204,7 +204,7 @@ export const SessionAssign = (props: { value?: string }) => {
 				await addNewUsersToEncryptedRoom();
 				await apiDeleteUserFromRoom(sessionId, userId);
 			} catch (e) {
-				console.log('error encrypting new user key');
+				console.error('error encrypting new user key');
 			}
 		}
 	};
@@ -237,7 +237,7 @@ export const SessionAssign = (props: { value?: string }) => {
 					.catch((error) => {
 						if (error === FETCH_ERRORS.CONFLICT) {
 							return null;
-						} else console.log(error);
+						} else console.error(error);
 					})
 					.finally(() => setIsRequestInProgress(false));
 				break;

@@ -65,7 +65,7 @@ export interface SelectDropdownItem {
 	defaultValue?: SelectOption | SelectOption[];
 	hasError?: boolean;
 	errorMessage?: string;
-	onKeyDown?: Function;
+	onKeyDown?: (...args: any[]) => void;
 	styleOverrides?: any;
 	selectRef?: any;
 	isInsideMenu?: boolean;

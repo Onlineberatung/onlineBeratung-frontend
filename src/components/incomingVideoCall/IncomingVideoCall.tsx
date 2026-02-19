@@ -115,7 +115,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 				removeIncomingVideoCallNotification();
 			})
 			.catch((err) => {
-				console.log(err);
+				console.error(err);
 			});
 	}, [
 		decodedUsername,

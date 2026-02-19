@@ -56,7 +56,7 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 				preferredLanguage: locale
 			})
 				.then(userDataContext.reloadUserData)
-				.catch(console.log)
+				.catch(console.error)
 				.finally(() => {
 					setRequestInProgress(false);
 				});

@@ -25,9 +25,11 @@ export const E2EEncryptionSupportHelp = () => {
 	}, []);
 
 	useEffect(() => {
-		setTimeout(() => {
+		if (!showNotification) return;
+		const id = setTimeout(() => {
 			setShowNotification(false);
 		}, 2000);
+		return () => clearTimeout(id);
 	}, [showNotification]);
 
 	return (

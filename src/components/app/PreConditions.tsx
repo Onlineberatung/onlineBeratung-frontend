@@ -42,7 +42,6 @@ export const PreConditions = ({ onPreConditionsMet }: PreConditionsProps) => {
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			console.log('Checking pre conditions ...');
 			const failedPreCondition = preConditionsMet();
 			onPreConditionsMet(failedPreCondition);
 			setFailedPreCondition(failedPreCondition);

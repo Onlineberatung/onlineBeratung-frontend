@@ -61,9 +61,6 @@ export const Welcome = () => {
 		// Welcome screen can display without consulting type/agency/consultant/topic
 		// Only set up formal/informal and title if they are available
 		if (!consultingType && !agency && !consultant && !topic) {
-			console.log(
-				'No `consultingType`, `consultant`, `agency` or `topic` found in URL. Showing generic welcome screen.'
-			);
 			setIsReady(true);
 			return;
 		}
@@ -118,7 +115,7 @@ export const Welcome = () => {
 			}
 			setIsReady(true);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			return;
 		}
 	}, [
@@ -170,8 +167,8 @@ export const Welcome = () => {
 						}
 						handleForwardToRegistration={handleForwardToRegistration}
 						welcomeScreenConfig={
-							consultingType?.registration?.welcomeScreen ||
-							agency?.consultingTypeRel?.registration?.welcomeScreen
+							consultingType?.welcomeScreen ||
+							agency?.consultingTypeRel?.welcomeScreen
 						}
 						loginParams={loginParams}
 						consultingTypeId={

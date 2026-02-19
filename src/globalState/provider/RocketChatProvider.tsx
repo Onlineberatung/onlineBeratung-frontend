@@ -145,7 +145,7 @@ export function RocketChatProvider(props) {
 				rcWebsocket.current &&
 				rcWebsocket.current.readyState !== WebSocket.OPEN
 			) {
-				console.log('WebSocket not ready!');
+				console.warn('WebSocket not ready!');
 				return;
 			}
 			if (resultListener) {
@@ -347,14 +347,14 @@ export function RocketChatProvider(props) {
 		};
 
 		rcWebsocket.current.onclose = (e) => {
-			console.log('Websocket closed');
+			console.warn('Websocket closed');
 			if (
 				rcWebsocketTimeout.current ||
 				!rcWebsocketShouldReconnect.current
 			) {
 				return;
 			}
-			console.log('Trying to reconnect ...');
+			console.warn('Trying to reconnect ...');
 			rcWebsocketTimeout.current = window.setTimeout(() => {
 				rcWebsocketTimeout.current = null;
 				rcWebsocket.current = null;
@@ -363,14 +363,14 @@ export function RocketChatProvider(props) {
 		};
 
 		rcWebsocket.current.onerror = (event) => {
-			console.log('Websocket error');
+			console.error('Websocket error');
 			if (
 				rcWebsocketTimeout.current ||
 				!rcWebsocketShouldReconnect.current
 			) {
 				return;
 			}
-			console.log('Trying to reconnect ...');
+			console.warn('Trying to reconnect ...');
 			rcWebsocketTimeout.current = window.setTimeout(() => {
 				rcWebsocketTimeout.current = null;
 				rcWebsocket.current = null;

@@ -12,7 +12,7 @@ export interface RadioButtonItem {
 	name: string;
 	value: string;
 	checked?: boolean;
-	onKeyDown?: Function;
+	onKeyDown?: (...args: any[]) => void;
 }
 
 export const RadioButtonMui = ({
@@ -41,7 +41,7 @@ export const RadioButtonMui = ({
 						value={value}
 						checked={checked}
 						onChange={handleRadioButton}
-						onKeyDown={onKeyDown as any}
+						onKeyDown={onKeyDown}
 					/>
 				}
 				label={children}

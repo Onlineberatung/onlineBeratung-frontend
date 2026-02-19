@@ -190,7 +190,6 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 									<Route path="/beratung/warteraum/:consultingTypeSlug?" exact>
 										<WaitingRoomLoader 
 											onAnonymousRegistration={() => {
-												console.log('[App] Anonymous registration completed, starting WebSocket');
 												setStartWebsocket(true);
 											}}
 										/>

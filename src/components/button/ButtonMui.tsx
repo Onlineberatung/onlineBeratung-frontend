@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Button as MuiButton, IconButton } from '@mui/material';
 import { OVERLAY_RESET_TIME } from '../overlay/Overlay';
 import ReloadIcon from '../../resources/img/icons/reload.svg?react';
@@ -51,24 +51,20 @@ export interface ButtonProps {
 
 export const ButtonMui = (props: ButtonProps) => {
 	const item = props.item;
-	let timeoutID: number;
+	const timeoutID = useRef<number>(null);
 	const { t: translate } = useTranslation();
 
 	useEffect(() => {
-		handleButtonTimer();
-
-		return (): void => {
-			if (timeoutID) window.clearTimeout(timeoutID);
-		};
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-	const handleButtonTimer = () => {
 		if (item.type === BUTTON_TYPES.AUTO_CLOSE) {
-			timeoutID = window.setTimeout(() => {
+			timeoutID.current = window.setTimeout(() => {
 				props.buttonHandle(item.function, item.functionArgs);
 			}, OVERLAY_RESET_TIME);
 		}
-	};
+
+		return (): void => {
+			if (timeoutID.current) window.clearTimeout(timeoutID.current);
+		};
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleButtonClick = (event) => {
 		if (props.disabled || !props.isLink) {
@@ -76,7 +72,7 @@ export const ButtonMui = (props: ButtonProps) => {
 		}
 
 		if (!props.disabled && !props.item.disabled && props.buttonHandle) {
-			if (timeoutID) window.clearTimeout(timeoutID);
+			if (timeoutID.current) window.clearTimeout(timeoutID.current);
 			props.buttonHandle(item.function, item.functionArgs);
 		}
 	};
