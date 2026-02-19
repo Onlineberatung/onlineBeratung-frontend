@@ -137,7 +137,7 @@ Successfully migrated 4 custom components to Material-UI (MUI) while maintaining
 - h3: 24px / 32px line-height
 - h4: 20px / 26px line-height
 - h5: 16px / 21px line-height
-- Font weight: 500 (medium, not 700/bold)
+- Font weight: 700 (bold)
 
 **Features Preserved:**
 - ✅ Semantic level (h1-h5 HTML tags)
@@ -145,12 +145,12 @@ Successfully migrated 4 custom components to Material-UI (MUI) while maintaining
 - ✅ dangerouslySetInnerHTML support
 - ✅ Custom className support
 - ✅ Original font sizes from settings.scss
-- ✅ Medium font weight (500), not bold (700)
+- ✅ Bold font weight (700)
 
 **MUI Clean Approach:**
 - Uses MUI Typography variants (h1-h5)
 - Original font sizes via sx prop
-- Font weight explicitly set to 500 (prevents MUI bold defaults)
+- Font weight explicitly set to 700 (bold)
 - Minimal custom margins (h1: mb: 5, h2: mb: 3)
 - Proper semantic HTML via component prop
 
