@@ -96,22 +96,22 @@ export const MuiThemeTest = () => {
 					<h3>Migrated Components (MUI-based)</h3>
 					
 					<div style={{ marginBottom: '20px' }}>
-						<h4>Headline Component</h4>
-						<Headline text="Headline Level 1" semanticLevel="1" />
-						<Headline text="Headline Level 2" semanticLevel="2" />
-						<Headline text="Headline Level 3" semanticLevel="3" />
-						<Headline text="Headline Level 4" semanticLevel="4" />
-						<Headline text="Headline Level 5" semanticLevel="5" />
+						<h4>Headline Component (Original Font Sizes)</h4>
+						<Headline text="Headline Level 1 - 40px" semanticLevel="1" />
+						<Headline text="Headline Level 2 - 30px" semanticLevel="2" />
+						<Headline text="Headline Level 3 - 24px" semanticLevel="3" />
+						<Headline text="Headline Level 4 - 20px" semanticLevel="4" />
+						<Headline text="Headline Level 5 - 16px" semanticLevel="5" />
 					</div>
 
 					<div style={{ marginBottom: '20px' }}>
-						<h4>Text Component</h4>
-						<Text type="standard" text="Standard text type" />
-						<Text type="infoLargeStandard" text="Info large standard text" />
-						<Text type="infoLargeAlternative" text="Info large alternative text" />
-						<Text type="infoMedium" text="Info medium text" />
-						<Text type="infoSmall" text="Info small text" />
-						<Text type="divider" text="Divider text type" />
+						<h4>Text Component (Original Font Sizes)</h4>
+						<Text type="standard" text="Standard text type - 16px" />
+						<Text type="infoLargeStandard" text="Info large standard text - 16px" />
+						<Text type="infoLargeAlternative" text="Info large alternative text - 14px" />
+						<Text type="infoMedium" text="Info medium text - 16px" />
+						<Text type="infoSmall" text="Info small text - 12px" />
+						<Text type="divider" text="Divider text type - 12px" />
 					</div>
 
 					<div style={{ marginBottom: '20px' }}>

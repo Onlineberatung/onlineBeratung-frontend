@@ -64,17 +64,36 @@ export const TextMui = (props: PropsWithChildren<TextProps>) => {
 		}
 	};
 
+	// Get original font sizes and line heights from custom component
+	const getFontStyles = () => {
+		switch (props.type) {
+			case 'standard':
+			case 'infoLargeStandard':
+			case 'infoMedium':
+				return { fontSize: '16px', lineHeight: '24px' };
+			case 'infoLargeAlternative':
+				return { fontSize: '14px', lineHeight: '20px' };
+			case 'infoSmall':
+			case 'divider':
+				return { fontSize: '12px', lineHeight: '16px' };
+			default:
+				return { fontSize: '16px', lineHeight: '24px' };
+		}
+	};
+
 	// Get additional styles for specific types
 	const getTypeStyles = () => {
+		const fontStyles = getFontStyles();
 		switch (props.type) {
 			case 'divider':
 				return {
+					...fontStyles,
 					fontWeight: 600,
 					textTransform: 'uppercase' as const,
 					letterSpacing: '0.5px'
 				};
 			default:
-				return {};
+				return fontStyles;
 		}
 	};
 
