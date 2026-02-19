@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Headline } from '../headline/Headline';
-import { Text } from '../text/Text';
 import Switch from '../Switch/SwitchSimple';
-import { FormControlLabel } from '@mui/material';
+import { FormControlLabel, Box as MuiBox, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useContext } from 'react';
@@ -25,37 +24,35 @@ export const ConsultantLiveChatAvailability = () => {
 	};
 
 	return (
-		<div className="liveChatAvailability__content">
-			<div className="profile__content__title">
+		<MuiBox>
+			<Stack spacing={2}>
 				<Headline
 					text={translate('profile.liveChat.title')}
 					semanticLevel="5"
 				/>
-				<Text
-					text={translate('profile.liveChat.subtitle')}
-					type="standard"
-					className="tertiary"
+				<Typography variant="body2" color="text.secondary">
+					{translate('profile.liveChat.subtitle')}
+				</Typography>
+				<FormControlLabel
+					control={
+						<Switch
+							onChange={toggleSwitch}
+							checked={status === STATUS_ONLINE}
+							uncheckedIcon={false}
+							checkedIcon={false}
+							width={48}
+							height={26}
+							onColor="#0A882F"
+							offColor="#8C878C"
+							boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+							handleDiameter={27}
+							activeBoxShadow="none"
+						/>
+					}
+					label={translate('profile.liveChat.toggleLabel')}
+					labelPlacement="end"
 				/>
-			</div>
-			<FormControlLabel
-				control={
-					<Switch
-						onChange={toggleSwitch}
-						checked={status === STATUS_ONLINE}
-						uncheckedIcon={false}
-						checkedIcon={false}
-						width={48}
-						height={26}
-						onColor="#0A882F"
-						offColor="#8C878C"
-						boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-						handleDiameter={27}
-						activeBoxShadow="none"
-					/>
-				}
-				label={translate('profile.liveChat.toggleLabel')}
-				labelPlacement="end"
-			/>
-		</div>
+			</Stack>
+		</MuiBox>
 	);
 };

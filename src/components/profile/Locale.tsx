@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Stack, Typography, Box as MuiBox } from '@mui/material';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
 
-import './profile.styles.scss';
 import {
 	SelectDropdown,
 	SelectDropdownItem,
@@ -65,21 +65,17 @@ export const Locale = () => {
 	};
 
 	return (
-		<div className="appLanguage">
-			<div className="profile__content__title">
-				<div className="profile__content__header">
-					<Headline
-						text={translate('profile.appLanguage.title')}
-						semanticLevel="5"
-					/>
-				</div>
-				<Text
-					text={translate('profile.appLanguage.info')}
-					type="standard"
-					className="tertiary"
+		<MuiBox>
+			<Stack spacing={2}>
+				<Headline
+					text={translate('profile.appLanguage.title')}
+					semanticLevel="5"
 				/>
-			</div>
-			<SelectDropdown {...languageSelectDropdown} />
-		</div>
+				<Typography variant="body2" color="text.secondary">
+					{translate('profile.appLanguage.info')}
+				</Typography>
+				<SelectDropdown {...languageSelectDropdown} />
+			</Stack>
+		</MuiBox>
 	);
 };

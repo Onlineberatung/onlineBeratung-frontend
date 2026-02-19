@@ -11,17 +11,15 @@ import {
 	SelectDropdownItem,
 	SelectOption
 } from '../select/SelectDropdown';
-import { Text } from '../text/Text';
 import PersonsIcon from '../../resources/img/icons/persons.svg?react';
 import SpeechBubbleIcon from '../../resources/img/icons/speech-bubble.svg?react';
 import DownloadIcon from '../../resources/img/icons/download.svg?react';
 import { CSVLink } from 'react-csv';
 import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
-import './statistics.styles.scss';
-import './profile.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
+import { Box as MuiBox, Stack, Typography } from '@mui/material';
 
 const statisticsPeriodOptionCurrentMonth = 'currentMonth';
 const statisticsPeriodOptionLastMonth = 'lastMonth';
@@ -215,94 +213,91 @@ export const ConsultantStatistics = () => {
 	};
 
 	return (
-		<div className="statistics">
-			<div className="profile__content__title">
+		<MuiBox>
+			<Stack spacing={2}>
 				<Headline
 					text={translate('profile.statistics.title')}
 					semanticLevel="5"
 				/>
-			</div>
-			<div className="statistics__periodSelect">
-				<Text
-					text={translate('profile.statistics.period.prefix')}
-					type="infoLargeAlternative"
-				/>
-				<SelectDropdown {...selectDropdown} />
-			</div>
-			<div className="b--1 p--3 mb--4">
-				<Text
-					text={`${translate(
-						'profile.statistics.period.display.prefix'
-					)}${periodDisplay}${translate(
-						'profile.statistics.period.display.suffix'
-					)}`}
-					className="text--center text--bold"
-					type="standard"
-				/>
-				<div className="statistics__visuals__wrapper">
-					<div className="statistics__visualization text--center br--1 pr--4">
-						<span>
-							<PersonsIcon aria-hidden="true" focusable="false" />
-							<p>
-								{selectedStatistics?.numberOfAssignedSessions ||
-									0}
-							</p>
-						</span>
-						<Text
-							text={translate(
-								'profile.statistics.csvHeader.numberOfAssignedSessions'
-							)}
-							type="standard"
-						/>
-					</div>
-					<div className="statistics__visualization pl--4">
-						<span>
-							<SpeechBubbleIcon
-								aria-hidden="true"
-								focusable="false"
+				<Stack spacing={2}>
+					<Typography variant="body2" color="text.secondary">
+						{translate('profile.statistics.period.prefix')}
+					</Typography>
+					<SelectDropdown {...selectDropdown} />
+				</Stack>
+				<MuiBox sx={{ border: 1, borderColor: 'divider', p: 3, borderRadius: 1 }}>
+					<Typography variant="body1" align="center" fontWeight="bold" sx={{ mb: 2 }}>
+						{translate('profile.statistics.period.display.prefix')}
+						{periodDisplay}
+						{translate('profile.statistics.period.display.suffix')}
+					</Typography>
+					<Stack direction="row" spacing={4} justifyContent="center">
+						<Stack alignItems="center" spacing={1} sx={{ borderRight: 1, borderColor: 'divider', pr: 4 }}>
+							<Stack direction="row" alignItems="center" spacing={1}>
+								<PersonsIcon aria-hidden="true" focusable="false" />
+								<Typography variant="h4">
+									{selectedStatistics?.numberOfAssignedSessions || 0}
+								</Typography>
+							</Stack>
+							<Typography variant="body2" align="center">
+								{translate(
+									'profile.statistics.csvHeader.numberOfAssignedSessions'
+								)}
+							</Typography>
+						</Stack>
+						<Stack alignItems="center" spacing={1} sx={{ pl: 4 }}>
+							<Stack direction="row" alignItems="center" spacing={1}>
+								<SpeechBubbleIcon
+									aria-hidden="true"
+									focusable="false"
+								/>
+								<Typography variant="h4">
+									{selectedStatistics?.numberOfSentMessages || 0}
+								</Typography>
+							</Stack>
+							<Typography variant="body2" align="center">
+								{translate(
+									'profile.statistics.csvHeader.numberOfSentMessages'
+								)}
+							</Typography>
+						</Stack>
+					</Stack>
+				</MuiBox>
+				{csvData && (
+					<Stack direction="row" spacing={2} alignItems="center">
+						<Typography variant="body2" color="text.secondary">
+							{translate('profile.statistics.complete.title')}
+						</Typography>
+						<CSVLink
+							separator={';'}
+							headers={csvHeaders}
+							data={csvData}
+							filename={`${translate(
+								'profile.statistics.complete.filename'
+							)} - ${periodDisplay}.csv`}
+							className="button-as-link"
+							style={{ 
+								display: 'flex', 
+								alignItems: 'center', 
+								gap: '8px',
+								textDecoration: 'underline'
+							}}
+						>
+							<DownloadIcon
+								title={translate(
+									'profile.statistics.complete.download.label'
+								)}
+								aria-label={translate(
+									'profile.statistics.complete.download.label'
+								)}
 							/>
-							<p>
-								{selectedStatistics?.numberOfSentMessages || 0}
-							</p>
-						</span>
-						<Text
-							text={translate(
-								'profile.statistics.csvHeader.numberOfSentMessages'
-							)}
-							type="standard"
-						/>
-					</div>
-				</div>
-			</div>
-			{csvData && (
-				<div className="statistics__download">
-					<Text
-						text={translate('profile.statistics.complete.title')}
-						type="infoLargeAlternative"
-					/>
-					<CSVLink
-						separator={';'}
-						headers={csvHeaders}
-						data={csvData}
-						filename={`${translate(
-							'profile.statistics.complete.filename'
-						)} - ${periodDisplay}.csv`}
-						className="button-as-link"
-					>
-						<DownloadIcon
-							title={translate(
+							{translate(
 								'profile.statistics.complete.download.label'
 							)}
-							aria-label={translate(
-								'profile.statistics.complete.download.label'
-							)}
-						/>
-						{translate(
-							'profile.statistics.complete.download.label'
-						)}
-					</CSVLink>
-				</div>
-			)}
-		</div>
+						</CSVLink>
+					</Stack>
+				)}
+			</Stack>
+		</MuiBox>
 	);
 };

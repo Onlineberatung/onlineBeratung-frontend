@@ -9,6 +9,7 @@ import { apiDeleteAskerAccount, FETCH_ERRORS } from '../../api';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { Box as MuiBox, Stack } from '@mui/material';
 
 export const DeleteAccount = () => {
 	const settings = useAppConfig();
@@ -115,13 +116,13 @@ export const DeleteAccount = () => {
 	};
 
 	return (
-		<>
-			<div className="deleteAccount">
+		<MuiBox>
+			<Stack spacing={2} justifyContent="flex-end">
 				<Button
 					item={deleteAccountButton}
 					buttonHandle={() => setIsOverlayActive(true)}
 				/>
-			</div>
+			</Stack>
 			{isOverlayActive && (
 				<Overlay
 					className="deleteAccount__overlay"
@@ -129,6 +130,6 @@ export const DeleteAccount = () => {
 					handleOverlay={handleOverlayAction}
 				/>
 			)}
-		</>
+		</MuiBox>
 	);
 };

@@ -6,10 +6,10 @@ import {
 } from '../../../utils/notificationHelpers';
 import { Headline } from '../../headline/Headline';
 import { Switch } from '../../Switch';
-import { Text } from '../../text/Text';
 import { NotificationDenied } from './NotificationDenied';
 import styles from './styles.module.scss';
 import useIsFirstVisit from '../../../utils/useIsFirstVisit';
+import { Box as MuiBox, Stack, Typography, Divider } from '@mui/material';
 
 export const BrowserNotification = () => {
 	const isFirstVisit = useIsFirstVisit();
@@ -46,9 +46,9 @@ export const BrowserNotification = () => {
 	}, []);
 
 	return (
-		<div className="notifications__content">
-			<div className="profile__content__title">
-				<div className={styles.badgeTitleContainer}>
+		<MuiBox>
+			<Stack spacing={2}>
+				<Stack direction="row" spacing={1} alignItems="center">
 					<Headline
 						text={t('profile.browserNotifications.title')}
 						semanticLevel="5"
@@ -57,44 +57,41 @@ export const BrowserNotification = () => {
 						!browserNotificationsSettings().visited && (
 							<span className={styles.badge} />
 						)}
-				</div>
-				<Text
-					text={t('profile.browserNotifications.description')}
-					type="standard"
-					className="tertiary"
-				/>
-			</div>
+				</Stack>
+				<Typography variant="body2" color="text.secondary">
+					{t('profile.browserNotifications.description')}
+				</Typography>
 
-			{Notification.permission === 'denied' ? (
-				<NotificationDenied />
-			) : (
-				<Switch
-					titleKey="profile.browserNotifications.toggle"
-					checked={!!checked}
-					onChange={onChange}
-				/>
-			)}
+				{Notification.permission === 'denied' ? (
+					<NotificationDenied />
+				) : (
+					<Switch
+						titleKey="profile.browserNotifications.toggle"
+						checked={!!checked}
+						onChange={onChange}
+					/>
+				)}
 
-			{checked && (
-				<>
-					<hr />
-					<Switch
-						titleKey="profile.browserNotifications.initialEnquiry.title"
-						checked={!!localBrowserSettings.initialEnquiry}
-						onChange={(checked) =>
-							onChangeSetting('initialEnquiry', checked)
-						}
-					/>
-					<Switch
-						titleKey="profile.browserNotifications.newMessage.title"
-						descriptionKey="profile.browserNotifications.newMessage.description"
-						checked={!!localBrowserSettings.newMessage}
-						onChange={(checked) =>
-							onChangeSetting('newMessage', checked)
-						}
-					/>
-				</>
-			)}
-		</div>
+				{checked && (
+					<Stack spacing={2} divider={<Divider />}>
+						<Switch
+							titleKey="profile.browserNotifications.initialEnquiry.title"
+							checked={!!localBrowserSettings.initialEnquiry}
+							onChange={(checked) =>
+								onChangeSetting('initialEnquiry', checked)
+							}
+						/>
+						<Switch
+							titleKey="profile.browserNotifications.newMessage.title"
+							descriptionKey="profile.browserNotifications.newMessage.description"
+							checked={!!localBrowserSettings.newMessage}
+							onChange={(checked) =>
+								onChangeSetting('newMessage', checked)
+							}
+						/>
+					</Stack>
+				)}
+			</Stack>
+		</MuiBox>
 	);
 };

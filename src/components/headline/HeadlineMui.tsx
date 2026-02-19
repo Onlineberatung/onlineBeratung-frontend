@@ -59,7 +59,7 @@ export const HeadlineMui = ({
 			className={className}
 			dangerouslySetInnerHTML={{ __html: text }}
 			sx={{
-				margin: '0 0 0.35em', // MUI default margin for headlines
+				margin: 0, // No default margin - let parent components control spacing
 				p: 0,
 				fontFamily: 'inherit',
 				fontSize: fontStyles.fontSize,

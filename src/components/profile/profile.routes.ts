@@ -55,7 +55,8 @@ const profileRoutes = (
 									userData
 								),
 							boxed: false,
-							component: OverviewSessions
+							component: OverviewSessions,
+							column: COLUMN_LEFT
 						},
 						{
 							condition: (userData) =>
@@ -64,7 +65,8 @@ const profileRoutes = (
 									userData
 								),
 							component: OverviewBookings,
-							boxed: false
+							boxed: false,
+							column: COLUMN_RIGHT
 						}
 					]
 				},
