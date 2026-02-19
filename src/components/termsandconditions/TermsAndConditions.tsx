@@ -217,7 +217,7 @@ export const TermsAndConditions = () => {
 													!viewState.userConfirmed
 											})
 										}
-										onKeyPress={(event) => {
+										onKeyDown={(event) => {
 											if (event.key === 'Enter') {
 												setViewState({
 													...viewState,
