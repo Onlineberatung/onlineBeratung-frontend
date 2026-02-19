@@ -1,5 +1,3 @@
-import './notifications.styles.scss';
-
 import * as React from 'react';
 
 import { NotificationType } from '../../globalState';
@@ -17,15 +15,13 @@ export const Notifications = (props: NotificationsProps) => {
 	);
 
 	return (
-		<div className="notifications" data-cy="notifications">
-			{props.notifications.map(
-				(notification: NotificationType, index) => (
-					<Notification
-						notification={notification}
-						key={notification.id}
-					/>
-				)
-			)}
+		<>
+			{props.notifications.map((notification: NotificationType) => (
+				<Notification
+					notification={notification}
+					key={notification.id}
+				/>
+			))}
 			{hasIncomingVideoCall && (
 				<audio loop autoPlay data-cy="incoming-video-call-audio">
 					<source
@@ -36,6 +32,6 @@ export const Notifications = (props: NotificationsProps) => {
 					></source>
 				</audio>
 			)}
-		</div>
+		</>
 	);
 };

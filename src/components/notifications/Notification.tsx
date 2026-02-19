@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { useCallback, useContext, useEffect, useRef } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import {
 	IncomingVideoCall,
 	IncomingVideoCallProps,
 	NOTIFICATION_TYPE_CALL
 } from '../incomingVideoCall/IncomingVideoCall';
-import './notification.styles.scss';
 
 import {
 	NOTIFICATION_TYPE_ERROR,
@@ -17,12 +16,7 @@ import {
 	NotificationsContext,
 	NotificationType
 } from '../../globalState';
-import ExclamationIcon from '@mui/icons-material/Warning';
-import InfoIcon from '@mui/icons-material/Info';
-import ErrorIcon from '@mui/icons-material/Close';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import { useTranslation } from 'react-i18next';
+import { Alert, AlertTitle, Snackbar } from '@mui/material';
 
 type NotificationProps = {
 	notification: NotificationType;
@@ -50,6 +44,14 @@ export const Notification = ({ notification }: NotificationProps) => {
 	return null;
 };
 
+const SEVERITY_MAP = {
+	[NOTIFICATION_TYPE_SUCCESS]: 'success',
+	[NOTIFICATION_TYPE_ERROR]: 'error',
+	[NOTIFICATION_TYPE_WARNING]: 'warning',
+	[NOTIFICATION_TYPE_INFO]: 'info',
+	[NOTIFICATION_TYPE_NONE]: 'info'
+} as const;
+
 const NotificationDefault = ({
 	notification
 }: {
@@ -57,10 +59,8 @@ const NotificationDefault = ({
 }) => {
 	const { removeNotification } = useContext(NotificationsContext);
 
-	const { t: translate } = useTranslation();
-
 	const removeNotificationRef = useRef(removeNotification);
-	const timer = useRef(null);
+	const [open, setOpen] = useState(true);
 
 	useEffect(() => {
 		removeNotificationRef.current = removeNotification;
@@ -76,97 +76,54 @@ const NotificationDefault = ({
 		);
 	}, [notification]);
 
-	useEffect(() => {
-		if (!timer.current && notification.timeout) {
-			timer.current = setTimeout(() => {
-				closeNotification();
-			}, notification.timeout);
-		}
+	const handleClose = useCallback(
+		(_event: React.SyntheticEvent | Event, reason?: string) => {
+			if (reason === 'clickaway') return;
+			setOpen(false);
+		},
+		[]
+	);
 
-		return () => {
-			if (timer.current) {
-				clearTimeout(timer.current);
-				timer.current = null;
-			}
-		};
-	}, [closeNotification, notification]);
-
-	const getIcon = () => {
-		switch (notification.notificationType) {
-			case NOTIFICATION_TYPE_SUCCESS:
-				return (
-					<CheckIcon
-						titleAccess={translate('notification.success')}
-						aria-label={translate('notification.success')}
-					/>
-				);
-			case NOTIFICATION_TYPE_WARNING:
-				return (
-					<ExclamationIcon
-						titleAccess={translate('notification.warning')}
-						aria-label={translate('notification.warning')}
-					/>
-				);
-			case NOTIFICATION_TYPE_ERROR:
-				return (
-					<ErrorIcon
-						titleAccess={translate('notification.error')}
-						aria-label={translate('notification.error')}
-					/>
-				);
-			case NOTIFICATION_TYPE_NONE:
-				return null;
-			case NOTIFICATION_TYPE_INFO:
-			default:
-				return (
-					<InfoIcon
-						titleAccess={translate('notification.info')}
-						aria-label={translate('notification.info')}
-					/>
-				);
-		}
-	};
-
-	const icon = getIcon();
+	const severity = SEVERITY_MAP[notification.notificationType] ?? 'info';
 
 	return (
-		<div
-			className={`notification notification--${notification.notificationType}`}
+		<Snackbar
+			open={open}
+			autoHideDuration={notification.timeout ?? null}
+			onClose={handleClose}
+			TransitionProps={{ onExited: closeNotification }}
+			anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+			data-cy="notification"
 		>
-			<div className="notification__header">
-				{icon && <div className="notification__icon">{icon}</div>}
-
-				{typeof notification.title === 'string' ? (
-					<div
-						className="notification__title"
+			<Alert
+				severity={severity}
+				onClose={notification.closeable ? handleClose : undefined}
+				variant="filled"
+				sx={{ width: '100%', minWidth: 288, maxWidth: 400 }}
+			>
+				{notification.title && (
+					<AlertTitle>
+						{typeof notification.title === 'string' ? (
+							<span
+								dangerouslySetInnerHTML={{
+									__html: notification.title
+								}}
+							/>
+						) : (
+							notification.title
+						)}
+					</AlertTitle>
+				)}
+				{typeof notification.text === 'string' ? (
+					<span
 						dangerouslySetInnerHTML={{
-							__html: notification.title
+							__html: notification.text
 						}}
-					></div>
+					/>
 				) : (
-					<div className="notification__title">
-						{notification.title}
-					</div>
+					notification.text
 				)}
-				{notification.closeable && (
-					<div
-						className="notification__close"
-						onClick={closeNotification}
-					>
-						<CloseIcon />
-					</div>
-				)}
-			</div>
-			{typeof notification.text === 'string' ? (
-				<div
-					className="notification__text"
-					dangerouslySetInnerHTML={{
-						__html: notification.text
-					}}
-				></div>
-			) : (
-				<div className="notification__text">{notification.text}</div>
-			)}
-		</div>
+			</Alert>
+		</Snackbar>
 	);
 };
