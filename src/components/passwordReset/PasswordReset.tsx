@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState, useContext } from 'react';
-import { InputField, InputFieldItem } from '../inputField/InputField';
 import { apiUpdatePassword } from '../../api';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
@@ -27,7 +26,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { apiUpdatePasswordAppointments } from '../../api/apiUpdatePasswordAppointments';
-import { Box as MuiBox, Stack, Typography } from '@mui/material';
+import { Box as MuiBox, Stack, Typography, TextField } from '@mui/material';
 
 export const PasswordReset = () => {
 	const { t: translate } = useTranslation();
@@ -73,65 +72,6 @@ export const PasswordReset = () => {
 				type: BUTTON_TYPES.AUTO_CLOSE
 			}
 		]
-	};
-
-	const getClassNames = (invalid, valid) => {
-		let classNames = ['passwordReset__input'];
-		if (invalid) {
-			classNames.push('passwordReset__input--red');
-		}
-		if (valid) {
-			classNames.push('passwordReset__input--green');
-		}
-		return classNames.join(' ');
-	};
-
-	const inputOldPassword: InputFieldItem = {
-		name: 'passwordResetOld',
-		class: getClassNames(
-			!!oldPasswordErrorMessage,
-			!!oldPasswordSuccessMessage
-		),
-		id: 'passwordResetOld',
-		type: 'password',
-		label: translate('profile.functions.password.reset.old.label'),
-		infoText:
-			oldPasswordErrorMessage || oldPasswordSuccessMessage
-				? `${oldPasswordErrorMessage} ${oldPasswordSuccessMessage}`
-				: '',
-		content: oldPassword
-	};
-
-	const inputNewPassword: InputFieldItem = {
-		name: 'passwordResetNew',
-		class: getClassNames(
-			!!newPasswordErrorMessage,
-			!!newPasswordSuccessMessage
-		),
-		id: 'passwordResetNew',
-		type: 'password',
-		label: translate('profile.functions.password.reset.new.label'),
-		infoText:
-			newPasswordErrorMessage || newPasswordSuccessMessage
-				? `${newPasswordErrorMessage} ${newPasswordSuccessMessage}<br>`
-				: '',
-		content: newPassword
-	};
-
-	const inputConfirmPassword: InputFieldItem = {
-		name: 'passwordResetConfirm',
-		class: getClassNames(
-			!!confirmPasswordErrorMessage,
-			!!confirmPasswordSuccessMessage
-		),
-		id: 'passwordResetConfirm',
-		type: 'password',
-		label: translate('profile.functions.password.reset.confirm.label'),
-		infoText:
-			confirmPasswordErrorMessage || confirmPasswordSuccessMessage
-				? `${confirmPasswordErrorMessage} ${confirmPasswordSuccessMessage}`
-				: '',
-		content: confirmPassword
 	};
 
 	const handleInputOldChange = (event) => {
@@ -284,9 +224,18 @@ export const PasswordReset = () => {
 					{translate('profile.functions.password.reset.subtitle')}
 				</Typography>
 
-				<InputField
-					item={inputOldPassword}
-					inputHandle={handleInputOldChange}
+				<TextField
+					id="passwordResetOld"
+					name="passwordResetOld"
+					label={translate('profile.functions.password.reset.old.label')}
+					type="password"
+					value={oldPassword}
+					onChange={handleInputOldChange}
+					error={!!oldPasswordErrorMessage}
+					helperText={oldPasswordErrorMessage || oldPasswordSuccessMessage || ''}
+					fullWidth
+					variant="outlined"
+					autoComplete="current-password"
 				/>
 
 				<Typography 
@@ -300,18 +249,32 @@ export const PasswordReset = () => {
 				/>
 
 				<Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-					<MuiBox sx={{ flex: 1 }}>
-						<InputField
-							item={inputNewPassword}
-							inputHandle={handleInputNewChange}
-						/>
-					</MuiBox>
-					<MuiBox sx={{ flex: 1 }}>
-						<InputField
-							item={inputConfirmPassword}
-							inputHandle={handleInputConfirmChange}
-						/>
-					</MuiBox>
+					<TextField
+						id="passwordResetNew"
+						name="passwordResetNew"
+						label={translate('profile.functions.password.reset.new.label')}
+						type="password"
+						value={newPassword}
+						onChange={handleInputNewChange}
+						error={!!newPasswordErrorMessage}
+						helperText={newPasswordErrorMessage || newPasswordSuccessMessage || ''}
+						fullWidth
+						variant="outlined"
+						autoComplete="new-password"
+					/>
+					<TextField
+						id="passwordResetConfirm"
+						name="passwordResetConfirm"
+						label={translate('profile.functions.password.reset.confirm.label')}
+						type="password"
+						value={confirmPassword}
+						onChange={handleInputConfirmChange}
+						error={!!confirmPasswordErrorMessage}
+						helperText={confirmPasswordErrorMessage || confirmPasswordSuccessMessage || ''}
+						fullWidth
+						variant="outlined"
+						autoComplete="new-password"
+					/>
 				</Stack>
 
 				{hasMasterKeyError && (
