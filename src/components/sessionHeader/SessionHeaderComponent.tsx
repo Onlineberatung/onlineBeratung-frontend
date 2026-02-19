@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { handleNumericTranslation } from '../../utils/translate';
@@ -69,24 +69,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { type, path: listPath } = useContext(SessionTypeContext);
 
-	useEffect(() => {
-		if (isSubscriberFlyoutOpen) {
-			document.addEventListener('mousedown', (event) =>
-				handleWindowClick(event)
-			);
-		}
-	}, [isSubscriberFlyoutOpen]);
-
-	const sessionView = getViewPathForType(type);
-	const userProfileLink = `/sessions/consultant/${sessionView}/${
-		activeSession.item.groupId
-	}/${activeSession.item.id}/userProfile${getSessionListTab()}`;
-
-	const handleBackButton = () => {
-		mobileListView();
-	};
-
-	const handleWindowClick = (event) => {
+	const handleWindowClick = useCallback((event) => {
 		const flyoutElement = document.querySelector(
 			'.sessionInfo__metaInfo__flyout'
 		);
@@ -97,6 +80,24 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		) {
 			setIsSubscriberFlyoutOpen(false);
 		}
+	}, []);
+
+	useEffect(() => {
+		if (isSubscriberFlyoutOpen) {
+			document.addEventListener('mousedown', handleWindowClick);
+			return () => {
+				document.removeEventListener('mousedown', handleWindowClick);
+			};
+		}
+	}, [isSubscriberFlyoutOpen, handleWindowClick]);
+
+	const sessionView = getViewPathForType(type);
+	const userProfileLink = `/sessions/consultant/${sessionView}/${
+		activeSession.item.groupId
+	}/${activeSession.item.id}/userProfile${getSessionListTab()}`;
+
+	const handleBackButton = () => {
+		mobileListView();
 	};
 
 	const enquiryUserProfileCondition =

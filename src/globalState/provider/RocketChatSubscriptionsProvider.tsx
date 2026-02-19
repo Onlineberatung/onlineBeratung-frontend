@@ -120,11 +120,8 @@ export const RocketChatSubscriptionsProvider = ({
 	);
 
 	const onNotificationRef = useUpdatingRef(
-		useCallback((args) => {
-			//const [data] = args;
-			//const { payload } = data;
-			console.log('Notification');
-			console.log(args);
+		useCallback(() => {
+			// Notification handler - implement as needed
 		}, [])
 	);
 

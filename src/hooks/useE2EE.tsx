@@ -244,7 +244,6 @@ export const useE2EE = (
 
 			// Set Room Key ID at the very end because if something failed before it will still be repairable
 			// After room key is set the room is encrypted and the room key could not be set again.
-			console.log('Set Room Key ID', roomId, keyData.keyID);
 			try {
 				onStateChange &&
 					onStateChange({
@@ -270,8 +269,6 @@ export const useE2EE = (
 						count: members - unhandled,
 						total: members
 					});
-
-				console.log('Start writing encrypted messages!');
 			} catch (e) {
 				onStateChange &&
 					onStateChange({
@@ -421,7 +418,7 @@ export const useE2EE = (
 				setReady(true);
 			})
 			.catch((e) => {
-				console.log(e, rid, subscription.E2EKey);
+				console.error(e);
 			});
 
 		return cleanup;
