@@ -49,7 +49,7 @@ export const AbsenceFormular = () => {
 					setIsRequestInProgress(false);
 				})
 				.catch((error) => {
-					console.log(error);
+					console.error(error);
 					setIsRequestInProgress(false);
 				});
 		},

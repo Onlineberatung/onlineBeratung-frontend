@@ -249,7 +249,7 @@ export const handleE2EESetup = (
 				const keyString = JSON.parse(publicKey).n;
 				await apiUpdateUserE2EKeys(keyString);
 			} catch (e) {
-				console.log('Update E2E Keys in BE failed, trying FE');
+				console.warn('Update E2E Keys in BE failed, trying FE');
 				// FE Fallback
 				await updateUserE2EKeysFallback(rcUserId);
 			}

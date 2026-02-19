@@ -55,7 +55,7 @@ export const Walkthrough = () => {
 					walkThroughEnabled: !userData.isWalkThroughEnabled
 				})
 					.then(reloadUserData)
-					.catch(console.log);
+					.catch(console.error);
 			}}
 			steps={stepsData.map((step) => ({
 				...step,

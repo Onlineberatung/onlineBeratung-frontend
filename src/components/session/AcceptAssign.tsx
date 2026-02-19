@@ -168,7 +168,7 @@ export const AcceptAssign = ({
 				if (error.message === FETCH_ERRORS.CONFLICT) {
 					setOverlayItem(enquiryTakenByOtherConsultantOverlayItem);
 				} else {
-					console.log(error);
+					console.error(error);
 				}
 			});
 	};

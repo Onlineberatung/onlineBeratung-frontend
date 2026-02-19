@@ -205,7 +205,7 @@ export const ConsultantStatistics = () => {
 				setPeriodDisplay(`${startDateString} - ${endDateString}`);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 			})
 			.finally(() => {
 				setIsRequestInProgress(false);

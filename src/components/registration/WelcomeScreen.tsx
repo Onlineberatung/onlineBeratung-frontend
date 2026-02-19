@@ -64,7 +64,7 @@ result.numAvailableConsultants > 0 &&
 result.status === 'ONLINE'
 );
 } catch (error) {
-console.log('Could not check live chat availability:', error);
+console.warn('Could not check live chat availability:', error);
 setIsLiveChatAvailable(false);
 } finally {
 setIsCheckingLiveChat(false);

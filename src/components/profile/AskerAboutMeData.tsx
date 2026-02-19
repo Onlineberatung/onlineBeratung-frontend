@@ -212,7 +212,7 @@ export const AskerAboutMeData = () => {
 			apiDeleteEmail()
 				.then((response) => {
 					setIsRequestInProgress(false);
-					reloadUserData().catch(console.log);
+					reloadUserData().catch(console.error);
 					setEmail(null);
 					setOverlay(overlaySuccess);
 				})
@@ -232,7 +232,7 @@ export const AskerAboutMeData = () => {
 				if (isEmail2faActive) {
 					apiDeleteTwoFactorAuth().then(() => {
 						handleConfirm();
-						reloadUserData().catch(console.log);
+						reloadUserData().catch(console.error);
 					});
 				} else {
 					handleConfirm();

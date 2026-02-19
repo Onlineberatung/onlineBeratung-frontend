@@ -174,7 +174,7 @@ export const TermsAndConditions = () => {
 			.then(() => {
 				setViewState({ ...viewState, showOverlay: false });
 			})
-			.catch(console.log);
+			.catch(console.error);
 	};
 
 	return (

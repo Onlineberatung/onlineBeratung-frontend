@@ -126,7 +126,7 @@ export const TwoFactorAuth = () => {
 				apiDeleteTwoFactorAuth()
 					.then(reloadUserData)
 					.then(() => setOverlayActive(false))
-					.catch(console.log);
+					.catch(console.error);
 			}
 		},
 		[reloadUserData]

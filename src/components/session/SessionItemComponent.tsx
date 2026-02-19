@@ -346,7 +346,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					})
 			).then((a) => {
 				if (a.length > 0) {
-					console.log(`${a.length} error(s) reported.`);
+					console.warn(`${a.length} error(s) reported.`);
 				}
 			});
 		}, []),

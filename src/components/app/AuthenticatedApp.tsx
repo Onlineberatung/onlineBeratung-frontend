@@ -87,7 +87,7 @@ export const AuthenticatedApp = ({
 						})
 						.catch((error) => {
 							setLoading(false);
-							console.log(error);
+							console.error(error);
 						});
 				})
 				.catch(() => {

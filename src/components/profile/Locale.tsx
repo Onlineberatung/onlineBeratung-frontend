@@ -29,7 +29,7 @@ export const Locale = () => {
 				preferredLanguage: locale
 			})
 				.then(userDataContext.reloadUserData)
-				.catch(console.log)
+				.catch(console.error)
 				.finally(() => {
 					setRequestInProgress(false);
 				});

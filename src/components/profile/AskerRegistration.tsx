@@ -182,7 +182,7 @@ export const AskerRegistration: React.FC = () => {
 	};
 
 	const handleSuccessOverlayAction = (buttonFunction: string) => {
-		reloadUserData().catch(console.log);
+		reloadUserData().catch(console.error);
 
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			mobileListView();
