@@ -34,8 +34,10 @@ export const TagMui = ({ text, color, link, className }: TagProps) => {
 			color={getMuiColor()}
 			size="small"
 			clickable={!!link}
-			component={link ? Link : 'span'}
-			to={link}
+			{...(link && {
+				component: Link,
+				to: link
+			})}
 			onClick={(e) => {
 				if (link) {
 					e.stopPropagation();
@@ -52,10 +54,10 @@ export const TagMui = ({ text, color, link, className }: TagProps) => {
 					py: 0
 				},
 				...(color === 'red' && {
-					backgroundColor: '#ff0000',
-					color: 'white',
+					backgroundColor: 'error.main',
+					color: 'error.contrastText',
 					'&:hover': {
-						backgroundColor: '#cc0000'
+						backgroundColor: 'error.dark'
 					}
 				})
 			}}

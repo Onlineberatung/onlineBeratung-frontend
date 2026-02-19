@@ -55,11 +55,13 @@ export const BoxMui = ({ children, title, type }: BoxMuiProps) => {
 	return (
 		<MuiBox
 			sx={{
-				background: 'rgba(255, 255, 255, 0.7)',
-				border: '1px solid rgba(255, 255, 255, 0.7)',
+				background: 'background.paper',
+				border: '1px solid',
+				borderColor: 'divider',
 				p: { xs: 2, md: 3 },
 				mb: { xs: 1, md: 2 },
-				borderRadius: 1
+				borderRadius: 1,
+				opacity: 0.9
 			}}
 		>
 			{title && (
@@ -68,7 +70,7 @@ export const BoxMui = ({ children, title, type }: BoxMuiProps) => {
 						fontWeight: 700,
 						fontSize: '16px',
 						lineHeight: '24px',
-						color: 'rgba(0, 0, 0, 0.87)',
+						color: 'text.primary',
 						mb: 2
 					}}
 				>

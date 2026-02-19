@@ -130,7 +130,7 @@ export const TextMui = (props: PropsWithChildren<TextProps>) => {
 			)}
 			<Box
 				component="span"
-				title={props.title && props.text ? props.text : undefined}
+				title={props.title ? props.text : undefined}
 				dangerouslySetInnerHTML={
 					props.text
 						? {
