@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
-import { Stack } from '@mui/material';
+import { Stack, Typography, Box as MuiBox } from '@mui/material';
 import { UserDataContext } from '../../globalState';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
@@ -169,9 +169,9 @@ export const ConsultantPrivateData = () => {
 	};
 
 	return (
-		<div>
-			<div className="profile__content__title">
-				<div className="flex flex--jc-sb">
+		<MuiBox>
+			<Stack spacing={2}>
+				<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
 					<Headline
 						text={translate('profile.data.title.private')}
 						semanticLevel="5"
@@ -183,6 +183,7 @@ export const ConsultantPrivateData = () => {
 							onClick={() => {
 								setIsEditDisabled(false);
 							}}
+							style={{ cursor: 'pointer' }}
 						>
 							<PenIcon
 								title={translate(
@@ -194,65 +195,68 @@ export const ConsultantPrivateData = () => {
 							/>
 						</span>
 					)}
-				</div>
-				<Text
-					text={translate('profile.data.info.private')}
-					type="standard"
-					className="tertiary"
-				/>
-			</div>
-			<div className="profile__data__item">
-				<p className="profile__data__label">
-					{translate('profile.data.userName')}
-				</p>
-				<p className="profile__data__content">{userData.userName}</p>
-			</div>
-			<EditableData
-				label={emailLabel}
-				type="email"
-				initialValue={userData.email}
-				isDisabled={isEditDisabled}
-				onValueIsValid={handleEmailChange}
-				isEmailAlreadyInUse={isEmailNotAvailable}
-				onBeforeRemoveButtonClick={() =>
-					isEmail2faActive && setOverlayActive(true)
-				}
-				onSingleFocus={() => isEmail2faActive && setOverlayActive(true)}
-			/>
-			<EditableData
-				label={translate('profile.data.firstName')}
-				type="text"
-				initialValue={
-					userData.firstName
-						? userData.firstName
-						: translate('profile.noContent')
-				}
-				isDisabled={isEditDisabled}
-				onValueIsValid={(firstName) => setFirstName(firstName)}
-			/>
-			<EditableData
-				label={translate('profile.data.lastName')}
-				type="text"
-				initialValue={
-					userData.lastName
-						? userData.lastName
-						: translate('profile.noContent')
-				}
-				isDisabled={isEditDisabled}
-				onValueIsValid={(lastName) => setLastName(lastName)}
-			/>
-			{!isEditDisabled && (
-				<Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ marginTop: '20px' }}>
-					<Button
-						item={cancelEditButton}
-						buttonHandle={handleCancelEditButton}
-					/>
-					<Button
-						item={saveEditButton}
-						buttonHandle={handleSaveEditButton}
-					/>
 				</Stack>
-			)}
+
+				<Typography variant="body2" color="text.secondary">
+					{translate('profile.data.info.private')}
+				</Typography>
+
+				<MuiBox sx={{ display: 'flex', flexDirection: 'column', borderBottom: 1, borderColor: 'divider', pb: 1 }}>
+					<Typography variant="body2" color="text.secondary">
+						{translate('profile.data.userName')}
+					</Typography>
+					<Typography variant="body1">{userData.userName}</Typography>
+				</MuiBox>
+
+				<EditableData
+					label={emailLabel}
+					type="email"
+					initialValue={userData.email}
+					isDisabled={isEditDisabled}
+					onValueIsValid={handleEmailChange}
+					isEmailAlreadyInUse={isEmailNotAvailable}
+					onBeforeRemoveButtonClick={() =>
+						isEmail2faActive && setOverlayActive(true)
+					}
+					onSingleFocus={() => isEmail2faActive && setOverlayActive(true)}
+				/>
+				<EditableData
+					label={translate('profile.data.firstName')}
+					type="text"
+					initialValue={
+						userData.firstName
+							? userData.firstName
+							: translate('profile.noContent')
+					}
+					isDisabled={isEditDisabled}
+					onValueIsValid={(firstName) => setFirstName(firstName)}
+				/>
+				<EditableData
+					label={translate('profile.data.lastName')}
+					type="text"
+					initialValue={
+						userData.lastName
+							? userData.lastName
+							: translate('profile.noContent')
+					}
+					isDisabled={isEditDisabled}
+					onValueIsValid={(lastName) => setLastName(lastName)}
+				/>
+
+				{!isEditDisabled && (
+					<Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2 }}>
+						<Button
+							item={cancelEditButton}
+							buttonHandle={handleCancelEditButton}
+						/>
+						<Button
+							item={saveEditButton}
+							buttonHandle={handleSaveEditButton}
+						/>
+					</Stack>
+				)}
+			</Stack>
+
 			{overlayActive && (
 				<Overlay
 					items={[
@@ -283,6 +287,6 @@ export const ConsultantPrivateData = () => {
 					]}
 				/>
 			)}
-		</div>
+		</MuiBox>
 	);
 };

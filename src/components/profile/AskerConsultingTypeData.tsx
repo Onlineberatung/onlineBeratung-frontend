@@ -4,7 +4,7 @@ import { useConsultingTypes, UserDataContext } from '../../globalState';
 import { handleNumericTranslation } from '../../utils/translate';
 import { getUserDataTranslateBase } from './profileHelpers';
 import { Headline } from '../headline/Headline';
-import { Box } from '../box/Box';
+import { Box as MuiBox, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 export const AskerConsultingTypeData = () => {
@@ -22,55 +22,38 @@ export const AskerConsultingTypeData = () => {
 				(resort: any, index) =>
 					resort.isRegistered &&
 					resort.agency && (
-						<Box key={index}>
-							<div
-								className="profile__data__itemWrapper"
-								key={index}
-							>
-								<div className="profile__content__title">
-									<Headline
-										className="pr--3"
-										text={translate(
-											[
-												`consultingType.${resort.agency.consultingType}.titles.default`,
-												`consultingType.fallback.titles.default`,
-												consultingTypes.find(
-													(cur) =>
-														cur.id ===
-														resort.agency
-															.consultingType
-												)?.titles.default
-											],
-											{ ns: 'consultingTypes' }
-										)}
-										semanticLevel="5"
-									/>
-								</div>
+						<MuiBox key={index} mb={3}>
+							<Stack spacing={2}>
+								<Headline
+									text={translate(
+										[
+											`consultingType.${resort.agency.consultingType}.titles.default`,
+											`consultingType.fallback.titles.default`,
+											consultingTypes.find(
+												(cur) =>
+													cur.id ===
+													resort.agency
+														.consultingType
+											)?.titles.default
+										],
+										{ ns: 'consultingTypes' }
+									)}
+									semanticLevel="5"
+								/>
 								{resort.sessionData &&
 									Object.keys(resort.sessionData).map(
 										(item, itemIndex) =>
 											item === 'age' &&
 											resort.sessionData[item] ===
 												'null' ? null : (
-												<div
-													className="profile__data__item"
-													key={itemIndex}
-												>
-													<p className="profile__data__label">
+												<Stack key={itemIndex} spacing={0.5}>
+													<Typography variant="body2" color="text.secondary">
 														{translate(
 															'userProfile.data.' +
 																item
 														)}
-													</p>
-													<p
-														className={
-															resort.sessionData[
-																item
-															]
-																? `profile__data__content`
-																: `profile__data__content profile__data__content--empty`
-														}
-													>
+													</Typography>
+													<Typography variant="body1">
 														{resort.sessionData[
 															item
 														]
@@ -93,15 +76,15 @@ export const AskerConsultingTypeData = () => {
 															: translate(
 																	'profile.noContent'
 																)}
-													</p>
-												</div>
+													</Typography>
+												</Stack>
 											)
 									)}
-								<div className="profile__data__item">
-									<p className="profile__data__label">
+								<Stack spacing={0.5}>
+									<Typography variant="body2" color="text.secondary">
 										{translate('profile.data.agency.label')}
-									</p>
-									<p className="profile__data__content">
+									</Typography>
+									<Typography variant="body1">
 										{translate(
 											`agency.${resort.agency.id}.name`,
 											{
@@ -114,10 +97,10 @@ export const AskerConsultingTypeData = () => {
 										{resort.agency.city
 											? ' ' + resort.agency.city
 											: ''}
-									</p>
-								</div>
-							</div>
-						</Box>
+									</Typography>
+								</Stack>
+							</Stack>
+						</MuiBox>
 					)
 			)}
 		</>

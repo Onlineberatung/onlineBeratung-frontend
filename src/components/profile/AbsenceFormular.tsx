@@ -8,8 +8,7 @@ import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 import './absenceFormular.styles.scss';
 import { Headline } from '../headline/Headline';
 import Switch from '../Switch/SwitchSimple';
-import { FormControlLabel } from '@mui/material';
-import { Text } from '../text/Text';
+import { FormControlLabel, Box as MuiBox, Stack, Typography } from '@mui/material';
 import { Textarea } from '../form/textarea';
 import { isMobile } from 'react-device-detect';
 import { useTranslation } from 'react-i18next';
@@ -66,14 +65,12 @@ export const AbsenceFormular = () => {
 	};
 
 	return (
-		<div id="absenceForm" className="absenceForm">
-			<div className="profile__content__title">
+		<MuiBox id="absenceForm">
+			<Stack spacing={2}>
 				<Headline
 					text={translate('profile.functions.absence.title')}
 					semanticLevel="5"
 				/>
-			</div>
-			<div className="generalInformation">
 				<Textarea
 					value={absentMessage ?? ''}
 					onChange={({ target: { value } }) =>
@@ -91,12 +88,9 @@ export const AbsenceFormular = () => {
 						isMobile && isAbsent ? 'mobile' : ''
 					}`}
 				/>
-
-				<Text
-					text={translate('absence.input.infoText')}
-					type="infoLargeAlternative"
-				/>
-
+				<Typography variant="body2" color="text.secondary">
+					{translate('absence.input.infoText')}
+				</Typography>
 				<FormControlLabel
 					control={
 						<Switch
@@ -116,13 +110,13 @@ export const AbsenceFormular = () => {
 					label={translate('absence.checkbox.label')}
 					labelPlacement="end"
 				/>
-			</div>
+			</Stack>
 			{overlayActive && (
 				<Overlay
 					item={absenceOverlayItem}
 					handleOverlay={handleOverlayAction}
 				/>
 			)}
-		</div>
+		</MuiBox>
 	);
 };

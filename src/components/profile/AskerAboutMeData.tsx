@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useCallback, useContext, useMemo, useState } from 'react';
+import { Stack, Typography, Box as MuiBox } from '@mui/material';
 import {
 	apiDeleteTwoFactorAuth,
 	apiPutEmail,
@@ -254,55 +255,52 @@ export const AskerAboutMeData = () => {
 	};
 
 	return (
-		<div>
-			<div className="profile__content__title">
+		<MuiBox>
+			<Stack spacing={2}>
 				<Headline
-					className="pr--3"
 					text={translate('profile.data.title.asker')}
 					semanticLevel="5"
 				/>
-				<Text
-					text={translate('profile.data.emailInfo')}
-					type="standard"
-					className="tertiary"
+				<Typography variant="body2" color="text.secondary">
+					{translate('profile.data.emailInfo')}
+				</Typography>
+				<EditableData
+					label={translate('profile.data.userName')}
+					initialValue={userData.userName}
+					type="text"
+					isDisabled
 				/>
-			</div>
-			<EditableData
-				label={translate('profile.data.userName')}
-				initialValue={userData.userName}
-				type="text"
-				isDisabled
-			/>
-			<EditableData
-				label={emailLabel}
-				type="email"
-				initialValue={userData.email}
-				isDisabled={isEmailDisabled}
-				isSingleEdit
-				onSingleEditActive={() => {
-					if (isEmail2faActive) {
-						setOverlay(overlay2faEmailEdit);
-					} else {
-						setIsEmailDisabled(false);
-					}
-				}}
-				isSingleClearable={true}
-				onSingleClear={handleSingleClear}
-				onValueIsValid={handleEmailChange}
-				isEmailAlreadyInUse={isEmailNotAvailable}
-			/>
-			{!isEmailDisabled && (
-				<div className="editableData__buttonSet editableData__buttonSet--edit">
-					<Button
-						item={cancelEditButton}
-						buttonHandle={handleCancelEditButton}
-					/>
-					<Button
-						item={saveEditButton}
-						buttonHandle={handleSaveEditButton}
-					/>
-				</div>
-			)}
+				<EditableData
+					label={emailLabel}
+					type="email"
+					initialValue={userData.email}
+					isDisabled={isEmailDisabled}
+					isSingleEdit
+					onSingleEditActive={() => {
+						if (isEmail2faActive) {
+							setOverlay(overlay2faEmailEdit);
+						} else {
+							setIsEmailDisabled(false);
+						}
+					}}
+					isSingleClearable={true}
+					onSingleClear={handleSingleClear}
+					onValueIsValid={handleEmailChange}
+					isEmailAlreadyInUse={isEmailNotAvailable}
+				/>
+				{!isEmailDisabled && (
+					<Stack direction="row" spacing={2} justifyContent="flex-end">
+						<Button
+							item={cancelEditButton}
+							buttonHandle={handleCancelEditButton}
+						/>
+						<Button
+							item={saveEditButton}
+							buttonHandle={handleSaveEditButton}
+						/>
+					</Stack>
+				)}
+			</Stack>
 			{overlay && (
 				<Overlay
 					className="editableData__overlay"
@@ -310,6 +308,6 @@ export const AskerAboutMeData = () => {
 					handleOverlay={handleOverlayAction}
 				/>
 			)}
-		</div>
+		</MuiBox>
 	);
 };
