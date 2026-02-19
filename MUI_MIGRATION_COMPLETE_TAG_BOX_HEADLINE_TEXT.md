@@ -72,7 +72,7 @@ Successfully migrated 4 custom components to Material-UI (MUI) while maintaining
 </Alert>
 
 // For plain boxes
-<MuiBox sx={{ background: 'background.paper', border: '1px solid', borderColor: 'divider' }}>
+<MuiBox sx={{ background: '#fff', border: '1px solid', borderColor: 'divider' }}>
   {children}
 </MuiBox>
 ```
@@ -88,10 +88,13 @@ Successfully migrated 4 custom components to Material-UI (MUI) while maintaining
 - ✅ Three type variants
 - ✅ Children content
 - ✅ Responsive spacing
+- ✅ Solid white background (no transparency)
 
 **MUI Clean Approach:**
 - Uses MUI Alert for typed boxes (better semantics)
-- Uses theme colors (background.paper, divider, text.primary)
+- Solid white background from settings.scss (`$white: #fff`)
+- No transparency (opacity removed)
+- Uses theme colors (divider, text.primary)
 - Responsive padding: xs: 2, md: 3
 - Responsive margin: xs: 1, md: 2
 - MUI default Alert styling with icons
@@ -134,7 +137,7 @@ Successfully migrated 4 custom components to Material-UI (MUI) while maintaining
 - h3: 24px / 32px line-height
 - h4: 20px / 26px line-height
 - h5: 16px / 21px line-height
-- Font weight: 500 (medium)
+- Font weight: 500 (medium, not 700/bold)
 
 **Features Preserved:**
 - ✅ Semantic level (h1-h5 HTML tags)
@@ -142,10 +145,12 @@ Successfully migrated 4 custom components to Material-UI (MUI) while maintaining
 - ✅ dangerouslySetInnerHTML support
 - ✅ Custom className support
 - ✅ Original font sizes from settings.scss
+- ✅ Medium font weight (500), not bold (700)
 
 **MUI Clean Approach:**
 - Uses MUI Typography variants (h1-h5)
 - Original font sizes via sx prop
+- Font weight explicitly set to 500 (prevents MUI bold defaults)
 - Minimal custom margins (h1: mb: 5, h2: mb: 3)
 - Proper semantic HTML via component prop
 
@@ -270,7 +275,7 @@ All components use MUI theme colors:
 
 **Custom Styles (minimal):**
 - Tag: Height (18px), fontSize (12px), letterSpacing - to match original design
-- Box: Opacity (0.9) for plain boxes - subtle transparency
+- Box: Solid white background (#fff) - no transparency
 - Headline: Original font sizes (40/30/24/20/16px) and line-heights, margins for h1/h2
 - Text: Original font sizes (16/14/12px) and line-heights, divider styles (fontWeight, textTransform, letterSpacing)
 
