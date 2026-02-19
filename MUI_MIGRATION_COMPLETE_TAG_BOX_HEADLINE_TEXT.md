@@ -128,16 +128,25 @@ Successfully migrated 4 custom components to Material-UI (MUI) while maintaining
 - `semanticLevel` → HTML element (semantic structure)
 - `styleLevel` → Visual styling (variant)
 
+**Original Font Sizes Applied:**
+- h1: 40px / 50px line-height
+- h2: 30px / 38px line-height
+- h3: 24px / 32px line-height
+- h4: 20px / 26px line-height
+- h5: 16px / 21px line-height
+- Font weight: 500 (medium)
+
 **Features Preserved:**
 - ✅ Semantic level (h1-h5 HTML tags)
 - ✅ Style level (separate from semantic)
 - ✅ dangerouslySetInnerHTML support
 - ✅ Custom className support
+- ✅ Original font sizes from settings.scss
 
 **MUI Clean Approach:**
 - Uses MUI Typography variants (h1-h5)
+- Original font sizes via sx prop
 - Minimal custom margins (h1: mb: 5, h2: mb: 3)
-- MUI default typography styles
 - Proper semantic HTML via component prop
 
 **Usage (unchanged):**
@@ -170,6 +179,11 @@ Successfully migrated 4 custom components to Material-UI (MUI) while maintaining
 - `infoLargeAlternative` → `body2`
 - `infoSmall`, `divider` → `caption`
 
+**Original Font Sizes Applied:**
+- standard/infoLargeStandard/infoMedium: 16px / 24px line-height
+- infoLargeAlternative: 14px / 20px line-height
+- infoSmall/divider: 12px / 16px line-height
+
 **Color Mapping:**
 - `standard`, `infoLargeStandard` → `text.primary`
 - `infoLargeAlternative`, `infoSmall`, `infoMedium` → `text.secondary`
@@ -183,11 +197,12 @@ Successfully migrated 4 custom components to Material-UI (MUI) while maintaining
 - ✅ Children support
 - ✅ Title attribute
 - ✅ List styling (ul, li)
+- ✅ Original font sizes from settings.scss
 
 **MUI Clean Approach:**
 - Uses MUI Typography variants (body1, body2, caption)
+- Original font sizes via sx prop
 - Uses theme colors (text.primary, text.secondary)
-- MUI default typography styles
 - Minimal custom styling for divider type
 - CSS variables for primary color in NOTICE label
 
@@ -233,12 +248,12 @@ import { Text } from '../text/Text';        // Now gets TextMui
 
 All components use MUI theme colors:
 
-| Component | Theme Colors Used |
-|-----------|------------------|
-| Tag | error.main, error.dark, warning, success |
-| Box | background.paper, divider, text.primary |
-| Headline | (MUI default typography colors) |
-| Text | text.primary, text.secondary |
+| Component | Theme Colors Used | Original Font Sizes |
+|-----------|------------------|---------------------|
+| Tag | error.main, error.dark, warning, success | 12px (via sx) |
+| Box | background.paper, divider, text.primary | (uses MUI Alert defaults) |
+| Headline | (MUI default typography colors) | 40/30/24/20/16px (via sx) |
+| Text | text.primary, text.secondary | 16/14/12px (via sx) |
 
 **CSS Variables for Tenant Theming:**
 - `--skin-color-primary-contrast-safe` (for NOTICE label)
@@ -256,8 +271,8 @@ All components use MUI theme colors:
 **Custom Styles (minimal):**
 - Tag: Height (18px), fontSize (12px), letterSpacing - to match original design
 - Box: Opacity (0.9) for plain boxes - subtle transparency
-- Headline: Margins for h1/h2 - spacing consistency
-- Text: Divider styles (fontWeight, textTransform, letterSpacing) - specific typography
+- Headline: Original font sizes (40/30/24/20/16px) and line-heights, margins for h1/h2
+- Text: Original font sizes (16/14/12px) and line-heights, divider styles (fontWeight, textTransform, letterSpacing)
 
 ---
 
