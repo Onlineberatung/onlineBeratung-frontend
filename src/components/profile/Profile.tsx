@@ -494,9 +494,9 @@ const ProfileColumns = ({
 		)
 		.sort((a, b) => (a?.order || 99) - (b?.order || 99));
 
-	// Separate elements by column
+	// Separate elements by column - default to COLUMN_LEFT if not specified
 	const leftColumnElements = allElements.filter(
-		(el) => el.column === COLUMN_LEFT && !el.fullWidth
+		(el) => (el.column === COLUMN_LEFT || el.column === undefined) && !el.fullWidth
 	);
 	const rightColumnElements = allElements.filter(
 		(el) => el.column === COLUMN_RIGHT && !el.fullWidth
@@ -588,9 +588,9 @@ const ProfileGroup = ({ group }: { group: TabGroups }) => {
 		)
 		.sort((a, b) => (a?.order || 99) - (b?.order || 99));
 
-	// Separate elements by column
+	// Separate elements by column - default to COLUMN_LEFT if not specified
 	const leftColumnElements = allElements.filter(
-		(el) => el.column === COLUMN_LEFT && !el.fullWidth
+		(el) => (el.column === COLUMN_LEFT || el.column === undefined) && !el.fullWidth
 	);
 	const rightColumnElements = allElements.filter(
 		(el) => el.column === COLUMN_RIGHT && !el.fullWidth
