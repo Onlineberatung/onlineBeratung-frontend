@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
-import LanguageIcon from '../../resources/img/icons/language_filled.svg?react';
 
 import './profile.styles.scss';
 import {
@@ -69,7 +68,6 @@ export const Locale = () => {
 		<div className="appLanguage">
 			<div className="profile__content__title">
 				<div className="profile__content__header">
-					<LanguageIcon className="icon" />
 					<Headline
 						text={translate('profile.appLanguage.title')}
 						semanticLevel="5"

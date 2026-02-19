@@ -59,18 +59,12 @@ export const HeadlineMui = ({
 			className={className}
 			dangerouslySetInnerHTML={{ __html: text }}
 			sx={{
-				m: 0,
+				margin: '0 0 0.35em', // MUI default margin for headlines
 				p: 0,
 				fontFamily: 'inherit',
 				fontSize: fontStyles.fontSize,
 				lineHeight: fontStyles.lineHeight,
-				fontWeight: 700, // $font-weight-bold from settings.scss
-				...(variant === 'h1' && {
-					mb: 5
-				}),
-				...(variant === 'h2' && {
-					mb: 3
-				})
+				fontWeight: 600 // Semi-bold weight
 			}}
 		/>
 	);
