@@ -170,8 +170,8 @@ export const Welcome = () => {
 						}
 						handleForwardToRegistration={handleForwardToRegistration}
 						welcomeScreenConfig={
-							consultingType?.registration?.welcomeScreen ||
-							agency?.consultingTypeRel?.registration?.welcomeScreen
+							consultingType?.welcomeScreen ||
+							agency?.consultingTypeRel?.welcomeScreen
 						}
 						loginParams={loginParams}
 						consultingTypeId={

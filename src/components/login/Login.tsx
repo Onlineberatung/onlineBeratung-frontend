@@ -39,7 +39,6 @@ import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import WelcomeIcon from '../../resources/img/illustrations/welcome.svg?react';
 import {
 	VALIDITY_INITIAL,
-	VALIDITY_INVALID,
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
@@ -377,7 +376,6 @@ export const Login = () => {
 								: 'login.warning.failed.unauthorized.text'
 						)
 					);
-					setLabelState(VALIDITY_INVALID);
 				} else if (!otp && error.message === FETCH_ERRORS.BAD_REQUEST) {
 					if (
 						error.options?.data?.error_description?.match(
@@ -387,7 +385,6 @@ export const Login = () => {
 						setShowLoginError(
 							translate('login.warning.failed.deletedAccount')
 						);
-						setLabelState(VALIDITY_INVALID);
 					} else if (error.options?.data?.otpType) {
 						setTwoFactorType(error.options.data.otpType);
 						setIsOtpRequired(true);
