@@ -176,9 +176,7 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 									</Route>
 
 									<Route path="/welcome">
-										<UrlParamsProvider>
-											<Welcome />
-										</UrlParamsProvider>
+										<Welcome />
 									</Route>
 
 									{/* Registration Route - actual component rendered by RegistrationWithPersistence above */}

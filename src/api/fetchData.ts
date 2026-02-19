@@ -223,7 +223,11 @@ export const fetchData = ({
 					) {
 						reject(new Error(FETCH_ERRORS.GATEWAY_TIMEOUT));
 					} else if (response.status === 401) {
-						logout(true, appConfig.urls.toLogin);
+						if (accessToken) {
+							logout(true, appConfig.urls.toLogin);
+						} else {
+							reject(new Error(FETCH_ERRORS.UNAUTHORIZED));
+						}
 					}
 				} else {
 					const error = getErrorCaseForStatus(response.status);
