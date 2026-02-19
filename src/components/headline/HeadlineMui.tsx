@@ -64,7 +64,7 @@ export const HeadlineMui = ({
 				fontFamily: 'inherit',
 				fontSize: fontStyles.fontSize,
 				lineHeight: fontStyles.lineHeight,
-				fontWeight: 500, // $font-weight-medium from settings.scss
+				fontWeight: 500, // $font-weight-medium from settings.scss (not 700/bold)
 				...(variant === 'h1' && {
 					mb: 5
 				}),

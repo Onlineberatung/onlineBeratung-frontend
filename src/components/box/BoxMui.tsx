@@ -55,13 +55,12 @@ export const BoxMui = ({ children, title, type }: BoxMuiProps) => {
 	return (
 		<MuiBox
 			sx={{
-				background: 'background.paper',
+				background: '#fff', // Solid white background from settings.scss ($white)
 				border: '1px solid',
 				borderColor: 'divider',
 				p: { xs: 2, md: 3 },
 				mb: { xs: 1, md: 2 },
-				borderRadius: 1,
-				opacity: 0.9
+				borderRadius: 1
 			}}
 		>
 			{title && (
