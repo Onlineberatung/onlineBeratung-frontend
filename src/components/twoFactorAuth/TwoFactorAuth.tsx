@@ -852,7 +852,7 @@ export const TwoFactorAuth = () => {
 	return (
 		<MuiBox className="twoFactorAuth">
 			<Stack spacing={2}>
-				<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+				<MuiBox display="flex" justifyContent="space-between" alignItems="flex-start">
 					<Headline
 						text={translate('twoFactorAuth.title')}
 						semanticLevel="5"
@@ -871,7 +871,7 @@ export const TwoFactorAuth = () => {
 							}
 						/>
 					)}
-				</Stack>
+				</MuiBox>
 
 				<Typography variant="body2" color="text.secondary">
 					{translate('twoFactorAuth.subtitle')}
