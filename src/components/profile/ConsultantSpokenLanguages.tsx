@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Stack } from '@mui/material';
+import { Stack, Typography, Box as MuiBox } from '@mui/material';
 import { apiPutConsultantData } from '../../api';
 import { UserDataContext } from '../../globalState';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { SelectDropdown, SelectOption } from '../select/SelectDropdown';
 import { MultiValue } from 'react-select';
-import { Text } from '../text/Text';
 
-import './profile.styles.scss';
 import { isUniqueLanguage } from './profileHelpers';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useTranslation } from 'react-i18next';
@@ -82,20 +80,17 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 	});
 
 	return (
-		<div className="spokenLanguages">
-			<div className="profile__content__title">
+		<MuiBox>
+			<Stack spacing={2}>
 				<Headline
 					text={translate('profile.spokenLanguages.title')}
 					semanticLevel="5"
 				/>
 
-				<Text
-					text={translate('profile.spokenLanguages.info')}
-					type="standard"
-					className="tertiary"
-				/>
-			</div>
-			<div className="spokenLanguages__languageSelect">
+				<Typography variant="body2" color="text.secondary">
+					{translate('profile.spokenLanguages.info')}
+				</Typography>
+
 				<SelectDropdown
 					handleDropdownSelect={selectHandler}
 					id="spoken-languages-select"
@@ -119,9 +114,7 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 					<Stack 
 						direction="row" 
 						spacing={2} 
-						className="spokenLanguages__buttons"
 						justifyContent="flex-end"
-						sx={{ marginTop: '20px' }}
 					>
 						<Button
 							item={cancelEditButton}
@@ -133,7 +126,7 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 						/>
 					</Stack>
 				)}
-			</div>
-		</div>
+			</Stack>
+		</MuiBox>
 	);
 };

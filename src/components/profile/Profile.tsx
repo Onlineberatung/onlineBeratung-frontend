@@ -51,6 +51,7 @@ import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider
 import { useAppConfig } from '../../hooks/useAppConfig';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import LegalLinks from '../legalLinks/LegalLinks';
+import { Box as MuiBox, Grid2 } from '@mui/material';
 
 export const Profile = () => {
 	const settings = useAppConfig();
@@ -348,38 +349,40 @@ export const Profile = () => {
 										key={`/profile${tab.url}`}
 									>
 										<div className="profile__content">
-											{tab.elements
-												.reduce(
-													(
-														acc: SingleComponentType[],
-														element
-													) =>
-														acc.concat(
-															isTabGroup(element)
-																? element.elements
-																: element
-														),
-													[]
-												)
-												.filter((element) =>
-													solveCondition(
-														element.condition,
-														userData,
-														consultingTypes ?? []
+											<Grid2 container spacing={3}>
+												{tab.elements
+													.reduce(
+														(
+															acc: SingleComponentType[],
+															element
+														) =>
+															acc.concat(
+																isTabGroup(element)
+																	? element.elements
+																	: element
+															),
+														[]
 													)
-												)
-												.sort(
-													(a, b) =>
-														(a?.order || 99) -
-														(b?.order || 99)
-												)
-												.map((element, i) => (
-													<ProfileItem
-														key={i}
-														element={element}
-														index={i}
-													/>
-												))}
+													.filter((element) =>
+														solveCondition(
+															element.condition,
+															userData,
+															consultingTypes ?? []
+														)
+													)
+													.sort(
+														(a, b) =>
+															(a?.order || 99) -
+															(b?.order || 99)
+													)
+													.map((element, i) => (
+														<ProfileItem
+															key={i}
+															element={element}
+															index={i}
+														/>
+													))}
+											</Grid2>
 										</div>
 									</Route>
 								))
@@ -501,32 +504,28 @@ const ProfileItem = ({
 }: {
 	element: SingleComponentType;
 	index: number;
-}) => (
-	<div
-		className={`profile__item ${
-			element.fullWidth
-				? 'full'
-				: element.column === COLUMN_LEFT
-					? 'left'
-					: 'right'
-		}`}
-	>
-		{element.boxed === false ? (
-			<element.component />
-		) : (
-			<Box>
+}) => {
+	const gridSize = element.fullWidth ? 12 : 6;
+	
+	return (
+		<Grid2 size={{ xs: 12, lg: gridSize }}>
+			{element.boxed === false ? (
 				<element.component />
-			</Box>
-		)}
-	</div>
-);
+			) : (
+				<Box>
+					<element.component />
+				</Box>
+			)}
+		</Grid2>
+	);
+};
 
 const ProfileGroup = ({ group }: { group: TabGroups }) => {
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	return (
-		<>
+		<Grid2 container spacing={3}>
 			{group.elements
 				.filter((element) =>
 					solveCondition(
@@ -539,6 +538,6 @@ const ProfileGroup = ({ group }: { group: TabGroups }) => {
 				.map((element, i) => (
 					<ProfileItem key={i} element={element} index={i} />
 				))}
-		</>
+		</Grid2>
 	);
 };
