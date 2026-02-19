@@ -16,7 +16,7 @@ interface RegistrationStateProps {
 	onStateChange: Function;
 	onValidityChange: Function;
 	dropdownSelectData: RegistrationDropdownSelectData;
-	onKeyDown: Function;
+	onKeyDown: (...args: any[]) => void;
 }
 
 export const RegistrationState = ({

@@ -120,6 +120,13 @@ export const NavigationBar = ({
 			setAnimateNavIcon(false);
 			animateNavIconTimeoutRef.current = null;
 		}, 1000);
+
+		return () => {
+			if (animateNavIconTimeoutRef.current) {
+				clearTimeout(animateNavIconTimeoutRef.current);
+				animateNavIconTimeoutRef.current = null;
+			}
+		};
 	}, [unreadSessions, unreadGroup, unreadTeamSessions]);
 
 	const notificationConsultant = isConsultant ? 0 : unreadTeamSessions.length;
@@ -344,9 +351,10 @@ const NavigationUnreadIndicator = ({ animate }: { animate: boolean }) => {
 
 	useEffect(() => {
 		// After first render wait for initial animation
-		setTimeout(() => {
+		const id = setTimeout(() => {
 			setVisible(true);
 		}, 1000);
+		return () => clearTimeout(id);
 	}, []);
 
 	return (

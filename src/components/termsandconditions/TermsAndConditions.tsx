@@ -174,7 +174,7 @@ export const TermsAndConditions = () => {
 			.then(() => {
 				setViewState({ ...viewState, showOverlay: false });
 			})
-			.catch(console.log);
+			.catch(console.error);
 	};
 
 	return (
@@ -217,7 +217,7 @@ export const TermsAndConditions = () => {
 													!viewState.userConfirmed
 											})
 										}
-										onKeyPress={(event) => {
+										onKeyDown={(event) => {
 											if (event.key === 'Enter') {
 												setViewState({
 													...viewState,

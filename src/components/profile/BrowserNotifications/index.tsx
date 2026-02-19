@@ -22,9 +22,10 @@ export const BrowserNotification = () => {
 	const [checked, setChecked] = useState(isEnabled);
 
 	useEffect(() => {
-		setTimeout(() => {
+		const id = setTimeout(() => {
 			saveBrowserNotificationsSettings({ visited: true });
 		}, 5000);
+		return () => clearTimeout(id);
 	}, []);
 
 	const onChange = useCallback((value) => {

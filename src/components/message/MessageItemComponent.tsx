@@ -272,12 +272,12 @@ export const MessageItemComponent = ({
 							});
 							reloadActiveSession();
 						})
-						.catch((error) => console.log(error));
+						.catch((error) => console.error(error));
 				})
-				.catch((error) => console.log(error));
+				.catch((error) => console.error(error));
 		} else {
 			apiPatchMessage(toConsultantId, ReassignStatus.REJECTED, _id).catch(
-				(error) => console.log(error)
+				(error) => console.error(error)
 			);
 		}
 	};

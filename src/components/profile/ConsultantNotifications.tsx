@@ -28,7 +28,7 @@ export const ConsultantNotifications = () => {
 			emailToggles
 		})
 			.then(reloadUserData)
-			.catch(console.log);
+			.catch(console.error);
 	};
 
 	return (

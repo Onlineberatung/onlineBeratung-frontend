@@ -69,7 +69,7 @@ export const ConsultantInformation = () => {
 	const handleSaveEditButton = () => {
 		apiPatchUserData({ displayName: editedDisplayName })
 			.then(() => {
-				reloadUserData().catch(console.log);
+				reloadUserData().catch(console.error);
 				setInitialDisplayName(editedDisplayName);
 				setSuccessOverlayActive(true);
 			})

@@ -367,7 +367,7 @@ setIsDataProtectionSelected(
 !isDataProtectionSelected
 )
 }
-onKeyPress={(event) => {
+onKeyDown={(event) => {
 if (event.key === 'Enter') {
 setIsDataProtectionSelected(
 !isDataProtectionSelected

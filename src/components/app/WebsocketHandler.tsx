@@ -107,11 +107,11 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		stompConnect();
 
 		stompClient.onWebSocketClose = (message) => {
-			console.log('Closed', message);
+			console.warn('Closed', message);
 		};
 
 		stompClient.onWebSocketError = (error) => {
-			console.log('Error', error);
+			console.error('Error', error);
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 

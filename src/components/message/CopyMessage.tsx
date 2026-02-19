@@ -1,31 +1,34 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CopyIcon from '@mui/icons-material/ContentCopy';
 import CheckmarkIcon from '@mui/icons-material/Check';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { useTranslation } from 'react-i18next';
 
 interface CopyMessageProps {
-	right: Boolean;
+	right: boolean;
 	message: string;
 }
 
 export const CopyMessage = (props: CopyMessageProps) => {
 	const { t: translate } = useTranslation();
 	const [messageCopied, setMessageCopied] = useState(false);
-	let timeoutId: number = null;
+	const timeoutId = useRef<number>(null);
 
 	useEffect(() => {
 		return () => {
 			// Unset timeout on unmounting to prevent state change on unmounted components
-			if (timeoutId) window.clearTimeout(timeoutId);
+			if (timeoutId.current) window.clearTimeout(timeoutId.current);
 		};
-	});
+	}, []);
 
 	const copyText = async (content) => {
 		await copyTextToClipboard(content, () => {
 			setMessageCopied(true);
-			timeoutId = window.setTimeout(() => setMessageCopied(false), 3000);
+			timeoutId.current = window.setTimeout(
+				() => setMessageCopied(false),
+				3000
+			);
 		});
 	};
 

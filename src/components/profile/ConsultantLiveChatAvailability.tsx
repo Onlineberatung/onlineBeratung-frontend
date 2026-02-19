@@ -20,7 +20,7 @@ export const ConsultantLiveChatAvailability = () => {
 			available: status !== STATUS_ONLINE
 		})
 			.then(reloadUserData)
-			.catch(console.log);
+			.catch(console.error);
 	};
 
 	return (

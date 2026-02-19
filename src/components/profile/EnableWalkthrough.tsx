@@ -30,7 +30,7 @@ export const EnableWalkthrough = () => {
 									walkThroughEnabled: !isWalkThroughEnabled
 								})
 									.then(reloadUserData)
-									.catch(console.log);
+									.catch(console.error);
 							}}
 							checked={userData.isWalkThroughEnabled}
 							uncheckedIcon={false}

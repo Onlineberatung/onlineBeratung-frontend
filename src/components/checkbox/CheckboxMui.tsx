@@ -17,12 +17,12 @@ export interface CheckboxItem {
 			| MouseEvent<HTMLInputElement | SVGSVGElement>
 			| KeyboardEvent<HTMLInputElement>
 	) => void;
-	onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void;
+	onKeyDown?: (e: KeyboardEvent<HTMLButtonElement>) => void;
 }
 
 export const CheckboxMui = ({
 	checkboxHandle,
-	onKeyPress,
+	onKeyDown,
 	checked,
 	inputId,
 	name,
@@ -65,7 +65,7 @@ export const CheckboxMui = ({
 						value={value}
 						checked={checked}
 						onChange={checkboxHandle as any}
-						onKeyPress={onKeyPress as any}
+						onKeyDown={onKeyDown}
 					/>
 				}
 				label={labelContent}

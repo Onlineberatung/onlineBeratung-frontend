@@ -138,7 +138,7 @@ export const SessionsList = ({
 			available: status !== STATUS_ONLINE
 		})
 			.then(reloadUserData)
-			.catch(console.log);
+			.catch(console.error);
 	};
 
 	// If create new group chat
@@ -1214,7 +1214,7 @@ const useGroupWatcher = (isLoading: boolean) => {
 				}
 			})
 			.catch((e) => {
-				console.log(e);
+				console.error(e);
 			});
 	}, [dispatch, hasSessionChanged, history?.location?.state, sessions]);
 

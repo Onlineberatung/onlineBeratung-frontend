@@ -88,7 +88,7 @@ export const getPrettyDateFromMessageDate = (
 };
 
 export const formatToHHMM = (timestamp: string) => {
-	const unixDate = parseInt(timestamp);
+	const unixDate = parseInt(timestamp, 10);
 	const date = new Date(unixDate);
 	const hours = date.getHours();
 	let minutes: string = date.getMinutes().toString();

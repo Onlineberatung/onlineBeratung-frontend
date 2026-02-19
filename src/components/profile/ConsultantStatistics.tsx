@@ -155,7 +155,7 @@ export const ConsultantStatistics = () => {
 				? selectedOption[0]?.value
 				: (selectedOption as SelectOption)?.value;
 			if (value) {
-				setStatisticsPeriod(value);
+				setStatisticsPeriod(value as statisticOptions);
 			}
 		},
 		useIconOption: false,
@@ -205,7 +205,7 @@ export const ConsultantStatistics = () => {
 				setPeriodDisplay(`${startDateString} - ${endDateString}`);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 			})
 			.finally(() => {
 				setIsRequestInProgress(false);

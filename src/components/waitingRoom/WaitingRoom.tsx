@@ -151,7 +151,6 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	useEffect(() => {
 		if (anonymousConversationStarted) {
-			console.log('[WaitingRoom] Conversation started! Navigating to chat...');
 			setAnonymousConversationStarted(false);
 			// Navigate to chat immediately when conversation starts
 			deleteCookieByName('registeredUsername');
@@ -266,7 +265,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					}
 				)
 				.catch((err: Error) => {
-					console.log(err);
+					console.warn(err);
 				})
 				.finally(() => {
 					retryCount.current = 1;

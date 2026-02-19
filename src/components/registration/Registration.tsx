@@ -52,7 +52,7 @@ export const Registration = ({ isBackground = false }: RegistrationProps) => {
 
 		// Don't execute redirects when component is in background (hidden on legal pages)
 		if (isBackground) {
-			console.log('Registration is in background mode, skipping redirect logic');
+			console.info('Registration is in background mode, skipping redirect logic');
 			setIsReady(true);
 			return;
 		}
@@ -116,7 +116,7 @@ export const Registration = ({ isBackground = false }: RegistrationProps) => {
 			}
 			setIsReady(true);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			return;
 		}
 	}, [

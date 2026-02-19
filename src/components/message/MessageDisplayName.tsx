@@ -12,8 +12,8 @@ import { useTranslation } from 'react-i18next';
 
 interface MessageDisplayNameProps {
 	alias?: ForwardMessageDTO;
-	isUser: Boolean;
-	isMyMessage: Boolean;
+	isUser: boolean;
+	isMyMessage: boolean;
 	type: 'forwarded' | 'user' | 'consultant' | 'self' | 'system';
 	userId: string;
 	username: string;

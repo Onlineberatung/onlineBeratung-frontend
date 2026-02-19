@@ -406,7 +406,7 @@ export const MessageSubmitInterfaceComponent = ({
 				.then(() => setIsRequestInProgress(false))
 				.catch((error) => {
 					setIsRequestInProgress(false);
-					console.log(error);
+					console.error(error);
 				});
 		},
 		[activeSession.item.id, encryptRoom, language, onSendButton, setE2EEState]
@@ -529,7 +529,7 @@ export const MessageSubmitInterfaceComponent = ({
 					})
 					.catch((error) => {
 						setIsRequestInProgress(false);
-						console.log(error);
+						console.error(error);
 					});
 			} else {
 				onSendButton && onSendButton();

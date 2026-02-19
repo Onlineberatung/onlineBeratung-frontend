@@ -77,7 +77,7 @@ export const AbsenceHandler = () => {
 				.then(() => {
 					setOverlayItem(absenceChangedOverlayItem);
 				})
-				.catch(console.log);
+				.catch(console.error);
 		}
 	};
 

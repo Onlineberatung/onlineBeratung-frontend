@@ -8,6 +8,7 @@ import {
 	UserDataContext
 } from '../../globalState';
 import { Headline } from '../headline/Headline';
+import { Text } from '../text/Text';
 import Switch from '../Switch/SwitchSimple';
 import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
@@ -125,7 +126,7 @@ export const TwoFactorAuth = () => {
 				apiDeleteTwoFactorAuth()
 					.then(reloadUserData)
 					.then(() => setOverlayActive(false))
-					.catch(console.log);
+					.catch(console.error);
 			}
 		},
 		[reloadUserData]
