@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { Text } from '../text/Text';
 import ShowPasswordIcon from '@mui/icons-material/Visibility';
 import HidePasswordIcon from '@mui/icons-material/VisibilityOff';
-
-const PASSWORD_ICON_COLOR = 'rgba(0, 0, 0, 0.65)';
 import './inputField.styles.scss';
 import { useTranslation } from 'react-i18next';
+
+const PASSWORD_ICON_COLOR = 'rgba(0, 0, 0, 0.65)';
 
 export type InputFieldLabelState = 'valid' | 'invalid';
 
