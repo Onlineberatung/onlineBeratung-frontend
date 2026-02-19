@@ -8,7 +8,6 @@ import {
 	UserDataContext
 } from '../../globalState';
 import { Headline } from '../headline/Headline';
-import { Text } from '../text/Text';
 import Switch from '../Switch/SwitchSimple';
 import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
@@ -44,6 +43,7 @@ import {
 	STORAGE_KEY_DISABLE_2FA_DUTY,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
+import { Box as MuiBox, Stack, Typography } from '@mui/material';
 
 export const OTP_LENGTH = 6;
 
@@ -850,16 +850,15 @@ export const TwoFactorAuth = () => {
 	};
 
 	return (
-		<div className="twoFactorAuth">
-			<div className="profile__content__title">
-				<div className="twoFactorAuth__head">
+		<MuiBox className="twoFactorAuth">
+			<Stack spacing={2}>
+				<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
 					<Headline
 						text={translate('twoFactorAuth.title')}
 						semanticLevel="5"
 					/>
 					{isTwoFactorBinding && (
 						<Button
-							className="twoFactorAuth__edit__button"
 							buttonHandle={handleEditButton}
 							item={{
 								type: BUTTON_TYPES.LINK_INLINE
@@ -872,54 +871,51 @@ export const TwoFactorAuth = () => {
 							}
 						/>
 					)}
-				</div>
-				<Text
-					className="tertiary"
-					text={translate('twoFactorAuth.subtitle')}
-					type="standard"
-				/>
-			</div>
-			{!isTwoFactorBinding && (
-				<label className="twoFactorAuth__switch">
-					<Switch
-						onChange={handleSwitchChange}
-						checked={isSwitchChecked}
-						uncheckedIcon={false}
-						checkedIcon={false}
-						width={48}
-						height={26}
-						onColor="#0A882F"
-						offColor="#8C878C"
-						boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-						handleDiameter={27}
-						activeBoxShadow="none"
-					/>
-					<Text
-						text={
-							isSwitchChecked
+				</Stack>
+
+				<Typography variant="body2" color="text.secondary">
+					{translate('twoFactorAuth.subtitle')}
+				</Typography>
+
+				{!isTwoFactorBinding && (
+					<Stack direction="row" spacing={2} alignItems="center" component="label">
+						<Switch
+							onChange={handleSwitchChange}
+							checked={isSwitchChecked}
+							uncheckedIcon={false}
+							checkedIcon={false}
+							width={48}
+							height={26}
+							onColor="#0A882F"
+							offColor="#8C878C"
+							boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+							handleDiameter={27}
+							activeBoxShadow="none"
+						/>
+						<Typography variant="body1">
+							{isSwitchChecked
 								? translate('twoFactorAuth.switch.active.label')
-								: translate(
-										'twoFactorAuth.switch.deactive.label'
-									)
-						}
-						type="standard"
-					/>
-				</label>
-			)}
-			{(isSwitchChecked || isTwoFactorBinding) &&
-				userData.twoFactorAuth.type && (
-					<p>
-						<strong>
-							{translate('twoFactorAuth.switch.type.label')}
-						</strong>{' '}
-						{translate(
-							`twoFactorAuth.switch.type.${userData.twoFactorAuth.type}`
-						)}{' '}
-						{userData.twoFactorAuth.type === TWO_FACTOR_TYPES.EMAIL
-							? `(${userData.email})`
-							: ''}
-					</p>
+								: translate('twoFactorAuth.switch.deactive.label')}
+						</Typography>
+					</Stack>
 				)}
+
+				{(isSwitchChecked || isTwoFactorBinding) &&
+					userData.twoFactorAuth.type && (
+						<Typography variant="body1">
+							<strong>
+								{translate('twoFactorAuth.switch.type.label')}
+							</strong>{' '}
+							{translate(
+								`twoFactorAuth.switch.type.${userData.twoFactorAuth.type}`
+							)}{' '}
+							{userData.twoFactorAuth.type === TWO_FACTOR_TYPES.EMAIL
+								? `(${userData.email})`
+								: ''}
+						</Typography>
+					)}
+			</Stack>
+
 			{overlayActive ? (
 				<Overlay
 					className="twoFactorAuth__overlay"
@@ -931,6 +927,6 @@ export const TwoFactorAuth = () => {
 					}
 				/>
 			) : null}
-		</div>
+		</MuiBox>
 	);
 };

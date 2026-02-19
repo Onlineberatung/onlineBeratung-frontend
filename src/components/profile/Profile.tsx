@@ -520,7 +520,7 @@ const ProfileColumns = ({
 			
 			{/* Left column */}
 			<Grid size={{ xs: 12, md: 6 }}>
-				<Stack spacing={3}>
+				<Stack spacing={2}>
 					{leftColumnElements.map((element, i) => (
 						<div key={`left-${i}`}>
 							{element.boxed === false ? (
@@ -537,7 +537,7 @@ const ProfileColumns = ({
 
 			{/* Right column */}
 			<Grid size={{ xs: 12, md: 6 }}>
-				<Stack spacing={3}>
+				<Stack spacing={2}>
 					{rightColumnElements.map((element, i) => (
 						<div key={`right-${i}`}>
 							{element.boxed === false ? (
@@ -614,7 +614,7 @@ const ProfileGroup = ({ group }: { group: TabGroups }) => {
 			
 			{/* Left column */}
 			<Grid size={{ xs: 12, md: 6 }}>
-				<Stack spacing={3}>
+				<Stack spacing={2}>
 					{leftColumnElements.map((element, i) => (
 						<div key={`left-${i}`}>
 							{element.boxed === false ? (
@@ -631,7 +631,7 @@ const ProfileGroup = ({ group }: { group: TabGroups }) => {
 
 			{/* Right column */}
 			<Grid size={{ xs: 12, md: 6 }}>
-				<Stack spacing={3}>
+				<Stack spacing={2}>
 					{rightColumnElements.map((element, i) => (
 						<div key={`right-${i}`}>
 							{element.boxed === false ? (

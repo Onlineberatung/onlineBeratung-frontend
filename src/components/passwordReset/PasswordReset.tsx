@@ -12,7 +12,6 @@ import {
 import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 import './passwordReset.styles.scss';
 import { Headline } from '../headline/Headline';
-import { Text } from '../text/Text';
 import {
 	encryptPrivateKey,
 	deriveMasterKeyFromPassword
@@ -28,6 +27,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { apiUpdatePasswordAppointments } from '../../api/apiUpdatePasswordAppointments';
+import { Box as MuiBox, Stack, Typography } from '@mui/material';
 
 export const PasswordReset = () => {
 	const { t: translate } = useTranslation();
@@ -274,67 +274,53 @@ export const PasswordReset = () => {
 	};
 
 	return (
-		<div id="passwordReset" className="passwordReset">
-			<div className="profile__content__title">
+		<MuiBox id="passwordReset">
+			<Stack spacing={2}>
 				<Headline
 					text={translate('profile.functions.password.reset.title')}
 					semanticLevel="5"
 				/>
-				<Text
-					text={translate(
-						'profile.functions.password.reset.subtitle'
-					)}
-					type="standard"
-					className="tertiary"
-				/>
-			</div>
-			<div className="generalInformation">
-				<div className="flex">
-					<div className="flex__col--1 flex-xl__col--50p">
-						<div className="pr-xl--1">
-							<InputField
-								item={inputOldPassword}
-								inputHandle={handleInputOldChange}
-							/>
-						</div>
-					</div>
-				</div>
+				<Typography variant="body2" color="text.secondary">
+					{translate('profile.functions.password.reset.subtitle')}
+				</Typography>
 
-				<div
-					className="tertiary pb--1"
+				<InputField
+					item={inputOldPassword}
+					inputHandle={handleInputOldChange}
+				/>
+
+				<Typography 
+					variant="body2" 
+					color="text.secondary"
 					dangerouslySetInnerHTML={{
 						__html: translate(
 							'profile.functions.password.reset.instructions'
 						)
 					}}
-				></div>
+				/>
 
-				<div className="flex flex--fd-column flex-xl--fd-row">
-					<div className="flex__col">
-						<div className="pr-xl--1">
-							<InputField
-								item={inputNewPassword}
-								inputHandle={handleInputNewChange}
-							/>
-						</div>
-					</div>
-					<div className="flex__col">
-						<div className="pl-xl--1">
-							<InputField
-								item={inputConfirmPassword}
-								inputHandle={handleInputConfirmChange}
-							/>
-						</div>
-					</div>
-				</div>
+				<Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+					<MuiBox sx={{ flex: 1 }}>
+						<InputField
+							item={inputNewPassword}
+							inputHandle={handleInputNewChange}
+						/>
+					</MuiBox>
+					<MuiBox sx={{ flex: 1 }}>
+						<InputField
+							item={inputConfirmPassword}
+							inputHandle={handleInputConfirmChange}
+						/>
+					</MuiBox>
+				</Stack>
 
 				{hasMasterKeyError && (
-					<div className="passwordReset__error">
+					<Typography variant="body2" color="error">
 						{translate('profile.functions.masterKey.saveError')}
-					</div>
+					</Typography>
 				)}
 
-				<div className="button__wrapper">
+				<Stack direction="row" justifyContent="flex-end">
 					<Button
 						item={{
 							label: translate(
@@ -343,14 +329,14 @@ export const PasswordReset = () => {
 							type: BUTTON_TYPES.PRIMARY
 						}}
 						buttonHandle={handleSubmit}
-						className={'passwordReset__button'}
 						disabled={!isValid}
 					/>
-				</div>
-			</div>
+				</Stack>
+			</Stack>
+
 			{overlayActive ? (
 				<Overlay item={overlayItem} handleOverlay={handleSuccess} />
 			) : null}
-		</div>
+		</MuiBox>
 	);
 };
