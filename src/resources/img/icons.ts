@@ -75,7 +75,7 @@ export { default as PersonsIcon } from '@mui/icons-material/Group';
 export { default as PersonsTwoIcon } from '@mui/icons-material/PeopleAlt';
 export { default as LiveChatIcon } from '@mui/icons-material/AccountCircle';
 export { default as CameraPlusIcon } from '@mui/icons-material/VideoCall';
-// Keep as SVG (no MUI equivalent):
+// Keep as SVG (brand-specific logos with no MUI equivalent):
 export { default as CalDav } from './icons/caldav.svg?react';
 export { default as GoogleCalendar } from './icons/googlecalendar.svg?react';
 export { default as Office365 } from './icons/office365.svg?react';
