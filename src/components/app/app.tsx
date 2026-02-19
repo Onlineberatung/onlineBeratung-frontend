@@ -211,12 +211,14 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 									<Route path={settings.urls.videoCall} exact>
 										<VideoCall />
 									</Route>
-									<AuthenticatedApp
-										onAppReady={() => setStartWebsocket(true)}
-										onLogout={() =>
-											setDisconnectWebsocket(true)
-										}
-									/>
+									<Route>
+										<AuthenticatedApp
+											onAppReady={() => setStartWebsocket(true)}
+											onLogout={() =>
+												setDisconnectWebsocket(true)
+											}
+										/>
+									</Route>
 								</Switch>
 								<NotificationsContainer />
 							</Suspense>

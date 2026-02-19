@@ -95,7 +95,8 @@ export const Welcome = () => {
 			} else {
 				if (
 					consultingType.urls?.requiredAidMissingRedirectUrl &&
-					!agency
+					!agency &&
+					agencyId
 				) {
 					window.location.href =
 						consultingType.urls?.requiredAidMissingRedirectUrl;
