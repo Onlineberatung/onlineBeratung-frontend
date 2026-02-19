@@ -13,7 +13,7 @@ import {
 	UserDataContext
 } from '../../globalState';
 import { SessionsList } from './SessionsList';
-import CreateGroupChatIcon from '../../resources/img/icons/speech-bubble-plus.svg?react';
+import CreateGroupChatIcon from '@mui/icons-material/AddComment';
 import './sessionsList.styles.scss';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useSearchParam } from '../../hooks/useSearchParams';

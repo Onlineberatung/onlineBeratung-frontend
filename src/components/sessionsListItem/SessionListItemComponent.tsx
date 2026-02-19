@@ -312,7 +312,7 @@ export const SessionListItemComponent = ({
 					</div>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__icon">
-							<Icon title={iconTitle} aria-label={iconTitle} />
+							<Icon titleAccess={iconTitle} aria-label={iconTitle} />
 						</div>
 						<div
 							className={clsx(
@@ -449,7 +449,7 @@ export const SessionListItemComponent = ({
 				</div>
 				<div className="sessionsListItem__row">
 					<div className="sessionsListItem__icon">
-						<Icon title={iconTitle} aria-label={iconTitle} />
+						<Icon titleAccess={iconTitle} aria-label={iconTitle} />
 					</div>
 					<div
 						className={clsx(

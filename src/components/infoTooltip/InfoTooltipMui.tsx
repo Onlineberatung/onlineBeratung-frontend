@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Tooltip, ClickAwayListener } from '@mui/material';
-import InfoIcon from '../../resources/img/icons/i.svg?react';
+import InfoIcon from '@mui/icons-material/Info';
 import { isMobile } from 'react-device-detect';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';

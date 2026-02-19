@@ -9,7 +9,7 @@ import {
 } from '../../../../components/button/Button';
 import { Headline } from '../../../../components/headline/Headline';
 import { Text } from '../../../../components/text/Text';
-import NewWindowIcon from '../../../../resources/img/icons/new-window.svg?react';
+import NewWindowIcon from '@mui/icons-material/OpenInNew';
 import { useAppConfig } from '../../../../hooks/useAppConfig';
 
 export const MyCalendar = () => {

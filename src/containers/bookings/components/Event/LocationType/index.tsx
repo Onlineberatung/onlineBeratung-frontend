@@ -9,10 +9,10 @@ import {
 } from '../../../../../globalState';
 import { BookingEventUiInterface } from '../../../../../globalState/interfaces/BookingsInterface';
 import { InfoIcon } from '../../../../../resources/img/icons';
-import VideoCalIcon from '../../../../../resources/img/icons/video-booking.svg?react';
-import CallIcon from '../../../../../resources/img/icons/call.svg?react';
-import LocationIcon from '../../../../../resources/img/icons/location.svg?react';
-import ChatIcon from '../../../../../resources/img/icons/chat-booking.svg?react';
+import VideoCalIcon from '@mui/icons-material/VideoCall';
+import CallIcon from '@mui/icons-material/Call';
+import LocationIcon from '@mui/icons-material/LocationOn';
+import ChatIcon from '@mui/icons-material/Chat';
 
 export const LocationType = ({ event }: { event: BookingEventUiInterface }) => {
 	const { t: translate } = useTranslation();

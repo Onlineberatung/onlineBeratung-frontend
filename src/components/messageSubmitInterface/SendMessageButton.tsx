@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import SendIcon from '../../resources/img/icons/paper-plane.svg?react';
+import SendIcon from '@mui/icons-material/Send';
 
 interface SendMessageButtonProps {
 	clicked?: boolean;
@@ -25,7 +25,7 @@ export const SendMessageButton = (props: SendMessageButtonProps) => {
 			<SendIcon
 				className="textarea__icon"
 				aria-label={translate('enquiry.write.input.button.title')}
-				title={translate('enquiry.write.input.button.title')}
+				titleAccess={translate('enquiry.write.input.button.title')}
 			/>
 		</span>
 	);

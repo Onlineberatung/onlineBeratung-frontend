@@ -23,7 +23,7 @@ import {
 	CameraOnIcon,
 	GroupChatInfoIcon
 } from '../../../resources/img/icons';
-import VideoCallIcon from '../../../resources/img/illustrations/camera.svg?react';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
 import { SessionMenu } from '../../sessionMenu/SessionMenu';
 import { useTranslation } from 'react-i18next';
 import { getGroupChatDate } from '../../session/sessionDateHelpers';
@@ -104,7 +104,7 @@ export const GroupChatHeader = ({
 		smallIconBackgroundColor: isMobile ? 'transparent' : 'green',
 		icon: (
 			<StartButtonIcon
-				title={t('videoCall.button.startVideoCall')}
+				titleAccess={t('videoCall.button.startVideoCall')}
 				aria-label={t('videoCall.button.startVideoCall')}
 				fillOpacity={isMobile ? 0.9 : 1}
 			/>

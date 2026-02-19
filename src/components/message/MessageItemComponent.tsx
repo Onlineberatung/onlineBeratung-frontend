@@ -52,8 +52,8 @@ import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
 import { ERROR_LEVEL_WARN, TError } from '../../api/apiPostError';
-import TrashIcon from '../../resources/img/icons/trash.svg?react';
-import DeletedIcon from '../../resources/img/icons/deleted.svg?react';
+import TrashIcon from '@mui/icons-material/Delete';
+import DeletedIcon from '@mui/icons-material/Block';
 import {
 	IBooleanSetting,
 	SETTING_MESSAGE_ALLOWDELETING

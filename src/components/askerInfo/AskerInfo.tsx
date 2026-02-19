@@ -4,8 +4,8 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { SessionTypeContext, ActiveSessionProvider } from '../../globalState';
 import { Loading } from '../app/Loading';
-import BackIcon from '../../resources/img/icons/arrow-left.svg?react';
-import PersonIcon from '../../resources/img/icons/person.svg?react';
+import BackIcon from '@mui/icons-material/ArrowBack';
+import PersonIcon from '@mui/icons-material/Person';
 import './askerInfo.styles.scss';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useSession } from '../../hooks/useSession';
@@ -74,7 +74,7 @@ export const AskerInfo = () => {
 							>
 								<BackIcon
 									aria-label={translate('app.back')}
-									title={translate('app.back')}
+									titleAccess={translate('app.back')}
 								/>
 							</Link>
 							<h3 className="askerInfo__header__title">
@@ -92,7 +92,7 @@ export const AskerInfo = () => {
 							<div className="askerInfo__icon">
 								<PersonIcon
 									className="askerInfo__icon--user"
-									title={translate(
+									titleAccess={translate(
 										'profile.data.profileIcon'
 									)}
 									aria-label={translate(

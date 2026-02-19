@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text } from '../text/Text';
-import CalendarICSIcon from '../../resources/img/icons/calendar-ics.svg?react';
+import CalendarICSIcon from '@mui/icons-material/EventNote';
 import { addMissingZero } from '../../utils/dateHelpers';
 import './downloadICSFile.styles.scss';
 import { useTranslation } from 'react-i18next';

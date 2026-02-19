@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import CallOffIcon from '../../resources/img/icons/call-off.svg?react';
+import CallOffIcon from '@mui/icons-material/CallEnd';
 import {
 	currentUserIsTeamConsultant,
 	currentUserWasVideoCallInitiator

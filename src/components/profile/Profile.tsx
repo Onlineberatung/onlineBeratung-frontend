@@ -10,9 +10,9 @@ import {
 	useTenant,
 	LocaleContext
 } from '../../globalState';
-import PersonIcon from '../../resources/img/icons/person.svg?react';
-import LogoutIcon from '../../resources/img/icons/out.svg?react';
-import BackIcon from '../../resources/img/icons/arrow-left.svg?react';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
+import BackIcon from '@mui/icons-material/ArrowBack';
 import { Text } from '../text/Text';
 import './profile.styles.scss';
 import profileRoutes from './profile.routes';
@@ -238,7 +238,7 @@ export const Profile = () => {
 											'profile.data.profileIcon'
 										)}
 										className="profile__icon--user"
-										title={translate(
+										titleAccess={translate(
 											'profile.data.profileIcon'
 										)}
 									/>
@@ -250,7 +250,7 @@ export const Profile = () => {
 						) : (
 							<Link to={`/profile`}>
 								<BackIcon
-									title={translate('app.back')}
+									titleAccess={translate('app.back')}
 									aria-label={translate('app.back')}
 								/>
 							</Link>
@@ -318,7 +318,7 @@ export const Profile = () => {
 								className="profile__header__logout flex__col--no-grow"
 							>
 								<LogoutIcon
-									title={translate('app.logout')}
+									titleAccess={translate('app.logout')}
 									aria-label={translate('app.logout')}
 								/>
 							</div>

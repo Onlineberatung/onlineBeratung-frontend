@@ -43,11 +43,11 @@ import { TiptapEditor, INPUT_MAX_LENGTH } from './TiptapEditor';
 import { useTiptapDraftMessage } from './useTiptapDraftMessage';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { Popover } from '@mui/material';
-import ClipIcon from '../../resources/img/icons/clip.svg?react';
-import RichtextToggleIcon from '../../resources/img/icons/richtext-toggle.svg?react';
-import EmojiIcon from '../../resources/img/icons/smiley-positive.svg?react';
-import RemoveIcon from '../../resources/img/icons/x.svg?react';
-import CalendarMonthIcon from '../../resources/img/icons/calendar-month-navigation.svg?react';
+import ClipIcon from '@mui/icons-material/AttachFile';
+import RichtextToggleIcon from '@mui/icons-material/FormatSize';
+import EmojiIcon from '@mui/icons-material/EmojiEmotions';
+import RemoveIcon from '@mui/icons-material/Close';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import './emojiPicker.styles.scss';
 import './messageSubmitInterface.styles.scss';
 import './messageSubmitInterface.yellowTheme.styles.scss';
@@ -738,7 +738,7 @@ export const MessageSubmitInterfaceComponent = ({
 	}, [attachmentUpload, cleanupAttachment, uploadProgress]);
 
 	const handleEmojiButtonClick = useCallback(
-		(event: React.MouseEvent<SVGSVGElement>) => {
+		(event: React.MouseEvent<Element>) => {
 			setEmojiAnchorEl(event.currentTarget);
 		},
 		[]
@@ -914,7 +914,7 @@ export const MessageSubmitInterfaceComponent = ({
 												!isRichtextActive
 											)
 										}
-										title={translate(
+										titleAccess={translate(
 											'enquiry.write.input.format'
 										)}
 										aria-label={translate(
@@ -927,7 +927,7 @@ export const MessageSubmitInterfaceComponent = ({
 										width="20"
 										height="20"
 										onClick={handleEmojiButtonClick}
-										title={translate('app.emoji')}
+										titleAccess={translate('app.emoji')}
 										aria-label={translate('app.emoji')}
 										style={{ cursor: 'pointer' }}
 									/>
@@ -940,7 +940,7 @@ export const MessageSubmitInterfaceComponent = ({
 											aria-label={translate(
 												'enquiry.write.input.attachement'
 											)}
-											title={translate(
+											titleAccess={translate(
 												'enquiry.write.input.attachement'
 											)}
 											onClick={handleAttachmentSelect}
@@ -994,7 +994,7 @@ export const MessageSubmitInterfaceComponent = ({
 														onClick={
 															handleAttachmentRemoval
 														}
-														title={translate(
+														titleAccess={translate(
 															'app.remove'
 														)}
 														aria-label={translate(

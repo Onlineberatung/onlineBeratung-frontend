@@ -26,8 +26,8 @@ import {
 	UserDataContext
 } from '../../../../globalState';
 import { copyTextToClipboard } from '../../../../utils/clipboardHelpers';
-import CalendarRescheduleIcon from '../../../../resources/img/icons/calendar-reschedule.svg?react';
-import CalendarCancelIcon from '../../../../resources/img/icons/calendar-cancel.svg?react';
+import CalendarRescheduleIcon from '@mui/icons-material/EditCalendar';
+import CalendarCancelIcon from '@mui/icons-material/EventBusy';
 import { LocationType } from './LocationType';
 
 interface EventProps {

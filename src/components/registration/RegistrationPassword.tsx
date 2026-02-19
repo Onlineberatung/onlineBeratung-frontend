@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
-import LockIcon from '../../resources/img/icons/lock.svg?react';
+import LockIcon from '@mui/icons-material/Lock';
 import { LABEL_TYPES, Text } from '../text/Text';
 import {
 	inputValuesFit,

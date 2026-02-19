@@ -17,13 +17,13 @@ import {
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
-import DownloadIcon from '../../resources/img/icons/download.svg?react';
-import AddIcon from '../../resources/img/icons/add.svg?react';
-import AddShieldIcon from '../../resources/img/icons/add-shield.svg?react';
-import UrlIcon from '../../resources/img/icons/url.svg?react';
-import CheckIcon from '../../resources/img/icons/checkmark.svg?react';
+import DownloadIcon from '@mui/icons-material/Download';
+import AddIcon from '@mui/icons-material/Add';
+import AddShieldIcon from '@mui/icons-material/GppGood';
+import UrlIcon from '@mui/icons-material/Link';
+import CheckIcon from '@mui/icons-material/Check';
 import IlluCheck from '../../resources/img/illustrations/check.svg?react';
-import InfoIcon from '../../resources/img/icons/i.svg?react';
+import InfoIcon from '@mui/icons-material/Info';
 import {
 	apiDeleteTwoFactorAuth,
 	apiPutTwoFactorAuthEmail,
@@ -867,7 +867,7 @@ export const TwoFactorAuth = () => {
 							customIcon={
 								<PenIcon
 									aria-label={translate('twoFactorAuth.edit')}
-									title={translate('twoFactorAuth.edit')}
+									titleAccess={translate('twoFactorAuth.edit')}
 								/>
 							}
 						/>

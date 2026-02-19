@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { Button as MuiButton, IconButton } from '@mui/material';
 import { OVERLAY_RESET_TIME } from '../overlay/Overlay';
-import ReloadIcon from '../../resources/img/icons/reload.svg?react';
+import ReloadIcon from '@mui/icons-material/Refresh';
 import './buttonMui.styles.scss';
 import { useTranslation } from 'react-i18next';
 

@@ -17,11 +17,11 @@ import {
 	NotificationsContext,
 	NotificationType
 } from '../../globalState';
-import ExclamationIcon from '../../resources/img/icons/exclamation-mark.svg?react';
-import InfoIcon from '../../resources/img/icons/i.svg?react';
-import ErrorIcon from '../../resources/img/icons/x.svg?react';
-import CheckIcon from '../../resources/img/icons/checkmark-white.svg?react';
-import CloseIcon from '../../resources/img/icons/x.svg?react';
+import ExclamationIcon from '@mui/icons-material/Warning';
+import InfoIcon from '@mui/icons-material/Info';
+import ErrorIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
 
 type NotificationProps = {
@@ -96,21 +96,21 @@ const NotificationDefault = ({
 			case NOTIFICATION_TYPE_SUCCESS:
 				return (
 					<CheckIcon
-						title={translate('notification.success')}
+						titleAccess={translate('notification.success')}
 						aria-label={translate('notification.success')}
 					/>
 				);
 			case NOTIFICATION_TYPE_WARNING:
 				return (
 					<ExclamationIcon
-						title={translate('notification.warning')}
+						titleAccess={translate('notification.warning')}
 						aria-label={translate('notification.warning')}
 					/>
 				);
 			case NOTIFICATION_TYPE_ERROR:
 				return (
 					<ErrorIcon
-						title={translate('notification.error')}
+						titleAccess={translate('notification.error')}
 						aria-label={translate('notification.error')}
 					/>
 				);
@@ -120,7 +120,7 @@ const NotificationDefault = ({
 			default:
 				return (
 					<InfoIcon
-						title={translate('notification.info')}
+						titleAccess={translate('notification.info')}
 						aria-label={translate('notification.info')}
 					/>
 				);

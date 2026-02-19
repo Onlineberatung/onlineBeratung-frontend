@@ -2,8 +2,8 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, generatePath } from 'react-router-dom';
-import ForwardIcon from '../../../resources/img/icons/arrow-right.svg?react';
-import NewWindowIcon from '../../../resources/img/icons/new-window.svg?react';
+import ForwardIcon from '@mui/icons-material/ArrowForward';
+import NewWindowIcon from '@mui/icons-material/OpenInNew';
 import './link_menu.styles.scss';
 
 export type LinkMenuComponentType = {
@@ -91,11 +91,11 @@ const LinkMenuItem = ({ item }: { item: LinkMenuItemType }) => {
 					)}
 				</div>
 				{item.externalLink && (
-					<NewWindowIcon title={item.title} aria-label={item.title} />
+					<NewWindowIcon titleAccess={item.title} aria-label={item.title} />
 				)}
 				{!item.externalLink && (
 					<ForwardIcon
-						title={translate('app.next')}
+						titleAccess={translate('app.next')}
 						aria-label={translate('app.next')}
 					/>
 				)}

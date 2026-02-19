@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import SpeechBubblePlusIcon from '../../resources/img/icons/speech-bubble-plus.svg?react';
+import SpeechBubblePlusIcon from '@mui/icons-material/AddComment';
 import './sessionsList.styles.scss';
 
 export const SessionListCreateChat = () => {

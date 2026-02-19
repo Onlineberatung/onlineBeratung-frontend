@@ -11,8 +11,8 @@ import {
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { CloseCircle } from '../../resources/img/icons';
-import ArrowDownIcon from '../../resources/img/icons/arrow-down-light.svg?react';
-import ArrowUpIcon from '../../resources/img/icons/arrow-up-light.svg?react';
+import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Text } from '../text/Text';
 import './select-mui.styles.scss';
 
@@ -126,13 +126,13 @@ export const SelectDropdownMui = (props: SelectDropdownItem) => {
 		<span className="select-mui__arrow">
 			{open ? (
 				<ArrowUpIcon
-					title={translate('app.close')}
+					titleAccess={translate('app.close')}
 					aria-label={translate('app.close')}
 					className="tertiary"
 				/>
 			) : (
 				<ArrowDownIcon
-					title={translate('app.open')}
+					titleAccess={translate('app.open')}
 					aria-label={translate('app.open')}
 					className="tertiary"
 				/>
@@ -175,7 +175,7 @@ export const SelectDropdownMui = (props: SelectDropdownItem) => {
 					deleteIcon={
 						option.isFixed ? undefined : (
 							<CloseCircle
-								title={translate('app.delete')}
+								titleAccess={translate('app.delete')}
 								aria-label={translate('app.delete')}
 							/>
 						)

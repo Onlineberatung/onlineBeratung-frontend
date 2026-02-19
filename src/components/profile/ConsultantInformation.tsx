@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useCallback, useContext, useState, useEffect } from 'react';
 import { Stack, Typography, Box as MuiBox } from '@mui/material';
-import CopyIcon from '../../resources/img/icons/documents.svg?react';
-import InfoIcon from '../../resources/img/icons/i.svg?react';
+import CopyIcon from '@mui/icons-material/ContentCopy';
+import InfoIcon from '@mui/icons-material/Info';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
@@ -242,7 +242,7 @@ const PersonalRegistrationLink = ({
 					trigger={
 						<InfoIcon
 							className="icn icn--xl"
-							title={translate('notifications.info')}
+							titleAccess={translate('notifications.info')}
 							aria-label={translate('notifications.info')}
 						/>
 					}

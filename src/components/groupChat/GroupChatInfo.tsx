@@ -33,8 +33,8 @@ import {
 	desktopView
 } from '../app/navigationHandler';
 import { decodeUsername } from '../../utils/encryptionHelpers';
-import BackIcon from '../../resources/img/icons/arrow-left.svg?react';
-import GroupChatIcon from '../../resources/img/icons/speech-bubble.svg?react';
+import BackIcon from '@mui/icons-material/ArrowBack';
+import GroupChatIcon from '@mui/icons-material/Chat';
 import './groupChatInfo.styles.scss';
 import { Text } from '../text/Text';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
