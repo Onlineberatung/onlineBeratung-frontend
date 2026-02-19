@@ -6,7 +6,6 @@ import { endpoints } from '../../resources/scripts/endpoints';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { autoLogin, redirectToApp } from '../registration/autoLogin';
 import { Text } from '../text/Text';
-import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 import VerifiedIcon from '@mui/icons-material/VerifiedUser';
 import { StageLayout } from '../stageLayout/StageLayout';
