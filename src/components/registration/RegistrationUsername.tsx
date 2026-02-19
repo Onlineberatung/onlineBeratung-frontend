@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
-import PersonIcon from '../../resources/img/icons/person.svg?react';
+import PersonIcon from '@mui/icons-material/Person';
 import {
 	AccordionItemValidity,
 	isStringValidUsername,

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Text } from '../../../../components/text/Text';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ArrowUpIcon from '../../../../resources/img/icons/arrow-up.svg?react';
-import ArrowDownIcon from '../../../../resources/img/icons/arrow-down.svg?react';
+import ArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 export const BookingDescription = (params: { description: string }) => {
 	const { t: translate } = useTranslation();
@@ -33,13 +33,13 @@ export const BookingDescription = (params: { description: string }) => {
 					{expanded ? (
 						<ArrowUpIcon
 							aria-label={translate('app.close')}
-							title={translate('app.close')}
+							titleAccess={translate('app.close')}
 							className="tertiary"
 						/>
 					) : (
 						<ArrowDownIcon
 							aria-label={translate('app.open')}
-							title={translate('app.open')}
+							titleAccess={translate('app.open')}
 							className="tertiary"
 						/>
 					)}

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useCallback, useContext, useState } from 'react';
 
 import { apiForwardMessage } from '../../api';
-import ArrowForwardIcon from '../../resources/img/icons/arrow-forward.svg?react';
-import CheckmarkIcon from '../../resources/img/icons/checkmark.svg?react';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CheckmarkIcon from '@mui/icons-material/Check';
 import { encryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
 import { E2EEContext } from '../../globalState';

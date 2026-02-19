@@ -6,7 +6,7 @@ import { Stage } from '../stage/stage';
 import htmlParser from '../../resources/scripts/util/htmlParser';
 import './legalPageWrapper.styles.scss';
 import { useTranslation } from 'react-i18next';
-import ArrowLeftIcon from '../../resources/img/icons/arrow-left.svg?react';
+import ArrowLeftIcon from '@mui/icons-material/ArrowBack';
 
 export interface LegalPageWrapperProps {
 	className?: string;

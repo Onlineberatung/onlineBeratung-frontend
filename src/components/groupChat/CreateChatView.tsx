@@ -38,7 +38,7 @@ import {
 } from '../../api';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
 import { getChatDate } from '../session/sessionDateHelpers';
-import BackIcon from '../../resources/img/icons/arrow-left.svg?react';
+import BackIcon from '@mui/icons-material/ArrowBack';
 import './createChat.styles.scss';
 import { useResponsive } from '../../hooks/useResponsive';
 import { apiGetSessionRoomsByGroupIds } from '../../api/apiGetSessionRooms';

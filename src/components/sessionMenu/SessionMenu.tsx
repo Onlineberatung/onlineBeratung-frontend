@@ -39,16 +39,16 @@ import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider
 import { RocketChatUsersOfRoomContext } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useSearchParam } from '../../hooks/useSearchParams';
-import CalendarMonthPlusIcon from '../../resources/img/icons/calendar-plus.svg?react';
-import CallOnIcon from '../../resources/img/icons/call-on.svg?react';
-import CameraOnIcon from '../../resources/img/icons/camera-on.svg?react';
-import EditGroupChatIcon from '../../resources/img/icons/gear.svg?react';
-import GroupChatInfoIcon from '../../resources/img/icons/i.svg?react';
-import LeaveChatIcon from '../../resources/img/icons/out.svg?react';
-import FeedbackIcon from '../../resources/img/icons/pen-paper.svg?react';
-import MenuHorizontalIcon from '../../resources/img/icons/stack-horizontal.svg?react';
-import MenuVerticalIcon from '../../resources/img/icons/stack-vertical.svg?react';
-import StopGroupChatIcon from '../../resources/img/icons/x.svg?react';
+import CalendarMonthPlusIcon from '@mui/icons-material/EditCalendar';
+import CallOnIcon from '@mui/icons-material/Call';
+import CameraOnIcon from '@mui/icons-material/Videocam';
+import EditGroupChatIcon from '@mui/icons-material/Settings';
+import GroupChatInfoIcon from '@mui/icons-material/Info';
+import LeaveChatIcon from '@mui/icons-material/Logout';
+import FeedbackIcon from '@mui/icons-material/RateReview';
+import MenuHorizontalIcon from '@mui/icons-material/MoreHoriz';
+import MenuVerticalIcon from '@mui/icons-material/MoreVert';
+import StopGroupChatIcon from '@mui/icons-material/Close';
 import { mobileListView } from '../app/navigationHandler';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
@@ -328,7 +328,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		smallIconBackgroundColor: 'green',
 		icon: (
 			<CallOnIcon
-				title={translate('videoCall.button.startCall')}
+				titleAccess={translate('videoCall.button.startCall')}
 				aria-label={translate('videoCall.button.startCall')}
 			/>
 		)
@@ -340,7 +340,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		smallIconBackgroundColor: 'green',
 		icon: (
 			<CameraOnIcon
-				title={translate('videoCall.button.startVideoCall')}
+				titleAccess={translate('videoCall.button.startVideoCall')}
 				aria-label={translate('videoCall.button.startVideoCall')}
 			/>
 		)
@@ -351,7 +351,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		smallIconBackgroundColor: 'yellow',
 		icon: (
 			<FeedbackIcon
-				title={translate('chatFlyout.feedback')}
+				titleAccess={translate('chatFlyout.feedback')}
 				aria-label={translate('videoCall.button.feedback')}
 			/>
 		),
@@ -462,7 +462,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				size="small"
 			>
 				<MenuHorizontalIcon
-					title={translate('app.menu')}
+					titleAccess={translate('app.menu')}
 					aria-label={translate('app.menu')}
 				/>
 			</IconButton>
@@ -474,7 +474,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				size="small"
 			>
 				<MenuVerticalIcon
-					title={translate('app.menu')}
+					titleAccess={translate('app.menu')}
 					aria-label={translate('app.menu')}
 				/>
 			</IconButton>
@@ -651,7 +651,7 @@ const SessionMenuFlyoutGroup = ({
 					>
 						<span className="sessionMenu__icon">
 							<LeaveChatIcon
-								title={translate('chatFlyout.leaveGroupChat')}
+								titleAccess={translate('chatFlyout.leaveGroupChat')}
 								aria-label={translate(
 									'chatFlyout.leaveGroupChat'
 								)}
@@ -679,7 +679,7 @@ const SessionMenuFlyoutGroup = ({
 					>
 						<span className="sessionMenu__icon">
 							<StopGroupChatIcon
-								title={translate('chatFlyout.stopGroupChat')}
+								titleAccess={translate('chatFlyout.stopGroupChat')}
 								aria-label={translate(
 									'chatFlyout.stopGroupChat'
 								)}
@@ -702,7 +702,7 @@ const SessionMenuFlyoutGroup = ({
 					>
 						<span className="sessionMenu__icon">
 							<EditGroupChatIcon
-								title={translate('chatFlyout.editGroupChat')}
+								titleAccess={translate('chatFlyout.editGroupChat')}
 								aria-label={translate(
 									'chatFlyout.editGroupChat'
 								)}

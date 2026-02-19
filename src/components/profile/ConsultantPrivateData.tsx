@@ -5,7 +5,7 @@ import { UserDataContext } from '../../globalState';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import PenIcon from '../../resources/img/icons/pen.svg?react';
+import PenIcon from '@mui/icons-material/Edit';
 import { EditableData } from '../editableData/EditableData';
 import {
 	apiDeleteTwoFactorAuth,
@@ -187,7 +187,7 @@ export const ConsultantPrivateData = () => {
 							sx={{ cursor: 'pointer' }}
 						>
 							<PenIcon
-								title={translate(
+								titleAccess={translate(
 									'profile.data.edit.button.edit'
 								)}
 								aria-label={translate(

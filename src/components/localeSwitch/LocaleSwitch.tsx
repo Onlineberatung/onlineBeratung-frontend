@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './localeSwitch.styles.scss';
-import LanguageIconOutline from '../../resources/img/icons/language_outline.svg?react';
-import LanguageIconFilled from '../../resources/img/icons/language_filled.svg?react';
+import LanguageIconOutline from '@mui/icons-material/LanguageOutlined';
+import LanguageIconFilled from '@mui/icons-material/Language';
 import { useTranslation } from 'react-i18next';
 import { useContext, useEffect, useState } from 'react';
 import { UserDataContext, LocaleContext } from '../../globalState';
@@ -100,7 +100,7 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 						<>
 							{isInsideMenu && (
 								<LanguageIconOutline
-									title={translate('app.selectLanguage')}
+									titleAccess={translate('app.selectLanguage')}
 									aria-label={translate('app.selectLanguage')}
 									width={iconSize}
 									height={iconSize}
@@ -108,7 +108,7 @@ export const LocaleSwitch: React.FC<LocaleSwitchProp> = ({
 								/>
 							)}
 							<LanguageIconFilled
-								title={translate('app.selectLanguage')}
+								titleAccess={translate('app.selectLanguage')}
 								aria-label={translate('app.selectLanguage')}
 								width={iconSize}
 								height={iconSize}

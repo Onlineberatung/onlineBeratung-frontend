@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import ShieldIcon from '../../resources/img/icons/shield.svg?react';
+import ShieldIcon from '@mui/icons-material/Security';
 
 import './e2eeActivatedMessage.styles.scss';
 

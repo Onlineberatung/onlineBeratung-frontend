@@ -10,7 +10,7 @@ import {
 	UserDataContext
 } from '../../globalState';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import CopyIcon from '../../resources/img/icons/documents.svg?react';
+import CopyIcon from '@mui/icons-material/ContentCopy';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { GenerateQrCode } from '../generateQrCode/GenerateQrCode';
 import { Headline } from '../headline/Headline';

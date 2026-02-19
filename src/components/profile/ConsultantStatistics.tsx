@@ -11,9 +11,9 @@ import {
 	SelectDropdownItem,
 	SelectOption
 } from '../select/SelectDropdown';
-import PersonsIcon from '../../resources/img/icons/persons.svg?react';
-import SpeechBubbleIcon from '../../resources/img/icons/speech-bubble.svg?react';
-import DownloadIcon from '../../resources/img/icons/download.svg?react';
+import PersonsIcon from '@mui/icons-material/Group';
+import SpeechBubbleIcon from '@mui/icons-material/Chat';
+import DownloadIcon from '@mui/icons-material/Download';
 import { CSVLink } from 'react-csv';
 import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
@@ -284,7 +284,7 @@ export const ConsultantStatistics = () => {
 							}}
 						>
 							<DownloadIcon
-								title={translate(
+								titleAccess={translate(
 									'profile.statistics.complete.download.label'
 								)}
 								aria-label={translate(

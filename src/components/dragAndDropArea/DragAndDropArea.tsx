@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import './dragAndDropArea.styles.scss';
 import { useDropzone } from 'react-dropzone';
 import clsx from 'clsx';
-import UploadIcon from '../../resources/img/icons/upload.svg?react';
+import UploadIcon from '@mui/icons-material/Upload';
 import { useTranslation } from 'react-i18next';
 import { ATTACHMENT_MAX_SIZE_IN_MB } from '../messageSubmitInterface/attachmentHelpers';
 

@@ -19,7 +19,7 @@ import {
 } from '../../utils/dateHelpers';
 import { OnlineMeetingForm } from './OnlineMeetingForm';
 import { Appointment } from './Appointment';
-import CameraPlusIcon from '../../resources/img/icons/camera-plus.svg?react';
+import CameraPlusIcon from '@mui/icons-material/VideoCall';
 import WaitingIllustration from '../../resources/img/illustrations/chat-waiting.svg?react';
 import { Loading } from '../app/Loading';
 import { useResponsive } from '../../hooks/useResponsive';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import NewWindow from '../../../resources/img/icons/new-window.svg?react';
+import NewWindow from '@mui/icons-material/OpenInNew';
 import { Headline } from '../../headline/Headline';
 import styles from './styles.module.scss';
 import { Box as MuiBox, Stack, Typography } from '@mui/material';
@@ -22,7 +22,7 @@ export const Documentation = () => {
 
 				<Link to="/docs" target="_blank" className={styles.link}>
 					<NewWindow
-						title={t('profile.documentation.link')}
+						titleAccess={t('profile.documentation.link')}
 						aria-label={t('profile.documentation.link')}
 					/>{' '}
 					{t('profile.documentation.link')}

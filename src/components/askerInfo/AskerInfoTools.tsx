@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { apiGetUserDataBySessionId } from '../../api/apiGetUserDataBySessionId';
 import { ActiveSessionContext } from '../../globalState';
-import NewWindow from '../../resources/img/icons/new-window.svg?react';
+import NewWindow from '@mui/icons-material/OpenInNew';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { refreshKeycloakAccessToken } from '../sessionCookie/refreshKeycloakAccessToken';
 import { Text } from '../text/Text';

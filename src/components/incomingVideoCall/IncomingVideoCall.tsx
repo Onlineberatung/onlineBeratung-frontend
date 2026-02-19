@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next';
 
 import { apiRejectVideoCall } from '../../api';
 import { NotificationsContext, NotificationType } from '../../globalState';
-import CallOffIcon from '../../resources/img/icons/call-off.svg?react';
-import CallOnIcon from '../../resources/img/icons/call-on.svg?react';
-import CameraOnIcon from '../../resources/img/icons/camera-on.svg?react';
+import CallOffIcon from '@mui/icons-material/CallEnd';
+import CallOnIcon from '@mui/icons-material/Call';
+import CameraOnIcon from '@mui/icons-material/Videocam';
 import { decodeUsername } from '../../utils/encryptionHelpers';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { useJoinVideoCall } from '../sessionHeader/GroupChatHeader/useJoinVideoCall';
@@ -57,7 +57,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 		icon: (
 			<CallOnIcon
 				aria-label={translate('videoCall.button.answerCall')}
-				title={translate('videoCall.button.answerCall')}
+				titleAccess={translate('videoCall.button.answerCall')}
 			/>
 		),
 		smallIconBackgroundColor: 'green',
@@ -69,7 +69,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 		icon: (
 			<CameraOnIcon
 				aria-label={translate('videoCall.button.answerVideoCall')}
-				title={translate('videoCall.button.answerVideoCall')}
+				titleAccess={translate('videoCall.button.answerVideoCall')}
 			/>
 		),
 		smallIconBackgroundColor: 'green',
@@ -84,7 +84,7 @@ export const IncomingVideoCall = (props: IncomingVideoCallProps) => {
 		icon: (
 			<CallOffIcon
 				aria-label={translate('videoCall.button.rejectCall')}
-				title={translate('videoCall.button.rejectCall')}
+				titleAccess={translate('videoCall.button.rejectCall')}
 			/>
 		)
 	};

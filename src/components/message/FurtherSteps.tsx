@@ -8,7 +8,7 @@ import EnvelopeIllustration from '../../resources/img/illustrations/envelope-che
 import ConsultantIllustration from '../../resources/img/illustrations/consultant.svg?react';
 import AnswerIllustration from '../../resources/img/illustrations/answer.svg?react';
 import ArrowIllustration from '../../resources/img/illustrations/arrow.svg?react';
-import EnvelopeIcon from '../../resources/img/icons/envelope.svg?react';
+import EnvelopeIcon from '@mui/icons-material/Mail';
 import SuccessIllustration from '../../resources/img/illustrations/check.svg?react';
 import {
 	InputField,

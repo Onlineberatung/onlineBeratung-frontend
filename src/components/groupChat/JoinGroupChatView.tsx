@@ -22,7 +22,7 @@ import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { logout } from '../logout/logout';
 import { Redirect } from 'react-router-dom';
-import WarningIcon from '../../resources/img/icons/i.svg?react';
+import WarningIcon from '@mui/icons-material/Info';
 import './joinChat.styles.scss';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';

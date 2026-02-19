@@ -24,7 +24,7 @@ import {
 	convertUserDataObjectToArray,
 	getUserDataTranslateBase
 } from '../profile/profileHelpers';
-import BackIcon from '../../resources/img/icons/arrow-left.svg?react';
+import BackIcon from '@mui/icons-material/ArrowBack';
 import './sessionHeader.styles.scss';
 import './sessionHeader.yellowTheme.styles.scss';
 import { useSearchParam } from '../../hooks/useSearchParams';

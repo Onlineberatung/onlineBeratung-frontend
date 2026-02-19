@@ -32,7 +32,7 @@ import { ConsultingTypeInterface } from '../../globalState/interfaces';
 import './session.styles.scss';
 import './session.yellowTheme.styles.scss';
 import { useDebouncedCallback } from 'use-debounce';
-import ArrowDoubleDownIcon from '../../resources/img/icons/arrow-double-down.svg?react';
+import ArrowDoubleDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import smoothScroll from './smoothScrollHelper';
 import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';

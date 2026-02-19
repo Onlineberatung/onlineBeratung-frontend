@@ -18,8 +18,8 @@ import {
 	TenantContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
-import LogoutIconOutline from '../../resources/img/icons/logout_outline.svg?react';
-import LogoutIconFilled from '../../resources/img/icons/logout_filled.svg?react';
+import LogoutIconOutline from '@mui/icons-material/LogoutOutlined';
+import LogoutIconFilled from '@mui/icons-material/Logout';
 import clsx from 'clsx';
 import { RocketChatUnreadContext } from '../../globalState/provider/RocketChatUnreadProvider';
 import {
@@ -245,7 +245,7 @@ export const NavigationBar = ({
 										<div className="navigation__icon__background">
 											{Icon && (
 												<Icon
-													title={translate(
+													titleAccess={translate(
 														item.titleKeys.large
 													)}
 													aria-label={translate(
@@ -256,7 +256,7 @@ export const NavigationBar = ({
 											)}
 											{IconFilled && (
 												<IconFilled
-													title={translate(
+													titleAccess={translate(
 														item.titleKeys.large
 													)}
 													aria-label={translate(
@@ -309,12 +309,12 @@ export const NavigationBar = ({
 					>
 						<LogoutIconOutline
 							className="navigation__icon__outline"
-							title={translate('app.logout')}
+							titleAccess={translate('app.logout')}
 							aria-label={translate('app.logout')}
 						/>
 						<LogoutIconFilled
 							className="navigation__icon__filled"
-							title={translate('app.logout')}
+							titleAccess={translate('app.logout')}
 							aria-label={translate('app.logout')}
 						/>
 						<span className="navigation__title">

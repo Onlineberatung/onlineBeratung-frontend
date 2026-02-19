@@ -6,7 +6,7 @@ import {
 	isPDFAttachment,
 	isAudioAttachment
 } from '../messageSubmitInterface/attachmentHelpers';
-import DownloadIcon from '../../resources/img/icons/download.svg?react';
+import DownloadIcon from '@mui/icons-material/Download';
 import { useTranslation } from 'react-i18next';
 import { apiUrl } from '../../resources/scripts/endpoints';
 import { useCallback, useRef, useState } from 'react';
@@ -294,7 +294,7 @@ export const MessageAttachment = (props: MessageAttachmentProps) => {
 					className="messageItem__message__attachment__download"
 				>
 					<DownloadIcon
-						title={translate('app.download')}
+						titleAccess={translate('app.download')}
 						aria-label={translate('app.download')}
 					/>
 					<p>{translate('e2ee.attachment.save')}</p>

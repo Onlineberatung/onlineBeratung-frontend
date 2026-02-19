@@ -5,7 +5,7 @@ import {
 	SelectOption,
 	SelectOptionsMulti
 } from '../select/SelectDropdown';
-import Info from '../../resources/img/icons/i.svg?react';
+import Info from '@mui/icons-material/Info';
 import { Text } from '../text/Text';
 import './askerInfoToolsOptions.styles.scss';
 import { apiGetTools } from '../../api/apiGetTools';

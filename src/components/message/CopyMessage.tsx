@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import CopyIcon from '../../resources/img/icons/documents.svg?react';
-import CheckmarkIcon from '../../resources/img/icons/checkmark.svg?react';
+import CopyIcon from '@mui/icons-material/ContentCopy';
+import CheckmarkIcon from '@mui/icons-material/Check';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { useTranslation } from 'react-i18next';
 

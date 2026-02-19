@@ -54,9 +54,7 @@ handleNextStep?: (callback: Function) => void;
 handleOverlay?: Function;
 showCloseButton?: boolean;
 step?: {
-icon: React.FunctionComponent<
-React.SVGProps<SVGSVGElement> & { title?: string }
->;
+icon: React.ComponentType<any>;
 label: string;
 };
 }

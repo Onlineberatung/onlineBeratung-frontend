@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
 import { Overlay } from '../overlay/Overlay';
-import QRCodeIcon from '../../resources/img/icons/qr-code.svg?react';
-import DownloadIcon from '../../resources/img/icons/download.svg?react';
+import QRCodeIcon from '@mui/icons-material/QrCode2';
+import DownloadIcon from '@mui/icons-material/Download';
 import './generateQrCode.styles.scss';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
@@ -88,7 +88,7 @@ export const GenerateQrCode: React.FC<GenerateQrCodeProps> = ({
 				}}
 			>
 				<QRCodeIcon
-					title={translate('qrCode.iconTitle')}
+					titleAccess={translate('qrCode.iconTitle')}
 					aria-label={translate('qrCode.iconTitle')}
 				/>
 				{translate('qrCode.link.text')}

@@ -6,11 +6,11 @@ import {
 	isXLSXAttachment,
 	isAudioAttachment
 } from '../messageSubmitInterface/attachmentHelpers';
-import FileDocIcon from '../../resources/img/icons/file-doc.svg?react';
-import FileImageIcon from '../../resources/img/icons/file-image.svg?react';
-import FilePdfIcon from '../../resources/img/icons/file-pdf.svg?react';
-import FileXlsIcon from '../../resources/img/icons/file-xls.svg?react';
-import DocumentsIcon from '../../resources/img/icons/documents.svg?react';
+import FileDocIcon from '@mui/icons-material/Article';
+import FileImageIcon from '@mui/icons-material/Image';
+import FilePdfIcon from '@mui/icons-material/PictureAsPdf';
+import FileXlsIcon from '@mui/icons-material/TableChart';
+import DocumentsIcon from '@mui/icons-material/ContentCopy';
 
 export const getIconForAttachmentType = (attachmentType: string) => {
 	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {

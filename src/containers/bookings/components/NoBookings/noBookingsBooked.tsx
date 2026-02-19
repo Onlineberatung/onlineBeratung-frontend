@@ -9,7 +9,7 @@ import {
 } from '../../../../components/button/Button';
 import { Headline } from '../../../../components/headline/Headline';
 import '../booking.styles.scss';
-import CalendarMonthPlusIcon from '../../../../resources/img/icons/calendar-plus.svg?react';
+import CalendarMonthPlusIcon from '@mui/icons-material/EditCalendar';
 import { Text } from '../../../../components/text/Text';
 import { Box } from '../../../../components/box/Box';
 import {

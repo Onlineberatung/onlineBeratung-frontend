@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Text } from '../text/Text';
-import ShowPasswordIcon from '../../resources/img/icons/eye.svg?react';
-import HidePasswordIcon from '../../resources/img/icons/eye-closed.svg?react';
+import ShowPasswordIcon from '@mui/icons-material/Visibility';
+import HidePasswordIcon from '@mui/icons-material/VisibilityOff';
 import './inputField.styles.scss';
 import { useTranslation } from 'react-i18next';
 
@@ -109,14 +109,14 @@ export const InputField = (props: InputFieldProps) => {
 					{showPassword ? (
 						<HidePasswordIcon
 							aria-label={translate('login.password.hide')}
-							title={translate('login.password.hide')}
-							color={'rgba(0, 0, 0, 0.65)'}
+							titleAccess={translate('login.password.hide')}
+							style={{ color: 'rgba(0, 0, 0, 0.65)' }}
 						/>
 					) : (
 						<ShowPasswordIcon
 							aria-label={translate('login.password.show')}
-							title={translate('login.password.show')}
-							color={'rgba(0, 0, 0, 0.65)'}
+							titleAccess={translate('login.password.show')}
+							style={{ color: 'rgba(0, 0, 0, 0.65)' }}
 						/>
 					)}
 				</span>

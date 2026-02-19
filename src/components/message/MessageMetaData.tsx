@@ -7,7 +7,7 @@ import {
 	ActiveSessionContext
 } from '../../globalState';
 import { formatToHHMM } from '../../utils/dateHelpers';
-import CheckmarkIcon from '../../resources/img/icons/checkmark.svg?react';
+import CheckmarkIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
 
 interface MessageMetaDataProps {
@@ -52,7 +52,7 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 							? translate('message.sent')
 							: translate('message.read')
 					}
-					title={
+					titleAccess={
 						props.isNotRead
 							? translate('message.sent')
 							: translate('message.read')
