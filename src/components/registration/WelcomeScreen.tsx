@@ -75,7 +75,7 @@ checkLiveChatAvailability();
 }, [consultingTypeId]);
 
 const handleNavigateToWaitingRoom = () => {
-history.push('/beratung/warteraum');
+history.push('/beratung/livechat');
 };
 
 return (
