@@ -39,10 +39,6 @@ All keys follow the existing i18n structure and are added to `common.json`:
 - `login.intro.seoDescription` - Meta description for SEO
 - `login.intro.seoKeywords` - Meta keywords for SEO
 
-### Welcome / Live Chat
-- `welcome.liveChat.headline` - Heading shown when anonymous live chat is available
-- `welcome.liveChat.button` - Button label to enter the live chat waiting room
-
 ### User Profile / Asker Info
 - `userProfile.data.topic` - Label for the consulting topic field in the asker info panel
 

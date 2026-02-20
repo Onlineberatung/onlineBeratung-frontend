@@ -2686,11 +2686,5 @@
 			}
 		},
 		"title": "Tour"
-	},
-	"welcome": {
-		"liveChat": {
-			"headline": "Live chat is currently available!",
-			"button": "Enter live chat now"
-		}
 	}
 }

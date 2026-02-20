@@ -12,12 +12,6 @@
       "seoKeywords": "Online-Beratung, Registrierung, kostenlose Beratung, vertraulich, Hilfe, Unterstützung"
     }
   },
-  "welcome": {
-    "liveChat": {
-      "headline": "Anonymer Live-Chat ist gerade verfügbar!",
-      "button": "Live-Chat Warteraum betreten"
-    }
-  },
   "userProfile": {
     "data": {
       "topic": "Beratungsthema"

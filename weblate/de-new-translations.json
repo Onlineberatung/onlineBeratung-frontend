@@ -19,12 +19,6 @@
       "seoKeywords": "Login, Anmeldung, Online-Beratung, sicherer Zugang, vertraulich"
     }
   },
-  "welcome": {
-    "liveChat": {
-      "headline": "Anonymer Live-Chat ist gerade verfügbar!",
-      "button": "Live-Chat Warteraum betreten"
-    }
-  },
   "userProfile": {
     "data": {
       "topic": "Beratungsthema"
