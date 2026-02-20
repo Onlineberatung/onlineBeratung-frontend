@@ -1,17 +1,15 @@
 import * as React from 'react';
 import { Children, ReactElement, ReactNode, useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import './StageLayout.styles.scss';
 import clsx from 'clsx';
-import { AgencySpecificContext, LocaleContext } from '../../globalState';
+import { LocaleContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { LocaleSwitch } from '../localeSwitch/LocaleSwitch';
-import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useResponsive } from '../../hooks/useResponsive';
-import LegalLinks from '../legalLinks/LegalLinks';
+import { FooterLinks } from '../footer/FooterLinks';
 import {
 	MENUPLACEMENT_BOTTOM_LEFT,
 	MENUPLACEMENT_BOTTOM_RIGHT
@@ -37,9 +35,7 @@ export const StageLayout = ({
 	loginParams
 }: StageLayoutProps) => {
 	const { t: translate } = useTranslation();
-	const legalLinks = useContext(LegalLinksContext);
 	const { selectableLocales } = useContext(LocaleContext);
-	const { specificAgency } = useContext(AgencySpecificContext);
 	const settings = useAppConfig();
 	const { fromL } = useResponsive();
 
@@ -113,35 +109,7 @@ export const StageLayout = ({
 			<div className="stageLayout__content">{children}</div>
 
 			<div className="stageLayout__footer">
-				{showLegalLinks && (
-					<div className={`stageLayout__legalLinks`}>
-						<LegalLinks
-							delimiter={
-								<Text
-									type="infoSmall"
-									className="stageLayout__legalLinksSeparator"
-									text=" | "
-								/>
-							}
-							params={{ aid: specificAgency?.id }}
-							legalLinks={legalLinks}
-						>
-							{(label, url) => (
-								<Link
-									to={url}
-									className="button-as-link"
-									data-cy-link={url}
-								>
-									<Text
-										className="stageLayout__legalLinksItem"
-										type="infoSmall"
-										text={label}
-									/>
-								</Link>
-							)}
-						</LegalLinks>
-					</div>
-				)}
+				{showLegalLinks && <FooterLinks />}
 			</div>
 		</div>
 	);

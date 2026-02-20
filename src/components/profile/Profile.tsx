@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useState, useRef, useContext, useEffect, Fragment } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import { logout } from '../logout/logout';
 import {
-	AgencySpecificContext,
 	AUTHORITIES,
 	ConsultingTypesContext,
 	hasUserAuthority,
@@ -13,7 +12,6 @@ import {
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import BackIcon from '@mui/icons-material/ArrowBack';
-import { Text } from '../text/Text';
 import './profile.styles.scss';
 import profileRoutes from './profile.routes';
 import {
@@ -48,11 +46,10 @@ import {
 	TabType
 } from '../../utils/tabsHelper';
 import { useTranslation } from 'react-i18next';
-import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
-import LegalLinks from '../legalLinks/LegalLinks';
 import { Box as MuiBox, Grid, Stack } from '@mui/material';
+import { FooterLinks } from '../footer/FooterLinks';
 
 export const Profile = () => {
 	const settings = useAppConfig();
@@ -62,9 +59,7 @@ export const Profile = () => {
 	const { fromL } = useResponsive();
 	const isFirstVisit = useIsFirstVisit();
 
-	const legalLinks = useContext(LegalLinksContext);
 	const { userData } = useContext(UserDataContext);
-	const { specificAgency } = useContext(AgencySpecificContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const [mobileMenu, setMobileMenu] = useState<
@@ -444,27 +439,7 @@ export const Profile = () => {
 					</Switch>
 				</div>
 				<div className="profile__footer">
-					<LegalLinks
-						legalLinks={legalLinks}
-						params={{ aid: specificAgency?.id }}
-						delimiter={
-							<Text
-								type="infoSmall"
-								className="profile__footer__separator"
-								text=" | "
-							/>
-						}
-					>
-						{(label, url) => (
-							<Link to={url}>
-								<Text
-									className="profile__footer__item"
-									type="infoSmall"
-									text={label}
-								/>
-							</Link>
-						)}
-					</LegalLinks>
+					<FooterLinks sx={{ justifyContent: { xs: 'center', lg: 'flex-end' }, px: { xs: 2, md: 3 } }} />
 				</div>
 			</div>
 		</div>
