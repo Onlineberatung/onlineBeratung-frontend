@@ -1,29 +1,27 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Stack, Divider, SxProps, Theme } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import {
+	Link as RouterLink,
+	LinkProps as RouterLinkProps
+} from 'react-router-dom';
+import { Stack, Divider, Link as MuiLink, SxProps, Theme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { AgencySpecificContext } from '../../globalState';
 
-const FooterLink = styled(RouterLink)(({ theme }) => ({
-	...theme.typography.caption,
-	color: theme.palette.text.secondary,
-	textDecoration: 'underline',
-	lineHeight: 1.5,
-	'&:hover': {
-		color: theme.palette.primary.main
-	},
-	'&:focus': {
-		outline: `2px solid ${theme.palette.primary.main}`,
-		outlineOffset: 2,
-		borderRadius: theme.shape.borderRadius
-	},
-	'&:focus:not(:focus-visible)': {
-		outline: 'none'
-	}
-}));
+/**
+ * Adapter that maps MUI Link's `href` prop to React Router v5 Link's `to` prop.
+ * This is the MUI-recommended approach for custom routing integration.
+ */
+const RouterLinkBehavior = React.forwardRef<
+	HTMLAnchorElement,
+	Omit<RouterLinkProps, 'to'> & { href: RouterLinkProps['to'] }
+>((props, ref) => {
+	const { href, ...other } = props;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	return <RouterLink ref={ref as any} to={href} {...other} />;
+});
+RouterLinkBehavior.displayName = 'RouterLinkBehavior';
 
 interface FooterLinksProps {
 	sx?: SxProps<Theme>;
@@ -32,7 +30,8 @@ interface FooterLinksProps {
 export const FooterLinks = ({ sx }: FooterLinksProps) => {
 	const { t: translate } = useTranslation();
 	const legalLinks = useContext(LegalLinksContext);
-	const { specificAgency } = useContext(AgencySpecificContext);
+	const agencyCtx = useContext(AgencySpecificContext);
+	const specificAgency = agencyCtx?.specificAgency;
 
 	if (!legalLinks.length) return null;
 
@@ -49,9 +48,18 @@ export const FooterLinks = ({ sx }: FooterLinksProps) => {
 			{legalLinks.map(({ label, getUrl }) => {
 				const url = getUrl({ aid: specificAgency?.id });
 				return (
-					<FooterLink key={url} to={url} data-cy-link={url}>
+					<MuiLink
+						key={url}
+						component={RouterLinkBehavior}
+						href={url}
+						variant="caption"
+						color="text.secondary"
+						underline="always"
+						data-cy-link={url}
+						sx={{ '&:hover': { color: 'primary.main' } }}
+					>
 						{translate(label)}
-					</FooterLink>
+					</MuiLink>
 				);
 			})}
 		</Stack>
