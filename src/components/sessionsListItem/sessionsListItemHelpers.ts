@@ -2,7 +2,7 @@ import OpenEnvelopeIcon from '@mui/icons-material/Drafts';
 import GroupChatIcon from '@mui/icons-material/Chat';
 import NewEnquiryIcon from '@mui/icons-material/Add';
 import ClosedEnvelopeIcon from '@mui/icons-material/Mail';
-import LiveChatIcon from '@mui/icons-material/AccountCircle';
+import LiveChatIcon from '@mui/icons-material/NoAccounts';
 
 export const LIST_ICONS = {
 	IS_READ: 'IS_READ',
