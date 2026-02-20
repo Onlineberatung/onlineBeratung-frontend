@@ -264,6 +264,7 @@
 				"pdf": "PDF",
 				"png": "PNG",
 				"wav": "WAV",
+				"webm": "WEBM",
 				"xlsx": "XLSX"
 			}
 		}
@@ -2548,6 +2549,25 @@
 				"title": "See what content has been shared with you here."
 			},
 			"title": "Tools"
+		}
+	},
+	"voiceMessage": {
+		"button": {
+			"title": "Record voice message"
+		},
+		"error": {
+			"notSupported": {
+				"title": "Voice recording not available",
+				"text": "Your browser does not support voice recording."
+			},
+			"permission": {
+				"title": "Microphone access denied",
+				"text": "Please allow microphone access in your browser settings to record voice messages."
+			}
+		},
+		"maxDuration": {
+			"title": "Maximum Audio-Message length reached",
+			"text": "The recording was stopped automatically after 2 minutes."
 		}
 	},
 	"videoCall": {

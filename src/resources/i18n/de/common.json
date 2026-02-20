@@ -265,6 +265,7 @@
 				"pdf": "PDF",
 				"png": "PNG",
 				"wav": "WAV",
+				"webm": "WEBM",
 				"xlsx": "XLSX"
 			}
 		}
@@ -2583,6 +2584,25 @@
 				"title": "Sehen Sie hier, welche Inhalte mit Ihnen geteilt wurden."
 			},
 			"title": "Tools"
+		}
+	},
+	"voiceMessage": {
+		"button": {
+			"title": "Sprachnachricht aufnehmen"
+		},
+		"error": {
+			"notSupported": {
+				"title": "Sprachaufnahme nicht verfügbar",
+				"text": "Ihr Browser unterstützt keine Sprachaufnahme."
+			},
+			"permission": {
+				"title": "Mikrofonzugriff verweigert",
+				"text": "Bitte erlauben Sie den Mikrofonzugriff in Ihren Browsereinstellungen, um Sprachnachrichten aufzunehmen."
+			}
+		},
+		"maxDuration": {
+			"title": "Maximale Audio-Nachricht Länge erreicht",
+			"text": "Die Aufnahme wurde nach 2 Minuten automatisch gestoppt."
 		}
 	},
 	"videoCall": {
