@@ -2596,9 +2596,13 @@
 				"text": "Ihr Browser unterstützt keine Sprachaufnahme."
 			},
 			"permission": {
-				"title": "Mikrofonzugriff verweigert",
-				"text": "Bitte erlauben Sie den Mikrofonzugriff in Ihren Browsereinstellungen, um Sprachnachrichten aufzunehmen."
+				"title": "Mikrofonberechtigung erforderlich",
+				"text": "Bitte erteilen Sie die Mikrofonberechtigung, um die Sprachnachrichten-Funktion zu nutzen."
 			}
+		},
+		"permissionGranted": {
+			"title": "Mikrofonberechtigung erteilt",
+			"text": "Jetzt können Sie die Sprachnachrichten-Funktion nutzen."
 		},
 		"maxDuration": {
 			"title": "Maximale Audio-Nachricht Länge erreicht",

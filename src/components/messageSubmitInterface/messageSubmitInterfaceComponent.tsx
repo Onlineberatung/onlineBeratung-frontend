@@ -24,7 +24,8 @@ import {
 	ActiveSessionContext,
 	NotificationsContext,
 	NOTIFICATION_TYPE_ERROR,
-	NOTIFICATION_TYPE_INFO
+	NOTIFICATION_TYPE_INFO,
+	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
 import { STATUS_ARCHIVED, STATUS_FINISHED } from '../../globalState/interfaces';
 import {
@@ -765,10 +766,19 @@ export const MessageSubmitInterfaceComponent = ({
 		[addNotification, translate]
 	);
 
+	const handleVoicePermissionGranted = useCallback(() => {
+		addNotification({
+			notificationType: NOTIFICATION_TYPE_SUCCESS,
+			title: translate('voiceMessage.permissionGranted.title'),
+			text: translate('voiceMessage.permissionGranted.text')
+		});
+	}, [addNotification, translate]);
+
 	const { isRecording, startRecording, stopRecording } = useVoiceRecording({
 		onRecordingComplete: handleVoiceRecordingComplete,
 		onMaxDurationReached: handleVoiceRecordingMaxDuration,
-		onError: handleVoiceRecordingError
+		onError: handleVoiceRecordingError,
+		onPermissionGranted: handleVoicePermissionGranted
 	});
 
 	const handleLargeAttachments = useCallback(() => {

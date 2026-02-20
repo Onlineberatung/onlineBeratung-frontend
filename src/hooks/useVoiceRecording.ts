@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const MAX_RECORDING_DURATION_MS = 2 * 60 * 1000; // 2 minutes
+const MIN_RECORDING_DURATION_MS = 1000; // 1 second minimum hold
 
 export type VoiceRecordingError =
 	| 'permission_denied'
@@ -40,12 +41,14 @@ interface UseVoiceRecordingOptions {
 	onRecordingComplete: (file: File) => void;
 	onMaxDurationReached: () => void;
 	onError: (error: VoiceRecordingError) => void;
+	onPermissionGranted?: () => void;
 }
 
 export const useVoiceRecording = ({
 	onRecordingComplete,
 	onMaxDurationReached,
-	onError
+	onError,
+	onPermissionGranted
 }: UseVoiceRecordingOptions) => {
 	const [isRecording, setIsRecording] = useState(false);
 
@@ -56,11 +59,15 @@ export const useVoiceRecording = ({
 		null
 	);
 	const mimeTypeRef = useRef<string>('');
+	const recordingStartTimeRef = useRef<number>(0);
+	const discardRef = useRef<boolean>(false);
 
 	// Use refs for callbacks to avoid stale closures in MediaRecorder event handlers
 	const onRecordingCompleteRef = useRef(onRecordingComplete);
 	const onMaxDurationReachedRef = useRef(onMaxDurationReached);
 	const onErrorRef = useRef(onError);
+	const onPermissionGrantedRef = useRef(onPermissionGranted);
+	const permissionListenerCleanupRef = useRef<(() => void) | null>(null);
 
 	useEffect(() => {
 		onRecordingCompleteRef.current = onRecordingComplete;
@@ -74,6 +81,39 @@ export const useVoiceRecording = ({
 		onErrorRef.current = onError;
 	}, [onError]);
 
+	useEffect(() => {
+		onPermissionGrantedRef.current = onPermissionGranted;
+	}, [onPermissionGranted]);
+
+	const watchPermission = useCallback(() => {
+		// Clean up any existing listener
+		if (permissionListenerCleanupRef.current) {
+			permissionListenerCleanupRef.current();
+			permissionListenerCleanupRef.current = null;
+		}
+
+		if (!navigator.permissions) return;
+
+		navigator.permissions
+			.query({ name: 'microphone' as PermissionName })
+			.then((status) => {
+				const handleChange = () => {
+					if (status.state === 'granted') {
+						onPermissionGrantedRef.current?.();
+						status.removeEventListener('change', handleChange);
+						permissionListenerCleanupRef.current = null;
+					}
+				};
+				status.addEventListener('change', handleChange);
+				permissionListenerCleanupRef.current = () => {
+					status.removeEventListener('change', handleChange);
+				};
+			})
+			.catch(() => {
+				// navigator.permissions.query not supported for microphone
+			});
+	}, []);
+
 	const cleanupStream = useCallback(() => {
 		if (streamRef.current) {
 			streamRef.current.getTracks().forEach((track) => track.stop());
@@ -85,6 +125,11 @@ export const useVoiceRecording = ({
 		if (maxDurationTimeoutRef.current) {
 			clearTimeout(maxDurationTimeoutRef.current);
 			maxDurationTimeoutRef.current = null;
+		}
+
+		const elapsed = Date.now() - recordingStartTimeRef.current;
+		if (elapsed < MIN_RECORDING_DURATION_MS) {
+			discardRef.current = true;
 		}
 
 		if (
@@ -121,6 +166,8 @@ export const useVoiceRecording = ({
 			});
 			streamRef.current = stream;
 			chunksRef.current = [];
+			discardRef.current = false;
+			recordingStartTimeRef.current = Date.now();
 
 			const mediaRecorder = new MediaRecorder(stream, { mimeType });
 			mediaRecorderRef.current = mediaRecorder;
@@ -133,6 +180,12 @@ export const useVoiceRecording = ({
 
 			mediaRecorder.onstop = () => {
 				cleanupStream();
+
+				if (discardRef.current) {
+					chunksRef.current = [];
+					discardRef.current = false;
+					return;
+				}
 
 				const recordedMimeType = mimeTypeRef.current;
 				const blob = new Blob(chunksRef.current, {
@@ -159,8 +212,9 @@ export const useVoiceRecording = ({
 		} catch {
 			cleanupStream();
 			onErrorRef.current('permission_denied');
+			watchPermission();
 		}
-	}, [cleanupStream, stopRecording]);
+	}, [cleanupStream, stopRecording, watchPermission]);
 
 	// Cleanup on unmount
 	useEffect(() => {
@@ -178,6 +232,9 @@ export const useVoiceRecording = ({
 				streamRef.current
 					.getTracks()
 					.forEach((track) => track.stop());
+			}
+			if (permissionListenerCleanupRef.current) {
+				permissionListenerCleanupRef.current();
 			}
 		};
 	}, []);

@@ -2561,9 +2561,13 @@
 				"text": "Your browser does not support voice recording."
 			},
 			"permission": {
-				"title": "Microphone access denied",
-				"text": "Please allow microphone access in your browser settings to record voice messages."
+				"title": "Microphone permission required",
+				"text": "Please give microphone permission to use the Voice Message feature."
 			}
+		},
+		"permissionGranted": {
+			"title": "Microphone permission granted",
+			"text": "Now you can use Voice Message feature."
 		},
 		"maxDuration": {
 			"title": "Maximum Audio-Message length reached",
