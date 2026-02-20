@@ -39,6 +39,10 @@ All keys follow the existing i18n structure and are added to `common.json`:
 - `login.intro.seoDescription` - Meta description for SEO
 - `login.intro.seoKeywords` - Meta keywords for SEO
 
+### Voice Messages
+- `voiceMessage.tooShort.title` - Notification title when mic button held under 1 second
+- `voiceMessage.tooShort.text` - Instruction to tap and hold the mic button while speaking
+
 ## Notes
 
 - The `legal.back` translation already exists and is reused (not included here)

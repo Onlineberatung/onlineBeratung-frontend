@@ -17,5 +17,11 @@
       "headline": "Anonymer Live-Chat ist gerade verfügbar!",
       "button": "Live-Chat Warteraum betreten"
     }
+  },
+  "voiceMessage": {
+    "tooShort": {
+      "title": "Aufnahme zu kurz",
+      "text": "Um eine Sprachnachricht aufzunehmen, halte die Mikrofon-Taste gedrückt, während du sprichst."
+    }
   }
 }
