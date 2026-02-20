@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { PropsWithChildren } from 'react';
 import { Radio as MuiRadio, FormControlLabel } from '@mui/material';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import './radioButtonMui.styles.scss';
 
 export interface RadioButtonItem {
@@ -28,7 +28,7 @@ export const RadioButtonMui = ({
 }: PropsWithChildren<RadioButtonItem>) => {
 	return (
 		<div
-			className={classNames(
+			className={clsx(
 				`radioButtonMui radioButtonMui--${type}`,
 				className
 			)}

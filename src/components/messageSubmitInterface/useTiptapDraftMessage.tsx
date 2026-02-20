@@ -112,7 +112,11 @@ export const useTiptapDraftMessage = (
 				}
 			}
 
-			await apiPostDraftMessage(groupId, message, encryptType).catch();
+			await apiPostDraftMessage(groupId, message, encryptType).catch(
+			(e) => {
+				console.error('Failed to save draft message:', e);
+			}
+		);
 		},
 		[
 			activeSession.rid,

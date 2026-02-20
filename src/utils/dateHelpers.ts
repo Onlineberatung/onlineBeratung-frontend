@@ -145,11 +145,11 @@ export const addMissingZero = (value: number) => {
 };
 
 export const convertUTCDateToLocalDate = (date: Date) => {
-	var newDate = new Date(
+	const newDate = new Date(
 		date.getTime() + date.getTimezoneOffset() * 60 * 1000
 	);
-	var offset = date.getTimezoneOffset() / 60;
-	var hours = date.getHours();
+	const offset = date.getTimezoneOffset() / 60;
+	const hours = date.getHours();
 	newDate.setHours(hours - offset);
 	return newDate;
 };

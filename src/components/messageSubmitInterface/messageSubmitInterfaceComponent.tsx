@@ -74,7 +74,6 @@ import {
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 import { getIconForAttachmentType } from '../message/messageHelpers';
-import classNames from 'classnames';
 
 const INFO_TYPES = {
 	ABSENT: 'ABSENT',
@@ -884,7 +883,7 @@ export const MessageSubmitInterfaceComponent = ({
 			{activeInfo && <MessageSubmitInfo {...getMessageSubmitInfo()} />}
 			{!isLiveChatFinished && (
 				<form
-					className={classNames('textarea', {
+					className={clsx('textarea', {
 						'textarea--yellowTheme': requestFeedbackCheckboxChecked,
 						'textarea--large': hasRequestFeedbackCheckbox
 					})}

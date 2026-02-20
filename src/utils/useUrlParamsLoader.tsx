@@ -12,7 +12,6 @@ import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
 import { apiGetTopicById } from '../api/apiGetTopicId';
 import { useAppConfig } from '../hooks/useAppConfig';
-import { isString } from 'lodash';
 import { apiGetTopicsData } from '../api/apiGetTopicsData';
 
 export default function useUrlParamsLoader(handleBadRequest?: () => void) {
@@ -38,7 +37,7 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 			let topic = null;
 			if (isNumber(topicIdOrName)) {
 				topic = await apiGetTopicById(topicIdOrName).catch(() => null);
-			} else if (isString(topicIdOrName)) {
+			} else if (typeof topicIdOrName === 'string') {
 				topic = await apiGetTopicsData()
 					.then(
 						(allTopics) =>
