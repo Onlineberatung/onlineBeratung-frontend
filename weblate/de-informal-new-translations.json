@@ -17,5 +17,10 @@
       "headline": "Anonymer Live-Chat ist gerade verfügbar!",
       "button": "Live-Chat Warteraum betreten"
     }
+  },
+  "userProfile": {
+    "data": {
+      "topic": "Beratungsthema"
+    }
   }
 }

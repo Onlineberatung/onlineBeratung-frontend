@@ -25,4 +25,9 @@
       "button": "Live-Chat Warteraum betreten"
     }
   },
-  "login": {
+  "userProfile": {
+    "data": {
+      "topic": "Beratungsthema"
+    }
+  }
+}
