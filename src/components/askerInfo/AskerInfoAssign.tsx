@@ -9,6 +9,7 @@ import {
 import { RequestSessionAssign } from '../sessionAssign/RequestSessionAssign';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
+import { Box, Typography } from '@mui/material';
 
 export const AskerInfoAssign = ({
 	title = 'userProfile.reassign.title'
@@ -23,19 +24,23 @@ export const AskerInfoAssign = ({
 		!activeSession.isLive &&
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
 			<>
-				<Text text={title && translate(title)} type="divider" />
+				<Typography variant="h5">
+					{title && translate(title)}
+				</Typography>
 				<Text
 					className="asker-info-assign__description"
 					text={translate('userProfile.reassign.description')}
 					type="infoSmall"
 				/>
-				<RequestSessionAssign
-					value={
-						activeSession.consultant
-							? activeSession.consultant.id
-							: null
-					}
-				/>
+				<Box sx={{ mt: 2 }}>
+					<RequestSessionAssign
+						value={
+							activeSession.consultant
+								? activeSession.consultant.id
+								: null
+						}
+					/>
+				</Box>
 			</>
 		)
 	);

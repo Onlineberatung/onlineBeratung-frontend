@@ -1,48 +1,43 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { handleNumericTranslation } from '../../utils/translate';
-import {
-	getContact,
-	useConsultingType,
-	ActiveSessionContext
-} from '../../globalState';
+import { getContact, ActiveSessionContext } from '../../globalState';
 import {
 	convertUserDataObjectToArray,
 	getUserDataTranslateBase
 } from '../profile/profileHelpers';
-import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
+import { Box, Typography } from '@mui/material';
+import { TopicSessionInterface } from '../../globalState/interfaces';
 
 export const AskerInfoData = () => {
-	const { t: translate } = useTranslation(['common', 'consultingTypes']);
+	const { t: translate } = useTranslation(['common']);
 	const { activeSession } = useContext(ActiveSessionContext);
 
-	const consultingType = useConsultingType(activeSession.item.consultingType);
-
+	const topicSession = activeSession.item?.topic as TopicSessionInterface;
 	const userSessionData = getContact(activeSession).sessionData;
 	const preparedUserSessionData =
 		convertUserDataObjectToArray(userSessionData);
 
 	return (
 		<>
-			<Text text={translate('userProfile.data.title')} type="divider" />
-			<div className="askerInfo__data__item">
-				<p className="askerInfo__data__label">
-					{translate('userProfile.data.resort')}
-				</p>
-				<p className="askerInfo__data__content">
-					{consultingType
-						? translate(
-								[
-									`consultingType.${consultingType.id}.titles.default`,
-									`consultingType.fallback.titles.default`,
-									consultingType.titles.default
-								],
-								{ ns: 'consultingTypes' }
-							)
-						: ''}
-				</p>
-			</div>
+			<Typography variant="h5">
+				{translate('userProfile.data.title')}
+			</Typography>
+			{topicSession?.id !== undefined && topicSession?.name && (
+				<Box sx={{ mt: 1.5 }}>
+					<Typography
+						variant="caption"
+						color="text.secondary"
+						display="block"
+					>
+						{translate('userProfile.data.topic')}
+					</Typography>
+					<Typography variant="body1">
+						{topicSession.name}
+					</Typography>
+				</Box>
+			)}
 			{activeSession.item.consultingType === 0 &&
 				!activeSession.isLive && (
 					<div className="askerInfo__data__item">
