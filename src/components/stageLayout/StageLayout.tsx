@@ -109,7 +109,7 @@ export const StageLayout = ({
 			<div className="stageLayout__content">{children}</div>
 
 			<div className="stageLayout__footer">
-				{showLegalLinks && <FooterLinks />}
+				{showLegalLinks && <FooterLinks sx={{ justifyContent: 'flex-end' }} />}
 			</div>
 		</div>
 	);
