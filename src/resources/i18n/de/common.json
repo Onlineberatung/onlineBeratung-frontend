@@ -2718,5 +2718,11 @@
 			}
 		},
 		"title": "Rundgang"
+	},
+	"welcome": {
+		"liveChat": {
+			"headline": "Live-Chat ist gerade verfügbar!",
+			"button": "Jetzt Live-Chat betreten"
+		}
 	}
 }

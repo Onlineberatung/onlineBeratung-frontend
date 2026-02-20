@@ -975,5 +975,11 @@
 			}
 		},
 		"subtitle": "Um Dir die einzelnen Funktionen zu erklären, haben wir einen kurzen Rundgang für Dich vorbereitet. <br /> Du kannst ihn jederzeit abbrechen oder in Deinem Profil erneut starten."
+	},
+	"welcome": {
+		"liveChat": {
+			"headline": "Live-Chat ist gerade verfügbar!",
+			"button": "Jetzt Live-Chat betreten"
+		}
 	}
 }
