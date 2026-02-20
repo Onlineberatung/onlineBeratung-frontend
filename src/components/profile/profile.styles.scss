@@ -13,7 +13,6 @@ $maxFormElementWidth: 320px;
 $inputMaxWidth: 500px;
 
 $profile-content-wrapper-detail-button-text-align: center !default;
-$profile-footer-justify-content: center !default;
 
 .profile {
 	&__header &__nav {
@@ -480,38 +479,7 @@ $profile-footer-justify-content: center !default;
 
 	&__footer {
 		flex: 0;
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: row;
-		align-items: center;
-		justify-content: $profile-footer-justify-content;
-		margin-top: auto;
-		padding: $grid-base $grid-base-two;
-		background-color: $profile-imprint-background-color;
 		width: 100%;
-
-		@include from-medium {
-			padding: 0 $grid-base-three;
-		}
-
-		@include from-large {
-			min-height: $imprintHeight;
-			justify-content: flex-end;
-			width: 100%;
-			margin-bottom: unset;
-		}
-
-		&__item {
-			display: inline-block;
-			padding: 4px 0;
-			color: $text-low-emphasis;
-			font-size: 14px;
-			text-decoration: underline;
-		}
-
-		&__separator {
-			display: inline-block;
-			margin: 0 8px;
-		}
+		margin-top: auto;
 	}
 }
