@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { useCallback, useContext, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { apiForwardMessage } from '../../api';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckmarkIcon from '@mui/icons-material/Check';
 import { encryptText } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
-import { E2EEContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
@@ -42,8 +41,6 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 		overlay: e2eeOverlay
 	} = useE2EEViewElements();
 
-	const { isE2eeEnabled } = useContext(E2EEContext);
-
 	const forwardMessage = useCallback(async () => {
 		if (isRequestInProgress) {
 			return null;
@@ -58,7 +55,7 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 		}
 
 		let message = props.message;
-		let isEncrypted = isE2eeEnabled;
+		let isEncrypted = true;
 		try {
 			message = await encryptText(message, keyID, key);
 		} catch (e: any) {
@@ -100,7 +97,6 @@ export const ForwardMessage = (props: ForwardMessageProps) => {
 		props.displayName,
 		props.askerRcId,
 		props.groupId,
-		isE2eeEnabled,
 		key,
 		keyID,
 		encryptRoom,

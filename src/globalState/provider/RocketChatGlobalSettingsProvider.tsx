@@ -4,7 +4,6 @@ import {
 	apiRocketChatSettingsPublic,
 	IBooleanSetting,
 	INumberSetting,
-	SETTING_E2E_ENABLE,
 	SETTING_FILEUPLOAD_MAXFILESIZE,
 	SETTING_HIDE_SYSTEM_MESSAGES,
 	SETTING_MESSAGE_ALLOWDELETING,
@@ -25,7 +24,6 @@ import { ATTACHMENT_MAX_SIZE_IN_MB } from '../../components/messageSubmitInterfa
 import { appConfig } from '../../utils/appConfig';
 
 const SETTINGS_TO_FETCH = [
-	SETTING_E2E_ENABLE,
 	SETTING_MESSAGE_MAXALLOWEDSIZE,
 	SETTING_FILEUPLOAD_MAXFILESIZE,
 	SETTING_MESSAGE_ALLOWDELETING,
@@ -62,8 +60,6 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 		if (settings.length <= 0) {
 			return;
 		}
-		const isE2eeEnabled =
-			getSetting<IBooleanSetting>(SETTING_E2E_ENABLE)?.value ?? false;
 		const configuredInputMaxLength =
 			getSetting<INumberSetting>(SETTING_MESSAGE_MAXALLOWEDSIZE)?.value ??
 			0;
@@ -71,18 +67,14 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 			getSetting<INumberSetting>(SETTING_FILEUPLOAD_MAXFILESIZE)?.value ??
 			0;
 
-		let requiredInputMaxLength = INPUT_MAX_LENGTH;
-
-		if (isE2eeEnabled) {
-			// Calculate required size plus 100 signs as extra space
-			requiredInputMaxLength =
-				(requiredInputMaxLength + VECTOR_LENGTH * 2) * 2 +
-				KEY_ID_LENGTH +
-				MAX_PREFIX_LENGTH +
-				VERSION_SEPERATOR.length +
-				ENCRYPTION_VERSION_ACTIVE.length +
-				100;
-		}
+		// E2EE is always enabled - always calculate encrypted size requirements
+		const requiredInputMaxLength =
+			(INPUT_MAX_LENGTH + VECTOR_LENGTH * 2) * 2 +
+			KEY_ID_LENGTH +
+			MAX_PREFIX_LENGTH +
+			VERSION_SEPERATOR.length +
+			ENCRYPTION_VERSION_ACTIVE.length +
+			100;
 
 		if (configuredInputMaxLength < requiredInputMaxLength) {
 			console.error(
@@ -97,7 +89,7 @@ export const RocketChatGlobalSettingsProvider = (props) => {
 
 		let requiredAttachmentMaxSize = ATTACHMENT_MAX_SIZE_IN_MB;
 
-		if (isE2eeEnabled && appConfig.attachmentEncryption) {
+		if (appConfig.attachmentEncryption) {
 			// Calculate required size plus 100 signs as extra space
 			requiredAttachmentMaxSize =
 				(requiredAttachmentMaxSize * 1024 * 1024 + VECTOR_LENGTH * 2) *

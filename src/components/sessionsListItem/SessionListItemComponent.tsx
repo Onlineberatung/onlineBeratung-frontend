@@ -15,7 +15,6 @@ import {
 } from '../session/sessionHelpers';
 import {
 	AUTHORITIES,
-	E2EEContext,
 	hasUserAuthority,
 	SessionTypeContext,
 	useConsultingType,
@@ -102,7 +101,6 @@ export const SessionListItemComponent = ({
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
-	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { activeSession } = useContext(ActiveSessionContext);
 
 	// Is List Item active
@@ -126,48 +124,31 @@ export const SessionListItemComponent = ({
 			return;
 		}
 
-		if (isE2eeEnabled) {
-			if (!activeSession.item.e2eLastMessage) return;
-			decryptText(
-				activeSession.item.e2eLastMessage.msg,
-				keyID,
-				key,
-				encrypted,
-				activeSession.item.e2eLastMessage.t === 'e2e'
-			)
-				.catch((e): string =>
-					translate(
-						e instanceof MissingKeyError ||
-							e instanceof WrongKeyError
-							? e.message
-							: 'e2ee.message.encryption.error'
-					)
+		if (!activeSession.item.e2eLastMessage) return;
+		decryptText(
+			activeSession.item.e2eLastMessage.msg,
+			keyID,
+			key,
+			encrypted,
+			activeSession.item.e2eLastMessage.t === 'e2e'
+		)
+			.catch((e): string =>
+				translate(
+					e instanceof MissingKeyError ||
+						e instanceof WrongKeyError
+						? e.message
+						: 'e2ee.message.encryption.error'
 				)
-				.then((message) => {
-					setPlainTextLastMessage(extractPlainTextFromMarkdown(message));
-				});
-		} else {
-			if (
-				activeSession.item.e2eLastMessage &&
-				activeSession.item.e2eLastMessage.t === 'e2e'
-			) {
-				setPlainTextLastMessage(
-					translate('e2ee.message.encryption.text')
-				);
-			} else {
-				setPlainTextLastMessage(
-					extractPlainTextFromMarkdown(activeSession.item.lastMessage)
-				);
-			}
-		}
+			)
+			.then((message) => {
+				setPlainTextLastMessage(extractPlainTextFromMarkdown(message));
+			});
 	}, [
-		isE2eeEnabled,
 		key,
 		keyID,
 		encrypted,
 		activeSession.item.groupId,
 		activeSession.item.e2eLastMessage,
-		activeSession.item.lastMessage,
 		translate,
 		ready
 	]);

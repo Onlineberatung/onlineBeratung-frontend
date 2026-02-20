@@ -7,7 +7,6 @@ import {
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	E2EEContext,
 	SessionTypeContext,
 	RocketChatGlobalSettingsContext,
 	ActiveSessionContext
@@ -160,10 +159,8 @@ export const MessageItemComponent = ({
 		string | null | undefined
 	>(null);
 
-	const { isE2eeEnabled } = useContext(E2EEContext);
-
 	useEffect((): void => {
-		if (isE2eeEnabled && message) {
+		if (message) {
 			decryptText(
 				message,
 				e2eeParams.keyID,
@@ -192,7 +189,6 @@ export const MessageItemComponent = ({
 		translate,
 		message,
 		t,
-		isE2eeEnabled,
 		handleDecryptionErrors,
 		e2eeParams.keyID,
 		e2eeParams.key,

@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
 	AUTHORITIES,
-	E2EEContext,
 	hasUserAuthority,
 	SessionTypeContext,
 	useConsultingType,
@@ -67,7 +66,6 @@ export const JoinGroupChatView = ({
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
-	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { path: listPath } = useContext(SessionTypeContext);
 	const { keyID, sessionKeyExportedString, encrypted, ready } = useE2EE(
 		activeSession.rid
@@ -150,7 +148,7 @@ export const JoinGroupChatView = ({
 	);
 
 	const handleEncryptRoom = useCallback(async () => {
-		if (!isE2eeEnabled || encrypted || activeSession?.item?.active) {
+		if (encrypted || activeSession?.item?.active) {
 			return;
 		}
 
@@ -177,7 +175,6 @@ export const JoinGroupChatView = ({
 			return;
 		}
 	}, [
-		isE2eeEnabled,
 		encrypted,
 		activeSession?.item?.active,
 		activeSession.rid,

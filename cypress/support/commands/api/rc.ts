@@ -3,7 +3,6 @@
  */
 import { endpoints } from '../../../../src/resources/scripts/endpoints';
 import {
-	SETTING_E2E_ENABLE,
 	SETTING_FILEUPLOAD_MAXFILESIZE,
 	SETTING_MESSAGE_MAXALLOWEDSIZE
 } from '../../../../src/api/apiRocketChatSettingsPublic';
@@ -52,7 +51,7 @@ const rcApi = (cy, getWillReturn, setWillReturn) => {
 		`${endpoints.rc.settings.public}*`,
 		JSON.stringify({
 			settings: [
-				{ _id: SETTING_E2E_ENABLE, value: true, enterprise: false },
+				{ _id: 'E2E_Enable', value: true, enterprise: false },
 				{
 					_id: SETTING_MESSAGE_MAXALLOWEDSIZE,
 					value: 999999,

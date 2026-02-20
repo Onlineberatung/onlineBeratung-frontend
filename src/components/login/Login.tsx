@@ -19,7 +19,6 @@ import clsx from 'clsx';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	RocketChatGlobalSettingsContext,
 	TenantContext,
 	UserDataContext,
 	LocaleContext,
@@ -41,10 +40,6 @@ import {
 	VALIDITY_VALID
 } from '../registration/registrationHelpers';
 import { TwoFactorAuthResendMail } from '../twoFactorAuth/TwoFactorAuthResendMail';
-import {
-	IBooleanSetting,
-	SETTING_E2E_ENABLE
-} from '../../api/apiRocketChatSettingsPublic';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import {
@@ -75,7 +70,6 @@ export const Login = () => {
 
 	const { locale, initLocale } = useContext(LocaleContext);
 	const { tenant } = useContext(TenantContext);
-	const { getSetting } = useContext(RocketChatGlobalSettingsContext);
 	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { Stage } = useContext(GlobalComponentContext);
 	const gcid = useSearchParam<string>('gcid');
@@ -437,17 +431,8 @@ export const Login = () => {
 	);
 
 	const onPasswordResetClick = (e) => {
-		if (getSetting<IBooleanSetting>(SETTING_E2E_ENABLE)?.value) {
-			e.preventDefault();
-			setPwResetOverlayActive(true);
-			return;
-		}
-		setValueInCookie(
-			'KEYCLOAK_LOCALE',
-			locale,
-			endpoints.loginResetPasswordLink.split('/').slice(0, -1).join('/')
-		);
-		window.open(endpoints.loginResetPasswordLink, '_self', 'noreferrer');
+		e.preventDefault();
+		setPwResetOverlayActive(true);
 	};
 
 	return (

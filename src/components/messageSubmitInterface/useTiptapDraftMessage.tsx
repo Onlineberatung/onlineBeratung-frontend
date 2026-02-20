@@ -8,7 +8,7 @@ import {
 import { decryptText, encryptText } from '../../utils/encryptionHelpers';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EE } from '../../hooks/useE2EE';
-import { E2EEContext, ActiveSessionContext } from '../../globalState';
+import { ActiveSessionContext } from '../../globalState';
 import { EVENT_PRE_LOGOUT } from '../logout/logout';
 import {
 	addEventListener,
@@ -22,7 +22,6 @@ export const useTiptapDraftMessage = (
 	loadFunction: (markdown: string) => void
 ) => {
 	const { activeSession } = useContext(ActiveSessionContext);
-	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const draftSaveTimeout = useRef<NodeJS.Timeout | null>(null);
 	const willUnmount = useRef(false);
@@ -62,7 +61,7 @@ export const useTiptapDraftMessage = (
 			return;
 		}
 
-		if (!isE2eeEnabled || messageRes.t !== 'e2e') {
+		if (messageRes.t !== 'e2e') {
 			loadFunction(messageRes.message);
 			setMessage(messageRes.message);
 			setLoaded(true);
@@ -83,7 +82,7 @@ export const useTiptapDraftMessage = (
 				setMessage(msg);
 				setLoaded(true);
 			});
-	}, [messageRes, encrypted, isE2eeEnabled, key, keyID, ready, loadFunction]);
+	}, [messageRes, encrypted, key, keyID, ready, loadFunction]);
 
 	const saveDraftMessage = useCallback(
 		async (draftMessage) => {
@@ -93,7 +92,7 @@ export const useTiptapDraftMessage = (
 			const groupId = activeSession.rid;
 			let message = draftMessage ?? '';
 			let encryptType = '';
-			if (isE2eeEnabled && keyID && key && draftMessage) {
+			if (keyID && key && draftMessage) {
 				try {
 					message = await encryptText(
 						draftMessage,
@@ -117,7 +116,6 @@ export const useTiptapDraftMessage = (
 		[
 			activeSession.rid,
 			loaded,
-			isE2eeEnabled,
 			enabled,
 			key,
 			keyID

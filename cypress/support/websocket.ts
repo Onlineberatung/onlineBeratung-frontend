@@ -1,7 +1,6 @@
 import { WebSocket, Server, Client } from 'mock-socket';
 import { getSessions } from './commands';
 import {
-	SETTING_E2E_ENABLE,
 	SETTING_FILEUPLOAD_MAXFILESIZE,
 	SETTING_MESSAGE_MAXALLOWEDSIZE
 } from '../../src/api/apiRocketChatSettingsPublic';
@@ -238,7 +237,7 @@ export const startWebSocketServer = () => {
 									msg: 'result',
 									result: [
 										{
-											_id: SETTING_E2E_ENABLE,
+											_id: 'E2E_Enable',
 											value: true,
 											enterprise: false
 										},
