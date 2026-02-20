@@ -196,6 +196,8 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			overflow: hidden;
 			svg {
 				transform: translate(0);
+				fill: var(--text-color-contrast-switch, $white);
+				color: var(--text-color-contrast-switch, $white);
 			}
 			&:hover {
 				background-color: var(

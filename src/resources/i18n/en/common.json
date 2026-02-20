@@ -2523,7 +2523,8 @@
 			"relation": "Background",
 			"resort": "Department",
 			"state": "State",
-			"title": "Information of the person seeking advice"
+			"title": "Information of the person seeking advice",
+			"topic": "Consulting topic"
 		},
 		"reassign": {
 			"description": "You can assign the conversation to another team member. This person is then responsible for the person seeking advice.",

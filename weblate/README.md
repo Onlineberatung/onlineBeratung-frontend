@@ -7,7 +7,7 @@ This folder contains translation files for import into Weblate for localization 
 ### de-new-translations.json
 German (formal) translations for new strings added in this PR.
 
-### de-informal-new-translations.json  
+### de-informal-new-translations.json
 German (informal/Du) translations for new strings added in this PR.
 
 ## Usage
@@ -34,10 +34,13 @@ All keys follow the existing i18n structure and are added to `common.json`:
 - `registration.intro.seoDescription` - Meta description for SEO
 - `registration.intro.seoKeywords` - Meta keywords for SEO
 
-### Login Flow  
+### Login Flow
 - `login.headline` - Page title for login (already exists, included for completeness)
 - `login.intro.seoDescription` - Meta description for SEO
 - `login.intro.seoKeywords` - Meta keywords for SEO
+
+### User Profile / Asker Info
+- `userProfile.data.topic` - Label for the consulting topic field in the asker info panel
 
 ## Notes
 
