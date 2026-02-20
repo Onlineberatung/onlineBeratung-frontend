@@ -73,7 +73,7 @@ export const useTiptapDraftMessage = (
 			messageRes.message,
 			keyID,
 			key,
-			encrypted,
+			encrypted || messageRes.t === 'e2e',
 			messageRes.t === 'e2e',
 			'enc.'
 		)
@@ -93,7 +93,7 @@ export const useTiptapDraftMessage = (
 			const groupId = activeSession.rid;
 			let message = draftMessage ?? '';
 			let encryptType = '';
-			if (isE2eeEnabled && encrypted && draftMessage) {
+			if (isE2eeEnabled && keyID && key && draftMessage) {
 				try {
 					message = await encryptText(
 						draftMessage,
@@ -117,7 +117,6 @@ export const useTiptapDraftMessage = (
 		[
 			activeSession.rid,
 			loaded,
-			encrypted,
 			isE2eeEnabled,
 			enabled,
 			key,
