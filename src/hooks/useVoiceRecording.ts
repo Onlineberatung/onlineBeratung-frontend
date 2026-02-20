@@ -42,13 +42,15 @@ interface UseVoiceRecordingOptions {
 	onMaxDurationReached: () => void;
 	onError: (error: VoiceRecordingError) => void;
 	onPermissionGranted?: () => void;
+	onTooShort?: () => void;
 }
 
 export const useVoiceRecording = ({
 	onRecordingComplete,
 	onMaxDurationReached,
 	onError,
-	onPermissionGranted
+	onPermissionGranted,
+	onTooShort
 }: UseVoiceRecordingOptions) => {
 	const [isRecording, setIsRecording] = useState(false);
 
@@ -61,12 +63,14 @@ export const useVoiceRecording = ({
 	const mimeTypeRef = useRef<string>('');
 	const recordingStartTimeRef = useRef<number>(0);
 	const discardRef = useRef<boolean>(false);
+	const abortedRef = useRef<boolean>(false);
 
 	// Use refs for callbacks to avoid stale closures in MediaRecorder event handlers
 	const onRecordingCompleteRef = useRef(onRecordingComplete);
 	const onMaxDurationReachedRef = useRef(onMaxDurationReached);
 	const onErrorRef = useRef(onError);
 	const onPermissionGrantedRef = useRef(onPermissionGranted);
+	const onTooShortRef = useRef(onTooShort);
 	const permissionListenerCleanupRef = useRef<(() => void) | null>(null);
 
 	useEffect(() => {
@@ -84,6 +88,10 @@ export const useVoiceRecording = ({
 	useEffect(() => {
 		onPermissionGrantedRef.current = onPermissionGranted;
 	}, [onPermissionGranted]);
+
+	useEffect(() => {
+		onTooShortRef.current = onTooShort;
+	}, [onTooShort]);
 
 	const watchPermission = useCallback(() => {
 		// Clean up any existing listener
@@ -127,20 +135,23 @@ export const useVoiceRecording = ({
 			maxDurationTimeoutRef.current = null;
 		}
 
+		// If recording hasn't actually started yet (e.g. waiting for
+		// permission dialog), mark as aborted so startRecording won't
+		// proceed once getUserMedia resolves.
+		if (!mediaRecorderRef.current || mediaRecorderRef.current.state !== 'recording') {
+			abortedRef.current = true;
+			cleanupStream();
+			setIsRecording(false);
+			return;
+		}
+
 		const elapsed = Date.now() - recordingStartTimeRef.current;
 		if (elapsed < MIN_RECORDING_DURATION_MS) {
 			discardRef.current = true;
+			onTooShortRef.current?.();
 		}
 
-		if (
-			mediaRecorderRef.current &&
-			mediaRecorderRef.current.state === 'recording'
-		) {
-			mediaRecorderRef.current.stop();
-		} else {
-			cleanupStream();
-		}
-
+		mediaRecorderRef.current.stop();
 		setIsRecording(false);
 	}, [cleanupStream]);
 
@@ -159,11 +170,23 @@ export const useVoiceRecording = ({
 			return;
 		}
 		mimeTypeRef.current = mimeType;
+		abortedRef.current = false;
 
 		try {
 			const stream = await navigator.mediaDevices.getUserMedia({
 				audio: true
 			});
+
+			// If the user released the button while the permission
+			// dialog was open, don't start recording. Show the
+			// permission-granted notification instead so they know
+			// they can try again.
+			if (abortedRef.current) {
+				stream.getTracks().forEach((track) => track.stop());
+				onPermissionGrantedRef.current?.();
+				return;
+			}
+
 			streamRef.current = stream;
 			chunksRef.current = [];
 			discardRef.current = false;

@@ -2572,6 +2572,10 @@
 		"maxDuration": {
 			"title": "Maximum Audio-Message length reached",
 			"text": "The recording was stopped automatically after 2 minutes."
+		},
+		"tooShort": {
+			"title": "Recording too short",
+			"text": "To record an Audio Message, tap and hold the microphone button while you are speaking."
 		}
 	},
 	"videoCall": {

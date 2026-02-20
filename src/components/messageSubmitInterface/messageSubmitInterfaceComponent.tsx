@@ -774,11 +774,20 @@ export const MessageSubmitInterfaceComponent = ({
 		});
 	}, [addNotification, translate]);
 
+	const handleVoiceTooShort = useCallback(() => {
+		addNotification({
+			notificationType: NOTIFICATION_TYPE_INFO,
+			title: translate('voiceMessage.tooShort.title'),
+			text: translate('voiceMessage.tooShort.text')
+		});
+	}, [addNotification, translate]);
+
 	const { isRecording, startRecording, stopRecording } = useVoiceRecording({
 		onRecordingComplete: handleVoiceRecordingComplete,
 		onMaxDurationReached: handleVoiceRecordingMaxDuration,
 		onError: handleVoiceRecordingError,
-		onPermissionGranted: handleVoicePermissionGranted
+		onPermissionGranted: handleVoicePermissionGranted,
+		onTooShort: handleVoiceTooShort
 	});
 
 	const handleLargeAttachments = useCallback(() => {

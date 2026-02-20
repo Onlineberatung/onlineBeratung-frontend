@@ -2607,6 +2607,10 @@
 		"maxDuration": {
 			"title": "Maximale Audio-Nachricht Länge erreicht",
 			"text": "Die Aufnahme wurde nach 2 Minuten automatisch gestoppt."
+		},
+		"tooShort": {
+			"title": "Aufnahme zu kurz",
+			"text": "Um eine Sprachnachricht aufzunehmen, halten Sie die Mikrofon-Taste gedrückt, während Sie sprechen."
 		}
 	},
 	"videoCall": {
