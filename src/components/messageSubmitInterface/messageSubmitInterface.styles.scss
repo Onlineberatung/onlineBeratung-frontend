@@ -190,10 +190,11 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			border-radius: $grid-base-three;
 			cursor: pointer;
 			background-color: var(--skin-color-primary, $primary);
-			margin: 0 0 4px 14px;
+			margin: 0 0 10px 14px;
 			align-self: flex-end;
 			transition: background-color 0.6s ease;
 			overflow: hidden;
+			color: var(--text-color-contrast-switch, $white);
 			svg {
 				transform: translate(0);
 				fill: var(--text-color-contrast-switch, $white);
@@ -255,6 +256,31 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 
 				svg rect {
 					fill: $form-primary;
+				}
+			}
+
+			&--mic .textarea__icon {
+				margin-left: 12px;
+			}
+
+			&--recording {
+				background-color: #d32f2f;
+				animation: micPulse 1s ease-in-out infinite;
+
+				&:hover {
+					background-color: #b71c1c;
+				}
+			}
+
+			@keyframes micPulse {
+				0% {
+					box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.4);
+				}
+				70% {
+					box-shadow: 0 0 0 10px rgba(211, 47, 47, 0);
+				}
+				100% {
+					box-shadow: 0 0 0 0 rgba(211, 47, 47, 0);
 				}
 			}
 		}

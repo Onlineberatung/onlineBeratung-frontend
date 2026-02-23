@@ -264,6 +264,7 @@
 				"pdf": "PDF",
 				"png": "PNG",
 				"wav": "WAV",
+				"webm": "WEBM",
 				"xlsx": "XLSX"
 			}
 		}
@@ -2549,6 +2550,33 @@
 				"title": "See what content has been shared with you here."
 			},
 			"title": "Tools"
+		}
+	},
+	"voiceMessage": {
+		"button": {
+			"title": "Record voice message"
+		},
+		"error": {
+			"notSupported": {
+				"title": "Voice recording not available",
+				"text": "Your browser does not support voice recording."
+			},
+			"permission": {
+				"title": "Microphone permission required",
+				"text": "Please give microphone permission to use the Voice Message feature."
+			}
+		},
+		"permissionGranted": {
+			"title": "Microphone permission granted",
+			"text": "Now you can use Voice Message feature."
+		},
+		"maxDuration": {
+			"title": "Maximum Audio-Message length reached",
+			"text": "The recording was stopped automatically after 2 minutes."
+		},
+		"tooShort": {
+			"title": "Recording too short",
+			"text": "To record an Audio Message, tap and hold the microphone button while you are speaking."
 		}
 	},
 	"videoCall": {

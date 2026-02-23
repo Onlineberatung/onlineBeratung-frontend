@@ -23,5 +23,11 @@
     "data": {
       "topic": "Beratungsthema"
     }
+  },
+  "voiceMessage": {
+    "tooShort": {
+      "title": "Aufnahme zu kurz",
+      "text": "Um eine Sprachnachricht aufzunehmen, halten Sie die Mikrofon-Taste gedrückt, während Sie sprechen."
+    }
   }
 }
