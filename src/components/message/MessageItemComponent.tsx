@@ -27,7 +27,6 @@ import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import { Text } from '../text/Text';
 import './message.styles.scss';
-import { Appointment } from './Appointment';
 import { decryptText, MissingKeyError } from '../../utils/encryptionHelpers';
 import { e2eeParams } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
@@ -298,8 +297,6 @@ export const MessageItemComponent = ({
 		alias?.messageType === ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT;
 	const isMasterKeyLostMessage =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
-	const isAppointmentDefined =
-		alias?.messageType === ALIAS_MESSAGE_TYPES.INITIAL_APPOINTMENT_DEFINED;
 	const isFullWidthMessage =
 		isVideoCallMessage && !videoCallMessage?.eventType;
 
@@ -314,10 +311,6 @@ export const MessageItemComponent = ({
 
 	const isTeamSession = activeSession?.item?.isTeamSession;
 	const isMySession = activeSession?.consultant?.id === userData?.userId;
-	const isAppointmentSet =
-		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_SET ||
-		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED ||
-		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_CANCELLED;
 	const isDeleteMessage = t === 'rm';
 	const isRoomRemovedReadOnly = t === 'room-removed-read-only';
 	const isRoomSetReadOnly = t === 'room-set-read-only';
@@ -388,13 +381,6 @@ export const MessageItemComponent = ({
 				return <FurtherSteps />;
 			case isUpdateSessionDataMessage:
 				return <FurtherSteps />;
-			case isAppointmentSet:
-				return (
-					<Appointment
-						data={alias.content}
-						messageType={alias.messageType}
-					/>
-				);
 			case isFinishedConversationMessage:
 				return (
 					<span className="messageItem__message--system">
@@ -505,7 +491,6 @@ export const MessageItemComponent = ({
 
 	if (
 		isUserMutedMessage ||
-		isAppointmentDefined ||
 		isRoomRemovedReadOnly ||
 		isRoomSetReadOnly
 	)

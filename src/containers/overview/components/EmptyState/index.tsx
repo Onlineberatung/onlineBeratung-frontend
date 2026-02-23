@@ -1,14 +1,12 @@
 import React, { useMemo } from 'react';
 import CheckmarkIcon from '../../../../resources/img/illustrations/checkmark.svg?react';
 import MailIcon from '../../../../resources/img/illustrations/mail-icon.svg?react';
-import TermineIcon from '../../../../resources/img/illustrations/termine-icon.svg?react';
 import './emptyState.styles.scss';
 import { useTranslation } from 'react-i18next';
 
 export enum EmptyType {
 	Checkmark = 'checkmark',
-	MailIcon = 'mail',
-	Termine = 'termine'
+	MailIcon = 'mail'
 }
 
 export const EmptyState = ({
@@ -25,8 +23,6 @@ export const EmptyState = ({
 				return [CheckmarkIcon, translate('overview.myMessagesEmpty')];
 			case EmptyType.MailIcon:
 				return [MailIcon, translate('overview.myMessagesEmpty')];
-			case EmptyType.Termine:
-				return [TermineIcon, translate('overview.appointmentsEmpty')];
 		}
 	}, [translate, type]);
 

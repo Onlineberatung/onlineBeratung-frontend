@@ -1,7 +1,5 @@
 export * from './AppConfig';
-export * from './AppointmentsDataInterface';
 export * from './AuthDataInterface';
-export * from './BookingsInterface';
 export * from './ConsultingSessionDataInterface';
 export * from './ConsultingTypeInterface';
 export * from './E2EEDataInterface';
@@ -13,4 +11,3 @@ export * from './TenantDataInterface';
 export * from './TopicsDataInterface';
 export * from './TranslationConfig';
 export * from './UserDataInterface';
-export * from './VideoCallDataInterface';

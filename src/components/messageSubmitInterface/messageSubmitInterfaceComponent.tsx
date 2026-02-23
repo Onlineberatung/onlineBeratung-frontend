@@ -49,7 +49,7 @@ import ClipIcon from '@mui/icons-material/AttachFile';
 import RichtextToggleIcon from '@mui/icons-material/FormatSize';
 import EmojiIcon from '@mui/icons-material/EmojiEmotions';
 import RemoveIcon from '@mui/icons-material/Close';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+
 import MicIcon from '@mui/icons-material/Mic';
 import './emojiPicker.styles.scss';
 import './messageSubmitInterface.styles.scss';
@@ -155,7 +155,6 @@ export const MessageSubmitInterfaceComponent = ({
 	const [isLiveChatFinished, setIsLiveChatFinished] = useState(
 		activeSession.isLive && activeSession.item.status === STATUS_FINISHED
 	);
-	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
 	const [emojiAnchorEl, setEmojiAnchorEl] =
 		useState<Element | null>(null);
 	const [insertEmojiFunc, setInsertEmojiFunc] = useState<
@@ -281,9 +280,6 @@ export const MessageSubmitInterfaceComponent = ({
 			return;
 		}
 
-		if (activeSession.isEmptyEnquiry) {
-			setShowAppointmentButton(userData.appointmentFeatureEnabled);
-		}
 	}, [activeSession?.isEmptyEnquiry, userData]);
 
 	const removeSelectedAttachment = useCallback(() => {
@@ -854,23 +850,11 @@ export const MessageSubmitInterfaceComponent = ({
 		return infoData;
 	}, [activeInfo, activeSession, translate]);
 
-	const handleBookingButton = useCallback(() => {
-		history.push('/booking/');
-	}, [history]);
-
 	const hasUploadFunctionality =
 		(type !== SESSION_LIST_TYPES.ENQUIRY ||
 			(type === SESSION_LIST_TYPES.ENQUIRY &&
 				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData))) &&
 		!tenant?.settings?.featureAttachmentUploadDisabled;
-
-	const bookingButton: ButtonItem = useMemo(
-		() => ({
-			label: translate('message.submit.booking.buttonLabel'),
-			type: BUTTON_TYPES.PRIMARY
-		}),
-		[translate]
-	);
 
 	const getAttachmentIcon = useCallback((type: string) => {
 		const Icon = getIconForAttachmentType(type);
@@ -1082,24 +1066,7 @@ export const MessageSubmitInterfaceComponent = ({
 								)}
 							</div>
 						</div>
-						{showAppointmentButton && (
-							<div className="textarea__wrapper-booking">
-								<Headline
-									semanticLevel="5"
-									text={translate(
-										'message.submit.booking.headline'
-									)}
-									className="textarea__wrapper-booking-headline"
-								/>
-								<Button
-									item={bookingButton}
-									isLink={true}
-									buttonHandle={handleBookingButton}
-									customIcon={<CalendarMonthIcon />}
-								/>
-							</div>
-						)}
-					</div>
+						</div>
 					{hasUploadFunctionality && (
 						<input
 							ref={attachmentInputRef}

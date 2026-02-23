@@ -17,8 +17,6 @@ import { Profile } from '../profile/Profile';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
-import { Appointments } from '../appointment/Appointments';
-import VideoConference from '../videoConference/VideoConference';
 import { AUTHORITIES, hasUserAuthority } from '../../globalState';
 import { AppConfigInterface } from '../../globalState/interfaces';
 
@@ -32,14 +30,8 @@ import TeamsIconOutline from '@mui/icons-material/GroupOutlined';
 import TeamsIconFilled from '@mui/icons-material/Group';
 import ProfilIconOutline from '@mui/icons-material/PersonOutlined';
 import ProfilIconFilled from '@mui/icons-material/Person';
-import CalendarIconOutline from '@mui/icons-material/CalendarTodayOutlined';
-import CalendarIconFilled from '@mui/icons-material/CalendarToday';
 import { OverviewPage } from '../../containers/overview/overview';
-import { Booking } from '../../containers/bookings/components/Booking/booking';
-import { BookingCancellation } from '../../containers/bookings/components/BookingCancellation/bookingCancellation';
-import { BookingEvents } from '../../containers/bookings/components/BookingEvents/bookingEvents';
-import { BookingReschedule } from '../../containers/bookings/components/BookingReschedule/bookingReschedule';
-import { hasVideoCallFeature } from '../../utils/videoCallHelpers';
+
 
 const SessionView = lazy(() =>
 	import('../session/SessionView').then((m) => ({ default: m.SessionView }))
@@ -47,42 +39,6 @@ const SessionView = lazy(() =>
 const WriteEnquiry = lazy(() =>
 	import('../enquiry/WriteEnquiry').then((m) => ({ default: m.WriteEnquiry }))
 );
-
-const showAppointmentsMenuItem = (userData, hasAssignedConsultant) => {
-	return (
-		userData.appointmentFeatureEnabled &&
-		(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
-			(hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				hasAssignedConsultant))
-	);
-};
-
-const isVideoAppointmentsEnabled = (
-	userData,
-	consultingTypes,
-	disableVideoAppointments
-) =>
-	!disableVideoAppointments && hasVideoCallFeature(userData, consultingTypes);
-
-const appointmentRoutes = [
-	{
-		path: '/booking',
-		component: Booking
-	},
-	{
-		path: '/booking/cancellation',
-		component: BookingCancellation
-	},
-	{
-		path: '/booking/reschedule',
-		component: BookingReschedule
-	},
-	{
-		path: '/booking/events',
-		exact: false,
-		component: BookingEvents
-	}
-];
 
 const overviewRoute = (settings: AppConfigInterface) => ({
 	condition: () => settings.useOverviewPage && isDesktop,
@@ -96,7 +52,7 @@ const overviewRoute = (settings: AppConfigInterface) => ({
 
 export const RouterConfigUser = (
 	_settings: AppConfigInterface,
-	hasAssignedConsultant: boolean
+	_hasAssignedConsultant: boolean
 ): any => {
 	return {
 		navigation: [
@@ -115,16 +71,6 @@ export const RouterConfigUser = (
 				iconFilled: ProfilIconFilled,
 				titleKeys: {
 					large: 'navigation.profile'
-				}
-			},
-			{
-				condition: (userData) =>
-					showAppointmentsMenuItem(userData, hasAssignedConsultant),
-				to: '/booking/events',
-				icon: CalendarIconOutline,
-				iconFilled: CalendarIconFilled,
-				titleKeys: {
-					large: 'navigation.booking.events'
 				}
 			}
 		],
@@ -186,21 +132,12 @@ export const RouterConfigUser = (
 				exact: false,
 				component: Profile
 			}
-		],
-		appointmentRoutes
+		]
 	};
 };
 
 export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 	return {
-		plainRoutes: [
-			{
-				condition: hasVideoCallFeature,
-				path: settings.urls.consultantVideoConference,
-				exact: true,
-				component: VideoConference
-			}
-		],
 		navigation: [
 			overviewRoute(settings),
 			{
@@ -221,34 +158,11 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 				}
 			},
 			{
-				condition: (userData, consultingTypes) =>
-					isVideoAppointmentsEnabled(
-						userData,
-						consultingTypes,
-						settings.disableVideoAppointments
-					),
-				to: '/termine',
-				icon: CalendarIconOutline,
-				iconFilled: CalendarIconFilled,
-				titleKeys: {
-					large: 'navigation.appointments'
-				}
-			},
-			{
 				to: '/profile',
 				icon: ProfilIconOutline,
 				iconFilled: ProfilIconFilled,
 				titleKeys: {
 					large: 'navigation.profile'
-				}
-			},
-			{
-				condition: showAppointmentsMenuItem,
-				to: '/booking/events',
-				icon: CalendarIconOutline,
-				iconFilled: CalendarIconFilled,
-				titleKeys: {
-					large: 'navigation.booking.events'
 				}
 			}
 		],
@@ -267,7 +181,6 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 					SESSION_TYPE_SESSION,
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
-	
 					SESSION_TYPE_TEAMSESSION
 				],
 				type: SESSION_LIST_TYPES.MY_SESSION,
@@ -342,20 +255,8 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 				path: '/profile',
 				exact: false,
 				component: Profile
-			},
-			{
-				condition: (userData, consultingTypes) =>
-					isVideoAppointmentsEnabled(
-						userData,
-						consultingTypes,
-						settings.disableVideoAppointments
-					),
-				path: '/termine',
-				exact: false,
-				component: Appointments
 			}
-		],
-		appointmentRoutes
+		]
 	};
 };
 
@@ -363,14 +264,6 @@ export const RouterConfigTeamConsultant = (
 	settings: AppConfigInterface
 ): any => {
 	return {
-		plainRoutes: [
-			{
-				condition: hasVideoCallFeature,
-				path: settings.urls.consultantVideoConference,
-				exact: true,
-				component: VideoConference
-			}
-		],
 		navigation: [
 			overviewRoute(settings),
 			{
@@ -400,29 +293,6 @@ export const RouterConfigTeamConsultant = (
 				}
 			},
 			{
-				condition: (userData, consultingTypes) =>
-					isVideoAppointmentsEnabled(
-						userData,
-						consultingTypes,
-						settings.disableVideoAppointments
-					),
-				to: '/termine',
-				icon: CalendarIconOutline,
-				iconFilled: CalendarIconFilled,
-				titleKeys: {
-					large: 'navigation.appointments'
-				}
-			},
-			{
-				condition: showAppointmentsMenuItem,
-				to: '/booking/events',
-				icon: CalendarIconOutline,
-				iconFilled: CalendarIconFilled,
-				titleKeys: {
-					large: 'navigation.booking.events'
-				}
-			},
-			{
 				to: '/profile',
 				icon: ProfilIconOutline,
 				iconFilled: ProfilIconFilled,
@@ -446,7 +316,6 @@ export const RouterConfigTeamConsultant = (
 					SESSION_TYPE_SESSION,
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
-	
 					SESSION_TYPE_TEAMSESSION
 				],
 				type: SESSION_LIST_TYPES.MY_SESSION,
@@ -459,7 +328,6 @@ export const RouterConfigTeamConsultant = (
 					SESSION_TYPE_SESSION,
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
-	
 					SESSION_TYPE_TEAMSESSION
 				],
 				type: SESSION_LIST_TYPES.TEAMSESSION,
@@ -564,20 +432,8 @@ export const RouterConfigTeamConsultant = (
 				path: '/profile',
 				exact: false,
 				component: Profile
-			},
-			{
-				condition: (userData, consultingTypes) =>
-					isVideoAppointmentsEnabled(
-						userData,
-						consultingTypes,
-						settings.disableVideoAppointments
-					),
-				path: '/termine',
-				exact: false,
-				component: Appointments
 			}
-		],
-		appointmentRoutes
+		]
 	};
 };
 
@@ -637,15 +493,6 @@ export const RouterConfigAnonymousAsker = (): any => {
 				path: '/sessions/user/view/',
 				component: SessionViewEmpty,
 				type: SESSION_LIST_TYPES.MY_SESSION
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
 			}
 		]
 	};

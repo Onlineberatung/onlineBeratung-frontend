@@ -1,6 +1,5 @@
 export interface AppConfigUrlsInterface {
 	chatScheduleUrl: string;
-	consultantVideoConference: string;
 	error401: string;
 	error404: string;
 	error500: string;
@@ -14,5 +13,4 @@ export interface AppConfigUrlsInterface {
 	toLogin: string;
 	toRegistration: string;
 	videoCall: string;
-	videoConference: string;
 }

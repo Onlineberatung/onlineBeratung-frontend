@@ -25,10 +25,7 @@ export const routePathNames = {
 };
 
 export const config: AppConfigInterface = {
-	calcomUrl: '',
-	calendarAppUrl: '',
 	enableWalkthrough: true, // Feature flag to enable walkthrough
-	disableVideoAppointments: true, // Feature flag to enable Video-Termine page
 	multitenancyWithSingleDomainEnabled: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
 	useTenantService: true,
 	useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
@@ -45,8 +42,6 @@ export const config: AppConfigInterface = {
 	},
 	urls: {
 		chatScheduleUrl: '',
-		consultantVideoConference:
-			'/consultant/videoberatung/:type/:appointmentId',
 		error401: uiUrl + '/error.401.html',
 		error404: uiUrl + '/error.404.html',
 		error500: uiUrl + '/error.500.html',
@@ -59,8 +54,7 @@ export const config: AppConfigInterface = {
 		toEntry: uiUrl + '/login',
 		toLogin: uiUrl + '/login',
 		toRegistration: uiUrl + '/beratung/registration',
-		videoCall: '/videoanruf/:domain/:jwt/:video?/:username?/:e2e?',
-		videoConference: '/videoberatung/:type/:appointmentId'
+		videoCall: '/videoanruf/:domain/:jwt/:video?/:username?/:e2e?'
 	},
 	groupChat: {
 		info: {

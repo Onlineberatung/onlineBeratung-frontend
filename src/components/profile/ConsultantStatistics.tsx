@@ -18,7 +18,6 @@ import { CSVLink } from 'react-csv';
 import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import { getTenantSettings } from '../../utils/tenantSettingsHelper';
 import { Box as MuiBox, Stack, Typography } from '@mui/material';
 
 const statisticsPeriodOptionCurrentMonth = 'currentMonth';
@@ -74,8 +73,6 @@ export const ConsultantStatistics = () => {
 	const [selectedStatistics, setSelectedStatistics] =
 		useState<ConsultantStatisticsDTO>(null);
 	const [csvData, setCsvData] = useState([]);
-	const { featureAppointmentsEnabled } = getTenantSettings();
-
 	const csvHeaders = [
 		{
 			label: translate(
@@ -98,14 +95,8 @@ export const ConsultantStatistics = () => {
 		{
 			label: translate('profile.statistics.csvHeader.videoCallDuration'),
 			key: 'videoCallDuration'
-		},
-		featureAppointmentsEnabled && {
-			label: translate(
-				'profile.statistics.csvHeader.numberOfAppointments'
-			),
-			key: 'numberOfAppointments'
 		}
-	].filter(Boolean);
+	];
 
 	const statisticsPeriodOptions: {
 		value: statisticOptions;
@@ -186,10 +177,7 @@ export const ConsultantStatistics = () => {
 						videoCallDuration:
 							videoCallDurationMinutes +
 							':' +
-							videoCallDurationSeconds,
-						numberOfAppointments:
-							featureAppointmentsEnabled &&
-							response.numberOfAppointments
+							videoCallDurationSeconds
 					}
 				];
 

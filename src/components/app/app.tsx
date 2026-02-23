@@ -59,9 +59,6 @@ const WaitingRoomLoader = lazy(() =>
 		default: m.WaitingRoomLoader
 	}))
 );
-const VideoConference = lazy(
-	() => import('../videoConference/VideoConference')
-);
 const VideoCall = lazy(() => import('../videoCall/VideoCall'));
 
 type TExtraRoute = {
@@ -198,12 +195,6 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 										<UrlParamsProvider>
 											<Login />
 										</UrlParamsProvider>
-									</Route>
-									<Route
-										path={settings.urls.videoConference}
-										exact
-									>
-										<VideoConference />
 									</Route>
 									<Route path={settings.urls.videoCall} exact>
 										<VideoCall />

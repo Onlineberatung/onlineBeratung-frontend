@@ -16,24 +16,12 @@
 		"value": false,
 		"readOnly": false
 	},
-	"disableVideoAppointments": {
-		"value": false,
-		"readOnly": false
-	},
 	"mainTenantSubdomainForSingleDomainMultitenancy": {
 		"value": "app",
 		"readOnly": false
 	},
 	"useOverviewPage": {
 		"value": false,
-		"readOnly": false
-	},
-	"calcomUrl": {
-		"value": "calcomUrl",
-		"readOnly": false
-	},
-	"calendarAppUrl": {
-		"value": "calendarAppUrl",
 		"readOnly": false
 	},
 	"legalContentChangesBySingleTenantAdminsAllowed": {

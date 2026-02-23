@@ -15,21 +15,6 @@
 			"e2ee_activated": "Informationen zu Deiner Datensicherheit"
 		}
 	},
-	"appointments": {
-		"onlineMeeting": {
-			"overlay": {
-				"delete": {
-					"copy": "Möchtest Du diesen Video-Call wirklich löschen?"
-				},
-				"start": {
-					"copy": "Du startest jetzt den Video-Call. Eingeladene Teilnehmer_innen können ab sofort mit dem Einladungslink beitreten."
-				}
-			}
-		},
-		"qrCode": {
-			"text": "Wenn Du ihn mit jemandem teilst, kann diese Person ihn mit der Handykamera scannen, um direkt am Video-Call teilzunehmen. Alternativ kannst Du den Code auch herunterladen."
-		}
-	},
 	"archive": {
 		"overlay": {
 			"session": {
@@ -81,32 +66,6 @@
 		"banned": {
 			"headline": "Du wurdest gebannt.",
 			"info": "Wir haben Dich gebeten, die Chat-Regeln einzuhalten.<br/><br/>Weil Du heute die Chat-Regeln wiederholt nicht eingehalten hast, haben wir Dich für den heutigen Chat ausgeschlossen.<br/><br/>Mache Dich mit den Chat-Regeln vertraut!</br></br>Wenn Du bereit bist, die Chat-Regeln einzuhalten, bist Du ab morgen wieder im Chat willkommen!"
-		}
-	},
-	"booking": {
-		"availability": {
-			"description": "Gib hier Deine allgemeine Verfügbarkeit an, damit Ratsuchende Termine bei Dir buchen können.",
-			"title": "Deine Verfügbarkeit"
-		},
-		"calender": {
-			"synchroniseCalender": {
-				"description": "Synchronisiere Deinen Kalender, den Du in Deiner Beratungsstelle nutzt, mit der Online Beratung. Deine Verfügbarkeit wird dann automatisch angepasst und Terminkonflikte verhindert."
-			}
-		},
-		"event": {
-			"description": "Deine Nachricht zum Termin",
-			"tooltip": {
-				"adviceSeeker": "Falls Dein:e Berater:in den Termin nicht in dem von Dir gewählten Modus wahrnehmen kann, generieren wir für Dich immer einen Link zum Video-Call als Alternative.",
-				"consultant": "Falls Du den Termin nicht in dem vom Ratsuchenden gewählten Modus wahrnehmen kannst, generieren wir für Dich immer einen Link zum Video-Call als Alternative."
-			},
-			"your": {
-				"counselor": "Dein Berater"
-			}
-		},
-		"my": {
-			"booking": {
-				"schedule": "Vereinbare jetzt einen Termin mit"
-			}
 		}
 	},
 	"deleteAccount": {
@@ -348,15 +307,6 @@
 		}
 	},
 	"message": {
-		"appointmentCancelled": {
-			"title": "Dein Termin wurde abgesagt"
-		},
-		"appointmentRescheduled": {
-			"title": "Dein Termin wurde verschoben"
-		},
-		"appointmentSet": {
-			"title": "Dein Termin wurde erstellt"
-		},
 		"delete": {
 			"deleted": {
 				"own": "Du hast diese Nachricht gelöscht."
@@ -365,11 +315,7 @@
 				"copy": "Möchtest Du die Nachricht wirklich löschen?"
 			}
 		},
-		"submit": {
-			"booking": {
-				"headline": "Oder vereinbaren Sie jetzt einen Termin"
-			}
-		},
+		"submit": {},
 		"video": {
 			"description": "Du kannst jetzt an der Videokonferenz teilnehmen"
 		}
@@ -390,10 +336,7 @@
 			"confirm": "Möchtest Du die Seite wirklich verlassen?"
 		}
 	},
-	"overview": {
-		"upcomingAppointment": "Dein nächster Termin",
-		"upcomingAppointments": "Deine nächsten {{countStr}} Termine"
-	},
+	"overview": {},
 	"preconditions": {
 		"cookie": {
 			"headline": "Bitte aktiviere Cookies, um fortzufahren",
@@ -925,29 +868,6 @@
 				"action": "Bitte schließe diesen Tab, um zu Beratung & Hilfe zurückzukehren.",
 				"reason": "Leider bist Du nicht berechtigt diese Seite einzusehen."
 			}
-		}
-	},
-	"videoConference": {
-		"waitingroom": {
-			"dataProtection": {
-				"description": "Danach dürfen unsere Berater_innen einen Video-Call mit Dir starten.",
-				"subline": "Bitte bestätige unsere Datenschutzbestimmungen."
-			},
-			"errorPage": {
-				"consultant": {
-					"description": "Zu Deinem Link können wir keinen Video-Call finden, da der Video-Call entweder gelöscht oder bereits beendet wurde."
-				},
-				"description": "Zu Deinem Link können wir keinen Video-Call finden, da der Video-Call entweder gelöscht oder bereits beendet wurde. Solltest Du weiterhin Probleme haben frage bitte Deine_n Berater_in.",
-				"rejected": {
-					"description": "Du wurdest nicht zugelassen. Leider kannst Du an diesem Video-Call nicht teilnehmen, da Dein_e Berater_in Dich nicht zugelassen hat.",
-					"headline": "Du wurdest nicht zugelassen"
-				}
-			},
-			"headline": "Bitte habe etwas Geduld",
-			"paused": {
-				"subline": "Der Video-Call wurde beendet. Sollte Dein_e Berater_in nur abwesend sein wirst Du in den Video-Call weitergeleitet, sobald Dein_e Berater_in den Video-Call fortsetzt."
-			},
-			"subline": "Der Video-Call hat noch nicht begonnen. Du wirst weitergeleitet, sobald Dein_e Berater_in den Video-Call startet."
 		}
 	},
 	"walkthrough": {

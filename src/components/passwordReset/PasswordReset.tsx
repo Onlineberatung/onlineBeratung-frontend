@@ -24,14 +24,11 @@ import {
 } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { getTenantSettings } from '../../utils/tenantSettingsHelper';
-import { apiUpdatePasswordAppointments } from '../../api/apiUpdatePasswordAppointments';
 import { Box as MuiBox, Stack, Typography, TextField } from '@mui/material';
 
 export const PasswordReset = () => {
 	const { t: translate } = useTranslation();
 	const rcUid = getValueFromCookie('rc_uid');
-	const { featureAppointmentsEnabled } = getTenantSettings();
 	const { userData } = useContext(UserDataContext);
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
@@ -170,13 +167,6 @@ export const PasswordReset = () => {
 							encryptedPrivateKey
 						);
 
-						isConsultant &&
-							featureAppointmentsEnabled &&
-							apiUpdatePasswordAppointments(
-								userData.email,
-								newPassword
-							);
-
 						setOverlayActive(true);
 						setIsRequestInProgress(false);
 						logout(false, settings.urls.toLogin);
@@ -189,12 +179,6 @@ export const PasswordReset = () => {
 							}
 						);
 						setHasMasterKeyError(true);
-
-						featureAppointmentsEnabled &&
-							apiUpdatePasswordAppointments(
-								userData.email,
-								oldPassword
-							);
 					}
 				})
 				.catch(() => {

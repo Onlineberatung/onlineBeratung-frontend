@@ -39,7 +39,6 @@ import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider
 import { RocketChatUsersOfRoomContext } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useSearchParam } from '../../hooks/useSearchParams';
-import CalendarMonthPlusIcon from '@mui/icons-material/EditCalendar';
 import CallOnIcon from '@mui/icons-material/Call';
 import CameraOnIcon from '@mui/icons-material/Videocam';
 import EditGroupChatIcon from '@mui/icons-material/Settings';
@@ -118,24 +117,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const handleMenuClose = () => {
 		setAnchorEl(null);
-	};
-
-	const [appointmentFeatureEnabled, setAppointmentFeatureEnabled] =
-		useState(false);
-
-	useEffect(() => {
-		if (!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
-			const { appointmentFeatureEnabled } = userData;
-			setAppointmentFeatureEnabled(appointmentFeatureEnabled);
-		}
-		if (!activeSession.item?.active || !activeSession.item?.subscribed) {
-			// do not get group members for a chat that has not been started and user is not subscribed
-			return;
-		}
-	}, [activeSession, userData]);
-
-	const handleBookingButton = () => {
-		history.push('/booking/');
 	};
 
 	const handleStopGroupChat = () => {
@@ -415,22 +396,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					/>
 				</div>
 			)}
-
-			{!activeSession.isEnquiry &&
-				appointmentFeatureEnabled &&
-				!activeSession.isLive &&
-				!activeSession.isGroup && (
-					<div
-						className="sessionMenu__icon sessionMenu__icon--booking"
-						onClick={handleBookingButton}
-					>
-						<CalendarMonthPlusIcon />
-						<Text
-							type="standard"
-							text={translate('booking.mobile.calendar.label')}
-						/>
-					</div>
-				)}
 
 			<IconButton
 				id="iconH"

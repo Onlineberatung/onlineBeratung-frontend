@@ -7,8 +7,8 @@ import { Loading } from '../app/Loading';
 import { uiUrl } from '../../resources/scripts/config';
 import StatusPage from './StatusPage';
 import { LocaleContext } from '../../globalState';
-import Logo from '../videoConference/Logo';
-import E2EEBanner from '../videoConference/E2EEBanner';
+import Logo from './Logo';
+import E2EEBanner from './E2EEBanner';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useTranslation } from 'react-i18next';
 
