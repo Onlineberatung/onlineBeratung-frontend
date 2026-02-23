@@ -49,8 +49,6 @@ import {
 } from '../sessionCookie/accessSessionCookie';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useSearchParam } from '../../hooks/useSearchParams';
-import { getTenantSettings } from '../../utils/tenantSettingsHelper';
-import { budibaseLogout } from '../budibase/budibaseLogout';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 import { useConsultantRegistrationData } from '../../containers/registration/hooks/useConsultantRegistrationData';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
@@ -95,8 +93,6 @@ export const Login = () => {
 	const [showLoginError, setShowLoginError] = useState<string>('');
 	const [isRequestInProgress, setIsRequestInProgress] =
 		useState<boolean>(false);
-	const { featureToolsEnabled } = getTenantSettings();
-
 	useEffect(() => {
 		// If we're authenticated and have a gcid, redirect to app
 		if (gcid && getValueFromCookie('keycloak')) {
@@ -122,12 +118,6 @@ export const Login = () => {
 		setOtp('');
 		setIsOtpRequired(false);
 	}, [username]);
-
-	useEffect(() => {
-		if (!gcid && featureToolsEnabled) {
-			budibaseLogout().catch(() => null);
-		}
-	}, [featureToolsEnabled, gcid]);
 
 	const [agency, setAgency] = useState<AgencyDataInterface>(null);
 	const [validity, setValidity] = useState(VALIDITY_INITIAL);

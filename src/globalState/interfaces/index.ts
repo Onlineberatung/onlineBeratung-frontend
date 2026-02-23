@@ -10,7 +10,6 @@ export * from './LegalLinkInterface';
 export * from './ServerAppConfigInterface';
 export * from './SessionsDataInterface';
 export * from './TenantDataInterface';
-export * from './ToolsInterface';
 export * from './TopicsDataInterface';
 export * from './TranslationConfig';
 export * from './UserDataInterface';

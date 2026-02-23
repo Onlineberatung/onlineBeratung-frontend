@@ -25,8 +25,6 @@ export const routePathNames = {
 };
 
 export const config: AppConfigInterface = {
-	budibaseUrl: '',
-	budibaseSSO: false, // Feature flag to enable SSO on budibase
 	calcomUrl: '',
 	calendarAppUrl: '',
 	enableWalkthrough: true, // Feature flag to enable walkthrough

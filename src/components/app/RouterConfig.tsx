@@ -33,11 +33,8 @@ import TeamsIconOutline from '@mui/icons-material/GroupOutlined';
 import TeamsIconFilled from '@mui/icons-material/Group';
 import ProfilIconOutline from '@mui/icons-material/PersonOutlined';
 import ProfilIconFilled from '@mui/icons-material/Person';
-import ToolsIconOutline from '@mui/icons-material/BuildOutlined';
-import ToolsIconFilled from '@mui/icons-material/Build';
 import CalendarIconOutline from '@mui/icons-material/CalendarTodayOutlined';
 import CalendarIconFilled from '@mui/icons-material/CalendarToday';
-import { ToolsList } from '../tools/ToolsList';
 import { OverviewPage } from '../../containers/overview/overview';
 import { Booking } from '../../containers/bookings/components/Booking/booking';
 import { BookingCancellation } from '../../containers/bookings/components/BookingCancellation/bookingCancellation';
@@ -60,9 +57,6 @@ const showAppointmentsMenuItem = (userData, hasAssignedConsultant) => {
 				hasAssignedConsultant))
 	);
 };
-
-const showToolsMenuItem = (userData, consultingTypes, sessionsData, hasTools) =>
-	hasTools;
 
 const isVideoAppointmentsEnabled = (
 	userData,
@@ -88,13 +82,6 @@ const appointmentRoutes = [
 		path: '/booking/events',
 		exact: false,
 		component: BookingEvents
-	}
-];
-
-const toolsRoutes = [
-	{
-		path: '/tools',
-		component: ToolsList
 	}
 ];
 
@@ -139,15 +126,6 @@ export const RouterConfigUser = (
 				iconFilled: CalendarIconFilled,
 				titleKeys: {
 					large: 'navigation.booking.events'
-				}
-			},
-			{
-				condition: showToolsMenuItem,
-				to: '/tools',
-				icon: ToolsIconOutline,
-				iconFilled: ToolsIconFilled,
-				titleKeys: {
-					large: 'navigation.tools'
 				}
 			}
 		],
@@ -210,8 +188,7 @@ export const RouterConfigUser = (
 				component: Profile
 			}
 		],
-		appointmentRoutes,
-		toolsRoutes
+		appointmentRoutes
 	};
 };
 
@@ -379,8 +356,7 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 				component: Appointments
 			}
 		],
-		appointmentRoutes,
-		toolsRoutes
+		appointmentRoutes
 	};
 };
 
@@ -602,8 +578,7 @@ export const RouterConfigTeamConsultant = (
 				component: Appointments
 			}
 		],
-		appointmentRoutes,
-		toolsRoutes
+		appointmentRoutes
 	};
 };
 

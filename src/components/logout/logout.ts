@@ -1,7 +1,6 @@
 import { apiKeycloakLogout } from '../../api/apiLogoutKeycloak';
 import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
 import { getTenantSettings } from '../../utils/tenantSettingsHelper';
-import { budibaseLogout } from '../budibase/budibaseLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import {
 	removeRocketChatMasterKeyFromLocalStorage,
@@ -27,14 +26,12 @@ export const logout = async (
 	}
 
 	isRequestInProgress = true;
-	const { featureAppointmentsEnabled, featureToolsEnabled } =
-		getTenantSettings();
+	const { featureAppointmentsEnabled } = getTenantSettings();
 
 	Promise.all([
 		apiRocketchatLogout(),
 		apiKeycloakLogout(),
-		featureAppointmentsEnabled && calcomLogout(),
-		featureToolsEnabled && budibaseLogout()
+		featureAppointmentsEnabled && calcomLogout()
 	]).finally(() => {
 		invalidateCookies(withRedirect, redirectUrl);
 	});

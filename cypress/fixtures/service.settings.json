@@ -32,14 +32,6 @@
 		"value": "calcomUrl",
 		"readOnly": false
 	},
-	"budibaseAuthClientId": {
-		"value": "budibaseAuthClientId",
-		"readOnly": false
-	},
-	"budibaseUrl": {
-		"value": "budibaseUrl",
-		"readOnly": false
-	},
 	"calendarAppUrl": {
 		"value": "calendarAppUrl",
 		"readOnly": false

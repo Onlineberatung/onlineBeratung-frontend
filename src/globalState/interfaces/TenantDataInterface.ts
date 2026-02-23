@@ -26,8 +26,6 @@ export interface TenantDataSettingsInterface {
 	featureDemographicsEnabled: boolean;
 	featureGroupChatV2Enabled: boolean;
 	featureStatisticsEnabled: boolean;
-	featureToolsEnabled: boolean;
-	featureToolsOICDToken: string;
 	featureTopicsEnabled: boolean;
 	topicsInRegistrationEnabled: boolean;
 	featureAttachmentUploadDisabled: boolean;

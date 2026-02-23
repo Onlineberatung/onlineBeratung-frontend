@@ -25,11 +25,7 @@ import { apiRocketChatSubscriptionsGet } from '../../api/apiRocketChatSubscripti
 import { apiRocketChatRoomsGet } from '../../api/apiRocketChatRoomsGet';
 import { apiRocketChatUpdateGroupKey } from '../../api/apiRocketChatUpdateGroupKey';
 import { apiRocketChatResetE2EKey } from '../../api/apiRocketChatResetE2EKey';
-import { getBudibaseAccessToken } from '../sessionCookie/getBudibaseAccessToken';
-import {
-	TenantDataInterface,
-	TenantDataSettingsInterface
-} from '../../globalState/interfaces';
+import { TenantDataInterface } from '../../globalState/interfaces';
 import { appConfig } from '../../utils/appConfig';
 import { parseJwt } from '../../utils/parseJWT';
 import { removeRocketChatMasterKeyFromLocalStorage } from '../sessionCookie/accessSessionLocalStorage';
@@ -97,9 +93,6 @@ export const autoLogin = async ({
 	password,
 	...autoLoginProps
 }: AutoLoginProps): Promise<any> => {
-	const tenantSettings = (autoLoginProps?.tenantData?.settings ||
-		{}) as TenantDataSettingsInterface;
-
 	let userHash = encodeUsername(autoLoginProps.username);
 	let username = userHash;
 	let keycloakRes;
@@ -136,10 +129,6 @@ export const autoLogin = async ({
 	}
 
 	await loginRocketChat(userHash, password);
-
-	if (tenantSettings?.featureToolsEnabled) {
-		await getBudibaseAccessToken(username, password, tenantSettings);
-	}
 };
 
 export const redirectToApp = (gcid?: string) => {
