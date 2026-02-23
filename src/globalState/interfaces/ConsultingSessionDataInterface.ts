@@ -10,7 +10,6 @@ export interface ConsultingSessionDataInterface {
 	consultantRcId: string;
 	consultingType: number;
 	counsellingRelation: string;
-	feedbackGroupId: string;
 	gender: string;
 	groupId: string;
 	id: number;

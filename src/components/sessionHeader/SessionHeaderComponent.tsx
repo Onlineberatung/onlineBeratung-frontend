@@ -128,35 +128,6 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		);
 	}
 
-	if (activeSession.isFeedback) {
-		return (
-			<div className="sessionInfo">
-				<div className="sessionInfo__feedbackHeaderWrapper">
-					<Link
-						to={{
-							pathname: `${listPath}/${activeSession.item.groupId}
-							/${activeSession.item.id}`,
-							search: getSessionListTab()
-						}}
-						className="sessionInfo__feedbackBackButton"
-					>
-						<BackIcon />
-					</Link>
-					<div className="sessionInfo__username">
-						<h3>{translate('session.feedback.label')}</h3>
-					</div>
-				</div>
-				<div className="sessionInfo__feedbackMetaInfo">
-					{activeSession.user.username ? (
-						<div className="sessionInfo__metaInfo__content">
-							{activeSession.user.username}
-						</div>
-					) : null}
-				</div>
-			</div>
-		);
-	}
-
 	return (
 		<div className="sessionInfo">
 			<div className="sessionInfo__headerWrapper">

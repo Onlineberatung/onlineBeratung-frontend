@@ -16,9 +16,7 @@ import {
 	STATUS_ARCHIVED
 } from '../../globalState/interfaces';
 import { isUserModerator, SESSION_LIST_TYPES } from '../session/sessionHelpers';
-import { ForwardMessage } from './ForwardMessage';
 import { MessageMetaData } from './MessageMetaData';
-import { CopyMessage } from './CopyMessage';
 import { MessageDisplayName } from './MessageDisplayName';
 import {
 	sanitizeHtmlDefaultOptions,
@@ -499,35 +497,7 @@ export const MessageItemComponent = ({
 										hasRenderedMessage={hasRenderedMessage}
 									/>
 								))}
-							{activeSession.isFeedback && (
-								<CopyMessage
-									right={isMyMessage}
-									message={renderedMessage}
-								/>
-							)}
-							{hasRenderedMessage &&
-								hasUserAuthority(
-									AUTHORITIES.USE_FEEDBACK,
-									userData
-								) &&
-								type !== SESSION_LIST_TYPES.ENQUIRY &&
-								activeSession.isSession &&
-								activeSession.item.feedbackGroupId &&
-								!activeSession.isFeedback &&
-								activeSession.item.status !==
-									STATUS_ARCHIVED && (
-									<ForwardMessage
-										right={isMyMessage}
-										message={decryptedMessage}
-										messageTime={messageTime}
-										askerRcId={askerRcId}
-										groupId={
-											activeSession.item.feedbackGroupId
-										}
-										displayName={displayName}
-									/>
-								)}
-						</div>
+							</div>
 					</>
 				);
 		}

@@ -45,7 +45,6 @@ import CameraOnIcon from '@mui/icons-material/Videocam';
 import EditGroupChatIcon from '@mui/icons-material/Settings';
 import GroupChatInfoIcon from '@mui/icons-material/Info';
 import LeaveChatIcon from '@mui/icons-material/Logout';
-import FeedbackIcon from '@mui/icons-material/RateReview';
 import MenuHorizontalIcon from '@mui/icons-material/MoreHoriz';
 import MenuVerticalIcon from '@mui/icons-material/MoreVert';
 import StopGroupChatIcon from '@mui/icons-material/Close';
@@ -351,18 +350,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		)
 	};
 
-	const buttonFeedback: ButtonItem = {
-		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'yellow',
-		icon: (
-			<FeedbackIcon
-				titleAccess={translate('chatFlyout.feedback')}
-				aria-label={translate('videoCall.button.feedback')}
-			/>
-		),
-		label: translate('chatFlyout.feedback')
-	};
-
 	const hasVideoCallFeatures = () =>
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
 		activeSession.isSession &&
@@ -428,20 +415,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					/>
 				</div>
 			)}
-
-			{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				type !== SESSION_LIST_TYPES.ENQUIRY &&
-				activeSession.item.feedbackGroupId && (
-					<Link
-						to={generatePath(baseUrl, {
-							...(activeSession.item as TReducedSessionItemInterface),
-							groupId: activeSession.item.feedbackGroupId
-						})}
-						className="sessionInfo__feedbackButton"
-					>
-						<Button item={buttonFeedback} isLink={true} />
-					</Link>
-				)}
 
 			{!activeSession.isEnquiry &&
 				appointmentFeatureEnabled &&
@@ -529,19 +502,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						</div>
 					</>
 				)}
-
-				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-					activeSession.item.feedbackGroupId && (
-						<Link
-							className="sessionMenu__item sessionMenu__item--mobile"
-							to={generatePath(baseUrl, {
-								...(activeSession.item as TReducedSessionItemInterface),
-								groupId: activeSession.item.feedbackGroupId
-							})}
-						>
-							{translate('chatFlyout.feedback')}
-						</Link>
-					)}
 
 				{props.isAskerInfoAvailable && (
 					<Link className="sessionMenu__item" to={userProfileLink}>

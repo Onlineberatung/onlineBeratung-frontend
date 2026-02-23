@@ -4,7 +4,6 @@ export * from './apiDraftMessages';
 export * from './apiEnquiryAcceptance';
 export * from './apiFinishAnonymousConversation';
 export * from './apiAnonymousConversationAvailability';
-export * from './apiForwardMessage';
 export * from './apiGetAgencyConsultantList';
 export * from './apiGetAgencyId';
 export * from './apiGetAskerSessionList';

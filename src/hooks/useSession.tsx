@@ -99,9 +99,7 @@ export const useSession = (
 			return;
 		}
 
-		const isCurrentSessionRead = session.isFeedback
-			? session.item.feedbackRead
-			: session.item.messagesRead;
+		const isCurrentSessionRead = session.item.messagesRead;
 
 		if (!isCurrentSessionRead) {
 			apiSetSessionRead(session.rid).then();

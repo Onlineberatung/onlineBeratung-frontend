@@ -11,7 +11,6 @@ import { useHistory } from 'react-router-dom';
 
 import { SendMessageButton } from './SendMessageButton';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
-import { Checkbox } from '../checkbox/Checkbox';
 import {
 	AUTHORITIES,
 	getContact,
@@ -156,8 +155,6 @@ export const MessageSubmitInterfaceComponent = ({
 	const [isLiveChatFinished, setIsLiveChatFinished] = useState(
 		activeSession.isLive && activeSession.item.status === STATUS_FINISHED
 	);
-	const [requestFeedbackCheckboxChecked, setRequestFeedbackCheckboxChecked] =
-		useState(false);
 	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
 	const [emojiAnchorEl, setEmojiAnchorEl] =
 		useState<Element | null>(null);
@@ -168,7 +165,6 @@ export const MessageSubmitInterfaceComponent = ({
 	// This loads the keys for current activeSession.rid which is already set:
 	// to groupChat.groupId on group chats
 	// to session.groupId on session chats
-	// to session.feebackGroupId on feedback chats
 	const {
 		keyID,
 		key,
@@ -178,15 +174,6 @@ export const MessageSubmitInterfaceComponent = ({
 		encryptRoom,
 		ready: e2EEReady
 	} = useE2EE(activeSession.rid || null);
-
-	// This loads keys for feedback chat to have the ability to encrypt
-	// the feedback chat when checkbox "Request feedback" is checked
-	const {
-		keyID: feedbackChatKeyId,
-		key: feedbackChatKey,
-		encryptRoom: feedbackEncryptRoom,
-		ready: feedbackE2EEReady
-	} = useE2EE(activeSession.item.feedbackGroupId);
 
 	const {
 		visible: e2eeOverlayVisible,
@@ -424,35 +411,19 @@ export const MessageSubmitInterfaceComponent = ({
 
 	const handleMessageSendSuccess = useCallback(() => {
 		onMessageSendSuccess?.();
-		if (requestFeedbackCheckboxChecked) {
-			const feedbackButton = document.querySelector(
-				'.sessionInfo__feedbackButton'
-			);
-			feedbackButton?.classList.add(
-				'sessionInfo__feedbackButton--active'
-			);
-			setTimeout(() => {
-				feedbackButton?.classList.remove(
-					'sessionInfo__feedbackButton--active'
-				);
-			}, 700);
-		}
 		setEditorContent('');
 		setActiveInfo('');
 		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
-	}, [onMessageSendSuccess, requestFeedbackCheckboxChecked, resizeTextarea]);
+	}, [onMessageSendSuccess, resizeTextarea]);
 
 	const sendMessage = useCallback(
 		async (
-			sendToFeedbackEndpoint,
 			message,
 			attachment: File,
 			isEncrypted
 		) => {
-			const sendToRoomWithId = sendToFeedbackEndpoint
-				? activeSession.item.feedbackGroupId
-				: activeSession.rid || activeSession.item.id;
+			const sendToRoomWithId = activeSession.rid || activeSession.item.id;
 			const getSendMailNotificationStatus = () =>
 				!activeSession.isGroup && !activeSession.isLive;
 
@@ -487,7 +458,7 @@ export const MessageSubmitInterfaceComponent = ({
 				res = await apiUploadAttachment(
 					attachmentFile,
 					sendToRoomWithId,
-					sendToFeedbackEndpoint,
+					false,
 					getSendMailNotificationStatus(),
 					setUploadProgress,
 					setAttachmentUpload,
@@ -527,7 +498,7 @@ export const MessageSubmitInterfaceComponent = ({
 				await apiSendMessage(
 					message,
 					sendToRoomWithId,
-					sendToFeedbackEndpoint,
+					false,
 					getSendMailNotificationStatus() && !attachment,
 					isEncrypted
 				)
@@ -551,7 +522,6 @@ export const MessageSubmitInterfaceComponent = ({
 		[
 			activeSession.isGroup,
 			activeSession.isLive,
-			activeSession.item.feedbackGroupId,
 			activeSession.item.id,
 			activeSession.rid,
 			cleanupAttachment,
@@ -583,15 +553,8 @@ export const MessageSubmitInterfaceComponent = ({
 			return null;
 		}
 
-		const sendToFeedbackEndpoint =
-			requestFeedbackCheckboxChecked || activeSession.isFeedback;
-
-		const messageKeyId = requestFeedbackCheckboxChecked
-			? feedbackChatKeyId
-			: keyID;
-		const messageKey = requestFeedbackCheckboxChecked
-			? feedbackChatKey
-			: key;
+		const messageKeyId = keyID;
+		const messageKey = key;
 
 		let message = getTypedMarkdownMessage().trim();
 		let isEncrypted = true;
@@ -619,26 +582,16 @@ export const MessageSubmitInterfaceComponent = ({
 		}
 
 		await sendMessage(
-			sendToFeedbackEndpoint,
 			message,
 			attachment,
 			isEncrypted
 		);
-
-		if (requestFeedbackCheckboxChecked) {
-			await feedbackEncryptRoom(setE2EEState);
-		}
 	}, [
-		activeSession.isFeedback,
 		encrypted,
-		feedbackChatKey,
-		feedbackChatKeyId,
-		feedbackEncryptRoom,
 		getTypedMarkdownMessage,
 		key,
 		keyID,
 		preselectedFile,
-		requestFeedbackCheckboxChecked,
 		sendEnquiry,
 		sendMessage,
 		setE2EEState,
@@ -694,12 +647,6 @@ export const MessageSubmitInterfaceComponent = ({
 	const handleEditorSubmit = useCallback(() => {
 		handleButtonClick();
 	}, [handleButtonClick]);
-
-	const handleRequestFeedbackCheckbox = useCallback(() => {
-		setRequestFeedbackCheckboxChecked(
-			(requestFeedbackCheckboxChecked) => !requestFeedbackCheckboxChecked
-		);
-	}, []);
 
 	const handleAttachmentSelect = useCallback(() => {
 		const attachmentInput: any = attachmentInputRef.current;
@@ -917,12 +864,6 @@ export const MessageSubmitInterfaceComponent = ({
 				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData))) &&
 		!tenant?.settings?.featureAttachmentUploadDisabled;
 
-	const hasRequestFeedbackCheckbox =
-		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
-		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
-		activeSession.item.feedbackGroupId &&
-		(activeSession.isGroup || !activeSession.isFeedback);
-
 	const bookingButton: ButtonItem = useMemo(
 		() => ({
 			label: translate('message.submit.booking.buttonLabel'),
@@ -939,7 +880,7 @@ export const MessageSubmitInterfaceComponent = ({
 		return null;
 	}, []);
 
-	if (!e2EEReady || !feedbackE2EEReady) {
+	if (!e2EEReady) {
 		return null;
 	}
 
@@ -968,25 +909,7 @@ export const MessageSubmitInterfaceComponent = ({
 			)}
 			{activeInfo && <MessageSubmitInfo {...getMessageSubmitInfo()} />}
 			{!isLiveChatFinished && (
-				<form
-					className={clsx('textarea', {
-						'textarea--yellowTheme': requestFeedbackCheckboxChecked,
-						'textarea--large': hasRequestFeedbackCheckbox
-					})}
-				>
-					{hasRequestFeedbackCheckbox && (
-						<Checkbox
-							inputId={'requestFeedback'}
-							name={'requestFeedback'}
-							labelId={'requestFeedbackLabel'}
-							labelClass={'requestFeedbackLabel'}
-							label={translate(
-								'message.write.peer.checkbox.label'
-							)}
-							checked={requestFeedbackCheckboxChecked}
-							checkboxHandle={handleRequestFeedbackCheckbox}
-						/>
-					)}
+				<form className="textarea">
 					<div className={'textarea__wrapper'}>
 						<div className="textarea__wrapper-send-message">
 							<span className="textarea__featureWrapper">
@@ -1049,14 +972,7 @@ export const MessageSubmitInterfaceComponent = ({
 										onChange={handleEditorChange}
 										onSubmit={handleEditorSubmit}
 										onInsertEmoji={handleInsertEmojiReady}
-										placeholder={
-											hasRequestFeedbackCheckbox &&
-											requestFeedbackCheckboxChecked
-												? translate(
-														'enquiry.write.input.placeholder.feedback.peer'
-													)
-												: placeholder
-										}
+										placeholder={placeholder}
 										disabled={!draftLoaded}
 										isRichtextActive={isRichtextActive}
 									/>
