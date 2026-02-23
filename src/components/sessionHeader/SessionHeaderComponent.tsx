@@ -13,7 +13,10 @@ import {
 	UserDataContext,
 	ActiveSessionContext
 } from '../../globalState';
-import { SessionConsultantInterface } from '../../globalState/interfaces';
+import {
+	SessionConsultantInterface,
+	TopicSessionInterface
+} from '../../globalState/interfaces';
 import {
 	getViewPathForType,
 	SESSION_LIST_TAB,
@@ -52,6 +55,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 
 	const contact = getContact(activeSession);
 	const userSessionData = contact?.sessionData;
+	const topicSession = activeSession.item?.topic as TopicSessionInterface;
 
 	const preparedUserSessionData =
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
@@ -218,16 +222,18 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div className="sessionInfo__metaInfo">
 					{!activeSession.agency ? (
 						<div className="sessionInfo__metaInfo__content">
-							{consultingType
-								? translate(
-										[
-											`consultingType.${consultingType.id}.titles.short`,
-											`consultingType.fallback.titles.short`,
-											consultingType.titles.short
-										],
-										{ ns: 'consultingTypes' }
-									)
-								: ''}
+							{topicSession?.id !== undefined && topicSession?.name
+								? topicSession.name
+								: consultingType
+									? translate(
+											[
+												`consultingType.${consultingType.id}.titles.short`,
+												`consultingType.fallback.titles.short`,
+												consultingType.titles.short
+											],
+											{ ns: 'consultingTypes' }
+										)
+									: ''}
 						</div>
 					) : null}
 					{preparedUserSessionData

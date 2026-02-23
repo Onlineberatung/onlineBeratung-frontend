@@ -2559,7 +2559,8 @@
 			"relation": "Hintergrund",
 			"resort": "Fachbereich",
 			"state": "Bundesland",
-			"title": "Angaben des Ratsuchenden"
+			"title": "Angaben des Ratsuchenden",
+			"topic": "Beratungsthema"
 		},
 		"reassign": {
 			"description": "Sie können die Unterhaltung einem anderen Teammitglied zuweisen. Diese Person ist dann für die_den Ratsuchende_n verantwortlich.",

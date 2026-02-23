@@ -185,7 +185,7 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 										<></>
 									</Route>
 
-									<Route path="/beratung/warteraum/:consultingTypeSlug?" exact>
+									<Route path="/beratung/livechat/:consultingTypeSlug?" exact>
 										<WaitingRoomLoader 
 											onAnonymousRegistration={() => {
 												setStartWebsocket(true);

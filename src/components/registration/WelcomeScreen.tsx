@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Text } from '../text/Text';
 import { Headline } from '../headline/Headline';
@@ -9,8 +8,6 @@ import './welcomeScreen.styles.scss';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { apiAnonymousConversationAvailability } from '../../api';
-import { Typography, Button as MuiButton } from '@mui/material';
 
 interface WelcomeScreenProps {
 title: string;
@@ -41,41 +38,6 @@ type: BUTTON_TYPES.PRIMARY
 const loginButton: ButtonItem = {
 label: translate('registration.login.label'),
 type: BUTTON_TYPES.SECONDARY
-};
-
-// Live chat availability check
-const [isLiveChatAvailable, setIsLiveChatAvailable] = useState(false);
-const [isCheckingLiveChat, setIsCheckingLiveChat] = useState(false);
-
-useEffect(() => {
-// Check live chat availability asynchronously
-// Don't delay the page load
-const checkLiveChatAvailability = async () => {
-if (!consultingTypeId || consultingTypeId === 0) {
-return;
-}
-
-setIsCheckingLiveChat(true);
-try {
-const result = await apiAnonymousConversationAvailability(consultingTypeId);
-setIsLiveChatAvailable(
-result && 
-result.numAvailableConsultants > 0 && 
-result.status === 'ONLINE'
-);
-} catch (error) {
-console.warn('Could not check live chat availability:', error);
-setIsLiveChatAvailable(false);
-} finally {
-setIsCheckingLiveChat(false);
-}
-};
-
-checkLiveChatAvailability();
-}, [consultingTypeId]);
-
-const handleNavigateToWaitingRoom = () => {
-history.push('/beratung/warteraum');
 };
 
 return (
@@ -127,37 +89,6 @@ tabIndex={1}
 />
 </div>
 </div>
-
-{/* Live Chat Availability Section */}
-{isLiveChatAvailable && !isCheckingLiveChat && (
-<div 
-className="registrationWelcome__buttonsWrapper" 
-style={{ marginTop: '12px' }}
->
-<div>
-<Typography 
-variant="h6" 
-sx={{ 
-mb: 1, 
-fontSize: '1.1rem', 
-fontWeight: 500,
-color: 'primary.main'
-}}
->
-{translate('welcome.liveChat.headline')}
-</Typography>
-<MuiButton
-variant="contained"
-color="primary"
-onClick={handleNavigateToWaitingRoom}
-fullWidth
-sx={{ mt: 1 }}
->
-{translate('welcome.liveChat.button')}
-</MuiButton>
-</div>
-</div>
-)}
 </div>
 );
 };

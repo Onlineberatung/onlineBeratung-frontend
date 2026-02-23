@@ -2,11 +2,11 @@
 
 ## Overview
 
-This guide documents how to integrate the `/beratung/warteraum` (waiting room) route into the new MUI-based registration/login system, and how to add live chat availability checking to the Welcome page.
+This guide documents how to integrate the `/beratung/livechat` (waiting room) route into the new MUI-based registration/login system, and how to add live chat availability checking to the Welcome page.
 
 ---
 
-## Task 1: Add /beratung/warteraum Route
+## Task 1: Add /beratung/livechat Route
 
 ### Step 1: Add Route to app.tsx
 
@@ -15,7 +15,7 @@ This guide documents how to integrate the `/beratung/warteraum` (waiting room) r
 Add the route inside the Switch component:
 
 ```tsx
-<Route path="/beratung/warteraum" exact>
+<Route path="/beratung/livechat" exact>
     <WaitingRoom />
 </Route>
 ```
@@ -28,7 +28,7 @@ import { WaitingRoom } from '../waitingRoom/WaitingRoom';
 ### Step 2: Verify Routing Works
 
 Test:
-1. Navigate to `/beratung/warteraum`
+1. Navigate to `/beratung/livechat`
 2. Verify waiting room loads
 3. Verify no redirects
 
@@ -193,7 +193,7 @@ Add after existing `registrationWelcome__buttonsWrapper`:
             variant="contained"
             color="primary"
             fullWidth
-            onClick={() => window.location.href = '/beratung/warteraum'}
+            onClick={() => window.location.href = '/beratung/livechat'}
         >
             {t('welcome.liveChat.enterWaitingRoom.button')}
         </Button>
@@ -252,8 +252,8 @@ Add the same structure to each file:
 
 ## Testing Checklist
 
-### Warteraum Route:
-- [ ] Navigate to `/beratung/warteraum`
+### Livechat Route:
+- [ ] Navigate to `/beratung/livechat`
 - [ ] Verify page loads correctly
 - [ ] Verify no console errors
 - [ ] Verify MUI components render
@@ -266,7 +266,7 @@ Add the same structure to each file:
 - [ ] If chat available: Verify new section shows
 - [ ] Verify headline text correct
 - [ ] Verify button text correct
-- [ ] Click button → Verify navigates to warteraum
+- [ ] Click button → Verify navigates to livechat
 - [ ] If chat NOT available: Verify section hidden
 
 ### i18n Labels:
@@ -316,7 +316,7 @@ Add the same structure to each file:
 ## Deployment Strategy
 
 ### Option 1: Separate PR
-- Complete warteraum integration
+- Complete livechat integration
 - Create new PR
 - Review and test
 - Deploy separately
@@ -345,7 +345,7 @@ If you encounter issues:
 ## Summary
 
 This guide provides everything needed to:
-1. ✅ Add warteraum route
+1. ✅ Add livechat route
 2. ✅ Convert to MUI components
 3. ✅ Check live chat availability
 4. ✅ Add to Welcome page
