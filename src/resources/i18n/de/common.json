@@ -265,6 +265,7 @@
 				"pdf": "PDF",
 				"png": "PNG",
 				"wav": "WAV",
+				"webm": "WEBM",
 				"xlsx": "XLSX"
 			}
 		}
@@ -2584,6 +2585,33 @@
 				"title": "Sehen Sie hier, welche Inhalte mit Ihnen geteilt wurden."
 			},
 			"title": "Tools"
+		}
+	},
+	"voiceMessage": {
+		"button": {
+			"title": "Sprachnachricht aufnehmen"
+		},
+		"error": {
+			"notSupported": {
+				"title": "Sprachaufnahme nicht verfügbar",
+				"text": "Ihr Browser unterstützt keine Sprachaufnahme."
+			},
+			"permission": {
+				"title": "Mikrofonberechtigung erforderlich",
+				"text": "Bitte erteilen Sie die Mikrofonberechtigung, um die Sprachnachrichten-Funktion zu nutzen."
+			}
+		},
+		"permissionGranted": {
+			"title": "Mikrofonberechtigung erteilt",
+			"text": "Jetzt können Sie die Sprachnachrichten-Funktion nutzen."
+		},
+		"maxDuration": {
+			"title": "Maximale Audio-Nachricht Länge erreicht",
+			"text": "Die Aufnahme wurde nach 2 Minuten automatisch gestoppt."
+		},
+		"tooShort": {
+			"title": "Aufnahme zu kurz",
+			"text": "Um eine Sprachnachricht aufzunehmen, halten Sie die Mikrofon-Taste gedrückt, während Sie sprechen."
 		}
 	},
 	"videoCall": {

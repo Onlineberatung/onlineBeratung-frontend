@@ -21,7 +21,11 @@ import {
 	SessionTypeContext,
 	useTenant,
 	UserDataContext,
-	ActiveSessionContext
+	ActiveSessionContext,
+	NotificationsContext,
+	NOTIFICATION_TYPE_ERROR,
+	NOTIFICATION_TYPE_INFO,
+	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
 import { STATUS_ARCHIVED, STATUS_FINISHED } from '../../globalState/interfaces';
 import {
@@ -48,6 +52,7 @@ import RichtextToggleIcon from '@mui/icons-material/FormatSize';
 import EmojiIcon from '@mui/icons-material/EmojiEmotions';
 import RemoveIcon from '@mui/icons-material/Close';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import MicIcon from '@mui/icons-material/Mic';
 import './emojiPicker.styles.scss';
 import './messageSubmitInterface.styles.scss';
 import './messageSubmitInterface.yellowTheme.styles.scss';
@@ -63,6 +68,10 @@ import {
 	getSignature
 } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
+import {
+	useVoiceRecording,
+	VoiceRecordingError
+} from '../../hooks/useVoiceRecording';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
 import { Overlay } from '../overlay/Overlay';
@@ -123,6 +132,9 @@ export const MessageSubmitInterfaceComponent = ({
 		AnonymousConversationFinishedContext
 	);
 	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { addNotification } = useContext(NotificationsContext);
+
+	const voiceRecordingFileRef = useRef<File | null>(null);
 
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
@@ -301,6 +313,7 @@ export const MessageSubmitInterfaceComponent = ({
 		setUploadProgress(0);
 		setAttachmentSelected(null);
 		setAttachmentUpload(null);
+		voiceRecordingFileRef.current = null;
 		removeSelectedAttachment();
 	}, [removeSelectedAttachment]);
 
@@ -559,7 +572,8 @@ export const MessageSubmitInterfaceComponent = ({
 	const prepareAndSendMessage = useCallback(async () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const selectedFile = attachmentInput && attachmentInput.files[0];
-		const attachment = preselectedFile || selectedFile;
+		const attachment =
+			preselectedFile || voiceRecordingFileRef.current || selectedFile;
 
 		if (isE2eeEnabled && encrypted && !keyID) {
 			console.error("Can't send message without key");
@@ -700,6 +714,81 @@ export const MessageSubmitInterfaceComponent = ({
 		setAttachmentSelected(attachment);
 		setActiveInfo('');
 	}, []);
+
+	const handleVoiceRecordingComplete = useCallback(
+		(file: File) => {
+			voiceRecordingFileRef.current = file;
+			displayAttachmentToUpload(file);
+		},
+		[displayAttachmentToUpload]
+	);
+
+	const handleVoiceRecordingMaxDuration = useCallback(() => {
+		addNotification({
+			notificationType: NOTIFICATION_TYPE_INFO,
+			title: translate('voiceMessage.maxDuration.title'),
+			text: translate('voiceMessage.maxDuration.text')
+		});
+	}, [addNotification, translate]);
+
+	const handleVoiceRecordingError = useCallback(
+		(error: VoiceRecordingError) => {
+			let title: string;
+			let text: string;
+			switch (error) {
+				case 'permission_denied':
+					title = translate('voiceMessage.error.permission.title');
+					text = translate('voiceMessage.error.permission.text');
+					break;
+				case 'not_supported':
+					title = translate(
+						'voiceMessage.error.notSupported.title'
+					);
+					text = translate(
+						'voiceMessage.error.notSupported.text'
+					);
+					break;
+				case 'no_mime_type':
+					title = translate(
+						'voiceMessage.error.notSupported.title'
+					);
+					text = translate(
+						'voiceMessage.error.notSupported.text'
+					);
+					break;
+			}
+			addNotification({
+				notificationType: NOTIFICATION_TYPE_ERROR,
+				title,
+				text
+			});
+		},
+		[addNotification, translate]
+	);
+
+	const handleVoicePermissionGranted = useCallback(() => {
+		addNotification({
+			notificationType: NOTIFICATION_TYPE_SUCCESS,
+			title: translate('voiceMessage.permissionGranted.title'),
+			text: translate('voiceMessage.permissionGranted.text')
+		});
+	}, [addNotification, translate]);
+
+	const handleVoiceTooShort = useCallback(() => {
+		addNotification({
+			notificationType: NOTIFICATION_TYPE_INFO,
+			title: translate('voiceMessage.tooShort.title'),
+			text: translate('voiceMessage.tooShort.text')
+		});
+	}, [addNotification, translate]);
+
+	const { isRecording, startRecording, stopRecording } = useVoiceRecording({
+		onRecordingComplete: handleVoiceRecordingComplete,
+		onMaxDurationReached: handleVoiceRecordingMaxDuration,
+		onError: handleVoiceRecordingError,
+		onPermissionGranted: handleVoicePermissionGranted,
+		onTooShort: handleVoiceTooShort
+	});
 
 	const handleLargeAttachments = useCallback(() => {
 		removeSelectedAttachment();
@@ -1015,6 +1104,70 @@ export const MessageSubmitInterfaceComponent = ({
 										uploadProgress || isRequestInProgress
 									}
 								/>
+								{hasUploadFunctionality && (
+									<span
+										onMouseDown={
+											!attachmentSelected &&
+											!uploadProgress &&
+											!isRequestInProgress
+												? isRecording
+													? stopRecording
+													: startRecording
+												: undefined
+										}
+										onMouseUp={
+											isRecording
+												? stopRecording
+												: undefined
+										}
+										onMouseLeave={
+											isRecording
+												? stopRecording
+												: undefined
+										}
+										onTouchStart={
+											!attachmentSelected &&
+											!uploadProgress &&
+											!isRequestInProgress
+												? isRecording
+													? stopRecording
+													: startRecording
+												: undefined
+										}
+										onTouchEnd={
+											isRecording
+												? stopRecording
+												: undefined
+										}
+										className={`textarea__iconWrapper textarea__iconWrapper--mic ${
+											isRecording
+												? 'textarea__iconWrapper--recording'
+												: ''
+										} ${
+											attachmentSelected ||
+											uploadProgress ||
+											isRequestInProgress
+												? 'textarea__iconWrapper--deactivated'
+												: ''
+										}`}
+										title={translate(
+											'voiceMessage.button.title'
+										)}
+										aria-label={translate(
+											'voiceMessage.button.title'
+										)}
+									>
+										<MicIcon
+											className="textarea__icon"
+											aria-label={translate(
+												'voiceMessage.button.title'
+											)}
+											titleAccess={translate(
+												'voiceMessage.button.title'
+											)}
+										/>
+									</span>
+								)}
 							</div>
 						</div>
 						{showAppointmentButton && (

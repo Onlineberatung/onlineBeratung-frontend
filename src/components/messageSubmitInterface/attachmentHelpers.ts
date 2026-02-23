@@ -9,6 +9,7 @@ export const ATTACHMENT_TYPE_FOR_KEY = {
 	OGG: 'audio/ogg',
 	M4A: 'audio/mp4',
 	AAC: 'audio/aac',
+	WEBM: 'audio/webm',
 	ODT: 'application/vnd.oasis.opendocument.text',
 	ODS: 'application/vnd.oasis.opendocument.spreadsheet',
 	ODP: 'application/vnd.oasis.opendocument.presentation'
@@ -27,6 +28,7 @@ export const ATTACHMENT_TRANSLATE_FOR_TYPE = {
 	'audio/ogg': 'attachments.type.label.ogg',
 	'audio/mp4': 'attachments.type.label.m4a',
 	'audio/aac': 'attachments.type.label.aac',
+	'audio/webm': 'attachments.type.label.webm',
 	'application/vnd.oasis.opendocument.text': 'attachments.type.label.odt',
 	'application/vnd.oasis.opendocument.spreadsheet': 'attachments.type.label.ods',
 	'application/vnd.oasis.opendocument.presentation': 'attachments.type.label.odp'
@@ -52,6 +54,8 @@ export const isM4AAttachment = (type: string) =>
 	type === ATTACHMENT_TYPE_FOR_KEY.M4A;
 export const isAACAttachment = (type: string) =>
 	type === ATTACHMENT_TYPE_FOR_KEY.AAC;
+export const isWEBMAttachment = (type: string) =>
+	type === ATTACHMENT_TYPE_FOR_KEY.WEBM;
 export const isODTAttachment = (type: string) =>
 	type === ATTACHMENT_TYPE_FOR_KEY.ODT;
 export const isODSAttachment = (type: string) =>
@@ -67,7 +71,8 @@ export const isAudioAttachment = (type: string) =>
 	isWAVAttachment(type) ||
 	isOGGAttachment(type) ||
 	isM4AAttachment(type) ||
-	isAACAttachment(type);
+	isAACAttachment(type) ||
+	isWEBMAttachment(type);
 
 export const ATTACHMENT_MAX_SIZE_IN_MB = 10;
 
