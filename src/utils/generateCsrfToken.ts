@@ -11,7 +11,7 @@ export const generateCsrfToken = (refreshToken: boolean = false) => {
 		const possible =
 			'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-		for (var i = 0; i < 18; i++) {
+		for (let i = 0; i < 18; i++) {
 			token += possible.charAt(
 				Math.floor(Math.random() * possible.length)
 			);

@@ -355,7 +355,7 @@ const AppointmentDivider = ({ date, type, index }: AppointmentDividerProps) => {
 		true,
 		true
 	);
-	var day =
+	const day =
 		translate(prettyDate.str) +
 		(prettyDate.date ? ',' + prettyDate.date : '');
 
