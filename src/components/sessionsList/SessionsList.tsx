@@ -110,7 +110,7 @@ export const SessionsList = ({
 		unsubscribe,
 		ready: socketReady
 	} = useContext(RocketChatContext);
-	const [filter, setFilter] = useState(INITIAL_FILTER);
+	const [filter] = useState(INITIAL_FILTER);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
