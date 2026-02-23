@@ -21,7 +21,6 @@ import { deepMerge } from '../helpers';
 import { decodeUsername } from '../../../src/utils/encryptionHelpers';
 import { getMessages, setMessages } from './helper/messages';
 import {
-	SETTING_E2E_ENABLE,
 	SETTING_FILEUPLOAD_MAXFILESIZE,
 	SETTING_MESSAGE_MAXALLOWEDSIZE
 } from '../../../src/api/apiRocketChatSettingsPublic';

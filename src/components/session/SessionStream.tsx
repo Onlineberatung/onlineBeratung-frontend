@@ -14,7 +14,6 @@ import {
 	AnonymousConversationFinishedContext,
 	AUTHORITIES,
 	ConsultantListContext,
-	E2EEContext,
 	hasUserAuthority,
 	RocketChatContext,
 	RocketChatGlobalSettingsContext,
@@ -90,7 +89,6 @@ export const SessionStream = ({
 		useContext(ActiveSessionContext);
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
-	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { setConsultantList } = useContext(ConsultantListContext);
 
 	const abortController = useRef<AbortController>(null);
@@ -172,7 +170,7 @@ export const SessionStream = ({
 
 					if (message.t === 'au') {
 						// Handle this event only for groups because on session assigning its already handled
-						if (isE2eeEnabled && activeSession.isGroup) {
+						if (activeSession.isGroup) {
 							addNewUsersToEncryptedRoom().then();
 						}
 						return;
@@ -193,7 +191,6 @@ export const SessionStream = ({
 		[
 			anonymousConversationFinished,
 			checkMutedUserForThisSession,
-			isE2eeEnabled,
 			activeSession.isGroup,
 			addNewUsersToEncryptedRoom,
 			fetchSessionMessages,

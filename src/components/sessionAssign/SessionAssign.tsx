@@ -12,7 +12,6 @@ import {
 import {
 	UserDataContext,
 	ConsultantListContext,
-	E2EEContext,
 	SessionTypeContext,
 	ActiveSessionContext
 } from '../../globalState';
@@ -53,8 +52,6 @@ export const SessionAssign = (props: { value?: string }) => {
 	const [overlayItem, setOverlayItem] = useState({});
 	const [selectedOption, setSelectedOption] = useState();
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-
-	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const { addNewUsersToEncryptedRoom, encryptRoom } = useE2EE(
 		activeSession.item.groupId
@@ -196,16 +193,14 @@ export const SessionAssign = (props: { value?: string }) => {
 	]);
 
 	const handleE2EEAssign = async (sessionId, userId) => {
-		if (isE2eeEnabled) {
-			try {
-				// If already encrypted this will be skipped
-				await encryptRoom(setE2EEState);
-				// If room was already encrypted add new users
-				await addNewUsersToEncryptedRoom();
-				await apiDeleteUserFromRoom(sessionId, userId);
-			} catch (e) {
-				console.error('error encrypting new user key');
-			}
+		try {
+			// If already encrypted this will be skipped
+			await encryptRoom(setE2EEState);
+			// If room was already encrypted add new users
+			await addNewUsersToEncryptedRoom();
+			await apiDeleteUserFromRoom(sessionId, userId);
+		} catch (e) {
+			console.error('error encrypting new user key');
 		}
 	};
 

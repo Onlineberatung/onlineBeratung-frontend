@@ -12,7 +12,6 @@ import {
 } from '../../api';
 import {
 	ConsultantListContext,
-	E2EEContext,
 	SessionTypeContext,
 	UserDataContext,
 	ActiveSessionContext
@@ -48,8 +47,6 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 	const [selectedOption, setSelectedOption] = useState(null);
 	const [reassignmentParams, setReassignmentParams] =
 		useState<ConsultantReassignment | null>(null);
-
-	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession.item.groupId);
 
@@ -145,13 +142,11 @@ export const RequestSessionAssign = (props: { value?: string }) => {
 	};
 
 	const handleE2EEAssign = async (sessionId, userId) => {
-		if (isE2eeEnabled) {
-			try {
-				await addNewUsersToEncryptedRoom();
-				await apiDeleteUserFromRoom(sessionId, userId);
-			} catch (e) {
-				console.error('error encrypting new user key');
-			}
+		try {
+			await addNewUsersToEncryptedRoom();
+			await apiDeleteUserFromRoom(sessionId, userId);
+		} catch (e) {
+			console.error('error encrypting new user key');
 		}
 	};
 

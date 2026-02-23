@@ -17,7 +17,6 @@ import {
 	getContact,
 	hasUserAuthority,
 	AnonymousConversationFinishedContext,
-	E2EEContext,
 	SessionTypeContext,
 	useTenant,
 	UserDataContext,
@@ -131,7 +130,6 @@ export const MessageSubmitInterfaceComponent = ({
 	const { anonymousConversationFinished } = useContext(
 		AnonymousConversationFinishedContext
 	);
-	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { addNotification } = useContext(NotificationsContext);
 
 	const voiceRecordingFileRef = useRef<File | null>(null);
@@ -575,7 +573,7 @@ export const MessageSubmitInterfaceComponent = ({
 		const attachment =
 			preselectedFile || voiceRecordingFileRef.current || selectedFile;
 
-		if (isE2eeEnabled && encrypted && !keyID) {
+		if (encrypted && !keyID) {
 			console.error("Can't send message without key");
 			return;
 		}
@@ -597,8 +595,8 @@ export const MessageSubmitInterfaceComponent = ({
 			: key;
 
 		let message = getTypedMarkdownMessage().trim();
-		let isEncrypted = isE2eeEnabled;
-		if (message.length > 0 && isE2eeEnabled) {
+		let isEncrypted = true;
+		if (message.length > 0) {
 			try {
 				message = await encryptText(message, messageKeyId, messageKey);
 			} catch (e: any) {
@@ -638,7 +636,6 @@ export const MessageSubmitInterfaceComponent = ({
 		feedbackChatKeyId,
 		feedbackEncryptRoom,
 		getTypedMarkdownMessage,
-		isE2eeEnabled,
 		key,
 		keyID,
 		preselectedFile,
