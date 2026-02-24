@@ -273,15 +273,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		setRedirectToSessionsList(true);
 	}, []);
 
-	//TODO:
-	//enquiries: only RS profil
-	//sessions/peer/team: feedback (if u25), rs, docu
-	//imprint/dataschutz all users all devices
-
-	//dynamicly menut items in flyout:
-	//rotate icon to vertical only if EVERY item in flyout
-	//list item icons only shown on outside
-
 	const baseUrl = `${listPath}/:groupId/:id/:subRoute?/:extraPath?${getSessionListTab()}`;
 
 	const groupChatInfoLink = generatePath(baseUrl, {

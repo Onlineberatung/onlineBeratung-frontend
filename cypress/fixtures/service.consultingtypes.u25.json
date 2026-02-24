@@ -50,7 +50,6 @@
 		"relation": false,
 		"state": true
 	},
-	"initializeFeedbackChat": true,
 	"roles": {
 		"consultant": {
 			"main": ["consultant", "u25-consultant", "u25-main-consultant"],

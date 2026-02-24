@@ -155,24 +155,6 @@ $icon-size-small: 16px;
 		background-color: var(--skin-color-primary, #cc1e1c);
 	}
 
-	&__feedbackLabel {
-		padding: 0 8px;
-		height: 18px;
-		line-height: 18px;
-		border-radius: 9px;
-		background-color: $yellow-3;
-		display: inline-block;
-		word-break: keep-all;
-		cursor: pointer;
-		color: var(--skin-color-secondary, $secondary);
-		transition: background-color 0.5s ease-out;
-
-		&:hover {
-			color: var(--skin-color-secondary, $secondary);
-			background-color: $yellow-4;
-		}
-	}
-
 	&__icon {
 		width: $icon-size;
 		height: $icon-size;

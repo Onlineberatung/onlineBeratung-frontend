@@ -25,7 +25,7 @@ describe('sessionHelpers', () => {
 
 		it('should return single chat type when no chat property', () => {
 			const listItem = {
-				session: { groupId: 's1', feedbackGroupId: 'f1' }
+				session: { groupId: 's1' }
 			} as any;
 			expect(getChatTypeForListItem(listItem)).toBe(
 				CHAT_TYPE_SINGLE_CHAT
@@ -40,29 +40,29 @@ describe('sessionHelpers', () => {
 	});
 
 	describe('isSessionChat', () => {
-		it('should return true for session chat items with feedbackGroupId', () => {
+		it('should return true for session chat items with registrationType', () => {
 			const chatItem = {
-				feedbackGroupId: 'f1',
+				registrationType: 'REGISTERED',
 				groupId: 's1'
 			} as any;
 			expect(isSessionChat(chatItem)).toBe(true);
 		});
 
-		it('should return false for group chat items without feedbackGroupId', () => {
+		it('should return false for group chat items without registrationType', () => {
 			const chatItem = { groupId: 'g1', topic: 'Test' } as any;
 			expect(isSessionChat(chatItem)).toBe(false);
 		});
 	});
 
 	describe('isGroupChat', () => {
-		it('should return true for group chat items without feedbackGroupId', () => {
+		it('should return true for group chat items without registrationType', () => {
 			const chatItem = { groupId: 'g1', topic: 'Test' } as any;
 			expect(isGroupChat(chatItem)).toBe(true);
 		});
 
 		it('should return false for session chat items', () => {
 			const chatItem = {
-				feedbackGroupId: 'f1',
+				registrationType: 'REGISTERED',
 				groupId: 's1'
 			} as any;
 			expect(isGroupChat(chatItem)).toBe(false);
@@ -72,7 +72,6 @@ describe('sessionHelpers', () => {
 	describe('isLiveChat', () => {
 		it('should return true for anonymous session chats', () => {
 			const chatItem = {
-				feedbackGroupId: 'f1',
 				registrationType: REGISTRATION_TYPE_ANONYMOUS
 			} as any;
 			expect(isLiveChat(chatItem)).toBe(true);
@@ -80,7 +79,6 @@ describe('sessionHelpers', () => {
 
 		it('should return false for non-anonymous session chats', () => {
 			const chatItem = {
-				feedbackGroupId: 'f1',
 				registrationType: 'REGISTERED'
 			} as any;
 			expect(isLiveChat(chatItem)).toBe(false);
@@ -88,8 +86,7 @@ describe('sessionHelpers', () => {
 
 		it('should return false for group chats', () => {
 			const chatItem = {
-				groupId: 'g1',
-				registrationType: REGISTRATION_TYPE_ANONYMOUS
+				groupId: 'g1'
 			} as any;
 			expect(isLiveChat(chatItem)).toBe(false);
 		});

@@ -454,7 +454,6 @@ export const MessageSubmitInterfaceComponent = ({
 				res = await apiUploadAttachment(
 					attachmentFile,
 					sendToRoomWithId,
-					false,
 					getSendMailNotificationStatus(),
 					setUploadProgress,
 					setAttachmentUpload,
@@ -494,7 +493,6 @@ export const MessageSubmitInterfaceComponent = ({
 				await apiSendMessage(
 					message,
 					sendToRoomWithId,
-					false,
 					getSendMailNotificationStatus() && !attachment,
 					isEncrypted
 				)

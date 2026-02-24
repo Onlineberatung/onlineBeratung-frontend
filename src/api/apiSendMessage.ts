@@ -4,7 +4,6 @@ import { fetchData, FETCH_METHODS } from './fetchData';
 export const apiSendMessage = (
 	messageData: string,
 	rcGroupIdOrSessionId: string | number,
-	_isFeedback: boolean,
 	sendMailNotification: boolean,
 	isEncrypted: boolean
 ): Promise<any> => {

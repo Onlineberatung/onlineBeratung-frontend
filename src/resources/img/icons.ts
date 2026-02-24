@@ -22,7 +22,7 @@ export { default as EditIcon } from '@mui/icons-material/Edit';
 export { default as EmojiIcon } from '@mui/icons-material/EmojiEmotions';
 export { default as EnvelopeIcon } from '@mui/icons-material/Mail';
 export { default as ErrorIcon } from '@mui/icons-material/Warning';
-export { default as FeedbackIcon } from '@mui/icons-material/RateReview';
+
 export { default as FileDocIcon } from '@mui/icons-material/Article';
 export { default as FileImageIcon } from '@mui/icons-material/Image';
 export { default as FilePdfIcon } from '@mui/icons-material/PictureAsPdf';

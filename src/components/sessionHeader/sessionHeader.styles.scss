@@ -1,5 +1,4 @@
 $backBtnSize: 24px;
-$feedbackBtnSize: 20px;
 $iconSize: 24px;
 
 .sessionInfo {
@@ -18,7 +17,6 @@ $iconSize: 24px;
 		background-color: $session-header-background-color-large;
 	}
 
-	&__feedbackHeaderWrapper,
 	&__headerWrapper {
 		display: flex;
 		flex-direction: row;
@@ -28,23 +26,6 @@ $iconSize: 24px;
 		align-items: center;
 	}
 
-	&__feedbackHeaderWrapper {
-		justify-content: flex-start;
-
-		.sessionInfo__username {
-			flex: 1;
-			text-align: center;
-			margin-left: -36px;
-			cursor: auto;
-
-			@include from-large {
-				text-align: left;
-				margin-left: 0;
-			}
-		}
-	}
-
-	&__feedbackBackButton,
 	&__backButton {
 		display: block;
 		align-self: center;
@@ -55,10 +36,7 @@ $iconSize: 24px;
 		@include from-large {
 			display: none;
 		}
-	}
 
-	&__backButton,
-	&__feedbackBackButton {
 		svg {
 			width: $iconSize;
 			height: $iconSize;
@@ -75,14 +53,6 @@ $iconSize: 24px;
 					fill: var(--skin-color-primary, $primary);
 				}
 			}
-		}
-	}
-
-	&__feedbackBackButton {
-		padding-right: 10px;
-
-		@include from-large {
-			display: block;
 		}
 	}
 
@@ -124,32 +94,6 @@ $iconSize: 24px;
 		margin-right: 20px;
 	}
 
-	&__feedbackButton {
-		display: none;
-
-		@include from-large {
-			display: inline-block;
-		}
-
-		&--active .button__item {
-			transform: scale(1.2);
-			animation: yellowThemeHighlight 1.5s forwards;
-
-			@keyframes yellowThemeHighlight {
-				0% {
-					background-color: $yellow-3;
-				}
-				20% {
-					background-color: $yellow-4;
-				}
-				100% {
-					background-color: $yellow-3;
-				}
-			}
-		}
-	}
-
-	&__feedbackMetaInfo,
 	&__metaInfo {
 		width: 100%;
 		max-width: $xlarge;
@@ -291,11 +235,6 @@ $iconSize: 24px;
 					left: 50%;
 				}
 			}
-		}
-	}
-	&__feedbackMetaInfo {
-		@include from-large {
-			padding-left: 36px;
 		}
 	}
 }

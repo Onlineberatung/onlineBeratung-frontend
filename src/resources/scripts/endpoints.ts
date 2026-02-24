@@ -17,7 +17,7 @@ export const endpoints = {
 	anonymousBase: apiUrl + '/service/conversations/anonymous/',
 	askerSessions: apiUrl + '/service/users/sessions/askers',
 	attachmentUpload: apiUrl + '/service/uploads/new/',
-	attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
+
 	banUser: (rcUserId, chatId) =>
 		apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
 	chatRoom: apiUrl + '/service/users/chat/room',
@@ -92,7 +92,7 @@ export const endpoints = {
 	rocketchatLogout: apiUrl + '/api/v1/logout',
 	sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 	sendMessage: apiUrl + '/service/messages/new',
-	sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
+
 	sessionBase: apiUrl + '/service/users/sessions',
 	sessionRooms: apiUrl + '/service/users/sessions/room',
 	setAbsence: apiUrl + '/service/users/consultants/absences',

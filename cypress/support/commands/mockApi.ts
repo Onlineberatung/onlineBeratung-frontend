@@ -58,10 +58,6 @@ const defaultReturns = {
 				name: 'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
 				state: false
 			},
-			{
-				name: 'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER',
-				state: false
-			}
 		]
 	},
 	'agencies': [],

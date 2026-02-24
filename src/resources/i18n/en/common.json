@@ -240,7 +240,6 @@
 		"dearchive": "Dearchive",
 		"documentLibrary": "Document library",
 		"editGroupChat": "Chat settings",
-		"feedback": "Feedback",
 		"groupChatInfo": "Chat info",
 		"imprint": "Imprint",
 		"leaveGroupChat": "Leave chat",
@@ -466,10 +465,6 @@
 				"placeholder": {
 					"asker": "Write us what moves you.",
 					"consultant": "Write a message to client",
-					"feedback": {
-						"main": "Send a message to Peer",
-						"peer": "Send a message to Teamleader"
-					},
 					"groupChat": "Write message"
 				}
 			},
@@ -1109,8 +1104,7 @@
 			}
 		},
 		"forward": {
-			"label": "Forwarded message from {{username}}, {{date}} at {{time}}",
-			"title": "Forward text message to\nFeedback"
+			"label": "Forwarded message from {{username}}, {{date}} at {{time}}"
 		},
 		"groupChat": "Group chat",
 		"isMyMessage": {
@@ -1127,13 +1121,6 @@
 		"today": "Today",
 		"tomorrow": "Tomorrow",
 		"unread": "unread",
-		"write": {
-			"peer": {
-				"checkbox": {
-					"label": "Request feedback"
-				}
-			}
-		},
 		"yesterday": "Yesterday"
 	},
 	"navigation": {
@@ -1847,9 +1834,6 @@
 			"restrictions": ".jpg, .png, .pdf, .docx, .xlsx, .mp3, .wav, .ogg, .aac, .m4a, .odt, .ods, .odp up to a maximum of {{attachment_filesize}}MB"
 		},
 		"empty": "Please select a message",
-		"feedback": {
-			"label": "Feedback"
-		},
 		"groupChat": {
 			"consultant": {
 				"prefix": "Moderator - "
@@ -1942,9 +1926,7 @@
 		},
 		"filter": {
 			"option": {
-				"all": "All consultations",
-				"feedbackMain": "Feedback needed",
-				"feedbackPeer": "Feedback available"
+				"all": "All consultations"
 			},
 			"placeholder": "Filter"
 		},

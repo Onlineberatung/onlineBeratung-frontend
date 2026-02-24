@@ -11,7 +11,6 @@ const isLocalDevelopment = nodeEnv === 'development';
 export const apiUploadAttachment = (
 	attachment: File,
 	rcGroupIdOrSessionId: string | number,
-	_isFeedback: boolean,
 	sendMailNotification: boolean,
 	uploadProgress: Function,
 	handleXhr: (xhr) => void,
