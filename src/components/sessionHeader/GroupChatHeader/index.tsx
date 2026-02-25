@@ -37,17 +37,20 @@ import { useStartVideoCall } from './useStartVideoCall';
 import { useAppConfig } from '../../../hooks/useAppConfig';
 import { RocketChatUsersOfRoomContext } from '../../../globalState/provider/RocketChatUsersOfRoomProvider';
 import { SessionItemInterface } from '../../../globalState/interfaces';
+import { MessageItem } from '../../message/MessageItemComponent';
 
 interface GroupChatHeaderProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	isJoinGroupChatView: boolean;
 	bannedUsers: string[];
+	messages?: MessageItem[];
 }
 
 export const GroupChatHeader = ({
 	hasUserInitiatedStopOrLeaveRequest,
 	isJoinGroupChatView,
-	bannedUsers
+	bannedUsers,
+	messages
 }: GroupChatHeaderProps) => {
 	const { releaseToggles } = useAppConfig();
 
@@ -190,6 +193,7 @@ export const GroupChatHeader = ({
 					isAskerInfoAvailable={isAskerInfoAvailable()}
 					isJoinGroupChatView={isJoinGroupChatView}
 					bannedUsers={bannedUsers}
+					messages={messages}
 				/>
 			</div>
 			<div className="sessionInfo__metaInfo">

@@ -226,6 +226,9 @@
 		"download": {
 			"label": "Herunterladen"
 		},
+		"preview": {
+			"label": "Vorschau"
+		},
 		"error": {
 			"format": {
 				"headline": "Ihre Datei konnte nicht gesendet werden.",
@@ -380,6 +383,7 @@
 		"askerProfil": "Ratsuchendenprofil",
 		"dataProtection": "Datenschutz",
 		"dearchive": "Dearchivieren",
+		"documentLibrary": "Dokumentenbibliothek",
 		"editGroupChat": "Chat-Einstellungen",
 		"feedback": "Feedback",
 		"groupChatInfo": "Chat-Info",
@@ -393,6 +397,10 @@
 			"message": " ist abwesend"
 		},
 		"jobTitle": "Berater_in"
+	},
+	"documentLibrary": {
+		"empty": "Keine Dokumente im Chat geteilt.",
+		"title": "Dokumentenbibliothek"
 	},
 	"date": {
 		"day": {
