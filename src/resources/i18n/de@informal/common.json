@@ -315,7 +315,6 @@
 				"copy": "Möchtest Du die Nachricht wirklich löschen?"
 			}
 		},
-		"submit": {},
 		"video": {
 			"description": "Du kannst jetzt an der Videokonferenz teilnehmen"
 		}
@@ -729,11 +728,7 @@
 			"termsAndConditionAndPrivacy": "Wir haben die Nutzungsbedingungen und Datenschutzerklärung der Online-Beratung aktualisiert. Um die Online-Beratung weiter nutzen zu können, benötigen wir Deine Zustimmung."
 		}
 	},
-	"tools": {
-		"calendar": {
-			"description": "Trage Deine Urlaube oder sonstigen Termine in den Kalender ein, sodass die Ratsuchenden in dieser Zeit keine Termine bei Dir buchen können.<br/>Melde Dich mit der gleichen E-Mail-Adresse und Passwort an, das Du auch hier bei der Online Beratung verwendest."
-		}
-	},
+	"tools": {},
 	"twoFactorAuth": {
 		"activate": {
 			"app": {

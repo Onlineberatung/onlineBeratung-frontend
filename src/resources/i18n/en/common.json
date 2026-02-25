@@ -1117,7 +1117,6 @@
 		},
 		"read": "read",
 		"sent": "sent",
-		"submit": {},
 		"today": "Today",
 		"tomorrow": "Tomorrow",
 		"unread": "unread",
@@ -2015,13 +2014,6 @@
 	"tools": {
 		"button": {
 			"label": "Open"
-		},
-		"calendar": {
-			"button": {
-				"label": "Open"
-			},
-			"description": "Enter your holidays or other appointments in the calendar so that those seeking advice cannot book any appointments with you during this time.<br/>Log in with the same e-mail address and password that you use here for the online use advice.",
-			"title": "My Calendar"
 		},
 		"shared": "Shared with the advisor"
 	},

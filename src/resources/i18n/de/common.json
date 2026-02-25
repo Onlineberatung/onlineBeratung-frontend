@@ -1116,7 +1116,6 @@
 		},
 		"read": "gelesen",
 		"sent": "zugestellt",
-		"submit": {},
 		"today": "Heute",
 		"tomorrow": "Morgen",
 		"unread": "ungelesen",
@@ -2033,13 +2032,6 @@
 	"tools": {
 		"button": {
 			"label": "Öffnen"
-		},
-		"calendar": {
-			"button": {
-				"label": "Öffnen"
-			},
-			"description": "Tragen Sie Ihre Urlaube oder sonstigen Termine in den Kalender ein, sodass die Ratsuchenden in dieser Zeit keine Termine bei Ihnen buchen können.<br/>Melden Sie sich mit der gleichen E-Mail-Adresse und Passwort an, das Sie auch hier bei der Online Beratung verwenden.",
-			"title": "Mein Kalender"
 		},
 		"shared": "Mit dem/der Berater/in geteilt"
 	},

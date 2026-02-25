@@ -41,35 +41,6 @@ $iconSize: 20px;
 			display: none;
 		}
 
-		&--booking {
-			white-space: normal;
-			flex-direction: column;
-
-			@include from-large {
-				margin-right: 1rem;
-				flex-direction: row;
-			}
-
-			p {
-				color: var(--skin-color-primary, $primary);
-				text-align: center;
-
-				@include from-large {
-					text-align: left;
-				}
-			}
-
-			svg {
-				@include from-large {
-					margin-right: 0.5rem;
-				}
-
-				path {
-					fill: var(--skin-color-primary, $primary);
-				}
-			}
-		}
-
 		@include from-large {
 			&--mobile {
 				display: none;

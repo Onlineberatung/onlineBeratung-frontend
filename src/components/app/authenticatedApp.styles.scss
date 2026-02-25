@@ -162,7 +162,6 @@ a {
 		}
 
 		&__detail,
-		&__booking,
 		&__profile,
 		&__tools {
 			min-height: 0;
@@ -205,15 +204,5 @@ a {
 			}
 		}
 
-		&__booking {
-			margin-top: 0;
-			width: 100vw;
-			transition: all 0.3s ease;
-			flex: 1;
-
-			@include from-large {
-				width: $contentWidth;
-			}
-		}
 	}
 }
