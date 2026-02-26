@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { List, Divider } from '@mui/material';
 import BackIcon from '@mui/icons-material/ArrowBack';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 
@@ -23,7 +22,7 @@ import {
 } from '../app/navigationHandler';
 import { apiGetSessionData } from '../../api';
 import { prepareMessages } from '../session/sessionHelpers';
-import { DocumentItem, DocumentListItem } from './DocumentLibraryModal';
+import { DocumentItem, DocumentList } from './DocumentLibraryItem';
 import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 import './documentLibrary.styles.scss';
 
@@ -159,21 +158,11 @@ const DocumentLibraryContent = ({
 				<div className="documentLibraryPage__content">
 					{loading ? (
 						<Loading />
-					) : documents.length === 0 ? (
-						<div className="documentLibraryPage__empty">
-							{translate('documentLibrary.empty')}
-						</div>
 					) : (
-						<List className="documentLibrary__list">
-							{documents.map((doc, index) => (
-								<React.Fragment
-									key={`${doc.file._id}-${index}`}
-								>
-									{index > 0 && <Divider />}
-									<DocumentListItem doc={doc} />
-								</React.Fragment>
-							))}
-						</List>
+						<DocumentList
+							documents={documents}
+							emptyLabel={translate('documentLibrary.empty')}
+						/>
 					)}
 				</div>
 			</div>

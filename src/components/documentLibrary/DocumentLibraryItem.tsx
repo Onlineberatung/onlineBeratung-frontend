@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useContext, useState } from 'react';
-import { Modal, Box, IconButton, List, ListItem, Divider } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { List, ListItem, Divider } from '@mui/material';
+import { IconButton } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import PreviewIcon from '@mui/icons-material/Visibility';
 import { useTranslation } from 'react-i18next';
@@ -40,65 +40,6 @@ export interface DocumentItem {
 	ts?: string;
 }
 
-interface DocumentLibraryModalProps {
-	open: boolean;
-	onClose: () => void;
-	documents: DocumentItem[];
-}
-
-export const DocumentLibraryModal: React.FC<DocumentLibraryModalProps> = ({
-	open,
-	onClose,
-	documents
-}) => {
-	const { t: translate } = useTranslation();
-
-	return (
-		<Modal
-			open={open}
-			onClose={onClose}
-			aria-labelledby="document-library-title"
-			className="documentLibrary"
-		>
-			<Box className="documentLibrary__content">
-				<Box className="documentLibrary__header">
-					<h2
-						id="document-library-title"
-						className="documentLibrary__title"
-					>
-						{translate('documentLibrary.title')}
-					</h2>
-					<IconButton
-						onClick={onClose}
-						className="documentLibrary__closeButton"
-						aria-label={translate('app.close')}
-					>
-						<CloseIcon />
-					</IconButton>
-				</Box>
-				<Box className="documentLibrary__body">
-					{documents.length === 0 ? (
-						<div className="documentLibrary__empty">
-							{translate('documentLibrary.empty')}
-						</div>
-					) : (
-						<List className="documentLibrary__list">
-							{documents.map((doc, index) => (
-								<React.Fragment
-									key={`${doc.file._id}-${index}`}
-								>
-									{index > 0 && <Divider />}
-									<DocumentListItem doc={doc} />
-								</React.Fragment>
-							))}
-						</List>
-					)}
-				</Box>
-			</Box>
-		</Modal>
-	);
-};
-
 const NOT_ENCRYPTED = 'not_encrypted';
 const IS_DECRYPTING = 'is_decrypting';
 const DECRYPTION_ERROR = 'decryption_error';
@@ -125,7 +66,10 @@ export const DocumentListItem: React.FC<DocumentListItemProps> = ({ doc }) => {
 	const canPreview = isImage || isPDF;
 
 	const decryptFile = useCallback(async (): Promise<string | null> => {
-		if (attachmentStatus === IS_DECRYPTING || attachmentStatus === DECRYPTION_ERROR) {
+		if (
+			attachmentStatus === IS_DECRYPTING ||
+			attachmentStatus === DECRYPTION_ERROR
+		) {
 			return null;
 		}
 		if (attachmentStatus === DECRYPTION_FINISHED && decryptedUrl) {
@@ -290,5 +234,32 @@ export const DocumentListItem: React.FC<DocumentListItemProps> = ({ doc }) => {
 				/>
 			)}
 		</ListItem>
+	);
+};
+
+interface DocumentListProps {
+	documents: DocumentItem[];
+	emptyLabel: string;
+}
+
+export const DocumentList: React.FC<DocumentListProps> = ({
+	documents,
+	emptyLabel
+}) => {
+	if (documents.length === 0) {
+		return (
+			<div className="documentLibraryPage__empty">{emptyLabel}</div>
+		);
+	}
+
+	return (
+		<List className="documentLibrary__list">
+			{documents.map((doc, index) => (
+				<React.Fragment key={`${doc.file._id}-${index}`}>
+					{index > 0 && <Divider />}
+					<DocumentListItem doc={doc} />
+				</React.Fragment>
+			))}
+		</List>
 	);
 };

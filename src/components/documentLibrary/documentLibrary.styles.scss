@@ -112,60 +112,6 @@
 }
 
 .documentLibrary {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	&__content {
-		position: relative;
-		background-color: $white;
-		border-radius: 8px;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-		width: min(600px, 90vw);
-		max-height: 80vh;
-		display: flex;
-		flex-direction: column;
-		outline: none;
-	}
-
-	&__header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: $grid-base-two;
-		border-bottom: 1px solid $line-grey;
-		flex-shrink: 0;
-	}
-
-	&__title {
-		margin: 0;
-		font-size: 1.125rem;
-		font-weight: 600;
-		color: $secondary;
-	}
-
-	&__closeButton {
-		color: $secondary;
-		flex-shrink: 0;
-
-		&:hover {
-			color: var(--skin-color-primary, $primary);
-			background-color: rgba(0, 0, 0, 0.05);
-		}
-	}
-
-	&__body {
-		flex: 1;
-		overflow-y: auto;
-	}
-
-	&__empty {
-		padding: $grid-base-four $grid-base-two;
-		text-align: center;
-		color: $secondary;
-		opacity: 0.6;
-	}
-
 	&__list {
 		padding: 0 !important;
 	}
