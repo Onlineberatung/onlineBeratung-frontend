@@ -39,21 +39,19 @@ import {
 } from '../../globalState';
 import { ListItemInterface, STATUS_EMPTY } from '../../globalState/interfaces';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
-import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
 import { SessionListItemComponent } from '../sessionsListItem/SessionListItemComponent';
 import { SessionsListSkeleton } from '../sessionsListItem/SessionsListItemSkeleton';
 import {
 	apiGetAskerSessionList,
 	apiGetConsultantSessionList,
 	FETCH_ERRORS,
-	FILTER_FEEDBACK,
 	INITIAL_FILTER,
 	SESSION_COUNT
 } from '../../api';
 import { Button } from '../button/Button';
 import { WelcomeIllustration } from './SessionsListWelcomeIllustration';
 import { SessionListCreateChat } from './SessionListCreateChat';
-import './sessionsList.styles';
+import './sessionsList.styles.scss';
 import {
 	MAX_ITEMS_TO_SHOW_WELCOME_ILLUSTRATION,
 	SCROLL_PAGINATE_THRESHOLD
@@ -74,7 +72,7 @@ import { useWatcher } from '../../hooks/useWatcher';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { apiGetChatRoomById } from '../../api/apiGetChatRoomById';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as LiveChatAvailableIllustration } from '../../resources/img/illustrations/live-chat-available.svg';
+import LiveChatAvailableIllustration from '../../resources/img/illustrations/live-chat-available.svg?react';
 import { ListInfo } from '../listInfo/ListInfo';
 import { RocketChatUserStatusContext } from '../../globalState/provider/RocketChatUserStatusProvider';
 import { RocketChatUsersOfRoomProvider } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
@@ -105,16 +103,14 @@ export const SessionsList = ({
 	const listRef = createRef<HTMLDivElement>();
 
 	const { sessions, dispatch } = useContext(SessionsDataContext);
-	const { type, path: listPath } = useContext(SessionTypeContext);
+	const { type } = useContext(SessionTypeContext);
 
 	const {
 		subscribe,
 		unsubscribe,
 		ready: socketReady
 	} = useContext(RocketChatContext);
-	const [filter, setFilter] = useState<
-		typeof INITIAL_FILTER | typeof FILTER_FEEDBACK
-	>(INITIAL_FILTER);
+	const [filter] = useState(INITIAL_FILTER);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 
@@ -138,7 +134,7 @@ export const SessionsList = ({
 			available: status !== STATUS_ONLINE
 		})
 			.then(reloadUserData)
-			.catch(console.log);
+			.catch(console.error);
 	};
 
 	// If create new group chat
@@ -568,26 +564,6 @@ export const SessionsList = ({
 		unsubscribe
 	]);
 
-	const [showFilter, setShowFilter] = useState(false);
-
-	useEffect(() => {
-		const showFilter =
-			type !== SESSION_LIST_TYPES.ENQUIRY &&
-			sessionListTab !== SESSION_LIST_TAB_ARCHIVE &&
-			((hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
-				type === SESSION_LIST_TYPES.TEAMSESSION) ||
-				(hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
-					!hasUserAuthority(
-						AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
-						userData
-					)));
-
-		setShowFilter(showFilter);
-
-		if (!showFilter) {
-			setFilter(INITIAL_FILTER);
-		}
-	}, [sessionListTab, type, userData]);
 
 	const loadMoreSessions = useCallback(() => {
 		setIsLoading(true);
@@ -633,47 +609,10 @@ export const SessionsList = ({
 		totalItems
 	]);
 
-	const handleSelect = (selectedOption) => {
-		setCurrentOffset(0);
-		setFilter(selectedOption.value);
-		history.push(listPath);
-	};
-
 	const handleReloadButton = useCallback(() => {
 		setIsReloadButtonVisible(false);
 		loadMoreSessions();
 	}, [loadMoreSessions]);
-
-	const selectedOptionsSet = [
-		{
-			value: FILTER_FEEDBACK,
-			label: hasUserAuthority(
-				AUTHORITIES.VIEW_ALL_PEER_SESSIONS,
-				userData
-			)
-				? translate('sessionList.filter.option.feedbackMain')
-				: translate('sessionList.filter.option.feedbackPeer')
-		},
-		{
-			value: INITIAL_FILTER,
-			label: translate('sessionList.filter.option.all')
-		}
-	];
-
-	const preSelectedOption =
-		selectedOptionsSet.find((option) => option.value === filter) ??
-		selectedOptionsSet[1];
-
-	const selectDropdown: SelectDropdownItem = {
-		id: 'listFilterSelect',
-		selectedOptions: selectedOptionsSet,
-		handleDropdownSelect: handleSelect,
-		selectInputLabel: translate('sessionList.filter.placeholder'),
-		useIconOption: false,
-		isSearchable: false,
-		menuPlacement: 'bottom',
-		defaultValue: preSelectedOption
-	};
 
 	const showEnquiryTabs = useMemo(() => {
 		return (
@@ -829,7 +768,7 @@ export const SessionsList = ({
 
 	return (
 		<div className="sessionsList__innerWrapper">
-			{(showFilter || showEnquiryTabs || showSessionListTabs) && (
+			{(showEnquiryTabs || showSessionListTabs) && (
 				<div className="sessionsList__functionalityWrapper">
 					{showEnquiryTabs && (
 						<div role="tablist" className="sessionsList__tabs">
@@ -923,16 +862,10 @@ export const SessionsList = ({
 							</Link>
 						</div>
 					)}
-					{showFilter && (
-						<div className="sessionsList__selectWrapper">
-							<SelectDropdown {...selectDropdown} />
-						</div>
-					)}
 				</div>
 			)}
 			<div
 				className={clsx('sessionsList__scrollContainer', {
-					'sessionsList__scrollContainer--hasFilter': showFilter,
 					'sessionsList__scrollContainer--hasTabs':
 						showEnquiryTabs || showSessionListTabs
 				})}
@@ -970,7 +903,7 @@ export const SessionsList = ({
 							sessionListTab !== SESSION_LIST_TAB_ANONYMOUS) &&
 						finalSessionsList
 							.map((session) =>
-								buildExtendedSession(session, groupIdFromParam)
+								buildExtendedSession(session)
 							)
 							.sort(sortSessions)
 							.map(
@@ -1214,7 +1147,7 @@ const useGroupWatcher = (isLoading: boolean) => {
 				}
 			})
 			.catch((e) => {
-				console.log(e);
+				console.error(e);
 			});
 	}, [dispatch, hasSessionChanged, history?.location?.state, sessions]);
 

@@ -1,46 +1,50 @@
-@mixin setup-fonts {
-	@font-face {
-		font-family: Roboto;
-		src:
-			url('../fonts/roboto-v18-latin-regular.woff2') format('woff2'),
-			url('../fonts/roboto-v18-latin-regular.woff') format('woff');
-		font-weight: $font-weight-regular;
-		font-style: normal;
-	}
+/* nunito-regular - latin */
+@font-face {
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local(''),
+		url('../fonts/nunito-v25-latin/nunito-v25-latin-regular.woff2')
+			format('woff2'),
+		/* Super Modern Browsers */
+			url('../fonts/nunito-v25-latin/nunito-v25-latin-regular.woff')
+			format('woff'),
+		/* Modern Browsers */
+			url('../fonts/nunito-v25-latin/nunito-v25-latin-regular.ttf')
+			format('truetype'); /* Safari, Android, iOS */
+}
 
-	@font-face {
-		font-family: Roboto;
-		src:
-			url('../fonts/roboto-v18-latin-300.woff2') format('woff2'),
-			url('../fonts/roboto-v18-latin-300.woff') format('woff');
-		font-weight: $font-weight-light;
-		font-style: normal;
-	}
+/* nunito-600 - latin */
+@font-face {
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: 600;
+	src:
+		local(''),
+		url('../fonts/nunito-v25-latin/nunito-v25-latin-600.woff2')
+			format('woff2'),
+		/* Super Modern Browsers */
+			url('../fonts/nunito-v25-latin/nunito-v25-latin-600.woff')
+			format('woff'),
+		/* Modern Browsers */
+			url('../fonts/nunito-v25-latin/nunito-v25-latin-600.ttf')
+			format('truetype'); /* Safari, Android, iOS */
+}
 
-	@font-face {
-		font-family: Roboto;
-		src:
-			url('../fonts/roboto-v18-latin-500.woff2') format('woff2'),
-			url('../fonts/roboto-v18-latin-500.woff') format('woff');
-		font-weight: $font-weight-medium;
-		font-style: normal;
-	}
-
-	@font-face {
-		font-family: Roboto;
-		src:
-			url('../fonts/roboto-v18-latin-700.woff2') format('woff2'),
-			url('../fonts/roboto-v18-latin-700.woff') format('woff');
-		font-weight: $font-weight-bold;
-		font-style: normal;
-	}
-
-	@font-face {
-		font-family: RobotoSlab;
-		src:
-			url('../fonts/robotoSlab/RobotoSlab-Regular.woff2') format('woff2'),
-			url('../fonts/robotoSlab/RobotoSlab-Regular.woff') format('woff');
-		font-weight: $font-weight-regular;
-		font-style: normal;
-	}
+/* nunito-700 - latin */
+@font-face {
+	font-family: Nunito;
+	font-style: normal;
+	font-weight: 700;
+	src:
+		local(''),
+		url('../fonts/nunito-v25-latin/nunito-v25-latin-700.woff2')
+			format('woff2'),
+		/* Super Modern Browsers */
+			url('../fonts/nunito-v25-latin/nunito-v25-latin-700.woff')
+			format('woff'),
+		/* Modern Browsers */
+			url('../fonts/nunito-v25-latin/nunito-v25-latin-700.ttf')
+			format('truetype'); /* Safari, Android, iOS */
 }

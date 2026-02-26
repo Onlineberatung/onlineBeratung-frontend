@@ -46,7 +46,6 @@
 		"relation": true,
 		"state": false
 	},
-	"initializeFeedbackChat": false,
 	"roles": {
 		"consultant": {
 			"main": ["consultant"],

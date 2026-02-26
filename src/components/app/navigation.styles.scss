@@ -1,4 +1,4 @@
-$iconSize: 32px;
+$iconSize: 35px;
 $unreadBubbleSize: 8px;
 $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
@@ -9,7 +9,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		&--mobileHidden {
 			display: none !important;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				display: flex !important;
 			}
 		}
@@ -24,7 +24,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		padding: $grid-base-two;
 		overflow-y: auto;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			justify-content: space-between;
 			flex-direction: column;
 			height: 100%;
@@ -39,7 +39,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		align-self: center;
 		margin-bottom: 12px;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: block;
 		}
 	}
@@ -74,7 +74,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			outline: none;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: block;
 			width: auto;
 			height: auto;
@@ -87,7 +87,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			flex-direction: row;
 			justify-content: space-around;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				justify-content: normal;
 				flex-direction: column;
 			}
@@ -97,7 +97,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			cursor: pointer;
 			transition: all 0.6s ease;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				margin: auto 0 0 !important;
 				display: flex;
 				flex-direction: column;
@@ -106,7 +106,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			&--consultant {
 				display: none;
 
-				@include breakpoint($fromLarge) {
+				@include from-large {
 					display: flex;
 				}
 			}
@@ -115,7 +115,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		&__language {
 			display: none;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				display: block;
 			}
 		}
@@ -133,9 +133,9 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 			top: 4px;
 			left: calc(50% + #{$grid-base-two});
 			text-align: center;
-			outline: $primary 2px solid;
+			outline: var(--skin-color-primary, $primary) 2px solid;
 
-			@include breakpoint($fromMedium) {
+			@include from-medium {
 				top: 0;
 			}
 
@@ -200,7 +200,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 
 			.navigation__icon__filled {
 				display: block;
-				fill: $primary;
+				fill: var(--skin-color-primary, $primary);
 			}
 			.navigation__icon__outline {
 				display: none;
@@ -226,7 +226,7 @@ $unreadBubbleAnimation: count 500ms ease 500ms forwards;
 		margin-top: 6px;
 		font-weight: $font-weight-medium;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: block;
 		}
 	}

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
-import { ReactComponent as ErrorIcon } from '../../resources/img/icons/exclamation-mark.svg';
-import './messageSubmitInfo.styles';
+import InfoIcon from '@mui/icons-material/Info';
+import ErrorIcon from '@mui/icons-material/Warning';
+import './messageSubmitInfo.styles.scss';
 import { useTranslation } from 'react-i18next';
 
 export interface MessageSubmitInfoInterface {
@@ -26,12 +26,12 @@ export const MessageSubmitInfo = (props: MessageSubmitInfoInterface) => {
 					<span className="messageSubmitInfoWrapper__icon">
 						{props.isInfo ? (
 							<InfoIcon
-								title={translate('notifications.info')}
+								titleAccess={translate('notifications.info')}
 								aria-label={translate('notifications.info')}
 							/>
 						) : (
 							<ErrorIcon
-								title={translate('notifications.error')}
+								titleAccess={translate('notifications.error')}
 								aria-label={translate('notifications.error')}
 							/>
 						)}

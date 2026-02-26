@@ -1,14 +1,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import {
-	InputField,
-	InputFieldItem,
-	InputFieldLabelState
-} from '../inputField/InputField';
-import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
+import { TextField } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
 import {
 	AccordionItemValidity,
-	MIN_USERNAME_LENGTH,
+	isStringValidUsername,
 	VALIDITY_INITIAL,
 	VALIDITY_INVALID,
 	VALIDITY_VALID
@@ -20,7 +16,7 @@ interface RegistrationUsernameProps {
 	isUsernameAlreadyInUse: boolean;
 	onUsernameChange: Function;
 	onValidityChange: Function;
-	onKeyDown?: Function;
+	onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
 }
 
 export const RegistrationUsername = ({
@@ -34,12 +30,10 @@ export const RegistrationUsername = ({
 	const [isValid, setIsValid] =
 		useState<AccordionItemValidity>(VALIDITY_INITIAL);
 	const [labelContent, setLabelContent] = useState<string>(null);
-	const [labelState, setLabelState] = useState<InputFieldLabelState>(null);
 
 	useEffect(() => {
 		if (isUsernameAlreadyInUse) {
 			setIsValid(VALIDITY_INVALID);
-			setLabelState(VALIDITY_INVALID);
 			setLabelContent(translate('registration.user.unavailable'));
 		}
 	}, [isUsernameAlreadyInUse, translate]);
@@ -52,38 +46,29 @@ export const RegistrationUsername = ({
 		onValidityChange(isValid);
 	}, [isValid]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	const inputItemUsername: InputFieldItem = {
-		content: username,
-		icon: <PersonIcon />,
-		id: 'username',
-		label: labelContent
-			? `${labelContent}`
-			: translate('registration.user.label'),
-		maxLength: 30,
-		name: 'username',
-		type: 'text',
-		...(labelState && { labelState: labelState })
-	};
-
 	const handleUsernameChange = (event) => {
 		validateUsername(event.target.value);
 		setUsername(event.target.value);
 	};
 
 	const validateUsername = (username) => {
-		if (username.length >= MIN_USERNAME_LENGTH) {
+		if (isStringValidUsername(username)) {
 			setIsValid(VALIDITY_VALID);
-			setLabelState(VALIDITY_VALID);
 			setLabelContent(translate('registration.user.suitable'));
-		} else if (username.length > 0) {
-			setIsValid(VALIDITY_INVALID);
-			setLabelState(VALIDITY_INVALID);
-			setLabelContent(translate('registration.user.unsuitable'));
-		} else {
+		} else if (username.length === 0) {
 			setIsValid(VALIDITY_INITIAL);
-			setLabelState(null);
 			setLabelContent(null);
+		} else {
+			setIsValid(VALIDITY_INVALID);
+			setLabelContent(translate('registration.user.unsuitable'));
 		}
+	};
+
+	const getHelperText = () => {
+		if (labelContent) {
+			return labelContent;
+		}
+		return '';
 	};
 
 	return (
@@ -93,10 +78,20 @@ export const RegistrationUsername = ({
 				type="standard"
 				className="text__registration_user"
 			/>
-			<InputField
-				item={inputItemUsername}
-				inputHandle={handleUsernameChange}
+			<TextField
+				id="username"
+				name="username"
+				label={translate('registration.user.label')}
+				value={username}
+				onChange={handleUsernameChange}
 				onKeyDown={onKeyDown}
+				error={isValid === VALIDITY_INVALID}
+				helperText={getHelperText()}
+				fullWidth
+				variant="outlined"
+				autoComplete="off"
+				inputProps={{ maxLength: 30 }}
+				sx={{ mt: 2 }}
 			/>
 		</div>
 	);

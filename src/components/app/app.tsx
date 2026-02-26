@@ -1,4 +1,3 @@
-import '../../polyfill';
 import * as React from 'react';
 import { ComponentType, useState, lazy, Suspense, useContext } from 'react';
 import {
@@ -6,15 +5,18 @@ import {
 	Switch,
 	Route,
 	RouteProps,
-	Redirect
+	Redirect,
+	useLocation
 } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { StageProps } from '../stage/stage';
-import '../../resources/styles/styles';
+import '../../resources/styles/styles.scss';
 import { ContextProvider } from '../../globalState/state';
 import { WebsocketHandler } from './WebsocketHandler';
 import ErrorBoundary from './ErrorBoundary';
 import { LanguagesProvider } from '../../globalState/provider/LanguagesProvider';
 import { TenantThemingLoader } from './TenantThemingLoader';
+import { MuiThemeProvider } from './MuiThemeProvider';
 import {
 	AppConfigProvider,
 	InformalProvider,
@@ -34,6 +36,7 @@ import { Loading } from './Loading';
 import { GlobalComponentContext } from '../../globalState/provider/GlobalComponentContext';
 import { UrlParamsProvider } from '../../globalState/provider/UrlParamsProvider';
 import { Notifications } from '../notifications/Notifications';
+import { RootRedirect } from './RootRedirect';
 
 const Login = lazy(() =>
 	import('../login/Login').then((m) => ({ default: m.Login }))
@@ -46,13 +49,15 @@ const Registration = lazy(() =>
 		default: m.Registration
 	}))
 );
+const Welcome = lazy(() =>
+	import('../welcome/Welcome').then((m) => ({
+		default: m.Welcome
+	}))
+);
 const WaitingRoomLoader = lazy(() =>
 	import('../waitingRoom/WaitingRoomLoader').then((m) => ({
 		default: m.WaitingRoomLoader
 	}))
-);
-const VideoConference = lazy(
-	() => import('../videoConference/VideoConference')
 );
 const VideoCall = lazy(() => import('../videoCall/VideoCall'));
 
@@ -85,29 +90,31 @@ export const App = ({
 
 	return (
 		<ErrorBoundary>
-			<AppConfigProvider config={config}>
-				<TenantProvider>
-					<InformalProvider>
-						<LocaleProvider>
-							<LanguagesProvider
-								fixed={fixedLanguages}
-								spoken={spokenLanguages}
-							>
-								<LegalLinksProvider legalLinks={legalLinks}>
-									<GlobalComponentContext.Provider
-										value={{ Stage: stageComponent }}
-									>
-										<RouterWrapper
-											extraRoutes={extraRoutes}
-										/>
-									</GlobalComponentContext.Provider>
-								</LegalLinksProvider>
-							</LanguagesProvider>
-						</LocaleProvider>
-					</InformalProvider>
-				</TenantProvider>
-				<DevToolbarWrapper />
-			</AppConfigProvider>
+			<HelmetProvider>
+				<AppConfigProvider config={config}>
+					<TenantProvider>
+						<InformalProvider>
+							<LocaleProvider>
+								<LanguagesProvider
+									fixed={fixedLanguages}
+									spoken={spokenLanguages}
+								>
+									<LegalLinksProvider legalLinks={legalLinks}>
+										<GlobalComponentContext.Provider
+											value={{ Stage: stageComponent }}
+										>
+											<RouterWrapper
+												extraRoutes={extraRoutes}
+											/>
+										</GlobalComponentContext.Provider>
+									</LegalLinksProvider>
+								</LanguagesProvider>
+							</LocaleProvider>
+						</InformalProvider>
+					</TenantProvider>
+					<DevToolbarWrapper />
+				</AppConfigProvider>
+			</HelmetProvider>
 		</ErrorBoundary>
 	);
 };
@@ -132,76 +139,78 @@ const RouterWrapper = ({ extraRoutes }: RouterWrapperProps) => {
 	return (
 		<Router>
 			<Switch>
-				{settings.urls.landingpage !== '/' && (
-					<Redirect from="/" to={settings.urls.landingpage} exact />
-				)}
 				<Route>
 					<ContextProvider>
-						<TenantThemingLoader />
-						{startWebsocket && (
-							<WebsocketHandler
-								disconnect={disconnectWebsocket}
-							/>
-						)}
-						<Suspense fallback={<Loading />}>
-							<Switch>
-								{extraRoutes.map(
-									({ route, component: Component }) => (
-										<Route
-											{...route}
-											key={
-												typeof route.path === 'string'
-													? route.path
-													: route.path.join('-')
-											}
-										>
-											<Component />
-										</Route>
-									)
-								)}
-
-								<Route
-									path={[
-										'/registration',
-										'/:consultingTypeSlug/registration'
-									]}
-								>
-									<UrlParamsProvider>
-										<Registration />
-									</UrlParamsProvider>
-								</Route>
-
-								<Route path="/:consultingTypeSlug/warteraum">
-									<WaitingRoomLoader
-										onAnonymousRegistration={() =>
-											setStartWebsocket(true)
-										}
-									/>
-								</Route>
-
-								<Route path="/login" exact>
-									<UrlParamsProvider>
-										<Login />
-									</UrlParamsProvider>
-								</Route>
-								<Route
-									path={settings.urls.videoConference}
-									exact
-								>
-									<VideoConference />
-								</Route>
-								<Route path={settings.urls.videoCall} exact>
-									<VideoCall />
-								</Route>
-								<AuthenticatedApp
-									onAppReady={() => setStartWebsocket(true)}
-									onLogout={() =>
-										setDisconnectWebsocket(true)
-									}
+						<MuiThemeProvider>
+							<TenantThemingLoader />
+							{startWebsocket && (
+								<WebsocketHandler
+									disconnect={disconnectWebsocket}
 								/>
-							</Switch>
-							<NotificationsContainer />
-						</Suspense>
+							)}
+							<Suspense fallback={<Loading />}>
+								{/* Keep Registration mounted when on legal pages */}
+								<RegistrationWithPersistence />
+								
+								<Switch>
+									{extraRoutes.map(
+										({ route, component: Component }) => (
+											<Route
+												{...route}
+												key={
+													typeof route.path === 'string'
+														? route.path
+														: route.path.join('-')
+												}
+											>
+												<Component />
+											</Route>
+										)
+									)}
+
+									<Route path="/" exact>
+										<RootRedirect />
+									</Route>
+
+									<Route path="/welcome">
+										<Welcome />
+									</Route>
+
+									{/* Registration Route - actual component rendered by RegistrationWithPersistence above */}
+									<Route path="/beratung/registration" exact>
+										{/* Component is rendered outside Switch for persistence - this route just marks the path as valid */}
+										<></>
+									</Route>
+
+									<Route path="/beratung/livechat/:consultingTypeSlug?" exact>
+										<WaitingRoomLoader 
+											onAnonymousRegistration={() => {
+												setStartWebsocket(true);
+											}}
+										/>
+									</Route>
+
+
+									<Route path="/login" exact>
+										<UrlParamsProvider>
+											<Login />
+										</UrlParamsProvider>
+									</Route>
+									<Route path={settings.urls.videoCall} exact>
+										<VideoCall />
+									</Route>
+									<Route>
+										<AuthenticatedApp
+											onAppReady={() => setStartWebsocket(true)}
+											onLogout={() =>
+												setDisconnectWebsocket(true)
+											}
+										/>
+									</Route>
+								</Switch>
+								<NotificationsContainer />
+							</Suspense>
+						</MuiThemeProvider>
 					</ContextProvider>
 				</Route>
 			</Switch>
@@ -217,3 +226,30 @@ const NotificationsContainer = () => {
 		)
 	);
 };
+
+/**
+ * Keeps Registration component mounted when navigating to/from legal pages
+ * This preserves all form state without needing complex persistence logic
+ */
+const RegistrationWithPersistence = () => {
+	const location = useLocation();
+	
+	const isRegistrationRoute = location.pathname === '/beratung/registration';
+	const isLegalPage = location.pathname.match(/^\/(impressum|datenschutz|nutzungsbedingungen)/);
+	
+	// Keep mounted on registration or legal pages
+	if (!isRegistrationRoute && !isLegalPage) {
+		return null;
+	}
+	
+	// Hide when on legal pages, show when on registration
+	// Pass isBackground prop to prevent redirects when hidden
+	return (
+		<div style={{ display: isRegistrationRoute ? 'block' : 'none' }}>
+			<UrlParamsProvider>
+				<Registration isBackground={!isRegistrationRoute} />
+			</UrlParamsProvider>
+		</div>
+	);
+};
+

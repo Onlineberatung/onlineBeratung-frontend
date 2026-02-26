@@ -17,11 +17,11 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 		padding: 12px $grid-base-two;
 		width: $contentWidthSmall;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding: 12px $grid-base-three;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: $contentWidth;
 		}
 
@@ -51,49 +51,60 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 				transform: translateX(-50%);
 			}
 
-			&-booking {
-				margin: 0 auto;
-				text-align: center;
-				display: grid;
-				align-content: center;
-				width: 100%;
+		}
 
-				&-headline {
-					margin: 0.75rem auto 1.25rem;
-					position: relative;
-					width: 100%;
-					max-width: 900px;
+		&__emojiIcon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: $grid-base-three;
+			height: $grid-base-three;
+			margin-bottom: $grid-base;
+			cursor: pointer;
 
-					&::before {
-						content: '';
-						display: block;
-						height: 1px;
-						left: 3px;
-						right: 64px;
-						top: 50%;
-						position: absolute;
-						background-color: $line-grey;
-						z-index: -2;
-					}
+			@include from-large {
+				margin-bottom: 10px;
+			}
 
-					&::after {
-						content: '';
-						display: block;
-						height: 10px;
-						width: 300px;
-						left: 50%;
-						top: 50%;
-						transform: translate(-50%, -50%);
-						position: absolute;
-						background-color: $dark-grey;
-						z-index: -1;
-					}
+			svg {
+				align-self: flex-end;
+
+				* {
+					fill: $tertiary;
 				}
 
-				button {
-					display: flex;
-					align-items: center;
-					margin: 0 auto;
+				&:hover {
+					* {
+						fill: var(--skin-color-primary, $primary);
+					}
+				}
+			}
+		}
+
+		&__attachmentIcon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: $grid-base-three;
+			height: $grid-base-three;
+			margin-bottom: $grid-base;
+			cursor: pointer;
+
+			@include from-large {
+				margin-bottom: 10px;
+			}
+
+			svg {
+				align-self: flex-end;
+
+				* {
+					fill: $tertiary;
+				}
+
+				&:hover {
+					* {
+						fill: var(--skin-color-primary, $primary);
+					}
 				}
 			}
 		}
@@ -105,7 +116,7 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			max-height: 118px;
 			min-height: 88px;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				max-height: 218px;
 				min-height: 106px;
 			}
@@ -134,12 +145,15 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			border-radius: $grid-base-three;
 			cursor: pointer;
 			background-color: var(--skin-color-primary, $primary);
-			margin: 0 0 4px 14px;
+			margin: 0 0 10px 14px;
 			align-self: flex-end;
 			transition: background-color 0.6s ease;
 			overflow: hidden;
+			color: var(--text-color-contrast-switch, $white);
 			svg {
 				transform: translate(0);
+				fill: var(--text-color-contrast-switch, $white);
+				color: var(--text-color-contrast-switch, $white);
 			}
 			&:hover {
 				background-color: var(
@@ -199,6 +213,31 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 					fill: $form-primary;
 				}
 			}
+
+			&--mic .textarea__icon {
+				margin-left: 12px;
+			}
+
+			&--recording {
+				background-color: #d32f2f;
+				animation: micPulse 1s ease-in-out infinite;
+
+				&:hover {
+					background-color: #b71c1c;
+				}
+			}
+
+			@keyframes micPulse {
+				0% {
+					box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.4);
+				}
+				70% {
+					box-shadow: 0 0 0 10px rgba(211, 47, 47, 0);
+				}
+				100% {
+					box-shadow: 0 0 0 0 rgba(211, 47, 47, 0);
+				}
+			}
 		}
 
 		&__icon {
@@ -243,8 +282,8 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			margin-bottom: $grid-base;
 			cursor: pointer;
 
-			@include breakpoint($fromLarge) {
-				margin-bottom: 12px;
+			@include from-large {
+				margin-bottom: 10px;
 			}
 
 			svg {
@@ -417,30 +456,6 @@ $inputBoxShadow: inset 0 2px 0 0 $message-submit-interface-textarea-shadow-color
 			&--active {
 				margin-bottom: 48px;
 				display: inline-block;
-			}
-		}
-
-		&__iconBooking {
-			width: $grid-base-six;
-			height: $grid-base-six;
-			border-radius: $grid-base-three;
-			cursor: pointer;
-			border: 1px solid var(--skin-color-primary, $primary);
-			margin: 0 0 4px 14px;
-			align-self: flex-end;
-			background-color: $white;
-			transition: background-color 0.6s ease;
-			overflow: hidden;
-			&:hover {
-				background-color: $background-light;
-			}
-
-			svg {
-				fill: $primary;
-				position: relative;
-				left: 50%;
-				top: 50%;
-				transform: translate(-50%, -50%);
 			}
 		}
 

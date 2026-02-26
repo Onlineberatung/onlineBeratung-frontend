@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { ReactNode, useCallback } from 'react';
-import './notice.styles';
+import './notice.styles.scss';
 
-import { ReactComponent as ExclamationIcon } from '../../resources/img/icons/exclamation-mark.svg';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
-import { ReactComponent as ErrorIcon } from '../../resources/img/icons/x.svg';
-import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark-white.svg';
+import ExclamationIcon from '@mui/icons-material/Warning';
+import InfoIcon from '@mui/icons-material/Info';
+import ErrorIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
 import {
 	NOTICE_TYPE_ERROR,
 	NOTICE_TYPE_INFO,

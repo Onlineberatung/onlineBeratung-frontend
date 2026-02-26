@@ -1,31 +1,33 @@
+import './authenticatedApp.styles.scss';
+import './navigation.styles.scss';
+
 import * as React from 'react';
-import { Redirect } from 'react-router-dom';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { Routing } from './Routing';
+
+import { Redirect } from 'react-router-dom';
+
+import { apiGetConsultingTypes } from '../../api';
 import {
-	UserDataContext,
-	hasUserAuthority,
 	AUTHORITIES,
 	ConsultingTypesContext,
-	RocketChatProvider,
+	hasUserAuthority,
 	InformalContext,
-	LocaleContext
+	LocaleContext,
+	RocketChatProvider,
+	UserDataContext
 } from '../../globalState';
-import { apiGetConsultingTypes } from '../../api';
-import { Loading } from './Loading';
-import { handleTokenRefresh } from '../auth/auth';
-import { logout } from '../logout/logout';
-import './authenticatedApp.styles';
-import './navigation.styles';
-import { requestPermissions } from '../../utils/notificationHelpers';
-import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
-import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatPublicSettingsProvider } from '../../globalState/provider/RocketChatPublicSettingsProvider';
+import { RocketChatSubscriptionsProvider } from '../../globalState/provider/RocketChatSubscriptionsProvider';
 import { RocketChatGetUserRolesProvider } from '../../globalState/provider/RocketChatSytemUsersProvider';
-import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
+import { RocketChatUnreadProvider } from '../../globalState/provider/RocketChatUnreadProvider';
 import { RocketChatUserStatusProvider } from '../../globalState/provider/RocketChatUserStatusProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { E2EEncryptionSupportBanner } from '../E2EEncryptionSupportBanner/E2EEncryptionSupportBanner';
+import { useJoinGroupChat } from '../../hooks/useJoinGroupChat';
+import { requestPermissions } from '../../utils/notificationHelpers';
+import { handleTokenRefresh } from '../auth/auth';
+import { logout } from '../logout/logout';
+import { Loading } from './Loading';
+import { Routing } from './Routing';
 
 interface AuthenticatedAppProps {
 	onAppReady: Function;
@@ -85,7 +87,7 @@ export const AuthenticatedApp = ({
 						})
 						.catch((error) => {
 							setLoading(false);
-							console.log(error);
+							console.error(error);
 						});
 				})
 				.catch(() => {
@@ -119,7 +121,6 @@ export const AuthenticatedApp = ({
 							<RocketChatSubscriptionsProvider>
 								<RocketChatUnreadProvider>
 									<RocketChatUserStatusProvider>
-										<E2EEncryptionSupportBanner />
 										<Routing logout={handleLogout} />
 									</RocketChatUserStatusProvider>
 								</RocketChatUnreadProvider>

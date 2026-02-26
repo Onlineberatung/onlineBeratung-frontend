@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import './furtherSteps.styles';
+import './furtherSteps.styles.scss';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { ReactComponent as EnvelopeIllustration } from '../../resources/img/illustrations/envelope-check.svg';
-import { ReactComponent as ConsultantIllustration } from '../../resources/img/illustrations/consultant.svg';
-import { ReactComponent as AnswerIllustration } from '../../resources/img/illustrations/answer.svg';
-import { ReactComponent as ArrowIllustration } from '../../resources/img/illustrations/arrow.svg';
-import { ReactComponent as EnvelopeIcon } from '../../resources/img/icons/envelope.svg';
-import { ReactComponent as SuccessIllustration } from '../../resources/img/illustrations/check.svg';
+import EnvelopeIllustration from '../../resources/img/illustrations/envelope-check.svg?react';
+import ConsultantIllustration from '../../resources/img/illustrations/consultant.svg?react';
+import AnswerIllustration from '../../resources/img/illustrations/answer.svg?react';
+import ArrowIllustration from '../../resources/img/illustrations/arrow.svg?react';
+import EnvelopeIcon from '@mui/icons-material/Mail';
+import SuccessIllustration from '../../resources/img/illustrations/check.svg?react';
 import {
 	InputField,
 	InputFieldItem,

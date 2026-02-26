@@ -1,6 +1,6 @@
 .termsAndConditions {
 	.link {
-		color: $link-color;
+		color: var(--skin-color-primary, $primary);
 		text-decoration: underline;
 	}
 
@@ -48,7 +48,7 @@
 			margin-top: $grid-base-two;
 			width: 100%;
 
-			@include breakpoint($fromSmall) {
+			@include from-small {
 				width: 100%;
 			}
 
@@ -56,7 +56,7 @@
 				padding-bottom: $grid-base-three;
 				text-align: end;
 
-				@include breakpoint($fromLarge) {
+				@include from-large {
 					padding-bottom: 0;
 				}
 			}

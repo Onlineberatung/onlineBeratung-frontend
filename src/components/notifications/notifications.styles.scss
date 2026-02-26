@@ -8,7 +8,7 @@
 	right: $grid-base-two;
 	top: $grid-base-two;
 
-	@include breakpoint($fromMedium) {
+	@include from-medium {
 		width: 300px;
 		left: auto;
 		right: $grid-base-three;

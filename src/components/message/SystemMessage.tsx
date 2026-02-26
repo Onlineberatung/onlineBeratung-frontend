@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as CallOffIcon } from '../../resources/img/icons/call-off.svg';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
+import CallOffIcon from '@mui/icons-material/CallEnd';
+import InfoIcon from '@mui/icons-material/Info';
 
 export const ICON_CALL_OFF = 'call_off';
 export const ICON_INFO = 'info';
@@ -36,7 +36,7 @@ export const SystemMessage: React.FC<SystemMessageProps> = ({
 				<div>
 					<Icon
 						className="systemMessage__icon"
-						title={
+						titleAccess={
 							icon === 'call_off'
 								? translate('videoCall.info')
 								: translate('notifications.info')

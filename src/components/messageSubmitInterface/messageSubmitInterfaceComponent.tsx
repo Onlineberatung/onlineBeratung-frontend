@@ -3,7 +3,6 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
-	useMemo,
 	useRef,
 	useState
 } from 'react';
@@ -11,17 +10,19 @@ import { useHistory } from 'react-router-dom';
 
 import { SendMessageButton } from './SendMessageButton';
 import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
-import { Checkbox } from '../checkbox/Checkbox';
 import {
 	AUTHORITIES,
 	getContact,
 	hasUserAuthority,
 	AnonymousConversationFinishedContext,
-	E2EEContext,
 	SessionTypeContext,
 	useTenant,
 	UserDataContext,
-	ActiveSessionContext
+	ActiveSessionContext,
+	NotificationsContext,
+	NOTIFICATION_TYPE_ERROR,
+	NOTIFICATION_TYPE_INFO,
+	NOTIFICATION_TYPE_SUCCESS
 } from '../../globalState';
 import { STATUS_ARCHIVED, STATUS_FINISHED } from '../../globalState/interfaces';
 import {
@@ -39,41 +40,22 @@ import {
 	getAttachmentSizeMBForKB
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
-import PluginsEditor from '@draft-js-plugins/editor';
-import {
-	convertToRaw,
-	DraftHandleValue,
-	EditorState,
-	RichUtils
-} from 'draft-js';
-import { draftToMarkdown } from 'markdown-draft-js';
-import createLinkifyPlugin from '@draft-js-plugins/linkify';
-import createToolbarPlugin from '@draft-js-plugins/static-toolbar';
-import {
-	BoldButton,
-	ItalicButton,
-	UnorderedListButton
-} from '@draft-js-plugins/buttons';
-import createEmojiPlugin from '@draft-js-plugins/emoji';
-import {
-	emojiPickerCustomClasses,
-	escapeMarkdownChars,
-	handleEditorBeforeInput,
-	handleEditorPastedText,
-	toolbarCustomClasses
-} from './richtextHelpers';
-import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
-import { ReactComponent as ClipIcon } from '../../resources/img/icons/clip.svg';
-import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
-import { ReactComponent as RemoveIcon } from '../../resources/img/icons/x.svg';
-import { ReactComponent as CalendarMonthIcon } from '../../resources/img/icons/calendar-month-navigation.svg';
-import './emojiPicker.styles';
-import './messageSubmitInterface.styles';
-import './messageSubmitInterface.yellowTheme.styles';
+import { TiptapEditor } from './TiptapEditor';
+import { useTiptapDraftMessage } from './useTiptapDraftMessage';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
+import { Popover } from '@mui/material';
+import ClipIcon from '@mui/icons-material/AttachFile';
+import RichtextToggleIcon from '@mui/icons-material/FormatSize';
+import EmojiIcon from '@mui/icons-material/EmojiEmotions';
+import RemoveIcon from '@mui/icons-material/Close';
+
+import MicIcon from '@mui/icons-material/Mic';
+import './emojiPicker.styles.scss';
+import './messageSubmitInterface.styles.scss';
+import './messageSubmitInterface.yellowTheme.styles.scss';
+import './tiptapEditor.styles.scss';
 import clsx from 'clsx';
 import { mobileListView } from '../app/navigationHandler';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { Headline } from '../headline/Headline';
 import { useTranslation } from 'react-i18next';
 import {
 	encryptAttachment,
@@ -81,45 +63,21 @@ import {
 	getSignature
 } from '../../utils/encryptionHelpers';
 import { useE2EE } from '../../hooks/useE2EE';
+import {
+	useVoiceRecording,
+	VoiceRecordingError
+} from '../../hooks/useVoiceRecording';
 import { apiPostError, ERROR_LEVEL_WARN } from '../../api/apiPostError';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
 import { Overlay } from '../overlay/Overlay';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
 import { SubscriptionKeyLost } from '../session/SubscriptionKeyLost';
 import { RoomNotFound } from '../session/RoomNotFound';
-import { useDraftMessage } from './useDraftMessage';
-import {
-	STORAGE_KEY_ATTACHMENT_ENCRYPTION,
-	useDevToolbar
-} from '../devToolbar/DevToolbar';
 import {
 	OVERLAY_E2EE,
 	OVERLAY_REQUEST
 } from '../../globalState/interfaces/AppConfig/OverlaysConfigInterface';
 import { getIconForAttachmentType } from '../message/messageHelpers';
-import classNames from 'classnames';
-
-//Linkify Plugin
-const omitKey = (key, { [key]: _, ...obj }) => obj;
-const linkifyPlugin = createLinkifyPlugin({
-	component: (props) => {
-		return (
-			/* eslint-disable */
-			<a
-				{...omitKey('blockKey', props)}
-				href={props.href}
-				onClick={() => window.open(props.href, '_blank')}
-			></a>
-			/* eslint-enable */
-		);
-	}
-});
-
-//Static Toolbar Plugin
-const staticToolbarPlugin = createToolbarPlugin({
-	theme: toolbarCustomClasses
-});
-const { Toolbar } = staticToolbarPlugin;
 
 const INFO_TYPES = {
 	ABSENT: 'ABSENT',
@@ -155,7 +113,6 @@ export const MessageSubmitInterfaceComponent = ({
 	const { t: translate } = useTranslation();
 	const tenant = useTenant();
 	const history = useHistory();
-	const { getDevToolbarOption } = useDevToolbar();
 
 	const textareaInputRef = useRef<HTMLDivElement>(null);
 	const inputWrapperRef = useRef<HTMLSpanElement>(null);
@@ -168,7 +125,9 @@ export const MessageSubmitInterfaceComponent = ({
 	const { anonymousConversationFinished } = useContext(
 		AnonymousConversationFinishedContext
 	);
-	const { isE2eeEnabled } = useContext(E2EEContext);
+	const { addNotification } = useContext(NotificationsContext);
+
+	const voiceRecordingFileRef = useRef<File | null>(null);
 
 	const [activeInfo, setActiveInfo] = useState(null);
 	const [attachmentSelected, setAttachmentSelected] = useState<File | null>(
@@ -178,7 +137,7 @@ export const MessageSubmitInterfaceComponent = ({
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
 	const [attachmentUpload, setAttachmentUpload] =
 		useState<XMLHttpRequest | null>(null);
-	const [editorState, setEditorState] = useState(EditorState.createEmpty());
+	const [editorContent, setEditorContent] = useState('');
 	const [isRichtextActive, setIsRichtextActive] = useState(false);
 	const [isConsultantAbsent, setIsConsultantAbsent] = useState(
 		hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -193,32 +152,15 @@ export const MessageSubmitInterfaceComponent = ({
 	const [isLiveChatFinished, setIsLiveChatFinished] = useState(
 		activeSession.isLive && activeSession.item.status === STATUS_FINISHED
 	);
-	const [requestFeedbackCheckboxChecked, setRequestFeedbackCheckboxChecked] =
-		useState(false);
-	const [showAppointmentButton, setShowAppointmentButton] = useState(false);
-
-	//Emoji Picker Plugin
-	const emojiPlugin = useMemo(
-		() =>
-			createEmojiPlugin({
-				theme: emojiPickerCustomClasses,
-				useNativeArt: true,
-				disableInlineEmojis: true,
-				selectButtonContent: (
-					<EmojiIcon
-						aria-label={translate('enquiry.write.input.emojies')}
-						title={translate('enquiry.write.input.emojies')}
-					/>
-				)
-			}),
-		[translate]
-	);
-	const { EmojiSelect } = emojiPlugin;
+	const [emojiAnchorEl, setEmojiAnchorEl] =
+		useState<Element | null>(null);
+	const [insertEmojiFunc, setInsertEmojiFunc] = useState<
+		((emoji: string) => void) | null
+	>(null);
 
 	// This loads the keys for current activeSession.rid which is already set:
 	// to groupChat.groupId on group chats
 	// to session.groupId on session chats
-	// to session.feebackGroupId on feedback chats
 	const {
 		keyID,
 		key,
@@ -228,15 +170,6 @@ export const MessageSubmitInterfaceComponent = ({
 		encryptRoom,
 		ready: e2EEReady
 	} = useE2EE(activeSession.rid || null);
-
-	// This loads keys for feedback chat to have the ability to encrypt
-	// the feedback chat when checkbox "Request feedback" is checked
-	const {
-		keyID: feedbackChatKeyId,
-		key: feedbackChatKey,
-		encryptRoom: feedbackEncryptRoom,
-		ready: feedbackE2EEReady
-	} = useE2EE(activeSession.item.feedbackGroupId);
 
 	const {
 		visible: e2eeOverlayVisible,
@@ -269,9 +202,9 @@ export const MessageSubmitInterfaceComponent = ({
 	}, [activeSession, activeSession.item.status, userData]);
 
 	const { onChange: onDraftMessageChange, loaded: draftLoaded } =
-		useDraftMessage(
+		useTiptapDraftMessage(
 			!anonymousConversationFinished && !isRequestInProgress,
-			setEditorState
+			setEditorContent
 		);
 
 	useEffect(() => {
@@ -295,19 +228,9 @@ export const MessageSubmitInterfaceComponent = ({
 		}
 	}, [isLiveChatFinished]);
 
-	const getTypedMarkdownMessage = useCallback(
-		(currentEditorState?: EditorState) => {
-			const contentState = currentEditorState
-				? currentEditorState.getCurrentContent()
-				: editorState.getCurrentContent();
-			const rawObject = convertToRaw(escapeMarkdownChars(contentState));
-			const markdownString = draftToMarkdown(rawObject, {
-				escapeMarkdownCharacters: false
-			});
-			return markdownString.trim();
-		},
-		[editorState]
-	);
+	const getTypedMarkdownMessage = useCallback(() => {
+		return editorContent.trim();
+	}, [editorContent]);
 
 	useEffect(() => {
 		if (!activeInfo && isConsultantAbsent) {
@@ -354,9 +277,6 @@ export const MessageSubmitInterfaceComponent = ({
 			return;
 		}
 
-		if (activeSession.isEmptyEnquiry) {
-			setShowAppointmentButton(userData.appointmentFeatureEnabled);
-		}
 	}, [activeSession?.isEmptyEnquiry, userData]);
 
 	const removeSelectedAttachment = useCallback(() => {
@@ -370,6 +290,7 @@ export const MessageSubmitInterfaceComponent = ({
 		setUploadProgress(0);
 		setAttachmentSelected(null);
 		setAttachmentUpload(null);
+		voiceRecordingFileRef.current = null;
 		removeSelectedAttachment();
 	}, [removeSelectedAttachment]);
 
@@ -383,37 +304,14 @@ export const MessageSubmitInterfaceComponent = ({
 	);
 
 	const handleEditorChange = useCallback(
-		(currentEditorState) => {
-			if (
-				draftLoaded &&
-				currentEditorState.getCurrentContent() !==
-					editorState.getCurrentContent() &&
-				isTyping
-			) {
-				isTyping(!currentEditorState.getCurrentContent().hasText());
+		(markdown: string) => {
+			if (draftLoaded && markdown !== editorContent && isTyping) {
+				isTyping(markdown.trim().length === 0);
 			}
-			setEditorState(currentEditorState);
-			onDraftMessageChange(getTypedMarkdownMessage(currentEditorState));
+			setEditorContent(markdown);
+			onDraftMessageChange(markdown);
 		},
-		[
-			draftLoaded,
-			editorState,
-			getTypedMarkdownMessage,
-			isTyping,
-			onDraftMessageChange
-		]
-	);
-
-	const handleEditorKeyCommand = useCallback(
-		(command) => {
-			const newState = RichUtils.handleKeyCommand(editorState, command);
-			if (newState) {
-				handleEditorChange(newState);
-				return 'handled';
-			}
-			return 'not-handled';
-		},
-		[editorState, handleEditorChange]
+		[draftLoaded, editorContent, isTyping, onDraftMessageChange]
 	);
 
 	const resizeTextarea = useCallback(() => {
@@ -430,7 +328,7 @@ export const MessageSubmitInterfaceComponent = ({
 
 		// calculate inputHeight
 		const textHeight = document.querySelector(
-			'.public-DraftEditor-content > div'
+			'.tiptap-editor, .ProseMirror'
 		)?.scrollHeight;
 		let textInputMaxHeight = isRichtextActive
 			? textareaMaxHeight - richtextHeight
@@ -494,65 +392,41 @@ export const MessageSubmitInterfaceComponent = ({
 						onSendButton && onSendButton(response);
 					})
 				)
-				.then(() => setEditorState(EditorState.createEmpty()))
+				.then(() => setEditorContent(''))
 				.then(() => setIsRequestInProgress(false))
 				.catch((error) => {
-					console.log(error);
+					setIsRequestInProgress(false);
+					console.error(error);
 				});
 		},
-		[
-			activeSession.item.id,
-			encryptRoom,
-			language,
-			onSendButton,
-			setE2EEState
-		]
+		[activeSession.item.id, encryptRoom, language, onSendButton, setE2EEState]
 	);
 
 	const handleMessageSendSuccess = useCallback(() => {
 		onMessageSendSuccess?.();
-		if (requestFeedbackCheckboxChecked) {
-			const feedbackButton = document.querySelector(
-				'.sessionInfo__feedbackButton'
-			);
-			feedbackButton?.classList.add(
-				'sessionInfo__feedbackButton--active'
-			);
-			setTimeout(() => {
-				feedbackButton?.classList.remove(
-					'sessionInfo__feedbackButton--active'
-				);
-			}, 700);
-		}
-		setEditorState(EditorState.createEmpty());
+		setEditorContent('');
 		setActiveInfo('');
 		resizeTextarea();
 		setTimeout(() => setIsRequestInProgress(false), 1200);
-	}, [onMessageSendSuccess, requestFeedbackCheckboxChecked, resizeTextarea]);
+	}, [onMessageSendSuccess, resizeTextarea]);
 
 	const sendMessage = useCallback(
 		async (
-			sendToFeedbackEndpoint,
 			message,
 			attachment: File,
 			isEncrypted
 		) => {
-			const sendToRoomWithId = sendToFeedbackEndpoint
-				? activeSession.item.feedbackGroupId
-				: activeSession.rid || activeSession.item.id;
+			const sendToRoomWithId = activeSession.rid || activeSession.item.id;
 			const getSendMailNotificationStatus = () =>
 				!activeSession.isGroup && !activeSession.isLive;
 
 			if (attachment) {
 				let res: any;
 
-				const isAttachmentEncryptionEnabledDevTools = parseInt(
-					getDevToolbarOption(STORAGE_KEY_ATTACHMENT_ENCRYPTION)
-				);
 				let attachmentFile = attachment;
 				let signature = null;
-				let encryptEnabled =
-					isEncrypted && !!isAttachmentEncryptionEnabledDevTools;
+				// For 100% E2EE app: Always encrypt attachments when message is encrypted
+				let encryptEnabled = isEncrypted;
 
 				if (encryptEnabled) {
 					try {
@@ -577,7 +451,6 @@ export const MessageSubmitInterfaceComponent = ({
 				res = await apiUploadAttachment(
 					attachmentFile,
 					sendToRoomWithId,
-					sendToFeedbackEndpoint,
 					getSendMailNotificationStatus(),
 					setUploadProgress,
 					setAttachmentUpload,
@@ -617,7 +490,6 @@ export const MessageSubmitInterfaceComponent = ({
 				await apiSendMessage(
 					message,
 					sendToRoomWithId,
-					sendToFeedbackEndpoint,
 					getSendMailNotificationStatus() && !attachment,
 					isEncrypted
 				)
@@ -629,7 +501,7 @@ export const MessageSubmitInterfaceComponent = ({
 					})
 					.catch((error) => {
 						setIsRequestInProgress(false);
-						console.log(error);
+						console.error(error);
 					});
 			} else {
 				onSendButton && onSendButton();
@@ -641,12 +513,10 @@ export const MessageSubmitInterfaceComponent = ({
 		[
 			activeSession.isGroup,
 			activeSession.isLive,
-			activeSession.item.feedbackGroupId,
 			activeSession.item.id,
 			activeSession.rid,
 			cleanupAttachment,
 			encryptRoom,
-			getDevToolbarOption,
 			getTypedMarkdownMessage,
 			handleAttachmentUploadError,
 			handleMessageSendSuccess,
@@ -660,9 +530,10 @@ export const MessageSubmitInterfaceComponent = ({
 	const prepareAndSendMessage = useCallback(async () => {
 		const attachmentInput: any = attachmentInputRef.current;
 		const selectedFile = attachmentInput && attachmentInput.files[0];
-		const attachment = preselectedFile || selectedFile;
+		const attachment =
+			preselectedFile || voiceRecordingFileRef.current || selectedFile;
 
-		if (isE2eeEnabled && encrypted && !keyID) {
+		if (encrypted && !keyID) {
 			console.error("Can't send message without key");
 			return;
 		}
@@ -673,19 +544,12 @@ export const MessageSubmitInterfaceComponent = ({
 			return null;
 		}
 
-		const sendToFeedbackEndpoint =
-			requestFeedbackCheckboxChecked || activeSession.isFeedback;
-
-		const messageKeyId = requestFeedbackCheckboxChecked
-			? feedbackChatKeyId
-			: keyID;
-		const messageKey = requestFeedbackCheckboxChecked
-			? feedbackChatKey
-			: key;
+		const messageKeyId = keyID;
+		const messageKey = key;
 
 		let message = getTypedMarkdownMessage().trim();
-		let isEncrypted = isE2eeEnabled;
-		if (message.length > 0 && isE2eeEnabled) {
+		let isEncrypted = true;
+		if (message.length > 0) {
 			try {
 				message = await encryptText(message, messageKeyId, messageKey);
 			} catch (e: any) {
@@ -709,30 +573,18 @@ export const MessageSubmitInterfaceComponent = ({
 		}
 
 		await sendMessage(
-			sendToFeedbackEndpoint,
 			message,
 			attachment,
 			isEncrypted
 		);
-
-		if (requestFeedbackCheckboxChecked) {
-			await feedbackEncryptRoom(setE2EEState);
-		}
 	}, [
-		activeSession.isFeedback,
 		encrypted,
-		feedbackChatKey,
-		feedbackChatKeyId,
-		feedbackEncryptRoom,
 		getTypedMarkdownMessage,
-		isE2eeEnabled,
 		key,
 		keyID,
 		preselectedFile,
-		requestFeedbackCheckboxChecked,
 		sendEnquiry,
 		sendMessage,
-		setE2EEState,
 		type,
 		userData
 	]);
@@ -782,11 +634,9 @@ export const MessageSubmitInterfaceComponent = ({
 		userData
 	]);
 
-	const handleRequestFeedbackCheckbox = useCallback(() => {
-		setRequestFeedbackCheckboxChecked(
-			(requestFeedbackCheckboxChecked) => !requestFeedbackCheckboxChecked
-		);
-	}, []);
+	const handleEditorSubmit = useCallback(() => {
+		handleButtonClick();
+	}, [handleButtonClick]);
 
 	const handleAttachmentSelect = useCallback(() => {
 		const attachmentInput: any = attachmentInputRef.current;
@@ -797,6 +647,81 @@ export const MessageSubmitInterfaceComponent = ({
 		setAttachmentSelected(attachment);
 		setActiveInfo('');
 	}, []);
+
+	const handleVoiceRecordingComplete = useCallback(
+		(file: File) => {
+			voiceRecordingFileRef.current = file;
+			displayAttachmentToUpload(file);
+		},
+		[displayAttachmentToUpload]
+	);
+
+	const handleVoiceRecordingMaxDuration = useCallback(() => {
+		addNotification({
+			notificationType: NOTIFICATION_TYPE_INFO,
+			title: translate('voiceMessage.maxDuration.title'),
+			text: translate('voiceMessage.maxDuration.text')
+		});
+	}, [addNotification, translate]);
+
+	const handleVoiceRecordingError = useCallback(
+		(error: VoiceRecordingError) => {
+			let title: string;
+			let text: string;
+			switch (error) {
+				case 'permission_denied':
+					title = translate('voiceMessage.error.permission.title');
+					text = translate('voiceMessage.error.permission.text');
+					break;
+				case 'not_supported':
+					title = translate(
+						'voiceMessage.error.notSupported.title'
+					);
+					text = translate(
+						'voiceMessage.error.notSupported.text'
+					);
+					break;
+				case 'no_mime_type':
+					title = translate(
+						'voiceMessage.error.notSupported.title'
+					);
+					text = translate(
+						'voiceMessage.error.notSupported.text'
+					);
+					break;
+			}
+			addNotification({
+				notificationType: NOTIFICATION_TYPE_ERROR,
+				title,
+				text
+			});
+		},
+		[addNotification, translate]
+	);
+
+	const handleVoicePermissionGranted = useCallback(() => {
+		addNotification({
+			notificationType: NOTIFICATION_TYPE_SUCCESS,
+			title: translate('voiceMessage.permissionGranted.title'),
+			text: translate('voiceMessage.permissionGranted.text')
+		});
+	}, [addNotification, translate]);
+
+	const handleVoiceTooShort = useCallback(() => {
+		addNotification({
+			notificationType: NOTIFICATION_TYPE_INFO,
+			title: translate('voiceMessage.tooShort.title'),
+			text: translate('voiceMessage.tooShort.text')
+		});
+	}, [addNotification, translate]);
+
+	const { isRecording, startRecording, stopRecording } = useVoiceRecording({
+		onRecordingComplete: handleVoiceRecordingComplete,
+		onMaxDurationReached: handleVoiceRecordingMaxDuration,
+		onError: handleVoiceRecordingError,
+		onPermissionGranted: handleVoicePermissionGranted,
+		onTooShort: handleVoiceTooShort
+	});
 
 	const handleLargeAttachments = useCallback(() => {
 		removeSelectedAttachment();
@@ -833,6 +758,34 @@ export const MessageSubmitInterfaceComponent = ({
 		setActiveInfo('');
 		cleanupAttachment();
 	}, [attachmentUpload, cleanupAttachment, uploadProgress]);
+
+	const handleEmojiButtonClick = useCallback(
+		(event: React.MouseEvent<Element>) => {
+			setEmojiAnchorEl(event.currentTarget);
+		},
+		[]
+	);
+
+	const handleEmojiClose = useCallback(() => {
+		setEmojiAnchorEl(null);
+	}, []);
+
+	const handleEmojiClick = useCallback(
+		(emojiData: EmojiClickData) => {
+			if (insertEmojiFunc) {
+				insertEmojiFunc(emojiData.emoji);
+				setEmojiAnchorEl(null);
+			}
+		},
+		[insertEmojiFunc]
+	);
+
+	const handleInsertEmojiReady = useCallback(
+		(insertEmoji: (emoji: string) => void) => {
+			setInsertEmojiFunc(() => insertEmoji);
+		},
+		[]
+	);
 
 	const getMessageSubmitInfo = useCallback((): MessageSubmitInfoInterface => {
 		let infoData;
@@ -891,29 +844,11 @@ export const MessageSubmitInterfaceComponent = ({
 		return infoData;
 	}, [activeInfo, activeSession, translate]);
 
-	const handleBookingButton = useCallback(() => {
-		history.push('/booking/');
-	}, [history]);
-
 	const hasUploadFunctionality =
 		(type !== SESSION_LIST_TYPES.ENQUIRY ||
 			(type === SESSION_LIST_TYPES.ENQUIRY &&
 				!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData))) &&
 		!tenant?.settings?.featureAttachmentUploadDisabled;
-
-	const hasRequestFeedbackCheckbox =
-		hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData) &&
-		!hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
-		activeSession.item.feedbackGroupId &&
-		(activeSession.isGroup || !activeSession.isFeedback);
-
-	const bookingButton: ButtonItem = useMemo(
-		() => ({
-			label: translate('message.submit.booking.buttonLabel'),
-			type: BUTTON_TYPES.PRIMARY
-		}),
-		[translate]
-	);
 
 	const getAttachmentIcon = useCallback((type: string) => {
 		const Icon = getIconForAttachmentType(type);
@@ -923,7 +858,7 @@ export const MessageSubmitInterfaceComponent = ({
 		return null;
 	}, []);
 
-	if (!e2EEReady || !feedbackE2EEReady) {
+	if (!e2EEReady) {
 		return null;
 	}
 
@@ -952,25 +887,7 @@ export const MessageSubmitInterfaceComponent = ({
 			)}
 			{activeInfo && <MessageSubmitInfo {...getMessageSubmitInfo()} />}
 			{!isLiveChatFinished && (
-				<form
-					className={classNames('textarea', {
-						'textarea--yellowTheme': requestFeedbackCheckboxChecked,
-						'textarea--large': hasRequestFeedbackCheckbox
-					})}
-				>
-					{hasRequestFeedbackCheckbox && (
-						<Checkbox
-							inputId={'requestFeedback'}
-							name={'requestFeedback'}
-							labelId={'requestFeedbackLabel'}
-							labelClass={'requestFeedbackLabel'}
-							label={translate(
-								'message.write.peer.checkbox.label'
-							)}
-							checked={requestFeedbackCheckboxChecked}
-							checkboxHandle={handleRequestFeedbackCheckbox}
-						/>
-					)}
+				<form className="textarea">
 					<div className={'textarea__wrapper'}>
 						<div className="textarea__wrapper-send-message">
 							<span className="textarea__featureWrapper">
@@ -983,7 +900,7 @@ export const MessageSubmitInterfaceComponent = ({
 												!isRichtextActive
 											)
 										}
-										title={translate(
+										titleAccess={translate(
 											'enquiry.write.input.format'
 										)}
 										aria-label={translate(
@@ -991,7 +908,31 @@ export const MessageSubmitInterfaceComponent = ({
 										)}
 									/>
 								</span>
-								<EmojiSelect />
+								<span className="textarea__emojiIcon">
+									<EmojiIcon
+										width="20"
+										height="20"
+										onClick={handleEmojiButtonClick}
+										titleAccess={translate('app.emoji')}
+										aria-label={translate('app.emoji')}
+										style={{ cursor: 'pointer' }}
+									/>
+								</span>
+								{hasUploadFunctionality && !attachmentSelected && (
+									<span className="textarea__attachmentIcon">
+										<ClipIcon
+											width="20"
+											height="20"
+											aria-label={translate(
+												'enquiry.write.input.attachement'
+											)}
+											titleAccess={translate(
+												'enquiry.write.input.attachement'
+											)}
+											onClick={handleAttachmentSelect}
+										/>
+									</span>
+								)}
 							</span>
 							<span
 								className="textarea__inputWrapper"
@@ -1004,107 +945,46 @@ export const MessageSubmitInterfaceComponent = ({
 									onFocus={toggleAbsentMessage}
 									onBlur={toggleAbsentMessage}
 								>
-									<Toolbar>
-										{(externalProps) => (
-											<div className="textarea__toolbar__buttonWrapper">
-												<BoldButton
-													{...externalProps}
-												/>
-												<ItalicButton
-													{...externalProps}
-												/>
-												<UnorderedListButton
-													{...externalProps}
-												/>
-											</div>
-										)}
-									</Toolbar>
-									<PluginsEditor
-										editorState={editorState}
+									<TiptapEditor
+										content={editorContent}
 										onChange={handleEditorChange}
-										readOnly={!draftLoaded}
-										handleKeyCommand={
-											handleEditorKeyCommand
-										}
-										placeholder={
-											hasRequestFeedbackCheckbox &&
-											requestFeedbackCheckboxChecked
-												? translate(
-														'enquiry.write.input.placeholder.feedback.peer'
-													)
-												: placeholder
-										}
-										stripPastedStyles={true}
-										spellCheck={true}
-										handleBeforeInput={() =>
-											handleEditorBeforeInput(editorState)
-										}
-										handlePastedText={(
-											text: string,
-											html?: string
-										): DraftHandleValue => {
-											const newEditorState =
-												handleEditorPastedText(
-													editorState,
-													text,
-													html
-												);
-											if (newEditorState) {
-												setEditorState(newEditorState);
-											}
-											return 'handled';
-										}}
-										plugins={[
-											linkifyPlugin,
-											staticToolbarPlugin,
-											emojiPlugin
-										]}
-										tabIndex={0}
+										onSubmit={handleEditorSubmit}
+										onInsertEmoji={handleInsertEmojiReady}
+										placeholder={placeholder}
+										disabled={!draftLoaded}
+										isRichtextActive={isRichtextActive}
 									/>
 								</div>
-								{hasUploadFunctionality &&
-									(!attachmentSelected ? (
-										<span className="textarea__attachmentSelect">
-											<ClipIcon
-												aria-label={translate(
-													'enquiry.write.input.attachement'
+								{hasUploadFunctionality && attachmentSelected && (
+									<div className="textarea__attachmentWrapper">
+										<span className="textarea__attachmentSelected">
+											<span className="textarea__attachmentSelected__progress"></span>
+											<span className="textarea__attachmentSelected__labelWrapper">
+												{getAttachmentIcon(
+													attachmentSelected.type
 												)}
-												title={translate(
-													'enquiry.write.input.attachement'
-												)}
-												onClick={handleAttachmentSelect}
-											/>
-										</span>
-									) : (
-										<div className="textarea__attachmentWrapper">
-											<span className="textarea__attachmentSelected">
-												<span className="textarea__attachmentSelected__progress"></span>
-												<span className="textarea__attachmentSelected__labelWrapper">
-													{getAttachmentIcon(
-														attachmentSelected.type
-													)}
-													<p className="textarea__attachmentSelected__label">
-														{
-															attachmentSelected.name
+												<p className="textarea__attachmentSelected__label">
+													{
+														attachmentSelected.name
+													}
+												</p>
+												<span className="textarea__attachmentSelected__remove">
+													<RemoveIcon
+														onClick={
+															handleAttachmentRemoval
 														}
-													</p>
-													<span className="textarea__attachmentSelected__remove">
-														<RemoveIcon
-															onClick={
-																handleAttachmentRemoval
-															}
-															title={translate(
-																'app.remove'
-															)}
-															aria-label={translate(
-																'app.remove'
-															)}
-														/>
-													</span>
+														titleAccess={translate(
+															'app.remove'
+														)}
+														aria-label={translate(
+															'app.remove'
+														)}
+													/>
 												</span>
 											</span>
-										</div>
-									))}
+										</span>
+									</div>
+								)}
 							</span>
 							<div className="textarea__buttons">
 								<SendMessageButton
@@ -1114,26 +994,73 @@ export const MessageSubmitInterfaceComponent = ({
 										uploadProgress || isRequestInProgress
 									}
 								/>
+								{hasUploadFunctionality && (
+									<span
+										onMouseDown={
+											!attachmentSelected &&
+											!uploadProgress &&
+											!isRequestInProgress
+												? isRecording
+													? stopRecording
+													: startRecording
+												: undefined
+										}
+										onMouseUp={
+											isRecording
+												? stopRecording
+												: undefined
+										}
+										onMouseLeave={
+											isRecording
+												? stopRecording
+												: undefined
+										}
+										onTouchStart={
+											!attachmentSelected &&
+											!uploadProgress &&
+											!isRequestInProgress
+												? isRecording
+													? stopRecording
+													: startRecording
+												: undefined
+										}
+										onTouchEnd={
+											isRecording
+												? stopRecording
+												: undefined
+										}
+										className={`textarea__iconWrapper textarea__iconWrapper--mic ${
+											isRecording
+												? 'textarea__iconWrapper--recording'
+												: ''
+										} ${
+											attachmentSelected ||
+											uploadProgress ||
+											isRequestInProgress
+												? 'textarea__iconWrapper--deactivated'
+												: ''
+										}`}
+										title={translate(
+											'voiceMessage.button.title'
+										)}
+										aria-label={translate(
+											'voiceMessage.button.title'
+										)}
+									>
+										<MicIcon
+											className="textarea__icon"
+											aria-label={translate(
+												'voiceMessage.button.title'
+											)}
+											titleAccess={translate(
+												'voiceMessage.button.title'
+											)}
+										/>
+									</span>
+								)}
 							</div>
 						</div>
-						{showAppointmentButton && (
-							<div className="textarea__wrapper-booking">
-								<Headline
-									semanticLevel="5"
-									text={translate(
-										'message.submit.booking.headline'
-									)}
-									className="textarea__wrapper-booking-headline"
-								/>
-								<Button
-									item={bookingButton}
-									isLink={true}
-									buttonHandle={handleBookingButton}
-									customIcon={<CalendarMonthIcon />}
-								/>
-							</div>
-						)}
-					</div>
+						</div>
 					{hasUploadFunctionality && (
 						<input
 							ref={attachmentInputRef}
@@ -1142,7 +1069,7 @@ export const MessageSubmitInterfaceComponent = ({
 							type="file"
 							id="dataUpload"
 							name="dataUpload"
-							accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+							accept="image/jpeg, image/png, .pdf, .docx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .mp3, .wav, .ogg, .m4a, .aac, .odt, .ods, .odp"
 						/>
 					)}
 				</form>
@@ -1154,6 +1081,23 @@ export const MessageSubmitInterfaceComponent = ({
 			{e2eeOverlayVisible && (
 				<Overlay item={e2eeOverlay} name={OVERLAY_E2EE} />
 			)}
+
+			<Popover
+				open={Boolean(emojiAnchorEl)}
+				anchorEl={emojiAnchorEl}
+				onClose={handleEmojiClose}
+				anchorOrigin={{
+					vertical: 'top',
+					horizontal: 'left'
+				}}
+				transformOrigin={{
+					vertical: 'bottom',
+					horizontal: 'left'
+				}}
+				className="emoji__selectPopover"
+			>
+				<EmojiPicker onEmojiClick={handleEmojiClick} />
+			</Popover>
 		</div>
 	);
 };

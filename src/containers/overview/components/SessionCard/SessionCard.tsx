@@ -44,7 +44,7 @@ export const SessionCard = ({
 			<SessionTypeProvider type={type}>
 				{sessions
 					?.slice(0, 9)
-					.map((session) => buildExtendedSession(session, ''))
+					.map((session) => buildExtendedSession(session))
 					.map((activeSession, index) => (
 						<ActiveSessionProvider
 							key={activeSession.item.id}

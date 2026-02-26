@@ -1,0 +1,33 @@
+{
+  "registration": {
+    "agency": {
+      "error": {
+        "topicRequired": "Bitte wählen Sie zunächst ein Thema aus, um passende Beratungsstellen zu finden.",
+        "notFound": "Die angegebene Beratungsstelle konnte nicht gefunden werden. Bitte wählen Sie eine Beratungsstelle aus der Liste."
+      }
+    },
+    "headline": "Registrierung",
+    "intro": {
+      "seoDescription": "Kostenlose und vertrauliche Online-Beratung. Registrieren Sie sich jetzt für professionelle Unterstützung.",
+      "seoKeywords": "Online-Beratung, Registrierung, kostenlose Beratung, vertraulich, Hilfe, Unterstützung"
+    }
+  },
+  "login": {
+    "headline": "Login",
+    "intro": {
+      "seoDescription": "Melden Sie sich an für Ihre vertrauliche Online-Beratung. Sicherer Zugang zu Ihren Gesprächen und persönlichen Beratern.",
+      "seoKeywords": "Login, Anmeldung, Online-Beratung, sicherer Zugang, vertraulich"
+    }
+  },
+  "userProfile": {
+    "data": {
+      "topic": "Beratungsthema"
+    }
+  },
+  "voiceMessage": {
+    "tooShort": {
+      "title": "Aufnahme zu kurz",
+      "text": "Um eine Sprachnachricht aufzunehmen, halten Sie die Mikrofon-Taste gedrückt, während Sie sprechen."
+    }
+  }
+}

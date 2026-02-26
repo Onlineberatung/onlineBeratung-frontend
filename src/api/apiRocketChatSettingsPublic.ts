@@ -2,7 +2,6 @@ import { endpoints } from '../resources/scripts/endpoints';
 import { fetchRCData } from './fetchRCData';
 import { FETCH_METHODS } from './fetchData';
 
-export const SETTING_E2E_ENABLE = 'E2E_Enable';
 export const SETTING_MESSAGE_MAXALLOWEDSIZE = 'Message_MaxAllowedSize';
 export const SETTING_FILEUPLOAD_MAXFILESIZE = 'FileUpload_MaxFileSize';
 export const SETTING_MESSAGE_ALLOWDELETING = 'Message_AllowDeleting';
@@ -31,7 +30,6 @@ export interface INumberSetting {
 
 export interface IBooleanSetting {
 	_id:
-		| typeof SETTING_E2E_ENABLE
 		| typeof SETTING_MESSAGE_ALLOWDELETING
 		| typeof SETTING_MESSAGE_SHOWDELETEDSTATUS;
 	enterprise: boolean;

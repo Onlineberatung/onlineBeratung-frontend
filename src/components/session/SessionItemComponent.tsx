@@ -29,10 +29,10 @@ import {
 	ActiveSessionContext
 } from '../../globalState';
 import { ConsultingTypeInterface } from '../../globalState/interfaces';
-import './session.styles';
-import './session.yellowTheme.styles';
+import './session.styles.scss';
+import './session.yellowTheme.styles.scss';
 import { useDebouncedCallback } from 'use-debounce';
-import { ReactComponent as ArrowDoubleDownIcon } from '../../resources/img/icons/arrow-double-down.svg';
+import ArrowDoubleDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import smoothScroll from './smoothScrollHelper';
 import { DragAndDropArea } from '../dragAndDropArea/DragAndDropArea';
 import useMeasure from 'react-use-measure';
@@ -67,7 +67,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	const { userData } = useContext(UserDataContext);
 	const { type } = useContext(SessionTypeContext);
 
-	const messages = useMemo(() => props.messages, [props && props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
+	const messages = useMemo(() => props.messages, [props.messages]); // eslint-disable-line react-hooks/exhaustive-deps
 	const [initialScrollCompleted, setInitialScrollCompleted] = useState(false);
 	const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 	const [isScrolledToBottom, setIsScrolledToBottom] = useState(true);
@@ -192,16 +192,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			return translate('enquiry.write.input.placeholder.groupChat');
 		} else if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder.asker');
-		} else if (
-			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
-			activeSession.isFeedback
-		) {
-			return translate('enquiry.write.input.placeholder.feedback.main');
-		} else if (
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-			activeSession.isFeedback
-		) {
-			return translate('enquiry.write.input.placeholder.feedback.peer');
 		} else if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder.consultant');
 		}
@@ -346,7 +336,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 					})
 			).then((a) => {
 				if (a.length > 0) {
-					console.log(`${a.length} error(s) reported.`);
+					console.warn(`${a.length} error(s) reported.`);
 				}
 			});
 		}, []),
@@ -355,13 +345,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	);
 
 	return (
-		<div
-			className={
-				activeSession.isFeedback
-					? `session session--yellowTheme`
-					: `session`
-			}
-		>
+		<div className="session">
 			<div ref={headerRef}>
 				<SessionHeaderComponent
 					consultantAbsent={
@@ -421,7 +405,10 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 									{...message}
 								/>
 								{index === messages.length - 1 &&
-									enableInitialScroll()}
+									(() => {
+										enableInitialScroll();
+										return null;
+									})()}
 							</React.Fragment>
 						))}
 					<div

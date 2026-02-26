@@ -1,0 +1,90 @@
+// Tiptap Editor Styles
+.textarea__editor-wrapper {
+	.tiptap-editor {
+		min-height: 88px;
+		outline: none;
+
+		> * + * {
+			margin-top: 0.75em;
+		}
+
+		// Placeholder
+		p.is-editor-empty:first-child::before {
+			content: attr(data-placeholder);
+			float: left;
+			color: $tertiary;
+			pointer-events: none;
+			height: 0;
+		}
+
+		// Lists
+		ul,
+		ol {
+			padding: 0 1rem;
+			margin: 0.5rem 0;
+		}
+
+		ul {
+			list-style-type: disc;
+		}
+
+		ol {
+			list-style-type: decimal;
+		}
+
+		li {
+			p {
+				margin: 0;
+			}
+		}
+
+		// Text formatting
+		strong {
+			font-weight: bold;
+		}
+
+		em {
+			font-style: italic;
+		}
+
+		u {
+			text-decoration: underline;
+		}
+
+		s {
+			text-decoration: line-through;
+		}
+
+		// Links
+		a {
+			color: var(--skin-color-primary, $primary);
+			text-decoration: underline;
+			cursor: pointer;
+
+			&:hover {
+				color: var(--skin-color-primary, $primary);
+			}
+		}
+
+		// Paragraph
+		p {
+			margin: 0;
+			line-height: 1.5;
+		}
+	}
+
+	.ProseMirror {
+		outline: none;
+
+		&:focus {
+			outline: none;
+		}
+	}
+}
+
+// Emoji picker popover
+.emoji__selectPopover {
+	.MuiPopover-paper {
+		box-shadow: 0 4px 30px 0 rgba(220, 220, 220, 1);
+	}
+}

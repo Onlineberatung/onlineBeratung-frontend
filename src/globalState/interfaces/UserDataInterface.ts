@@ -5,7 +5,6 @@ export interface UserDataInterface {
 	absenceMessage?: string;
 	absent?: boolean;
 	agencies: AgencyDataInterface[];
-	appointmentFeatureEnabled?: boolean;
 	available?: boolean;
 	consultingTypes?: { [consultingType: number]: ConsultingTypeDataInterface };
 	displayName?: string;
@@ -32,8 +31,10 @@ export interface UserDataInterface {
 	emailNotifications?: EmailNotificationsInterface;
 }
 
-export interface ConsultantDataInterface
-	extends Omit<UserDataInterface, 'userId'> {
+export interface ConsultantDataInterface extends Omit<
+	UserDataInterface,
+	'userId'
+> {
 	consultantId: string;
 	agencies: AgencyDataInterface[];
 }
@@ -84,5 +85,4 @@ export interface EmailNotificationsSettingsInterface {
 	initialEnquiryNotificationEnabled?: boolean;
 	newChatMessageNotificationEnabled?: boolean;
 	reassignmentNotificationEnabled?: boolean;
-	appointmentNotificationEnabled?: boolean;
 }

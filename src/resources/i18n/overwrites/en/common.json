@@ -1,0 +1,32 @@
+{
+	"anonymous": {
+		"overlay": {
+			"chatWasFinished": {
+				"button": "Go to registration"
+			},
+			"finishChat": {
+				"success": {
+					"button": "Go to registration"
+				}
+			}
+		}
+	},
+	"legal": {
+		"termsAndConditions": { "label": "Terms of use" }
+	},
+	"deleteAccount": {
+		"successOverlay": {
+			"headline": "You have successfully deleted your account from Online Advice & Help."
+		}
+	},
+	"registration": {
+		"overlay": {
+			"success": {
+				"headline": "Welcome<br>to the Online Advice & Help."
+			}
+		},
+		"welcomeScreen": {
+			"subline": "How does the consultation & help work?"
+		}
+	}
+}

@@ -1,10 +1,10 @@
 import * as React from 'react';
-import './editableData.styles';
+import './editableData.styles.scss';
 import { Text } from '../text/Text';
 import clsx from 'clsx';
-import { ReactComponent as CrossMarkIcon } from '../../resources/img/icons/x.svg';
-import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
-import { ReactComponent as PenIcon } from '../../resources/img/icons/pen.svg';
+import CrossMarkIcon from '@mui/icons-material/Close';
+import TrashIcon from '@mui/icons-material/Delete';
+import PenIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react';
 import { isStringValidEmail } from '../registration/registrationHelpers';
 import { useTranslation } from 'react-i18next';
@@ -151,7 +151,7 @@ export const EditableData = ({
 					onClick={handleRemoveButtonClick}
 				>
 					<CrossMarkIcon
-						title={translate('app.delete')}
+						titleAccess={translate('app.delete')}
 						aria-label={translate('app.delete')}
 					/>
 				</span>
@@ -171,7 +171,7 @@ export const EditableData = ({
 						onClick={() => handleSingleEditActive()}
 					>
 						<PenIcon
-							title={translate('profile.data.edit.button.edit')}
+							titleAccess={translate('profile.data.edit.button.edit')}
 							aria-label={translate(
 								'profile.data.edit.button.edit'
 							)}

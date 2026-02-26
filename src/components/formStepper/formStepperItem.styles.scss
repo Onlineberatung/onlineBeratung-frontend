@@ -1,0 +1,25 @@
+@import '../../resources/styles/settings';
+
+.formStepperItem {
+	margin-bottom: $grid-base;
+
+	&__title {
+		font-size: 1rem;
+		font-weight: 400;
+		margin: 0;
+		max-width: calc(100% - 30px);
+	}
+
+	&__content {
+		padding: $grid-base 0 0 $grid-base-three;
+
+		.inputField {
+			margin-left: 44px;
+		}
+	}
+
+	&__nextbutton {
+		margin-top: $grid-base-two;
+		margin-left: 44px;
+	}
+}

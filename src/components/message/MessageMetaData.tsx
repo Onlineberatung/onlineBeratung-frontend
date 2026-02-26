@@ -7,13 +7,13 @@ import {
 	ActiveSessionContext
 } from '../../globalState';
 import { formatToHHMM } from '../../utils/dateHelpers';
-import { ReactComponent as CheckmarkIcon } from '../../resources/img/icons/checkmark.svg';
+import CheckmarkIcon from '@mui/icons-material/Check';
 import { useTranslation } from 'react-i18next';
 
 interface MessageMetaDataProps {
-	isMyMessage: Boolean;
-	isNotRead: Boolean;
-	isReadStatusDisabled: Boolean;
+	isMyMessage: boolean;
+	isNotRead: boolean;
+	isReadStatusDisabled: boolean;
 	messageTime: string;
 	type: string;
 	t: null | 'e2e' | 'rm';
@@ -28,7 +28,6 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 		if (
 			hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
 			hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData) ||
-			(!activeSession.isGroup && activeSession.isFeedback) ||
 			props.isReadStatusDisabled
 		) {
 			return null;
@@ -52,7 +51,7 @@ export const MessageMetaData = (props: MessageMetaDataProps) => {
 							? translate('message.sent')
 							: translate('message.read')
 					}
-					title={
+					titleAccess={
 						props.isNotRead
 							? translate('message.sent')
 							: translate('message.read')

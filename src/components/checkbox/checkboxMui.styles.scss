@@ -1,0 +1,41 @@
+@import '../../resources/styles/settings';
+
+.checkboxMui__wrapper {
+  width: 100%;
+
+  .MuiFormControlLabel-root {
+    margin: 0;
+    align-items: flex-start;
+    
+    .MuiCheckbox-root {
+      padding: 9px;
+      color: $border-default;
+      
+      .MuiSvgIcon-root {
+        font-size: 30px; // 6px bigger than default 24px
+      }
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04);
+      }
+      
+      &.Mui-checked {
+        color: var(--skin-color-primary, $primary);
+      }
+      
+      &.Mui-disabled {
+        color: $form-disabled;
+      }
+    }
+    
+    .MuiFormControlLabel-label {
+      color: $form-secondary;
+      font-size: $font-size-primary;
+      margin-left: 8px;
+      
+      &.Mui-disabled {
+        color: $text-disabled;
+      }
+    }
+  }
+}

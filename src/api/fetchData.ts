@@ -104,7 +104,7 @@ export const fetchData = ({
 
 		const localDevelopmentHeader = isLocalDevelopment
 			? {
-					[process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY]:
+					[import.meta.env.VITE_CSRF_WHITELIST_HEADER_PROPERTY]:
 						csrfToken
 				}
 			: null;
@@ -223,8 +223,11 @@ export const fetchData = ({
 					) {
 						reject(new Error(FETCH_ERRORS.GATEWAY_TIMEOUT));
 					} else if (response.status === 401) {
-						console.log(url);
-						logout(true, appConfig.urls.toLogin);
+						if (accessToken) {
+							logout(true, appConfig.urls.toLogin);
+						} else {
+							reject(new Error(FETCH_ERRORS.UNAUTHORIZED));
+						}
 					}
 				} else {
 					const error = getErrorCaseForStatus(response.status);

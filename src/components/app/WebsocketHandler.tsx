@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Stomp } from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client';
 import { endpoints } from '../../resources/scripts/endpoints';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import {
@@ -107,11 +107,11 @@ export const WebsocketHandler = ({ disconnect }: WebsocketHandlerProps) => {
 		stompConnect();
 
 		stompClient.onWebSocketClose = (message) => {
-			console.log('Closed', message);
+			console.warn('Closed', message);
 		};
 
 		stompClient.onWebSocketError = (error) => {
-			console.log('Error', error);
+			console.error('Error', error);
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 

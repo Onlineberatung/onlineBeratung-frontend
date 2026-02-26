@@ -5,15 +5,15 @@ import {
 	formatToHHMM,
 	getPrettyDateFromMessageDate
 } from '../../utils/dateHelpers';
-import { ReactComponent as ArrowForwardIcon } from '../../resources/img/icons/arrow-forward.svg';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { ForwardMessageDTO } from './MessageItemComponent';
 import { ActiveSessionContext } from '../../globalState';
 import { useTranslation } from 'react-i18next';
 
 interface MessageDisplayNameProps {
 	alias?: ForwardMessageDTO;
-	isUser: Boolean;
-	isMyMessage: Boolean;
+	isUser: boolean;
+	isMyMessage: boolean;
 	type: 'forwarded' | 'user' | 'consultant' | 'self' | 'system';
 	userId: string;
 	username: string;

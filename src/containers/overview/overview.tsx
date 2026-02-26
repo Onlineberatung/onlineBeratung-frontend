@@ -1,7 +1,6 @@
 import React from 'react';
 import { Page } from '../../components/Page';
 import { SESSION_LIST_TYPES } from '../../components/session/sessionHelpers';
-import { BookingCard } from './components/BookingCard/BookingCard';
 import { EmptyType } from './components/EmptyState';
 import { SessionCard } from './components/SessionCard/SessionCard';
 import './overview.styles.scss';
@@ -28,8 +27,6 @@ export const OverviewPage = () => {
 					allMessagesPaths="/sessions/consultant/sessionPreview"
 					emptyType={EmptyType.MailIcon}
 				/>
-
-				<BookingCard />
 			</div>
 		</Page>
 	);

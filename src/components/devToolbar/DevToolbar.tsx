@@ -31,7 +31,6 @@ export const STORAGE_KEY_2FA = '2fa';
 export const STORAGE_KEY_DISABLE_2FA_DUTY = 'disable 2fa_duty';
 export const STORAGE_KEY_RELEASE_NOTES = 'release_notes';
 export const STORAGE_KEY_ERROR_BOUNDARY = 'error_boundary';
-export const STORAGE_KEY_E2EE_DISABLED = 'e2ee_disabled';
 export const STORAGE_KEY_TRANSLATION_DISABLE_CACHE =
 	'translation_disable_cache';
 export const STORAGE_KEY_ENABLE_TRANSLATION_CHECK = 'enable_translation_check';
@@ -136,8 +135,8 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 		type: TOGGLE,
 		choices: { '1': 'Disabled', '0': 'Enabled' },
 		value:
-			process.env.REACT_APP_DISABLE_2FA_DUTY &&
-			parseInt(process.env.REACT_APP_DISABLE_2FA_DUTY) === 1
+			import.meta.env.VITE_DISABLE_2FA_DUTY &&
+			parseInt(import.meta.env.VITE_DISABLE_2FA_DUTY) === 1
 				? '1'
 				: '0',
 		description:
@@ -153,21 +152,12 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 			'Disable the release notes dialog if there are new release notes added'
 	},
 	{
-		label: 'DEV E2EE',
-		key: STORAGE_KEY_E2EE_DISABLED,
-		type: TOGGLE,
-		choices: { '0': 'Enabled', '1': 'Disabled' },
-		value: '0',
-		description: 'Disable end-to-end encryption. DEV only'
-	},
-	{
 		label: 'DEV ATTACHMENT ENCRYPTION',
 		key: STORAGE_KEY_ATTACHMENT_ENCRYPTION,
 		type: TOGGLE,
 		choices: { '0': 'Disabled', '1': 'Enabled' },
 		value: (appConfig) => (appConfig.attachmentEncryption ? '1' : '0'),
-		description:
-			'Disable attachment encryption. Enable only when e2ee is also enabled. DEV only'
+		description: 'Disable attachment encryption. DEV only'
 	},
 	{
 		label: 'DEV Error Boundary',
@@ -175,8 +165,8 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 		type: TOGGLE,
 		choices: { '1': 'Enabled', '0': 'DISABLED' },
 		value:
-			process.env.REACT_APP_DISABLE_ERROR_BOUNDARY &&
-			parseInt(process.env.REACT_APP_DISABLE_ERROR_BOUNDARY) === 1
+			import.meta.env.VITE_DISABLE_ERROR_BOUNDARY &&
+			parseInt(import.meta.env.VITE_DISABLE_ERROR_BOUNDARY) === 1
 				? '0'
 				: '1',
 		description:
@@ -188,8 +178,8 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 		type: TOGGLE,
 		choices: { '1': 'Disabled', '0': 'Enabled' },
 		value:
-			process.env.REACT_APP_TRANSLATION_DISABLE_CACHE &&
-			parseInt(process.env.REACT_APP_TRANSLATION_DISABLE_CACHE) === 1
+			import.meta.env.VITE_TRANSLATION_DISABLE_CACHE &&
+			parseInt(import.meta.env.VITE_TRANSLATION_DISABLE_CACHE) === 1
 				? '1'
 				: '0',
 		description: 'Disable the localStorage cache for translations'
@@ -200,8 +190,8 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 		type: TOGGLE,
 		choices: { '0': 'Disabled', '1': 'Enabled' },
 		value:
-			process.env.REACT_APP_ENABLE_TRANSLATION_CHECK &&
-			parseInt(process.env.REACT_APP_ENABLE_TRANSLATION_CHECK) === 1
+			import.meta.env.VITE_ENABLE_TRANSLATION_CHECK &&
+			parseInt(import.meta.env.VITE_ENABLE_TRANSLATION_CHECK) === 1
 				? '1'
 				: '0',
 		description:
@@ -219,11 +209,11 @@ const LOCAL_STORAGE_SWITCHES: (TLocalStorageSwitches | null)[] = [
 			i18n.changeLanguage(
 				value === 'cimode'
 					? 'cimode'
-					: localStorage.getItem(STORAGE_KEY_LOCALE) ?? 'de'
+					: (localStorage.getItem(STORAGE_KEY_LOCALE) ?? 'de')
 			);
 		}
 	},
-	process.env.REACT_APP_DOCKER && {
+	import.meta.env.VITE_DOCKER && {
 		label: 'DEV API',
 		key: STORAGE_KEY_API,
 		persistent: false,

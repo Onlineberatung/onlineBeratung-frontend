@@ -7,7 +7,7 @@
 	padding: 0 $grid-base-two $grid-base-three;
 	color: $text-low-emphasis;
 
-	@include breakpoint($fromMedium) {
+	@include from-medium {
 		padding: 0 $grid-base-three $grid-base-five;
 	}
 

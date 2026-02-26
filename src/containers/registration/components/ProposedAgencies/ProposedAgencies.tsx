@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState
+} from 'react';
 import { useAgenciesForRegistration } from '../../hooks/useAgenciesForRegistration';
 import { NoAgencyFound } from '../NoAgencyFound';
 import { ConsultingTypeSelection } from '../ConsultingTypeSelection';
@@ -18,6 +24,7 @@ import { FormAccordionData } from '../../../../components/registration/Registrat
 import { UrlParamsContext } from '../../../../globalState/provider/UrlParamsProvider';
 import clsx from 'clsx';
 import { AgencyRadioSelect } from '../../../../components/agencyRadioSelect/AgencyRadioSelect';
+import { useTenant } from '../../../../globalState';
 
 import './proposedAgencies.styles.scss';
 
@@ -45,6 +52,7 @@ export const ProposedAgencies = ({
 	onChange
 }: ProposedAgenciesProps) => {
 	const { t } = useTranslation();
+	const tenantData = useTenant();
 
 	const { agency: preSelectedAgency, slugFallback } =
 		useContext(UrlParamsContext);
@@ -66,6 +74,18 @@ export const ProposedAgencies = ({
 			topic: formAccordionData.mainTopic,
 			postcode: formAccordionData.postcode
 		}
+	);
+
+	const topicsAreRequired = useMemo(
+		() =>
+			tenantData?.settings?.topicsInRegistrationEnabled &&
+			tenantData?.settings?.featureTopicsEnabled,
+		[tenantData?.settings]
+	);
+
+	const topicNotSelected = useMemo(
+		() => topicsAreRequired && !formAccordionData.mainTopic?.id,
+		[topicsAreRequired, formAccordionData.mainTopic?.id]
 	);
 
 	const handleChange = useCallback(
@@ -195,6 +215,7 @@ export const ProposedAgencies = ({
 						handleChange({ postcode: postCode })
 					}
 					isPreselectedAgency={!!preSelectedAgency}
+					disabled={!!preSelectedAgency}
 				/>
 			)}
 			{agencySelectionNote && (
@@ -207,7 +228,17 @@ export const ProposedAgencies = ({
 					/>
 				</div>
 			)}
-			{consultingTypes.length > 1 && (
+			{topicNotSelected && (
+				<div data-cy="registration-topic-required-error">
+					<Text
+						className="agencySelection__error"
+						text={t('registration.agency.error.topicRequired')}
+						type="infoLargeAlternative"
+						labelType={LABEL_TYPES.NOTICE}
+					/>
+				</div>
+			)}
+			{!topicNotSelected && consultingTypes.length > 1 && (
 				<div className="consultingTypeSelection">
 					<ConsultingTypeSelection
 						value={
@@ -226,8 +257,9 @@ export const ProposedAgencies = ({
 					/>
 				</div>
 			)}
-			{isLoading && <LoadingIndicator />}
-			{!agencies?.length &&
+			{!topicNotSelected && isLoading && <LoadingIndicator />}
+			{!topicNotSelected &&
+				!agencies?.length &&
 				(autoSelectPostcode ||
 					isPostcodeValid(formAccordionData?.postcode)) &&
 				!isLoading && (
@@ -237,7 +269,8 @@ export const ProposedAgencies = ({
 						consultingType={formAccordionData.consultingType}
 					/>
 				)}
-			{!isLoading &&
+			{!topicNotSelected &&
+				!isLoading &&
 				agencies.length === 1 &&
 				formAccordionData.agency && (
 					<AgencyRadioSelect
@@ -247,7 +280,7 @@ export const ProposedAgencies = ({
 						onKeyDown={onKeyDown}
 					/>
 				)}
-			{!isLoading && agencies?.length > 1 && (
+			{!topicNotSelected && !isLoading && agencies?.length > 1 && (
 				<div className="agencySelectionContainer">
 					<ProposedAgenciesTitle
 						hasPreselectedAgency={!!preSelectedAgency}

@@ -161,10 +161,10 @@ describe('registration', () => {
 				.type('Password123!');
 			cy.get('button:contains("Weiter"):visible').click();
 			cy.contains('Alter auswählen*').click();
-			cy.get('[id^="react-select"]:contains("unter 12")').click();
+			cy.get('[id^="react-select"]:contains("unter 12")').first().click();
 			cy.get('button:contains("Weiter"):visible').click();
 			cy.contains('Bundesland auswählen*').click();
-			cy.get('[id^="react-select"]:contains("Bayern")').click();
+			cy.get('[id^="react-select"]:contains("Bayern")').first().click();
 			cy.get('button:contains("Weiter"):visible').click();
 			cy.get('button:contains("Weiter"):visible').click();
 			cy.get('#dataProtectionLabel').click();

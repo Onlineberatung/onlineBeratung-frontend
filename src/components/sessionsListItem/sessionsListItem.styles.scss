@@ -56,7 +56,7 @@ $icon-size-small: 16px;
 		}
 
 		.sessionsListItem__content {
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				background-color: $session-list-item-background-active;
 				transition: all 0.3s ease;
 			}
@@ -83,7 +83,7 @@ $icon-size-small: 16px;
 		position: relative;
 		z-index: 10;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			margin: 0 $grid-base-three;
 		}
 
@@ -96,7 +96,7 @@ $icon-size-small: 16px;
 		&:hover,
 		&:focus,
 		&:active {
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				background-color: $session-list-item-background-active;
 				transition: all 0.3s ease;
 			}
@@ -106,7 +106,7 @@ $icon-size-small: 16px;
 	&__row {
 		display: flex;
 		gap: 12px;
-		color: var(--skin-color-default, $secondary);
+		color: var(--skin-color-secondary, $secondary);
 		&:first-child {
 			justify-content: space-between;
 			color: $tertiary;
@@ -153,24 +153,6 @@ $icon-size-small: 16px;
 		text-align: center;
 		color: #fff;
 		background-color: var(--skin-color-primary, #cc1e1c);
-	}
-
-	&__feedbackLabel {
-		padding: 0 8px;
-		height: 18px;
-		line-height: 18px;
-		border-radius: 9px;
-		background-color: $yellow-3;
-		display: inline-block;
-		word-break: keep-all;
-		cursor: pointer;
-		color: var(--skin-color-secondary, $secondary);
-		transition: background-color 0.5s ease-out;
-
-		&:hover {
-			color: var(--skin-color-secondary, $secondary);
-			background-color: $yellow-4;
-		}
 	}
 
 	&__icon {

@@ -154,7 +154,7 @@ $message-attachment-color: $secondary !default;
 	}
 
 	&__message {
-		color: var(--skin-color-default, $secondary);
+		color: var(--skin-color-secondary, $secondary);
 		line-height: $message-lineheight;
 		background-color: $white;
 		border-radius: 0 12px 12px;
@@ -217,9 +217,11 @@ $message-attachment-color: $secondary !default;
 			align-items: center;
 			background-color: $dark-grey;
 			border-radius: $icon-size;
+			border: none;
 			color: $message-attachment-color;
 			padding: 6px $grid-base-three 5px 12px;
 			max-width: 350px;
+			cursor: pointer;
 
 			&__icon svg {
 				* {
@@ -241,7 +243,7 @@ $message-attachment-color: $secondary !default;
 
 				p {
 					margin: 0;
-					color: var(--text-color-contrast-switch, $secondary);
+					color: var(--skin-color-secondary, $secondary);
 					line-height: $icon-size;
 					text-decoration: underline;
 
@@ -250,14 +252,11 @@ $message-attachment-color: $secondary !default;
 						color: var(--text-color-contrast-switch, $primary);
 						text-decoration: none;
 					}
-				}
 
-				&:hover p {
-					color: var(--text-color-contrast-switch, $primary);
-				}
-
-				svg * {
-					fill: var(--text-color-contrast-switch, $primary);
+					&:hover {
+						color: var(--skin-color-secondary, $secondary);
+						opacity: 0.8;
+					}
 				}
 			}
 
@@ -447,11 +446,6 @@ $message-attachment-color: $secondary !default;
 		}
 	}
 
-	.booking-confirmation {
-		width: 600px;
-		height: 780px;
-	}
-
 	.flyoutMenu {
 		margin-left: $grid-base;
 
@@ -557,3 +551,67 @@ $message-attachment-color: $secondary !default;
 		opacity: 0;
 	}
 }
+
+// Attachment Preview and Audio Player Styles
+.messageItem__message__attachment {
+	&__preview {
+		margin-bottom: $grid-base;
+		
+		&__button {
+			border: none;
+			background: none;
+			padding: 0;
+			cursor: pointer;
+			display: block;
+			width: 100%;
+			max-width: 300px;
+			
+			&:hover {
+				opacity: 0.9;
+			}
+		}
+		
+		&__image {
+			width: 100%;
+			height: auto;
+			max-height: 200px;
+			object-fit: cover;
+			border-radius: 8px;
+			display: block;
+		}
+		
+		&__placeholder {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: $grid-base-three;
+			background-color: $background-light;
+			border-radius: 8px;
+			min-height: 120px;
+			
+			svg {
+				width: 48px;
+				height: 48px;
+				margin-bottom: $grid-base;
+				opacity: 0.5;
+			}
+			
+			span {
+				color: $text-low-emphasis;
+				font-size: $font-size-secondary;
+			}
+		}
+	}
+	
+	&__audio {
+		margin-bottom: $grid-base;
+		
+		&__player {
+			width: 100%;
+			max-width: 300px;
+			height: 40px;
+		}
+	}
+}
+

@@ -4,6 +4,7 @@ import { loadKeysFromRocketChat } from '../../utils/encryptionHelpers';
 
 interface NonPlainRoutesWrapperProps {
 	logoutHandler?: Function;
+	children?: React.ReactNode;
 }
 
 export const NonPlainRoutesWrapper: React.FC<NonPlainRoutesWrapperProps> = ({

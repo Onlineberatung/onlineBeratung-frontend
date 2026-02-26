@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as ShieldIcon } from '../../resources/img/icons/shield.svg';
+import ShieldIcon from '@mui/icons-material/Security';
 
-import './e2eeActivatedMessage.styles';
+import './e2eeActivatedMessage.styles.scss';
 
 interface E2EEActivatedMessageProps {}
 

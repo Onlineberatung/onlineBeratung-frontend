@@ -13,8 +13,8 @@ import {
 	UserDataContext
 } from '../../globalState';
 import { SessionsList } from './SessionsList';
-import { ReactComponent as CreateGroupChatIcon } from '../../resources/img/icons/speech-bubble-plus.svg';
-import './sessionsList.styles';
+import CreateGroupChatIcon from '@mui/icons-material/AddComment';
+import './sessionsList.styles.scss';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';

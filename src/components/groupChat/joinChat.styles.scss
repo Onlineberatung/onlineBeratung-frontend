@@ -5,7 +5,7 @@
 		align-items: center;
 		flex-direction: column;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			justify-content: center;
 		}
 

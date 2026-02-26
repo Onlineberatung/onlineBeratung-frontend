@@ -1,41 +1,18 @@
+import '../sessionHeader/sessionHeader.styles.scss';
+import './sessionMenu.styles.scss';
+
 import * as React from 'react';
 import {
 	MouseEventHandler,
 	useCallback,
 	useContext,
-	useEffect,
 	useState
 } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import { generatePath, Link, Redirect, useHistory } from 'react-router-dom';
-import {
-	AnonymousConversationFinishedContext,
-	AUTHORITIES,
-	hasUserAuthority,
-	SessionTypeContext,
-	useConsultingType,
-	UserDataContext,
-	ActiveSessionContext
-} from '../../globalState';
-import {
-	SessionItemInterface,
-	STATUS_FINISHED
-} from '../../globalState/interfaces';
-import {
-	SESSION_LIST_TAB,
-	SESSION_LIST_TAB_ARCHIVE,
-	SESSION_LIST_TYPES
-} from '../session/sessionHelpers';
-import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
-import {
-	archiveSessionSuccessOverlayItem,
-	finishAnonymousChatSecurityOverlayItem,
-	groupChatErrorOverlayItem,
-	leaveGroupChatSecurityOverlayItem,
-	leaveGroupChatSuccessOverlayItem,
-	stopGroupChatSecurityOverlayItem,
-	stopGroupChatSuccessOverlayItem,
-	videoCallErrorOverlayItem
-} from './sessionMenuHelpers';
+import { Menu, IconButton } from '@mui/material';
+
 import {
 	apiFinishAnonymousConversation,
 	apiPutArchive,
@@ -44,31 +21,53 @@ import {
 	apiStartVideoCall,
 	GROUP_CHAT_API
 } from '../../api';
-import { logout } from '../logout/logout';
-import { mobileListView } from '../app/navigationHandler';
-import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
-import { ReactComponent as FeedbackIcon } from '../../resources/img/icons/pen-paper.svg';
-import { ReactComponent as LeaveChatIcon } from '../../resources/img/icons/out.svg';
-import { ReactComponent as GroupChatInfoIcon } from '../../resources/img/icons/i.svg';
-import { ReactComponent as StopGroupChatIcon } from '../../resources/img/icons/x.svg';
-import { ReactComponent as EditGroupChatIcon } from '../../resources/img/icons/gear.svg';
-import { ReactComponent as MenuHorizontalIcon } from '../../resources/img/icons/stack-horizontal.svg';
-import { ReactComponent as MenuVerticalIcon } from '../../resources/img/icons/stack-vertical.svg';
-import '../sessionHeader/sessionHeader.styles';
-import './sessionMenu.styles';
-import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
-import { ReactComponent as CallOnIcon } from '../../resources/img/icons/call-on.svg';
-import { ReactComponent as CameraOnIcon } from '../../resources/img/icons/camera-on.svg';
-import { ReactComponent as CalendarMonthPlusIcon } from '../../resources/img/icons/calendar-plus.svg';
-import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
-import DeleteSession from '../session/DeleteSession';
-import { Text } from '../text/Text';
-import { useSearchParam } from '../../hooks/useSearchParams';
-import { useAppConfig } from '../../hooks/useAppConfig';
-import { useTranslation } from 'react-i18next';
+import {
+	ActiveSessionContext,
+	AnonymousConversationFinishedContext,
+	AUTHORITIES,
+	hasUserAuthority,
+	SessionTypeContext,
+	useConsultingType,
+	UserDataContext
+} from '../../globalState';
+import {
+	SessionItemInterface,
+	STATUS_FINISHED
+} from '../../globalState/interfaces';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { RocketChatUsersOfRoomContext } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
+import { useAppConfig } from '../../hooks/useAppConfig';
+import { useSearchParam } from '../../hooks/useSearchParams';
+import CallOnIcon from '@mui/icons-material/Call';
+import CameraOnIcon from '@mui/icons-material/Videocam';
+import EditGroupChatIcon from '@mui/icons-material/Settings';
+import GroupChatInfoIcon from '@mui/icons-material/Info';
+import LeaveChatIcon from '@mui/icons-material/Logout';
+import MenuHorizontalIcon from '@mui/icons-material/MoreHoriz';
+import MenuVerticalIcon from '@mui/icons-material/MoreVert';
+import StopGroupChatIcon from '@mui/icons-material/Close';
+import { mobileListView } from '../app/navigationHandler';
+import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
+import { isGroupChatOwner } from '../groupChat/groupChatHelpers';
 import LegalLinks from '../legalLinks/LegalLinks';
+import { logout } from '../logout/logout';
+import { Overlay, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
+import DeleteSession from '../session/DeleteSession';
+import {
+	SESSION_LIST_TAB,
+	SESSION_LIST_TAB_ARCHIVE,
+	SESSION_LIST_TYPES
+} from '../session/sessionHelpers';
+import { Text } from '../text/Text';
+import {
+	archiveSessionSuccessOverlayItem,
+	finishAnonymousChatSecurityOverlayItem,
+	groupChatErrorOverlayItem,
+	leaveGroupChatSecurityOverlayItem,
+	leaveGroupChatSuccessOverlayItem,
+	stopGroupChatSecurityOverlayItem,
+	stopGroupChatSuccessOverlayItem
+} from './sessionMenuHelpers';
 
 type TReducedSessionItemInterface = Omit<
 	SessionItemInterface,
@@ -100,53 +99,23 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const consultingType = useConsultingType(activeSession.item.consultingType);
 
 	const [overlayItem, setOverlayItem] = useState(null);
-	const [flyoutOpen, setFlyoutOpen] = useState(null);
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
+
+	const flyoutOpen = Boolean(anchorEl);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
-	const handleClick = useCallback(
-		(e) => {
-			const menuIconH = document.getElementById('iconH');
-			const menuIconV = document.getElementById('iconV');
-			const flyoutMenu = document.getElementById('flyout');
+	const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
 
-			const dropdown = document.querySelector('.sessionMenu__content');
-			if (dropdown && flyoutOpen) {
-				if (
-					!menuIconH.contains(e.target) &&
-					!menuIconV.contains(e.target)
-				) {
-					if (flyoutMenu && !flyoutMenu.contains(e.target)) {
-						setFlyoutOpen(!flyoutOpen);
-					}
-				}
-			}
-		},
-		[flyoutOpen]
-	);
-
-	const [appointmentFeatureEnabled, setAppointmentFeatureEnabled] =
-		useState(false);
-
-	useEffect(() => {
-		document.addEventListener('mousedown', (e) => handleClick(e));
-		if (!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
-			const { appointmentFeatureEnabled } = userData;
-			setAppointmentFeatureEnabled(appointmentFeatureEnabled);
-		}
-		if (!activeSession.item?.active || !activeSession.item?.subscribed) {
-			// do not get group members for a chat that has not been started and user is not subscribed
-			return;
-		}
-	}, [handleClick, activeSession, userData]);
-
-	const handleBookingButton = () => {
-		history.push('/booking/');
+	const handleMenuClose = () => {
+		setAnchorEl(null);
 	};
 
 	const handleStopGroupChat = () => {
@@ -198,7 +167,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						mobileListView();
 						history.push(listPath);
 					}
-					setFlyoutOpen(false);
+					handleMenuClose();
 				}, 1000);
 			})
 			.catch((error) => {
@@ -292,7 +261,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					setOverlayActive(false);
 					setOverlayItem(null);
 					setIsRequestInProgress(false);
-					setFlyoutOpen(false);
+					handleMenuClose();
 				});
 		} else if (buttonFunction === 'GOTO_MANUAL') {
 			history.push('/profile/hilfe/videoCall');
@@ -302,15 +271,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const onSuccessDeleteSession = useCallback(() => {
 		setRedirectToSessionsList(true);
 	}, []);
-
-	//TODO:
-	//enquiries: only RS profil
-	//sessions/peer/team: feedback (if u25), rs, docu
-	//imprint/dataschutz all users all devices
-
-	//dynamicly menut items in flyout:
-	//rotate icon to vertical only if EVERY item in flyout
-	//list item icons only shown on outside
 
 	const baseUrl = `${listPath}/:groupId/:id/:subRoute?/:extraPath?${getSessionListTab()}`;
 
@@ -327,6 +287,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		subRoute: 'userProfile'
 	});
 
+	const documentLibraryLink = generatePath(baseUrl, {
+		...(activeSession.item as TReducedSessionItemInterface),
+		subRoute: 'documentLibrary'
+	});
+
 	if (redirectToSessionsList) {
 		mobileListView();
 		return <Redirect to={listPath + getSessionListTab()} />;
@@ -338,7 +303,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		smallIconBackgroundColor: 'green',
 		icon: (
 			<CallOnIcon
-				title={translate('videoCall.button.startCall')}
+				titleAccess={translate('videoCall.button.startCall')}
 				aria-label={translate('videoCall.button.startCall')}
 			/>
 		)
@@ -350,22 +315,10 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		smallIconBackgroundColor: 'green',
 		icon: (
 			<CameraOnIcon
-				title={translate('videoCall.button.startVideoCall')}
+				titleAccess={translate('videoCall.button.startVideoCall')}
 				aria-label={translate('videoCall.button.startVideoCall')}
 			/>
 		)
-	};
-
-	const buttonFeedback: ButtonItem = {
-		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'yellow',
-		icon: (
-			<FeedbackIcon
-				title={translate('chatFlyout.feedback')}
-				aria-label={translate('videoCall.button.feedback')}
-			/>
-		),
-		label: translate('chatFlyout.feedback')
 	};
 
 	const hasVideoCallFeatures = () =>
@@ -376,12 +329,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		consultingType.isVideoCallAllowed;
 
 	const handleStartVideoCall = (isVideoActivated: boolean = false) => {
-		if (!supportsE2EEncryptionVideoCall(userData.e2eEncryptionEnabled)) {
-			setOverlayItem(videoCallErrorOverlayItem);
-			setOverlayActive(true);
-			return;
-		}
-
 		const videoCallWindow = window.open('', '_blank');
 		apiStartVideoCall(
 			activeSession.item.id,
@@ -404,7 +351,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				videoCallWindow.focus();
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 			});
 	};
 
@@ -440,62 +387,49 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				</div>
 			)}
 
-			{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				type !== SESSION_LIST_TYPES.ENQUIRY &&
-				activeSession.item.feedbackGroupId && (
-					<Link
-						to={generatePath(baseUrl, {
-							...(activeSession.item as TReducedSessionItemInterface),
-							groupId: activeSession.item.feedbackGroupId
-						})}
-						className="sessionInfo__feedbackButton"
-					>
-						<Button item={buttonFeedback} isLink={true} />
-					</Link>
-				)}
-
-			{!activeSession.isEnquiry &&
-				appointmentFeatureEnabled &&
-				!activeSession.isLive &&
-				!activeSession.isGroup && (
-					<div
-						className="sessionMenu__icon sessionMenu__icon--booking"
-						onClick={handleBookingButton}
-					>
-						<CalendarMonthPlusIcon />
-						<Text
-							type="standard"
-							text={translate('booking.mobile.calendar.label')}
-						/>
-					</div>
-				)}
-
-			<span
+			<IconButton
 				id="iconH"
-				onClick={() => setFlyoutOpen(!flyoutOpen)}
+				onClick={handleMenuOpen}
 				className="sessionMenu__icon sessionMenu__icon--desktop"
+				aria-label={translate('app.menu')}
+				size="small"
 			>
 				<MenuHorizontalIcon
-					title={translate('app.menu')}
+					titleAccess={translate('app.menu')}
 					aria-label={translate('app.menu')}
 				/>
-			</span>
-			<span
+			</IconButton>
+			<IconButton
 				id="iconV"
-				onClick={() => setFlyoutOpen(!flyoutOpen)}
+				onClick={handleMenuOpen}
 				className="sessionMenu__icon sessionMenu__icon--mobile"
+				aria-label={translate('app.menu')}
+				size="small"
 			>
 				<MenuVerticalIcon
-					title={translate('app.menu')}
+					titleAccess={translate('app.menu')}
 					aria-label={translate('app.menu')}
 				/>
-			</span>
+			</IconButton>
 
-			<div
+			<Menu
 				id="flyout"
-				className={`sessionMenu__content ${
-					flyoutOpen && 'sessionMenu__content--open'
-				}`}
+				anchorEl={anchorEl}
+				open={flyoutOpen}
+				onClose={handleMenuClose}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'right'
+				}}
+				transformOrigin={{
+					vertical: 'top',
+					horizontal: 'right'
+				}}
+				slotProps={{
+					paper: {
+						className: 'sessionMenu__content'
+					}
+				}}
 			>
 				{activeSession.isLive &&
 					activeSession.item.status !== STATUS_FINISHED &&
@@ -524,22 +458,19 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					</>
 				)}
 
-				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-					activeSession.item.feedbackGroupId && (
-						<Link
-							className="sessionMenu__item sessionMenu__item--mobile"
-							to={generatePath(baseUrl, {
-								...(activeSession.item as TReducedSessionItemInterface),
-								groupId: activeSession.item.feedbackGroupId
-							})}
-						>
-							{translate('chatFlyout.feedback')}
-						</Link>
-					)}
-
 				{props.isAskerInfoAvailable && (
 					<Link className="sessionMenu__item" to={userProfileLink}>
 						{translate('chatFlyout.askerProfil')}
+					</Link>
+				)}
+
+				{!activeSession.isLive && (
+					<Link
+						className="sessionMenu__item"
+						to={documentLibraryLink}
+						onClick={handleMenuClose}
+					>
+						{translate('chatFlyout.documentLibrary')}
 					</Link>
 				)}
 
@@ -601,22 +532,23 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						params={{ aid: activeSession?.agency?.id }}
 					>
 						{(label, url) => (
-							<a href={url} target="_blank" rel="noreferrer">
+							<Link to={url}>
 								<Text
 									type="infoLargeAlternative"
 									text={label}
 								/>
-							</a>
+							</Link>
 						)}
 					</LegalLinks>
 				</div>
-			</div>
+			</Menu>
 			{overlayActive && (
 				<Overlay
 					item={overlayItem}
 					handleOverlay={handleOverlayAction}
 				/>
 			)}
+
 		</div>
 	);
 };
@@ -650,7 +582,7 @@ const SessionMenuFlyoutGroup = ({
 					>
 						<span className="sessionMenu__icon">
 							<LeaveChatIcon
-								title={translate('chatFlyout.leaveGroupChat')}
+								titleAccess={translate('chatFlyout.leaveGroupChat')}
 								aria-label={translate(
 									'chatFlyout.leaveGroupChat'
 								)}
@@ -678,7 +610,7 @@ const SessionMenuFlyoutGroup = ({
 					>
 						<span className="sessionMenu__icon">
 							<StopGroupChatIcon
-								title={translate('chatFlyout.stopGroupChat')}
+								titleAccess={translate('chatFlyout.stopGroupChat')}
 								aria-label={translate(
 									'chatFlyout.stopGroupChat'
 								)}
@@ -701,7 +633,7 @@ const SessionMenuFlyoutGroup = ({
 					>
 						<span className="sessionMenu__icon">
 							<EditGroupChatIcon
-								title={translate('chatFlyout.editGroupChat')}
+								titleAccess={translate('chatFlyout.editGroupChat')}
 								aria-label={translate(
 									'chatFlyout.editGroupChat'
 								)}

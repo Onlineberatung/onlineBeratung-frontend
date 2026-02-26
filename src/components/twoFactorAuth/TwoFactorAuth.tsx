@@ -9,7 +9,7 @@ import {
 } from '../../globalState';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import Switch from 'react-switch';
+import Switch from '../Switch/SwitchSimple';
 import { Overlay, OverlayItem, OVERLAY_FUNCTIONS } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import {
@@ -17,13 +17,13 @@ import {
 	InputFieldItem,
 	InputFieldLabelState
 } from '../inputField/InputField';
-import { ReactComponent as DownloadIcon } from '../../resources/img/icons/download.svg';
-import { ReactComponent as AddIcon } from '../../resources/img/icons/add.svg';
-import { ReactComponent as AddShieldIcon } from '../../resources/img/icons/add-shield.svg';
-import { ReactComponent as UrlIcon } from '../../resources/img/icons/url.svg';
-import { ReactComponent as CheckIcon } from '../../resources/img/icons/checkmark.svg';
-import { ReactComponent as IlluCheck } from '../../resources/img/illustrations/check.svg';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
+import DownloadIcon from '@mui/icons-material/Download';
+import AddIcon from '@mui/icons-material/Add';
+import AddShieldIcon from '@mui/icons-material/GppGood';
+import UrlIcon from '@mui/icons-material/Link';
+import CheckIcon from '@mui/icons-material/Check';
+import IlluCheck from '../../resources/img/illustrations/check.svg?react';
+import InfoIcon from '@mui/icons-material/Info';
 import {
 	apiDeleteTwoFactorAuth,
 	apiPutTwoFactorAuthEmail,
@@ -32,7 +32,7 @@ import {
 	FETCH_ERRORS,
 	apiPatchTwoFactorAuthEncourage
 } from '../../api';
-import './twoFactorAuth.styles';
+import './twoFactorAuth.styles.scss';
 import { isStringValidEmail } from '../registration/registrationHelpers';
 import { LockIcon, PenIcon } from '../../resources/img/icons';
 import { RadioButton } from '../radioButton/RadioButton';
@@ -44,6 +44,7 @@ import {
 	STORAGE_KEY_DISABLE_2FA_DUTY,
 	useDevToolbar
 } from '../devToolbar/DevToolbar';
+import { Box as MuiBox, Stack, Typography, FormControlLabel } from '@mui/material';
 
 export const OTP_LENGTH = 6;
 
@@ -125,7 +126,7 @@ export const TwoFactorAuth = () => {
 				apiDeleteTwoFactorAuth()
 					.then(reloadUserData)
 					.then(() => setOverlayActive(false))
-					.catch(console.log);
+					.catch(console.error);
 			}
 		},
 		[reloadUserData]
@@ -850,16 +851,15 @@ export const TwoFactorAuth = () => {
 	};
 
 	return (
-		<div className="twoFactorAuth">
-			<div className="profile__content__title">
-				<div className="twoFactorAuth__head">
+		<MuiBox className="twoFactorAuth">
+			<Stack spacing={2}>
+				<MuiBox display="flex" justifyContent="space-between" alignItems="flex-start">
 					<Headline
 						text={translate('twoFactorAuth.title')}
 						semanticLevel="5"
 					/>
 					{isTwoFactorBinding && (
 						<Button
-							className="twoFactorAuth__edit__button"
 							buttonHandle={handleEditButton}
 							item={{
 								type: BUTTON_TYPES.LINK_INLINE
@@ -867,59 +867,59 @@ export const TwoFactorAuth = () => {
 							customIcon={
 								<PenIcon
 									aria-label={translate('twoFactorAuth.edit')}
-									title={translate('twoFactorAuth.edit')}
+									titleAccess={translate('twoFactorAuth.edit')}
 								/>
 							}
 						/>
 					)}
-				</div>
-				<Text
-					className="tertiary"
-					text={translate('twoFactorAuth.subtitle')}
-					type="standard"
-				/>
-			</div>
-			{!isTwoFactorBinding && (
-				<label className="twoFactorAuth__switch">
-					<Switch
-						onChange={handleSwitchChange}
-						checked={isSwitchChecked}
-						uncheckedIcon={false}
-						checkedIcon={false}
-						width={48}
-						height={26}
-						onColor="#0A882F"
-						offColor="#8C878C"
-						boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-						handleDiameter={27}
-						activeBoxShadow="none"
-					/>
-					<Text
-						text={
+				</MuiBox>
+
+				<Typography variant="body2" color="text.secondary">
+					{translate('twoFactorAuth.subtitle')}
+				</Typography>
+
+				{!isTwoFactorBinding && (
+					<FormControlLabel
+						control={
+							<Switch
+								onChange={handleSwitchChange}
+								checked={isSwitchChecked}
+								uncheckedIcon={false}
+								checkedIcon={false}
+								width={48}
+								height={26}
+								onColor="#0A882F"
+								offColor="#8C878C"
+								boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+								handleDiameter={27}
+								activeBoxShadow="none"
+							/>
+						}
+						label={
 							isSwitchChecked
 								? translate('twoFactorAuth.switch.active.label')
-								: translate(
-										'twoFactorAuth.switch.deactive.label'
-									)
+								: translate('twoFactorAuth.switch.deactive.label')
 						}
-						type="standard"
+						labelPlacement="end"
 					/>
-				</label>
-			)}
-			{(isSwitchChecked || isTwoFactorBinding) &&
-				userData.twoFactorAuth.type && (
-					<p>
-						<strong>
-							{translate('twoFactorAuth.switch.type.label')}
-						</strong>{' '}
-						{translate(
-							`twoFactorAuth.switch.type.${userData.twoFactorAuth.type}`
-						)}{' '}
-						{userData.twoFactorAuth.type === TWO_FACTOR_TYPES.EMAIL
-							? `(${userData.email})`
-							: ''}
-					</p>
 				)}
+
+				{(isSwitchChecked || isTwoFactorBinding) &&
+					userData.twoFactorAuth.type && (
+						<Typography variant="body1">
+							<strong>
+								{translate('twoFactorAuth.switch.type.label')}
+							</strong>{' '}
+							{translate(
+								`twoFactorAuth.switch.type.${userData.twoFactorAuth.type}`
+							)}{' '}
+							{userData.twoFactorAuth.type === TWO_FACTOR_TYPES.EMAIL
+								? `(${userData.email})`
+								: ''}
+						</Typography>
+					)}
+			</Stack>
+
 			{overlayActive ? (
 				<Overlay
 					className="twoFactorAuth__overlay"
@@ -931,6 +931,6 @@ export const TwoFactorAuth = () => {
 					}
 				/>
 			) : null}
-		</div>
+		</MuiBox>
 	);
 };

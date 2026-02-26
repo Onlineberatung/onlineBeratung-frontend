@@ -1,8 +1,8 @@
 import React from 'react';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
-import { ReactComponent as NewWindow } from '../../resources/img/icons/new-window.svg';
-import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
+import NewWindow from '@mui/icons-material/OpenInNew';
+import CopyIcon from '@mui/icons-material/ContentCopy';
 import ChromeLogo from '../../resources/img/images/google_chrome.png';
 import EdgeLogo from '../../resources/img/images/microsoft_edge.png';
 import SafariLogo from '../../resources/img/images/safari.png';
@@ -30,7 +30,7 @@ export const BrowserList: React.FC = () => {
 					className="button-as-link"
 				>
 					<NewWindow
-						title={translate('help.openInNewTab')}
+						titleAccess={translate('help.openInNewTab')}
 						aria-label={translate('help.openInNewTab')}
 					/>{' '}
 					{translate('help.googleChrome')}
@@ -49,7 +49,7 @@ export const BrowserList: React.FC = () => {
 					className="button-as-link"
 				>
 					<NewWindow
-						title={translate('help.openInNewTab')}
+						titleAccess={translate('help.openInNewTab')}
 						aria-label={translate('help.openInNewTab')}
 					/>{' '}
 					{translate('help.msEdge')}
@@ -68,7 +68,7 @@ export const BrowserList: React.FC = () => {
 					className="button-as-link"
 				>
 					<NewWindow
-						title={translate('help.openInNewTab')}
+						titleAccess={translate('help.openInNewTab')}
 						aria-label={translate('help.openInNewTab')}
 					/>{' '}
 					{translate('help.safari')}

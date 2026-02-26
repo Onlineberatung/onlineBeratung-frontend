@@ -43,7 +43,6 @@
 	"sendFurtherStepsMessage": true,
 	"sendSaveSessionDataMessage": true,
 	"sessionDataInitializing": {},
-	"initializeFeedbackChat": false,
 	"roles": {
 		"consultant": {
 			"main": ["consultant"],

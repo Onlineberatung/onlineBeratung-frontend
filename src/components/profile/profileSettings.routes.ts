@@ -10,7 +10,6 @@ import { PasswordReset } from '../passwordReset/PasswordReset';
 import { TwoFactorAuth } from '../twoFactorAuth/TwoFactorAuth';
 import { ConsultantNotifications } from './ConsultantNotifications';
 import { DeleteAccount } from './DeleteAccount';
-import { Locale } from './Locale';
 
 export const profileRoutesSettings = (
 	selectableLocales: string[],
@@ -28,7 +27,7 @@ export const profileRoutesSettings = (
 			{
 				condition: (userData) => userData.twoFactorAuth?.isEnabled,
 				component: TwoFactorAuth,
-				column: COLUMN_LEFT
+				column: COLUMN_RIGHT
 			}
 		]
 	},
@@ -43,18 +42,6 @@ export const profileRoutesSettings = (
 						userData
 					) && !settings?.releaseToggles?.enableNewNotifications,
 				component: ConsultantNotifications,
-				column: COLUMN_RIGHT,
-				order: 1
-			}
-		]
-	},
-	{
-		title: 'profile.routes.display',
-		url: '/anzeige',
-		elements: [
-			{
-				condition: () => selectableLocales.length > 1,
-				component: Locale,
 				column: COLUMN_RIGHT,
 				order: 1
 			}

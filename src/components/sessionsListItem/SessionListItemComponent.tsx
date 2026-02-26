@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import { marked } from 'marked';
 import { getSessionsListItemIcon, LIST_ICONS } from './sessionsListItemHelpers';
 import {
 	convertISO8601ToMSSinceEpoch,
@@ -14,7 +15,6 @@ import {
 } from '../session/sessionHelpers';
 import {
 	AUTHORITIES,
-	E2EEContext,
 	hasUserAuthority,
 	SessionTypeContext,
 	useConsultingType,
@@ -27,9 +27,7 @@ import {
 	TopicSessionInterface
 } from '../../globalState/interfaces';
 import { getGroupChatDate } from '../session/sessionDateHelpers';
-import { markdownToDraft } from 'markdown-draft-js';
-import { convertFromRaw } from 'draft-js';
-import './sessionsListItem.styles';
+import './sessionsListItem.styles.scss';
 import { Tag } from '../tag/Tag';
 import { SessionListItemVideoCall } from './SessionListItemVideoCall';
 import { SessionListItemAttachment } from './SessionListItemAttachment';
@@ -44,6 +42,37 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { SessionListItemLastMessage } from './SessionListItemLastMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
+
+// Helper function to extract plain text from markdown
+const extractPlainTextFromMarkdown = (markdown: string): string => {
+	try {
+		// Parse markdown to tokens
+		const tokens = marked.lexer(markdown);
+		// Extract text from all tokens
+		const plainText = tokens
+			.map((token) => {
+				if ('text' in token) {
+					return token.text;
+				}
+				if ('tokens' in token && Array.isArray(token.tokens)) {
+					return token.tokens
+						.map((t) => ('text' in t ? t.text : ''))
+						.join('');
+				}
+				return '';
+			})
+			.join(' ')
+			.replace(/\s+/g, ' ')
+			.trim();
+		return plainText;
+	} catch {
+		// Fallback: simple regex-based stripping
+		return markdown
+			.replace(/[*_~`#\[\]]/g, '')
+			.replace(/\n/g, ' ')
+			.trim();
+	}
+};
 
 interface SessionListItemProps {
 	defaultLanguage: string;
@@ -72,7 +101,6 @@ export const SessionListItemComponent = ({
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { userData } = useContext(UserDataContext);
 	const { type, path: listPath } = useContext(SessionTypeContext);
-	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { activeSession } = useContext(ActiveSessionContext);
 
 	// Is List Item active
@@ -96,53 +124,31 @@ export const SessionListItemComponent = ({
 			return;
 		}
 
-		if (isE2eeEnabled) {
-			if (!activeSession.item.e2eLastMessage) return;
-			decryptText(
-				activeSession.item.e2eLastMessage.msg,
-				keyID,
-				key,
-				encrypted,
-				activeSession.item.e2eLastMessage.t === 'e2e'
-			)
-				.catch((e): string =>
-					translate(
-						e instanceof MissingKeyError ||
-							e instanceof WrongKeyError
-							? e.message
-							: 'e2ee.message.encryption.error'
-					)
+		if (!activeSession.item.e2eLastMessage) return;
+		decryptText(
+			activeSession.item.e2eLastMessage.msg,
+			keyID,
+			key,
+			encrypted,
+			activeSession.item.e2eLastMessage.t === 'e2e'
+		)
+			.catch((e): string =>
+				translate(
+					e instanceof MissingKeyError ||
+						e instanceof WrongKeyError
+						? e.message
+						: 'e2ee.message.encryption.error'
 				)
-				.then((message) => {
-					const rawMessageObject = markdownToDraft(message);
-					const contentStateMessage =
-						convertFromRaw(rawMessageObject);
-					setPlainTextLastMessage(contentStateMessage.getPlainText());
-				});
-		} else {
-			if (
-				activeSession.item.e2eLastMessage &&
-				activeSession.item.e2eLastMessage.t === 'e2e'
-			) {
-				setPlainTextLastMessage(
-					translate('e2ee.message.encryption.text')
-				);
-			} else {
-				const rawMessageObject = markdownToDraft(
-					activeSession.item.lastMessage
-				);
-				const contentStateMessage = convertFromRaw(rawMessageObject);
-				setPlainTextLastMessage(contentStateMessage.getPlainText());
-			}
-		}
+			)
+			.then((message) => {
+				setPlainTextLastMessage(extractPlainTextFromMarkdown(message));
+			});
 	}, [
-		isE2eeEnabled,
 		key,
 		keyID,
 		encrypted,
 		activeSession.item.groupId,
 		activeSession.item.e2eLastMessage,
-		activeSession.item.lastMessage,
 		translate,
 		ready
 	]);
@@ -287,7 +293,7 @@ export const SessionListItemComponent = ({
 					</div>
 					<div className="sessionsListItem__row">
 						<div className="sessionsListItem__icon">
-							<Icon title={iconTitle} aria-label={iconTitle} />
+							<Icon titleAccess={iconTitle} aria-label={iconTitle} />
 						</div>
 						<div
 							className={clsx(
@@ -296,7 +302,9 @@ export const SessionListItemComponent = ({
 									'sessionsListItem__username--readLabel'
 							)}
 						>
-							{activeSession.item.topic}
+							{typeof activeSession.item.topic === 'string'
+								? activeSession.item.topic
+								: activeSession.item.topic?.name}
 						</div>
 					</div>
 					<div className="sessionsListItem__row">
@@ -326,10 +334,6 @@ export const SessionListItemComponent = ({
 		);
 	}
 
-	const feedbackPath = `${listPath}/${activeSession.item.feedbackGroupId}/${
-		activeSession.item.id
-	}${getSessionListTab()}`;
-
 	const hasConsultantData = !!activeSession.consultant;
 	let sessionTopic = '';
 
@@ -356,8 +360,7 @@ export const SessionListItemComponent = ({
 			onClick={handleOnClick}
 			className={clsx(
 				`sessionsListItem`,
-				isChatActive && `sessionsListItem--active`,
-				activeSession.isFeedback && 'sessionsListItem--yellowTheme'
+				isChatActive && `sessionsListItem--active`
 			)}
 			data-group-id={activeSession.item.groupId}
 			data-cy="session-list-item"
@@ -422,7 +425,7 @@ export const SessionListItemComponent = ({
 				</div>
 				<div className="sessionsListItem__row">
 					<div className="sessionsListItem__icon">
-						<Icon title={iconTitle} aria-label={iconTitle} />
+						<Icon titleAccess={iconTitle} aria-label={iconTitle} />
 					</div>
 					<div
 						className={clsx(
@@ -465,17 +468,6 @@ export const SessionListItemComponent = ({
 							listItemAskerRcId={activeSession.item.askerRcId}
 						/>
 					)}
-					{!isAsker &&
-						type !== SESSION_LIST_TYPES.ENQUIRY &&
-						!activeSession.isLive &&
-						!activeSession.item.feedbackRead &&
-						!activeSession.isFeedback && (
-							<Tag
-								color="yellow"
-								text={translate('chatFlyout.feedback')}
-								link={feedbackPath}
-							/>
-						)}
 					{activeSession.isLive &&
 						activeSession.item.status !== STATUS_FINISHED &&
 						type !== SESSION_LIST_TYPES.ENQUIRY && (

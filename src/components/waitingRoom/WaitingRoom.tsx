@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { Text } from '../text/Text';
 import { v4 as uuid } from 'uuid';
-import './waitingRoom.styles';
-import { ReactComponent as WaitingIllustration } from '../../resources/img/illustrations/waiting.svg';
-import { ReactComponent as ErrorIllustration } from '../../resources/img/illustrations/not-found.svg';
-import { ReactComponent as SecurityIllustration } from '../../resources/img/illustrations/security.svg';
-import { ReactComponent as ClosedIllustration } from '../../resources/img/illustrations/closed.svg';
+import './waitingRoom.styles.scss';
+import WaitingIllustration from '../../resources/img/illustrations/waiting.svg?react';
+import ErrorIllustration from '../../resources/img/illustrations/not-found.svg?react';
+import SecurityIllustration from '../../resources/img/illustrations/security.svg?react';
+import ClosedIllustration from '../../resources/img/illustrations/closed.svg?react';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import {
 	AnonymousConversationAvailabilityInterface,
@@ -132,17 +133,30 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 
 	useEffect(() => {
 		if (anonymousEnquiryAccepted) {
+			// Show acceptance overlay briefly
 			setOverlayItem(acceptanceOverlayItem);
 			setIsOverlayActive(true);
 			setAnonymousEnquiryAccepted(false);
+			
+			// Automatically navigate to chat after short delay
+			const timeoutId = setTimeout(() => {
+				deleteCookieByName('registeredUsername');
+				history.push('/app');
+			}, 2000);
+			
+			// Cleanup timeout if component unmounts
+			return () => clearTimeout(timeoutId);
 		}
-	}, [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted]);
+	}, [anonymousEnquiryAccepted, setAnonymousEnquiryAccepted, history]);
 
 	useEffect(() => {
 		if (anonymousConversationStarted) {
 			setAnonymousConversationStarted(false);
+			// Navigate to chat immediately when conversation starts
+			deleteCookieByName('registeredUsername');
+			history.push('/app');
 		}
-	}, [anonymousConversationStarted, setAnonymousConversationStarted]);
+	}, [anonymousConversationStarted, setAnonymousConversationStarted, history]);
 
 	useEffect(() => {
 		if (anonymousConversationFinished === 'NEW') {
@@ -251,7 +265,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					}
 				)
 				.catch((err: Error) => {
-					console.log(err);
+					console.warn(err);
 				})
 				.finally(() => {
 					retryCount.current = 1;
@@ -269,7 +283,7 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 			history.push(`/app`);
 			deleteCookieByName('registeredUsername');
 		} else if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT_TO_URL) {
-			window.location.href = registrationUrl;
+			history.push(registrationUrl);
 		}
 	};
 
@@ -309,13 +323,9 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 						>
 							{(label, url) => (
 								<span>
-									<button
-										type="button"
-										className="button-as-link"
-										onClick={() => window.open(url)}
-									>
+									<Link to={url} className="button-as-link">
 										{label}
-									</button>
+									</Link>
 								</span>
 							)}
 						</LegalLinks>
@@ -388,6 +398,9 @@ export const WaitingRoom = (props: WaitingRoomProps) => {
 					</WaitingRoomContent>
 				</>
 			);
+		} else if (isConsultantAvailable === undefined) {
+			// Consultant availability not yet determined, show loading
+			return <Loading></Loading>;
 		} else if (isConsultantAvailable) {
 			return (
 				<WaitingRoomContent

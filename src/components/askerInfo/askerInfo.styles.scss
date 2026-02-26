@@ -20,7 +20,7 @@ $profile-footer-justify-content: center !default;
 		height: 100%;
 		width: 100vw;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: auto;
 		}
 	}
@@ -35,11 +35,11 @@ $profile-footer-justify-content: center !default;
 		padding: $grid-base-three $grid-base-two;
 		background-color: $background-lighter;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding: $grid-base-three;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			align-items: flex-start;
 			background-color: $background-light;
 		}
@@ -55,7 +55,7 @@ $profile-footer-justify-content: center !default;
 		&__title {
 			margin: 0 auto;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				margin: 0 0 0 $grid-base;
 			}
 		}
@@ -67,7 +67,7 @@ $profile-footer-justify-content: center !default;
 			margin: 0;
 
 			&--withBackButton {
-				@include breakpoint($fromLarge) {
+				@include from-large {
 					margin-left: $grid-base-four;
 				}
 			}
@@ -80,7 +80,7 @@ $profile-footer-justify-content: center !default;
 			line-height: 32px;
 			cursor: pointer;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				position: static;
 			}
 
@@ -119,7 +119,7 @@ $profile-footer-justify-content: center !default;
 		padding: 0 $grid-base-two $grid-base;
 		margin-top: $grid-base-three;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding: 0 $grid-base-three $grid-base;
 		}
 	}
@@ -156,11 +156,11 @@ $profile-footer-justify-content: center !default;
 			clear: both;
 		}
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			padding: 0 $grid-base-three $grid-base-ten;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			padding: 0 $grid-base-three $grid-base-eight;
 		}
 
@@ -184,6 +184,26 @@ $profile-footer-justify-content: center !default;
 		}
 	}
 
+	&__documentLibraryLink {
+		display: flex;
+		align-items: center;
+		gap: $grid-base;
+		color: var(--skin-color-primary, $primary);
+		text-decoration: none;
+		font-size: $font-size-primary;
+		padding: $grid-base 0;
+
+		svg {
+			width: 20px;
+			height: 20px;
+			flex-shrink: 0;
+		}
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
 	&__data {
 		&__item {
 			display: flex;
@@ -193,7 +213,7 @@ $profile-footer-justify-content: center !default;
 			margin-top: 12px;
 			border-bottom: 1px solid $line-grey;
 
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				max-width: $inputMaxWidth;
 			}
 		}

@@ -7,7 +7,7 @@ import { Text } from '../text/Text';
 import { copyTextToClipboard } from '../../utils/clipboardHelpers';
 import { Button, BUTTON_TYPES } from '../button/Button';
 import { CopyIcon } from '../../resources/img/icons';
-import { ReactComponent as UnauthorizedBubbleIllustration } from '../../resources/img/illustrations/unauthorized-bubble.svg';
+import UnauthorizedBubbleIllustration from '../../resources/img/illustrations/unauthorized-bubble.svg?react';
 
 import { Notification } from '../notifications/Notification';
 import Divider from '@mui/material/Divider';
@@ -25,9 +25,11 @@ export const E2EEncryptionSupportHelp = () => {
 	}, []);
 
 	useEffect(() => {
-		setTimeout(() => {
+		if (!showNotification) return;
+		const id = setTimeout(() => {
 			setShowNotification(false);
 		}, 2000);
+		return () => clearTimeout(id);
 	}, [showNotification]);
 
 	return (

@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useCallback, useContext, useState, useEffect } from 'react';
-import { ReactComponent as CopyIcon } from '../../resources/img/icons/documents.svg';
-import { ReactComponent as InfoIcon } from '../../resources/img/icons/i.svg';
+import { Stack, Typography, Box as MuiBox } from '@mui/material';
+import CopyIcon from '@mui/icons-material/ContentCopy';
+import InfoIcon from '@mui/icons-material/Info';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
@@ -21,6 +22,8 @@ import { EditableData } from '../editableData/EditableData';
 import { apiPatchUserData } from '../../api/apiPatchUserData';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
+import { OverlayItem, OVERLAY_FUNCTIONS, Overlay } from '../overlay/Overlay';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 
 export const ConsultantInformation = () => {
 	const { t: translate } = useTranslation();
@@ -30,16 +33,29 @@ export const ConsultantInformation = () => {
 	const [isSaveDisabled, setIsSaveDisabled] = useState(false);
 	const [editedDisplayName, setEditedDisplayName] = useState('');
 	const [initialDisplayName, setInitialDisplayName] = useState('');
+	const [successOverlayActive, setSuccessOverlayActive] = useState(false);
 
 	const cancelEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.cancel'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.SECONDARY
 	};
 
 	const saveEditButton: ButtonItem = {
 		disabled: isSaveDisabled,
 		label: translate('profile.data.edit.button.save'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.PRIMARY
+	};
+
+	const overlayItem: OverlayItem = {
+		svg: CheckIcon,
+		headline: translate('profile.data.displayNameInfo'),
+		buttonSet: [
+			{
+				label: translate('profile.data.displayNameInfoClose'),
+				function: OVERLAY_FUNCTIONS.CLOSE,
+				type: BUTTON_TYPES.AUTO_CLOSE
+			}
+		]
 	};
 
 	const handleValidDisplayName = (displayName) => {
@@ -53,8 +69,9 @@ export const ConsultantInformation = () => {
 	const handleSaveEditButton = () => {
 		apiPatchUserData({ displayName: editedDisplayName })
 			.then(() => {
-				reloadUserData().catch(console.log);
+				reloadUserData().catch(console.error);
 				setInitialDisplayName(editedDisplayName);
+				setSuccessOverlayActive(true);
 			})
 			.catch((error) => {
 				addNotification({
@@ -69,6 +86,12 @@ export const ConsultantInformation = () => {
 			.finally(() => {
 				setIsEditEnabled(false);
 			});
+	};
+
+	const handleSuccessOverlayAction = (buttonFunction: string) => {
+		if (buttonFunction === OVERLAY_FUNCTIONS.CLOSE) {
+			setSuccessOverlayActive(false);
+		}
 	};
 
 	useEffect(() => {
@@ -87,71 +110,76 @@ export const ConsultantInformation = () => {
 	const isDisplayNameFeatureEnabled = userData?.isDisplayNameEditable;
 
 	return (
-		<div>
-			<div className="profile__content__title">
-				<div className="flex flex--fd-row flex--jc-sb">
+		<MuiBox>
+			<Stack spacing={2}>
+				<Stack direction="row" justifyContent="space-between" alignItems="flex-start">
 					<Headline
-						className="pr--3"
 						text={translate('profile.data.title.information')}
 						semanticLevel="5"
 					/>
 					{isDisplayNameFeatureEnabled && !isEditEnabled && (
-						<span
+						<MuiBox
+							component="span"
 							role="button"
 							className="tertiary"
 							onClick={() => {
 								setIsEditEnabled(true);
 							}}
+							sx={{ cursor: 'pointer' }}
 						>
 							<PenIcon />
-						</span>
+						</MuiBox>
 					)}
-				</div>
+				</Stack>
+
 				{hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) && (
 					<PersonalRegistrationLink
 						cid={userData.userId}
-						className="profile__user__personal_link mb--1"
 					/>
 				)}
-			</div>
-			<div>
-				<Text
-					text={translate('profile.data.info.public')}
-					type="standard"
-					className="tertiary"
+
+				<Typography variant="body2" color="text.secondary">
+					{translate('profile.data.info.public')}
+				</Typography>
+
+				<EditableData
+					label={translate('profile.data.displayName')}
+					type="text"
+					initialValue={initialDisplayName}
+					isDisabled={!isDisplayNameFeatureEnabled || !isEditEnabled}
+					onValueIsValid={handleValidDisplayName}
 				/>
-			</div>
-			<EditableData
-				label={translate('profile.data.displayName')}
-				type="text"
-				initialValue={initialDisplayName}
-				isDisabled={!isDisplayNameFeatureEnabled || !isEditEnabled}
-				onValueIsValid={handleValidDisplayName}
-			/>
-			{isDisplayNameFeatureEnabled && isEditEnabled && (
-				<div className="editableData__buttonSet editableData__buttonSet--edit">
-					<Button
-						item={cancelEditButton}
-						buttonHandle={handleCancelEditButton}
-					/>
-					<Button
-						item={saveEditButton}
-						buttonHandle={handleSaveEditButton}
-					/>
-				</div>
+
+				{isDisplayNameFeatureEnabled && isEditEnabled && (
+					<Stack direction="row" spacing={2} justifyContent="flex-end" sx={{ mt: 2 }}>
+						<Button
+							item={cancelEditButton}
+							buttonHandle={handleCancelEditButton}
+						/>
+						<Button
+							item={saveEditButton}
+							buttonHandle={handleSaveEditButton}
+						/>
+					</Stack>
+				)}
+			</Stack>
+
+			{successOverlayActive && (
+				<Overlay
+					item={overlayItem}
+					handleOverlay={handleSuccessOverlayAction}
+				/>
 			)}
-		</div>
+		</MuiBox>
 	);
 };
 
 type PersonalRegistrationLinkProps = {
 	cid: string;
-	className: string;
 };
 
 const PersonalRegistrationLink = ({
-	cid,
-	className
+	cid
 }: PersonalRegistrationLinkProps) => {
 	const { t: translate } = useTranslation();
 	const settings = useAppConfig();
@@ -176,21 +204,18 @@ const PersonalRegistrationLink = ({
 	}, [settings.urls.registration, cid, addNotification, translate]);
 
 	return (
-		<div
-			className={`flex flex--wrap flex--ai-c flex-xl--nowrap ${className}`}
-		>
-			<div className="mt--1">
-				<GenerateQrCode
-					url={`${settings.urls.registration}?cid=${cid}`}
-					filename={'kontaktlink'}
-					headline={translate(`qrCode.personal.overlay.headline`)}
-					text={translate(`qrCode.personal.overlay.info`)}
-				/>
-			</div>
-			<div className="flex flex--ai-c flex--nowrap mt--1">
-				<button
+		<Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
+			<GenerateQrCode
+				url={`${settings.urls.registration}?cid=${cid}`}
+				filename={'kontaktlink'}
+				headline={translate(`qrCode.personal.overlay.headline`)}
+				text={translate(`qrCode.personal.overlay.info`)}
+			/>
+			<Stack direction="row" spacing={1} alignItems="center">
+				<MuiBox
+					component="button"
 					type="button"
-					className="text--right text--nowrap mr--1 text--tertiary primary button-as-link"
+					className="text--nowrap text--tertiary primary button-as-link"
 					tabIndex={0}
 					onClick={copyRegistrationLink}
 					title={translate(
@@ -199,28 +224,34 @@ const PersonalRegistrationLink = ({
 					aria-label={translate(
 						'profile.data.personal.registrationLink.title'
 					)}
+					sx={{ 
+						border: 'none', 
+						background: 'none', 
+						p: 0, 
+						textDecoration: 'underline',
+						cursor: 'pointer',
+						display: 'flex',
+						alignItems: 'center',
+						gap: 0.5
+					}}
 				>
 					<CopyIcon className={`copy icn--s`} />{' '}
 					{translate('profile.data.personal.registrationLink.text')}
-				</button>
-				<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
-					<div className="flex-xl__col--no-grow flex--inline flex--ai-c">
-						<Tooltip
-							trigger={
-								<InfoIcon
-									className="icn icn--xl"
-									title={translate('notifications.info')}
-									aria-label={translate('notifications.info')}
-								/>
-							}
-						>
-							{translate(
-								'profile.data.personal.registrationLink.tooltip'
-							)}
-						</Tooltip>
-					</div>
-				</div>
-			</div>
-		</div>
+				</MuiBox>
+				<Tooltip
+					trigger={
+						<InfoIcon
+							className="icn icn--xl"
+							titleAccess={translate('notifications.info')}
+							aria-label={translate('notifications.info')}
+						/>
+					}
+				>
+					{translate(
+						'profile.data.personal.registrationLink.tooltip'
+					)}
+				</Tooltip>
+			</Stack>
+		</Stack>
 	);
 };

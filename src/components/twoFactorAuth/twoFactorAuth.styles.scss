@@ -11,7 +11,7 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 
 	&__overlay {
 		.overlay__content {
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				height: 620px;
 			}
 		}
@@ -21,18 +21,18 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 			margin-top: auto;
 			width: 100%;
 
-			@include breakpoint($fromSmall) {
+			@include from-small {
 				width: auto;
 			}
 
-			@include breakpoint($fromMedium) {
+			@include from-medium {
 				display: flex;
 				justify-content: space-between;
 				width: 100%;
 			}
 		}
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			.overlay__buttons .button__wrapper {
 				width: calc(50% - #{$grid-base-two});
 			}
@@ -44,7 +44,7 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 			margin-right: $two-factor-auth-overlay-buttons-margin-right;
 		}
 		.button__wrapper + .button__wrapper {
-			@include breakpoint($fromSmall) {
+			@include from-small {
 				margin-left: $grid-base-two;
 			}
 		}
@@ -65,7 +65,7 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		display: grid;
 		grid-template-columns: auto;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			grid-template-columns: auto auto;
 		}
 	}
@@ -74,7 +74,7 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		display: grid;
 		margin-top: $grid-base-two;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			margin-top: 0;
 		}
 
@@ -152,7 +152,7 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 		margin-top: $grid-base-three;
 		width: 100%;
 
-		@include breakpoint($fromSmall) {
+		@include from-small {
 			display: flex;
 		}
 	}
@@ -182,7 +182,7 @@ $two-factor-auth-overlay-buttons-margin-right: auto !default;
 			align-items: center;
 		}
 
-		@include breakpoint($fromSmall) {
+		@include from-small {
 			margin: 0 $grid-base 0 0;
 
 			& + .twoFactorAuth__radioWrapper {

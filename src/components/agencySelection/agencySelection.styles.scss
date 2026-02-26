@@ -107,9 +107,13 @@ $infoIconSize: 16px;
 		max-width: $maxFormElementWidth;
 		margin: 0 auto $grid-base-four;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			margin: 0 0 $grid-base-four;
 			text-align: left;
 		}
+	}
+
+	.MuiRadio-root {
+		margin-left: -12px;
 	}
 }

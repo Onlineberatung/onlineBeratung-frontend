@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Headline } from '../headline/Headline';
-import { Text } from '../text/Text';
-import Switch from 'react-switch';
+import Switch from '../Switch/SwitchSimple';
+import { FormControlLabel, Stack, Typography, Box as MuiBox } from '@mui/material';
 import { useContext } from 'react';
 import { UserDataContext } from '../../globalState';
 
@@ -13,47 +13,45 @@ export const EnableWalkthrough = () => {
 	const { userData, reloadUserData } = useContext(UserDataContext);
 	const { isWalkThroughEnabled } = userData;
 	return (
-		<div className="twoFactorAuth">
-			<div className="profile__content__title">
+		<MuiBox>
+			<Stack spacing={2}>
 				<Headline
 					text={translate('walkthrough.title')}
 					semanticLevel="5"
 				/>
-				<Text
-					text={translate('walkthrough.subtitle')}
-					type="standard"
-					className="tertiary"
-				/>
-			</div>
-			<label className="twoFactorAuth__switch">
-				<Switch
-					onChange={() => {
-						apiPatchConsultantData({
-							walkThroughEnabled: !isWalkThroughEnabled
-						})
-							.then(reloadUserData)
-							.catch(console.log);
-					}}
-					checked={userData.isWalkThroughEnabled}
-					uncheckedIcon={false}
-					checkedIcon={false}
-					width={48}
-					height={26}
-					onColor="#0A882F"
-					offColor="#8C878C"
-					boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
-					handleDiameter={27}
-					activeBoxShadow="none"
-				/>
-				<Text
-					text={
+				<Typography variant="body2" color="text.secondary">
+					{translate('walkthrough.subtitle')}
+				</Typography>
+				<FormControlLabel
+					control={
+						<Switch
+							onChange={() => {
+								apiPatchConsultantData({
+									walkThroughEnabled: !isWalkThroughEnabled
+								})
+									.then(reloadUserData)
+									.catch(console.error);
+							}}
+							checked={userData.isWalkThroughEnabled}
+							uncheckedIcon={false}
+							checkedIcon={false}
+							width={48}
+							height={26}
+							onColor="#0A882F"
+							offColor="#8C878C"
+							boxShadow="0px 1px 4px rgba(0, 0, 0, 0.6)"
+							handleDiameter={27}
+							activeBoxShadow="none"
+						/>
+					}
+					label={
 						isWalkThroughEnabled
 							? translate('walkthrough.switch.active.label')
 							: translate('walkthrough.switch.deactive.label')
 					}
-					type="standard"
+					labelPlacement="end"
 				/>
-			</label>
-		</div>
+			</Stack>
+		</MuiBox>
 	);
 };

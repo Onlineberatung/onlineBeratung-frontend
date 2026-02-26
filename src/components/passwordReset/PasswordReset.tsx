@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
-import { InputField, InputFieldItem } from '../inputField/InputField';
+import { useState } from 'react';
 import { apiUpdatePassword } from '../../api';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
@@ -9,35 +8,22 @@ import {
 	inputValuesFit,
 	strengthIndicator
 } from '../../utils/validateInputValue';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import './passwordReset.styles';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
+import './passwordReset.styles.scss';
 import { Headline } from '../headline/Headline';
-import { Text } from '../text/Text';
 import {
 	encryptPrivateKey,
 	deriveMasterKeyFromPassword
 } from '../../utils/encryptionHelpers';
 import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import {
-	AUTHORITIES,
-	hasUserAuthority,
-	UserDataContext
-} from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { getTenantSettings } from '../../utils/tenantSettingsHelper';
-import { apiUpdatePasswordAppointments } from '../../api/apiUpdatePasswordAppointments';
+import { Box as MuiBox, Stack, Typography, TextField } from '@mui/material';
 
 export const PasswordReset = () => {
 	const { t: translate } = useTranslation();
 	const rcUid = getValueFromCookie('rc_uid');
-	const { featureAppointmentsEnabled } = getTenantSettings();
-	const { userData } = useContext(UserDataContext);
-	const isConsultant = hasUserAuthority(
-		AUTHORITIES.CONSULTANT_DEFAULT,
-		userData
-	);
 
 	const settings = useAppConfig();
 
@@ -73,65 +59,6 @@ export const PasswordReset = () => {
 				type: BUTTON_TYPES.AUTO_CLOSE
 			}
 		]
-	};
-
-	const getClassNames = (invalid, valid) => {
-		let classNames = ['passwordReset__input'];
-		if (invalid) {
-			classNames.push('passwordReset__input--red');
-		}
-		if (valid) {
-			classNames.push('passwordReset__input--green');
-		}
-		return classNames.join(' ');
-	};
-
-	const inputOldPassword: InputFieldItem = {
-		name: 'passwordResetOld',
-		class: getClassNames(
-			!!oldPasswordErrorMessage,
-			!!oldPasswordSuccessMessage
-		),
-		id: 'passwordResetOld',
-		type: 'password',
-		label: translate('profile.functions.password.reset.old.label'),
-		infoText:
-			oldPasswordErrorMessage || oldPasswordSuccessMessage
-				? `${oldPasswordErrorMessage} ${oldPasswordSuccessMessage}`
-				: '',
-		content: oldPassword
-	};
-
-	const inputNewPassword: InputFieldItem = {
-		name: 'passwordResetNew',
-		class: getClassNames(
-			!!newPasswordErrorMessage,
-			!!newPasswordSuccessMessage
-		),
-		id: 'passwordResetNew',
-		type: 'password',
-		label: translate('profile.functions.password.reset.new.label'),
-		infoText:
-			newPasswordErrorMessage || newPasswordSuccessMessage
-				? `${newPasswordErrorMessage} ${newPasswordSuccessMessage}<br>`
-				: '',
-		content: newPassword
-	};
-
-	const inputConfirmPassword: InputFieldItem = {
-		name: 'passwordResetConfirm',
-		class: getClassNames(
-			!!confirmPasswordErrorMessage,
-			!!confirmPasswordSuccessMessage
-		),
-		id: 'passwordResetConfirm',
-		type: 'password',
-		label: translate('profile.functions.password.reset.confirm.label'),
-		infoText:
-			confirmPasswordErrorMessage || confirmPasswordSuccessMessage
-				? `${confirmPasswordErrorMessage} ${confirmPasswordSuccessMessage}`
-				: '',
-		content: confirmPassword
 	};
 
 	const handleInputOldChange = (event) => {
@@ -230,13 +157,6 @@ export const PasswordReset = () => {
 							encryptedPrivateKey
 						);
 
-						isConsultant &&
-							featureAppointmentsEnabled &&
-							apiUpdatePasswordAppointments(
-								userData.email,
-								newPassword
-							);
-
 						setOverlayActive(true);
 						setIsRequestInProgress(false);
 						logout(false, settings.urls.toLogin);
@@ -249,12 +169,6 @@ export const PasswordReset = () => {
 							}
 						);
 						setHasMasterKeyError(true);
-
-						featureAppointmentsEnabled &&
-							apiUpdatePasswordAppointments(
-								userData.email,
-								oldPassword
-							);
 					}
 				})
 				.catch(() => {
@@ -274,83 +188,92 @@ export const PasswordReset = () => {
 	};
 
 	return (
-		<div id="passwordReset" className="passwordReset">
-			<div className="profile__content__title">
+		<MuiBox id="passwordReset">
+			<Stack spacing={2}>
 				<Headline
 					text={translate('profile.functions.password.reset.title')}
 					semanticLevel="5"
 				/>
-				<Text
-					text={translate(
-						'profile.functions.password.reset.subtitle'
-					)}
-					type="standard"
-					className="tertiary"
-				/>
-			</div>
-			<div className="generalInformation">
-				<div className="flex">
-					<div className="flex__col--1 flex-xl__col--50p">
-						<div className="pr-xl--1">
-							<InputField
-								item={inputOldPassword}
-								inputHandle={handleInputOldChange}
-							/>
-						</div>
-					</div>
-				</div>
+				<Typography variant="body2" color="text.secondary">
+					{translate('profile.functions.password.reset.subtitle')}
+				</Typography>
 
-				<div
-					className="tertiary pb--1"
+				<TextField
+					id="passwordResetOld"
+					name="passwordResetOld"
+					label={translate('profile.functions.password.reset.old.label')}
+					type="password"
+					value={oldPassword}
+					onChange={handleInputOldChange}
+					error={!!oldPasswordErrorMessage}
+					helperText={oldPasswordErrorMessage || oldPasswordSuccessMessage || ''}
+					fullWidth
+					variant="outlined"
+					autoComplete="current-password"
+				/>
+
+				<Typography 
+					variant="body2" 
+					color="text.secondary"
 					dangerouslySetInnerHTML={{
 						__html: translate(
 							'profile.functions.password.reset.instructions'
 						)
 					}}
-				></div>
+				/>
 
-				<div className="flex flex--fd-column flex-xl--fd-row">
-					<div className="flex__col">
-						<div className="pr-xl--1">
-							<InputField
-								item={inputNewPassword}
-								inputHandle={handleInputNewChange}
-							/>
-						</div>
-					</div>
-					<div className="flex__col">
-						<div className="pl-xl--1">
-							<InputField
-								item={inputConfirmPassword}
-								inputHandle={handleInputConfirmChange}
-							/>
-						</div>
-					</div>
-				</div>
+				<Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+					<TextField
+						id="passwordResetNew"
+						name="passwordResetNew"
+						label={translate('profile.functions.password.reset.new.label')}
+						type="password"
+						value={newPassword}
+						onChange={handleInputNewChange}
+						error={!!newPasswordErrorMessage}
+						helperText={newPasswordErrorMessage || newPasswordSuccessMessage || ''}
+						fullWidth
+						variant="outlined"
+						autoComplete="new-password"
+					/>
+					<TextField
+						id="passwordResetConfirm"
+						name="passwordResetConfirm"
+						label={translate('profile.functions.password.reset.confirm.label')}
+						type="password"
+						value={confirmPassword}
+						onChange={handleInputConfirmChange}
+						error={!!confirmPasswordErrorMessage}
+						helperText={confirmPasswordErrorMessage || confirmPasswordSuccessMessage || ''}
+						fullWidth
+						variant="outlined"
+						autoComplete="new-password"
+					/>
+				</Stack>
 
 				{hasMasterKeyError && (
-					<div className="passwordReset__error">
+					<Typography variant="body2" color="error">
 						{translate('profile.functions.masterKey.saveError')}
-					</div>
+					</Typography>
 				)}
 
-				<div className="button__wrapper">
+				<Stack direction="row" justifyContent="flex-end">
 					<Button
 						item={{
 							label: translate(
 								'profile.functions.security.button'
 							),
-							type: 'LINK'
+							type: BUTTON_TYPES.PRIMARY
 						}}
 						buttonHandle={handleSubmit}
-						className={'passwordReset__button'}
 						disabled={!isValid}
 					/>
-				</div>
-			</div>
+				</Stack>
+			</Stack>
+
 			{overlayActive ? (
 				<Overlay item={overlayItem} handleOverlay={handleSuccess} />
 			) : null}
-		</div>
+		</MuiBox>
 	);
 };

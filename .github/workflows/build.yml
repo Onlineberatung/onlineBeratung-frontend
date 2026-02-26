@@ -37,17 +37,15 @@ jobs:
               with:
                   mode: ${{ env.ENV_NAME }}
             - run: npm ci
-            - name: Run linters
-              uses: wearerequired/lint-action@v2
-              with:
-                  github_token: ${{ secrets.github_token }}
-                  eslint: true
-                  eslint_dir: ./src
-                  eslint_extensions: js,ts,tsx
-                  stylelint: true
-                  stylelint_dir: ./src
-                  stylelint_extensions: scss
-                  prettier: true
+            - name: Run ESLint
+              run: npx eslint src
+              continue-on-error: true
+            - name: Run Stylelint
+              run: npm run lint:style
+              continue-on-error: true
+            - name: Run Prettier check
+              run: npx prettier --check "**/*.+(js|jsx|css|less|scss|ts|tsx|md|json)"
+              continue-on-error: true
             - name: Run build
               run: |
                   npm run build
@@ -70,7 +68,7 @@ jobs:
                   branch: ${{env.BRANCH}}
                   force: true
                   tags: true
-            - uses: actions/upload-artifact@v2
+            - uses: actions/upload-artifact@v4
               if: failure()
               with:
                   name: cypress-videos

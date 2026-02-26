@@ -25,7 +25,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	.button-as-link {
 		border: none;
 		background: none;
-		color: $primary;
+		color: var(--skin-color-primary, $primary);
 		text-decoration: $link-text-decoration;
 		padding-left: 0px;
 		margin-top: $grid-base-four;
@@ -55,7 +55,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		width: 280px;
 		margin-bottom: $grid-base-two;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: 320px;
 		}
 	}
@@ -92,7 +92,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		width: 280px;
 		margin-bottom: $grid-base-four;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: 320px;
 		}
 	}
@@ -104,7 +104,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 	}
 
 	&__passwordReset {
-		color: $link-color;
+		color: var(--skin-color-primary, $primary);
 		transform: $login-icon-transform;
 		text-decoration: $link-text-decoration;
 		font-weight: $link-font-weight;
@@ -154,7 +154,7 @@ $link-hover-text-decoration: $link-text-decoration !default;
 		width: 280px;
 		margin-bottom: $grid-base-three;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			width: 320px;
 		}
 	}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './sessionsListItem.styles';
+import './sessionsListItem.styles.scss';
 
 export const SessionsListSkeleton = () => {
 	return (

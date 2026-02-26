@@ -17,6 +17,6 @@
 	width: 100%;
 }
 
-@if mixin-exists(setup-fonts) {
+@if meta.mixin-exists(setup-fonts) {
 	@include setup-fonts();
 }

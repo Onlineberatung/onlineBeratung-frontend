@@ -25,7 +25,7 @@ $welcome-screen-button-text-align: center !default;
 		column-gap: $grid-base-three;
 		row-gap: $grid-base-three;
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			margin: $grid-base-six auto 0;
 			grid-template-columns: auto auto;
 			row-gap: $grid-base-four;
@@ -50,7 +50,7 @@ $welcome-screen-button-text-align: center !default;
 		}
 
 		button {
-			min-width: 205px;
+			min-width: auto;
 			width: 100%;
 		}
 

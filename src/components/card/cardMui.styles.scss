@@ -1,0 +1,30 @@
+@import '../../resources/styles/settings';
+
+.card-mui {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	background-color: $white;
+	border-radius: 4px;
+
+	.card-mui__header,
+	.card-mui__content,
+	.card-mui__footer {
+		background: $white;
+		border-radius: 4px;
+		margin-bottom: 3px;
+	}
+
+	.card-mui__header,
+	.card-mui__content {
+		padding: 16px 25px;
+	}
+
+	.card-mui__footer {
+		padding: 24px 16px;
+	}
+
+	.card-mui__header {
+		display: flex;
+	}
+}

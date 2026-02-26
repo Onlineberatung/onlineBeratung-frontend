@@ -3,12 +3,14 @@ import {
 	isJPEGAttachment,
 	isPDFAttachment,
 	isPNGAttachment,
-	isXLSXAttachment
+	isXLSXAttachment,
+	isAudioAttachment
 } from '../messageSubmitInterface/attachmentHelpers';
-import { ReactComponent as FileDocIcon } from '../../resources/img/icons/file-doc.svg';
-import { ReactComponent as FileImageIcon } from '../../resources/img/icons/file-image.svg';
-import { ReactComponent as FilePdfIcon } from '../../resources/img/icons/file-pdf.svg';
-import { ReactComponent as FileXlsIcon } from '../../resources/img/icons/file-xls.svg';
+import FileDocIcon from '@mui/icons-material/Article';
+import FileImageIcon from '@mui/icons-material/Image';
+import FilePdfIcon from '@mui/icons-material/PictureAsPdf';
+import FileXlsIcon from '@mui/icons-material/TableChart';
+import DocumentsIcon from '@mui/icons-material/ContentCopy';
 
 export const getIconForAttachmentType = (attachmentType: string) => {
 	if (isJPEGAttachment(attachmentType) || isPNGAttachment(attachmentType)) {
@@ -19,5 +21,8 @@ export const getIconForAttachmentType = (attachmentType: string) => {
 		return FileDocIcon;
 	} else if (isXLSXAttachment(attachmentType)) {
 		return FileXlsIcon;
+	} else if (isAudioAttachment(attachmentType)) {
+		return DocumentsIcon; // Using generic documents icon for audio
 	}
+	return DocumentsIcon; // Default icon for unknown types
 };

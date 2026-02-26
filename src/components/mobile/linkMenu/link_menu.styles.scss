@@ -42,7 +42,7 @@
 
 		&__badge {
 			margin-left: 4px;
-			background-color: $primary;
+			background-color: var(--skin-color-primary, $primary);
 			color: $white;
 			border-radius: 50%;
 			width: 8px;

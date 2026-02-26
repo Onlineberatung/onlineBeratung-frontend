@@ -14,7 +14,6 @@ import {
 	AnonymousConversationFinishedContext,
 	AUTHORITIES,
 	ConsultantListContext,
-	E2EEContext,
 	hasUserAuthority,
 	RocketChatContext,
 	RocketChatGlobalSettingsContext,
@@ -37,9 +36,9 @@ import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { BUTTON_TYPES } from '../button/Button';
 import { logout } from '../logout/logout';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 import useTyping from '../../utils/useTyping';
-import './session.styles';
+import './session.styles.scss';
 import { useE2EE } from '../../hooks/useE2EE';
 import {
 	EVENT_ROOMS_CHANGED,
@@ -90,7 +89,6 @@ export const SessionStream = ({
 		useContext(ActiveSessionContext);
 
 	const { addNewUsersToEncryptedRoom } = useE2EE(activeSession?.rid);
-	const { isE2eeEnabled } = useContext(E2EEContext);
 	const { setConsultantList } = useContext(ConsultantListContext);
 
 	const abortController = useRef<AbortController>(null);
@@ -172,7 +170,7 @@ export const SessionStream = ({
 
 					if (message.t === 'au') {
 						// Handle this event only for groups because on session assigning its already handled
-						if (isE2eeEnabled && activeSession.isGroup) {
+						if (activeSession.isGroup) {
 							addNewUsersToEncryptedRoom().then();
 						}
 						return;
@@ -193,7 +191,6 @@ export const SessionStream = ({
 		[
 			anonymousConversationFinished,
 			checkMutedUserForThisSession,
-			isE2eeEnabled,
 			activeSession.isGroup,
 			addNewUsersToEncryptedRoom,
 			fetchSessionMessages,
@@ -413,7 +410,7 @@ export const SessionStream = ({
 				setConsultantList(consultants);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 			});
 	}, [
 		activeSession.isGroup,

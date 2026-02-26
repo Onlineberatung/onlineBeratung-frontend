@@ -7,7 +7,7 @@ $iconSize: 20px;
 		flex-direction: row;
 
 		a {
-			color: var(--skin-color-default, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 		}
 
 		.button__wrapper {
@@ -22,6 +22,16 @@ $iconSize: 20px;
 		margin-left: 0;
 		cursor: pointer;
 		white-space: nowrap;
+		color: $secondary !important;
+		padding: 0 !important;
+
+		&:hover {
+			color: var(--skin-color-primary, $primary) !important;
+			
+			svg path {
+				fill: var(--skin-color-primary, $primary);
+			}
+		}
 
 		&--mobile {
 			display: block;
@@ -31,36 +41,7 @@ $iconSize: 20px;
 			display: none;
 		}
 
-		&--booking {
-			white-space: normal;
-			flex-direction: column;
-
-			@include breakpoint($fromLarge) {
-				margin-right: 1rem;
-				flex-direction: row;
-			}
-
-			p {
-				color: $primary;
-				text-align: center;
-
-				@include breakpoint($fromLarge) {
-					text-align: left;
-				}
-			}
-
-			svg {
-				@include breakpoint($fromLarge) {
-					margin-right: 0.5rem;
-				}
-
-				path {
-					fill: $primary;
-				}
-			}
-		}
-
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			&--mobile {
 				display: none;
 			}
@@ -75,7 +56,7 @@ $iconSize: 20px;
 			height: $iconSize;
 
 			&:hover {
-				fill: var(--skin-color-default, $primary);
+				fill: var(--skin-color-primary, $primary);
 				svg path {
 					fill: $font-size-secondary;
 				}
@@ -88,34 +69,25 @@ $iconSize: 20px;
 	}
 
 	&__content {
-		position: absolute;
-		right: $grid-base-three;
-		top: 60px;
-		opacity: 0;
-		visibility: hidden;
-		transition:
-			opacity 0.25s ease,
-			visibility 0.25s ease;
+		// MUI Menu paper styles
+		border: $session-menu-border !important;
 		box-sizing: border-box;
 		background: white;
-		width: 230px;
-		border: $session-menu-border;
+		min-width: 230px;
 
 		@include rounded-drop-shadow;
 		overflow: hidden;
-		z-index: 1;
+
+		// Remove MUI default padding
+		.MuiList-root {
+			padding: 0;
+		}
 
 		a {
 			color: $form-secondary;
 			padding: 12px 16px;
 			text-decoration: none;
 			display: block;
-		}
-
-		&--open {
-			opacity: 1;
-			visibility: visible;
-			transition-duration: 0.25s;
 		}
 
 		// The border above the legal links should only be shown when:
@@ -131,7 +103,7 @@ $iconSize: 20px;
 		}
 		.sessionMenu__item:not(.sessionMenu__item--mobile)
 			~ .legalInformationLinks--menu {
-			@include breakpoint($fromLarge) {
+			@include from-large {
 				@include legal-links-border;
 			}
 		}
@@ -146,7 +118,7 @@ $iconSize: 20px;
 				}
 
 				&:hover {
-					background-color: $hover-primary;
+					background-color: var(--skin-color-primary-hover, $hover-primary);
 
 					p {
 						color: $session-menu-legal-links-color !important;
@@ -158,12 +130,13 @@ $iconSize: 20px;
 
 	&__item {
 		text-align: left;
-		padding: 12px $grid-base-two;
+		padding: 12px $grid-base-two !important;
 		cursor: pointer;
+		min-height: auto !important; // Override MUI MenuItem default height
 
 		&:hover {
-			background-color: $hover-primary;
-			color: var(--skin-color-default, $text-invert);
+			background-color: var(--skin-color-primary-hover, $hover-primary) !important;
+			color: $text-invert !important;
 		}
 
 		&--mobile {
@@ -174,7 +147,7 @@ $iconSize: 20px;
 			display: none;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			&--mobile {
 				display: none !important;
 			}
@@ -217,7 +190,7 @@ $iconSize: 20px;
 	&__videoCallButtons {
 		display: none;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: flex;
 		}
 	}

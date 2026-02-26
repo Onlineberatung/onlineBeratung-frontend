@@ -2,14 +2,14 @@
 	overflow-x: hidden;
 	display: flex;
 	flex-direction: column;
-	min-height: 100%;
+	min-height: 100dvh;
 
 	&__header,
 	&__footer {
 		flex: 0;
 		padding: 0 $grid-base-two $grid-base-four;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			padding: 0 $grid-base-three $grid-base-four;
 		}
 	}
@@ -34,11 +34,11 @@
 		flex-basis: $header-height;
 		height: $header-height;
 		width: 100%;
-		padding: 0 $grid-base-three;
+		padding: $grid-base-two $grid-base-three 0;
 
 		&.mobile {
 			justify-content: space-between;
-			padding: 0 $grid-base-two;
+			padding: $grid-base-two $grid-base-two 0;
 		}
 	}
 
@@ -50,13 +50,13 @@
 		width: auto;
 		padding: 48px 16px;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			& > *:not(.loadingIndicator) {
 				max-width: 700px;
 			}
 		}
 
-		@include breakpoint($fromXLarge) {
+		@include from-x-large {
 			width: 100%;
 			padding-left: calc(40vw + 16px);
 
@@ -101,52 +101,4 @@
 		}
 	}
 
-	&__legalLinks {
-		display: flex;
-		align-items: center;
-		margin: 0;
-
-		@include breakpoint($fromXLarge) {
-			justify-content: flex-end;
-		}
-
-		.button-as-link {
-			background: none;
-			border: none;
-			cursor: pointer;
-			text-decoration: underline;
-			padding: 0;
-			white-space: nowrap;
-			color: $tertiary;
-
-			&:focus {
-				outline: $focus-outline;
-				border-radius: 4px;
-			}
-
-			&:focus:not(:focus-visible) {
-				outline: none;
-			}
-
-			&:hover {
-				color: var(--skin-color-primary-hover, $hover-primary);
-			}
-		}
-
-		.text {
-			font-size: $font-size-tertiary;
-		}
-	}
-
-	&__legalLinksItem {
-		color: $tertiary;
-		&:hover {
-			color: var(--skin-color-primary-hover, $hover-primary);
-		}
-	}
-
-	&__legalLinksSeparator {
-		display: inline-block;
-		margin: 0 $grid-base;
-	}
 }

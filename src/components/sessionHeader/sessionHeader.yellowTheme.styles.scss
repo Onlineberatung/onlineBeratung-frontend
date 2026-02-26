@@ -2,7 +2,7 @@
 	.sessionInfo {
 		background-color: $yellow-1;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			background-color: var(--skin-color-secondary-light, $yellow-2);
 		}
 	}

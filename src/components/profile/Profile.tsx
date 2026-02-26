@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useState, useRef, useContext, useEffect, Fragment } from 'react';
+import { useState, useRef, useContext, useEffect } from 'react';
 import { logout } from '../logout/logout';
 import {
-	AgencySpecificContext,
 	AUTHORITIES,
 	ConsultingTypesContext,
 	hasUserAuthority,
@@ -10,11 +9,10 @@ import {
 	useTenant,
 	LocaleContext
 } from '../../globalState';
-import { ReactComponent as PersonIcon } from '../../resources/img/icons/person.svg';
-import { ReactComponent as LogoutIcon } from '../../resources/img/icons/out.svg';
-import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-import { Text } from '../text/Text';
-import './profile.styles';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
+import BackIcon from '@mui/icons-material/ArrowBack';
+import './profile.styles.scss';
 import profileRoutes from './profile.routes';
 import {
 	Link,
@@ -42,15 +40,16 @@ import {
 	solveCondition,
 	solveGroupConditions,
 	COLUMN_LEFT,
+	COLUMN_RIGHT,
 	SingleComponentType,
 	TabGroups,
 	TabType
 } from '../../utils/tabsHelper';
 import { useTranslation } from 'react-i18next';
-import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
-import LegalLinks from '../legalLinks/LegalLinks';
+import { Box as MuiBox, Grid, Stack } from '@mui/material';
+import { FooterLinks } from '../footer/FooterLinks';
 
 export const Profile = () => {
 	const settings = useAppConfig();
@@ -60,9 +59,7 @@ export const Profile = () => {
 	const { fromL } = useResponsive();
 	const isFirstVisit = useIsFirstVisit();
 
-	const legalLinks = useContext(LegalLinksContext);
 	const { userData } = useContext(UserDataContext);
-	const { specificAgency } = useContext(AgencySpecificContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
 	const [mobileMenu, setMobileMenu] = useState<
@@ -236,7 +233,7 @@ export const Profile = () => {
 											'profile.data.profileIcon'
 										)}
 										className="profile__icon--user"
-										title={translate(
+										titleAccess={translate(
 											'profile.data.profileIcon'
 										)}
 									/>
@@ -248,7 +245,7 @@ export const Profile = () => {
 						) : (
 							<Link to={`/profile`}>
 								<BackIcon
-									title={translate('app.back')}
+									titleAccess={translate('app.back')}
 									aria-label={translate('app.back')}
 								/>
 							</Link>
@@ -316,7 +313,7 @@ export const Profile = () => {
 								className="profile__header__logout flex__col--no-grow"
 							>
 								<LogoutIcon
-									title={translate('app.logout')}
+									titleAccess={translate('app.logout')}
 									aria-label={translate('app.logout')}
 								/>
 							</div>
@@ -348,38 +345,11 @@ export const Profile = () => {
 										key={`/profile${tab.url}`}
 									>
 										<div className="profile__content">
-											{tab.elements
-												.reduce(
-													(
-														acc: SingleComponentType[],
-														element
-													) =>
-														acc.concat(
-															isTabGroup(element)
-																? element.elements
-																: element
-														),
-													[]
-												)
-												.filter((element) =>
-													solveCondition(
-														element.condition,
-														userData,
-														consultingTypes ?? []
-													)
-												)
-												.sort(
-													(a, b) =>
-														(a?.order || 99) -
-														(b?.order || 99)
-												)
-												.map((element, i) => (
-													<ProfileItem
-														key={i}
-														element={element}
-														index={i}
-													/>
-												))}
+											<ProfileColumns
+												elements={tab.elements}
+												userData={userData}
+												consultingTypes={consultingTypes ?? []}
+											/>
 										</div>
 									</Route>
 								))
@@ -469,30 +439,94 @@ export const Profile = () => {
 					</Switch>
 				</div>
 				<div className="profile__footer">
-					<LegalLinks
-						legalLinks={legalLinks}
-						params={{ aid: specificAgency?.id }}
-						delimiter={
-							<Text
-								type="infoSmall"
-								className="profile__footer__separator"
-								text=" | "
-							/>
-						}
-					>
-						{(label, url) => (
-							<a href={url} target="_blank" rel="noreferrer">
-								<Text
-									className="profile__footer__item"
-									type="infoSmall"
-									text={label}
-								/>
-							</a>
-						)}
-					</LegalLinks>
+					<FooterLinks sx={{ justifyContent: { xs: 'center', lg: 'flex-end' }, px: { xs: 2, md: 3 } }} />
 				</div>
 			</div>
 		</div>
+	);
+};
+
+const ProfileColumns = ({
+	elements,
+	userData,
+	consultingTypes
+}: {
+	elements: (TabGroups | SingleComponentType | null)[];
+	userData: any;
+	consultingTypes: any[];
+}) => {
+	// Flatten and filter elements
+	const allElements = elements
+		.reduce(
+			(acc: SingleComponentType[], element) =>
+				acc.concat(
+					isTabGroup(element) ? element.elements : element
+				),
+			[]
+		)
+		.filter((element) =>
+			solveCondition(element.condition, userData, consultingTypes)
+		)
+		.sort((a, b) => (a?.order || 99) - (b?.order || 99));
+
+	// Separate elements by column - default to COLUMN_LEFT if not specified
+	const leftColumnElements = allElements.filter(
+		(el) => (el.column === COLUMN_LEFT || el.column === undefined) && !el.fullWidth
+	);
+	const rightColumnElements = allElements.filter(
+		(el) => el.column === COLUMN_RIGHT && !el.fullWidth
+	);
+	const fullWidthElements = allElements.filter((el) => el.fullWidth);
+
+	return (
+		<Grid container spacing={3}>
+			{/* Full width elements first */}
+			{fullWidthElements.map((element, i) => (
+				<Grid size={{ xs: 12 }} key={`full-${i}`}>
+					{element.boxed === false ? (
+						<element.component />
+					) : (
+						<Box>
+							<element.component />
+						</Box>
+					)}
+				</Grid>
+			))}
+			
+			{/* Left column */}
+			<Grid size={{ xs: 12, md: 6 }}>
+				<Stack spacing={2}>
+					{leftColumnElements.map((element, i) => (
+						<div key={`left-${i}`}>
+							{element.boxed === false ? (
+								<element.component />
+							) : (
+								<Box>
+									<element.component />
+								</Box>
+							)}
+						</div>
+					))}
+				</Stack>
+			</Grid>
+
+			{/* Right column */}
+			<Grid size={{ xs: 12, md: 6 }}>
+				<Stack spacing={2}>
+					{rightColumnElements.map((element, i) => (
+						<div key={`right-${i}`}>
+							{element.boxed === false ? (
+								<element.component />
+							) : (
+								<Box>
+									<element.component />
+								</Box>
+							)}
+						</div>
+					))}
+				</Stack>
+			</Grid>
+		</Grid>
 	);
 };
 
@@ -501,44 +535,91 @@ const ProfileItem = ({
 }: {
 	element: SingleComponentType;
 	index: number;
-}) => (
-	<div
-		className={`profile__item ${
-			element.fullWidth
-				? 'full'
-				: element.column === COLUMN_LEFT
-					? 'left'
-					: 'right'
-		}`}
-	>
-		{element.boxed === false ? (
-			<element.component />
-		) : (
-			<Box>
+}) => {
+	return (
+		<div>
+			{element.boxed === false ? (
 				<element.component />
-			</Box>
-		)}
-	</div>
-);
+			) : (
+				<Box>
+					<element.component />
+				</Box>
+			)}
+		</div>
+	);
+};
 
 const ProfileGroup = ({ group }: { group: TabGroups }) => {
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 
+	const allElements = group.elements
+		.filter((element) =>
+			solveCondition(
+				element.condition,
+				userData,
+				consultingTypes ?? []
+			)
+		)
+		.sort((a, b) => (a?.order || 99) - (b?.order || 99));
+
+	// Separate elements by column - default to COLUMN_LEFT if not specified
+	const leftColumnElements = allElements.filter(
+		(el) => (el.column === COLUMN_LEFT || el.column === undefined) && !el.fullWidth
+	);
+	const rightColumnElements = allElements.filter(
+		(el) => el.column === COLUMN_RIGHT && !el.fullWidth
+	);
+	const fullWidthElements = allElements.filter((el) => el.fullWidth);
+
 	return (
-		<>
-			{group.elements
-				.filter((element) =>
-					solveCondition(
-						element.condition,
-						userData,
-						consultingTypes ?? []
-					)
-				)
-				.sort((a, b) => (a?.order || 99) - (b?.order || 99))
-				.map((element, i) => (
-					<ProfileItem key={i} element={element} index={i} />
-				))}
-		</>
+		<Grid container spacing={3}>
+			{/* Full width elements first */}
+			{fullWidthElements.map((element, i) => (
+				<Grid size={{ xs: 12 }} key={`full-${i}`}>
+					{element.boxed === false ? (
+						<element.component />
+					) : (
+						<Box>
+							<element.component />
+						</Box>
+					)}
+				</Grid>
+			))}
+			
+			{/* Left column */}
+			<Grid size={{ xs: 12, md: 6 }}>
+				<Stack spacing={2}>
+					{leftColumnElements.map((element, i) => (
+						<div key={`left-${i}`}>
+							{element.boxed === false ? (
+								<element.component />
+							) : (
+								<Box>
+									<element.component />
+								</Box>
+							)}
+						</div>
+					))}
+				</Stack>
+			</Grid>
+
+			{/* Right column */}
+			<Grid size={{ xs: 12, md: 6 }}>
+				<Stack spacing={2}>
+					{rightColumnElements.map((element, i) => (
+						<div key={`right-${i}`}>
+							{element.boxed === false ? (
+								<element.component />
+							) : (
+								<Box>
+									<element.component />
+								</Box>
+							)}
+						</div>
+					))}
+				</Stack>
+			</Grid>
+		</Grid>
 	);
 };

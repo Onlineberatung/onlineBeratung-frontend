@@ -86,6 +86,88 @@ const adjustHSLColor = ({
 	return `hsl(${color.h}, ${color.s}%, ${adjust}%)`;
 };
 
+/**
+ * Convert HSL(A) to hex or rgba format for CSS
+ * @param h Hue (0-360)
+ * @param s Saturation (0-100)
+ * @param l Lightness (0-100)
+ * @param a Alpha (0-1) optional
+ * @return {string} CSS color string in hex or rgba format
+ * @throws {Error} If input values are invalid or out of range
+ */
+const hslToHex = (h: number, s: number, l: number, a?: number): string => {
+	// Input validation to prevent NaN/Infinity and ensure valid ranges
+	if (typeof h !== 'number' || !isFinite(h)) {
+		throw new Error('Hue must be a finite number');
+	}
+	if (typeof s !== 'number' || !isFinite(s)) {
+		throw new Error('Saturation must be a finite number');
+	}
+	if (typeof l !== 'number' || !isFinite(l)) {
+		throw new Error('Lightness must be a finite number');
+	}
+	if (a !== undefined && (typeof a !== 'number' || !isFinite(a))) {
+		throw new Error('Alpha must be a finite number');
+	}
+
+	// Clamp values to valid ranges
+	h = Math.max(0, Math.min(360, h)) % 360;
+	s = Math.max(0, Math.min(100, s)) / 100;
+	l = Math.max(0, Math.min(100, l)) / 100;
+	if (a !== undefined) {
+		a = Math.max(0, Math.min(1, a));
+	}
+
+	const c = (1 - Math.abs(2 * l - 1)) * s;
+	const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+	const m = l - c / 2;
+	let r = 0;
+	let g = 0;
+	let b = 0;
+
+	if (0 <= h && h < 60) {
+		r = c;
+		g = x;
+		b = 0;
+	} else if (60 <= h && h < 120) {
+		r = x;
+		g = c;
+		b = 0;
+	} else if (120 <= h && h < 180) {
+		r = 0;
+		g = c;
+		b = x;
+	} else if (180 <= h && h < 240) {
+		r = 0;
+		g = x;
+		b = c;
+	} else if (240 <= h && h < 300) {
+		r = x;
+		g = 0;
+		b = c;
+	} else if (300 <= h && h < 360) {
+		r = c;
+		g = 0;
+		b = x;
+	}
+
+	// Clamp RGB values to valid 0-255 range
+	r = Math.max(0, Math.min(255, Math.round((r + m) * 255)));
+	g = Math.max(0, Math.min(255, Math.round((g + m) * 255)));
+	b = Math.max(0, Math.min(255, Math.round((b + m) * 255)));
+
+	if (a !== undefined) {
+		return `rgba(${r}, ${g}, ${b}, ${a})`;
+	}
+
+	const toHex = (n: number) => {
+		const hex = n.toString(16);
+		return hex.length === 1 ? '0' + hex : hex;
+	};
+
+	return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+};
+
 const injectCss = ({ primaryColor, secondaryColor }) => {
 	// make HSL colors over RGB from hex
 	const primaryHSL = hexToRGB(primaryColor);
@@ -112,29 +194,41 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 		secondaryColor &&
 		contrast.ratio('#fff', secondaryColor) > contrastThreshold
 			? secondaryColor
-			: 'var(--skin-color-default)';
+			: '#fff';
 
 	const primaryColorContrastSafe =
 		primaryColor && contrast.ratio('#fff', primaryColor) < contrastThreshold
 			? 'var(--skin-color-primary-foreground-dark)'
 			: primaryColor;
 
-	document.head.insertAdjacentHTML(
-		'beforeend',
-		`<style>
+	// Calculate hover color HSL
+	const hoverHsl = primaryHSL
+		? {
+				h: primaryHSL.h,
+				s: primaryHSL.s,
+				l:
+					primaryColor &&
+					contrast.ratio('#fff', primaryColor) < contrastThreshold
+						? primaryHSL.l + 10 // lighter
+						: primaryHSL.l - 10 // darker
+			}
+		: null;
+
+	// Use getOrCreateHeadNode to ensure the style tag persists through Vite HMR
+	const styleNode = getOrCreateHeadNode('style', { id: 'tenant-theming' });
+	styleNode.textContent = `
 		:root {
 		--skin-color-primary: ${primaryColor};
 		--skin-color-primary-hover: ${
-			primaryColor &&
-			contrast.ratio('#fff', primaryColor) < contrastThreshold
+			hoverHsl
 				? adjustHSLColor({
-						color: primaryHSL,
-						adjust: primaryHSL.l + 10
-					}) // lighter
-				: adjustHSLColor({
-						color: primaryHSL,
-						adjust: primaryHSL.l - 1
-					}) // darker
+						color: hoverHsl,
+						adjust: hoverHsl.l
+					})
+				: ''
+		};
+		--skin-color-primary-hover-translucent: ${
+			hoverHsl ? hslToHex(hoverHsl.h, hoverHsl.s, hoverHsl.l, 0.2) : ''
 		};
 		--skin-color-secondary: ${secondaryColor || ''};
 		--skin-color-secondary-light: ${
@@ -150,8 +244,7 @@ const injectCss = ({ primaryColor, secondaryColor }) => {
 		--text-color-contrast-switch: ${textColorContrastSwitch};
 		--text-color-secondary-contrast-switch: ${textColorSecondaryContrastSwitch};
 		}
-		</style>`
-	);
+	`;
 };
 
 const getOrCreateHeadNode = (
@@ -183,7 +276,9 @@ const getOrCreateHeadNode = (
 
 const applyTheming = (tenant: TenantDataInterface) => {
 	if (tenant.theming) {
-		injectCss(tenant.theming);
+		if (tenant.theming.primaryColor) {
+			injectCss(tenant.theming);
+		}
 
 		getOrCreateHeadNode('meta', { name: 'theme-color' }).setAttribute(
 			'content',
@@ -232,12 +327,17 @@ const useTenantTheming = () => {
 
 	const onTenantServiceResponse = useCallback(
 		(tenant: TenantDataInterface) => {
-			if (!subdomain && cypressTenantEnabled !== '1') {
+			// If no subdomain and Cypress tenant not enabled, use default settings
+			// But still decode and apply theming if tenant data is available
+			if (!subdomain && cypressTenantEnabled !== '1' && !tenant) {
 				tenantContext?.setTenant({ settings } as any);
-			} else {
-				// ToDo: See VIC-428 + VIC-427
-				const decodedTenant = JSON.parse(JSON.stringify(tenant));
+				return;
+			}
 
+			// Process tenant data
+			const decodedTenant = JSON.parse(JSON.stringify(tenant));
+
+			if (decodedTenant.theming) {
 				decodedTenant.theming.logo = decodeHTML(tenant.theming.logo);
 				decodedTenant.theming.associationLogo = decodeHTML(
 					tenant.theming.associationLogo
@@ -245,13 +345,15 @@ const useTenantTheming = () => {
 				decodedTenant.theming.favicon = decodeHTML(
 					tenant.theming.favicon
 				);
-				decodedTenant.content.claim = decodeHTML(tenant.content.claim);
-				decodedTenant.name = decodeHTML(tenant.name);
-
-				applyTheming(decodedTenant);
-				tenantContext?.setTenant(decodedTenant);
 			}
-			return;
+			if (decodedTenant.content) {
+				decodedTenant.content.claim = decodeHTML(tenant.content.claim);
+			}
+			decodedTenant.name = decodeHTML(tenant.name);
+
+			// Always apply theming if tenant data is available
+			applyTheming(decodedTenant);
+			tenantContext?.setTenant(decodedTenant);
 		},
 		[settings, subdomain, tenantContext, cypressTenantEnabled]
 	);
@@ -264,7 +366,7 @@ const useTenantTheming = () => {
 		apiGetTenantTheming()
 			.then(onTenantServiceResponse)
 			.catch((error) => {
-				console.log('Theme could not be loaded', error);
+				console.error('Theme could not be loaded', error);
 			})
 			.finally(() => {
 				setIsLoadingTenant(false);

@@ -5,7 +5,6 @@ import {
 	SESSION_LIST_TYPES,
 	SESSION_TYPE_ARCHIVED,
 	SESSION_TYPE_ENQUIRY,
-	SESSION_TYPE_FEEDBACK,
 	SESSION_TYPE_GROUP,
 	SESSION_TYPE_LIVECHAT,
 	SESSION_TYPE_SESSION,
@@ -13,36 +12,25 @@ import {
 } from '../session/sessionHelpers';
 
 import { AskerInfo } from '../askerInfo/AskerInfo';
+import { DocumentLibrary } from '../documentLibrary/DocumentLibrary';
 import { Profile } from '../profile/Profile';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
-import { Appointments } from '../appointment/Appointments';
-import VideoConference from '../videoConference/VideoConference';
-import { AUTHORITIES, hasUserAuthority } from '../../globalState';
 import { AppConfigInterface } from '../../globalState/interfaces';
 
-import { ReactComponent as OverviewIconOutline } from '../../resources/img/icons/overview_outline.svg';
-import { ReactComponent as OverviewIconFilled } from '../../resources/img/icons/overview_filled.svg';
-import { ReactComponent as InboxIconOutline } from '../../resources/img/icons/inbox_outline.svg';
-import { ReactComponent as InboxIconFilled } from '../../resources/img/icons/inbox_filled.svg';
-import { ReactComponent as MessagesIconOutline } from '../../resources/img/icons/messages_outline.svg';
-import { ReactComponent as MessagesIconFilled } from '../../resources/img/icons/messages_filled.svg';
-import { ReactComponent as TeamsIconOutline } from '../../resources/img/icons/teams_outline.svg';
-import { ReactComponent as TeamsIconFilled } from '../../resources/img/icons/teams_filled.svg';
-import { ReactComponent as ProfilIconOutline } from '../../resources/img/icons/profil_outline.svg';
-import { ReactComponent as ProfilIconFilled } from '../../resources/img/icons/profil_filled.svg';
-import { ReactComponent as ToolsIconOutline } from '../../resources/img/icons/tools_outline.svg';
-import { ReactComponent as ToolsIconFilled } from '../../resources/img/icons/tools_filled.svg';
-import { ReactComponent as CalendarIconOutline } from '../../resources/img/icons/calendar_outline.svg';
-import { ReactComponent as CalendarIconFilled } from '../../resources/img/icons/calendar_filled.svg';
-import { ToolsList } from '../tools/ToolsList';
+import OverviewIconOutline from '@mui/icons-material/DashboardOutlined';
+import OverviewIconFilled from '@mui/icons-material/Dashboard';
+import InboxIconOutline from '@mui/icons-material/InboxOutlined';
+import InboxIconFilled from '@mui/icons-material/Inbox';
+import MessagesIconOutline from '@mui/icons-material/ForumOutlined';
+import MessagesIconFilled from '@mui/icons-material/Forum';
+import TeamsIconOutline from '@mui/icons-material/GroupOutlined';
+import TeamsIconFilled from '@mui/icons-material/Group';
+import ProfilIconOutline from '@mui/icons-material/PersonOutlined';
+import ProfilIconFilled from '@mui/icons-material/Person';
 import { OverviewPage } from '../../containers/overview/overview';
-import { Booking } from '../../containers/bookings/components/Booking/booking';
-import { BookingCancellation } from '../../containers/bookings/components/BookingCancellation/bookingCancellation';
-import { BookingEvents } from '../../containers/bookings/components/BookingEvents/bookingEvents';
-import { BookingReschedule } from '../../containers/bookings/components/BookingReschedule/bookingReschedule';
-import { hasVideoCallFeature } from '../../utils/videoCallHelpers';
+
 
 const SessionView = lazy(() =>
 	import('../session/SessionView').then((m) => ({ default: m.SessionView }))
@@ -50,52 +38,6 @@ const SessionView = lazy(() =>
 const WriteEnquiry = lazy(() =>
 	import('../enquiry/WriteEnquiry').then((m) => ({ default: m.WriteEnquiry }))
 );
-
-const showAppointmentsMenuItem = (userData, hasAssignedConsultant) => {
-	return (
-		userData.appointmentFeatureEnabled &&
-		(hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) ||
-			(hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				hasAssignedConsultant))
-	);
-};
-
-const showToolsMenuItem = (userData, consultingTypes, sessionsData, hasTools) =>
-	hasTools;
-
-const isVideoAppointmentsEnabled = (
-	userData,
-	consultingTypes,
-	disableVideoAppointments
-) =>
-	!disableVideoAppointments && hasVideoCallFeature(userData, consultingTypes);
-
-const appointmentRoutes = [
-	{
-		path: '/booking',
-		component: Booking
-	},
-	{
-		path: '/booking/cancellation',
-		component: BookingCancellation
-	},
-	{
-		path: '/booking/reschedule',
-		component: BookingReschedule
-	},
-	{
-		path: '/booking/events',
-		exact: false,
-		component: BookingEvents
-	}
-];
-
-const toolsRoutes = [
-	{
-		path: '/tools',
-		component: ToolsList
-	}
-];
 
 const overviewRoute = (settings: AppConfigInterface) => ({
 	condition: () => settings.useOverviewPage && isDesktop,
@@ -109,7 +51,7 @@ const overviewRoute = (settings: AppConfigInterface) => ({
 
 export const RouterConfigUser = (
 	_settings: AppConfigInterface,
-	hasAssignedConsultant: boolean
+	_hasAssignedConsultant: boolean
 ): any => {
 	return {
 		navigation: [
@@ -128,25 +70,6 @@ export const RouterConfigUser = (
 				iconFilled: ProfilIconFilled,
 				titleKeys: {
 					large: 'navigation.profile'
-				}
-			},
-			{
-				condition: (userData) =>
-					showAppointmentsMenuItem(userData, hasAssignedConsultant),
-				to: '/booking/events',
-				icon: CalendarIconOutline,
-				iconFilled: CalendarIconFilled,
-				titleKeys: {
-					large: 'navigation.booking.events'
-				}
-			},
-			{
-				condition: showToolsMenuItem,
-				to: '/tools',
-				icon: ToolsIconOutline,
-				iconFilled: ToolsIconFilled,
-				titleKeys: {
-					large: 'navigation.tools'
 				}
 			}
 		],
@@ -195,28 +118,25 @@ export const RouterConfigUser = (
 				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		],
+		userProfileRoutes: [
+			{
+				path: '/sessions/user/view/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.MY_SESSION
+			}
+		],
 		profileRoutes: [
 			{
 				path: '/profile',
 				exact: false,
 				component: Profile
 			}
-		],
-		appointmentRoutes,
-		toolsRoutes
+		]
 	};
 };
 
 export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 	return {
-		plainRoutes: [
-			{
-				condition: hasVideoCallFeature,
-				path: settings.urls.consultantVideoConference,
-				exact: true,
-				component: VideoConference
-			}
-		],
 		navigation: [
 			overviewRoute(settings),
 			{
@@ -237,34 +157,11 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 				}
 			},
 			{
-				condition: (userData, consultingTypes) =>
-					isVideoAppointmentsEnabled(
-						userData,
-						consultingTypes,
-						settings.disableVideoAppointments
-					),
-				to: '/termine',
-				icon: CalendarIconOutline,
-				iconFilled: CalendarIconFilled,
-				titleKeys: {
-					large: 'navigation.appointments'
-				}
-			},
-			{
 				to: '/profile',
 				icon: ProfilIconOutline,
 				iconFilled: ProfilIconFilled,
 				titleKeys: {
 					large: 'navigation.profile'
-				}
-			},
-			{
-				condition: showAppointmentsMenuItem,
-				to: '/booking/events',
-				icon: CalendarIconOutline,
-				iconFilled: CalendarIconFilled,
-				titleKeys: {
-					large: 'navigation.booking.events'
 				}
 			}
 		],
@@ -283,7 +180,6 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 					SESSION_TYPE_SESSION,
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
-					SESSION_TYPE_FEEDBACK,
 					SESSION_TYPE_TEAMSESSION
 				],
 				type: SESSION_LIST_TYPES.MY_SESSION,
@@ -337,6 +233,16 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
 				component: GroupChatInfo,
 				type: SESSION_LIST_TYPES.MY_SESSION
+			},
+			{
+				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.ENQUIRY
+			},
+			{
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		],
 		profileRoutes: [
@@ -348,21 +254,8 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 				path: '/profile',
 				exact: false,
 				component: Profile
-			},
-			{
-				condition: (userData, consultingTypes) =>
-					isVideoAppointmentsEnabled(
-						userData,
-						consultingTypes,
-						settings.disableVideoAppointments
-					),
-				path: '/termine',
-				exact: false,
-				component: Appointments
 			}
-		],
-		appointmentRoutes,
-		toolsRoutes
+		]
 	};
 };
 
@@ -370,14 +263,6 @@ export const RouterConfigTeamConsultant = (
 	settings: AppConfigInterface
 ): any => {
 	return {
-		plainRoutes: [
-			{
-				condition: hasVideoCallFeature,
-				path: settings.urls.consultantVideoConference,
-				exact: true,
-				component: VideoConference
-			}
-		],
 		navigation: [
 			overviewRoute(settings),
 			{
@@ -407,29 +292,6 @@ export const RouterConfigTeamConsultant = (
 				}
 			},
 			{
-				condition: (userData, consultingTypes) =>
-					isVideoAppointmentsEnabled(
-						userData,
-						consultingTypes,
-						settings.disableVideoAppointments
-					),
-				to: '/termine',
-				icon: CalendarIconOutline,
-				iconFilled: CalendarIconFilled,
-				titleKeys: {
-					large: 'navigation.appointments'
-				}
-			},
-			{
-				condition: showAppointmentsMenuItem,
-				to: '/booking/events',
-				icon: CalendarIconOutline,
-				iconFilled: CalendarIconFilled,
-				titleKeys: {
-					large: 'navigation.booking.events'
-				}
-			},
-			{
 				to: '/profile',
 				icon: ProfilIconOutline,
 				iconFilled: ProfilIconFilled,
@@ -453,7 +315,6 @@ export const RouterConfigTeamConsultant = (
 					SESSION_TYPE_SESSION,
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
-					SESSION_TYPE_FEEDBACK,
 					SESSION_TYPE_TEAMSESSION
 				],
 				type: SESSION_LIST_TYPES.MY_SESSION,
@@ -466,7 +327,6 @@ export const RouterConfigTeamConsultant = (
 					SESSION_TYPE_SESSION,
 					SESSION_TYPE_ARCHIVED,
 					SESSION_TYPE_GROUP,
-					SESSION_TYPE_FEEDBACK,
 					SESSION_TYPE_TEAMSESSION
 				],
 				type: SESSION_LIST_TYPES.TEAMSESSION,
@@ -545,6 +405,21 @@ export const RouterConfigTeamConsultant = (
 				path: '/sessions/consultant/sessionView/createGroupChat/',
 				component: CreateGroupChatView,
 				type: SESSION_LIST_TYPES.MY_SESSION
+			},
+			{
+				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.ENQUIRY
+			},
+			{
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.MY_SESSION
+			},
+			{
+				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			}
 		],
 		profileRoutes: [
@@ -556,21 +431,8 @@ export const RouterConfigTeamConsultant = (
 				path: '/profile',
 				exact: false,
 				component: Profile
-			},
-			{
-				condition: (userData, consultingTypes) =>
-					isVideoAppointmentsEnabled(
-						userData,
-						consultingTypes,
-						settings.disableVideoAppointments
-					),
-				path: '/termine',
-				exact: false,
-				component: Appointments
 			}
-		],
-		appointmentRoutes,
-		toolsRoutes
+		]
 	};
 };
 
@@ -630,15 +492,6 @@ export const RouterConfigAnonymousAsker = (): any => {
 				path: '/sessions/user/view/',
 				component: SessionViewEmpty,
 				type: SESSION_LIST_TYPES.MY_SESSION
-			},
-			{
-				path: '/booking/reschedule',
-				component: BookingReschedule
-			},
-			{
-				path: '/booking/events',
-				exact: false,
-				component: BookingEvents
 			}
 		]
 	};

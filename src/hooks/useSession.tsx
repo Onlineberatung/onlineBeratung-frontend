@@ -72,7 +72,7 @@ export const useSession = (
 		return promise
 			.then(({ sessions: [activeSession] }) => {
 				if (activeSession) {
-					setSession(buildExtendedSession(activeSession, rid));
+					setSession(buildExtendedSession(activeSession));
 				}
 				setReady(true);
 			})
@@ -84,7 +84,7 @@ export const useSession = (
 				if (repetitiveId.current) {
 					return apiGetChatRoomById(repetitiveId.current).then(
 						({ sessions: [session] }) => {
-							setSession(buildExtendedSession(session, rid));
+							setSession(buildExtendedSession(session));
 							setReady(true);
 						}
 					);
@@ -99,9 +99,7 @@ export const useSession = (
 			return;
 		}
 
-		const isCurrentSessionRead = session.isFeedback
-			? session.item.feedbackRead
-			: session.item.messagesRead;
+		const isCurrentSessionRead = session.item.messagesRead;
 
 		if (!isCurrentSessionRead) {
 			apiSetSessionRead(session.rid).then();

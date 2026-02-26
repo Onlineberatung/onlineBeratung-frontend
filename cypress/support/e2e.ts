@@ -4,7 +4,6 @@ import './commands';
 beforeEach(() => {
 	window.localStorage.setItem('locale', 'de');
 	window.localStorage.setItem('showDevTools', '0');
-	window.localStorage.setItem('e2ee_disabled', '1');
 
 	cy.mockApi();
 	cy.fixture('service.settings.json').then((content) => {

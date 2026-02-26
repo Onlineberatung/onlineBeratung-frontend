@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListInfo } from '../listInfo/ListInfo';
-import { ReactComponent as ChatWaitingIllustration } from '../../resources/img/illustrations/chat-waiting.svg';
-import { ReactComponent as NoMessagesIllustration } from '../../resources/img/illustrations/no-messages.svg';
+import ChatWaitingIllustration from '../../resources/img/illustrations/chat-waiting.svg?react';
+import NoMessagesIllustration from '../../resources/img/illustrations/no-messages.svg?react';
 import {
 	SESSION_LIST_TAB_ARCHIVE,
 	SESSION_LIST_TYPES,

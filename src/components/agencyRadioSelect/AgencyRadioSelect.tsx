@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import './agencyRadioSelect.styles';
+import './agencyRadioSelect.styles.scss';
 import { AgencyDataInterface } from '../../globalState/interfaces';
 import { Headline } from '../headline/Headline';
 import { RadioButton } from '../radioButton/RadioButton';
@@ -47,7 +47,9 @@ export const AgencyRadioSelect = ({
 					checked={agencyIdAsString === checkedValue}
 					inputId={`agency-${agencyIdAsString}`}
 				>
-					{t([`agency.${agencyIdAsString}.name`, agency.name])}
+					{t(`agency.${agencyIdAsString}.name`, {
+						defaultValue: agency.name
+					})}
 				</RadioButton>
 
 				<InfoTooltip

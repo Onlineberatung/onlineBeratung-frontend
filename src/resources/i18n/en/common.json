@@ -138,69 +138,6 @@
 		"title": "Consulting & Help",
 		"wait": "Please wait"
 	},
-	"appointments": {
-		"copy": {
-			"link": {
-				"notification": {
-					"text": "Invitation link to the video call copied to clipboard!",
-					"title": "Link copied"
-				},
-				"text": "Copy link",
-				"title": "Copy invitation link to clipboard"
-			}
-		},
-		"newAppointment": "New video appointment",
-		"noAppointments": "Currently there are no dates",
-		"notification": {
-			"saved": {
-				"title": "The appointment was saved successfully."
-			}
-		},
-		"onlineMeeting": {
-			"form": {
-				"date": "Date",
-				"description": "Description",
-				"time": "Start (hh:mm)",
-				"title": "Title"
-			},
-			"overlay": {
-				"add": {
-					"button": {
-						"add": "Save",
-						"cancel": "Cancel"
-					},
-					"headline": "New video call"
-				},
-				"delete": {
-					"button": {
-						"cancel": "Cancel",
-						"delete": "Delete"
-					},
-					"copy": "Do you really want to delete this video call?",
-					"headline": "Delete video call"
-				},
-				"edit": {
-					"headline": "Edit video call"
-				},
-				"start": {
-					"button": {
-						"cancel": "Cancel",
-						"start": "Start"
-					},
-					"copy": "You are now starting the video call. Invited participants can join now with the invitation link.",
-					"headline": "Start video call"
-				}
-			},
-			"start": "Start video call"
-		},
-		"qrCode": {
-			"headline": "Invitation link QR code",
-			"text": "If you share your QR code with someone, that person can scan it with their phone camera to join the video call directly. Alternatively, you can download the code."
-		},
-		"showLess": "Show less",
-		"showMore": "Show more",
-		"title": "Appointment overview"
-	},
 	"archive": {
 		"overlay": {
 			"session": {
@@ -225,10 +162,13 @@
 		"download": {
 			"label": "Download"
 		},
+		"preview": {
+			"label": "Preview"
+		},
 		"error": {
 			"format": {
 				"headline": "Your file could not be sent.",
-				"message": "our file could not be sent. Allowed are images (jpg and png), and documents (docx and pdf). Please try again."
+				"message": "Your file could not be sent. Allowed are images (jpg, png), documents (pdf, docx, xlsx, odt, ods, odp), and audio files (mp3, wav, ogg, aac, m4a). Please try again."
 			},
 			"other": {
 				"headline": "There was an error uploading the file.",
@@ -251,11 +191,20 @@
 		},
 		"type": {
 			"label": {
+				"aac": "AAC",
 				"docx": "DOCX",
 				"jpeg": "JPG",
+				"m4a": "M4A",
 				"mb": "MB",
+				"mp3": "MP3",
+				"ogg": "OGG",
+				"odp": "ODP",
+				"ods": "ODS",
+				"odt": "ODT",
 				"pdf": "PDF",
 				"png": "PNG",
+				"wav": "WAV",
+				"webm": "WEBM",
 				"xlsx": "XLSX"
 			}
 		}
@@ -284,85 +233,13 @@
 			"banned": " Banned"
 		}
 	},
-	"booking": {
-		"availability": {
-			"description": "Indicate your general availability here so that people seeking advice can book appointments with you.",
-			"title": "Your availability"
-		},
-		"calender": {
-			"add": "Add calendar",
-			"integration": {
-				"apple": "Apple Calendar",
-				"caldav": "CalDav Server Calendar",
-				"google": "Google Calendar",
-				"office365": "Office 365/ Outlook Calendar"
-			},
-			"synchronise": "Synchronize",
-			"synchroniseCalender": {
-				"description": "Synchronize your calendar, which you use at your counseling center, with online counseling. Your availability will then be automatically adjusted and appointment conflicts prevented.",
-				"title": "Synchronize calendar"
-			},
-			"synchronised": {
-				"calendars": "Synchronized calendars"
-			}
-		},
-		"event": {
-			"asker": "Advice seeker",
-			"booking": {
-				"cancel": "Cancel appointment",
-				"reschedule": "Move appointment"
-			},
-			"copy": {
-				"link": {
-					"notification": {
-						"text": "Entry link to video call copied to clipboard!",
-						"title": "copied link"
-					}
-				}
-			},
-			"description": "Your message for the appointment",
-			"show": {
-				"less": "Show less",
-				"more": "Show more"
-			},
-			"tab": {
-				"booked": "Booked appointments",
-				"canceled": "Cancelled",
-				"expired": "Passed",
-				"settings": "Settings"
-			},
-			"your": {
-				"counselor": "Your consultant"
-			}
-		},
-		"info": {
-			"video": "Video consulting"
-		},
-		"mobile": {
-			"calendar": {
-				"label": "Create appointment"
-			}
-		},
-		"my": {
-			"booking": {
-				"schedule": "Make an appointment now with",
-				"title": "Currently there are no appointments planned."
-			}
-		},
-		"schedule": "Arrange appointment",
-		"video": {
-			"button": {
-				"label": "Start video call"
-			}
-		}
-	},
 	"chatFlyout": {
 		"archive": "Archive",
 		"askerProfil": "Advice seeker profile",
 		"dataProtection": "Data protection",
 		"dearchive": "Dearchive",
+		"documentLibrary": "Document library",
 		"editGroupChat": "Chat settings",
-		"feedback": "Feedback",
 		"groupChatInfo": "Chat info",
 		"imprint": "Imprint",
 		"leaveGroupChat": "Leave chat",
@@ -374,6 +251,11 @@
 			"message": " is absent"
 		},
 		"jobTitle": "Consultant"
+	},
+	"documentLibrary": {
+		"empty": "No documents shared in this chat.",
+		"title": "Document library",
+		"sentAt": "Sent on {{date}}"
 	},
 	"date": {
 		"day": {
@@ -583,10 +465,6 @@
 				"placeholder": {
 					"asker": "Write us what moves you.",
 					"consultant": "Write a message to client",
-					"feedback": {
-						"main": "Send a message to Peer",
-						"peer": "Send a message to Teamleader"
-					},
 					"groupChat": "Write message"
 				}
 			},
@@ -886,6 +764,7 @@
 			},
 			"banner": {
 				"content": "Please use a different browser for video calls to work.",
+				"contentiOS": "The video call is not supported on iOS devices.",
 				"more": "Learn more"
 			},
 			"consultant": {
@@ -1207,31 +1086,6 @@
 		}
 	},
 	"message": {
-		"appointment": {
-			"component": {
-				"header": {
-					"cancellation": "Date cancellation",
-					"change": "Date change",
-					"confirmation": "Date confirmation"
-				}
-			}
-		},
-		"appointmentCancelled": {
-			"title": "Your appointment was canceled"
-		},
-		"appointmentRescheduled": {
-			"title": "Your appointment was postponed"
-		},
-		"appointmentSet": {
-			"addToCalendar": "Add to calendar",
-			"and": "and",
-			"between": "between",
-			"cancel": "Cancel date",
-			"info": {
-				"video": "Video consulting"
-			},
-			"title": "Your appointment was created"
-		},
 		"copy": {
 			"title": "Copy message to clipboard"
 		},
@@ -1250,8 +1104,7 @@
 			}
 		},
 		"forward": {
-			"label": "Forwarded message from {{username}}, {{date}} at {{time}}",
-			"title": "Forward text message to\nFeedback"
+			"label": "Forwarded message from {{username}}, {{date}} at {{time}}"
 		},
 		"groupChat": "Group chat",
 		"isMyMessage": {
@@ -1264,34 +1117,17 @@
 		},
 		"read": "read",
 		"sent": "sent",
-		"submit": {
-			"booking": {
-				"buttonLabel": "Make an appointment for consultation",
-				"headline": "Or make an appointment now"
-			}
-		},
 		"today": "Today",
 		"tomorrow": "Tomorrow",
 		"unread": "unread",
-		"write": {
-			"peer": {
-				"checkbox": {
-					"label": "Request feedback"
-				}
-			}
-		},
 		"yesterday": "Yesterday"
 	},
 	"navigation": {
-		"appointments": "Video dates",
 		"asker": {
 			"sessions": {
 				"large": "My consultations",
 				"small": "Messages"
 			}
-		},
-		"booking": {
-			"events": "My dates"
 		},
 		"consultant": {
 			"enquiries": "Initial inquiries",
@@ -1340,9 +1176,6 @@
 		}
 	},
 	"overview": {
-		"appointmentsEmpty": "There are no appointments today, make appointments with those seeking advice to change that",
-		"emptyAppointments": "There are no appointments today, make appointments with those seeking advice to change that",
-		"emptyAppointmentsMobile": "No appointments at the moment, make appointments with those seeking advice to change that",
 		"emptyInitialMessage": "Very good, all initial requests are processed!",
 		"emptyMessages": "You have everything in view, all messages are read!",
 		"initialInquiriesEmpty": "Very good, all initial requests are processed!",
@@ -1351,8 +1184,6 @@
 		"myMessagesTitle": "{{countStr}} unread messages",
 		"start": "Start",
 		"title": "Welcome back!",
-		"upcomingAppointment": "Your next appointment",
-		"upcomingAppointments": "Your next {{countStr}} appointments",
 		"viewAll": "Show all"
 	},
 	"preconditions": {
@@ -1398,6 +1229,8 @@
 				}
 			},
 			"displayName": "Display name",
+			"displayNameInfo": "The display name has been successfully changed. It may take up to an hour for this to be displayed.",
+			"displayNameInfoClose": "Close",
 			"edit": {
 				"button": {
 					"cancel": "Cancel",
@@ -1547,10 +1380,6 @@
 		},
 		"noContent": "Not specified",
 		"notifications": {
-			"appointmentNotificationEnabled": {
-				"description": "An appointment was scheduled, postponed or cancelled",
-				"title": "Appointments"
-			},
 			"description": "We will inform you by e-mail when you have received a new message.",
 			"error": {
 				"description": "Unfortunately, we cannot update your settings at the moment. Please try again later.",
@@ -1648,7 +1477,6 @@
 				"title": "You can download your statistics for your selected consulting period here:"
 			},
 			"csvHeader": {
-				"numberOfAppointments": "Appointments booked",
 				"numberOfAssignedSessions": "Consultations accepted",
 				"numberOfSentMessages": "Messages written",
 				"numberOfSessionsWhereConsultantWasActive": "Active consulting",
@@ -1883,11 +1711,11 @@
 			"start": "Registration"
 		},
 		"user": {
-			"infoText": "To protect your anonymity, we advise you not to use your real name or initials.<br>Please choose a suitable username with min. 5 characters.",
+			"infoText": "To protect your anonymity, we advise you not to use your real name or initials.<br>Please choose a suitable username with min. 5 characters and no spaces.",
 			"label": "Username",
 			"suitable": "Your username is suitable.",
 			"unavailable": "The username is already taken.",
-			"unsuitable": "Your username is too short."
+			"unsuitable": "Your username is too short or contains spaces."
 		},
 		"username": {
 			"headline": "Choose username"
@@ -2002,12 +1830,9 @@
 				"insideDropArea": "Place the file here to upload it.",
 				"outsideDropArea": "Drag the file into the field to upload it."
 			},
-			"restrictions": ".jpg, .png, .pdf, .docx, .xlsx up to a maximum of {{attachment_filesize}}MB"
+			"restrictions": ".jpg, .png, .pdf, .docx, .xlsx, .mp3, .wav, .ogg, .aac, .m4a, .odt, .ods, .odp up to a maximum of {{attachment_filesize}}MB"
 		},
 		"empty": "Please select a message",
-		"feedback": {
-			"label": "Feedback"
-		},
 		"groupChat": {
 			"consultant": {
 				"prefix": "Moderator - "
@@ -2100,9 +1925,7 @@
 		},
 		"filter": {
 			"option": {
-				"all": "All consultations",
-				"feedbackMain": "Feedback needed",
-				"feedbackPeer": "Feedback available"
+				"all": "All consultations"
 			},
 			"placeholder": "Filter"
 		},
@@ -2191,13 +2014,6 @@
 	"tools": {
 		"button": {
 			"label": "Open"
-		},
-		"calendar": {
-			"button": {
-				"label": "Open"
-			},
-			"description": "Enter your holidays or other appointments in the calendar so that those seeking advice cannot book any appointments with you during this time.<br/>Log in with the same e-mail address and password that you use here for the online use advice.",
-			"title": "My Calendar"
 		},
 		"shared": "Shared with the advisor"
 	},
@@ -2512,7 +2328,8 @@
 			"relation": "Background",
 			"resort": "Department",
 			"state": "State",
-			"title": "Information of the person seeking advice"
+			"title": "Information of the person seeking advice",
+			"topic": "Consulting topic"
 		},
 		"reassign": {
 			"description": "You can assign the conversation to another team member. This person is then responsible for the person seeking advice.",
@@ -2537,6 +2354,33 @@
 				"title": "See what content has been shared with you here."
 			},
 			"title": "Tools"
+		}
+	},
+	"voiceMessage": {
+		"button": {
+			"title": "Record voice message"
+		},
+		"error": {
+			"notSupported": {
+				"title": "Voice recording not available",
+				"text": "Your browser does not support voice recording."
+			},
+			"permission": {
+				"title": "Microphone permission required",
+				"text": "Please give microphone permission to use the Voice Message feature."
+			}
+		},
+		"permissionGranted": {
+			"title": "Microphone permission granted",
+			"text": "Now you can use Voice Message feature."
+		},
+		"maxDuration": {
+			"title": "Maximum Audio-Message length reached",
+			"text": "The recording was stopped automatically after 2 minutes."
+		},
+		"tooShort": {
+			"title": "Recording too short",
+			"text": "To record an Audio Message, tap and hold the microphone button while you are speaking."
 		}
 	},
 	"videoCall": {
@@ -2588,44 +2432,6 @@
 				"reason": "Unfortunately you are not authorized to view this page.",
 				"title": "No entry!"
 			}
-		}
-	},
-	"videoConference": {
-		"waitingroom": {
-			"dataProtection": {
-				"button": "Confirm",
-				"description": "After that, our consultants may start a video call with you.",
-				"headline": "A warm welcome",
-				"label": {
-					"and": "and",
-					"text": "I have taken note of the {{legal_links}}. This website uses cookies for authentication and navigation. I agree with this."
-				},
-				"subline": "Please confirm our privacy policy."
-			},
-			"errorImageTitle": "Faile",
-			"errorPage": {
-				"button": "Reload",
-				"consultant": {
-					"description": "We cannot find a video call for your link because the video call has either been deleted or already terminated."
-				},
-				"description": "We cannot find a video call for your link because the video call has either been deleted or already terminated. If you still have problems, please ask your consultant.",
-				"headline": "The video call was not found",
-				"rejected": {
-					"description": "You have not been admitted. Unfortunately, you cannot participate in this video call because your advisor has not approved you.",
-					"headline": "You were not admitted"
-				}
-			},
-			"headline": "Please be patient",
-			"paused": {
-				"headline": "The video call was ended",
-				"subline": "The video call has ended. If your consultant is only absent, you will be forwarded to the video call as soon as your consultant resumes the video call."
-			},
-			"subline": "The video call has not yet started. You will be forwarded as soon as your consultant starts the video call.",
-			"title": {
-				"start": "Waiting room"
-			},
-			"waitingImageTitle": "Waiting person with coffee",
-			"welcomeImageTitle": "Welcome"
 		}
 	},
 	"walkthrough": {

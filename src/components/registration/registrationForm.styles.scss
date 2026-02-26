@@ -16,7 +16,7 @@ $registration-form-headline-margin-bottom: 24px;
 	}
 
 	&__dataProtection {
-		margin-left: 4px;
+		margin-left: 0;
 		text-align: left;
 
 		.checkbox__label {
@@ -27,7 +27,7 @@ $registration-form-headline-margin-bottom: 24px;
 			border: none;
 			background: none;
 			padding: 0;
-			color: $link-color;
+			color: var(--skin-color-primary, $primary);
 			text-decoration: $link-text-decoration;
 			font-weight: $link-font-weight;
 
@@ -67,7 +67,7 @@ $registration-form-headline-margin-bottom: 24px;
 			width: 100%;
 		}
 
-		@include breakpoint($fromMedium) {
+		@include from-medium {
 			display: flex;
 			justify-content: flex-end;
 
@@ -79,7 +79,7 @@ $registration-form-headline-margin-bottom: 24px;
 
 	&__overline,
 	&__headline {
-		margin-left: $registration-form-margin-left;
+		margin-left: 8px;
 	}
 
 	&__overline {

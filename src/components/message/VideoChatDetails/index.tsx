@@ -1,11 +1,11 @@
 import React from 'react';
-import { ReactComponent as VideoIllustration } from '../../../resources/img/illustrations/video-call.svg';
+import VideoIllustration from '../../../resources/img/illustrations/video-call.svg?react';
 import { Text } from '../../text/Text';
 import { BUTTON_TYPES, Button } from '../../button/Button';
 import { decodeUsername } from '../../../utils/encryptionHelpers';
 import { useJoinVideoCall } from '../../sessionHeader/GroupChatHeader/useJoinVideoCall';
-import { ReactComponent as VideoCallIcon } from '../../../resources/img/illustrations/camera.svg';
-import { ReactComponent as CameraOffIcon } from '../../../resources/img/illustrations/camera_off.svg';
+import VideoCallIcon from '../../../resources/img/illustrations/camera.svg?react';
+import CameraOffIcon from '../../../resources/img/illustrations/camera_off.svg?react';
 import { useTranslation } from 'react-i18next';
 import { getDurationTimeBySeconds } from '../../../utils/dateHelpers';
 import styles from './styles.module.scss';

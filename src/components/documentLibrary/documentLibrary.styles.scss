@@ -1,0 +1,201 @@
+.documentLibraryPage {
+	&__wrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: stretch;
+		align-items: stretch;
+		background-color: $background-light;
+		height: 100%;
+		width: 100vw;
+
+		@include from-large {
+			width: auto;
+		}
+	}
+
+	&__header {
+		flex: 0;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		position: relative;
+		padding: $grid-base-three $grid-base-two;
+		background-color: $background-lighter;
+
+		@include from-medium {
+			padding: $grid-base-three;
+		}
+
+		@include from-large {
+			align-items: flex-start;
+			background-color: $background-light;
+		}
+
+		&__wrapper {
+			display: flex;
+			flex-direction: row;
+			position: relative;
+			width: 100%;
+			flex-wrap: wrap;
+		}
+
+		&__title {
+			margin: 0 auto;
+
+			@include from-large {
+				margin: 0 0 0 $grid-base;
+			}
+		}
+
+		&__backButton {
+			display: block;
+			position: absolute;
+			left: 0;
+			line-height: 32px;
+			cursor: pointer;
+
+			@include from-large {
+				position: static;
+			}
+
+			svg {
+				width: 24px;
+				height: 24px;
+				fill: var(--skin-color-secondary-contrast-safe, $secondary);
+
+				&:hover {
+					fill: var(--skin-color-primary, $primary);
+				}
+			}
+		}
+	}
+
+	&__innerWrapper {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		overflow-x: hidden;
+		overflow-y: auto;
+		background-color: $background-light;
+	}
+
+	&__iconWrapper {
+		text-align: center;
+		padding: $grid-base-three $grid-base-two $grid-base;
+		margin-top: $grid-base-three;
+	}
+
+	&__folderIcon {
+		width: 48px !important;
+		height: 48px !important;
+		color: var(--skin-color-primary, $primary);
+		opacity: 0.7;
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		padding: 0 0 $grid-base-ten;
+		height: auto;
+		max-width: 600px;
+		width: 100%;
+		margin: 0 auto;
+	}
+
+	&__empty {
+		padding: $grid-base-four $grid-base-two;
+		text-align: center;
+		color: $secondary;
+		opacity: 0.6;
+	}
+}
+
+.documentLibrary {
+	&__list {
+		padding: 0 !important;
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: $grid-base-two;
+		padding: $grid-base-two !important;
+
+		&:hover {
+			background-color: rgba(0, 0, 0, 0.03);
+		}
+	}
+
+	&__itemIcon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 32px;
+		height: 32px;
+		color: var(--skin-color-primary, $primary);
+
+		svg {
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	&__itemInfo {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	&__itemName {
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: $secondary;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__itemMeta {
+		font-size: 0.75rem;
+		color: $secondary;
+		opacity: 0.6;
+	}
+
+	&__itemDate {
+		font-size: 0.75rem;
+		color: $secondary;
+		opacity: 0.5;
+	}
+
+	&__itemError {
+		font-size: 0.75rem;
+		color: $form-error;
+	}
+
+	&__itemActions {
+		display: flex;
+		align-items: center;
+		gap: $grid-base;
+		flex-shrink: 0;
+	}
+
+	&__actionButton {
+		color: var(--skin-color-primary, $primary) !important;
+
+		&:hover {
+			background-color: var(
+				--skin-color-primary-hover,
+				$hover-primary
+			) !important;
+			color: $white !important;
+		}
+
+		&.Mui-disabled {
+			color: $line-grey !important;
+		}
+	}
+}

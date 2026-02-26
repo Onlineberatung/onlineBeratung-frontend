@@ -12,12 +12,11 @@ import {
 import {
 	UserDataContext,
 	ConsultantListContext,
-	E2EEContext,
 	SessionTypeContext,
 	ActiveSessionContext
 } from '../../globalState';
 import { SelectDropdown } from '../select/SelectDropdown';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
 import { useE2EE } from '../../hooks/useE2EE';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from '../session/sessionHelpers';
@@ -53,8 +52,6 @@ export const SessionAssign = (props: { value?: string }) => {
 	const [overlayItem, setOverlayItem] = useState({});
 	const [selectedOption, setSelectedOption] = useState();
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-
-	const { isE2eeEnabled } = useContext(E2EEContext);
 
 	const { addNewUsersToEncryptedRoom, encryptRoom } = useE2EE(
 		activeSession.item.groupId
@@ -176,7 +173,7 @@ export const SessionAssign = (props: { value?: string }) => {
 					setConsultantList(consultants);
 				})
 				.catch((error) => {
-					console.log(error);
+					console.error(error);
 				});
 		}
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -196,16 +193,14 @@ export const SessionAssign = (props: { value?: string }) => {
 	]);
 
 	const handleE2EEAssign = async (sessionId, userId) => {
-		if (isE2eeEnabled) {
-			try {
-				// If already encrypted this will be skipped
-				await encryptRoom(setE2EEState);
-				// If room was already encrypted add new users
-				await addNewUsersToEncryptedRoom();
-				await apiDeleteUserFromRoom(sessionId, userId);
-			} catch (e) {
-				console.log('error encrypting new user key');
-			}
+		try {
+			// If already encrypted this will be skipped
+			await encryptRoom(setE2EEState);
+			// If room was already encrypted add new users
+			await addNewUsersToEncryptedRoom();
+			await apiDeleteUserFromRoom(sessionId, userId);
+		} catch (e) {
+			console.error('error encrypting new user key');
 		}
 	};
 
@@ -237,7 +232,7 @@ export const SessionAssign = (props: { value?: string }) => {
 					.catch((error) => {
 						if (error === FETCH_ERRORS.CONFLICT) {
 							return null;
-						} else console.log(error);
+						} else console.error(error);
 					})
 					.finally(() => setIsRequestInProgress(false));
 				break;

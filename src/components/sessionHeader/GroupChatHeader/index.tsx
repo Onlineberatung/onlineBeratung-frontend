@@ -23,7 +23,7 @@ import {
 	CameraOnIcon,
 	GroupChatInfoIcon
 } from '../../../resources/img/icons';
-import { ReactComponent as VideoCallIcon } from '../../../resources/img/illustrations/camera.svg';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
 import { SessionMenu } from '../../sessionMenu/SessionMenu';
 import { useTranslation } from 'react-i18next';
 import { getGroupChatDate } from '../../session/sessionDateHelpers';
@@ -37,7 +37,6 @@ import { useStartVideoCall } from './useStartVideoCall';
 import { useAppConfig } from '../../../hooks/useAppConfig';
 import { RocketChatUsersOfRoomContext } from '../../../globalState/provider/RocketChatUsersOfRoomProvider';
 import { SessionItemInterface } from '../../../globalState/interfaces';
-
 interface GroupChatHeaderProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	isJoinGroupChatView: boolean;
@@ -104,7 +103,7 @@ export const GroupChatHeader = ({
 		smallIconBackgroundColor: isMobile ? 'transparent' : 'green',
 		icon: (
 			<StartButtonIcon
-				title={t('videoCall.button.startVideoCall')}
+				titleAccess={t('videoCall.button.startVideoCall')}
 				aria-label={t('videoCall.button.startVideoCall')}
 				fillOpacity={isMobile ? 0.9 : 1}
 			/>
@@ -141,10 +140,18 @@ export const GroupChatHeader = ({
 						<Link
 							to={`/sessions/consultant/${sessionView}/${activeSession.item.groupId}/${activeSession.item.id}/groupChatInfo${sessionTabPath}`}
 						>
-							<h3>{activeSession.item.topic}</h3>
+							<h3>
+								{typeof activeSession.item.topic === 'string'
+									? activeSession.item.topic
+									: activeSession.item.topic?.name}
+							</h3>
 						</Link>
 					) : (
-						<h3>{activeSession.item.topic}</h3>
+						<h3>
+							{typeof activeSession.item.topic === 'string'
+								? activeSession.item.topic
+								: activeSession.item.topic?.name}
+						</h3>
 					)}
 				</div>
 

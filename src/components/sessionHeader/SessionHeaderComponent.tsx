@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { handleNumericTranslation } from '../../utils/translate';
@@ -13,7 +13,10 @@ import {
 	UserDataContext,
 	ActiveSessionContext
 } from '../../globalState';
-import { SessionConsultantInterface } from '../../globalState/interfaces';
+import {
+	SessionConsultantInterface,
+	TopicSessionInterface
+} from '../../globalState/interfaces';
 import {
 	getViewPathForType,
 	SESSION_LIST_TAB,
@@ -24,14 +27,13 @@ import {
 	convertUserDataObjectToArray,
 	getUserDataTranslateBase
 } from '../profile/profileHelpers';
-import { ReactComponent as BackIcon } from '../../resources/img/icons/arrow-left.svg';
-import './sessionHeader.styles';
-import './sessionHeader.yellowTheme.styles';
+import BackIcon from '@mui/icons-material/ArrowBack';
+import './sessionHeader.styles.scss';
+import './sessionHeader.yellowTheme.styles.scss';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { GroupChatHeader } from './GroupChatHeader';
 import { useAppConfig } from '../../hooks/useAppConfig';
-
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
@@ -52,6 +54,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 
 	const contact = getContact(activeSession);
 	const userSessionData = contact?.sessionData;
+	const topicSession = activeSession.item?.topic as TopicSessionInterface;
 
 	const preparedUserSessionData =
 		hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
@@ -69,24 +72,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		`${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 	const { type, path: listPath } = useContext(SessionTypeContext);
 
-	useEffect(() => {
-		if (isSubscriberFlyoutOpen) {
-			document.addEventListener('mousedown', (event) =>
-				handleWindowClick(event)
-			);
-		}
-	}, [isSubscriberFlyoutOpen]);
-
-	const sessionView = getViewPathForType(type);
-	const userProfileLink = `/sessions/consultant/${sessionView}/${
-		activeSession.item.groupId
-	}/${activeSession.item.id}/userProfile${getSessionListTab()}`;
-
-	const handleBackButton = () => {
-		mobileListView();
-	};
-
-	const handleWindowClick = (event) => {
+	const handleWindowClick = useCallback((event) => {
 		const flyoutElement = document.querySelector(
 			'.sessionInfo__metaInfo__flyout'
 		);
@@ -97,6 +83,24 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 		) {
 			setIsSubscriberFlyoutOpen(false);
 		}
+	}, []);
+
+	useEffect(() => {
+		if (isSubscriberFlyoutOpen) {
+			document.addEventListener('mousedown', handleWindowClick);
+			return () => {
+				document.removeEventListener('mousedown', handleWindowClick);
+			};
+		}
+	}, [isSubscriberFlyoutOpen, handleWindowClick]);
+
+	const sessionView = getViewPathForType(type);
+	const userProfileLink = `/sessions/consultant/${sessionView}/${
+		activeSession.item.groupId
+	}/${activeSession.item.id}/userProfile${getSessionListTab()}`;
+
+	const handleBackButton = () => {
+		mobileListView();
 	};
 
 	const enquiryUserProfileCondition =
@@ -120,36 +124,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				}
 				isJoinGroupChatView={props.isJoinGroupChatView}
 				bannedUsers={props.bannedUsers}
-			/>
-		);
-	}
-
-	if (activeSession.isFeedback) {
-		return (
-			<div className="sessionInfo">
-				<div className="sessionInfo__feedbackHeaderWrapper">
-					<Link
-						to={{
-							pathname: `${listPath}/${activeSession.item.groupId}
-							/${activeSession.item.id}`,
-							search: getSessionListTab()
-						}}
-						className="sessionInfo__feedbackBackButton"
-					>
-						<BackIcon />
-					</Link>
-					<div className="sessionInfo__username">
-						<h3>{translate('session.feedback.label')}</h3>
-					</div>
-				</div>
-				<div className="sessionInfo__feedbackMetaInfo">
-					{activeSession.user.username ? (
-						<div className="sessionInfo__metaInfo__content">
-							{activeSession.user.username}
-						</div>
-					) : null}
-				</div>
-			</div>
+				/>
 		);
 	}
 
@@ -209,7 +184,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					}
 					isAskerInfoAvailable={isAskerInfoAvailable()}
 					bannedUsers={props.bannedUsers}
-				/>
+					/>
 			</div>
 
 			{(hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
@@ -217,16 +192,18 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				<div className="sessionInfo__metaInfo">
 					{!activeSession.agency ? (
 						<div className="sessionInfo__metaInfo__content">
-							{consultingType
-								? translate(
-										[
-											`consultingType.${consultingType.id}.titles.short`,
-											`consultingType.fallback.titles.short`,
-											consultingType.titles.short
-										],
-										{ ns: 'consultingTypes' }
-									)
-								: ''}
+							{topicSession?.id !== undefined && topicSession?.name
+								? topicSession.name
+								: consultingType
+									? translate(
+											[
+												`consultingType.${consultingType.id}.titles.short`,
+												`consultingType.fallback.titles.short`,
+												consultingType.titles.short
+											],
+											{ ns: 'consultingTypes' }
+										)
+									: ''}
 						</div>
 					) : null}
 					{preparedUserSessionData

@@ -1,0 +1,90 @@
+{
+	"anonymous": {
+		"waitingroom": {
+			"redirect": {
+				"subline": "Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns so schnell wie möglich bei Ihnen. <b>Gehen Sie <a href=\"registration\">zur Registrierung</a></b>"
+			},
+			"overlay": {
+				"rejection": {
+					"copy": "Leider konnten wir während der Chat-Zeit nicht auf Ihre Nachricht antworten. Registrieren Sie sich und hinterlassen Sie uns Ihre Nachricht. Wir melden uns so schnell wie möglich bei Ihnen."
+				}
+			}
+		},
+		"overlay": {
+			"chatWasFinished": {
+				"button": "Zur Startseite"
+			},
+			"finishChat": {
+				"success": {
+					"button": "Zur Startseite"
+				}
+			}
+		}
+	},
+	"app": {
+		"title": "Beratung und Hilfe"
+	},
+	"deleteAccount": {
+		"successOverlay": {
+			"headline": "Sie haben Ihren Account bei der Online-Beratung erfolgreich gelöscht."
+		}
+	},
+	"enquiry": {
+		"write": {
+			"overlay": {
+				"copy": "Wir melden uns so schnell wie möglich bei Ihnen."
+			},
+			"infotext": {
+				"copy": {
+					"title": "Vielleicht helfen Ihnen die folgenden Punkte:",
+					"facts": "<ul><li>Zu welchem Thema brauchen Sie Hilfe?</li><li>Wie ist Ihre Situation im Moment?</li><li>Was beschäftigt Sie?</li><li>Haben Sie eine konkrete Frage oder sind Sie sich noch nicht sicher, was Ihnen helfen könnte?</li></ul>"
+				}
+			}
+		}
+	},
+	"error": {
+		"statusCodes": {
+			"400": {
+				"description": "Etwas ist schiefgelaufen. Bitte überprüfen Sie die URL. Sie sollte so aussehen:<br /><br/><strong>[beratungsstelle].onlineberatung.net</strong>"
+			}
+		}
+	},
+	"furtherSteps": {
+		"step3": {
+			"info": "Ihr_e Berater_in antwortet so schnell wie möglich."
+		}
+	},
+	"groupChat": {
+		"create": {
+			"button": { "label": "Chat erstellen" }
+		}
+	},
+	"legal": {
+		"termsAndConditions": { "label": "Nutzungsbedingungen" }
+	},
+	"login": {
+		"register": { "linkLabel": "Registrieren" }
+	},
+	"registration": {
+		"overlay": {
+			"success": {
+				"headline": "Willkommen bei der Online-Beratung & Hilfe."
+			}
+		},
+		"welcomeScreen": {
+			"subline": "Wie funktioniert die Beratung und Hilfe?",
+			"info2": {
+				"text": "Schreiben Sie Ihre Nachricht an unsere Berater_innen."
+			},
+			"info3": {
+				"text": "Wir melden uns so schnell wie möglich bei Ihnen."
+			}
+		}
+	},
+	"sessionList": {
+		"createChat": { "buttonTitle": "Chat erstellen" }
+	},
+	"twoFactorAuth": {
+		"subtitle": "Nutzen Sie eine App, um sich sicher in Ihrem Konto anzumelden. So ist Ihr Konto besser geschützt."
+	}
+}

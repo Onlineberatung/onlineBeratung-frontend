@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { isNotificationTypeCall } from '../incomingVideoCall/IncomingVideoCall';
-import './notifications.styles';
-import incomingCallRingtone from '../../resources/audio/incomingCall.mp3';
+
 import { NotificationType } from '../../globalState';
+import incomingCallRingtone from '../../resources/audio/incomingCall.mp3';
+import { isNotificationTypeCall } from '../incomingVideoCall/IncomingVideoCall';
 import { Notification } from './Notification';
-import { supportsE2EEncryptionVideoCall } from '../../utils/videoCallHelpers';
 
 type NotificationsProps = {
 	notifications: NotificationType[];
@@ -16,16 +15,14 @@ export const Notifications = (props: NotificationsProps) => {
 	);
 
 	return (
-		<div className="notifications" data-cy="notifications">
-			{props.notifications.map(
-				(notification: NotificationType, index) => (
-					<Notification
-						notification={notification}
-						key={notification.id}
-					/>
-				)
-			)}
-			{hasIncomingVideoCall && supportsE2EEncryptionVideoCall() && (
+		<>
+			{props.notifications.map((notification: NotificationType) => (
+				<Notification
+					notification={notification}
+					key={notification.id}
+				/>
+			))}
+			{hasIncomingVideoCall && (
 				<audio loop autoPlay data-cy="incoming-video-call-audio">
 					<source
 						src={
@@ -35,6 +32,6 @@ export const Notifications = (props: NotificationsProps) => {
 					></source>
 				</audio>
 			)}
-		</div>
+		</>
 	);
 };

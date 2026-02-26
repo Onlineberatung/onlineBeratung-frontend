@@ -1,5 +1,11 @@
+import _ from 'lodash';
+import de from '../i18n/overwrites/de/common.json';
+import deInformal from '../i18n/overwrites/de@informal/common.json';
 import deAgency from '../i18n/de/agency.json';
 import deConsultingTypes from '../i18n/de/consultingTypes.json';
+import en from '../i18n/en/common.json';
+import enOverwrites from '../i18n/overwrites/en/common.json';
+import enConsultingTypes from '../i18n/en/consultingTypes.json';
 import { AppConfigInterface } from '../../globalState/interfaces';
 import {
 	OVERLAY_RELEASE_NOTE,
@@ -10,15 +16,18 @@ export const uiUrl = window.location.origin;
 
 export const APP_PATH = 'app';
 
+export const routePathNames = {
+	root: '/',
+	login: '/login',
+	termsAndConditions: '/nutzungsbedingungen',
+	imprint: '/impressum',
+	privacy: '/datenschutz'
+};
+
 export const config: AppConfigInterface = {
-	budibaseUrl: '',
-	budibaseSSO: false, // Feature flag to enable SSO on budibase
-	calcomUrl: '',
-	calendarAppUrl: '',
-	enableWalkthrough: false, // Feature flag to enable walkthrough (false by default here & true in the theme repo)
-	disableVideoAppointments: false, // Feature flag to enable Video-Termine page
+	enableWalkthrough: true, // Feature flag to enable walkthrough
 	multitenancyWithSingleDomainEnabled: false, // Feature flag to enable the multi tenancy with a single domain ex: lands
-	useTenantService: false,
+	useTenantService: true,
 	useApiClusterSettings: true, // Feature flag to enable the cluster use the cluster settings instead of the config file
 	mainTenantSubdomainForSingleDomainMultitenancy: 'app',
 	attachmentEncryption: true, // Feature flag for attachment end to end encryption - e2e must also be enabled in rocket.chat
@@ -32,24 +41,20 @@ export const config: AppConfigInterface = {
 		}
 	},
 	urls: {
-		chatScheduleUrl: 'https://www.caritas.de/onlineberatung',
-		consultantVideoConference:
-			'/consultant/videoberatung/:type/:appointmentId',
+		chatScheduleUrl: '',
 		error401: uiUrl + '/error.401.html',
 		error404: uiUrl + '/error.404.html',
 		error500: uiUrl + '/error.500.html',
-		finishedAnonymousChatRedirect:
-			'https://www.caritas.de/hilfeundberatung/hilfeundberatung',
-		home: 'https://www.caritas.de',
-		landingpage: '/login',
+		finishedAnonymousChatRedirect: uiUrl + '/',
+		home: uiUrl + '/beratung/registration',
+		landingpage: '/beratung/registration',
 		releases: uiUrl + '/releases',
 		redirectToApp: uiUrl + '/' + APP_PATH,
-		registration: uiUrl + '/registration',
-		toEntry: uiUrl + '/',
+		registration: uiUrl + '/beratung/registration',
+		toEntry: uiUrl + '/login',
 		toLogin: uiUrl + '/login',
-		toRegistration: 'https://www.caritas.de/onlineberatung',
-		videoCall: '/videoanruf/:domain/:jwt/:video?/:username?/:e2e?',
-		videoConference: '/videoberatung/:type/:appointmentId'
+		toRegistration: uiUrl + '/beratung/registration',
+		videoCall: '/videoanruf/:domain/:jwt/:video?/:username?/:e2e?'
 	},
 	groupChat: {
 		info: {
@@ -57,7 +62,7 @@ export const config: AppConfigInterface = {
 			showCreationDate: false
 		}
 	},
-	postcodeFallbackUrl: '{url}',
+	postcodeFallbackUrl: null,
 	jitsi: {
 		/**
 		 * Enable WebRTC Encoded Transform as an alternative to insertable streams.
@@ -65,7 +70,7 @@ export const config: AppConfigInterface = {
 		 * This must be enabled in jitsi too. (Config value is named equal)
 		 * https://github.com/jitsi/lib-jitsi-meet/blob/afc006e99a42439c305c20faab50a1f786254676/modules/browser/BrowserCapabilities.js#L259
 		 */
-		enableEncodedTransformSupport: true,
+		enableEncodedTransformSupport: false,
 		/**
 		 * Enable the e2ee banner outside the jitsi iframe. Set this to true when video-backend is on the latest develop
 		 * where the e2ee banner is removed inside jitsi and need to be rendered inside the frontend
@@ -75,12 +80,17 @@ export const config: AppConfigInterface = {
 	},
 	legalLinks: [
 		{
-			url: 'https://www.caritas.de/impressum',
+			url: uiUrl + routePathNames.imprint,
 			label: 'login.legal.infoText.impressum'
 		},
 		{
-			url: 'https://www.caritas.de/hilfeundberatung/onlineberatung/datenschutz',
+			url: uiUrl + routePathNames.privacy,
 			label: 'login.legal.infoText.dataprotection',
+			registration: true
+		},
+		{
+			url: routePathNames.termsAndConditions,
+			label: 'legal.termsAndConditions.label',
 			registration: true
 		}
 	],
@@ -94,8 +104,7 @@ export const config: AppConfigInterface = {
 			{
 				label: 'profile.notifications.follow.up.email.label',
 				types: [
-					'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
-					'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER'
+					'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER'
 				]
 			}
 		]
@@ -104,8 +113,8 @@ export const config: AppConfigInterface = {
 		priority: [OVERLAY_RELEASE_NOTE, OVERLAY_TWO_FACTOR_NAG]
 	},
 	twofactor: {
-		startObligatoryHint: new Date('2022-07-31'),
-		dateTwoFactorObligatory: new Date('2022-10-01'),
+		startObligatoryHint: new Date('7/26/2222'),
+		dateTwoFactorObligatory: new Date('9/30/2222'),
 		messages: [
 			{
 				title: 'twoFactorAuth.nag.obligatory.moment.title',
@@ -306,17 +315,49 @@ export const config: AppConfigInterface = {
 		'zu'
 	],
 	i18n: {
-		supportedLngs: ['de', 'de@informal'],
-		preload: ['de', 'de@informal'],
+		supportedLngs: ['en', 'de'],
+		fallbackLng: {
+			en: ['de'],
+			en_informal: ['en', 'de_informal', 'de']
+		},
 		resources: {
 			de: {
+				common: {
+					...de
+				},
 				consultingTypes: {
 					...deConsultingTypes
 				},
 				agencies: {
 					...deAgency
 				}
+			},
+			de_informal: {
+				common: {
+					...deInformal
+				},
+				consultingTypes: {}
+			},
+			en: {
+				common: _.merge({}, en, enOverwrites),
+				consultingTypes: {
+					...enConsultingTypes
+				},
+				agencies: {}
 			}
+		}
+	},
+	translation: {
+		weblate: {
+			host: import.meta.env.FRONTEND_WEBLATE_HOST || '',
+			path: import.meta.env.FRONTEND_WEBLATE_PATH || '/p/weblate/api',
+			project: import.meta.env.FRONTEND_WEBLATE_PROJECT || 'frontend',
+			key: import.meta.env.FRONTEND_WEBLATE_API_KEY || '',
+			percentage: parseInt(import.meta.env.FRONTEND_WEBLATE_MIN_PERCENT, 10) || 50
+		},
+		cache: {
+			disabled: import.meta.env.FRONTEND_TRANSLATION_CACHE_DISABLE === '1',
+			time: parseInt(import.meta.env.FRONTEND_TRANSLATION_CACHE_TIME, 10) || 120
 		}
 	},
 	user: {
@@ -332,8 +373,5 @@ export const ALIAS_LAST_MESSAGES = {
 	FURTHER_STEPS: 'aliases.lastMessage.further_steps',
 	REASSIGN_CONSULTANT: 'aliases.lastMessage.reassign_consultant',
 	REASSIGN_CONSULTANT_RESET_LAST_MESSAGE:
-		'aliases.lastMessage.reassign_consultant_reset_last_message',
-	APPOINTMENT_SET: 'message.appointment.component.header.confirmation',
-	APPOINTMENT_CANCELLED: 'message.appointment.component.header.cancellation',
-	APPOINTMENT_RESCHEDULED: 'message.appointment.component.header.change'
+		'aliases.lastMessage.reassign_consultant_reset_last_message'
 };

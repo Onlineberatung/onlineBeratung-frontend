@@ -1,8 +1,8 @@
-import { ReactComponent as OpenEnvelopeIcon } from '../../resources/img/icons/envelope-open.svg';
-import { ReactComponent as GroupChatIcon } from '../../resources/img/icons/speech-bubble.svg';
-import { ReactComponent as NewEnquiryIcon } from '../../resources/img/icons/plus.svg';
-import { ReactComponent as ClosedEnvelopeIcon } from '../../resources/img/icons/envelope.svg';
-import { ReactComponent as LiveChatIcon } from '../../resources/img/icons/person-circle-solid.svg';
+import OpenEnvelopeIcon from '@mui/icons-material/Drafts';
+import GroupChatIcon from '@mui/icons-material/Chat';
+import NewEnquiryIcon from '@mui/icons-material/Add';
+import ClosedEnvelopeIcon from '@mui/icons-material/Mail';
+import LiveChatIcon from '@mui/icons-material/NoAccounts';
 
 export const LIST_ICONS = {
 	IS_READ: 'IS_READ',

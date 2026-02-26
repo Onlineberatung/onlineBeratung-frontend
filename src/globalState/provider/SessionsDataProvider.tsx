@@ -78,7 +78,34 @@ function reducer(
 				if (index < 0) {
 					newSessions.push(s);
 				} else {
-					newSessions.splice(index, 1, s);
+					// Check if session data has changed to avoid unnecessary re-renders
+					// Using shallow comparison for performance (polling happens every 3s)
+					const existingSession = newSessions[index];
+					
+					// Helper to do shallow comparison of objects
+					const shallowEqual = (obj1: any, obj2: any): boolean => {
+						if (obj1 === obj2) return true;
+						if (!obj1 || !obj2) return obj1 === obj2;
+						
+						const keys1 = Object.keys(obj1);
+						const keys2 = Object.keys(obj2);
+						
+						if (keys1.length !== keys2.length) return false;
+						
+						return keys1.every(key => obj1[key] === obj2[key]);
+					};
+					
+					const hasChanged = 
+						!shallowEqual(existingSession.session, s.session) ||
+						!shallowEqual(existingSession.chat, s.chat) ||
+						!shallowEqual(existingSession.consultant, s.consultant) ||
+						!shallowEqual(existingSession.user, s.user) ||
+						existingSession.latestMessage !== s.latestMessage;
+					
+					// Only replace if data has actually changed
+					if (hasChanged) {
+						newSessions.splice(index, 1, s);
+					}
 				}
 			});
 

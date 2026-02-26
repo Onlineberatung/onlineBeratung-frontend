@@ -4,7 +4,7 @@
 	width: 100%;
 	margin-top: $grid-base-six;
 
-	@include breakpoint($fromLarge) {
+	@include from-large {
 		margin-top: $grid-base-four;
 	}
 
@@ -34,7 +34,7 @@
 			margin: 0 auto;
 		}
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			.overlay__content .text {
 				text-align: left;
 			}

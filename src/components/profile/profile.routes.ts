@@ -10,9 +10,9 @@ import { AskerAboutMeData } from './AskerAboutMeData';
 import { ConsultantStatistics } from './ConsultantStatistics';
 import { AbsenceFormular } from './AbsenceFormular';
 import { EnableWalkthrough } from './EnableWalkthrough';
+import { Locale } from './Locale';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 import { isDesktop } from 'react-device-detect';
-import { OverviewBookings } from './OverviewMobile/Bookings';
 import { OverviewSessions } from './OverviewMobile/Sessions';
 import { profileRoutesSettings } from './profileSettings.routes';
 import { profileRoutesHelp } from './profileHelp.routes';
@@ -54,16 +54,8 @@ const profileRoutes = (
 									userData
 								),
 							boxed: false,
-							component: OverviewSessions
-						},
-						{
-							condition: (userData) =>
-								shouldShowOverview(
-									settings.useOverviewPage,
-									userData
-								),
-							component: OverviewBookings,
-							boxed: false
+							component: OverviewSessions,
+							column: COLUMN_LEFT
 						}
 					]
 				},
@@ -79,6 +71,11 @@ const profileRoutes = (
 								),
 							component: ConsultantInformation,
 							column: COLUMN_LEFT
+						},
+						{
+							condition: () => selectableLocales.length > 1,
+							component: Locale,
+							column: COLUMN_RIGHT
 						},
 						{
 							condition: (userData) =>

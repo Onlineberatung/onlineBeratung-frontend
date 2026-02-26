@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Stack, Typography, Box as MuiBox } from '@mui/material';
 import { apiPutConsultantData } from '../../api';
 import { UserDataContext } from '../../globalState';
 import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
 import { Headline } from '../headline/Headline';
 import { SelectDropdown, SelectOption } from '../select/SelectDropdown';
-import { Text } from '../text/Text';
+import { MultiValue } from 'react-select';
 
-import './profile.styles';
 import { isUniqueLanguage } from './profileHelpers';
 import { LanguagesContext } from '../../globalState/provider/LanguagesProvider';
 import { useTranslation } from 'react-i18next';
@@ -23,12 +23,12 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 
 	const cancelEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.cancel'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.SECONDARY
 	};
 
 	const saveEditButton: ButtonItem = {
 		label: translate('profile.data.edit.button.save'),
-		type: BUTTON_TYPES.LINK
+		type: BUTTON_TYPES.PRIMARY
 	};
 
 	useEffect(() => {
@@ -36,10 +36,11 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 		setPreviousLanguages([...userData.languages]);
 	}, [userData]);
 
-	const selectHandler = (e: SelectOption[]) => {
+	const selectHandler = (e: SelectOption | MultiValue<SelectOption>) => {
+		const languageArray = Array.isArray(e) ? e : [e];
 		const newLanguages = [
 			...fixedLanguages,
-			...e.map((languageObject) => languageObject.value)
+			...languageArray.map((languageObject) => languageObject.value)
 		];
 
 		setSelectedLanguages(newLanguages.filter(isUniqueLanguage));
@@ -79,20 +80,17 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 	});
 
 	return (
-		<div className="spokenLanguages">
-			<div className="profile__content__title">
+		<MuiBox>
+			<Stack spacing={2}>
 				<Headline
 					text={translate('profile.spokenLanguages.title')}
 					semanticLevel="5"
 				/>
 
-				<Text
-					text={translate('profile.spokenLanguages.info')}
-					type="standard"
-					className="tertiary"
-				/>
-			</div>
-			<div className="spokenLanguages__languageSelect">
+				<Typography variant="body2" color="text.secondary">
+					{translate('profile.spokenLanguages.info')}
+				</Typography>
+
 				<SelectDropdown
 					handleDropdownSelect={selectHandler}
 					id="spoken-languages-select"
@@ -113,7 +111,11 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 
 				{JSON.stringify(previousLanguages) !==
 					JSON.stringify(selectedLanguages) && (
-					<div className="spokenLanguages__buttons">
+					<Stack 
+						direction="row" 
+						spacing={2} 
+						justifyContent="flex-end"
+					>
 						<Button
 							item={cancelEditButton}
 							buttonHandle={cancelHandler}
@@ -122,9 +124,9 @@ export const ConsultantSpokenLanguages: React.FC = () => {
 							item={saveEditButton}
 							buttonHandle={saveHandler}
 						/>
-					</div>
+					</Stack>
 				)}
-			</div>
-		</div>
+			</Stack>
+		</MuiBox>
 	);
 };

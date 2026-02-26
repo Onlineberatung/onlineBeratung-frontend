@@ -139,69 +139,6 @@
 		"title": "Beratung & Hilfe",
 		"wait": "Bitte warten"
 	},
-	"appointments": {
-		"copy": {
-			"link": {
-				"notification": {
-					"text": "Einladungslink zum Video-Call in Zwischenablage kopiert!",
-					"title": "Link kopiert"
-				},
-				"text": "Link kopieren",
-				"title": "Einladungslink in Zwischenablage kopieren"
-			}
-		},
-		"newAppointment": "Neuer Videotermin",
-		"noAppointments": "Aktuell gibt es keine Termine",
-		"notification": {
-			"saved": {
-				"title": "Der Termin wurde erfolgreich gespeichert."
-			}
-		},
-		"onlineMeeting": {
-			"form": {
-				"date": "Datum",
-				"description": "Beschreibung",
-				"time": "Beginn (hh:mm)",
-				"title": "Titel"
-			},
-			"overlay": {
-				"add": {
-					"button": {
-						"add": "Speichern",
-						"cancel": "Abbruch"
-					},
-					"headline": "Neuer Video-Call"
-				},
-				"delete": {
-					"button": {
-						"cancel": "Abbruch",
-						"delete": "Löschen"
-					},
-					"copy": "Möchten Sie diesen Video-Call wirklich löschen?",
-					"headline": "Video-Call löschen"
-				},
-				"edit": {
-					"headline": "Video-Call bearbeiten"
-				},
-				"start": {
-					"button": {
-						"cancel": "Abbruch",
-						"start": "Starten"
-					},
-					"copy": "Sie starten jetzt den Video-Call. Eingeladene Teilnehmer_innen können ab sofort mit dem Einladungslink beitreten.",
-					"headline": "Video-Call starten"
-				}
-			},
-			"start": "Video-Call starten"
-		},
-		"qrCode": {
-			"headline": "Einladungslink QR-Code",
-			"text": "Wenn Sie Ihren QR-Code mit jemandem teilen, kann diese Person ihn mit der Handykamera scannen, um direkt am Video-Call teilzunehmen. Alternativ können Sie den Code auch herunterladen."
-		},
-		"showLess": "Weniger anzeigen",
-		"showMore": "Mehr anzeigen",
-		"title": "Terminübersicht"
-	},
 	"archive": {
 		"overlay": {
 			"session": {
@@ -226,10 +163,13 @@
 		"download": {
 			"label": "Herunterladen"
 		},
+		"preview": {
+			"label": "Vorschau"
+		},
 		"error": {
 			"format": {
 				"headline": "Ihre Datei konnte nicht gesendet werden.",
-				"message": "Ihre Datei konnte nicht gesendet werden. Erlaubt sind Bilder (jpg und png), sowie Dokumente (docx und pdf). Bitte versuchen Sie es erneut."
+				"message": "Ihre Datei konnte nicht gesendet werden. Erlaubt sind Bilder (jpg, png), Dokumente (pdf, docx, xlsx, odt, ods, odp) und Audiodateien (mp3, wav, ogg, aac, m4a). Bitte versuchen Sie es erneut."
 			},
 			"other": {
 				"headline": "Es gab einen Fehler beim Hochladen der Datei.",
@@ -252,11 +192,20 @@
 		},
 		"type": {
 			"label": {
+				"aac": "AAC",
 				"docx": "DOCX",
 				"jpeg": "JPG",
+				"m4a": "M4A",
 				"mb": "MB",
+				"mp3": "MP3",
+				"ogg": "OGG",
+				"odp": "ODP",
+				"ods": "ODS",
+				"odt": "ODT",
 				"pdf": "PDF",
 				"png": "PNG",
+				"wav": "WAV",
+				"webm": "WEBM",
 				"xlsx": "XLSX"
 			}
 		}
@@ -280,99 +229,13 @@
 			"banned": " Gebannt"
 		}
 	},
-	"booking": {
-		"availability": {
-			"description": "Geben Sie hier Ihre allgemeine Verfügbarkeit an, damit Ratsuchende Termine bei Ihnen buchen können.",
-			"title": "Ihre Verfügbarkeit"
-		},
-		"calender": {
-			"add": "Kalender hinzufügen",
-			"integration": {
-				"apple": "Apple Kalender",
-				"caldav": "CalDav Server Kalender",
-				"google": "Google Kalender",
-				"office365": "Office 365/ Outlook Kalender"
-			},
-			"synchronise": "Synchronisieren",
-			"synchroniseCalender": {
-				"description": "Synchronisieren Sie Ihren Kalender, den Sie in Ihrer Beratungsstelle nutzen, mit der Online Beratung. Ihre Verfügbarkeit wird dann automatisch angepasst und Terminkonflikte verhindert.",
-				"title": "Kalender synchronisieren"
-			},
-			"synchronised": {
-				"calendars": "Synchronisierte Kalender"
-			}
-		},
-		"event": {
-			"appointmentType": "Gewünschte Terminart",
-			"asker": "Ratsuchende_r",
-			"booking": {
-				"cancel": "Absagen",
-				"reschedule": "Verschieben"
-			},
-			"copy": {
-				"link": {
-					"notification": {
-						"text": "Einlandungslink zum Video-Call in Zwischenablage kopiert!",
-						"title": "Link kopiert"
-					}
-				}
-			},
-			"description": "Ihre Nachricht zum Termin",
-			"linkVideo": "Link zum Video-Call",
-			"location": {
-				"CHAT": "Text-Chat",
-				"IN_PERSON": "In der Beratungsstelle",
-				"LINK": "Videoberatung",
-				"PHONE_CALL": "Telefon-Beratung",
-				"USER_PHONE": "Telefon-Beratung",
-				"VIDEO_CALL": "Videoberatung"
-			},
-			"show": {
-				"less": "Weniger anzeigen",
-				"more": "Mehr anzeigen"
-			},
-			"tab": {
-				"booked": "Gebuchte Termine",
-				"canceled": "Storniert",
-				"expired": "Vergangen",
-				"settings": "Einstellungen"
-			},
-			"tooltip": {
-				"adviceSeeker": "Falls Ihr:e Berater:in den Termin nicht in dem von Ihnen gewählten Modus wahrnehmen kann, generieren wir für Sie immer einen Link zum Video-Call als Alternative.",
-				"consultant": "Falls Sie den Termin nicht in dem vom Ratsuchenden gewählten Modus wahrnehmen können, generieren wir für Sie immer einen Link zum Video-Call als Alternative."
-			},
-			"your": {
-				"counselor": "Ihr Berater"
-			}
-		},
-		"info": {
-			"video": "Videoberatung"
-		},
-		"mobile": {
-			"calendar": {
-				"label": "Termin erstellen"
-			}
-		},
-		"my": {
-			"booking": {
-				"schedule": "Vereinbaren Sie jetzt einen Termin mit",
-				"title": "Aktuell sind keine Termine geplant."
-			}
-		},
-		"schedule": "Termin vereinbaren",
-		"video": {
-			"button": {
-				"label": "Video-Call starten"
-			}
-		}
-	},
 	"chatFlyout": {
 		"archive": "Archivieren",
 		"askerProfil": "Ratsuchendenprofil",
 		"dataProtection": "Datenschutz",
 		"dearchive": "Dearchivieren",
+		"documentLibrary": "Dokumentenbibliothek",
 		"editGroupChat": "Chat-Einstellungen",
-		"feedback": "Feedback",
 		"groupChatInfo": "Chat-Info",
 		"imprint": "Impressum",
 		"leaveGroupChat": "Chat verlassen",
@@ -384,6 +247,11 @@
 			"message": " ist abwesend"
 		},
 		"jobTitle": "Berater_in"
+	},
+	"documentLibrary": {
+		"empty": "Keine Dokumente im Chat geteilt.",
+		"title": "Dokumentenbibliothek",
+		"sentAt": "Gesendet am {{date}}"
 	},
 	"date": {
 		"day": {
@@ -593,10 +461,6 @@
 				"placeholder": {
 					"asker": "Schreiben Sie uns, was Sie bewegt.",
 					"consultant": "Nachricht an Klient_in schreiben",
-					"feedback": {
-						"main": "Nachricht an Peer schreiben",
-						"peer": "Nachricht an Teamleiter_in schreiben"
-					},
 					"groupChat": "Nachricht schreiben"
 				}
 			},
@@ -898,6 +762,7 @@
 			},
 			"banner": {
 				"content": "Bitte verwenden Sie einen anderen Browser, um Video-Calls zu ermöglichen.",
+				"contentiOS": "Der Video-Call wird auf iOS-Geräten nicht unterstützt.",
 				"more": "Mehr erfahren"
 			},
 			"consultant": {
@@ -1137,6 +1002,11 @@
 		"zu": "isiZulu"
 	},
 	"login": {
+		"headline": "Login",
+		"intro": {
+			"seoDescription": "Melden Sie sich an für Ihre vertrauliche Online-Beratung. Sicherer Zugang zu Ihren Gesprächen und persönlichen Beratern.",
+			"seoKeywords": "Login, Anmeldung, Online-Beratung, sicherer Zugang, vertraulich"
+		},
 		"button": {
 			"label": "Anmelden"
 		},
@@ -1151,8 +1021,8 @@
 				}
 			}
 		},
-		"headline": "Login",
 		"legal": {
+			"back": "Zurück",
 			"infoText": {
 				"dataprotection": "Datenschutzerklärung",
 				"impressum": "Impressum"
@@ -1215,31 +1085,6 @@
 		}
 	},
 	"message": {
-		"appointment": {
-			"component": {
-				"header": {
-					"cancellation": "Terminabsage",
-					"change": "Terminänderung",
-					"confirmation": "Terminbestätigung"
-				}
-			}
-		},
-		"appointmentCancelled": {
-			"title": "Ihr Termin wurde abgesagt"
-		},
-		"appointmentRescheduled": {
-			"title": "Ihr Termin wurde verschoben"
-		},
-		"appointmentSet": {
-			"addToCalendar": "Zum Kalender hinzufügen",
-			"and": "und",
-			"between": "zwischen",
-			"cancel": "Termin absagen",
-			"info": {
-				"video": "Videoberatung"
-			},
-			"title": "Ihr Termin wurde erstellt"
-		},
 		"copy": {
 			"title": "Nachricht in Zwischenablage kopieren"
 		},
@@ -1258,8 +1103,7 @@
 			}
 		},
 		"forward": {
-			"label": "Weitergeleitete Nachricht von {{username}}, {{date}} um {{time}}",
-			"title": "Textnachricht an\nFeedback weiterleiten"
+			"label": "Weitergeleitete Nachricht von {{username}}, {{date}} um {{time}}"
 		},
 		"groupChat": "Gruppenchat",
 		"isMyMessage": {
@@ -1272,12 +1116,6 @@
 		},
 		"read": "gelesen",
 		"sent": "zugestellt",
-		"submit": {
-			"booking": {
-				"buttonLabel": "Termin zur Beratung vereinbaren",
-				"headline": "Oder vereinbare jetzt einen Termin"
-			}
-		},
 		"today": "Heute",
 		"tomorrow": "Morgen",
 		"unread": "ungelesen",
@@ -1288,25 +1126,14 @@
 			"moderatorEndedTitle": "Videokonferenz wurde beendet: {{time}}",
 			"moderatorStartedTitle": "Moderator:in {{name}} hat eine Videokonferenz gestartet"
 		},
-		"write": {
-			"peer": {
-				"checkbox": {
-					"label": "Feedback anfordern"
-				}
-			}
-		},
 		"yesterday": "Gestern"
 	},
 	"navigation": {
-		"appointments": "Video - Termine",
 		"asker": {
 			"sessions": {
 				"large": "Meine Beratungen",
 				"small": "Nachrichten"
 			}
-		},
-		"booking": {
-			"events": "Meine Termine"
 		},
 		"consultant": {
 			"enquiries": "Erstanfragen",
@@ -1355,9 +1182,6 @@
 		}
 	},
 	"overview": {
-		"appointmentsEmpty": "Heute stehen keine Termine an, Verabrede Dich mit Ratsuchenden um das zu ändern",
-		"emptyAppointments": "Heute stehen keine Termine an, Verabrede Dich mit Ratsuchenden um das zu ändern",
-		"emptyAppointmentsMobile": "Keine Termine derzeit, Verabrede Dich mit Ratsuchenden um das zu ändern",
 		"emptyInitialMessage": "Sehr gut, alle Erstanfragen sind bearbeitet!",
 		"emptyMessages": "Du hast alles im Blick, alle Nachrichten sind gelesen!",
 		"initialInquiriesEmpty": "Sehr gut, alle Erstanfragen sind bearbeitet!",
@@ -1366,8 +1190,6 @@
 		"myMessagesTitle": "{{countStr}} ungelesene Nachrichten",
 		"start": "Starten",
 		"title": "Willkommen zurück!",
-		"upcomingAppointment": "Ihr nächster Termin",
-		"upcomingAppointments": "Ihre nächsten {{countStr}} Termine",
 		"viewAll": "Alle anzeigen"
 	},
 	"preconditions": {
@@ -1413,6 +1235,8 @@
 				}
 			},
 			"displayName": "Anzeigename",
+			"displayNameInfo": "Der Anzeigename wurde erfolgreich geändert. Es kann bis zu einer Stunde dauern, bis dieser angezeigt wird.",
+			"displayNameInfoClose": "Schließen",
 			"edit": {
 				"button": {
 					"cancel": "Abbrechen",
@@ -1562,10 +1386,6 @@
 		},
 		"noContent": "Keine Angabe",
 		"notifications": {
-			"appointmentNotificationEnabled": {
-				"description": "Ein Termin wurde angesetzt, verschoben oder abgesagt",
-				"title": "Termine"
-			},
 			"description": "Wir informieren Sie per E-Mail, wenn Sie eine neue Nachricht erhalten haben.",
 			"error": {
 				"description": "Leider können wir Ihre Einstellungen momentan nicht aktualisieren. Bitte versuchen Sie es später noch einmal.",
@@ -1667,7 +1487,6 @@
 				"title": "Ihre Statistik über Ihren gewählten Beratungszeitraum können Sie hier herunterladen:"
 			},
 			"csvHeader": {
-				"numberOfAppointments": "Termine gebucht",
 				"numberOfAssignedSessions": "Beratungen angenommen",
 				"numberOfSentMessages": "Nachrichten geschrieben",
 				"numberOfSessionsWhereConsultantWasActive": "Aktive Beratungen",
@@ -1739,6 +1558,11 @@
 		}
 	},
 	"registration": {
+		"headline": "Registrierung",
+		"intro": {
+			"seoDescription": "Kostenlose und vertrauliche Online-Beratung. Registrieren Sie sich jetzt für professionelle Unterstützung.",
+			"seoKeywords": "Online-Beratung, Registrierung, kostenlose Beratung, vertraulich, Hilfe, Unterstützung"
+		},
 		"accordion": {
 			"item": {
 				"continueButton": {
@@ -1756,6 +1580,10 @@
 			"preselected": {
 				"isTeam": "Sie werden von einem Team beraten.",
 				"prefix": "Ihre vorausgewählte Beratungsstelle: "
+			},
+			"error": {
+				"topicRequired": "Bitte wählen Sie zunächst ein Thema aus, um passende Beratungsstellen zu finden.",
+				"notFound": "Die angegebene Beratungsstelle konnte nicht gefunden werden. Bitte wählen Sie eine Beratungsstelle aus der Liste."
 			}
 		},
 		"agencyPreselected": {
@@ -1835,7 +1663,6 @@
 		"form": {
 			"title": "Registrierung abschließen"
 		},
-		"headline": "Registrierung",
 		"login": {
 			"helper": "Bereits registriert?",
 			"label": "Einloggen"
@@ -1906,11 +1733,11 @@
 			"start": "Registrierung"
 		},
 		"user": {
-			"infoText": "Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialen zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen.",
+			"infoText": "Um Ihre Anonymität zu schützen, raten wir Ihnen nicht Ihren tatsächlichen Namen oder Initialen zu verwenden.<br>Wählen Sie bitte einen geeigneten Benutzernamen mit min. 5 Zeichen und ohne Leerzeichen.",
 			"label": "Benutzername",
 			"suitable": "Ihr Benutzername ist geeignet.",
 			"unavailable": "Der Benutzername ist bereits vergeben.",
-			"unsuitable": "Ihr Benutzername ist zu kurz."
+			"unsuitable": "Ihr Benutzername ist zu kurz oder enthält Leerzeichen."
 		},
 		"username": {
 			"headline": "Benutzernamen wählen"
@@ -2025,12 +1852,9 @@
 				"insideDropArea": "Legen Sie die Datei hier ab, um sie hochzuladen.",
 				"outsideDropArea": "Ziehen Sie die Datei in das Feld, um sie hochzuladen."
 			},
-			"restrictions": ".jpg, .png, .pdf, .docx, .xlsx bis maximal {{attachment_filesize}} MB"
+			"restrictions": ".jpg, .png, .pdf, .docx, .xlsx, .mp3, .wav, .ogg, .aac, .m4a, .odt, .ods, .odp bis maximal {{attachment_filesize}} MB"
 		},
 		"empty": "Bitte wählen Sie eine Nachricht aus",
-		"feedback": {
-			"label": "Feedback"
-		},
 		"groupChat": {
 			"consultant": {
 				"prefix": "Moderator_in - "
@@ -2119,9 +1943,7 @@
 		},
 		"filter": {
 			"option": {
-				"all": "Alle Beratungen",
-				"feedbackMain": "Feedback benötigt",
-				"feedbackPeer": "Feedback vorhanden"
+				"all": "Alle Beratungen"
 			},
 			"placeholder": "Filter"
 		},
@@ -2210,13 +2032,6 @@
 	"tools": {
 		"button": {
 			"label": "Öffnen"
-		},
-		"calendar": {
-			"button": {
-				"label": "Öffnen"
-			},
-			"description": "Tragen Sie Ihre Urlaube oder sonstigen Termine in den Kalender ein, sodass die Ratsuchenden in dieser Zeit keine Termine bei Ihnen buchen können.<br/>Melden Sie sich mit der gleichen E-Mail-Adresse und Passwort an, das Sie auch hier bei der Online Beratung verwenden.",
-			"title": "Mein Kalender"
 		},
 		"shared": "Mit dem/der Berater/in geteilt"
 	},
@@ -2532,7 +2347,8 @@
 			"relation": "Hintergrund",
 			"resort": "Fachbereich",
 			"state": "Bundesland",
-			"title": "Angaben des Ratsuchenden"
+			"title": "Angaben des Ratsuchenden",
+			"topic": "Beratungsthema"
 		},
 		"reassign": {
 			"description": "Sie können die Unterhaltung einem anderen Teammitglied zuweisen. Diese Person ist dann für die_den Ratsuchende_n verantwortlich.",
@@ -2557,6 +2373,33 @@
 				"title": "Sehen Sie hier, welche Inhalte mit Ihnen geteilt wurden."
 			},
 			"title": "Tools"
+		}
+	},
+	"voiceMessage": {
+		"button": {
+			"title": "Sprachnachricht aufnehmen"
+		},
+		"error": {
+			"notSupported": {
+				"title": "Sprachaufnahme nicht verfügbar",
+				"text": "Ihr Browser unterstützt keine Sprachaufnahme."
+			},
+			"permission": {
+				"title": "Mikrofonberechtigung erforderlich",
+				"text": "Bitte erteilen Sie die Mikrofonberechtigung, um die Sprachnachrichten-Funktion zu nutzen."
+			}
+		},
+		"permissionGranted": {
+			"title": "Mikrofonberechtigung erteilt",
+			"text": "Jetzt können Sie die Sprachnachrichten-Funktion nutzen."
+		},
+		"maxDuration": {
+			"title": "Maximale Audio-Nachricht Länge erreicht",
+			"text": "Die Aufnahme wurde nach 2 Minuten automatisch gestoppt."
+		},
+		"tooShort": {
+			"title": "Aufnahme zu kurz",
+			"text": "Um eine Sprachnachricht aufzunehmen, halten Sie die Mikrofon-Taste gedrückt, während Sie sprechen."
 		}
 	},
 	"videoCall": {
@@ -2606,44 +2449,6 @@
 				"reason": "Leider sind Sie nicht berechtigt diese Seite einzusehen.",
 				"title": "Kein Zutritt!"
 			}
-		}
-	},
-	"videoConference": {
-		"waitingroom": {
-			"dataProtection": {
-				"button": "Bestätigen",
-				"description": "Danach dürfen unsere Berater_innen einen Video-Call mit Ihnen starten.",
-				"headline": "Herzlich willkommen!",
-				"label": {
-					"and": "und",
-					"text": "Ich habe die {{legal_links}} zur Kenntnis genommen. Für Authentifizierung und Navigation verwendet diese Webseite Cookies. Damit erkläre ich mich einverstanden."
-				},
-				"subline": "Bitte bestätigen Sie unsere Datenschutzbestimmungen."
-			},
-			"errorImageTitle": "Fehlgeschlagen",
-			"errorPage": {
-				"button": "Neu laden",
-				"consultant": {
-					"description": "Zu Ihrem Link können wir keinen Video-Call finden, da der Video-Call entweder gelöscht oder bereits beendet wurde."
-				},
-				"description": "Zu Ihrem Link können wir keinen Video-Call finden, da der Video-Call entweder gelöscht oder bereits beendet wurde. Sollten Sie weiterhin Probleme haben fragen Sie bitte Ihre_n Berater_in.",
-				"headline": "Der Video-Call wurde nicht gefunden",
-				"rejected": {
-					"description": "Sie wurden nicht zugelassen. Leider können Sie an diesem Video-Call nicht teilnehmen, da Ihr_e Berater_in Sie nicht zugelassen hat.",
-					"headline": "Sie wurden nicht zugelassen"
-				}
-			},
-			"headline": "Bitte haben Sie etwas Geduld",
-			"paused": {
-				"headline": "Der Video-Call wurde beendet",
-				"subline": "Der Video-Call wurde beendet. Sollten Ihr_e Berater_in nur abwesend sein werden Sie in den Video-Call weitergeleitet, sobald Ihr_e Berater_in den Video-Call fortsetzt."
-			},
-			"subline": "Der Video-Call hat noch nicht begonnen. Sie werden weitergeleitet, sobald Ihr_e Berater_in den Video-Call startet.",
-			"title": {
-				"start": "Warteraum"
-			},
-			"waitingImageTitle": "Wartende Person mit Kaffee",
-			"welcomeImageTitle": "Willkommen"
 		}
 	},
 	"walkthrough": {

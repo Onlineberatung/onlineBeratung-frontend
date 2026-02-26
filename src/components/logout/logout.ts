@@ -1,14 +1,11 @@
 import { apiKeycloakLogout } from '../../api/apiLogoutKeycloak';
 import { apiRocketchatLogout } from '../../api/apiLogoutRocketchat';
-import { getTenantSettings } from '../../utils/tenantSettingsHelper';
-import { budibaseLogout } from '../budibase/budibaseLogout';
 import { removeAllCookies } from '../sessionCookie/accessSessionCookie';
 import {
 	removeRocketChatMasterKeyFromLocalStorage,
 	removeTokenExpiryFromLocalStorage
 } from '../sessionCookie/accessSessionLocalStorage';
 import { appConfig } from '../../utils/appConfig';
-import { calcomLogout } from './calcomLogout';
 import { callEventListeners } from '../../utils/eventHandler';
 
 export const EVENT_PRE_LOGOUT = 'pre_logout';
@@ -27,14 +24,10 @@ export const logout = async (
 	}
 
 	isRequestInProgress = true;
-	const { featureAppointmentsEnabled, featureToolsEnabled } =
-		getTenantSettings();
 
 	Promise.all([
 		apiRocketchatLogout(),
-		apiKeycloakLogout(),
-		featureAppointmentsEnabled && calcomLogout(),
-		featureToolsEnabled && budibaseLogout()
+		apiKeycloakLogout()
 	]).finally(() => {
 		invalidateCookies(withRedirect, redirectUrl);
 	});

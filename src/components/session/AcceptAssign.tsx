@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { ActiveSessionContext } from '../../globalState';
-import './session.styles';
+import './session.styles.scss';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { useSearchParam } from '../../hooks/useSearchParams';
 import { SESSION_LIST_TAB } from './sessionHelpers';
@@ -19,8 +19,8 @@ import { Button, BUTTON_TYPES, ButtonItem } from '../button/Button';
 import { useWatcher } from '../../hooks/useWatcher';
 import { apiGetSessionRoomBySessionId } from '../../api/apiGetSessionRooms';
 import { SessionAssign } from '../sessionAssign/SessionAssign';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
+import XIcon from '../../resources/img/illustrations/x.svg?react';
 import { useTranslation } from 'react-i18next';
 import { useE2EEViewElements } from '../../hooks/useE2EEViewElements';
 import { useTimeoutOverlay } from '../../hooks/useTimeoutOverlay';
@@ -168,7 +168,7 @@ export const AcceptAssign = ({
 				if (error.message === FETCH_ERRORS.CONFLICT) {
 					setOverlayItem(enquiryTakenByOtherConsultantOverlayItem);
 				} else {
-					console.log(error);
+					console.error(error);
 				}
 			});
 	};

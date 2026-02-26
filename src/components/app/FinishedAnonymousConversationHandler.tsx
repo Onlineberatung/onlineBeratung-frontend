@@ -28,9 +28,10 @@ export const FinishedAnonymousConversationHandler = () => {
 		if (anonymousConversationFinished) {
 			closeWebsocket(false);
 			setOverlayActive(true);
-			setTimeout(() => {
+			const id = setTimeout(() => {
 				removeAllCookies();
 			}, 1500);
+			return () => clearTimeout(id);
 		} else {
 			setOverlayActive(false);
 		}

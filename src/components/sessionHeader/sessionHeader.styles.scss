@@ -1,5 +1,4 @@
 $backBtnSize: 24px;
-$feedbackBtnSize: 20px;
 $iconSize: 24px;
 
 .sessionInfo {
@@ -9,16 +8,15 @@ $iconSize: 24px;
 	padding: $grid-base-two $grid-base-two;
 	background-color: $session-header-background-color;
 
-	@include breakpoint($fromMedium) {
+	@include from-medium {
 		padding: $grid-base-three;
 	}
 
-	@include breakpoint($fromLarge) {
+	@include from-large {
 		align-items: flex-start;
 		background-color: $session-header-background-color-large;
 	}
 
-	&__feedbackHeaderWrapper,
 	&__headerWrapper {
 		display: flex;
 		flex-direction: row;
@@ -28,23 +26,6 @@ $iconSize: 24px;
 		align-items: center;
 	}
 
-	&__feedbackHeaderWrapper {
-		justify-content: flex-start;
-
-		.sessionInfo__username {
-			flex: 1;
-			text-align: center;
-			margin-left: -36px;
-			cursor: auto;
-
-			@include breakpoint($fromLarge) {
-				text-align: left;
-				margin-left: 0;
-			}
-		}
-	}
-
-	&__feedbackBackButton,
 	&__backButton {
 		display: block;
 		align-self: center;
@@ -52,37 +33,26 @@ $iconSize: 24px;
 		position: relative;
 		z-index: 10;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			display: none;
 		}
-	}
 
-	&__backButton,
-	&__feedbackBackButton {
 		svg {
 			width: $iconSize;
 			height: $iconSize;
-			fill: var(--skin-color-default, $secondary);
+			fill: var(--skin-color-secondary, $secondary);
 
 			svg path {
-				fill: var(--skin-color-default, $secondary);
+				fill: var(--skin-color-secondary, $secondary);
 			}
 
 			&:hover {
-				fill: var(--skin-color-default, $primary);
+				fill: var(--skin-color-primary, $primary);
 
 				svg path {
-					fill: var(--skin-color-default, $primary);
+					fill: var(--skin-color-primary, $primary);
 				}
 			}
-		}
-	}
-
-	&__feedbackBackButton {
-		padding-right: 10px;
-
-		@include breakpoint($fromLarge) {
-			display: block;
 		}
 	}
 
@@ -90,7 +60,7 @@ $iconSize: 24px;
 		cursor: pointer;
 		overflow: hidden;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			flex-grow: 1;
 			margin: 0;
 		}
@@ -103,7 +73,7 @@ $iconSize: 24px;
 		}
 
 		h3 {
-			color: var(--skin-color-default, $secondary);
+			color: var(--skin-color-secondary, $secondary);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
@@ -124,32 +94,6 @@ $iconSize: 24px;
 		margin-right: 20px;
 	}
 
-	&__feedbackButton {
-		display: none;
-
-		@include breakpoint($fromLarge) {
-			display: inline-block;
-		}
-
-		&--active .button__item {
-			transform: scale(1.2);
-			animation: yellowThemeHighlight 1.5s forwards;
-
-			@keyframes yellowThemeHighlight {
-				0% {
-					background-color: $yellow-3;
-				}
-				20% {
-					background-color: $yellow-4;
-				}
-				100% {
-					background-color: $yellow-3;
-				}
-			}
-		}
-	}
-
-	&__feedbackMetaInfo,
 	&__metaInfo {
 		width: 100%;
 		max-width: $xlarge;
@@ -158,7 +102,7 @@ $iconSize: 24px;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 
-		@include breakpoint($fromLarge) {
+		@include from-large {
 			padding: 0;
 			text-align: left;
 		}
@@ -168,8 +112,10 @@ $iconSize: 24px;
 			color: $tertiary;
 			line-height: 16px;
 			display: inline-block;
+			white-space: normal;
+			word-break: break-word;
 
-			@include breakpoint($fromSmall) {
+			@include from-small {
 				position: relative;
 			}
 
@@ -212,7 +158,7 @@ $iconSize: 24px;
 			@include rounded-drop-shadow;
 			cursor: default;
 
-			@include breakpoint($fromSmall) {
+			@include from-small {
 				top: $line-height-tertiary;
 				left: 50%;
 				transform: translateX(-50%);
@@ -253,7 +199,7 @@ $iconSize: 24px;
 
 					&:hover {
 						background-color: $hover-select;
-						color: $hover-primary;
+						color: var(--skin-color-primary-hover, $hover-primary);
 					}
 
 					span {
@@ -285,15 +231,10 @@ $iconSize: 24px;
 				margin-left: -10px;
 				transform: rotate(180deg);
 
-				@include breakpoint($fromSmall) {
+				@include from-small {
 					left: 50%;
 				}
 			}
-		}
-	}
-	&__feedbackMetaInfo {
-		@include breakpoint($fromLarge) {
-			padding-left: 36px;
 		}
 	}
 }

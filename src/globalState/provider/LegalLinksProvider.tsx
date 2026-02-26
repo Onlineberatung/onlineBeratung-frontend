@@ -49,16 +49,34 @@ export function LegalLinksProvider({
 					...legalLink,
 					getUrl: (params: {
 						[key: string]: string | number | null | undefined;
-					}) =>
-						getUrl(
-							url.match(/http(s)?:\/\//)
-								? url
-								: `${window.location.origin}${url}`,
-							params
-						)
+					}) => {
+						// For React Router Link component, we should return relative paths
+						// Extract pathname from URL if it's already a full URL
+						let path = url;
+						if (url.match(/^https?:\/\//)) {
+							// It's a full URL, extract the pathname
+							try {
+								const urlObj = new URL(url);
+								path = urlObj.pathname;
+							} catch (e) {
+								path = url;
+							}
+						}
+						
+						// If params are provided, append them as query string
+						if (params && Object.keys(params).length > 0) {
+							const queryParams = Object.entries(params)
+								.filter(([, value]) => !!value)
+								.map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
+								.join('&');
+							return queryParams ? `${path}?${queryParams}` : path;
+						}
+						
+						return path;
+					}
 				})
 			),
-		[externalLegalLinks, settings.legalLinks, getUrl]
+		[externalLegalLinks, settings.legalLinks]
 	);
 
 	return (

@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
 import { getUrlParameter } from './getUrlParameter';
 import { LocaleContext } from '../globalState';
 import {
@@ -8,24 +7,21 @@ import {
 	ConsultingTypeInterface,
 	TopicsDataInterface
 } from '../globalState/interfaces';
-import { apiGetAgencyById, apiGetConsultingType } from '../api';
+import { apiGetAgencyById, apiGetConsultingType, apiGetConsultingTypes } from '../api';
 import { apiGetConsultant } from '../api/apiGetConsultant';
 import { isNumber } from './isNumber';
 import { apiGetTopicById } from '../api/apiGetTopicId';
 import { useAppConfig } from '../hooks/useAppConfig';
-import { isString } from 'lodash';
 import { apiGetTopicsData } from '../api/apiGetTopicsData';
 
 export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 	const { setLocale } = useContext(LocaleContext);
-	const { consultingTypeSlug } = useParams<{
-		consultingTypeSlug: string;
-	}>();
 	const settings = useAppConfig();
 	const agencyId = getUrlParameter('aid');
 	const consultantId = getUrlParameter('cid');
 	const topicIdOrName = getUrlParameter('tid');
 	const language = getUrlParameter('lang');
+	const postcodeParam = getUrlParameter('postcode');
 
 	const [consultingType, setConsultingType] =
 		useState<ConsultingTypeInterface | null>(null);
@@ -41,7 +37,7 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 			let topic = null;
 			if (isNumber(topicIdOrName)) {
 				topic = await apiGetTopicById(topicIdOrName).catch(() => null);
-			} else if (isString(topicIdOrName)) {
+			} else if (typeof topicIdOrName === 'string') {
 				topic = await apiGetTopicsData()
 					.then(
 						(allTopics) =>
@@ -151,9 +147,9 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 					).catch(() => null);
 				}
 
-				if (consultingTypeSlug || agency) {
+				// Load consulting type - prioritize "beratung" for backward compatibility
+				if (agency) {
 					consultingType = await apiGetConsultingType({
-						consultingTypeSlug,
 						consultingTypeId: agency?.consultingType
 					});
 
@@ -172,6 +168,33 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 					}
 				}
 
+				// If no consulting type yet (no agency), load default "beratung" consulting type
+				if (!consultingType && !agency && !consultantId) {
+					const consultingTypes = await apiGetConsultingTypes().catch(() => []);
+					
+					// Priority 1: Try to find "beratung" specifically for backward compatibility
+					const beratungType = consultingTypes.find(ct => 
+						ct.slug === 'beratung' || ct.name?.toLowerCase() === 'beratung'
+					);
+					
+					if (beratungType) {
+						// Use "beratung" consulting type
+						consultingType = await apiGetConsultingType({
+							consultingTypeId: beratungType.id
+						}).catch(() => null);
+					} else if (consultingTypes.length > 0) {
+						// Priority 2: Use first consulting type as fallback
+						consultingType = await apiGetConsultingType({
+							consultingTypeId: consultingTypes[0].id
+						}).catch(() => null);
+					} else {
+						// Priority 3: Last resort - try to load by slug "beratung"
+						consultingType = await apiGetConsultingType({
+							consultingTypeSlug: 'beratung'
+						}).catch(() => null);
+					}
+				}
+
 				if (topicIdOrName !== null) {
 					[agency, topic] = await loadTopic(agency);
 				}
@@ -182,13 +205,10 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 				}
 
 				const isConsultantOk = consultantId === null || !!consultant;
-				const isConsultingTypeOk =
-					!consultingTypeSlug || !!consultingType;
 				const isAgencyOk = agencyId === null || !!agency;
 				const isTopicOk = topicIdOrName === null || !!topic;
 				if (
 					!isConsultantOk &&
-					!isConsultingTypeOk &&
 					!isAgencyOk &&
 					!isTopicOk &&
 					handleBadRequest
@@ -203,11 +223,10 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 				setAgency(agency);
 				setLoaded(true);
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 		})();
 	}, [
-		consultingTypeSlug,
 		agencyId,
 		consultantId,
 		topicIdOrName,
@@ -225,5 +244,5 @@ export default function useUrlParamsLoader(handleBadRequest?: () => void) {
 		}
 	}, [language, setLocale]);
 
-	return { agency, consultant, consultingType, loaded, topic, slugFallback };
+	return { agency, consultant, consultingType, loaded, topic, slugFallback, postcode: postcodeParam };
 }

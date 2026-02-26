@@ -11,7 +11,7 @@
 	.select__input__single-value {
 		color: $secondary;
 		&:hover {
-			color: $hover-primary;
+			color: var(--skin-color-primary-hover, $hover-primary);
 		}
 	}
 

@@ -18,13 +18,13 @@ import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { logout } from '../logout/logout';
 import { mobileListView } from '../app/navigationHandler';
 import { AgencySelection } from '../agencySelection/AgencySelection';
-import './profile.styles';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
 import { AskerRegistrationExternalAgencyOverlay } from './AskerRegistrationExternalAgencyOverlay';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as CheckIcon } from '../../resources/img/illustrations/check.svg';
-import { ReactComponent as XIcon } from '../../resources/img/illustrations/x.svg';
+import CheckIcon from '../../resources/img/illustrations/check.svg?react';
+import XIcon from '../../resources/img/illustrations/x.svg?react';
+import { Box as MuiBox, Stack } from '@mui/material';
 
 export const AskerRegistration: React.FC = () => {
 	const { t: translate } = useTranslation(['common', 'consultingTypes']);
@@ -182,7 +182,7 @@ export const AskerRegistration: React.FC = () => {
 	};
 
 	const handleSuccessOverlayAction = (buttonFunction: string) => {
-		reloadUserData().catch(console.log);
+		reloadUserData().catch(console.error);
 
 		if (buttonFunction === OVERLAY_FUNCTIONS.REDIRECT) {
 			mobileListView();
@@ -226,54 +226,41 @@ export const AskerRegistration: React.FC = () => {
 		!selectedConsultingType.groupChat.isGroupChat;
 
 	return (
-		<div className="profile__data__itemWrapper askerRegistration">
-			<div className="profile__content__title">
+		<MuiBox>
+			<Stack spacing={2}>
 				<Headline
 					text={translate('profile.data.register.headline')}
 					semanticLevel="5"
 				/>
-			</div>
-			{isOnlyRegisteredForGroupChats ? (
-				<div className="askerRegistration__consultingTypeWrapper">
+				<Stack spacing={2}>
 					<SelectDropdown {...consultingTypesDropdown} />
 					<Text
-						className="askerRegistration__consultingModeInfo"
 						labelType={LABEL_TYPES.NOTICE}
 						text={translate(
 							'profile.data.register.consultingModeInfo.singleChats'
 						)}
 						type="infoSmall"
 					/>
-				</div>
-			) : (
-				<div className="askerRegistration__consultingTypeWrapper">
-					<SelectDropdown {...consultingTypesDropdown} />
-					<Text
-						className="askerRegistration__consultingModeInfo"
-						labelType={LABEL_TYPES.NOTICE}
-						text={translate(
-							'profile.data.register.consultingModeInfo.singleChats'
-						)}
-						type="infoSmall"
+				</Stack>
+				{selectedConsultingType && (
+					<AgencySelection
+						consultingType={selectedConsultingType}
+						onAgencyChange={(agency) => setSelectedAgency(agency)}
+						isProfileView={true}
+						agencySelectionNote={
+							selectedConsultingType?.registration?.notes
+								?.agencySelection
+						}
 					/>
-				</div>
-			)}
-			{selectedConsultingType && (
-				<AgencySelection
-					consultingType={selectedConsultingType}
-					onAgencyChange={(agency) => setSelectedAgency(agency)}
-					isProfileView={true}
-					agencySelectionNote={
-						selectedConsultingType?.registration?.notes
-							?.agencySelection
-					}
-				/>
-			)}
-			<Button
-				item={buttonSetRegistration}
-				buttonHandle={handleRegistration}
-				disabled={isButtonDisabled}
-			/>
+				)}
+				<Stack spacing={2} justifyContent="flex-end">
+					<Button
+						item={buttonSetRegistration}
+						buttonHandle={handleRegistration}
+						disabled={isButtonDisabled}
+					/>
+				</Stack>
+			</Stack>
 			{successOverlayActive && (
 				<Overlay
 					item={successOverlayItem}
@@ -287,6 +274,6 @@ export const AskerRegistration: React.FC = () => {
 					handleOverlayAction={handleExternalAgencyOverlayAction}
 				/>
 			)}
-		</div>
+		</MuiBox>
 	);
 };

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button } from '../button/Button';
-import './listInfo.styles';
+import './listInfo.styles.scss';
 import { Text } from '../text/Text';
 import { Headline } from '../headline/Headline';
 

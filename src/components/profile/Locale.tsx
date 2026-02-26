@@ -1,19 +1,53 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Stack, Typography, Box as MuiBox } from '@mui/material';
 import { Headline } from '../headline/Headline';
 import { Text } from '../text/Text';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as LanguageIcon } from '../../resources/img/icons/language_filled.svg';
 
-import './profile.styles';
-import { SelectDropdown, SelectDropdownItem } from '../select/SelectDropdown';
-import { LocaleContext } from '../../globalState';
+import {
+	SelectDropdown,
+	SelectDropdownItem,
+	SelectOption
+} from '../select/SelectDropdown';
+import { LocaleContext, UserDataContext } from '../../globalState';
+import { setValueInCookie } from '../sessionCookie/accessSessionCookie';
+import { apiPatchUserData } from '../../api/apiPatchUserData';
 
 export const Locale = () => {
 	const { t: translate } = useTranslation(['common', 'languages']);
 	const { locale, setLocale, selectableLocales } = useContext(LocaleContext);
+	const userDataContext = useContext(UserDataContext);
+	const [requestInProgress, setRequestInProgress] = useState(false);
+
+	useEffect(() => {
+		if (
+			userDataContext?.userData?.preferredLanguage !== locale &&
+			!requestInProgress
+		) {
+			setRequestInProgress(true);
+			apiPatchUserData({
+				preferredLanguage: locale
+			})
+				.then(userDataContext.reloadUserData)
+				.catch(console.error)
+				.finally(() => {
+					setRequestInProgress(false);
+				});
+		}
+	}, [locale, requestInProgress, userDataContext]);
 
 	const languageSelectDropdown: SelectDropdownItem = {
-		handleDropdownSelect: ({ value }) => setLocale(value),
+		handleDropdownSelect: (selectedOption) => {
+			const value = Array.isArray(selectedOption)
+				? selectedOption[0]?.value
+				: (selectedOption as SelectOption)?.value;
+			// Set cookie before locale switch to avoid request caching issues
+			// (see LocaleSwitch.tsx for detailed explanation)
+			if (value) {
+				setValueInCookie('lang', value);
+				setLocale(value);
+			}
+		},
 		id: 'languageSelect',
 		selectedOptions: selectableLocales.map((lng) => ({
 			label: translate([lng, lng], { ns: 'languages' }),
@@ -31,22 +65,17 @@ export const Locale = () => {
 	};
 
 	return (
-		<div className="appLanguage">
-			<div className="profile__content__title">
-				<div className="profile__content__header">
-					<LanguageIcon className="icon" />
-					<Headline
-						text={translate('profile.appLanguage.title')}
-						semanticLevel="5"
-					/>
-				</div>
-				<Text
-					text={translate('profile.appLanguage.info')}
-					type="standard"
-					className="tertiary"
+		<MuiBox>
+			<Stack spacing={2}>
+				<Headline
+					text={translate('profile.appLanguage.title')}
+					semanticLevel="5"
 				/>
-			</div>
-			<SelectDropdown {...languageSelectDropdown} />
-		</div>
+				<Typography variant="body2" color="text.secondary">
+					{translate('profile.appLanguage.info')}
+				</Typography>
+				<SelectDropdown {...languageSelectDropdown} />
+			</Stack>
+		</MuiBox>
 	);
 };

@@ -2,6 +2,7 @@ import { TProvidedLegalLink } from '../../globalState/provider/LegalLinksProvide
 import { useTranslation } from 'react-i18next';
 import { Fragment, ReactNode } from 'react';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 const LegalLinks = ({
 	legalLinks,
@@ -49,9 +50,7 @@ const LegalLinks = ({
 					{children ? (
 						children(label, url)
 					) : (
-						<a target="_blank" rel="noreferrer" href={url}>
-							{label}
-						</a>
+						<Link to={url}>{label}</Link>
 					)}
 					{getSuffix(i, b.length - 1)}
 				</Fragment>

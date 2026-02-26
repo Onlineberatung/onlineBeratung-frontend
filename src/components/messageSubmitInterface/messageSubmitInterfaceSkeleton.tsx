@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { SendMessageButton } from './SendMessageButton';
-import { ReactComponent as EmojiIcon } from '../../resources/img/icons/smiley-positive.svg';
-import { ReactComponent as RichtextToggleIcon } from '../../resources/img/icons/richtext-toggle.svg';
-import './messageSubmitInterface.styles';
+import EmojiIcon from '@mui/icons-material/EmojiEmotions';
+import RichtextToggleIcon from '@mui/icons-material/FormatSize';
+import './messageSubmitInterface.styles.scss';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { Loading } from '../app/Loading';
@@ -48,7 +48,7 @@ export const MessageSubmitInterfaceSkeleton = ({
 									width="20"
 									height="20"
 									onClick={() => null}
-									title={translate(
+									titleAccess={translate(
 										'enquiry.write.input.format'
 									)}
 									aria-label={translate(
@@ -65,7 +65,7 @@ export const MessageSubmitInterfaceSkeleton = ({
 										aria-label={translate(
 											'enquiry.write.input.emojies'
 										)}
-										title={translate(
+										titleAccess={translate(
 											'enquiry.write.input.emojies'
 										)}
 									/>

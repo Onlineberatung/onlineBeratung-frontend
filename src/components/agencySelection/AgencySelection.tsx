@@ -8,8 +8,8 @@ import {
 import { apiAgencySelection, FETCH_ERRORS } from '../../api';
 import { InputField, InputFieldItem } from '../inputField/InputField';
 import { VALID_POSTCODE_LENGTH } from './agencySelectionHelpers';
-import './agencySelection.styles';
-import '../profile/profile.styles';
+import './agencySelection.styles.scss';
+import '../profile/profile.styles.scss';
 import { Loading } from '../app/Loading';
 import { Text, LABEL_TYPES } from '../text/Text';
 import { Headline } from '../headline/Headline';
@@ -69,12 +69,16 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 		tenantData?.settings?.featureTopicsEnabled;
 
 	useEffect(() => {
-		setSelectedPostcode(props.initialPostcode || '');
-		setPostcodeFallbackLink('');
-		setSelectedAgency(null);
-		setProposedAgencies(null);
-		setPreselectedAgency(props.preselectedAgency);
-	}, [props.preselectedAgency, props.consultingType, props.initialPostcode]);
+		// Only reset if consultingType or preselected agency actually changes
+		// Don't reset on every re-render to maintain agency selection when navigating steps
+		if (props.preselectedAgency !== preselectedAgency) {
+			setPreselectedAgency(props.preselectedAgency);
+			setSelectedAgency(props.preselectedAgency);
+		}
+		if (props.initialPostcode && props.initialPostcode !== selectedPostcode) {
+			setSelectedPostcode(props.initialPostcode);
+		}
+	}, [props.preselectedAgency, props.initialPostcode]);
 
 	useEffect(() => {
 		(async () => {
@@ -325,7 +329,7 @@ export const AgencySelection = (props: AgencySelectionProps) => {
 					)}
 
 					{validPostcode() && !preselectedAgency && (
-						<div className="agencySelection__proposedAgencies">
+						<div className="agencySelection__proposedAgencies" style={{ minWidth: '100%', width: '100%' }}>
 							<h3>
 								{translate(
 									'registration.agencySelection.title.start'

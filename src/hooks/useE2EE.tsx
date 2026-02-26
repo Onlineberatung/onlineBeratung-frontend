@@ -69,7 +69,6 @@ export const useE2EE = (
 ): UseE2EEParams => {
 	const {
 		key: e2eePrivateKey,
-		isE2eeEnabled,
 		e2EEReady
 	} = useContext(E2EEContext);
 	const { subscriptionsReady, subscriptions, roomsReady, rooms } = useContext(
@@ -225,7 +224,7 @@ export const useE2EE = (
 			onStateChange?: (state: TEncryptRoomState) => void,
 			roomId: string = rid
 		) => {
-			if (!isE2eeEnabled || encrypted || !roomId) {
+			if (encrypted || !roomId) {
 				onStateChange &&
 					onStateChange({
 						state: ENCRYPT_ROOM_STATE_DONE,
@@ -244,7 +243,6 @@ export const useE2EE = (
 
 			// Set Room Key ID at the very end because if something failed before it will still be repairable
 			// After room key is set the room is encrypted and the room key could not be set again.
-			console.log('Set Room Key ID', roomId, keyData.keyID);
 			try {
 				onStateChange &&
 					onStateChange({
@@ -270,8 +268,6 @@ export const useE2EE = (
 						count: members - unhandled,
 						total: members
 					});
-
-				console.log('Start writing encrypted messages!');
 			} catch (e) {
 				onStateChange &&
 					onStateChange({
@@ -282,13 +278,13 @@ export const useE2EE = (
 				console.error(e);
 			}
 		},
-		[encryptMembers, encrypted, isE2eeEnabled, keyData.keyID, rid]
+		[encryptMembers, encrypted, keyData.keyID, rid]
 	);
 
 	const addNewUsersToEncryptedRoom = useCallback(
 		async (onStateChange?: (state: TEncryptRoomState) => void) => {
 			try {
-				if (!isE2eeEnabled || !encrypted || subscriptionKeyLost) {
+				if (!encrypted || subscriptionKeyLost) {
 					onStateChange &&
 						onStateChange({
 							state: ENCRYPT_ROOM_STATE_DONE,
@@ -317,7 +313,7 @@ export const useE2EE = (
 					});
 			}
 		},
-		[encryptMembers, encrypted, isE2eeEnabled, subscriptionKeyLost]
+		[encryptMembers, encrypted, subscriptionKeyLost]
 	);
 
 	useEffect(() => {
@@ -360,11 +356,6 @@ export const useE2EE = (
 
 		// Wait for e2ee logic is fully loaded
 		if (!e2EEReady) {
-			return cleanup;
-		}
-
-		if (!isE2eeEnabled) {
-			setReady(true);
 			return cleanup;
 		}
 
@@ -421,7 +412,7 @@ export const useE2EE = (
 				setReady(true);
 			})
 			.catch((e) => {
-				console.log(e, rid, subscription.E2EKey);
+				console.error(e);
 			});
 
 		return cleanup;
@@ -429,7 +420,6 @@ export const useE2EE = (
 		e2EEReady,
 		e2eePrivateKey,
 		generateKeys,
-		isE2eeEnabled,
 		rid,
 		rooms,
 		roomsReady,
@@ -439,6 +429,8 @@ export const useE2EE = (
 
 	useEffect(() => {
 		return () => {
+			// Reset key type tracking to prevent contamination across rooms
+			keyType.current = null;
 			setEncrypted(false);
 			setSubscriptionKeyLost(false);
 			setRoomNotFound(false);

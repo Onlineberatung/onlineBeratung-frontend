@@ -11,7 +11,6 @@ const isLocalDevelopment = nodeEnv === 'development';
 export const apiUploadAttachment = (
 	attachment: File,
 	rcGroupIdOrSessionId: string | number,
-	isFeedback: boolean,
 	sendMailNotification: boolean,
 	uploadProgress: Function,
 	handleXhr: (xhr) => void,
@@ -24,9 +23,7 @@ export const apiUploadAttachment = (
 		const rcUid = getValueFromCookie('rc_uid');
 		const csrfToken = generateCsrfToken();
 
-		const url = isFeedback
-			? endpoints.attachmentUploadFeedbackRoom + rcGroupIdOrSessionId
-			: endpoints.attachmentUpload + rcGroupIdOrSessionId;
+		const url = endpoints.attachmentUpload + rcGroupIdOrSessionId;
 
 		let data = new FormData();
 		data.append('file', attachment);
@@ -67,7 +64,7 @@ export const apiUploadAttachment = (
 		xhr.setRequestHeader('cache-control', 'no-cache');
 		if (isLocalDevelopment) {
 			xhr.setRequestHeader(
-				process.env.REACT_APP_CSRF_WHITELIST_HEADER_PROPERTY,
+				import.meta.env.VITE_CSRF_WHITELIST_HEADER_PROPERTY,
 				csrfToken
 			);
 		}

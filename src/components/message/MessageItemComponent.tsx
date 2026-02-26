@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import sanitizeHtml from 'sanitize-html';
+import { marked } from 'marked';
 import { PrettyDate } from '../../utils/dateHelpers';
 import {
 	UserDataContext,
 	hasUserAuthority,
 	AUTHORITIES,
-	E2EEContext,
 	SessionTypeContext,
 	RocketChatGlobalSettingsContext,
 	ActiveSessionContext
@@ -15,16 +15,10 @@ import {
 	ConsultingTypeInterface,
 	STATUS_ARCHIVED
 } from '../../globalState/interfaces';
-import { isUserModerator, SESSION_LIST_TYPES } from '../session/sessionHelpers';
-import { ForwardMessage } from './ForwardMessage';
+import { isUserModerator } from '../session/sessionHelpers';
 import { MessageMetaData } from './MessageMetaData';
-import { CopyMessage } from './CopyMessage';
 import { MessageDisplayName } from './MessageDisplayName';
-import { markdownToDraft } from 'markdown-draft-js';
-import { stateToHTML } from 'draft-js-export-html';
-import { convertFromRaw, ContentState } from 'draft-js';
 import {
-	markdownToDraftDefaultOptions,
 	sanitizeHtmlDefaultOptions,
 	urlifyLinksInText
 } from '../messageSubmitInterface/richtextHelpers';
@@ -32,8 +26,7 @@ import { VideoCallMessage } from './VideoCallMessage';
 import { FurtherSteps } from './FurtherSteps';
 import { MessageAttachment } from './MessageAttachment';
 import { Text } from '../text/Text';
-import './message.styles';
-import { Appointment } from './Appointment';
+import './message.styles.scss';
 import { decryptText, MissingKeyError } from '../../utils/encryptionHelpers';
 import { e2eeParams } from '../../hooks/useE2EE';
 import { E2EEActivatedMessage } from './E2EEActivatedMessage';
@@ -55,20 +48,22 @@ import { MasterKeyLostMessage } from './MasterKeyLostMessage';
 import { ALIAS_MESSAGE_TYPES } from '../../api/apiSendAliasMessage';
 import { useTranslation } from 'react-i18next';
 import { ERROR_LEVEL_WARN, TError } from '../../api/apiPostError';
-import { ReactComponent as TrashIcon } from '../../resources/img/icons/trash.svg';
-import { ReactComponent as DeletedIcon } from '../../resources/img/icons/deleted.svg';
+import TrashIcon from '@mui/icons-material/Delete';
+import DeletedIcon from '@mui/icons-material/Block';
 import {
 	IBooleanSetting,
 	SETTING_MESSAGE_ALLOWDELETING
 } from '../../api/apiRocketChatSettingsPublic';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
-import { ReactComponent as XIllustration } from '../../resources/img/illustrations/x.svg';
 import { BUTTON_TYPES } from '../button/Button';
 import { apiDeleteMessage } from '../../api/apiDeleteMessage';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';
 import { BanUser, BanUserOverlay } from '../banUser/BanUser';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
 import { VideoChatDetails, VideoChatDetailsAlias } from './VideoChatDetails';
+
+// Constants
+const MODAL_OPEN_DELAY = 50; // milliseconds - delay to ensure menu closes before modal opens
 
 export interface ForwardMessageDTO {
 	message: string;
@@ -160,10 +155,8 @@ export const MessageItemComponent = ({
 		string | null | undefined
 	>(null);
 
-	const { isE2eeEnabled } = useContext(E2EEContext);
-
 	useEffect((): void => {
-		if (isE2eeEnabled && message) {
+		if (message) {
 			decryptText(
 				message,
 				e2eeParams.keyID,
@@ -192,7 +185,6 @@ export const MessageItemComponent = ({
 		translate,
 		message,
 		t,
-		isE2eeEnabled,
 		handleDecryptionErrors,
 		e2eeParams.keyID,
 		e2eeParams.key,
@@ -203,17 +195,18 @@ export const MessageItemComponent = ({
 	]);
 
 	useEffect((): void => {
-		const rawMessageObject = markdownToDraft(
-			decryptedMessage,
-			markdownToDraftDefaultOptions
-		);
-		const contentStateMessage: ContentState =
-			convertFromRaw(rawMessageObject);
+		// Convert markdown to HTML using marked
+		const htmlMessage = decryptedMessage
+			? marked.parse(decryptedMessage, {
+					breaks: true,
+					gfm: true
+				})
+			: '';
 
 		setRenderedMessage(
-			contentStateMessage.hasText()
+			htmlMessage
 				? sanitizeHtml(
-						urlifyLinksInText(stateToHTML(contentStateMessage)),
+						urlifyLinksInText(String(htmlMessage)),
 						sanitizeHtmlDefaultOptions
 					)
 				: ''
@@ -271,12 +264,12 @@ export const MessageItemComponent = ({
 							});
 							reloadActiveSession();
 						})
-						.catch((error) => console.log(error));
+						.catch((error) => console.error(error));
 				})
-				.catch((error) => console.log(error));
+				.catch((error) => console.error(error));
 		} else {
 			apiPatchMessage(toConsultantId, ReassignStatus.REJECTED, _id).catch(
-				(error) => console.log(error)
+				(error) => console.error(error)
 			);
 		}
 	};
@@ -303,8 +296,6 @@ export const MessageItemComponent = ({
 		alias?.messageType === ALIAS_MESSAGE_TYPES.REASSIGN_CONSULTANT;
 	const isMasterKeyLostMessage =
 		alias?.messageType === ALIAS_MESSAGE_TYPES.MASTER_KEY_LOST;
-	const isAppointmentDefined =
-		alias?.messageType === ALIAS_MESSAGE_TYPES.INITIAL_APPOINTMENT_DEFINED;
 	const isFullWidthMessage =
 		isVideoCallMessage && !videoCallMessage?.eventType;
 
@@ -319,10 +310,6 @@ export const MessageItemComponent = ({
 
 	const isTeamSession = activeSession?.item?.isTeamSession;
 	const isMySession = activeSession?.consultant?.id === userData?.userId;
-	const isAppointmentSet =
-		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_SET ||
-		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_RESCHEDULED ||
-		alias?.messageType === ALIAS_MESSAGE_TYPES.APPOINTMENT_CANCELLED;
 	const isDeleteMessage = t === 'rm';
 	const isRoomRemovedReadOnly = t === 'room-removed-read-only';
 	const isRoomSetReadOnly = t === 'room-set-read-only';
@@ -393,13 +380,6 @@ export const MessageItemComponent = ({
 				return <FurtherSteps />;
 			case isUpdateSessionDataMessage:
 				return <FurtherSteps />;
-			case isAppointmentSet:
-				return (
-					<Appointment
-						data={alias.content}
-						messageType={alias.messageType}
-					/>
-				);
 			case isFinishedConversationMessage:
 				return (
 					<span className="messageItem__message--system">
@@ -502,35 +482,7 @@ export const MessageItemComponent = ({
 										hasRenderedMessage={hasRenderedMessage}
 									/>
 								))}
-							{activeSession.isFeedback && (
-								<CopyMessage
-									right={isMyMessage}
-									message={renderedMessage}
-								/>
-							)}
-							{hasRenderedMessage &&
-								hasUserAuthority(
-									AUTHORITIES.USE_FEEDBACK,
-									userData
-								) &&
-								type !== SESSION_LIST_TYPES.ENQUIRY &&
-								activeSession.isSession &&
-								activeSession.item.feedbackGroupId &&
-								!activeSession.isFeedback &&
-								activeSession.item.status !==
-									STATUS_ARCHIVED && (
-									<ForwardMessage
-										right={isMyMessage}
-										message={decryptedMessage}
-										messageTime={messageTime}
-										askerRcId={askerRcId}
-										groupId={
-											activeSession.item.feedbackGroupId
-										}
-										displayName={displayName}
-									/>
-								)}
-						</div>
+							</div>
 					</>
 				);
 		}
@@ -538,7 +490,6 @@ export const MessageItemComponent = ({
 
 	if (
 		isUserMutedMessage ||
-		isAppointmentDefined ||
 		isRoomRemovedReadOnly ||
 		isRoomSetReadOnly
 	)
@@ -677,8 +628,6 @@ const DeleteMessage = ({
 		() => ({
 			headline: translate('message.delete.overlay.headline'),
 			copy: translate('message.delete.overlay.copy'),
-			svg: XIllustration,
-			illustrationBackground: 'neutral',
 			buttonSet: [
 				{
 					label: translate('message.delete.overlay.cancel'),
@@ -689,7 +638,7 @@ const DeleteMessage = ({
 				{
 					label: translate('message.delete.overlay.confirm'),
 					function: 'CONFIRM',
-					type: BUTTON_TYPES.PRIMARY,
+					type: BUTTON_TYPES.DANGER,
 					disabled: isRequestInProgress
 				}
 			],
@@ -706,8 +655,27 @@ const DeleteMessage = ({
 
 	return (
 		<>
-			<button
-				onClick={() => setDeleteOverlay(true)}
+			<a
+				onClick={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					// Small delay to ensure menu closes cleanly before modal opens
+					setTimeout(() => {
+						setDeleteOverlay(true);
+					}, MODAL_OPEN_DELAY);
+				}}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.preventDefault();
+						e.stopPropagation();
+						// Small delay to ensure menu closes cleanly before modal opens
+						setTimeout(() => {
+							setDeleteOverlay(true);
+						}, MODAL_OPEN_DELAY);
+					}
+				}}
+				role="button"
+				tabIndex={0}
 				className={`flex ${className}`}
 			>
 				<div className="mr--1">
@@ -720,7 +688,7 @@ const DeleteMessage = ({
 					/>
 				</div>
 				<div>{translate('message.delete.delete')}</div>
-			</button>
+			</a>
 			{deleteOverlay && (
 				<Overlay
 					item={deleteOverlayItem}

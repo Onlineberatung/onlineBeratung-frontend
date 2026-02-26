@@ -3,7 +3,7 @@
 @import './fonts';
 
 // BREAKPOINTS
-@import '~breakpoint-sass/stylesheets/breakpoint';
+@import './breakpoints';
 
 // FONTS
 $font-family-sans-serif: Roboto, sans-serif;
@@ -77,8 +77,8 @@ $yellow-5: #ff9f00;
 $yellow-6: #de8a00;
 
 $message-name-self: $text-low-emphasis;
-$message-name-system: var(--skin-color-default, $primary);
-$message-name-consultant: var(--skin-color-default, $primary);
+$message-name-system: var(--skin-color-primary, $primary);
+$message-name-consultant: var(--skin-color-primary, $primary);
 $message-name-user: #167a6f;
 $message-name-forwarded: $text-low-emphasis;
 $message-system: #8c878c;
@@ -190,7 +190,6 @@ $button-small-icon-border-radius: none;
 $button-small-icon-alternate-background-color: $light-grey;
 $chat-input-width: 320px;
 $checkbox-border-radius: 4px;
-$calendar-width: 244px;
 $component-max-width: 1200px;
 $content-max-width: $xlarge;
 $datepicker-hover-color: $background-accent;
@@ -233,7 +232,7 @@ $max-input-width: 320px;
 $message-background-primary: $primary;
 $message-background-secondary: black;
 $message-background-rate: 0%;
-$message-background: mix(
+$message-background: color.mix(
 	$message-background-secondary,
 	$primary,
 	$message-background-rate
@@ -291,3 +290,7 @@ $text-divider-text-transform: none;
 $upload-progress: #80dd92;
 $waiting-room-illustration-display-after: block;
 $welcome-screen-icon-background: $primary;
+
+// Import extension overrides
+@import './variables';
+@import './overwrites';
