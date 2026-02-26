@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import DownloadIcon from '@mui/icons-material/Download';
 import PreviewIcon from '@mui/icons-material/Visibility';
 import { useTranslation } from 'react-i18next';
+import { formatToDDMMYYYY } from '../../utils/dateHelpers';
 import {
 	isImageAttachment,
 	isPDFAttachment,
@@ -36,6 +37,7 @@ export interface DocumentItem {
 	attachment: MessageService.Schemas.AttachmentDTO;
 	file: MessageService.Schemas.FileDTO;
 	t: string;
+	ts?: string;
 }
 
 interface DocumentLibraryModalProps {
@@ -243,6 +245,13 @@ export const DocumentListItem: React.FC<DocumentListItemProps> = ({ doc }) => {
 					{translate(ATTACHMENT_TRANSLATE_FOR_TYPE[doc.file.type])}
 					{fileSizeDisplay && ` | ${fileSizeDisplay}`}
 				</span>
+				{doc.ts && (
+					<span className="documentLibrary__itemDate">
+						{translate('documentLibrary.sentAt', {
+							date: formatToDDMMYYYY(parseInt(doc.ts))
+						})}
+					</span>
+				)}
 				{hasError && (
 					<span className="documentLibrary__itemError">
 						{translate('e2ee.attachment.decryption_error')}

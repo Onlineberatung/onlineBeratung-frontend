@@ -400,7 +400,8 @@
 	},
 	"documentLibrary": {
 		"empty": "Keine Dokumente im Chat geteilt.",
-		"title": "Dokumentenbibliothek"
+		"title": "Dokumentenbibliothek",
+		"sentAt": "Gesendet am {{date}}"
 	},
 	"date": {
 		"day": {
@@ -1174,7 +1175,6 @@
 				}
 			}
 		},
-		"headline": "Login",
 		"legal": {
 			"back": "Zurück",
 			"infoText": {
@@ -1870,7 +1870,6 @@
 		"form": {
 			"title": "Registrierung abschließen"
 		},
-		"headline": "Registrierung",
 		"login": {
 			"helper": "Bereits registriert?",
 			"label": "Einloggen"

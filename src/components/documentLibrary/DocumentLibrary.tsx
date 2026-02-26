@@ -115,7 +115,8 @@ const DocumentLibraryContent = ({
 					.map((msg) => ({
 						attachment: msg.attachments[0],
 						file: msg.file,
-						t: msg.t
+						t: msg.t,
+						ts: msg.messageTime
 					}));
 				setDocuments(docs);
 			}

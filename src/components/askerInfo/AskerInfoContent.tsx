@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { useContext, useMemo } from 'react';
-import { SESSION_LIST_TYPES } from '../session/sessionHelpers';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import { SESSION_LIST_TAB, SESSION_LIST_TYPES } from '../session/sessionHelpers';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
@@ -9,6 +12,7 @@ import {
 	UserDataContext,
 	ActiveSessionContext
 } from '../../globalState';
+import { useSearchParam } from '../../hooks/useSearchParams';
 import { AskerInfoData } from './AskerInfoData';
 import { AskerInfoAssign } from './AskerInfoAssign';
 import '../profile/profile.styles.scss';
@@ -17,11 +21,17 @@ import { AskerInfoTools } from './AskerInfoTools';
 import { Box } from '../box/Box';
 
 export const AskerInfoContent = () => {
+	const { t: translate } = useTranslation();
 	const { tenant } = useContext(TenantContext);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 
-	const { type } = useContext(SessionTypeContext);
+	const { type, path: listPath } = useContext(SessionTypeContext);
+	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
+
+	const documentLibraryLink = `${listPath}/${activeSession.item.groupId}/${
+		activeSession.item.id
+	}/documentLibrary${sessionListTab ? `?sessionListTab=${sessionListTab}` : ''}`;
 
 	const isSessionAssignAvailable = useMemo(() => {
 		const isPeerChat = activeSession.item.isPeerChat;
@@ -67,6 +77,17 @@ export const AskerInfoContent = () => {
 					<div className="askerInfo__assign">
 						<AskerInfoAssign />
 					</div>
+				</Box>
+			)}
+			{!activeSession.isLive && (
+				<Box>
+					<Link
+						to={documentLibraryLink}
+						className="askerInfo__documentLibraryLink"
+					>
+						<FolderOpenIcon aria-hidden="true" />
+						{translate('documentLibrary.title')}
+					</Link>
 				</Box>
 			)}
 		</>

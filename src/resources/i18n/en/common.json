@@ -390,7 +390,8 @@
 	},
 	"documentLibrary": {
 		"empty": "No documents shared in this chat.",
-		"title": "Document library"
+		"title": "Document library",
+		"sentAt": "Sent on {{date}}"
 	},
 	"date": {
 		"day": {

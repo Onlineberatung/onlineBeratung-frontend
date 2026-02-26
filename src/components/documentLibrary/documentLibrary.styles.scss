@@ -219,6 +219,12 @@
 		opacity: 0.6;
 	}
 
+	&__itemDate {
+		font-size: 0.75rem;
+		color: $secondary;
+		opacity: 0.5;
+	}
+
 	&__itemError {
 		font-size: 0.75rem;
 		color: $form-error;

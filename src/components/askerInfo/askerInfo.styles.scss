@@ -184,6 +184,26 @@ $profile-footer-justify-content: center !default;
 		}
 	}
 
+	&__documentLibraryLink {
+		display: flex;
+		align-items: center;
+		gap: $grid-base;
+		color: var(--skin-color-primary, $primary);
+		text-decoration: none;
+		font-size: $font-size-primary;
+		padding: $grid-base 0;
+
+		svg {
+			width: 20px;
+			height: 20px;
+			flex-shrink: 0;
+		}
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
 	&__data {
 		&__item {
 			display: flex;
