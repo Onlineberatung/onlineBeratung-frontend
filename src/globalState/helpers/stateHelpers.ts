@@ -40,8 +40,7 @@ export type ExtendedSessionInterface = Omit<
 };
 
 export const buildExtendedSession = (
-	session: ListItemInterface,
-	sessionGroupId?: string
+	session: ListItemInterface
 ): ExtendedSessionInterface => {
 	const { chat: groupChat, session: sessionChat, ...sessionProps } = session;
 	let rid = sessionChat?.groupId ?? null;
@@ -89,7 +88,7 @@ export const getExtendedSession = (
 		return null;
 	}
 
-	return buildExtendedSession(session, sessionGroupId);
+	return buildExtendedSession(session);
 };
 
 export const getContact = (activeSession: ListItemInterface): any => {

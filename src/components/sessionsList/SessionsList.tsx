@@ -103,7 +103,7 @@ export const SessionsList = ({
 	const listRef = createRef<HTMLDivElement>();
 
 	const { sessions, dispatch } = useContext(SessionsDataContext);
-	const { type, path: listPath } = useContext(SessionTypeContext);
+	const { type } = useContext(SessionTypeContext);
 
 	const {
 		subscribe,
@@ -903,7 +903,7 @@ export const SessionsList = ({
 							sessionListTab !== SESSION_LIST_TAB_ANONYMOUS) &&
 						finalSessionsList
 							.map((session) =>
-								buildExtendedSession(session, groupIdFromParam)
+								buildExtendedSession(session)
 							)
 							.sort(sortSessions)
 							.map(

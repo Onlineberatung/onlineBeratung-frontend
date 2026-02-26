@@ -15,7 +15,7 @@ import {
 	ConsultingTypeInterface,
 	STATUS_ARCHIVED
 } from '../../globalState/interfaces';
-import { isUserModerator, SESSION_LIST_TYPES } from '../session/sessionHelpers';
+import { isUserModerator } from '../session/sessionHelpers';
 import { MessageMetaData } from './MessageMetaData';
 import { MessageDisplayName } from './MessageDisplayName';
 import {
@@ -55,7 +55,6 @@ import {
 	SETTING_MESSAGE_ALLOWDELETING
 } from '../../api/apiRocketChatSettingsPublic';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
-import XIllustration from '../../resources/img/illustrations/x.svg?react';
 import { BUTTON_TYPES } from '../button/Button';
 import { apiDeleteMessage } from '../../api/apiDeleteMessage';
 import { FlyoutMenu } from '../flyoutMenu/FlyoutMenu';

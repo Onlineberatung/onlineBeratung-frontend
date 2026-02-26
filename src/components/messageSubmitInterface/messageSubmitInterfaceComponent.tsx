@@ -3,7 +3,6 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
-	useMemo,
 	useRef,
 	useState
 } from 'react';
@@ -41,7 +40,7 @@ import {
 	getAttachmentSizeMBForKB
 } from './attachmentHelpers';
 import { TypingIndicator } from '../typingIndicator/typingIndicator';
-import { TiptapEditor, INPUT_MAX_LENGTH } from './TiptapEditor';
+import { TiptapEditor } from './TiptapEditor';
 import { useTiptapDraftMessage } from './useTiptapDraftMessage';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import { Popover } from '@mui/material';
@@ -57,8 +56,6 @@ import './messageSubmitInterface.yellowTheme.styles.scss';
 import './tiptapEditor.styles.scss';
 import clsx from 'clsx';
 import { mobileListView } from '../app/navigationHandler';
-import { Button, ButtonItem, BUTTON_TYPES } from '../button/Button';
-import { Headline } from '../headline/Headline';
 import { useTranslation } from 'react-i18next';
 import {
 	encryptAttachment,
@@ -588,7 +585,6 @@ export const MessageSubmitInterfaceComponent = ({
 		preselectedFile,
 		sendEnquiry,
 		sendMessage,
-		setE2EEState,
 		type,
 		userData
 	]);

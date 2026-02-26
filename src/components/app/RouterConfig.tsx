@@ -17,7 +17,6 @@ import { Profile } from '../profile/Profile';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
 import { GroupChatInfo } from '../groupChat/GroupChatInfo';
-import { AUTHORITIES, hasUserAuthority } from '../../globalState';
 import { AppConfigInterface } from '../../globalState/interfaces';
 
 import OverviewIconOutline from '@mui/icons-material/DashboardOutlined';

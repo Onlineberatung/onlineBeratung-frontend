@@ -6,7 +6,6 @@ import {
 	MouseEventHandler,
 	useCallback,
 	useContext,
-	useEffect,
 	useState
 } from 'react';
 

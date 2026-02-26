@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { apiUpdatePassword } from '../../api';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
@@ -17,11 +17,6 @@ import {
 } from '../../utils/encryptionHelpers';
 import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import {
-	AUTHORITIES,
-	hasUserAuthority,
-	UserDataContext
-} from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { Box as MuiBox, Stack, Typography, TextField } from '@mui/material';
@@ -29,11 +24,6 @@ import { Box as MuiBox, Stack, Typography, TextField } from '@mui/material';
 export const PasswordReset = () => {
 	const { t: translate } = useTranslation();
 	const rcUid = getValueFromCookie('rc_uid');
-	const { userData } = useContext(UserDataContext);
-	const isConsultant = hasUserAuthority(
-		AUTHORITIES.CONSULTANT_DEFAULT,
-		userData
-	);
 
 	const settings = useAppConfig();
 
