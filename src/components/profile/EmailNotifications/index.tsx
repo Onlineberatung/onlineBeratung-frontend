@@ -3,8 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {
 	AUTHORITIES,
 	hasUserAuthority,
-	UserDataContext,
-	useTenant
+	UserDataContext
 } from '../../../globalState';
 import { Headline } from '../../headline/Headline';
 import { EmailToggle } from './EmailToggle';
@@ -12,7 +11,6 @@ import { NoEmailSet } from './NoEmailSet';
 import { Box as MuiBox, Stack, Typography, Divider } from '@mui/material';
 
 export const EmailNotification = () => {
-	const { settings } = useTenant();
 	const { userData } = React.useContext(UserDataContext);
 	const { t } = useTranslation();
 	const isConsultant = hasUserAuthority(
@@ -59,13 +57,6 @@ export const EmailNotification = () => {
 									titleKey={`profile.notifications.reassignment${extraKey}.title`}
 									descriptionKey={`profile.notifications.reassignment${extraKey}.description`}
 								/>
-								{settings.featureAppointmentsEnabled && (
-									<EmailToggle
-										name="settings.appointmentNotificationEnabled"
-										titleKey={`profile.notifications.appointmentNotificationEnabled.title`}
-										descriptionKey={`profile.notifications.appointmentNotificationEnabled.description`}
-									/>
-								)}
 							</Stack>
 						)}
 					</Stack>

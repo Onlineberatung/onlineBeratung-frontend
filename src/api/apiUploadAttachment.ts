@@ -11,7 +11,6 @@ const isLocalDevelopment = nodeEnv === 'development';
 export const apiUploadAttachment = (
 	attachment: File,
 	rcGroupIdOrSessionId: string | number,
-	isFeedback: boolean,
 	sendMailNotification: boolean,
 	uploadProgress: Function,
 	handleXhr: (xhr) => void,
@@ -24,9 +23,7 @@ export const apiUploadAttachment = (
 		const rcUid = getValueFromCookie('rc_uid');
 		const csrfToken = generateCsrfToken();
 
-		const url = isFeedback
-			? endpoints.attachmentUploadFeedbackRoom + rcGroupIdOrSessionId
-			: endpoints.attachmentUpload + rcGroupIdOrSessionId;
+		const url = endpoints.attachmentUpload + rcGroupIdOrSessionId;
 
 		let data = new FormData();
 		data.append('file', attachment);

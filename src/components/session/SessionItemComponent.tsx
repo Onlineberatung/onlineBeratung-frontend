@@ -192,16 +192,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 			return translate('enquiry.write.input.placeholder.groupChat');
 		} else if (hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder.asker');
-		} else if (
-			hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData) &&
-			activeSession.isFeedback
-		) {
-			return translate('enquiry.write.input.placeholder.feedback.main');
-		} else if (
-			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
-			activeSession.isFeedback
-		) {
-			return translate('enquiry.write.input.placeholder.feedback.peer');
 		} else if (hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
 			return translate('enquiry.write.input.placeholder.consultant');
 		}
@@ -355,13 +345,7 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 	);
 
 	return (
-		<div
-			className={
-				activeSession.isFeedback
-					? `session session--yellowTheme`
-					: `session`
-			}
-		>
+		<div className="session">
 			<div ref={headerRef}>
 				<SessionHeaderComponent
 					consultantAbsent={

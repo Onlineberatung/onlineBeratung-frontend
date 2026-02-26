@@ -22,12 +22,9 @@ export interface TenantDataInterface {
 
 export interface TenantDataSettingsInterface {
 	activeLanguages: string[];
-	featureAppointmentsEnabled: boolean;
 	featureDemographicsEnabled: boolean;
 	featureGroupChatV2Enabled: boolean;
 	featureStatisticsEnabled: boolean;
-	featureToolsEnabled: boolean;
-	featureToolsOICDToken: string;
 	featureTopicsEnabled: boolean;
 	topicsInRegistrationEnabled: boolean;
 	featureAttachmentUploadDisabled: boolean;

@@ -15,7 +15,6 @@ import {
 	ConsultingTypesContext,
 	SessionsDataContext,
 	SET_SESSIONS,
-	TenantContext
 } from '../../globalState';
 import { initNavigationHandler } from './navigationHandler';
 import LogoutIconOutline from '@mui/icons-material/LogoutOutlined';
@@ -27,7 +26,6 @@ import {
 	apiGetAskerSessionList
 } from '../../api';
 import { useTranslation } from 'react-i18next';
-import { userHasBudibaseTools } from '../../api/apiGetTools';
 import { browserNotificationsSettings } from '../../utils/notificationHelpers';
 import useIsFirstVisit from '../../utils/useIsFirstVisit';
 import { useResponsive } from '../../hooks/useResponsive';
@@ -48,7 +46,6 @@ export const NavigationBar = ({
 	const { consultingTypes } = useContext(ConsultingTypesContext);
 	const { sessions, dispatch } = useContext(SessionsDataContext);
 	const [sessionId, setSessionId] = useState(null);
-	const [hasTools, setHasTools] = useState<boolean>(false);
 
 	const isConsultant = hasUserAuthority(
 		AUTHORITIES.CONSULTANT_DEFAULT,
@@ -59,7 +56,6 @@ export const NavigationBar = ({
 		group: unreadGroup,
 		teamsessions: unreadTeamSessions
 	} = useContext(RocketChatUnreadContext);
-	const { tenant } = useContext(TenantContext);
 
 	const ref_menu = useRef<any>([]);
 	const ref_logout = useRef<any>();
@@ -92,14 +88,6 @@ export const NavigationBar = ({
 			});
 		}
 	}, [dispatch, isConsultant]);
-
-	useEffect(() => {
-		if (tenant?.settings?.featureToolsEnabled && !isConsultant) {
-			userHasBudibaseTools(userData.userId).then((resp) =>
-				setHasTools(resp)
-			);
-		}
-	}, [tenant, userData, isConsultant]);
 
 	const animateNavIconTimeoutRef = useRef(null);
 	useEffect(() => {
@@ -215,8 +203,7 @@ export const NavigationBar = ({
 									item.condition(
 										userData,
 										consultingTypes,
-										sessions,
-										hasTools
+										sessions
 									)
 							)
 							.map((item, index) => {

@@ -6,7 +6,6 @@ import {
 	RouterConfigConsultant,
 	RouterConfigTeamConsultant,
 	RouterConfigMainConsultant,
-	RouterConfigPeerConsultant,
 	RouterConfigAnonymousAsker
 } from './RouterConfig';
 import { AbsenceHandler } from './AbsenceHandler';
@@ -26,7 +25,7 @@ import { NonPlainRoutesWrapper } from './NonPlainRoutesWrapper';
 import { Walkthrough } from '../walkthrough/Walkthrough';
 import { TwoFactorNag } from '../twoFactorAuth/TwoFactorNag';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { useAskerHasAssignedConsultant } from '../../containers/bookings/hooks/useAskerHasAssignedConsultant';
+
 import { TermsAndConditions } from '../termsandconditions/TermsAndConditions';
 import { Loading } from './Loading';
 
@@ -38,14 +37,9 @@ export const Routing = (props: RoutingProps) => {
 	const settings = useAppConfig();
 	const { userData } = useContext(UserDataContext);
 	const { consultingTypes } = useContext(ConsultingTypesContext);
-	const hasAssignedConsultant = useAskerHasAssignedConsultant();
-
 	const routerConfig = useMemo(() => {
 		if (hasUserAuthority(AUTHORITIES.VIEW_ALL_PEER_SESSIONS, userData)) {
 			return RouterConfigMainConsultant(settings);
-		}
-		if (hasUserAuthority(AUTHORITIES.USE_FEEDBACK, userData)) {
-			return RouterConfigPeerConsultant(settings);
 		}
 		if (
 			hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData) &&
@@ -59,17 +53,15 @@ export const Routing = (props: RoutingProps) => {
 		if (hasUserAuthority(AUTHORITIES.ANONYMOUS_DEFAULT, userData)) {
 			return RouterConfigAnonymousAsker();
 		}
-		return RouterConfigUser(settings, hasAssignedConsultant);
-	}, [userData, settings, hasAssignedConsultant]);
+		return RouterConfigUser(settings, false);
+	}, [userData, settings]);
 
 	const allRoutes = () =>
 		[
 			...(routerConfig.listRoutes || []),
 			...(routerConfig.detailRoutes || []),
 			...(routerConfig.userProfileRoutes || []),
-			...(routerConfig.profileRoutes || []),
-			...(routerConfig.appointmentRoutes || []),
-			...(routerConfig.toolsRoutes || [])
+			...(routerConfig.profileRoutes || [])
 		].map((route) => route.path, []);
 
 	return (
@@ -273,80 +265,6 @@ export const Routing = (props: RoutingProps) => {
 																/>
 															)
 														)}
-												</Switch>
-											</div>
-										</Route>
-										<Route
-											path={
-												routerConfig.appointmentRoutes?.map(
-													(route: any) => route.path
-												) || []
-											}
-										>
-											<div className="contentWrapper__booking">
-												<Switch>
-													{routerConfig.appointmentRoutes?.map(
-														(
-															route: any
-														): JSX.Element => (
-															<Route
-																exact={
-																	route.exact ??
-																	true
-																}
-																key={`booking-${route.path}`}
-																path={
-																	route.path
-																}
-																render={() => (
-																	<route.component
-																		{...props}
-																		type={
-																			route.type ||
-																			null
-																		}
-																	/>
-																)}
-															/>
-														)
-													)}
-												</Switch>
-											</div>
-										</Route>
-										<Route
-											path={
-												routerConfig.toolsRoutes?.map(
-													(route: any) => route.path
-												) || []
-											}
-										>
-											<div className="contentWrapper__tools">
-												<Switch>
-													{routerConfig.toolsRoutes?.map(
-														(
-															route: any
-														): JSX.Element => (
-															<Route
-																exact={
-																	route.exact ??
-																	true
-																}
-																key={`tools-${route.path}`}
-																path={
-																	route.path
-																}
-																render={() => (
-																	<route.component
-																		{...props}
-																		type={
-																			route.type ||
-																			null
-																		}
-																	/>
-																)}
-															/>
-														)
-													)}
 												</Switch>
 											</div>
 										</Route>

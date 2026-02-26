@@ -27,8 +27,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { getTenantSettings } from '../../utils/tenantSettingsHelper';
-import { budibaseLogout } from '../budibase/budibaseLogout';
 import { getUrlParameter } from '../../utils/getUrlParameter';
 import { UrlParamsContext } from '../../globalState/provider/UrlParamsProvider';
 import { ConsultingTypeRegistrationDefaults } from '../../containers/registration/components/ProposedAgencies/ProposedAgencies';
@@ -105,12 +103,6 @@ export const RegistrationForm = () => {
 	>([]);
 
 	const { tenant } = useContext(TenantContext);
-	const { featureToolsEnabled } = getTenantSettings();
-
-	// Logout from budibase
-	useEffect(() => {
-		featureToolsEnabled && budibaseLogout();
-	}, [featureToolsEnabled]);
 
 	useEffect(() => {
 		setIsSubmitButtonDisabled(

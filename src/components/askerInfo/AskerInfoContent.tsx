@@ -8,7 +8,6 @@ import {
 	AUTHORITIES,
 	hasUserAuthority,
 	SessionTypeContext,
-	TenantContext,
 	UserDataContext,
 	ActiveSessionContext
 } from '../../globalState';
@@ -17,12 +16,10 @@ import { AskerInfoData } from './AskerInfoData';
 import { AskerInfoAssign } from './AskerInfoAssign';
 import '../profile/profile.styles.scss';
 import './askerInfo.styles.scss';
-import { AskerInfoTools } from './AskerInfoTools';
 import { Box } from '../box/Box';
 
 export const AskerInfoContent = () => {
 	const { t: translate } = useTranslation();
-	const { tenant } = useContext(TenantContext);
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { userData } = useContext(UserDataContext);
 
@@ -67,11 +64,6 @@ export const AskerInfoContent = () => {
 			<Box>
 				<AskerInfoData />
 			</Box>
-			{tenant?.settings?.featureToolsEnabled && (
-				<Box>
-					<AskerInfoTools />
-				</Box>
-			)}
 			{isSessionAssignAvailable && (
 				<Box>
 					<div className="askerInfo__assign">

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { apiUpdatePassword } from '../../api';
 import { Overlay, OVERLAY_FUNCTIONS, OverlayItem } from '../overlay/Overlay';
 import { Button, BUTTON_TYPES } from '../button/Button';
@@ -17,26 +17,13 @@ import {
 } from '../../utils/encryptionHelpers';
 import { apiRocketChatSetUserKeys } from '../../api/apiRocketChatSetUserKeys';
 import { getValueFromCookie } from '../sessionCookie/accessSessionCookie';
-import {
-	AUTHORITIES,
-	hasUserAuthority,
-	UserDataContext
-} from '../../globalState';
 import { useTranslation } from 'react-i18next';
 import { useAppConfig } from '../../hooks/useAppConfig';
-import { getTenantSettings } from '../../utils/tenantSettingsHelper';
-import { apiUpdatePasswordAppointments } from '../../api/apiUpdatePasswordAppointments';
 import { Box as MuiBox, Stack, Typography, TextField } from '@mui/material';
 
 export const PasswordReset = () => {
 	const { t: translate } = useTranslation();
 	const rcUid = getValueFromCookie('rc_uid');
-	const { featureAppointmentsEnabled } = getTenantSettings();
-	const { userData } = useContext(UserDataContext);
-	const isConsultant = hasUserAuthority(
-		AUTHORITIES.CONSULTANT_DEFAULT,
-		userData
-	);
 
 	const settings = useAppConfig();
 
@@ -170,13 +157,6 @@ export const PasswordReset = () => {
 							encryptedPrivateKey
 						);
 
-						isConsultant &&
-							featureAppointmentsEnabled &&
-							apiUpdatePasswordAppointments(
-								userData.email,
-								newPassword
-							);
-
 						setOverlayActive(true);
 						setIsRequestInProgress(false);
 						logout(false, settings.urls.toLogin);
@@ -189,12 +169,6 @@ export const PasswordReset = () => {
 							}
 						);
 						setHasMasterKeyError(true);
-
-						featureAppointmentsEnabled &&
-							apiUpdatePasswordAppointments(
-								userData.email,
-								oldPassword
-							);
 					}
 				})
 				.catch(() => {

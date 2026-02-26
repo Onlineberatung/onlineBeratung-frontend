@@ -22,7 +22,7 @@ export { default as EditIcon } from '@mui/icons-material/Edit';
 export { default as EmojiIcon } from '@mui/icons-material/EmojiEmotions';
 export { default as EnvelopeIcon } from '@mui/icons-material/Mail';
 export { default as ErrorIcon } from '@mui/icons-material/Warning';
-export { default as FeedbackIcon } from '@mui/icons-material/RateReview';
+
 export { default as FileDocIcon } from '@mui/icons-material/Article';
 export { default as FileImageIcon } from '@mui/icons-material/Image';
 export { default as FilePdfIcon } from '@mui/icons-material/PictureAsPdf';
@@ -62,10 +62,6 @@ export { default as NewWindowIcon } from '@mui/icons-material/OpenInNew';
 export { default as UploadIcon } from '@mui/icons-material/Upload';
 export { default as UrlIcon } from '@mui/icons-material/Link';
 export { default as QRCodeIcon } from '@mui/icons-material/QrCode2';
-export { default as CalendarMonthPlusIcon } from '@mui/icons-material/EditCalendar';
-export { default as CalendarCheckIcon } from '@mui/icons-material/EventAvailable';
-export { default as CalendarCancelIcon } from '@mui/icons-material/EventBusy';
-export { default as CalendarMonthIcon } from '@mui/icons-material/CalendarMonth';
 export { default as DeletedIcon } from '@mui/icons-material/Block';
 export { default as AddIcon } from '@mui/icons-material/Add';
 export { default as LocationIcon } from '@mui/icons-material/LocationOn';
@@ -75,7 +71,3 @@ export { default as PersonsIcon } from '@mui/icons-material/Group';
 export { default as PersonsTwoIcon } from '@mui/icons-material/PeopleAlt';
 export { default as LiveChatIcon } from '@mui/icons-material/AccountCircle';
 export { default as CameraPlusIcon } from '@mui/icons-material/VideoCall';
-// Keep as SVG (brand-specific logos with no MUI equivalent):
-export { default as CalDav } from './icons/caldav.svg?react';
-export { default as GoogleCalendar } from './icons/googlecalendar.svg?react';
-export { default as Office365 } from './icons/office365.svg?react';

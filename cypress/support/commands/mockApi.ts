@@ -30,7 +30,6 @@ import usersConsultantsApi from './api/users/consultants';
 import usersDataApi from './api/users/data';
 import usersSessionsApi from './api/users/sessions';
 import apiAgencies from './api/agencies';
-import apiAppointments from './api/appointments';
 import apiConsultingTypes from './api/consultTypes';
 import apiMessages from './api/messages';
 import apiRc from './api/rc';
@@ -59,10 +58,6 @@ const defaultReturns = {
 				name: 'NEW_CHAT_MESSAGE_FROM_ADVICE_SEEKER',
 				state: false
 			},
-			{
-				name: 'NEW_FEEDBACK_MESSAGE_FROM_ADVICE_SEEKER',
-				state: false
-			}
 		]
 	},
 	'agencies': [],
@@ -233,7 +228,6 @@ Cypress.Commands.add('mockApi', () => {
 	usersDataApi(cy, getWillReturn, setWillReturn);
 	usersSessionsApi(cy, getWillReturn, setWillReturn);
 	apiAgencies(cy, getWillReturn, setWillReturn);
-	apiAppointments(cy);
 	apiConsultingTypes(cy, getWillReturn, setWillReturn);
 	apiMessages(cy, getWillReturn, setWillReturn);
 	apiRc(cy, getWillReturn, setWillReturn);

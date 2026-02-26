@@ -13,7 +13,6 @@ import { EnableWalkthrough } from './EnableWalkthrough';
 import { Locale } from './Locale';
 import { COLUMN_LEFT, COLUMN_RIGHT, TabsType } from '../../utils/tabsHelper';
 import { isDesktop } from 'react-device-detect';
-import { OverviewBookings } from './OverviewMobile/Bookings';
 import { OverviewSessions } from './OverviewMobile/Sessions';
 import { profileRoutesSettings } from './profileSettings.routes';
 import { profileRoutesHelp } from './profileHelp.routes';
@@ -57,16 +56,6 @@ const profileRoutes = (
 							boxed: false,
 							component: OverviewSessions,
 							column: COLUMN_LEFT
-						},
-						{
-							condition: (userData) =>
-								shouldShowOverview(
-									settings.useOverviewPage,
-									userData
-								),
-							component: OverviewBookings,
-							boxed: false,
-							column: COLUMN_RIGHT
 						}
 					]
 				},

@@ -5,7 +5,6 @@ export interface UserDataInterface {
 	absenceMessage?: string;
 	absent?: boolean;
 	agencies: AgencyDataInterface[];
-	appointmentFeatureEnabled?: boolean;
 	available?: boolean;
 	consultingTypes?: { [consultingType: number]: ConsultingTypeDataInterface };
 	displayName?: string;
@@ -86,5 +85,4 @@ export interface EmailNotificationsSettingsInterface {
 	initialEnquiryNotificationEnabled?: boolean;
 	newChatMessageNotificationEnabled?: boolean;
 	reassignmentNotificationEnabled?: boolean;
-	appointmentNotificationEnabled?: boolean;
 }

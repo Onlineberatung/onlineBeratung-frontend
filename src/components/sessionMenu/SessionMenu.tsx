@@ -6,7 +6,6 @@ import {
 	MouseEventHandler,
 	useCallback,
 	useContext,
-	useEffect,
 	useState
 } from 'react';
 
@@ -39,13 +38,11 @@ import { LegalLinksContext } from '../../globalState/provider/LegalLinksProvider
 import { RocketChatUsersOfRoomContext } from '../../globalState/provider/RocketChatUsersOfRoomProvider';
 import { useAppConfig } from '../../hooks/useAppConfig';
 import { useSearchParam } from '../../hooks/useSearchParams';
-import CalendarMonthPlusIcon from '@mui/icons-material/EditCalendar';
 import CallOnIcon from '@mui/icons-material/Call';
 import CameraOnIcon from '@mui/icons-material/Videocam';
 import EditGroupChatIcon from '@mui/icons-material/Settings';
 import GroupChatInfoIcon from '@mui/icons-material/Info';
 import LeaveChatIcon from '@mui/icons-material/Logout';
-import FeedbackIcon from '@mui/icons-material/RateReview';
 import MenuHorizontalIcon from '@mui/icons-material/MoreHoriz';
 import MenuVerticalIcon from '@mui/icons-material/MoreVert';
 import StopGroupChatIcon from '@mui/icons-material/Close';
@@ -119,24 +116,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 
 	const handleMenuClose = () => {
 		setAnchorEl(null);
-	};
-
-	const [appointmentFeatureEnabled, setAppointmentFeatureEnabled] =
-		useState(false);
-
-	useEffect(() => {
-		if (!hasUserAuthority(AUTHORITIES.CONSULTANT_DEFAULT, userData)) {
-			const { appointmentFeatureEnabled } = userData;
-			setAppointmentFeatureEnabled(appointmentFeatureEnabled);
-		}
-		if (!activeSession.item?.active || !activeSession.item?.subscribed) {
-			// do not get group members for a chat that has not been started and user is not subscribed
-			return;
-		}
-	}, [activeSession, userData]);
-
-	const handleBookingButton = () => {
-		history.push('/booking/');
 	};
 
 	const handleStopGroupChat = () => {
@@ -293,15 +272,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		setRedirectToSessionsList(true);
 	}, []);
 
-	//TODO:
-	//enquiries: only RS profil
-	//sessions/peer/team: feedback (if u25), rs, docu
-	//imprint/dataschutz all users all devices
-
-	//dynamicly menut items in flyout:
-	//rotate icon to vertical only if EVERY item in flyout
-	//list item icons only shown on outside
-
 	const baseUrl = `${listPath}/:groupId/:id/:subRoute?/:extraPath?${getSessionListTab()}`;
 
 	const groupChatInfoLink = generatePath(baseUrl, {
@@ -349,18 +319,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				aria-label={translate('videoCall.button.startVideoCall')}
 			/>
 		)
-	};
-
-	const buttonFeedback: ButtonItem = {
-		type: BUTTON_TYPES.SMALL_ICON,
-		smallIconBackgroundColor: 'yellow',
-		icon: (
-			<FeedbackIcon
-				titleAccess={translate('chatFlyout.feedback')}
-				aria-label={translate('videoCall.button.feedback')}
-			/>
-		),
-		label: translate('chatFlyout.feedback')
 	};
 
 	const hasVideoCallFeatures = () =>
@@ -428,36 +386,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					/>
 				</div>
 			)}
-
-			{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-				type !== SESSION_LIST_TYPES.ENQUIRY &&
-				activeSession.item.feedbackGroupId && (
-					<Link
-						to={generatePath(baseUrl, {
-							...(activeSession.item as TReducedSessionItemInterface),
-							groupId: activeSession.item.feedbackGroupId
-						})}
-						className="sessionInfo__feedbackButton"
-					>
-						<Button item={buttonFeedback} isLink={true} />
-					</Link>
-				)}
-
-			{!activeSession.isEnquiry &&
-				appointmentFeatureEnabled &&
-				!activeSession.isLive &&
-				!activeSession.isGroup && (
-					<div
-						className="sessionMenu__icon sessionMenu__icon--booking"
-						onClick={handleBookingButton}
-					>
-						<CalendarMonthPlusIcon />
-						<Text
-							type="standard"
-							text={translate('booking.mobile.calendar.label')}
-						/>
-					</div>
-				)}
 
 			<IconButton
 				id="iconH"
@@ -529,19 +457,6 @@ export const SessionMenu = (props: SessionMenuProps) => {
 						</div>
 					</>
 				)}
-
-				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
-					activeSession.item.feedbackGroupId && (
-						<Link
-							className="sessionMenu__item sessionMenu__item--mobile"
-							to={generatePath(baseUrl, {
-								...(activeSession.item as TReducedSessionItemInterface),
-								groupId: activeSession.item.feedbackGroupId
-							})}
-						>
-							{translate('chatFlyout.feedback')}
-						</Link>
-					)}
 
 				{props.isAskerInfoAvailable && (
 					<Link className="sessionMenu__item" to={userProfileLink}>

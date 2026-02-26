@@ -8,14 +8,13 @@ import { ListItemsResponseInterface } from '../globalState/interfaces';
 import { FETCH_ERRORS, FETCH_METHODS, fetchData } from './fetchData';
 
 export const INITIAL_FILTER: string = 'all';
-export const FILTER_FEEDBACK: string = 'feedback';
 export const INITIAL_OFFSET: number = 0;
 export const SESSION_COUNT: number = 15;
 export const TIMEOUT: number = 10000;
 
 export interface ApiGetConsultantSessionListInterface {
 	type: SESSION_LIST_TYPES;
-	filter?: typeof INITIAL_FILTER | typeof FILTER_FEEDBACK;
+	filter?: string;
 	offset?: number;
 	sessionListTab?: string;
 	count?: number;

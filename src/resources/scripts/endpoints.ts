@@ -15,32 +15,11 @@ export const endpoints = {
 	agencyServiceBase: apiUrl + '/service/agencies',
 	anonymousAskerBase: apiUrl + '/service/conversations/askers/anonymous/',
 	anonymousBase: apiUrl + '/service/conversations/anonymous/',
-	appointmentBase: apiUrl + '/service/appointments/sessions',
-	appointmentBaseNew: (sessionId: number) =>
-		apiUrl + `/service/appointments/sessions/${sessionId}/enquiry/new`,
-	appointmentServiceBase: apiUrl + '/service/agency/',
-	appointmentServiceCalDav: apiUrl + '/service/appointservice/caldav',
-	appointmentServiceCalDavAccount:
-		apiUrl + '/service/appointservice/caldav/hasAccount',
-	appointmentServiceMeetingLink: (agencyId: number) =>
-		apiUrl +
-		`/service/appointservice/agencies/${agencyId}/initialMeetingSlug`,
-	counselorAppointmentLink: (userId: string) =>
-		apiUrl + `/service/appointservice/consultants/${userId}/meetingSlug`,
-	counselorToken: apiUrl + `/service/appointservice/consultants/token`,
-	appointmentsServiceBase: apiUrl + '/service/appointments',
-	appointmentsServiceBookingEventsByUserId: (userId: string) =>
-		apiUrl + `/service/appointservice/askers/${userId}/bookings`,
-	appointmentsServiceConsultantBookings: (userId: string, status: string) =>
-		apiUrl +
-		`/service/appointservice/consultants/${userId}/bookings?status=${status}`,
 	askerSessions: apiUrl + '/service/users/sessions/askers',
 	attachmentUpload: apiUrl + '/service/uploads/new/',
-	attachmentUploadFeedbackRoom: apiUrl + '/service/uploads/feedback/new/',
+
 	banUser: (rcUserId, chatId) =>
 		apiUrl + `/service/users/${rcUserId}/chat/${chatId}/ban`,
-	budibaseTools: (userId: string) =>
-		apiUrl + `/service/counselingtoolsservice/tools/${userId}`,
 	chatRoom: apiUrl + '/service/users/chat/room',
 	consultantEnquiriesBase:
 		apiUrl + '/service/conversations/consultants/enquiries/',
@@ -113,7 +92,7 @@ export const endpoints = {
 	rocketchatLogout: apiUrl + '/api/v1/logout',
 	sendAliasMessage: apiUrl + '/service/messages/aliasonly/new',
 	sendMessage: apiUrl + '/service/messages/new',
-	sendMessageToFeedback: apiUrl + '/service/messages/feedback/new',
+
 	sessionBase: apiUrl + '/service/users/sessions',
 	sessionRooms: apiUrl + '/service/users/sessions/room',
 	setAbsence: apiUrl + '/service/users/consultants/absences',
@@ -134,8 +113,6 @@ export const endpoints = {
 	frontend: {
 		settings: '/p/api/settings'
 	},
-	setAppointmentSuccessMessage:
-		apiUrl + '/service/messages/aliasWithContent/new',
 	userUpdateE2EKey: apiUrl + '/service/users/chat/e2e',
 	videocallServiceBase: apiUrl + '/service/videocalls'
 };

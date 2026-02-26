@@ -71,8 +71,6 @@ export interface SessionItemInterface {
 	askerRcId: string;
 	attachment: UserService.Schemas.SessionAttachmentDTO;
 	consultingType: number;
-	feedbackGroupId?: string;
-	feedbackRead?: boolean;
 	groupId: string;
 	id: number;
 	e2eLastMessage: {
@@ -97,7 +95,6 @@ export interface SessionItemInterface {
 	isTeamSession: boolean;
 	videoCallMessageDTO: VideoCallMessageDTO;
 	language?: string;
-	isFeedbackSession: boolean;
 	topic: TopicSessionInterface;
 }
 
