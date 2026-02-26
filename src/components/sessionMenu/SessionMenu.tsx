@@ -317,6 +317,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 		subRoute: 'userProfile'
 	});
 
+	const documentLibraryLink = generatePath(baseUrl, {
+		...(activeSession.item as TReducedSessionItemInterface),
+		subRoute: 'documentLibrary'
+	});
+
 	if (redirectToSessionsList) {
 		mobileListView();
 		return <Redirect to={listPath + getSessionListTab()} />;
@@ -544,6 +549,16 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					</Link>
 				)}
 
+				{!activeSession.isLive && (
+					<Link
+						className="sessionMenu__item"
+						to={documentLibraryLink}
+						onClick={handleMenuClose}
+					>
+						{translate('chatFlyout.documentLibrary')}
+					</Link>
+				)}
+
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
 					type !== SESSION_LIST_TYPES.ENQUIRY &&
 					activeSession.isSession &&
@@ -618,6 +633,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					handleOverlay={handleOverlayAction}
 				/>
 			)}
+
 		</div>
 	);
 };

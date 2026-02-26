@@ -225,6 +225,9 @@
 		"download": {
 			"label": "Download"
 		},
+		"preview": {
+			"label": "Preview"
+		},
 		"error": {
 			"format": {
 				"headline": "Your file could not be sent.",
@@ -370,6 +373,7 @@
 		"askerProfil": "Advice seeker profile",
 		"dataProtection": "Data protection",
 		"dearchive": "Dearchive",
+		"documentLibrary": "Document library",
 		"editGroupChat": "Chat settings",
 		"feedback": "Feedback",
 		"groupChatInfo": "Chat info",
@@ -383,6 +387,11 @@
 			"message": " is absent"
 		},
 		"jobTitle": "Consultant"
+	},
+	"documentLibrary": {
+		"empty": "No documents shared in this chat.",
+		"title": "Document library",
+		"sentAt": "Sent on {{date}}"
 	},
 	"date": {
 		"day": {

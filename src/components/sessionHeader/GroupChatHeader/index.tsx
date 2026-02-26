@@ -37,7 +37,6 @@ import { useStartVideoCall } from './useStartVideoCall';
 import { useAppConfig } from '../../../hooks/useAppConfig';
 import { RocketChatUsersOfRoomContext } from '../../../globalState/provider/RocketChatUsersOfRoomProvider';
 import { SessionItemInterface } from '../../../globalState/interfaces';
-
 interface GroupChatHeaderProps {
 	hasUserInitiatedStopOrLeaveRequest: React.MutableRefObject<boolean>;
 	isJoinGroupChatView: boolean;

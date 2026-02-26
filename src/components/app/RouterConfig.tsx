@@ -13,6 +13,7 @@ import {
 } from '../session/sessionHelpers';
 
 import { AskerInfo } from '../askerInfo/AskerInfo';
+import { DocumentLibrary } from '../documentLibrary/DocumentLibrary';
 import { Profile } from '../profile/Profile';
 import { SessionViewEmpty } from '../session/SessionViewEmpty';
 import { CreateGroupChatView } from '../groupChat/CreateChatView';
@@ -195,6 +196,13 @@ export const RouterConfigUser = (
 				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		],
+		userProfileRoutes: [
+			{
+				path: '/sessions/user/view/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.MY_SESSION
+			}
+		],
 		profileRoutes: [
 			{
 				path: '/profile',
@@ -336,6 +344,16 @@ export const RouterConfigConsultant = (settings: AppConfigInterface): any => {
 			{
 				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/groupChatInfo',
 				component: GroupChatInfo,
+				type: SESSION_LIST_TYPES.MY_SESSION
+			},
+			{
+				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.ENQUIRY
+			},
+			{
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
 				type: SESSION_LIST_TYPES.MY_SESSION
 			}
 		],
@@ -545,6 +563,21 @@ export const RouterConfigTeamConsultant = (
 				path: '/sessions/consultant/sessionView/createGroupChat/',
 				component: CreateGroupChatView,
 				type: SESSION_LIST_TYPES.MY_SESSION
+			},
+			{
+				path: '/sessions/consultant/sessionPreview/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.ENQUIRY
+			},
+			{
+				path: '/sessions/consultant/sessionView/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.MY_SESSION
+			},
+			{
+				path: '/sessions/consultant/teamSessionView/:rcGroupId/:sessionId/documentLibrary',
+				component: DocumentLibrary,
+				type: SESSION_LIST_TYPES.TEAMSESSION
 			}
 		],
 		profileRoutes: [

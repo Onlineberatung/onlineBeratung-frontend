@@ -34,7 +34,6 @@ import { useSearchParam } from '../../hooks/useSearchParams';
 import { useTranslation } from 'react-i18next';
 import { GroupChatHeader } from './GroupChatHeader';
 import { useAppConfig } from '../../hooks/useAppConfig';
-
 export interface SessionHeaderProps {
 	consultantAbsent?: SessionConsultantInterface;
 	hasUserInitiatedStopOrLeaveRequest?: React.MutableRefObject<boolean>;
@@ -125,7 +124,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 				}
 				isJoinGroupChatView={props.isJoinGroupChatView}
 				bannedUsers={props.bannedUsers}
-			/>
+				/>
 		);
 	}
 
@@ -214,7 +213,7 @@ export const SessionHeaderComponent = (props: SessionHeaderProps) => {
 					}
 					isAskerInfoAvailable={isAskerInfoAvailable()}
 					bannedUsers={props.bannedUsers}
-				/>
+					/>
 			</div>
 
 			{(hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) ||
