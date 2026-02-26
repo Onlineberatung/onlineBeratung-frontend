@@ -374,7 +374,6 @@ export const SessionItemComponent = (props: SessionItemProps) => {
 						props.hasUserInitiatedStopOrLeaveRequest
 					}
 					bannedUsers={props.bannedUsers}
-					messages={props.messages}
 				/>
 			</div>
 

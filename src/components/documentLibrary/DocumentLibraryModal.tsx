@@ -106,7 +106,7 @@ interface DocumentListItemProps {
 	doc: DocumentItem;
 }
 
-const DocumentListItem: React.FC<DocumentListItemProps> = ({ doc }) => {
+export const DocumentListItem: React.FC<DocumentListItemProps> = ({ doc }) => {
 	const { t: translate } = useTranslation();
 	const { activeSession } = useContext(ActiveSessionContext);
 	const { key, keyID } = useE2EE(activeSession.rid);

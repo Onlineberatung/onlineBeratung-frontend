@@ -7,7 +7,6 @@ import {
 	useCallback,
 	useContext,
 	useEffect,
-	useMemo,
 	useState
 } from 'react';
 
@@ -47,7 +46,6 @@ import EditGroupChatIcon from '@mui/icons-material/Settings';
 import GroupChatInfoIcon from '@mui/icons-material/Info';
 import LeaveChatIcon from '@mui/icons-material/Logout';
 import FeedbackIcon from '@mui/icons-material/RateReview';
-import DocumentLibraryIcon from '@mui/icons-material/FolderOpen';
 import MenuHorizontalIcon from '@mui/icons-material/MoreHoriz';
 import MenuVerticalIcon from '@mui/icons-material/MoreVert';
 import StopGroupChatIcon from '@mui/icons-material/Close';
@@ -73,11 +71,6 @@ import {
 	stopGroupChatSecurityOverlayItem,
 	stopGroupChatSuccessOverlayItem
 } from './sessionMenuHelpers';
-import {
-	DocumentLibraryModal,
-	DocumentItem
-} from '../documentLibrary/DocumentLibraryModal';
-import { MessageItem } from '../message/MessageItemComponent';
 
 type TReducedSessionItemInterface = Omit<
 	SessionItemInterface,
@@ -89,7 +82,6 @@ export interface SessionMenuProps {
 	isAskerInfoAvailable: boolean;
 	isJoinGroupChatView?: boolean;
 	bannedUsers?: string[];
-	messages?: MessageItem[];
 }
 
 export const SessionMenu = (props: SessionMenuProps) => {
@@ -114,26 +106,8 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const [overlayActive, setOverlayActive] = useState(false);
 	const [redirectToSessionsList, setRedirectToSessionsList] = useState(false);
 	const [isRequestInProgress, setIsRequestInProgress] = useState(false);
-	const [documentLibraryOpen, setDocumentLibraryOpen] = useState(false);
 
 	const flyoutOpen = Boolean(anchorEl);
-
-	const documents = useMemo<DocumentItem[]>(() => {
-		if (!props.messages) return [];
-		return props.messages
-			.filter(
-				(msg) =>
-					msg.attachments &&
-					msg.attachments.length > 0 &&
-					msg.file &&
-					msg.t !== 'rm'
-			)
-			.map((msg) => ({
-				attachment: msg.attachments[0],
-				file: msg.file,
-				t: msg.t
-			}));
-	}, [props.messages]);
 
 	const sessionListTab = useSearchParam<SESSION_LIST_TAB>('sessionListTab');
 	const getSessionListTab = () =>
@@ -341,6 +315,11 @@ export const SessionMenu = (props: SessionMenuProps) => {
 	const userProfileLink = generatePath(baseUrl, {
 		...(activeSession.item as TReducedSessionItemInterface),
 		subRoute: 'userProfile'
+	});
+
+	const documentLibraryLink = generatePath(baseUrl, {
+		...(activeSession.item as TReducedSessionItemInterface),
+		subRoute: 'documentLibrary'
 	});
 
 	if (redirectToSessionsList) {
@@ -571,15 +550,13 @@ export const SessionMenu = (props: SessionMenuProps) => {
 				)}
 
 				{!activeSession.isLive && (
-					<div
-						onClick={() => {
-							handleMenuClose();
-							setDocumentLibraryOpen(true);
-						}}
+					<Link
 						className="sessionMenu__item"
+						to={documentLibraryLink}
+						onClick={handleMenuClose}
 					>
 						{translate('chatFlyout.documentLibrary')}
-					</div>
+					</Link>
 				)}
 
 				{!hasUserAuthority(AUTHORITIES.ASKER_DEFAULT, userData) &&
@@ -656,11 +633,7 @@ export const SessionMenu = (props: SessionMenuProps) => {
 					handleOverlay={handleOverlayAction}
 				/>
 			)}
-			<DocumentLibraryModal
-				open={documentLibraryOpen}
-				onClose={() => setDocumentLibraryOpen(false)}
-				documents={documents}
-			/>
+
 		</div>
 	);
 };
